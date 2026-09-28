@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 2: เริ่มต้นกับ Java | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 2">
+        <p class="toc-label">บทที่ 2 · โปรแกรมแรก</p>
+        <a href="#topic-2-1"><span class="toc-number">2.1</span>JDK, JVM และ IDE</a>
+        <a href="#topic-2-2"><span class="toc-number">2.2</span>โครงสร้างโปรแกรม Java</a>
+        <a href="#topic-2-3"><span class="toc-number">2.3</span>คอมไพล์ รัน และอ่าน error</a>
+        <a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a>
+      </nav>
+      <div class="sidebar-bottom">เขียนโปรแกรมแรกให้รันได้ด้วยตัวเอง</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 02 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 2 · รู้จักเครื่องมือและภาษา Java</p><h1>เริ่มต้นกับ Java และโปรแกรมแรก</h1><p>รู้จักเส้นทางจากไฟล์ที่เราเขียนไปจนถึงผลลัพธ์บนหน้าจอ แล้วสร้างโปรแกรม Java ขนาดเล็กด้วยตัวเอง</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบายหน้าที่ของ JDK, JVM และ IDE</li><li>อ่านโครงสร้างคลาสและเมธอด main</li><li>คอมไพล์และรันโปรแกรมพื้นฐาน</li><li>เริ่มตรวจ syntax error อย่างเป็นขั้นตอน</li></ul></div>
+
+      <section class="lesson-section" aria-labelledby="section-2">
+        <h2 id="section-2">2. จากไฟล์ข้อความเป็นโปรแกรมที่ทำงาน</h2>
+        <p>โค้ด Java เป็นข้อความที่มนุษย์เขียนและอ่านได้ ก่อนทำงานต้องแปลงให้อยู่ในรูปที่ Java Virtual Machine (JVM) เข้าใจ ขั้นตอนนี้ช่วยตรวจข้อผิดพลาดด้านไวยากรณ์ก่อนเริ่มรัน</p>
+        <article class="subtopic" id="topic-2-1">
+          <h3>2.1 JDK, JVM และ IDE ทำหน้าที่อะไร</h3>
+          <p><strong>JDK</strong> (Java Development Kit) มีเครื่องมือพัฒนา เช่น compiler ชื่อ <code>javac</code> และ JVM ส่วน <strong>JVM</strong> (Java Virtual Machine) ใช้รัน bytecode ในไฟล์ <code>.class</code> ขณะที่ <strong>IDE</strong> คือโปรแกรมช่วยเขียนโค้ดและเรียกใช้เครื่องมือเหล่านี้</p>
+          <div class="example-box"><span class="box-title">ภาพรวมการทำงาน</span><pre><code>ไฟล์ Hello.java  →  javac  →  Hello.class  →  JVM  →  ผลลัพธ์</code></pre><p>เราแก้ไฟล์ <code>.java</code>; compiler สร้าง <code>.class</code>; จากนั้น JVM จึงรัน bytecode</p></div>
+          <div class="note-box"><span class="box-title">แยกคำให้ชัด</span><p>JDK ใช้พัฒนา, JVM ใช้รัน และ IDE เป็นเครื่องมืออำนวยความสะดวก โปรแกรมเดียวกันอาจใช้ IDE ต่างกันได้</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 2.1</span>เรียงขั้นตอน</h4><p>เรียงสิ่งต่อไปนี้ให้เป็นลำดับการทำงาน: JVM รันโปรแกรม, เขียนไฟล์ <code>Welcome.java</code>, compiler สร้าง bytecode</p><div class="answer-gate" data-answer-id="2.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ลำดับคำตอบ</h4><pre><code>1. เขียน Welcome.java&#10;2. compiler แปลงเป็น bytecode ใน Welcome.class&#10;3. JVM โหลดและรัน bytecode</code></pre><p>ถ้าคอมไพล์ไม่ผ่าน จะยังไม่มีโปรแกรมที่พร้อมให้ JVM รัน</p></div></div></div>
+        </article>
+
+        <article class="subtopic" id="topic-2-2">
+          <h3>2.2 โครงสร้างของโปรแกรม Java</h3>
+          <p>โปรแกรมเริ่มจากคลาส ภายในคลาสมีเมธอด <code>main</code> ซึ่งเป็นจุดเริ่มทำงานของตัวอย่างพื้นฐาน คำสั่ง Java แต่ละคำสั่งมักลงท้ายด้วย <code>;</code> และบล็อกคำสั่งอยู่ระหว่างวงเล็บปีกกา</p>
+          <div class="example-box"><span class="box-title">โปรแกรมแรก: Hello, Java!</span><pre><code>public class Hello {&#10;    public static void main(String[] args) {&#10;        System.out.println("Hello, Java!");&#10;    }&#10;}</code></pre><p>อ่านจากด้านนอกเข้าด้านใน: คลาส <code>Hello</code> มี <code>main</code>; ภายใน <code>main</code> สั่งพิมพ์ข้อความหนึ่งบรรทัด</p></div>
+          <div class="note-box"><span class="box-title">ชื่อไฟล์ต้องตรงกับคลาส public</span><p>ถ้าประกาศ <code>public class Hello</code> ให้บันทึกเป็น <code>Hello.java</code> ตัวพิมพ์เล็ก-ใหญ่ต้องตรงกันด้วย</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 2.2</span>ทักทายผู้ใช้</h4><p>สร้างคลาสชื่อ <code>Greeting</code> ให้พิมพ์คำว่า <code>สวัสดี Java</code> หนึ่งบรรทัด ชื่อไฟล์ควรเป็นอะไร?</p><div class="answer-gate" data-answer-id="2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Greeting {&#10;    public static void main(String[] args) {&#10;        System.out.println("สวัสดี Java");&#10;    }&#10;}</code></pre><p>บันทึกไฟล์เป็น <code>Greeting.java</code></p></div></div></div>
+        </article>
+
+        <article class="subtopic" id="topic-2-3">
+          <h3>2.3 คอมไพล์ รัน และเริ่มอ่าน error</h3>
+          <p>ถ้าใช้ command line ให้เปิด terminal ในโฟลเดอร์ที่มีไฟล์ จากนั้นคอมไพล์ก่อนแล้วจึงรัน คำสั่งที่ขาดเครื่องหมายหรือสะกดชื่อผิดอาจทำให้ compiler แจ้งตำแหน่งที่ควรตรวจ</p>
+          <div class="example-box"><span class="box-title">คำสั่งพื้นฐาน</span><pre><code>javac Hello.java&#10;java Hello</code></pre><p>คำสั่งแรกสร้างไฟล์ bytecode; คำสั่งที่สองเรียกคลาส <code>Hello</code> มาทำงาน (ไม่ต้องเติม <code>.class</code>)</p></div>
+          <div class="concept-box"><span class="box-title">วิธีอ่าน error อย่างเป็นขั้นตอน</span><ol><li>อ่านข้อความเพื่อดูชนิดปัญหา</li><li>หาชื่อไฟล์และเลขบรรทัด</li><li>ตรวจบรรทัดนั้นและบรรทัดก่อนหน้า เช่น <code>;</code>, วงเล็บ, ชื่อคลาส</li><li>แก้ทีละจุดแล้วคอมไพล์ใหม่</li></ol></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 2.3</span>พิมพ์สองบรรทัด</h4><p>เติมคำสั่งใน <code>main</code> ให้แสดง <code>My first program</code> และ <code>I can run Java</code> คนละบรรทัด พร้อมใส่ comment ว่าโปรแกรมนี้ใช้ฝึกพิมพ์ข้อความ</p><div class="answer-gate" data-answer-id="2.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Main {&#10;    public static void main(String[] args) {&#10;        // ฝึกแสดงข้อความทางหน้าจอ&#10;        System.out.println("My first program");&#10;        System.out.println("I can run Java");&#10;    }&#10;}</code></pre><p><code>//</code> ทำให้ข้อความที่ตามมาในบรรทัดนั้นเป็น comment ไม่ใช่คำสั่งที่ถูกรัน</p></div></div></div>
+        </article>
+      </section>
+
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>เขียนและทดลองรันแต่ละข้อ ตรวจชื่อไฟล์ให้ตรงกับชื่อคลาส <code>public</code></p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 2.4</span>ป้ายต้อนรับ</h3><p>แสดงข้อความ 3 บรรทัด: ชื่อวิชา, ชื่อของคุณ และ <code>Ready to learn Java</code></p><div class="answer-gate" data-answer-id="2.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Welcome {&#10;    public static void main(String[] args) {&#10;        System.out.println("Java Programming");&#10;        System.out.println("Student: Your Name");&#10;        System.out.println("Ready to learn Java");&#10;    }&#10;}</code></pre><p>เปลี่ยน <code>Your Name</code> เป็นชื่อของตนเอง และบันทึกเป็น <code>Welcome.java</code></p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 2.5</span>หาข้อผิดพลาด</h3><p>โค้ดนี้มีจุดผิด ให้ระบุและแก้ไข: <code>public class Start { public static void main(String[] args) { System.out.println("Start") } }</code></p><div class="answer-gate" data-answer-id="2.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โค้ดที่แก้แล้ว</h4><pre><code>public class Start {&#10;    public static void main(String[] args) {&#10;        System.out.println("Start");&#10;    }&#10;}</code></pre><p>ขาด <code>;</code> หลังคำสั่ง <code>println</code> และต้องปิดวงเล็บปีกกาให้ครบ</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 2.6</span>ใบเสร็จอย่างง่าย</h3><p>แสดงชื่อสินค้า 2 รายการ ราคารวม เส้นคั่น และคำว่า <code>Thank you!</code> โดยแต่ละรายการอยู่คนละบรรทัด</p><div class="answer-gate" data-answer-id="2.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Receipt {&#10;    public static void main(String[] args) {&#10;        System.out.println("Notebook: 18 baht");&#10;        System.out.println("Pen: 10 baht");&#10;        System.out.println("----------------");&#10;        System.out.println("Total: 28 baht");&#10;        System.out.println("Thank you!");&#10;    }&#10;}</code></pre><p>เมื่อคลาสชื่อ <code>Receipt</code> ให้ใช้ชื่อไฟล์ <code>Receipt.java</code></p></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-01.html">← บทที่ 1</a><a class="pager-link" href="chapter-03.html">บทที่ 3: ตัวแปรและการคำนวณ →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 2 · บันทึกไฟล์และลองรันด้วยตัวเอง</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

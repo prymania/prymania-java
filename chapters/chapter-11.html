@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 11: คลาสและออบเจ็กต์ | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 11"><p class="toc-label">บทที่ 11 · มองข้อมูลเป็น object</p><a href="#topic-11-1"><span class="toc-number">11.1</span>class เป็นพิมพ์เขียว</a><a href="#topic-11-2"><span class="toc-number">11.2</span>สร้าง object ด้วย new</a><a href="#topic-11-3"><span class="toc-number">11.3</span>constructor และ this</a><a href="#topic-11-4"><span class="toc-number">11.4</span>หลาย object หลาย state</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">class บอกแบบ, object เก็บข้อมูลจริง</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 11 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 11 · รวมข้อมูลกับพฤติกรรม</p><h1>คลาสและออบเจ็กต์</h1><p>เปลี่ยนจากตัวแปรที่กระจายอยู่หลายจุด มาเป็น object ที่รวมข้อมูลของสิ่งหนึ่งและงานที่สิ่งนั้นทำได้ไว้ด้วยกัน</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบายความต่างระหว่าง class กับ object</li><li>ประกาศ field และ method พื้นฐาน</li><li>สร้าง object ด้วย new และเข้าถึงสมาชิก</li><li>ใช้ constructor กำหนดค่าเริ่มต้น</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-11"><h2 id="section-11">11. เก็บข้อมูลและพฤติกรรมไว้ในหน่วยเดียว</h2><p>ถ้าโปรแกรมจัดการนักศึกษาหลายคน การมีตัวแปรแยก name, id และ score อาจทำให้จับคู่ผิด class ช่วยกำหนดรูปแบบข้อมูลหนึ่งชนิด ส่วน object แต่ละตัวเก็บค่าจริงของคนละคน</p>
+        <article class="subtopic" id="topic-11-1">
+          <h3>11.1 Class เป็นพิมพ์เขียวของ object</h3><p><strong>class</strong> อธิบายว่าสิ่งชนิดนี้มีข้อมูลอะไรและทำงานอะไรได้; <strong>object</strong> คือ instance ที่สร้างจาก class แล้วและมีค่าของตัวเอง</p>
+          <div class="concept-box"><span class="box-title">ส่วนประกอบเบื้องต้น</span><ul><li><strong>field</strong> เก็บสถานะของ object เช่น ชื่อ คะแนน</li><li><strong>method</strong> กำหนดพฤติกรรมหรือสิ่งที่ object ทำได้</li><li>ชื่อ class ใช้ UpperCamelCase; ชื่อ field/method ใช้ lowerCamelCase</li></ul></div>
+          <div class="example-box"><span class="box-title">แบบของนักศึกษา</span><pre><code>class Student {
+    String name;
+    int score;
+
+    void printSummary() {
+        System.out.println(name + ": " + score);
+    }
+}</code></pre><p>class ยังไม่ได้ระบุนักศึกษาคนใดโดยเฉพาะ แต่บอกว่า Student ทุก object มี name, score และ printSummary</p></div>
+          <div class="note-box"><span class="box-title">เทียบกับพิมพ์เขียว</span><p>class เหมือนแบบพิมพ์เขียวบ้าน; object แต่ละหลังสร้างจากแบบเดียวกันได้ แต่มีสีและเจ้าของต่างกัน</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 11.1</span>ออกแบบ Book</h4><p>ระบุ field อย่างน้อย 3 ค่าและ method หนึ่งอย่างที่เหมาะกับ class หนังสือ โดยยังไม่ต้องสร้าง object</p><div class="answer-gate" data-answer-id="11.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 11.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างแบบ</h4><pre><code>class Book {
+    String title;
+    String author;
+    int pageCount;
+
+    void printDetails() {
+        System.out.println(title + " by " + author);
+    }
+}</code></pre><p>field/method อาจต่างกันได้ตามหน้าที่ของโปรแกรม</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-11-2">
+          <h3>11.2 สร้าง object ด้วย new</h3><p>ประกาศชนิดตัวแปรเป็นชื่อ class แล้วใช้ <code>new</code> เพื่อสร้าง object ตัวแปรจะเก็บ reference สำหรับเข้าถึง field และ method ผ่าน dot operator</p>
+          <div class="concept-box"><span class="box-title">Syntax และลำดับการทำงาน</span><pre><code>Student student = new Student();
+student.name = "Mali";
+student.printSummary();</code></pre><ol><li>ประกาศตัวแปร student ที่เก็บ reference ชนิด Student</li><li><code>new Student()</code> สร้าง object และกำหนดค่าเริ่มต้น</li><li>ใช้ <code>.</code> เข้าถึงสมาชิกของ object</li></ol></div>
+          <div class="example-box"><span class="box-title">สอง object จาก class เดียว</span><pre><code>Student first = new Student();
+first.name = "Mali";
+first.score = 82;
+
+Student second = new Student();
+second.name = "Nida";
+second.score = 95;
+
+first.printSummary();  // Mali: 82
+second.printSummary(); // Nida: 95</code></pre><p>first กับ second อ้างถึง object คนละตัว การเปลี่ยน field ของตัวหนึ่งไม่เปลี่ยนอีกตัว</p></div>
+          <div class="note-box"><span class="box-title">null กับ object ที่สร้างแล้ว</span><p>ตัวแปร local ที่ประกาศแต่ยังไม่กำหนด object ใช้งานไม่ได้จนกว่าจะได้ reference ถ้าเรียก method ผ่าน <code>null</code> จะเกิด <code>NullPointerException</code></p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 11.2</span>สร้างหนังสือสองเล่ม</h4><p>จาก class Book ในข้อก่อน สร้าง object สองเล่มที่มีชื่อและผู้เขียนต่างกัน แล้วเรียก <code>printDetails()</code> ทั้งคู่</p><div class="answer-gate" data-answer-id="11.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 11.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>Book first = new Book();
+first.title = "Java Basics";
+first.author = "A. Writer";
+first.printDetails();
+
+Book second = new Book();
+second.title = "Data Structures";
+second.author = "B. Writer";
+second.printDetails();</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-11-3">
+          <h3>11.3 Constructor และ this</h3><p>constructor เป็นชุดคำสั่งพิเศษที่ทำงานตอนสร้าง object ชื่อเหมือน class ไม่มี return type ใช้กำหนดสถานะเริ่มต้นให้ object อยู่ในสภาพพร้อมใช้</p>
+          <div class="example-box"><span class="box-title">constructor ที่รับค่าเริ่มต้น</span><pre><code>class Student {
+    String name;
+    int score;
+
+    Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
+}</code></pre><p><code>this.name</code> หมายถึง field ของ object ปัจจุบัน; <code>name</code> ที่ไม่มี this คือ parameter ที่รับเข้ามา</p></div>
+          <div class="note-box"><span class="box-title">ถ้าสร้าง constructor เอง</span><p>Java จะไม่สร้าง default no-argument constructor ให้อีก ถ้าต้องการให้เรียก <code>new Student()</code> ได้ ต้องประกาศ constructor ไม่มี parameter เพิ่มเอง</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 11.3</span>เพิ่ม constructor ให้ Book</h4><p>กำหนด title, author และ pageCount ผ่าน constructor แล้วสร้าง object หนึ่งเล่ม</p><div class="answer-gate" data-answer-id="11.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 11.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>class Book {
+    String title;
+    String author;
+    int pageCount;
+
+    Book(String title, String author, int pageCount) {
+        this.title = title;
+        this.author = author;
+        this.pageCount = pageCount;
+    }
+}
+
+Book javaBook = new Book("Java Basics", "A. Writer", 240);</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-11-4">
+          <h3>11.4 State ของแต่ละ object แยกจากกัน</h3><p>instance field เป็นสถานะของ object แต่ละตัว ส่วน local variable มีอายุเฉพาะตอน method ทำงาน การมี class เดียวกันไม่ได้แปลว่า object ใช้ข้อมูลชุดเดียวกัน</p>
+          <div class="example-box"><span class="box-title">method เปลี่ยน state ของ object ปัจจุบัน</span><pre><code>class Counter {
+    int value;
+
+    Counter(int start) {
+        value = start;
+    }
+
+    void increment() {
+        value++;
+    }
+}</code></pre><p>การเรียก <code>first.increment()</code> เปลี่ยน first.value เท่านั้น; counter อีกตัวมี state ของตัวเอง</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 11.4</span>ทำนาย state ของ counter</h4><p>สร้าง Counter สองตัว เริ่มที่ 0 และ 10 เรียก increment กับตัวแรกสองครั้งและตัวที่สองหนึ่งครั้ง ค่าใดควรแสดง</p><div class="answer-gate" data-answer-id="11.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 11.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><pre><code>Counter first = new Counter(0);
+Counter second = new Counter(10);
+first.increment();
+first.increment();
+second.increment();
+System.out.println(first.value);  // 2
+System.out.println(second.value); // 11</code></pre><p>แต่ละ object มี instance field value แยกกัน</p></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>รวมข้อมูลและพฤติกรรมให้เป็น object ที่สร้างหลาย instance ได้</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 11.5</span>บัตรบัญชีธนาคาร</h3><p>สร้าง class BankAccount มี owner, balance, constructor, deposit และ printBalance แล้วสร้างสองบัญชีที่มียอดแยกกัน</p><div class="answer-gate" data-answer-id="11.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 11.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><p>มี instance fields <code>owner</code> และ <code>balance</code>; constructor กำหนดทั้งสองค่า; deposit เพิ่มยอดเฉพาะบัญชีที่เรียก method</p><pre><code>class BankAccount {
+    String owner;
+    double balance;
+    BankAccount(String owner, double balance) {
+        this.owner = owner;
+        this.balance = balance;
+    }
+    void deposit(double amount) { balance += amount; }
+    void printBalance() {
+        System.out.println(owner + ": " + balance);
+    }
+}</code></pre></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 11.6</span>รายการสินค้าแบบ object</h3><p>สร้าง class Product มี name, price และ method คำนวณราคารวมตามจำนวน จากนั้นคำนวณสินค้าสองชนิด</p><div class="answer-gate" data-answer-id="11.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 11.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><pre><code>class Product {
+    String name;
+    double price;
+    Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+    double totalFor(int quantity) {
+        return price * quantity;
+    }
+}</code></pre></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-10.html">← บทที่ 10</a><a class="pager-link" href="chapter-12.html">บทที่ 12: จัดระเบียบคลาส →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 11 · class กำหนดแบบ; object แต่ละตัวมี state ของตัวเอง</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 8: อาเรย์และชุดข้อมูล | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 8"><p class="toc-label">บทที่ 8 · จัดกลุ่มข้อมูล</p><a href="#topic-8-1"><span class="toc-number">8.1</span>สร้างและเข้าถึงอาเรย์</a><a href="#topic-8-2"><span class="toc-number">8.2</span>วนอ่าน รวม และค้นหา</a><a href="#topic-8-3"><span class="toc-number">8.3</span>อาเรย์สองมิติ</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">index เริ่มที่ 0; length คือจำนวนสมาชิก</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 08 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 8 · เก็บข้อมูลหลายค่าเป็นชุด</p><h1>อาเรย์และชุดข้อมูล</h1><p>เก็บข้อมูลชนิดเดียวกันหลายค่าในโครงสร้างเดียว แล้วใช้ index และลูปเข้าถึงสมาชิกทีละตัว</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>ประกาศและกำหนดค่าอาเรย์</li><li>ใช้ index และ length อย่างถูกต้อง</li><li>วนอ่าน รวม และค้นหาค่าสมาชิก</li><li>อ่านข้อมูลแบบแถวและคอลัมน์</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-8">
+        <h2 id="section-8">8. มองข้อมูลหลายค่าเป็นชุดเดียว</h2><p>ถ้าต้องเก็บคะแนนนักศึกษา 100 คน การสร้างตัวแปร 100 ตัวทำให้จัดการยาก อาเรย์ให้เราใช้ชื่อตัวแปรเดียวและเลข index เพื่อเลือกสมาชิกแต่ละตำแหน่ง</p>
+        <article class="subtopic" id="topic-8-1">
+          <h3>8.1 สร้างและเข้าถึงอาเรย์</h3><p>ชนิดอาเรย์เขียนเป็น <code>ชนิดข้อมูล[]</code> สมาชิกตัวแรกอยู่ที่ index 0 ไม่ใช่ 1 และอาเรย์ที่สร้างแล้วมีขนาดคงที่ ตรวจจำนวนสมาชิกได้ด้วย <code>array.length</code></p>
+          <div class="concept-box"><span class="box-title">Syntax: ประกาศ สร้าง และอ้างสมาชิก</span><pre><code>int[] scores;                 // ประกาศตัวแปรอาเรย์
+scores = new int[3];          // สร้างพื้นที่ 3 ช่อง
+scores[0] = 80;               // กำหนดสมาชิกช่องแรก
+
+int[] otherScores = {80, 75, 92}; // ประกาศพร้อมค่าเริ่มต้น</code></pre><p>การประกาศบอกชนิด แต่ต้องสร้างอาเรย์ก่อนใช้งาน สมาชิกของ int array ที่ยังไม่กำหนดค่าจะเริ่มเป็น 0</p></div>
+          <div class="example-box"><span class="box-title">อาเรย์คะแนน 4 ค่า</span><pre><code>int[] scores = {80, 75, 92, 88};&#10;System.out.println(scores[0]);      // 80&#10;System.out.println(scores[3]);      // 88&#10;System.out.println(scores.length);  // 4</code></pre><p>index ที่ถูกต้องคือ 0 ถึง <code>length - 1</code>; การอ่าน <code>scores[4]</code> เกินขอบเขต</p></div>
+          <div class="example-box"><span class="box-title">Trace index ทีละตำแหน่ง</span><table class="comparison-table"><thead><tr><th>index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><th>scores[index]</th><td>80</td><td>75</td><td>92</td><td>88</td></tr></tbody></table><p>คำสั่ง <code>scores[1] = 100;</code> เปลี่ยนค่า 75 เป็น 100; จำนวนสมาชิกยังเท่าเดิมและ length ยังเป็น 4</p></div>
+          <div class="note-box"><span class="box-title">Index กับจำนวนสมาชิกเป็นคนละเรื่อง</span><p>อาเรย์มี 4 สมาชิก แต่ index ตัวสุดท้ายคือ 3 เพราะเริ่มนับจาก 0</p></div>
+          <div class="concept-box"><span class="box-title">Runtime error: index เกินขอบเขต</span><pre><code>int[] scores = {80, 75, 92};
+System.out.println(scores[3]); // error</code></pre><p>length เท่ากับ 3 จึงมี index 0, 1, 2 เท่านั้น โปรแกรมคอมไพล์ผ่าน แต่ตอนรันจะเกิด <code>ArrayIndexOutOfBoundsException</code> เพราะพยายามอ่านช่องที่ไม่มี</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.1</span>เก็บอุณหภูมิ</h4><p>สร้างอาเรย์เก็บอุณหภูมิ 3 วันเป็น 29, 31 และ 30 จากนั้นพิมพ์ค่าของวันที่สองและจำนวนสมาชิก</p><div class="answer-gate" data-answer-id="8.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] temperatures = {29, 31, 30};&#10;System.out.println(temperatures[1]); // 31: วันที่สองคือ index 1&#10;System.out.println(temperatures.length); // 3</code></pre></div></div></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.7</span>แก้ IndexOutOfBounds</h4><p>อาเรย์ <code>{4, 8, 12, 16}</code> มีสมาชิก 4 ตัว จงเขียน loop แสดงทุกค่าโดยไม่เกิด index เกิน และอธิบายว่าทำไมเงื่อนไขต้องใช้ <code>&lt; length</code></p><div class="answer-gate" data-answer-id="8.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] values = {4, 8, 12, 16};
+for (int i = 0; i &lt; values.length; i++) {
+    System.out.println(values[i]);
+}</code></pre><p>เมื่อ i เท่ากับ length คือ 4 ไม่มี index 4 จึงต้องหยุดก่อนถึงค่านั้น</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-8-2">
+          <h3>8.2 วนอ่าน รวม และค้นหาสมาชิก</h3><p>ใช้ลูป <code>for</code> ตั้งแต่ index 0 จนก่อน <code>length</code> เพื่อไม่อ่านเกินตำแหน่งสุดท้าย ถ้าไม่ต้องใช้ index โดยตรง ใช้ enhanced for อ่านค่าทีละตัวได้</p>
+          <div class="example-box"><span class="box-title">หาผลรวมและค่าเฉลี่ย</span><pre><code>int[] scores = {80, 75, 95};&#10;int sum = 0;&#10;for (int score : scores) {&#10;    sum += score;&#10;}&#10;double average = (double) sum / scores.length;&#10;System.out.println(average); // 83.333...</code></pre><p>enhanced for เหมาะกับการอ่านทุกค่า ส่วนการแก้ตำแหน่งเฉพาะต้องใช้ index</p></div>
+          <div class="example-box"><span class="box-title">Trace sum ตามจำนวนรอบ</span><table class="comparison-table"><thead><tr><th>รอบ</th><th>score</th><th>sum ก่อนบวก</th><th>sum หลังบวก</th></tr></thead><tbody><tr><td>1</td><td>80</td><td>0</td><td>80</td></tr><tr><td>2</td><td>75</td><td>80</td><td>155</td></tr><tr><td>3</td><td>95</td><td>155</td><td>250</td></tr></tbody></table><p>หลังจบ enhanced for, sum จึงเป็นผลรวมของสมาชิกทุกตัว</p></div>
+          <div class="note-box"><span class="box-title">ทำไมเงื่อนไขใช้ &lt; ไม่ใช่ &lt;=</span><p>ถ้า <code>scores.length</code> เท่ากับ 3 index ที่มีคือ 0, 1, 2 ดังนั้นใช้ <code>i &lt; scores.length</code> เพื่อหยุดก่อน i เป็น 3</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.2</span>ค้นหาคะแนน</h4><p>ในอาเรย์ <code>{72, 85, 91, 68}</code> ค้นหาคะแนน 91 แล้วแสดง index ที่พบ ถ้าไม่พบให้แสดง <code>not found</code></p><div class="answer-gate" data-answer-id="8.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] scores = {72, 85, 91, 68};&#10;int target = 91;&#10;int foundIndex = -1;&#10;for (int i = 0; i &lt; scores.length; i++) {&#10;    if (scores[i] == target) {&#10;        foundIndex = i;&#10;        break;&#10;    }&#10;}&#10;if (foundIndex == -1) {&#10;    System.out.println("not found");&#10;} else {&#10;    System.out.println(foundIndex); // 2&#10;}</code></pre><p>ใช้ -1 เป็นค่าพิเศษเพื่อบอกว่ายังไม่พบ และหยุดค้นเมื่อเจอแล้ว</p></div></div></div>
+            <div class="note-box"><span class="box-title">ข้อควรระวังเมื่อแก้สมาชิก</span><p>enhanced for เช่น <code>for (int score : scores)</code> เหมาะกับการอ่านทุกค่า แต่ตัวแปร score เป็นค่าที่คัดลอกมา การกำหนด <code>score = 0</code> ไม่ได้เปลี่ยนสมาชิกใน array; ถ้าต้องแก้ array ให้ใช้ index</p></div>
+            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.8</span>สรุปคะแนนสอบ</h4><p>จากคะแนนทั้งห้า <code>{49, 50, 72, 45, 88}</code> คำนวณค่าเฉลี่ยและนับจำนวนผู้ผ่าน (ตั้งแต่ 50 ขึ้นไป) ในการวนอ่านหนึ่งรอบ</p><div class="answer-gate" data-answer-id="8.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] scores = {49, 50, 72, 45, 88};
+      int sum = 0;
+      int passCount = 0;
+      for (int score : scores) {
+        sum += score;
+        if (score &gt;= 50) passCount++;
+      }
+      double average = (double) sum / scores.length;
+      System.out.println("Average: " + average); // 60.8
+      System.out.println("Passed: " + passCount); // 3</code></pre><p>แยกตัวนับ passCount ออกจาก sum: ตัวแรกนับจำนวน ส่วนตัวหลังสะสมคะแนน</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-8-3">
+          <h3>8.3 อาเรย์สองมิติ: แถวและคอลัมน์</h3><p>อาเรย์สองมิติจัดข้อมูลเป็นตาราง ใช้ index สองตัวคือ <code>array[row][column]</code> จึงมักอ่านด้วยลูปซ้อน จำนวนแถวคือ <code>matrix.length</code> และจำนวนคอลัมน์ของแถวหนึ่งดูได้จาก <code>matrix[row].length</code></p>
+          <div class="example-box"><span class="box-title">อ่านตารางคะแนน 2 แถว 3 วิชา</span><pre><code>int[][] scores = {&#10;    {80, 75, 90},&#10;    {68, 82, 77}&#10;};&#10;for (int row = 0; row &lt; scores.length; row++) {&#10;    for (int column = 0; column &lt; scores[row].length; column++) {&#10;        System.out.print(scores[row][column] + " ");&#10;    }&#10;    System.out.println();&#10;}</code></pre><p>ลูปชั้นนอกเลือกแถว ลูปชั้นในเดินผ่านคอลัมน์ของแถวนั้น</p></div>
+          <div class="concept-box"><span class="box-title">Flow ของ nested loop</span><ol><li>กำหนด row = 0 แล้วตรวจเงื่อนไข outer loop</li><li>ใน row ปัจจุบัน กำหนด column = 0 ใหม่ทุกครั้ง</li><li>inner loop ทำงานครบทุก column ของ row นั้น</li><li>เมื่อ inner loop จบ outer loop เพิ่ม row แล้วเริ่ม inner loop รอบใหม่</li></ol><p>ถ้ามี R แถว และแต่ละแถวมี C คอลัมน์ body ของ inner loop จะทำงานรวม R × C ครั้ง</p></div>
+          <div class="note-box"><span class="box-title">Jagged array และ error ที่พบบ่อย</span><p>Java อนุญาตให้แต่ละแถวมีจำนวนสมาชิกไม่เท่ากันได้ (jagged array) จึงใช้ <code>matrix[row].length</code> ตรวจคอลัมน์ของแถวปัจจุบัน อย่าใช้ <code>matrix[0].length</code> แทนทุกแถว</p><pre><code>int[][] data = {{1, 2}, {3, 4, 5}};
+// ถ้า row เป็น 1 แต่ column วนถึง 2 การอ่าน data[1][2] ใช้ได้
+// แต่การวนโดยอิง data[0].length จะอ่านแถวที่สองไม่ครบ</code></pre><p>การอ้าง <code>data[row][column]</code> เกินจำนวนสมาชิกของแถวนั้นจะเกิด <code>ArrayIndexOutOfBoundsException</code> ตอน runtime</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.3</span>รวมค่าตาราง</h4><p>จากตาราง <code>{{1, 2, 3}, {4, 5, 6}}</code> ใช้ลูปซ้อนหาผลรวมสมาชิกทุกตัว</p><div class="answer-gate" data-answer-id="8.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[][] values = {{1, 2, 3}, {4, 5, 6}};&#10;int sum = 0;&#10;for (int row = 0; row &lt; values.length; row++) {&#10;    for (int column = 0; column &lt; values[row].length; column++) {&#10;        sum += values[row][column];&#10;    }&#10;}&#10;System.out.println(sum); // 21</code></pre></div></div></div>
+            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.9</span>หาผลรวมแต่ละแถว</h4><p>จากตารางคะแนน ใช้ nested loop แสดงผลรวมแยกตามนักศึกษาแต่ละคน</p><div class="answer-gate" data-answer-id="8.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[][] scores = {{80, 70, 90}, {65, 75, 85}};
+      for (int row = 0; row &lt; scores.length; row++) {
+        int rowSum = 0;
+        for (int column = 0; column &lt; scores[row].length; column++) {
+          rowSum += scores[row][column];
+        }
+        System.out.println("Student " + (row + 1) + ": " + rowSum);
+      }</code></pre><p>rowSum ถูกกำหนดใหม่เป็น 0 ในแต่ละรอบของ outer loop</p></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>เขียนลูปโดยใช้ length แทนการกำหนด index สุดท้ายเอง</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 8.4</span>หาคะแนนสูงสุด</h3><p>หาและแสดงค่าสูงสุดในอาเรย์จำนวนเต็ม โดยไม่ใช้เมธอดสำเร็จรูป</p><div class="answer-gate" data-answer-id="8.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] values = {12, 7, 25, 18};&#10;int maximum = values[0];&#10;for (int i = 1; i &lt; values.length; i++) {&#10;    if (values[i] &gt; maximum) {&#10;        maximum = values[i];&#10;    }&#10;}&#10;System.out.println(maximum); // 25</code></pre><p>ตั้งต้นจากสมาชิกตัวแรก ทำให้ไม่ต้องเดาว่าค่าสูงสุดเริ่มเป็นเท่าไร</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 8.5</span>นับจำนวนคนสอบผ่าน</h3><p>นับว่ามีคะแนนตั้งแต่ 50 ขึ้นไปกี่ค่าในอาเรย์</p><div class="answer-gate" data-answer-id="8.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] scores = {49, 50, 72, 45, 88};&#10;int passCount = 0;&#10;for (int score : scores) {&#10;    if (score &gt;= 50) {&#10;        passCount++;&#10;    }&#10;}&#10;System.out.println(passCount); // 3</code></pre></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 8.6</span>รวมคะแนนแต่ละแถว</h3><p>จากอาเรย์สองมิติ แสดงผลรวมของแต่ละแถวแยกกัน</p><div class="answer-gate" data-answer-id="8.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[][] scores = {{8, 7, 9}, {6, 10, 5}};&#10;for (int row = 0; row &lt; scores.length; row++) {&#10;    int rowSum = 0;&#10;    for (int column = 0; column &lt; scores[row].length; column++) {&#10;        rowSum += scores[row][column];&#10;    }&#10;    System.out.println("Row " + row + ": " + rowSum);&#10;}</code></pre><p>ตัวแปร rowSum กำหนดใหม่ภายในลูปชั้นนอกเพื่อเริ่มรวมของแต่ละแถวจากศูนย์</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 8.10</span>ค้นหาที่นั่งว่าง</h3><p>ตาราง boolean 3 แถว 4 คอลัมน์ใช้ <code>true</code> แทนที่นั่งถูกจอง จงค้นหาและแสดงพิกัดที่นั่งว่างตัวแรกตามลำดับแถวแล้วคอลัมน์</p><div class="answer-gate" data-answer-id="8.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>boolean[][] seats = {
+      {true, true, false, true},
+      {true, false, false, true},
+      {false, true, true, true}
+    };
+    boolean found = false;
+    for (int row = 0; row &lt; seats.length &amp;&amp; !found; row++) {
+      for (int column = 0; column &lt; seats[row].length; column++) {
+        if (!seats[row][column]) {
+          System.out.println("Free seat: " + row + "," + column);
+          found = true;
+          break;
+        }
+      }
+    }</code></pre><p>ผลแรกที่พบคือแถว 0 คอลัมน์ 2 เพราะค้นจากซ้ายไปขวาและบนลงล่าง</p></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-07.html">← บทที่ 7</a><a class="pager-link" href="chapter-09.html">บทที่ 9: ข้อความและ String →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 8 · ตรวจว่า index อยู่ในช่วง 0 ถึง length - 1 เสมอ</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

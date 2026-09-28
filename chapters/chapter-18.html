@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 18: หลายหน้าจอและการนำทาง | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 18"><p class="toc-label">บทที่ 18 · สลับหน้าในโปรแกรม</p><a href="#topic-18-1"><span class="toc-number">18.1</span>ออกแบบหน้าจอแยกกัน</a><a href="#topic-18-2"><span class="toc-number">18.2</span>CardLayout</a><a href="#topic-18-3"><span class="toc-number">18.3</span>ปุ่มนำทาง</a><a href="#topic-18-4"><span class="toc-number">18.4</span>แชร์ state ระหว่างหน้า</a><a href="#topic-18-5"><span class="toc-number">18.5</span>CardLayout หรือหลาย JFrame</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">หนึ่ง main window, หลาย views</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 18 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 18 · จากฟอร์มเดียวสู่แอปหลายหน้า</p><h1>หลายหน้าจอและการนำทาง</h1><p>โปรแกรมขนาดเล็กมักมีหน้า Home, Form และ Summary การจัดแต่ละหน้าเป็น JPanel แล้วสลับด้วย CardLayout ช่วยให้หน้าต่างหลักมีที่เดียวและดูแล lifecycle ได้ง่าย</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>แบ่งหน้าจอเป็น JPanel ตามหน้าที่</li><li>สลับหน้าใน container เดียวด้วย CardLayout</li><li>เชื่อมปุ่มนำทางกับการเปลี่ยน card</li><li>แชร์ข้อมูลผ่าน model/object โดยไม่อ่านค่าจาก component ข้ามหน้าอย่างกระจัดกระจาย</li><li>เลือกแนวทาง navigation ให้เหมาะกับงาน</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-18"><h2 id="section-18">18. วางโครงสร้างก่อนเพิ่มหน้าจอ</h2><p>เริ่มจากกำหนดว่ามีหน้าอะไร ผู้ใช้เดินทางจากหน้าใดไปหน้าใด และข้อมูลอะไรต้องอยู่ต่อระหว่างการเปลี่ยนหน้า จากนั้นสร้าง panel แยกแทนการเพิ่ม component ทั้งหมดลง JFrame เดียว</p>
+        <article class="subtopic" id="topic-18-1">
+          <h3>18.1 หนึ่งหน้าจอ หนึ่ง JPanel</h3><p>JFrame เป็นหน้าต่างหลัก; JPanel ใช้จัดกลุ่ม component และทำหน้าที่แทน view แต่ละหน้า เช่น HomePanel, EntryPanel, SummaryPanel</p>
+          <div class="concept-box"><span class="box-title">แผนที่หน้าจออย่างง่าย</span><ul><li>Home: คำอธิบายและปุ่มเริ่ม</li><li>Entry: รับข้อมูลจากผู้ใช้</li><li>Summary: แสดงผลและปุ่มกลับ</li></ul><p>แต่ละ panel รับผิดชอบ layout และ component ของตัวเอง ส่วน navigation container เป็นผู้เลือกว่าจะแสดง panel ไหน</p></div>
+          <div class="example-box"><span class="box-title">สร้าง panel แล้วเพิ่มลง JFrame</span><pre><code>JFrame frame = new JFrame("Student App");
+JPanel homePanel = new JPanel();
+homePanel.add(new JLabel("Welcome"));
+frame.add(homePanel);
+frame.pack();
+frame.setLocationRelativeTo(null);
+frame.setVisible(true);</code></pre><p>ตัวอย่างนี้แสดง panel เดียว; เมื่อมีหลาย view ให้ใช้ container กลางแทนการเรียก <code>frame.add</code> สลับไปมา</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 18.1</span>ออกแบบ flow สมัครกิจกรรม</h4><p>มีหน้า Welcome, Registration และ Confirmation ระบุว่าหน้าใดมี component และปุ่มใดนำไปหน้าถัดไป</p><div class="answer-gate" data-answer-id="18.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 18.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><p>Welcome มีปุ่ม Start ไป Registration; Registration มี field และปุ่ม Submit; เมื่อ validate ผ่านจึงไป Confirmation; Confirmation มีปุ่ม Back ไป Welcome หรือ Edit กลับ Registration</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-18-2">
+          <h3>18.2 สลับ JPanel ด้วย CardLayout</h3><p>CardLayout วาง component หลายตัวในพื้นที่เดียวกันและแสดงทีละตัว แต่ละ panel จะได้ชื่อ card ไว้เรียกแสดง</p>
+          <div class="example-box"><span class="box-title">ลงทะเบียน cards แล้วแสดงหน้า</span><pre><code>CardLayout cardLayout = new CardLayout();
+JPanel cards = new JPanel(cardLayout);
+cards.add(homePanel, "HOME");
+cards.add(formPanel, "FORM");
+cards.add(summaryPanel, "SUMMARY");
+
+cardLayout.show(cards, "FORM");</code></pre><p>ชื่อ card เป็น key ที่เลือกเอง; ต้องตรงกับชื่อที่ส่งให้ <code>show</code> มิฉะนั้นจะไม่แสดงหน้าที่ตั้งใจ</p></div>
+          <div class="note-box"><span class="box-title">การ import</span><p><code>CardLayout</code> อยู่ใน <code>java.awt</code>; JPanel อยู่ใน <code>javax.swing</code></p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 18.2</span>เพิ่มหน้า Help</h4><p>เพิ่ม helpPanel เป็น card ชื่อ HELP แล้วเขียนคำสั่งแสดงหน้านี้</p><div class="answer-gate" data-answer-id="18.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 18.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><pre><code>cards.add(helpPanel, "HELP");
+cardLayout.show(cards, "HELP");</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-18-3">
+          <h3>18.3 ปุ่มนำทางเรียก show</h3><p>listener ของปุ่มนำทางเรียก <code>cardLayout.show</code> โดยอ้างถึง CardLayout และ container ชุดเดิม อย่าสร้าง CardLayout ใหม่ภายใน handler เพราะ instance ใหม่ไม่ได้จัดการ cards ที่วางไว้แล้ว</p>
+          <div class="example-box"><span class="box-title">เชื่อมปุ่ม Next และ Back</span><pre><code>nextButton.addActionListener(event -&gt; cardLayout.show(cards, "FORM"));
+backButton.addActionListener(event -&gt; cardLayout.show(cards, "HOME"));</code></pre><p>ถ้าหน้าถัดไปต้องใช้ค่าจากฟอร์ม ให้ตรวจข้อมูลและเก็บลง model ก่อนเปลี่ยน card</p></div>
+          <div class="example-box"><span class="box-title">ยืนยัน input ก่อนเปลี่ยนหน้า</span><pre><code>continueButton.addActionListener(event -&gt; {
+    String name = nameField.getText().trim();
+    if (name.isEmpty()) {
+        JOptionPane.showMessageDialog(frame, "กรุณากรอกชื่อ");
+        return;
+    }
+    student.setName(name);
+    cardLayout.show(cards, "SUMMARY");
+});</code></pre></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 18.3</span>กลับไปแก้ข้อมูล</h4><p>เพิ่มปุ่ม Edit ในหน้า Summary เพื่อกลับไปหน้า Form โดยคงค่าที่กรอกไว้</p><div class="answer-gate" data-answer-id="18.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 18.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><pre><code>editButton.addActionListener(event -&gt; cardLayout.show(cards, "FORM"));</code></pre><p>อย่าสร้างหรือ reset model เมื่อกด Edit; panel ใช้ model เดิมจึงนำค่ากลับมาแสดงได้</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-18-4">
+          <h3>18.4 แชร์ state ผ่าน model</h3><p>ถ้า Summary ต้องใช้ข้อมูลจาก Form อย่าให้ panel หนึ่งไปค้นหา text field ในอีก panel โดยตรง ให้ทั้งสอง panel ใช้ model เดียวกัน แล้วกำหนดข้อมูลผ่าน method ที่ชัดเจน</p>
+          <div class="example-box"><span class="box-title">ส่ง model ให้แต่ละ panel</span><pre><code>class RegistrationData {
+    private String name = "";
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+
+RegistrationData data = new RegistrationData();
+FormPanel form = new FormPanel(data);
+SummaryPanel summary = new SummaryPanel(data);</code></pre><p>การใช้ object เดียวกันทำให้ข้อมูลคงอยู่เมื่อสลับ card; ถ้าแก้ข้อมูลจากหลายจุดมากขึ้น ออกแบบเมธอดของ model ให้ควบคุมการเปลี่ยนแปลง</p></div>
+          <div class="concept-box"><span class="box-title">ข้อมูลกับหน้าจอคนละบทบาท</span><p>model เก็บข้อมูลและกติกา; panel รับ input และแสดงผล; controller/handler ประสานการทำงาน การแบ่งชัดเจนช่วยแก้ layout โดยไม่ไปเปลี่ยน validation logic</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 18.4</span>ส่งข้อมูลคะแนน</h4><p>ออกแบบ model ที่เก็บชื่อวิชาและคะแนน แล้วระบุ method ที่หน้า Form ใช้เขียนข้อมูลและหน้า Summary ใช้อ่านข้อมูล</p><div class="answer-gate" data-answer-id="18.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 18.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><pre><code>class ScoreData {
+    private String courseName;
+    private int score;
+    public void setCourseName(String name) { courseName = name; }
+    public String getCourseName() { return courseName; }
+    public void setScore(int value) { score = value; }
+    public int getScore() { return score; }
+}</code></pre><p>Form เรียก set หลัง validation; Summary เรียก get เพื่อแสดงผล</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-18-5">
+          <h3>18.5 CardLayout, JTabbedPane หรือหลาย JFrame?</h3><p>เลือกตามรูปแบบการใช้งาน ไม่จำเป็นต้องใช้ทุกแบบในโปรแกรมเดียว</p>
+          <div class="concept-box"><span class="box-title">เกณฑ์เลือก navigation</span><ul><li><strong>CardLayout:</strong> flow มีขั้นตอนหรืออยากควบคุมปุ่ม Next/Back เอง</li><li><strong>JTabbedPane:</strong> เป็นหลายส่วนที่ผู้ใช้สลับได้โดยตรงและแต่ละ tab อยู่ระดับเดียวกัน</li><li><strong>หลาย JFrame:</strong> ใช้เมื่อจำเป็นต้องเปิดหน้าต่างอิสระจริง ๆ เช่นหน้าต่างเครื่องมือ; ไม่ควรสร้างหน้าต่างใหม่ทุกครั้งที่เปลี่ยนหน้า</li></ul></div>
+          <div class="example-box"><span class="box-title">JTabbedPane สำหรับส่วนที่อยู่ระดับเดียวกัน</span><pre><code>JTabbedPane tabs = new JTabbedPane();
+tabs.addTab("Profile", profilePanel);
+tabs.addTab("Settings", settingsPanel);
+frame.add(tabs);</code></pre></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 18.5</span>เลือกเครื่องมือให้เหมาะ</h4><p>เลือก CardLayout หรือ JTabbedPane สำหรับ (1) ขั้นตอน Checkout ทีละหน้า (2) หน้าตั้งค่า Profile/Notifications ที่ผู้ใช้เข้าออกได้อย่างอิสระ พร้อมเหตุผล</p><div class="answer-gate" data-answer-id="18.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 18.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><p>(1) CardLayout เพราะควบคุมลำดับและ validation ก่อน Next ได้; (2) JTabbedPane เพราะแต่ละหมวดเข้าถึงได้โดยตรงและไม่มีลำดับบังคับ</p></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ทำ navigation ให้ข้อมูลไม่หาย และออกแบบทางกลับ/แก้ไขให้ครบ</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 18.6</span>แอปบันทึกเป้าหมายการอ่าน</h3><p>สร้าง 3 cards: Home, Add Goal และ Summary; ฟอร์มรับชื่อหนังสือกับจำนวนหน้า ตรวจชื่อไม่ว่างและหน้ามากกว่า 0 จากนั้นให้ Summary แสดงข้อมูลและมีปุ่ม Edit/Back ที่ไม่ทำข้อมูลหาย</p><div class="answer-gate" data-answer-id="18.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 18.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โครงสร้างคำตอบ</h4><ol><li>สร้าง CardLayout และ JPanel cards แล้วลงทะเบียน HOME, FORM, SUMMARY</li><li>เก็บ bookTitle และ pageCount ใน model object เดียว</li><li>ปุ่ม Save trim ชื่อ, parse จำนวนหน้าใน try/catch และตรวจว่าเป็นบวก</li><li>เมื่อผ่านให้อัปเดต model แล้วเปลี่ยนไป SUMMARY</li><li>ปุ่ม Edit เปลี่ยนกลับ FORM โดยไม่ reset model; ปุ่ม Back กลับ HOME ตาม flow ที่กำหนด</li></ol></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-17.html">← บทที่ 17</a><a class="pager-link" href="chapter-19.html">บทที่ 19: GUI Capstone →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 18 · แยก view, data และ navigation ให้แต่ละส่วนมีหน้าที่ชัดเจน</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

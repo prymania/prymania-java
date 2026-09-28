@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 9: ข้อความและ String | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 9"><p class="toc-label">บทที่ 9 · จัดการข้อความ</p><a href="#topic-9-1"><span class="toc-number">9.1</span>เปรียบเทียบและต่อข้อความ</a><a href="#topic-9-2"><span class="toc-number">9.2</span>ค้นหาและตัดข้อความ</a><a href="#topic-9-3"><span class="toc-number">9.3</span>แปลงข้อความเป็นตัวเลข</a><a href="#topic-9-4"><span class="toc-number">9.4</span>char และ Character</a><a href="#topic-9-5"><span class="toc-number">9.5</span>StringBuilder</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">ข้อความเปรียบเทียบด้วย equals ไม่ใช่ ==</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 09 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 9 · ทำงานกับข้อมูลข้อความ</p><h1>ข้อความและ String</h1><p>เปรียบเทียบ ค้นหา ตัด และแปลงข้อความ พร้อมเรียนรู้ว่า String กับ char ต่างกันอย่างไร</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เปรียบเทียบข้อความด้วย equals</li><li>ใช้ length, charAt, substring และ indexOf</li><li>แปลงข้อความเป็นตัวเลขและรู้จักข้อผิดพลาดที่อาจเกิด</li><li>สร้างข้อความหลายส่วนด้วย StringBuilder</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-9">
+        <h2 id="section-9">9. ข้อความไม่ใช่เพียงตัวเลขหลายตัวมาต่อกัน</h2><p><code>String</code> เก็บข้อความ เช่น ชื่อหรือประโยค ส่วน <code>char</code> เก็บอักขระหนึ่งตัว การเลือกใช้เมธอดที่ถูกต้องช่วยให้โปรแกรมตรวจและแปลงข้อมูลข้อความได้ตรงตามโจทย์</p>
+        <article class="subtopic" id="topic-9-1">
+          <h3>9.1 ต่อและเปรียบเทียบข้อความ</h3><p><code>String</code> เป็น object ที่แทนลำดับอักขระ ใช้ <code>+</code> ต่อข้อความกับข้อความหรือตัวเลขได้ แต่เปรียบเทียบเนื้อหาด้วย <code>equals</code> ไม่ใช่ <code>==</code> เพราะ <code>==</code> สำหรับ object ตรวจว่า reference ชี้ object ตัวเดียวกันหรือไม่</p>
+          <div class="concept-box"><span class="box-title">ทำไม == จึงไม่ใช่การเทียบข้อความ?</span><p>ตัวแปร String เก็บ reference ไปยัง object การสร้างข้อความคนละ object อาจมีเนื้อหาเหมือนกันแต่ reference ต่างกัน ดังนั้นใช้ <code>equals</code> เมื่อถามว่า “ตัวอักษรเหมือนกันหรือไม่”</p><pre><code>String first = new String("Java");
+String second = new String("Java");
+System.out.println(first == second);      // false: คนละ object
+System.out.println(first.equals(second)); // true: เนื้อหาเหมือนกัน</code></pre></div>
+          <div class="example-box"><span class="box-title">เปรียบเทียบเนื้อหา</span><pre><code>String answer = "Java";&#10;System.out.println(answer.equals("Java")); // true&#10;System.out.println(answer.equals("java")); // false&#10;System.out.println(answer.equalsIgnoreCase("java")); // true</code></pre><p><code>equals</code> สนใจตัวพิมพ์เล็ก-ใหญ่ ส่วน <code>equalsIgnoreCase</code> ไม่สนใจความต่างนี้</p></div>
+          <div class="example-box"><span class="box-title">ลำดับ + มีผลกับข้อความและตัวเลข</span><pre><code>System.out.println("total=" + 2 + 3);   // total=23
+System.out.println("total=" + (2 + 3)); // total=5
+System.out.println(2 + 3 + " total");  // 5 total</code></pre><p>เมื่อมี String การประเมินจากซ้ายไปขวาอาจเปลี่ยนการบวกตัวเลขเป็นการต่อข้อความ ใช้วงเล็บบอกส่วนที่ต้องคำนวณก่อน</p></div>
+          <div class="note-box"><span class="box-title">String เปลี่ยนค่าเดิมไม่ได้ (immutable)</span><p>การต่อหรือแปลงตัวพิมพ์จะได้ String ค่าใหม่ ถ้าต้องการเก็บผลต้องกำหนดกลับ เช่น <code>name = name.trim();</code></p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 9.1</span>ตรวจรหัสวิชา</h4><p>ตรวจว่าข้อความในตัวแปร <code>courseCode</code> ตรงกับ <code>JAVA101</code> โดยไม่สนใจตัวพิมพ์เล็ก-ใหญ่ แล้วแสดงผล boolean</p><div class="answer-gate" data-answer-id="9.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String courseCode = "java101";&#10;boolean matches = courseCode.equalsIgnoreCase("JAVA101");&#10;System.out.println(matches); // true</code></pre></div></div></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 9.8</span>ทำนายผลการต่อข้อความ</h4><p>ทำนาย output ของทั้งสามบรรทัด แล้วอธิบายว่าทำไมผลไม่เหมือนกัน</p><div class="answer-gate" data-answer-id="9.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบและเหตุผล</h4><pre><code>System.out.println("A" + 2 + 3);   // A23
+System.out.println("A" + (2 + 3)); // A5
+System.out.println(2 + 3 + "A");   // 5A</code></pre><p>วงเล็บทำให้บวกเลขก่อน ส่วนกรณีที่เริ่มด้วย String จะต่อค่าจากซ้ายไปขวา</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-9-2">
+          <h3>9.2 ความยาว ค้นหา และตัดข้อความ</h3><p><code>length()</code> คืนจำนวนอักขระ, <code>charAt(index)</code> อ่านอักขระหนึ่งตำแหน่ง, <code>indexOf</code> หาตำแหน่งข้อความย่อย และ <code>substring(start, end)</code> ตัดตั้งแต่ start จนก่อน end</p>
+          <table class="comparison-table"><thead><tr><th>Method</th><th>ผลที่ได้</th><th>ตัวอย่างกับ "Java"</th></tr></thead><tbody><tr><td><code>length()</code></td><td>จำนวนอักขระ</td><td>4</td></tr><tr><td><code>charAt(i)</code></td><td>char ตำแหน่ง i</td><td><code>charAt(1)</code> ได้ 'a'</td></tr><tr><td><code>indexOf("v")</code></td><td>index แรกที่พบ หรือ -1</td><td>2</td></tr><tr><td><code>substring(a,b)</code></td><td>ช่วง a ถึงก่อน b</td><td><code>substring(1,3)</code> ได้ "av"</td></tr></tbody></table>
+          <div class="example-box"><span class="box-title">ดึงนามสกุลไฟล์</span><pre><code>String fileName = "report.pdf";&#10;int dotPosition = fileName.lastIndexOf('.');&#10;String extension = fileName.substring(dotPosition + 1);&#10;System.out.println(extension); // pdf</code></pre><p>ถ้าไม่พบตัวอักษรที่ค้นหา <code>indexOf</code> จะคืน <code>-1</code> ต้องตรวจค่าก่อนนำไปใช้เป็น index</p></div>
+          <div class="note-box"><span class="box-title">ตำแหน่งสิ้นสุดไม่นับรวม</span><p>สำหรับ <code>"Java"</code>, <code>substring(0, 2)</code> ได้ <code>"Ja"</code> ใช้ index ตั้งแต่ 0 ถึง 1 ส่วน <code>trim()</code> ตัดช่องว่างหัวท้าย แต่ไม่ตัดช่องว่างระหว่างคำ</p></div>
+          <div class="example-box"><span class="box-title">ไล่ index และขอบเขต</span><pre><code>String word = "Java";
+System.out.println(word.length());       // 4
+System.out.println(word.charAt(0));      // J
+System.out.println(word.substring(1, 3)); // av
+System.out.println(word.indexOf("x"));   // -1</code></pre><p>ตัว index ที่อ่านได้คือ 0 ถึง length - 1; end ของ substring อนุญาตให้เท่ากับ length เพราะเป็นตำแหน่ง “หลังตัวสุดท้าย”</p></div>
+          <div class="note-box"><span class="box-title">Runtime error: charAt index ไม่อยู่ในช่วง</span><pre><code>String word = "Java";
+System.out.println(word.charAt(word.length()));</code></pre><p>index สุดท้ายคือ <code>length - 1</code>; ตัวอย่างนี้ส่ง index 4 ให้ข้อความยาว 4 จึงเกิด <code>StringIndexOutOfBoundsException</code></p></div>
+            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 9.2</span>ดึงชื่อผู้ใช้</h4><p>จากอีเมล <code>"mali@campus.ac.th"</code> ใช้ <code>indexOf</code> และ <code>substring</code> ดึงข้อความก่อนเครื่องหมาย <code>@</code></p><div class="answer-gate" data-answer-id="9.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String email = "mali@campus.ac.th";&#10;int atPosition = email.indexOf('@');&#10;String username = email.substring(0, atPosition);&#10;System.out.println(username); // mali</code></pre><p>ถ้าข้อมูลอาจไม่มี <code>@</code> ให้ตรวจว่า <code>atPosition &gt;= 0</code> ก่อนเรียก substring</p></div></div></div>
+            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 9.9</span>ตรวจอีเมลก่อนตัดข้อความ</h4><p>รับ String ที่มีหรือไม่มี <code>@</code> ค้นตำแหน่งและแสดง username เมื่อพบ; ถ้าไม่พบให้แสดง <code>invalid email</code></p><div class="answer-gate" data-answer-id="9.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String email = "mali-campus.ac.th";
+      int atPosition = email.indexOf('@');
+      if (atPosition == -1) {
+        System.out.println("invalid email");
+      } else {
+        System.out.println(email.substring(0, atPosition));
+      }</code></pre><p>ตรวจ indexOf ก่อนเรียก substring เพื่อไม่ส่งค่า -1 เป็น end index</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-9-3">
+          <h3>9.3 แปลงข้อความเป็นตัวเลข</h3><p>ข้อมูลที่อ่านจากไฟล์หรือข้อความมักเป็น String หากต้องคำนวณให้แปลงก่อน: <code>Integer.parseInt</code> สำหรับจำนวนเต็ม และ <code>Double.parseDouble</code> สำหรับทศนิยม</p>
+          <div class="example-box"><span class="box-title">แปลงข้อความแล้วคำนวณ</span><pre><code>String quantityText = "4";&#10;String priceText = "12.50";&#10;int quantity = Integer.parseInt(quantityText);&#10;double price = Double.parseDouble(priceText);&#10;double total = quantity * price;&#10;System.out.println(total); // 50.0</code></pre><p>ข้อความที่ไม่ใช่รูปแบบตัวเลข เช่น <code>"four"</code> ทำให้เกิด <code>NumberFormatException</code> ภายหลังจะเรียนวิธีจัดการ exception อย่างละเอียด</p></div>
+          <div class="concept-box"><span class="box-title">Flow ของ parse</span><ol><li>รับข้อมูลเข้ามาเป็น String</li><li>ตัดช่องว่างหัวท้ายด้วย <code>trim()</code> หากรูปแบบอนุญาต</li><li>แปลงด้วย parseInt/parseDouble</li><li>นำค่าตัวเลขไปคำนวณ</li></ol><p>parse เป็นการแปลงแบบตรวจสอบ ถ้าตัวอักษรไม่ตรงรูปแบบจะเกิด runtime exception; การตรวจ/จัดการ exception จะเรียนต่อในบท exceptions</p></div>
+          <div class="example-box"><span class="box-title">ช่องว่างหัวท้ายกับข้อความที่แปลงไม่ได้</span><pre><code>String quantityText = " 12 ";
+int quantity = Integer.parseInt(quantityText.trim()); // 12
+// Integer.parseInt("12pcs") จะเกิด NumberFormatException</code></pre></div>
+          <div class="note-box"><span class="box-title">ระวังช่องว่างและเครื่องหมาย</span><p>ตัวเลขที่แปลงได้อาจมีเครื่องหมายบวก/ลบหรือทศนิยมตามรูปแบบ แต่ข้อความที่มีหน่วยติดท้าย เช่น <code>"25 baht"</code> ต้องแยกหน่วยออกก่อน</p></div>
+            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 9.3</span>รวมคะแนนจากข้อความ</h4><p>แปลงข้อความ <code>"78"</code> และ <code>"85"</code> เป็นจำนวนเต็ม แล้วคำนวณค่าเฉลี่ยชนิด double</p><div class="answer-gate" data-answer-id="9.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String firstText = "78";&#10;String secondText = "85";&#10;int firstScore = Integer.parseInt(firstText);&#10;int secondScore = Integer.parseInt(secondText);&#10;double average = (firstScore + secondScore) / 2.0;&#10;System.out.println(average); // 81.5</code></pre></div></div></div>
+            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 9.10</span>รวมราคาจากข้อความ</h4><p>มีข้อความราคาสินค้า <code>"19.50"</code>, <code>"8.25"</code> และ <code>"12.00"</code> แปลงเป็น double แล้วหายอดรวม</p><div class="answer-gate" data-answer-id="9.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String firstText = "19.50";
+        String secondText = "8.25";
+        String thirdText = "12.00";
+        double total = Double.parseDouble(firstText)
+          + Double.parseDouble(secondText)
+          + Double.parseDouble(thirdText);
+        System.out.printf("Total: %.2f%n", total); // 39.75</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-9-4">
+          <h3>9.4 char และ Character</h3><p><code>char</code> ใช้เก็บอักขระหนึ่งตัวและเขียน literal ด้วย single quote เช่น <code>'A'</code>; ส่วน String ใช้ double quote เช่น <code>"A"</code> อ่านอักขระจาก String ด้วย <code>charAt</code> และตรวจประเภทด้วยคลาส <code>Character</code></p>
+          <div class="concept-box"><span class="box-title">เลือกใช้ char หรือ String</span><table class="comparison-table"><thead><tr><th>ตัวอย่าง</th><th>ชนิด</th><th>ความหมาย</th></tr></thead><tbody><tr><td><code>'A'</code></td><td>char</td><td>อักขระหนึ่งตัว</td></tr><tr><td><code>"A"</code></td><td>String</td><td>ข้อความที่มีอักขระหนึ่งตัว</td></tr><tr><td><code>"AB"</code></td><td>String</td><td>ข้อความสองอักขระ</td></tr></tbody></table></div>
+          <div class="example-box"><span class="box-title">อ่านและตรวจอักขระ</span><pre><code>String code = "A7";
+char first = code.charAt(0);
+char second = code.charAt(1);
+System.out.println(Character.isLetter(first));  // true
+System.out.println(Character.isDigit(second)); // true
+System.out.println(Character.toLowerCase(first)); // a</code></pre></div>
+            <div class="example-box"><span class="box-title">Runtime error: อ่าน charAt เกินขอบเขต</span><pre><code>String text = "OK";
+        System.out.println(text.charAt(text.length()));</code></pre><p>ข้อความยาว 2 มี index 0 และ 1 เท่านั้น การอ่าน index 2 จึงเกิด <code>StringIndexOutOfBoundsException</code></p></div>
+            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 9.4</span>ตรวจอักขระตัวแรก</h4><p>ตรวจว่าอักขระตัวแรกของข้อความเป็นตัวอักษรหรือไม่ โดยใช้ <code>charAt</code> และ <code>Character.isLetter</code>; ต้องไม่อ่าน index 0 เมื่อข้อความว่าง</p><div class="answer-gate" data-answer-id="9.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String text = "Java";
+        boolean startsWithLetter = !text.isEmpty()
+          &amp;&amp; Character.isLetter(text.charAt(0));
+        System.out.println(startsWithLetter); // true</code></pre><p>ตรวจ isEmpty ก่อนเรียก charAt เพื่อป้องกัน string index error</p></div></div></div>
+        </article>
+          <article class="subtopic" id="topic-9-5">
+            <h3>9.5 StringBuilder: ต่อข้อความหลายครั้ง</h3><p>String เปลี่ยนค่าเดิมไม่ได้ (immutable) การต่อ String จำนวนมากใน loop จึงสร้าง object ชั่วคราวหลายตัว <code>StringBuilder</code> แก้ไข buffer เดิมด้วย <code>append</code> แล้วแปลงเป็น String เมื่อทำเสร็จ</p>
+            <div class="concept-box"><span class="box-title">Syntax และ flow</span><pre><code>StringBuilder builder = new StringBuilder();
+        builder.append("ข้อความ");
+        builder.append(value);
+        String result = builder.toString();</code></pre><ol><li>สร้าง builder เปล่าหนึ่งตัว</li><li>append ชิ้นส่วนตามลำดับ</li><li>เรียก toString เมื่อจะส่ง/แสดงผลเป็น String</li></ol></div>
+            <div class="example-box"><span class="box-title">ประกอบข้อความจาก loop</span><pre><code>StringBuilder list = new StringBuilder();
+        for (int i = 1; i &lt;= 3; i++) {
+            list.append("Item ").append(i).append("\n");
+        }
+        System.out.print(list.toString());</code></pre><p>append คืน builder ตัวเดิม จึงต่อหลายส่วนในบรรทัดเดียวได้</p></div>
+            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 9.11</span>สร้างบรรทัดรายการ</h4><p>ใช้ StringBuilder ต่อชื่อผลไม้ 3 ชนิดเป็นข้อความบรรทัดเดียว คั่นด้วย comma และเว้นวรรค จากนั้นแสดงผล</p><div class="answer-gate" data-answer-id="9.11"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.11<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>StringBuilder fruits = new StringBuilder();
+        fruits.append("Mango").append(", ");
+        fruits.append("Apple").append(", ");
+        fruits.append("Banana");
+        System.out.println(fruits.toString());
+        // Mango, Apple, Banana</code></pre></div></div></div>
+          </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ทดสอบข้อความว่าง ข้อมูลผิดรูปแบบ และตำแหน่งที่หาไม่พบในวิธีคิดก่อนนำไปใช้จริง</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 9.5</span>ตรวจโดเมนอีเมล</h3><p>ตรวจว่าอีเมลลงท้ายด้วย <code>@campus.ac.th</code> โดยไม่สนใจตัวพิมพ์เล็ก-ใหญ่</p><div class="answer-gate" data-answer-id="9.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String email = "mali@campus.ac.th";&#10;boolean isCampusEmail = email.toLowerCase().endsWith("@campus.ac.th");&#10;System.out.println(isCampusEmail); // true</code></pre><p><code>endsWith</code> ตรวจข้อความส่วนท้ายโดยตรง</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 9.6</span>นับตัวเลขในข้อความ</h3><p>นับจำนวนอักขระตัวเลขในข้อความ <code>"Room 204, floor 3"</code> โดยใช้ <code>Character.isDigit</code></p><div class="answer-gate" data-answer-id="9.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String text = "Room 204, floor 3";&#10;int digitCount = 0;&#10;for (int i = 0; i &lt; text.length(); i++) {&#10;    if (Character.isDigit(text.charAt(i))) {&#10;        digitCount++;&#10;    }&#10;}&#10;System.out.println(digitCount); // 4</code></pre><p>ตัวเลขที่พบคือ 2, 0, 4 และ 3</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 9.7</span>สร้างรหัสย่อ</h3><p>จากชื่อ <code>"Mali Nida"</code> ใช้ <code>StringBuilder</code> สร้างอักษรย่อ <code>MN</code> (ถือว่ามีชื่อสองส่วนคั่นด้วยช่องว่างหนึ่งช่อง)</p><div class="answer-gate" data-answer-id="9.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String fullName = "Mali Nida";&#10;int spacePosition = fullName.indexOf(' ');&#10;StringBuilder initials = new StringBuilder();&#10;initials.append(fullName.charAt(0));&#10;initials.append(fullName.charAt(spacePosition + 1));&#10;System.out.println(initials); // MN</code></pre><p>ตัวอย่างนี้สมมติว่ามีช่องว่างหนึ่งช่องและชื่อทั้งสองส่วนไม่ว่าง</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 9.12</span>ตรวจและจัดรูปแบบรหัสนักศึกษา</h3><p>รับรหัสเป็น String ตัดช่องว่างหัวท้าย แปลงเป็นตัวพิมพ์ใหญ่ แล้วตรวจว่าขึ้นต้นด้วย <code>CS-</code> และมีเครื่องหมาย <code>-</code> อย่างน้อยสองตำแหน่ง ถ้าถูกให้แสดงส่วนท้าย ถ้าไม่ถูกให้แสดง invalid</p><div class="answer-gate" data-answer-id="9.12"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.12<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างโปรแกรม</h4><pre><code>String studentId = " cs-2026-014 ";
+    String normalized = studentId.trim().toUpperCase();
+    int firstDash = normalized.indexOf('-');
+    int secondDash = normalized.indexOf('-', firstDash + 1);
+    if (normalized.startsWith("CS-") &amp;&amp; secondDash != -1) {
+      System.out.println("Valid: " + normalized.substring(secondDash + 1));
+    } else {
+      System.out.println("invalid");
+    }</code></pre><p>ตัวอย่างแสดง <code>Valid: 014</code>; ตรวจว่าพบขีดก่อนนำ index ไปใช้ต่อ</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 9.13</span>สรุปคะแนนจากรายการข้อความ</h3><p>รับคะแนนที่คั่นด้วย comma เช่น <code>"72, 85, 91"</code> แยกทีละค่า แปลงเป็น int แล้วแสดงผลรวมและค่าเฉลี่ย</p><div class="answer-gate" data-answer-id="9.13"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.13<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างโปรแกรม</h4><pre><code>String scoreLine = "72, 85, 91";
+    String[] parts = scoreLine.split(",");
+    int sum = 0;
+    for (String part : parts) {
+      sum += Integer.parseInt(part.trim());
+    }
+    double average = (double) sum / parts.length;
+    System.out.println("Sum: " + sum); // 248
+    System.out.println("Average: " + average); // 82.666...</code></pre><p><code>trim()</code> ตัดช่องว่างรอบแต่ละค่า ก่อนส่งให้ parseInt</p></div></div></article>
+        </section>
+        <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-08.html">← บทที่ 8</a><a class="pager-link" href="../index.html#chapter-10">บทที่ 10: ทดสอบและแก้บั๊ก →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 9 · String เทียบเนื้อหาด้วย equals</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

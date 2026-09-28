@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 16: เหตุการณ์และการตอบสนอง | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 16"><p class="toc-label">บทที่ 16 · ตอบสนองต่อ event</p><a href="#topic-16-1"><span class="toc-number">16.1</span>Event source และ listener</a><a href="#topic-16-2"><span class="toc-number">16.2</span>ActionListener</a><a href="#topic-16-3"><span class="toc-number">16.3</span>Lambda และ callback</a><a href="#topic-16-4"><span class="toc-number">16.4</span>อัปเดต UI บน EDT</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">GUI รอ event แล้วเรียก handler</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 16 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 16 · ทำให้ GUI โต้ตอบได้</p><h1>เหตุการณ์และการตอบสนอง</h1><p>ปุ่มไม่รู้เองว่าต้องทำอะไร เราต้องลงทะเบียน listener เพื่อบอกว่าเมื่อเกิด event แล้วให้โปรแกรมเรียกคำสั่งใด</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบาย event source, event และ listener</li><li>ผูก ActionListener กับ JButton</li><li>เขียน handler ด้วย lambda</li><li>แยก event handler จากงานคำนวณและอัปเดต UI</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-16"><h2 id="section-16">16. หน้าต่างตอบสนองเมื่อมีเหตุการณ์</h2><p>โปรแกรม console มักทำงานตามบรรทัดจากบนลงล่าง แต่ GUI ใช้ event-driven flow: สร้างหน้าจอและ listener ก่อน จากนั้นรอให้ผู้ใช้คลิกหรือพิมพ์ แล้วจึงเรียก handler ที่ผูกไว้</p>
+        <article class="subtopic" id="topic-16-1">
+          <h3>16.1 Event source, event และ listener</h3><p><strong>source</strong> คือ component ที่เกิดเหตุการณ์ เช่น JButton; <strong>event</strong> คือข้อมูลการกระทำ เช่น action ที่เกิดจากคลิก; <strong>listener</strong> คือ object/คำสั่งที่รอรับ event</p>
+          <div class="concept-box"><span class="box-title">ลำดับเหตุการณ์เมื่อผู้ใช้คลิก</span><ol><li>โปรแกรมสร้าง JButton</li><li>ลงทะเบียน listener ให้ปุ่ม</li><li>หน้าต่างแสดงและรอ event</li><li>ผู้ใช้คลิก ปุ่มสร้าง ActionEvent</li><li>listener เรียก handler เพื่อทำงาน</li></ol><p>การลงทะเบียน listener ไม่ได้เรียก handler ทันที แต่บอกว่า “ถ้าเกิด event ในอนาคต ให้เรียกคำสั่งนี้”</p></div>
+          <div class="example-box"><span class="box-title">แยก source ออกจาก handler</span><pre><code>JButton button = new JButton("Count");
+button.addActionListener(event -&gt; {
+    System.out.println("Button was clicked");
+});</code></pre><p><code>button</code> เป็น source; lambda เป็น handler ที่ทำงานเมื่อมี action event</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 16.1</span>วิเคราะห์ event</h4><p>ในปุ่ม Login ให้ระบุ source, event และงานที่ควรทำใน listener อย่างน้อยสองอย่าง</p><div class="answer-gate" data-answer-id="16.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 16.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่าง</h4><p>source คือ JButton Login; event คือ ActionEvent จากการคลิก; listener อ่านข้อมูลในฟอร์ม ตรวจข้อมูล แล้วแสดงผลหรือข้อความตอบกลับ</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-16-2">
+          <h3>16.2 ActionListener แบบ anonymous class</h3><p><code>ActionListener</code> เป็น interface สำหรับรับ action event เมธอดหลักชื่อ <code>actionPerformed</code> รูปแบบ anonymous class เหมาะสำหรับเห็นโครงสร้าง listener ก่อนย่อเป็น lambda</p>
+          <div class="example-box"><span class="box-title">เขียน handler แบบเต็ม</span><pre><code>button.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        statusLabel.setText("Saved");
+    }
+});</code></pre><p>ต้อง import <code>java.awt.event.ActionListener</code> และ <code>java.awt.event.ActionEvent</code>; handler ถูกเรียกตอนผู้ใช้กดปุ่ม</p></div>
+          <div class="note-box"><span class="box-title">อย่ารอ input ใน handler</span><p>handler ทำงานบน EDT ควรทำงานสั้น ๆ ถ้ารอ network หรือคำนวณนาน หน้าต่างจะค้าง; งานเบื้องหลังจะเรียนในบทเสริมเรื่อง Thread</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 16.2</span>ปุ่มเปลี่ยนข้อความ</h4><p>เขียน ActionListener ให้ปุ่มเปลี่ยนข้อความ JLabel จาก <code>Not clicked</code> เป็น <code>Clicked</code></p><div class="answer-gate" data-answer-id="16.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 16.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JLabel status = new JLabel("Not clicked");
+button.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        status.setText("Clicked");
+    }
+});</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-16-3">
+          <h3>16.3 Lambda เป็นรูปแบบย่อของ callback</h3><p>เมื่อ interface มี method เดียว เช่น ActionListener สามารถแทน anonymous class ด้วย lambda เพื่อให้เห็นงานที่เกิดหลัง event ชัดขึ้น</p>
+          <div class="example-box"><span class="box-title">เทียบสองรูปแบบ</span><pre><code>// แบบ anonymous class
+button.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent event) {
+        status.setText("Ready");
+    }
+});
+
+// แบบ lambda ที่ทำงานเดียวกัน
+button.addActionListener(event -&gt; status.setText("Ready"));</code></pre><p>event เป็น parameter; ถ้า body มีหลายคำสั่งให้ใช้วงเล็บปีกกา</p></div>
+          <div class="example-box"><span class="box-title">handler หลายคำสั่ง</span><pre><code>button.addActionListener(event -&gt; {
+    String name = nameField.getText().trim();
+    statusLabel.setText("Hello, " + name);
+});</code></pre><p>lambda เป็น callback: ส่งพฤติกรรมให้ button เก็บไว้ แล้วเรียกภายหลังเมื่อเกิด event</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 16.3</span>ย่อ listener</h4><p>แปลง anonymous ActionListener ของข้อ 16.2 ให้เป็น lambda ที่ทำงานเหมือนเดิม</p><div class="answer-gate" data-answer-id="16.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 16.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><pre><code>button.addActionListener(event -&gt; status.setText("Clicked"));</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-16-4">
+          <h3>16.4 อัปเดต Swing component บน EDT</h3><p>event จาก Swing มาถึงบน Event Dispatch Thread อยู่แล้ว จึงแก้ label, field หรือ model ของหน้าจอจาก handler ได้โดยตรง แต่ไม่ควรทำงานหนักบน thread นี้</p>
+          <div class="example-box"><span class="box-title">handler สั้นและแยกงานคำนวณ</span><pre><code>button.addActionListener(event -&gt; {
+    int total = calculateTotal(quantityField.getText());
+    resultLabel.setText("Total: " + total);
+});</code></pre><p>สำหรับงานคำนวณสั้น handler อ่านค่า เรียก method แล้วอัปเดตผลได้ ส่วนงานที่ใช้เวลานานต้องทำใน worker thread และกลับมาอัปเดต UI บน EDT</p></div>
+          <div class="note-box"><span class="box-title">สร้าง GUI บน EDT</span><p>จุดเริ่มของ Swing ควรใช้ <code>SwingUtilities.invokeLater(() -&gt; createAndShowGui())</code>; event handler จะถูกรันบน EDT โดย framework</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 16.4</span>นับจำนวนคลิก</h4><p>ใช้ตัวแปร count เพิ่มทีละ 1 เมื่อคลิกปุ่ม และแสดงค่าปัจจุบันใน JLabel</p><div class="answer-gate" data-answer-id="16.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 16.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><pre><code>int[] count = {0};
+button.addActionListener(event -&gt; {
+    count[0]++;
+    countLabel.setText("Clicks: " + count[0]);
+});</code></pre><p>ถ้าประกาศตัวแปร local ใน lambda ต้องไม่เปลี่ยนค่าโดยตรงหลัง capture; อีกแบบคือใช้ field ใน class</p></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ให้ event handler ทำงานสั้น แยกการคำนวณไปยัง method ที่ทดสอบแยกได้</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 16.5</span>เครื่องคิดเลขบวกเลข</h3><p>มี JTextField สองช่อง ปุ่ม Add และ JLabel แสดงผล เมื่อคลิกให้แปลง input เป็นจำนวนเต็มแล้วแสดงผลบวก</p><div class="answer-gate" data-answer-id="16.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 16.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><pre><code>addButton.addActionListener(event -&gt; {
+    int first = Integer.parseInt(firstField.getText().trim());
+    int second = Integer.parseInt(secondField.getText().trim());
+    resultLabel.setText("Sum: " + (first + second));
+});</code></pre><p>การจัดการข้อความผิดรูปแบบและแจ้งเตือนอย่างเหมาะสมจะต่อในบทฟอร์ม</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 16.6</span>ปุ่มล้างฟอร์ม</h3><p>สร้างปุ่ม Clear ที่ล้าง JTextField สองช่องและตั้ง JLabel กลับเป็น <code>Ready</code></p><div class="answer-gate" data-answer-id="16.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 16.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><pre><code>clearButton.addActionListener(event -&gt; {
+    firstField.setText("");
+    secondField.setText("");
+    resultLabel.setText("Ready");
+});</code></pre></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-15.html">← บทที่ 15</a><a class="pager-link" href="chapter-17.html">บทที่ 17: ฟอร์มและตรวจข้อมูล →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 16 · source ของ event และ listener เป็นคนละหน้าที่</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

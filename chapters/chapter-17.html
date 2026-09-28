@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 17: ฟอร์มและการตรวจสอบข้อมูล | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 17"><p class="toc-label">บทที่ 17 · รับและตรวจข้อมูล</p><a href="#topic-17-1"><span class="toc-number">17.1</span>อ่านค่าจาก component</a><a href="#topic-17-2"><span class="toc-number">17.2</span>ตรวจข้อมูลว่างและรูปแบบ</a><a href="#topic-17-3"><span class="toc-number">17.3</span>แจ้ง error ให้ผู้ใช้</a><a href="#topic-17-4"><span class="toc-number">17.4</span>แยก validation เป็น method</a><a href="#topic-17-5"><span class="toc-number">17.5</span>ล้างและ reset form</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">ตรวจข้อมูลก่อนคำนวณหรือบันทึก</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 17 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 17 · ทำฟอร์มให้พร้อมรับ input จริง</p><h1>ฟอร์มและการตรวจสอบข้อมูล</h1><p>ค่าจาก text field เป็นข้อความเสมอ จึงต้องตรวจค่าว่าง แปลงชนิดข้อมูลอย่างปลอดภัย และบอกผู้ใช้ว่าต้องแก้อะไรก่อนทำรายการ</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อ่านค่า JTextField และ JComboBox</li><li>ตรวจช่องว่างและรูปแบบตัวเลข</li><li>ใช้ try/catch ป้องกัน NumberFormatException</li><li>แจ้งข้อผิดพลาดและยืนยันด้วย JOptionPane</li><li>เขียน method ช่วย validate และ reset form</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-17"><h2 id="section-17">17. รับข้อมูลจาก component อย่างมีขอบเขต</h2><p>อย่าเชื่อค่าจากฟอร์มทันที ผู้ใช้อาจเว้นว่าง พิมพ์ตัวอักษรในช่องตัวเลข หรือเลือกค่าที่ไม่ตรงกติกาของโปรแกรม</p>
+        <article class="subtopic" id="topic-17-1">
+          <h3>17.1 อ่านค่าจาก JTextField และ JComboBox</h3><p><code>JTextField.getText()</code> คืน String; <code>JComboBox.getSelectedItem()</code> คืน object ของรายการที่เลือก ก่อนใช้งานควร <code>trim()</code> ข้อความเพื่อตัดช่องว่างหัวท้าย</p>
+          <div class="example-box"><span class="box-title">รับชื่อและตัวเลือกสาขา</span><pre><code>String name = nameField.getText().trim();
+String major = (String) majorBox.getSelectedItem();
+System.out.println(name + " / " + major);</code></pre><p>trim ไม่ลบช่องว่างกลางชื่อ เช่น “Mali Nida”; การ cast ของ JComboBox ใช้ได้เพราะประกาศเป็น JComboBox&lt;String&gt;</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 17.1</span>อ่านข้อมูลโปรไฟล์</h4><p>อ่านชื่อจาก text field และสาขาจาก combo box แล้วประกอบเป็นข้อความสรุปหนึ่งบรรทัด</p><div class="answer-gate" data-answer-id="17.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 17.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String name = nameField.getText().trim();
+String major = (String) majorBox.getSelectedItem();
+summaryLabel.setText("Name: " + name + " | Major: " + major);</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-17-2">
+          <h3>17.2 ตรวจค่าว่างและแปลงตัวเลข</h3><p>เรียก <code>trim()</code> ก่อนตรวจช่องว่าง เพราะข้อความที่มีแต่ space ไม่ควรถือว่าเป็นข้อมูล ใช้ <code>Integer.parseInt</code> หรือ <code>Double.parseDouble</code> ภายใน try/catch เพราะข้อความที่แปลงไม่ได้ทำให้เกิด NumberFormatException</p>
+          <div class="example-box"><span class="box-title">รับจำนวนเต็มอย่างปลอดภัย</span><pre><code>String text = ageField.getText().trim();
+if (text.isEmpty()) {
+    // แจ้งว่าต้องกรอกอายุ
+} else {
+    try {
+        int age = Integer.parseInt(text);
+        // ตรวจเงื่อนไขของ age ต่อ
+    } catch (NumberFormatException error) {
+        // ข้อความไม่ใช่จำนวนเต็ม
+    }
+}</code></pre><p>แยก “ไม่ได้กรอก” ออกจาก “กรอกมาแต่รูปแบบไม่ใช่เลข” เพื่อแจ้งปัญหาได้ตรง</p></div>
+          <div class="note-box"><span class="box-title">ลำดับ validation</span><p>ตรวจ empty ก่อน parse → parse ชนิดข้อมูล → ตรวจช่วง/กติกาทางธุรกิจ → ค่อยนำไปคำนวณหรือบันทึก</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 17.2</span>ตรวจอายุ</h4><p>อ่านอายุจาก field ต้องเป็นจำนวนเต็มตั้งแต่ 1 ถึง 120 ถ้าว่าง, แปลงไม่ได้ หรืออยู่นอกช่วงให้ไม่ทำรายการ</p><div class="answer-gate" data-answer-id="17.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 17.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างแนวทาง</h4><pre><code>String text = ageField.getText().trim();
+if (text.isEmpty()) {
+    showError("กรุณากรอกอายุ");
+    return;
+}
+try {
+    int age = Integer.parseInt(text);
+    if (age &lt; 1 || age &gt; 120) {
+        showError("อายุต้องอยู่ระหว่าง 1 ถึง 120");
+        return;
+    }
+    saveAge(age);
+} catch (NumberFormatException error) {
+    showError("อายุต้องเป็นจำนวนเต็ม");
+}</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-17-3">
+          <h3>17.3 แจ้งข้อผิดพลาดและผลลัพธ์ด้วย JOptionPane</h3><p><code>JOptionPane</code> ใช้แสดงกล่องข้อความแบบ modal ที่ผู้ใช้ต้องตอบหรือปิดก่อนกลับไปหน้าหลัก เหมาะกับ error สั้น ๆ และการยืนยันรายการ</p>
+          <div class="example-box"><span class="box-title">แจ้ง error และยืนยันสำเร็จ</span><pre><code>JOptionPane.showMessageDialog(
+    frame,
+    "กรุณากรอกชื่อ",
+    "ข้อมูลไม่ครบ",
+    JOptionPane.ERROR_MESSAGE
+);
+
+JOptionPane.showMessageDialog(frame, "บันทึกสำเร็จ");</code></pre><p>ส่ง frame เป็น parent เพื่อให้ dialog จัดตำแหน่งสัมพันธ์กับหน้าต่างของโปรแกรม</p></div>
+          <div class="concept-box"><span class="box-title">ถามยืนยันก่อนลบ</span><pre><code>int choice = JOptionPane.showConfirmDialog(
+    frame,
+    "ต้องการลบรายการนี้หรือไม่?",
+    "ยืนยันการลบ",
+    JOptionPane.YES_NO_OPTION
+);
+if (choice == JOptionPane.YES_OPTION) {
+    // ทำการลบ
+}</code></pre><p>การยกเลิกหรือเลือก No ต้องไม่ทำรายการลบ</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 17.3</span>แจ้งเหตุผลให้ตรงปัญหา</h4><p>เขียนข้อความ error แยกสองกรณี: ช่องชื่อว่าง และช่องจำนวนรับตัวอักษรแทนตัวเลข</p><div class="answer-gate" data-answer-id="17.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 17.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JOptionPane.showMessageDialog(frame, "กรุณากรอกชื่อ", "ข้อมูลไม่ครบ", JOptionPane.ERROR_MESSAGE);
+JOptionPane.showMessageDialog(frame, "จำนวนต้องเป็นตัวเลข", "รูปแบบไม่ถูกต้อง", JOptionPane.ERROR_MESSAGE);</code></pre><p>บอกสิ่งที่ผิดและแนวทางแก้ แทนข้อความกว้าง ๆ เช่น “Error”</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-17-4">
+          <h3>17.4 แยก validation ออกจาก event handler</h3><p>handler ควรประสานลำดับ: อ่าน input → เรียก validation → ทำงานเมื่อ valid → แจ้งผล วิธีนี้ทำให้ rule ทดสอบซ้ำได้และ handler ไม่ยาวเกินไป</p>
+          <div class="example-box"><span class="box-title">แบ่ง validateName และ handler</span><pre><code>boolean validateName(String name) {
+    return name != null &amp;&amp; !name.trim().isEmpty();
+}
+
+saveButton.addActionListener(event -&gt; {
+    String name = nameField.getText();
+    if (!validateName(name)) {
+        JOptionPane.showMessageDialog(frame, "กรุณากรอกชื่อ");
+        return;
+    }
+    JOptionPane.showMessageDialog(frame, "บันทึก: " + name.trim());
+});</code></pre></div>
+          <div class="note-box"><span class="box-title">อย่าทำ side effect ก่อน validation</span><p>อย่าบันทึกหรือเปลี่ยนข้อมูลจริงก่อนตรวจผ่าน ไม่เช่นนั้นถึงจะแจ้ง error ไปแล้ว state อาจถูกเปลี่ยนไปก่อนหน้า</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 17.4</span>ตรวจคะแนนก่อนบันทึก</h4><p>เขียน helper ตรวจคะแนนว่าอยู่ในช่วง 0–100 แล้วใช้ในปุ่ม Save; ถ้าไม่ผ่านให้แสดง error และไม่บันทึก</p><div class="answer-gate" data-answer-id="17.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 17.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>boolean isValidScore(int score) { return score &gt;= 0 &amp;&amp; score &lt;= 100; }
+saveButton.addActionListener(event -&gt; {
+    try {
+        int score = Integer.parseInt(scoreField.getText().trim());
+        if (!isValidScore(score)) {
+          JOptionPane.showMessageDialog(frame, "คะแนนต้องอยู่ระหว่าง 0 ถึง 100");
+          return;
+        }
+        saveScore(score);
+      } catch (NumberFormatException error) {
+        JOptionPane.showMessageDialog(frame, "กรุณากรอกคะแนนเป็นจำนวนเต็ม");
+    }
+});</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-17-5">
+          <h3>17.5 ล้างและ reset form</h3><p>ปุ่ม Clear ควรคืน component ให้พร้อมเริ่มกรอกใหม่ เช่น ล้าง field, ตั้ง combo กลับค่าเริ่มต้น และคืนข้อความสถานะ</p>
+          <div class="example-box"><span class="box-title">reset component หลายชนิด</span><pre><code>clearButton.addActionListener(event -&gt; {
+    nameField.setText("");
+    ageField.setText("");
+    majorBox.setSelectedIndex(0);
+    statusLabel.setText("Ready");
+    nameField.requestFocusInWindow();
+});</code></pre></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 17.5</span>ยืนยันก่อน reset</h4><p>ถามผู้ใช้ก่อนล้างฟอร์ม ถ้าเลือก Yes จึงล้าง ถ้าเลือก No ต้องคงค่าที่กรอกไว้</p><div class="answer-gate" data-answer-id="17.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 17.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int choice = JOptionPane.showConfirmDialog(frame, "ล้างข้อมูลทั้งหมด?", "ยืนยัน", JOptionPane.YES_NO_OPTION);
+if (choice == JOptionPane.YES_OPTION) {
+    nameField.setText("");
+    ageField.setText("");
+}</code></pre></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ทำฟอร์มให้ครบทั้งการรับ input, validation, feedback และ reset</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 17.6</span>ฟอร์มสมัครกิจกรรม</h3><p>มีชื่อ, อายุ, สาขา และปุ่ม Submit ตรวจชื่อไม่ว่าง, อายุเป็นจำนวนเต็ม 1–120, แสดง error ที่เหมาะสม และแสดงข้อความยืนยันเมื่อผ่าน</p><div class="answer-gate" data-answer-id="17.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 17.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ลำดับทำงาน</h4><ol><li>trim ชื่อและตรวจว่าง</li><li>parse อายุใน try/catch</li><li>ตรวจช่วงอายุ</li><li>อ่านสาขาจาก combo box</li><li>เมื่อผ่านจึงแสดงกล่องยืนยัน</li></ol><p>ควรแยก method validateName/validateAge เพื่อให้ทดสอบ rule ได้โดยไม่ต้องเปิดหน้าต่าง</p></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-16.html">← บทที่ 16</a><a class="pager-link" href="chapter-18.html">บทที่ 18: หลายหน้าจอ →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 17 · ตรวจ input ก่อนเปลี่ยน state หรือบันทึกข้อมูล</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

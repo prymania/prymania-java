@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 4: รับข้อมูลและแสดงผล | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 4">
+        <p class="toc-label">บทที่ 4 · โต้ตอบกับผู้ใช้</p>
+        <a href="#topic-4-1"><span class="toc-number">4.1</span>แสดงผลด้วย print และ printf</a>
+        <a href="#topic-4-2"><span class="toc-number">4.2</span>รับข้อมูลตัวเลขด้วย Scanner</a>
+        <a href="#topic-4-3"><span class="toc-number">4.3</span>อ่านข้อความและจัดการบรรทัด</a>
+        <a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a>
+      </nav>
+      <div class="sidebar-bottom">รับข้อมูล คำนวณ แล้วสื่อสารผล</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 04 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 4 · โปรแกรมเริ่มโต้ตอบได้</p><h1>รับข้อมูลและแสดงผล</h1><p>ใช้ข้อความถามผู้ใช้ รับค่าจากแป้นพิมพ์ คำนวณ และจัดรูปแบบคำตอบให้อ่านง่าย</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เลือกระหว่าง print, println และ printf</li><li>รับจำนวนเต็ม ทศนิยม และข้อความด้วย Scanner</li><li>อ่านชื่อหรือประโยคที่มีช่องว่างได้</li><li>ป้องกันปัญหาบรรทัดค้างหลังอ่านตัวเลข</li></ul></div>
+
+      <section class="lesson-section" aria-labelledby="section-4">
+        <h2 id="section-4">4. สร้างบทสนทนาระหว่างโปรแกรมกับผู้ใช้</h2>
+        <p>โปรแกรมที่รับข้อมูลจากผู้ใช้ต้องแจ้งให้รู้ว่าต้องป้อนอะไร และหลังคำนวณเสร็จต้องแสดงคำตอบพร้อมหน่วยหรือคำอธิบายที่ชัดเจน</p>
+
+        <article class="subtopic" id="topic-4-1">
+          <h3>4.1 แสดงผลด้วย print, println และ printf</h3>
+          <p><code>print</code> แสดงข้อความโดยไม่ขึ้นบรรทัดใหม่, <code>println</code> แสดงแล้วขึ้นบรรทัดใหม่ ส่วน <code>printf</code> ใช้รูปแบบกำหนดตำแหน่งและจำนวนทศนิยม</p>
+          <div class="example-box"><span class="box-title">ตัวอย่างการจัดรูปแบบ</span><pre><code>String name = "Mali";&#10;int score = 87;&#10;double average = 3.456;&#10;System.out.print("Student: ");&#10;System.out.println(name);&#10;System.out.printf("Score: %d%n", score);&#10;System.out.printf("Average: %.2f%n", average);</code></pre><p><code>%s</code> แทนข้อความ, <code>%d</code> แทนจำนวนเต็ม, <code>%.2f</code> แสดงทศนิยม 2 ตำแหน่ง และ <code>%n</code> ขึ้นบรรทัดใหม่</p></div>
+            <div class="source-example"><h4>ตัวอย่าง 4.1.1 · print ต่อกับ println</h4><p>แก้ข้อความใน source แล้วส่งเข้า Java IDE เพื่อรันจริง</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 4.1.1">public class PrintExample {
+        public static void main(String[] args) {
+          System.out.print("Good ");
+          System.out.println("morning");
+          System.out.println("Next line");
+        }
+      }</textarea></label><div class="source-output"><span>ผลลัพธ์ตัวอย่าง</span><pre>Good morning
+      Next line</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>กดแล้วจะเปิด IDE ด้านล่าง · โค้ดจะถูกส่งไป JDoodle</small></div></div>
+          <div class="note-box"><span class="box-title">ระวังชนิดของ placeholder</span><p>ให้ placeholder ตรงกับชนิดข้อมูล เช่น <code>%d</code> กับ <code>int</code>, <code>%f</code> กับ <code>double</code> และ <code>%s</code> กับข้อความ</p></div>
+            <div class="source-example"><h4>ตัวอย่าง 4.1.2 · จัดรูปแบบราคารวม</h4><p>ลองเปลี่ยนจำนวนสินค้าและราคา แล้วสังเกตว่าผลรวมและจำนวนทศนิยมเปลี่ยนตาม</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 4.1.2">public class PrintTotal {
+        public static void main(String[] args) {
+          int quantity = 3;
+          double unitPrice = 12.5;
+          double total = quantity * unitPrice;
+          System.out.printf("Total: %.2f baht%n", total);
+        }
+      }</textarea></label><div class="source-output"><span>ผลลัพธ์ตัวอย่าง</span><pre>Total: 37.50 baht</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ลองเปลี่ยน %.2f เป็น %.1f แล้วเปรียบเทียบผล</small></div></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 4.1</span>พิมพ์ผลคะแนน</h4><p>มีชื่อนักศึกษา <code>Beam</code> และคะแนน <code>91</code> จงแสดงบรรทัด <code>Student: Beam</code> และ <code>Score: 91 points</code> โดยใช้ทั้ง <code>println</code> และ <code>printf</code></p><div class="answer-gate" data-answer-id="4.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 4.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String studentName = "Beam";&#10;int score = 91;&#10;System.out.println("Student: " + studentName);&#10;System.out.printf("Score: %d points%n", score);</code></pre><p>เครื่องหมาย <code>+</code> ต่อข้อความกับค่าในตัวแปรได้</p></div></div></div>
+        </article>
+
+        <article class="subtopic" id="topic-4-2">
+          <h3>4.2 รับข้อมูลตัวเลขด้วย Scanner</h3>
+          <p>สร้าง <code>Scanner</code> จาก <code>System.in</code> แล้วเรียกเมธอดให้ตรงกับชนิดข้อมูล: <code>nextInt()</code> อ่านจำนวนเต็ม, <code>nextDouble()</code> อ่านทศนิยม และ <code>next()</code> อ่านข้อความจนถึงช่องว่างถัดไป</p>
+          <div class="example-box"><span class="box-title">รับความกว้างและความยาว</span><pre><code>import java.util.Scanner;&#10;&#10;public class RectangleArea {&#10;    public static void main(String[] args) {&#10;        Scanner input = new Scanner(System.in);&#10;        System.out.print("Width: ");&#10;        double width = input.nextDouble();&#10;        System.out.print("Height: ");&#10;        double height = input.nextDouble();&#10;        double area = width * height;&#10;        System.out.printf("Area: %.2f%n", area);&#10;    }&#10;}</code></pre><p>ถ้าป้อน 4.5 และ 2 จะได้พื้นที่ 9.00</p></div>
+            <div class="source-example"><h4>ตัวอย่าง 4.2.1 · รับตัวเลขแล้วคำนวณ</h4><p>หลัง Run ให้เปิด I/O ใน Java IDE แล้วป้อน <code>4.5</code> และ <code>2</code> คนละบรรทัด</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 4.2.1">import java.util.Scanner;
+
+      public class RectangleArea {
+        public static void main(String[] args) {
+          Scanner input = new Scanner(System.in);
+          System.out.print("Width: ");
+          double width = input.nextDouble();
+          System.out.print("Height: ");
+          double height = input.nextDouble();
+          double area = width * height;
+          System.out.printf("Area: %.2f%n", area);
+        }
+      }</textarea></label><div class="source-output"><span>ผลลัพธ์เมื่อป้อน 4.5 แล้ว 2</span><pre>Width: 4.5
+      Height: 2
+      Area: 9.00</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ตัวอย่างนี้ใช้ stdin ผ่านแถบ I/O ของ IDE</small></div></div>
+          <div class="note-box"><span class="box-title">รับค่าตามลำดับที่ถาม</span><p>ชนิดของตัวแปรต้องตรงกับเมธอดอ่านข้อมูล และผู้ใช้ต้องป้อนค่าตามลำดับที่โปรแกรมถาม ในตัวอย่างทศนิยมให้ป้อนโดยใช้จุด เช่น <code>4.5</code></p></div>
+            <div class="source-example"><h4>ตัวอย่าง 4.2.2 · ป้อนชนิดข้อมูลไม่ตรง</h4><p>โปรแกรมคาดว่าจะได้จำนวนเต็ม แต่ถ้าป้อน <code>12.5</code> ให้สังเกต error ที่เกิดขึ้น</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 4.2.2">import java.util.Scanner;
+
+      public class ReadInteger {
+        public static void main(String[] args) {
+          Scanner input = new Scanner(System.in);
+          System.out.print("Enter an integer: ");
+          int value = input.nextInt();
+          System.out.println("Value: " + value);
+        }
+      }</textarea></label><div class="source-output"><span>ผลที่คาดเมื่อป้อน 12.5</span><pre>InputMismatchException
+      nextInt() ต้องอ่าน token ที่เป็นจำนวนเต็ม
+      แก้ได้โดยป้อน 12 หรือเปลี่ยนชนิดเป็น double และใช้ nextDouble()</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run แล้วทดลองป้อน 12.5</button><small>ข้อความ stack trace อาจต่างกันเล็กน้อยตาม JDK</small></div></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 4.2</span>คำนวณพื้นที่สี่เหลี่ยม</h4><p>เขียนโปรแกรมรับความกว้างและความยาวเป็นทศนิยม แล้วแสดงพื้นที่ด้วยทศนิยม 2 ตำแหน่ง</p><div class="answer-gate" data-answer-id="4.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 4.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;&#10;&#10;public class Area {&#10;    public static void main(String[] args) {&#10;        Scanner input = new Scanner(System.in);&#10;        System.out.print("Width: ");&#10;        double width = input.nextDouble();&#10;        System.out.print("Length: ");&#10;        double length = input.nextDouble();&#10;        double area = width * length;&#10;        System.out.printf("Area = %.2f%n", area);&#10;    }&#10;}</code></pre><p>ใช้ <code>double</code> เพื่อเก็บค่าทศนิยม และ <code>%.2f</code> เพื่อแสดงผลสองตำแหน่ง</p></div></div></div>
+        </article>
+
+        <article class="subtopic" id="topic-4-3">
+          <h3>4.3 อ่านข้อความและจัดการบรรทัด</h3>
+          <p><code>next()</code> อ่านเพียงคำเดียว ถ้าข้อความมีช่องว่างให้ใช้ <code>nextLine()</code> ซึ่งอ่านทั้งบรรทัด หากอ่านตัวเลขด้วย <code>nextInt()</code> ก่อน ตัวกด Enter ที่ตามมาอาจยังค้างอยู่และถูก <code>nextLine()</code> อ่านทันที</p>
+          <div class="example-box"><span class="box-title">อ่านตัวเลขก่อน แล้วจึงอ่านชื่อเต็ม</span><pre><code>Scanner input = new Scanner(System.in);&#10;System.out.print("Age: ");&#10;int age = input.nextInt();&#10;input.nextLine(); // อ่าน Enter ที่เหลือให้หมดบรรทัด&#10;System.out.print("Full name: ");&#10;String fullName = input.nextLine();&#10;System.out.printf("%s is %d years old.%n", fullName, age);</code></pre><p>หลังอ่านตัวเลข บรรทัด <code>input.nextLine()</code> แรกใช้ทิ้งส่วนที่เหลือของบรรทัดรวมถึง Enter ก่อนรออ่านข้อความจริง</p></div>
+            <div class="source-example"><h4>ตัวอย่าง 4.3.1 · อ่านชื่อเต็ม</h4><p>ใน I/O ป้อนอายุ <code>20</code> แล้วป้อนชื่อ <code>Mali Nida</code> สังเกตว่าช่องว่างในชื่อยังอยู่ครบ</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 4.3.1">import java.util.Scanner;
+
+      public class FullName {
+        public static void main(String[] args) {
+          Scanner input = new Scanner(System.in);
+          System.out.print("Age: ");
+          int age = input.nextInt();
+          input.nextLine();
+          System.out.print("Full name: ");
+          String name = input.nextLine();
+          System.out.println("Hello, " + name + "!");
+          System.out.println("Age: " + age);
+        }
+      }</textarea></label><div class="source-output"><span>ผลลัพธ์ตัวอย่าง</span><pre>Age: 20
+      Full name: Mali Nida
+      Hello, Mali Nida!
+      Age: 20</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ส่งข้อมูลทั้งสองบรรทัดใน I/O</small></div></div>
+          <div class="note-box"><span class="box-title">จำเป็นคู่</span><p>ใช้ <code>next()</code> สำหรับ token เดียว เช่น รหัสที่ไม่มีช่องว่าง และใช้ <code>nextLine()</code> สำหรับชื่อเต็มหรือประโยค อย่าเรียก <code>nextLine()</code> ต่อจาก <code>nextInt()</code> โดยไม่จัดการ Enter ที่ค้าง</p></div>
+            <div class="source-example"><h4>ตัวอย่าง 4.3.2 · บั๊กอ่านชื่อได้เป็นค่าว่าง</h4><p>ลองรันโค้ดนี้ก่อน แล้วดูเหตุผลที่บรรทัดอ่านชื่อได้ค่าว่าง จากนั้นเติม <code>input.nextLine();</code> หลัง <code>nextInt()</code> เพื่อแก้</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 4.3.2">import java.util.Scanner;
+
+      public class EmptyNameBug {
+        public static void main(String[] args) {
+          Scanner input = new Scanner(System.in);
+          System.out.print("Age: ");
+          int age = input.nextInt();
+          System.out.print("Full name: ");
+          String name = input.nextLine();
+          System.out.println("Name is [" + name + "]");
+        }
+      }</textarea></label><div class="source-output"><span>ผลลัพธ์เมื่อป้อน 20 แล้ว Mali</span><pre>Age: 20
+      Full name: Name is []</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run แล้วลองแก้บั๊ก</button><small>หลัง nextInt() อ่านตัวขึ้นบรรทัดใหม่ที่ค้างอยู่ทันที</small></div></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 4.3</span>อ่านชื่อเต็ม</h4><p>โปรแกรมถามอายุก่อน แล้วถามชื่อ-นามสกุลที่อาจมีช่องว่าง จากนั้นพิมพ์ข้อความทักทาย เขียนส่วนรับข้อมูลและแสดงผล</p><div class="answer-gate" data-answer-id="4.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 4.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;&#10;&#10;public class StudentGreeting {&#10;    public static void main(String[] args) {&#10;        Scanner input = new Scanner(System.in);&#10;        System.out.print("Age: ");&#10;        int age = input.nextInt();&#10;        input.nextLine();&#10;        System.out.print("Full name: ");&#10;        String fullName = input.nextLine();&#10;        System.out.printf("Hello, %s! You are %d.%n", fullName, age);&#10;    }&#10;}</code></pre><p>บรรทัด <code>input.nextLine()</code> หลังอ่านอายุช่วยไม่ให้ชื่อถูกข้าม</p></div></div></div>
+        </article>
+      </section>
+
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>เขียนโปรแกรมรับข้อมูลตามลำดับที่ถาม คำนวณ แล้วตรวจรูปแบบผลลัพธ์ด้วยค่าทดลอง</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 4.4</span>แปลงอุณหภูมิ</h3><p>รับอุณหภูมิองศาเซลเซียส คำนวณฟาเรนไฮต์ด้วยสูตร <code>F = C × 9 / 5 + 32</code> แล้วแสดงคำตอบทศนิยม 1 ตำแหน่ง</p><div class="answer-gate" data-answer-id="4.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 4.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;&#10;&#10;public class Temperature {&#10;    public static void main(String[] args) {&#10;        Scanner input = new Scanner(System.in);&#10;        System.out.print("Celsius: ");&#10;        double celsius = input.nextDouble();&#10;        double fahrenheit = celsius * 9.0 / 5 + 32;&#10;        System.out.printf("Fahrenheit: %.1f%n", fahrenheit);&#10;    }&#10;}</code></pre><p>ใช้ <code>9.0</code> เพื่อให้การคำนวณเกิดเป็นทศนิยม</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 4.5</span>ใบเสร็จสินค้า</h3><p>รับชื่อสินค้า จำนวนชิ้น และราคาต่อชิ้น แล้วแสดงชื่อสินค้า ยอดรวม และยอดรวมที่จัดเป็นทศนิยม 2 ตำแหน่ง</p><div class="answer-gate" data-answer-id="4.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 4.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;&#10;&#10;public class SimpleReceipt {&#10;    public static void main(String[] args) {&#10;        Scanner input = new Scanner(System.in);&#10;        System.out.print("Product: ");&#10;        String product = input.nextLine();&#10;        System.out.print("Quantity: ");&#10;        int quantity = input.nextInt();&#10;        System.out.print("Unit price: ");&#10;        double unitPrice = input.nextDouble();&#10;        double total = quantity * unitPrice;&#10;        System.out.printf("%s x %d = %.2f baht%n", product, quantity, total);&#10;    }&#10;}</code></pre><p>อ่านชื่อด้วย <code>nextLine()</code> ก่อน แล้วจึงอ่านตัวเลขตามชนิดข้อมูล</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 4.6</span>บัตรแนะนำตัว</h3><p>ถามอายุเป็นจำนวนเต็มก่อน แล้วถามชื่อเต็มที่มีช่องว่าง แสดงประโยคแนะนำตัวที่มีทั้งชื่อและอายุ</p><div class="answer-gate" data-answer-id="4.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 4.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;&#10;&#10;public class Introduction {&#10;    public static void main(String[] args) {&#10;        Scanner input = new Scanner(System.in);&#10;        System.out.print("Age: ");&#10;        int age = input.nextInt();&#10;        input.nextLine();&#10;        System.out.print("Full name: ");&#10;        String fullName = input.nextLine();&#10;        System.out.printf("My name is %s and I am %d years old.%n", fullName, age);&#10;    }&#10;}</code></pre><p>การอ่าน Enter หลังอายุทำให้ <code>nextLine()</code> ถัดไปหยุดรอรับชื่อจริง ๆ</p></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-03.html">← บทที่ 3</a><a class="pager-link" href="chapter-05.html">บทที่ 5: เงื่อนไข →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 4 · ตรวจชนิดข้อมูลและลำดับการรับค่าทุกครั้ง</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+  <script src="../assets/playground.js"></script>
+</body>
+</html>

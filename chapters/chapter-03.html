@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 3: ตัวแปรและการคำนวณ | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 3">
+        <p class="toc-label">บทที่ 3 · เก็บและคำนวณข้อมูล</p>
+        <a href="#topic-3-1"><span class="toc-number">3.1</span>ตัวแปรและการกำหนดค่า</a>
+        <a href="#topic-3-2"><span class="toc-number">3.2</span>ชนิดข้อมูล</a>
+        <a href="#topic-3-3"><span class="toc-number">3.3</span>ตัวดำเนินการ</a>
+        <a href="#topic-3-4"><span class="toc-number">3.4</span>ค่าคงที่และการแปลงชนิด</a>
+        <a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a>
+      </nav>
+      <div class="sidebar-bottom">เลือกชนิดข้อมูลให้เหมาะ ก่อนคำนวณ</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 03 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 3 · ข้อมูลที่โปรแกรมนำไปใช้</p><h1>ตัวแปร ชนิดข้อมูล และการคำนวณ</h1><p>ตั้งชื่อให้ข้อมูล เก็บค่าที่โปรแกรมต้องใช้ แล้วคำนวณอย่างถูกต้อง เข้าใจความต่างระหว่างจำนวนเต็มกับทศนิยมตั้งแต่ต้น</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>ประกาศและกำหนดค่าตัวแปร</li><li>เลือกชนิดข้อมูลพื้นฐานได้เหมาะสม</li><li>ใช้ตัวดำเนินการและลำดับการคำนวณ</li><li>หลีกเลี่ยงการหารจำนวนเต็มโดยไม่ตั้งใจ</li></ul></div>
+
+      <section class="lesson-section" aria-labelledby="section-3">
+        <h2 id="section-3">3. เก็บข้อมูลและคำนวณด้วย Java</h2>
+        <p>ตัวแปรเปรียบเหมือนกล่องที่มีชื่อและชนิด ค่าในตัวแปรอาจเปลี่ยนระหว่างที่โปรแกรมทำงาน แต่ชนิดข้อมูลจะกำหนดว่ากล่องนั้นเก็บอะไรได้และนำไปคำนวณแบบใด</p>
+
+        <article class="subtopic" id="topic-3-1">
+          <h3>3.1 ตัวแปรและการกำหนดค่า</h3>
+          <p>การประกาศตัวแปรระบุชนิดและชื่อ เช่น <code>int bookCount;</code> จากนั้นใช้เครื่องหมาย <code>=</code> กำหนดค่าให้ตัวแปร ชื่อควรบอกความหมายและใช้รูปแบบ <code>camelCase</code> สำหรับชื่อตัวแปร</p>
+          <div class="example-box"><span class="box-title">ค่าเปลี่ยนได้ตามลำดับคำสั่ง</span><pre><code>int bookCount = 3;&#10;bookCount = bookCount + 2;&#10;System.out.println(bookCount); // 5</code></pre><p>เครื่องหมาย <code>=</code> ใน Java หมายถึงนำค่าด้านขวามาเก็บด้านซ้าย ไม่ใช่ประโยคบอกว่าทั้งสองข้างเท่ากันตลอดเวลา</p></div>
+          <div class="note-box"><span class="box-title">ชื่อที่อ่านแล้วเข้าใจ</span><p>ใช้ <code>studentScore</code> แทน <code>x</code>; ชื่อตัวแปรเริ่มด้วยตัวอักษรหรือ <code>_</code> ได้ แต่ไม่เริ่มด้วยตัวเลข และห้ามใช้คำสงวนอย่าง <code>class</code></p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 3.1</span>นับจำนวนหนังสือ</h4><p>กำหนดให้มีหนังสือ 4 เล่ม แล้วได้รับเพิ่มอีก 3 เล่ม เขียนคำสั่งประกาศตัวแปร อัปเดตจำนวน และพิมพ์ผล</p><div class="answer-gate" data-answer-id="3.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int bookCount = 4;&#10;bookCount = bookCount + 3;&#10;System.out.println(bookCount);</code></pre><p>ผลลัพธ์คือ <code>7</code> และสามารถย่อบรรทัดที่สองเป็น <code>bookCount += 3;</code> ได้</p></div></div></div>
+        </article>
+
+        <article class="subtopic" id="topic-3-2">
+          <h3>3.2 ชนิดข้อมูลพื้นฐาน</h3>
+          <p>เลือกชนิดข้อมูลจากลักษณะของค่า: <code>int</code> ใช้กับจำนวนเต็ม, <code>double</code> ใช้กับค่าทศนิยม, <code>char</code> ใช้กับอักขระหนึ่งตัว และ <code>boolean</code> เก็บ <code>true</code> หรือ <code>false</code> ส่วน <code>String</code> ใช้เก็บข้อความและไม่ใช่ชนิด primitive</p>
+          <table class="comparison-table"><thead><tr><th>ชนิด</th><th>ตัวอย่าง</th><th>เหมาะกับ</th></tr></thead><tbody><tr><td><code>int</code></td><td><code>int age = 19;</code></td><td>จำนวนเต็ม เช่น อายุ จำนวนชิ้น</td></tr><tr><td><code>double</code></td><td><code>double height = 165.5;</code></td><td>ตัวเลขที่มีทศนิยม เช่น ส่วนสูง ราคา</td></tr><tr><td><code>char</code></td><td><code>char grade = 'A';</code></td><td>อักขระหนึ่งตัว ใช้ single quote</td></tr><tr><td><code>boolean</code></td><td><code>boolean isReady = true;</code></td><td>สถานะจริงหรือเท็จ</td></tr><tr><td><code>String</code></td><td><code>String name = "Mali";</code></td><td>ข้อความ ใช้ double quote</td></tr></tbody></table>
+          <div class="note-box"><span class="box-title">เครื่องหมาย quote สำคัญ</span><p><code>'A'</code> เป็น <code>char</code>; <code>"A"</code> เป็น <code>String</code> แม้หน้าตาจะคล้ายกันแต่คนละชนิด</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 3.2</span>ประกาศข้อมูลนักศึกษา</h4><p>เลือกชนิดและประกาศตัวแปรสำหรับชื่อ <code>Nida</code>, อายุ 20 ปี, คะแนนเฉลี่ย 3.25 และสถานะลงทะเบียนแล้ว</p><div class="answer-gate" data-answer-id="3.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String studentName = "Nida";&#10;int age = 20;&#10;double averageScore = 3.25;&#10;boolean isRegistered = true;</code></pre><p>ใช้ <code>String</code> กับชื่อ, <code>int</code> กับอายุ, <code>double</code> กับคะแนนทศนิยม และ <code>boolean</code> กับสถานะ</p></div></div></div>
+        </article>
+
+        <article class="subtopic" id="topic-3-3">
+          <h3>3.3 ตัวดำเนินการและลำดับการคำนวณ</h3>
+          <p>Java ใช้ <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> คำนวณเลข และ <code>%</code> หาเศษจากการหาร วงเล็บช่วยกำหนดส่วนที่ต้องคำนวณก่อน</p>
+          <div class="example-box"><span class="box-title">การหารจำนวนเต็ม</span><pre><code>System.out.println(17 / 5);   // 3
+System.out.println(17 % 5);   // 2
+System.out.println(17.0 / 5); // 3.4</code></pre><p>เมื่อทั้งสองข้างของ <code>/</code> เป็นจำนวนเต็ม ผลหารจะตัดเศษทศนิยมทิ้ง หากต้องการทศนิยมอย่างน้อยหนึ่งข้างต้องเป็น <code>double</code></p></div>
+          <div class="note-box"><span class="box-title">ลำดับโดยย่อ</span><p>วงเล็บก่อน จากนั้นคูณ/หาร/หารเอาเศษ แล้วจึงบวก/ลบ หากระดับเดียวกันคำนวณจากซ้ายไปขวา และห้ามหารด้วยศูนย์</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 3.3</span>แบ่งของให้เท่ากัน</h4><p>มีส้ม 23 ผล แบ่งให้เพื่อน 4 คนเท่า ๆ กัน จงเขียนนิพจน์หาจำนวนส้มต่อคนและจำนวนที่เหลือ โดยใช้ <code>/</code> และ <code>%</code></p><div class="answer-gate" data-answer-id="3.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int oranges = 23;&#10;int friends = 4;&#10;int eachPersonGets = oranges / friends;&#10;int remaining = oranges % friends;&#10;System.out.println(eachPersonGets); // 5&#10;System.out.println(remaining);      // 3</code></pre><p>แต่ละคนได้ 5 ผล เหลือ 3 ผล</p></div></div></div>
+        </article>
+
+        <article class="subtopic" id="topic-3-4">
+          <h3>3.4 ค่าคงที่และการแปลงชนิดข้อมูล</h3>
+          <p>ค่าที่ไม่ต้องการให้เปลี่ยนประกาศด้วย <code>final</code> เช่นอัตราภาษี การคำนวณระหว่างจำนวนเต็มอาจได้จำนวนเต็ม แม้เก็บลงใน <code>double</code> ภายหลัง ดังนั้นต้องทำให้การหารมีทศนิยมตั้งแต่ต้น</p>
+          <div class="example-box"><span class="box-title">ค่าเฉลี่ยที่มีทศนิยม</span><pre><code>int totalScore = 7;&#10;double average = totalScore / 2.0; // 3.5</code></pre><p>ถ้าเขียน <code>totalScore / 2</code> จะได้ 3 ก่อนนำไปเก็บใน <code>double</code> ผลจึงกลายเป็น 3.0</p></div>
+          <div class="concept-box"><span class="box-title">แปลงชนิดอย่างตั้งใจ</span><pre><code>int wholeNumber = 7;&#10;double preciseNumber = (double) wholeNumber / 2;&#10;final double TAX_RATE = 0.07;</code></pre><p>การแปลงจาก <code>int</code> เป็น <code>double</code> ทำได้ด้วย cast; การแปลงจากทศนิยมเป็นจำนวนเต็มอาจทิ้งเศษ ควรเลือกทำเมื่อเข้าใจผลแล้ว</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 3.4</span>หาพื้นที่วงกลม</h4><p>รับค่ารัศมีชนิด <code>double</code> คำนวณพื้นที่ด้วยสูตร <code>area = PI × radius × radius</code> และประกาศ <code>PI</code> เป็นค่าคงที่</p><div class="answer-gate" data-answer-id="3.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>final double PI = 3.14159;&#10;double radius = 2.5;&#10;double area = PI * radius * radius;&#10;System.out.println(area);</code></pre><p>เมื่อรัศมีเท่ากับ 2.5 พื้นที่ประมาณ 19.6349375 ตารางหน่วย</p></div></div></div>
+        </article>
+      </section>
+
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>เลือกชนิดข้อมูลให้เหมาะ แล้วตรวจผลคำนวณด้วยค่าตัวอย่างอีกครั้ง</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 3.5</span>ยอดซื้อรวมภาษี</h3><p>สินค้าราคา 35.50 บาท จำนวน 3 ชิ้น คำนวณยอดก่อนภาษี ภาษี 7% และยอดสุทธิ</p><div class="answer-gate" data-answer-id="3.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>double unitPrice = 35.50;&#10;int quantity = 3;&#10;final double TAX_RATE = 0.07;&#10;double subtotal = unitPrice * quantity;&#10;double tax = subtotal * TAX_RATE;&#10;double total = subtotal + tax;&#10;System.out.println(subtotal); // 106.5&#10;System.out.println(tax);      // 7.455&#10;System.out.println(total);    // 113.955</code></pre><p>การปัดเป็นจำนวนทศนิยม 2 ตำแหน่งจะเรียนต่อในหัวข้อการจัดรูปแบบผลลัพธ์</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 3.6</span>แปลงวินาทีเป็นเวลา</h3><p>แปลง 3,665 วินาทีเป็นชั่วโมง นาที และวินาที โดยใช้การหารจำนวนเต็มและเศษจากการหาร</p><div class="answer-gate" data-answer-id="3.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int totalSeconds = 3665;&#10;int hours = totalSeconds / 3600;&#10;int remainingSeconds = totalSeconds % 3600;&#10;int minutes = remainingSeconds / 60;&#10;int seconds = remainingSeconds % 60;&#10;System.out.println(hours + " ชั่วโมง " + minutes + " นาที " + seconds + " วินาที");</code></pre><p>ผลลัพธ์คือ 1 ชั่วโมง 1 นาที 5 วินาที</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 3.7</span>ค่าเฉลี่ยแบบทศนิยม</h3><p>มีคะแนน 8, 9 และ 10 คะแนน คำนวณค่าเฉลี่ยให้ได้ทศนิยมถูกต้อง ห้ามใช้การหารจำนวนเต็มโดยไม่ตั้งใจ</p><div class="answer-gate" data-answer-id="3.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int score1 = 8;&#10;int score2 = 9;&#10;int score3 = 10;&#10;double average = (score1 + score2 + score3) / 3.0;&#10;System.out.println(average); // 9.0</code></pre><p>ใช้ <code>3.0</code> เพื่อให้การหารเกิดเป็นทศนิยมก่อนเก็บผล</p></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-02.html">← บทที่ 2</a><a class="pager-link" href="chapter-04.html">บทที่ 4: รับข้อมูลและแสดงผล →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 3 · ลองแทนค่าและคำนวณด้วยมือเพื่อตรวจคำตอบ</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

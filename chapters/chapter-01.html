@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 1: คิดแก้ปัญหาและ Flowchart | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 1">
+        <p class="toc-label">บทที่ 1 · คิดก่อนเขียน</p>
+        <a href="#topic-1-1"><span class="toc-number">1.1</span>แยกโจทย์ด้วย IPO</a>
+        <a href="#topic-1-2"><span class="toc-number">1.2</span>ขั้นตอนวิธีและรหัสเทียม</a>
+        <a href="#topic-1-3"><span class="toc-number">1.3</span>สัญลักษณ์ Flowchart</a>
+        <a href="#topic-1-4"><span class="toc-number">1.4</span>ทางเลือกและการทำซ้ำ</a>
+        <a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a>
+      </nav>
+      <div class="sidebar-bottom">คิดให้ชัดก่อนเขียนคำสั่ง</div>
+    </aside>
+
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 01 / 19</span></div>
+      <header class="lesson-header">
+        <p class="lesson-kicker">บทที่ 1 · เริ่มจากการแก้ปัญหา</p>
+        <h1>คิดแก้ปัญหาและออกแบบ Flowchart</h1>
+        <p>การเขียนโปรแกรมเริ่มก่อนเปิด IDE: ทำความเข้าใจว่าโจทย์ต้องการอะไร วางขั้นตอนให้ชัด แล้วจึงแปลงเป็นคำสั่งของภาษา Java</p>
+      </header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>แยกข้อมูลเข้า วิธีประมวลผล และผลลัพธ์</li><li>เขียนขั้นตอนวิธีและรหัสเทียม</li><li>เลือกใช้สัญลักษณ์ Flowchart</li><li>ติดตามทางเลือกและการทำซ้ำบนผังงาน</li></ul></div>
+
+      <section class="lesson-section" aria-labelledby="section-1">
+        <h2 id="section-1">1. จากโจทย์ไปสู่ขั้นตอน</h2>
+        <p>โปรแกรมคือชุดคำสั่งที่บอกคอมพิวเตอร์ให้ทำงานเป็นลำดับ คอมพิวเตอร์ทำตามคำสั่งตรงตัว เราจึงต้องกำหนดให้ชัดว่าเริ่มจากข้อมูลใด ต้องประมวลผลอะไร และต้องแสดงคำตอบแบบไหน</p>
+
+        <article class="subtopic" id="topic-1-1">
+          <h3>1.1 แยกโจทย์ด้วย Input · Process · Output</h3>
+          <p>ขีดเส้นใต้ข้อมูลที่โจทย์ให้มาและสิ่งที่โจทย์ถาม แล้วจัดลง 3 ส่วน: <strong>Input</strong> คือข้อมูลก่อนเริ่มทำงาน, <strong>Process</strong> คือกฎหรือการคำนวณ, <strong>Output</strong> คือคำตอบที่ต้องการ</p>
+          <div class="concept-box"><span class="box-title">ตัวอย่าง: คำนวณราคารวม</span><p>ซื้อสมุด 3 เล่ม ราคาเล่มละ 18 บาท</p><ul><li><strong>Input:</strong> จำนวนเล่ม 3 และราคาต่อเล่ม 18</li><li><strong>Process:</strong> ราคารวม = จำนวนเล่ม × ราคาต่อเล่ม</li><li><strong>Output:</strong> 54 บาท</li></ul></div>
+          <div class="note-box"><span class="box-title">จำให้แม่น</span><p>คำตอบที่คำนวณเสร็จแล้วไม่ใช่ Input เพราะ Input ต้องมีให้ก่อนเริ่มทำงาน ส่วน Process คือวิธีเปลี่ยน Input ให้เป็น Output</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 1.1</span>หาค่าเฉลี่ยคะแนน</h4><p>รับคะแนนสอบ 3 ครั้ง แล้วรายงานคะแนนเฉลี่ย จงระบุ Input, Process และ Output โดยยังไม่ต้องเขียน Java</p>
+            <div class="answer-gate" data-answer-id="1.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><p><strong>Input</strong> = คะแนนทั้ง 3 ครั้ง · <strong>Process</strong> = รวมคะแนนแล้วหารด้วย 3 · <strong>Output</strong> = คะแนนเฉลี่ย</p><pre><code>average = (score1 + score2 + score3) / 3</code></pre><p>เปลี่ยนชื่อตัวแปรได้ แต่ต้องนำคะแนนทั้งสามค่ามารวมแล้วหารด้วย 3</p></div></div>
+          </div>
+        </article>
+
+        <article class="subtopic" id="topic-1-2">
+          <h3>1.2 ขั้นตอนวิธีและรหัสเทียม (Pseudocode)</h3>
+          <p><strong>ขั้นตอนวิธี (algorithm)</strong> คือวิธีแก้ปัญหาที่เรียงเป็นขั้นและมีจุดจบ ส่วน <strong>รหัสเทียม</strong> เขียนขั้นตอนด้วยภาษาคนอย่างเป็นระเบียบ โดยยังไม่ยึดไวยากรณ์ของ Java</p>
+          <div class="example-box"><span class="box-title">ตัวอย่าง: แปลงนาทีเป็นชั่วโมงและนาทีที่เหลือ</span><pre><code>เริ่มต้น&#10;    รับ totalMinutes&#10;    hours = totalMinutes หารเอาส่วนจำนวนเต็มด้วย 60&#10;    minutes = totalMinutes เศษจากการหารด้วย 60&#10;    แสดง hours และ minutes&#10;จบ</code></pre><p>เมื่อรับ 135 นาที จะได้ 2 ชั่วโมงและเหลือ 15 นาที</p></div>
+          <div class="note-box"><span class="box-title">รหัสเทียมที่อ่านง่าย</span><p>ใช้คำกริยาชัด ๆ เช่น รับ, คำนวณ, เปรียบเทียบ, แสดง และเยื้องบรรทัดเพื่อบอกว่าคำสั่งใดเป็นขั้นย่อย</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 1.2</span>คำนวณเวลาที่เหลือ</h4><p>เขียนรหัสเทียมรับจำนวนวินาที แล้วแปลงเป็นจำนวนนาทีเต็มและวินาทีที่เหลือ เช่น 130 วินาทีเป็น 2 นาที 10 วินาที</p>
+            <div class="answer-gate" data-answer-id="1.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">รหัสเทียมตัวอย่าง</h4><pre><code>เริ่มต้น&#10;    รับ totalSeconds&#10;    minutes = totalSeconds หารเอาส่วนจำนวนเต็มด้วย 60&#10;    seconds = totalSeconds เศษจากการหารด้วย 60&#10;    แสดง minutes, "นาที", seconds, "วินาที"&#10;จบ</code></pre><p>ตรวจด้วย 130: หารเอาส่วนจำนวนเต็มได้ 2 และเศษเท่ากับ 10</p></div></div>
+          </div>
+        </article>
+
+        <article class="subtopic" id="topic-1-3">
+          <h3>1.3 สัญลักษณ์และลำดับของ Flowchart</h3>
+          <p>Flowchart คือแผนภาพแสดงลำดับการทำงาน ลูกศรบอกทิศทาง และรูปทรงบอกหน้าที่ของแต่ละขั้น</p>
+          <table class="comparison-table"><thead><tr><th>สัญลักษณ์</th><th>หน้าที่</th><th>ตัวอย่าง</th></tr></thead><tbody><tr><td>วงรี</td><td>เริ่มต้นหรือสิ้นสุด</td><td>เริ่มต้น, จบ</td></tr><tr><td>สี่เหลี่ยมด้านขนาน</td><td>รับข้อมูลหรือแสดงผล</td><td>รับความกว้าง, แสดงพื้นที่</td></tr><tr><td>สี่เหลี่ยมผืนผ้า</td><td>ประมวลผลหรือกำหนดค่า</td><td>พื้นที่ = กว้าง × ยาว</td></tr><tr><td>สี่เหลี่ยมข้าวหลามตัด</td><td>ตรวจสอบเงื่อนไข</td><td>คะแนน ≥ 50?</td></tr><tr><td>ลูกศร</td><td>เชื่อมและกำหนดทิศทาง</td><td>บนลงล่างหรือซ้ายไปขวา</td></tr></tbody></table>
+          <div class="example-box"><span class="box-title">ตัวอย่าง: พื้นที่สี่เหลี่ยมผืนผ้า</span><pre><code>(วงรี) เริ่มต้น&#10;    ↓&#10;(ด้านขนาน) รับ width, height&#10;    ↓&#10;(สี่เหลี่ยม) area = width × height&#10;    ↓&#10;(ด้านขนาน) แสดง area&#10;    ↓&#10;(วงรี) จบ</code></pre></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 1.3</span>แปลงอุณหภูมิ</h4><p>วางลำดับ Flowchart สำหรับรับอุณหภูมิเซลเซียส คำนวณฟาเรนไฮต์ด้วยสูตร <code>F = C × 9 / 5 + 32</code> แล้วแสดงผล ระบุสัญลักษณ์ของแต่ละขั้น</p>
+            <div class="answer-gate" data-answer-id="1.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ลำดับผังงานตัวอย่าง</h4><pre><code>(วงรี) เริ่มต้น&#10;    ↓&#10;(ด้านขนาน) รับ C&#10;    ↓&#10;(สี่เหลี่ยม) F = C × 9 / 5 + 32&#10;    ↓&#10;(ด้านขนาน) แสดง F&#10;    ↓&#10;(วงรี) จบ</code></pre><p>ลำดับคือรับค่า → คำนวณ → แสดงผล</p></div></div>
+          </div>
+        </article>
+
+        <article class="subtopic" id="topic-1-4">
+          <h3>1.4 ทางเลือกและการทำซ้ำในผังงาน</h3>
+          <p>เมื่อมี <strong>ทางเลือก</strong> ให้ใช้รูปข้าวหลามตัดเขียนคำถามที่มีผลลัพธ์ เช่น ใช่/ไม่ใช่ แล้ววาดลูกศรแยกทาง ส่วน <strong>การทำซ้ำ</strong> ใช้ลูกศรวนกลับไปยังเงื่อนไขที่ต้องตรวจใหม่</p>
+          <div class="example-box"><span class="box-title">ตัวอย่าง: ตรวจสอบการสอบผ่าน</span><pre><code>(เริ่มต้น) → / รับ score / → ◇ score ≥ 50 ?&#10;                                  ↙ ใช่       ไม่ใช่ ↘&#10;                      / แสดง "ผ่าน" /   / แสดง "ไม่ผ่าน" /&#10;                                  ↘             ↙&#10;                                       (จบ)</code></pre><p>เงื่อนไขต้องมีทางออกครบทุกกรณี มิฉะนั้นบางค่าอาจไม่มีขั้นตอนรองรับ</p></div>
+          <div class="example-box"><span class="box-title">การวนซ้ำ: รวมตัวเลขจนกว่าจะป้อน 0</span><p>เมื่อป้อนค่าที่ไม่ใช่ 0 ให้บวกเข้าผลรวม แล้วกลับไปรับค่าถัดไป; เมื่อป้อน 0 จึงออกจากวงซ้ำ</p><pre><code>[กำหนด total = 0] → / รับ number / → ◇ number ≠ 0 ?&#10;                                      ↙ ใช่          ไม่ใช่ ↘&#10;                         [total = total + number]   / แสดง total /&#10;                                      ↓                 ↓&#10;                                / รับ number /        (จบ)&#10;                                      ↖ กลับไปตรวจเงื่อนไข</code></pre><p>วงซ้ำต้องมีทางออก ในตัวอย่างนี้ค่า 0 เป็นค่าหยุด (sentinel) ถ้าไม่มีวันป้อน 0 โปรแกรมก็จะรับข้อมูลต่อไปเรื่อย ๆ</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 1.4</span>คิดค่าจอดรถ</h4><p>จอดไม่เกิน 1 ชั่วโมงคิด 0 บาท ถ้าเกิน 1 ชั่วโมงคิด 20 บาท จงเขียนเงื่อนไขและผลลัพธ์ทั้งสองทางเป็นรหัสเทียม</p>
+            <div class="answer-gate" data-answer-id="1.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">รหัสเทียมตัวอย่าง</h4><pre><code>เริ่มต้น&#10;    รับ hours&#10;    ถ้า hours ≤ 1&#10;        fee = 0&#10;    มิฉะนั้น&#10;        fee = 20&#10;    แสดง fee&#10;จบ</code></pre><p>บน Flowchart จุดตรวจ <code>hours ≤ 1?</code> ใช้รูปข้าวหลามตัดและแยกทางใช่/ไม่ใช่</p></div></div>
+          </div>
+        </article>
+      </section>
+
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ลองทำแต่ละข้อก่อนเปิดเฉลย เขียนคำตอบเป็น IPO, รหัสเทียม หรือผังงานตามที่โจทย์กำหนด</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 1.5</span>รั้วสวนผัก</h3><p>รับความกว้างและความยาวของสวน แล้วหาความยาวรั้วรอบสวน (ไม่คิดประตู) ระบุ IPO และเขียนรหัสเทียม</p><div class="answer-gate" data-answer-id="1.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบตัวอย่าง</h4><p>Input: width, length · Process: perimeter = 2 × (width + length) · Output: ความยาวรั้ว</p><pre><code>เริ่มต้น&#10;    รับ width, length&#10;    perimeter = 2 × (width + length)&#10;    แสดง perimeter&#10;จบ</code></pre></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 1.6</span>ค่าล่วงเวลา</h3><p>ค่าจ้างปกติชั่วโมงละ 100 บาท ไม่เกิน 40 ชั่วโมง ชั่วโมงที่เกินได้ 150 บาทต่อชั่วโมง จงเขียนรหัสเทียมคำนวณค่าจ้างรวม</p><div class="answer-gate" data-answer-id="1.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบตัวอย่าง</h4><pre><code>เริ่มต้น&#10;    รับ hours&#10;    ถ้า hours ≤ 40&#10;        pay = hours × 100&#10;    มิฉะนั้น&#10;        overtime = hours - 40&#10;        pay = 40 × 100 + overtime × 150&#10;    แสดง pay&#10;จบ</code></pre><p>คิด 40 ชั่วโมงแรกในอัตราปกติ แล้วคิดเฉพาะชั่วโมงที่เกินในอัตราล่วงเวลา</p></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 1.7</span>สรุปผลสอบ</h3><p>รับคะแนน 3 วิชา หาค่าเฉลี่ย และแสดง “ผ่าน” เมื่อค่าเฉลี่ยตั้งแต่ 50 ขึ้นไป มิฉะนั้นแสดง “ไม่ผ่าน” จงเขียนรหัสเทียมพร้อมจุดตัดสินใจใน Flowchart</p><div class="answer-gate" data-answer-id="1.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบตัวอย่าง</h4><pre><code>เริ่มต้น&#10;    รับ score1, score2, score3&#10;    average = (score1 + score2 + score3) / 3&#10;    ถ้า average ≥ 50&#10;        แสดง "ผ่าน"&#10;    มิฉะนั้น&#10;        แสดง "ไม่ผ่าน"&#10;จบ</code></pre><p>จุดตัดสินใจบนผังงานคือ <code>average ≥ 50?</code> ซึ่งมีผลลัพธ์สองทาง</p></div></div></article>
+      </section>
+
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="../index.html">← กลับหน้าสารบัญ</a><a class="pager-link" href="chapter-02.html">บทที่ 2: เริ่มต้นกับ Java →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 1 · ลองคิดก่อนเปิดดูเฉลยทุกครั้ง</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script>
+  <script src="../assets/lesson.js"></script>
+</body>
+</html>

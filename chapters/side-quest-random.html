@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทเสริม: Random และเกมทายตัวเลข | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน"><a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">SIDE QUEST</span></span></a><nav class="lesson-toc" aria-label="สารบัญบทเสริม Random"><p class="toc-label">บทเสริม · Random</p><a href="#topic-random-1"><span class="toc-number">S1.1</span>สุ่มค่าด้วย Math.random</a><a href="#topic-random-2"><span class="toc-number">S1.2</span>ใช้ java.util.Random</a><a href="#topic-random-3"><span class="toc-number">S1.3</span>เกมทายตัวเลข</a><a href="#topic-random-4"><span class="toc-number">S1.4</span>จำนวนครั้งและทดสอบ</a></nav><div class="sidebar-bottom">สุ่มช่วงปิดทั้งสองด้านอย่างระวัง</div></aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html#extras">← บทเสริม</a><span class="utility-code">SIDE QUEST 01</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทเสริม · Random</p><h1>สุ่มตัวเลขและเกมทายคำตอบ</h1><p>สร้างค่าที่เปลี่ยนได้ตามการรัน แล้วนำไปฝึกเงื่อนไข ลูป และการรับข้อมูลด้วยเกมทายตัวเลข</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เข้าใจช่วงค่าที่ Math.random คืน</li><li>สุ่มจำนวนเต็มในช่วงที่กำหนด</li><li>ใช้ Random object</li><li>ออกแบบ loop เกมทายเลขพร้อมคำใบ้</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-random"><h2 id="section-random">สุ่มค่าอย่างตั้งใจ</h2><p>ก่อนเขียนสูตร ให้ระบุขอบเขตล่างและบนก่อนว่าแต่ละค่ารวมอยู่ในช่วงหรือไม่ ความผิดพลาดเรื่อง inclusive/exclusive เป็นบั๊กที่พบบ่อย</p>
+        <article class="subtopic" id="topic-random-1"><h3>S1.1 Math.random และช่วง [0, 1)</h3><p><code>Math.random()</code> คืนค่า double ตั้งแต่ 0.0 รวมถึง แต่ต่ำกว่า 1.0 จึงไม่คืน 1.0</p><div class="example-box"><span class="box-title">สุ่มจำนวนเต็มตั้งแต่ 1 ถึง 6</span><pre><code>int roll = (int) (Math.random() * 6) + 1;</code></pre><p>คูณ 6 ได้ค่าในช่วง 0 ถึงน้อยกว่า 6; cast เป็น int ตัดเศษจึงได้ 0–5 แล้วบวก 1 เป็น 1–6</p></div><div class="concept-box"><span class="box-title">สูตรทั่วไปที่รวมขอบเขตทั้งคู่</span><pre><code>int value = min + (int) (Math.random() * (max - min + 1));</code></pre><p>ใช้เมื่อ min ≤ max และต้องการจำนวนเต็มทุกค่าตั้งแต่ min ถึง max</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S1.1</span>สุ่มเลขสองหลัก</h4><p>สุ่มจำนวนเต็มตั้งแต่ 10 ถึง 99 โดยมีโอกาสออกได้ครบทุกค่า</p><div class="answer-gate" data-answer-id="S1.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านข้อ S1.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><pre><code>int number = 10 + (int) (Math.random() * 90);</code></pre><p>ช่วง offset มี 90 ค่า: 0–89 จึงได้ 10–99</p></div></div></div></article>
+        <article class="subtopic" id="topic-random-2"><h3>S1.2 ใช้ java.util.Random</h3><p>สร้าง Random object หนึ่งตัวแล้วเรียก method ซ้ำเมื่ออยากได้ค่าใหม่ <code>nextInt(bound)</code> คืนจำนวนเต็มตั้งแต่ 0 รวมถึง แต่ต่ำกว่า bound</p><div class="example-box"><span class="box-title">สุ่มจำนวนเต็มช่วง 20–30</span><pre><code>import java.util.Random;
+
+Random random = new Random();
+int value = random.nextInt(11) + 20;</code></pre><p><code>nextInt(11)</code> ได้ 0–10; บวก 20 จึงได้ 20–30</p></div><div class="note-box"><span class="box-title">ทดสอบแบบทำซ้ำได้</span><p>ส่ง seed คงที่ เช่น <code>new Random(42)</code> เพื่อให้ลำดับสุ่มเดิมกลับมาในการทดสอบและการดีบัก; เกมจริงทั่วไปจึงค่อยใช้ constructor เปล่า</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S1.2</span>ทอยลูกเต๋าหลายหน้า</h4><p>ใช้ Random สุ่มผลลูกเต๋า 12 หน้า มีค่าตั้งแต่ 1 ถึง 12</p><div class="answer-gate" data-answer-id="S1.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านข้อ S1.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><pre><code>Random random = new Random();
+int roll = random.nextInt(12) + 1;</code></pre></div></div></div></article>
+        <article class="subtopic" id="topic-random-3"><h3>S1.3 เกมทายตัวเลข</h3><p>สุ่มคำตอบหนึ่งครั้งก่อนเริ่ม loop จากนั้นรับตัวเลขจากผู้เล่น เปรียบเทียบแล้วให้คำใบ้จนกว่าจะทายถูก</p><div class="example-box"><span class="box-title">โครงเกมแบบ console</span><pre><code>Random random = new Random();
+int secret = random.nextInt(100) + 1;
+Scanner scanner = new Scanner(System.in);
+int guess = 0;
+
+while (guess != secret) {
+    System.out.print("Guess 1-100: ");
+    guess = scanner.nextInt();
+    if (guess &lt; secret) System.out.println("Too low");
+    else if (guess &gt; secret) System.out.println("Too high");
+}
+System.out.println("Correct!");</code></pre><p>สร้าง secret นอก loop เพื่อให้คำตอบไม่เปลี่ยนทุกครั้งที่ทาย และกำหนดช่วง input ให้ตรงกับช่วงสุ่ม</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S1.3</span>เกมคำใบ้</h4><p>เพิ่มข้อความ Hint เมื่อผู้เล่นทายต่ำหรือสูง และจบ loop เมื่อทายถูก</p><div class="answer-gate" data-answer-id="S1.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านข้อ S1.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><pre><code>if (guess &lt; secret) {
+    System.out.println("Too low");
+} else if (guess &gt; secret) {
+    System.out.println("Too high");
+} else {
+    System.out.println("Correct!");
+}</code></pre></div></div></div></article>
+        <article class="subtopic" id="topic-random-4"><h3>S1.4 จำกัดจำนวนครั้งและทดสอบ</h3><p>ใช้ตัวนับ attempts เพิ่มเมื่อรับคำทายแต่ละครั้ง แล้วหยุดเมื่อทายถูกหรือใช้ครบจำนวนครั้ง อย่าลืมแยกกรณีชนะกับหมดสิทธิ์</p><div class="example-box"><span class="box-title">นับจำนวนครั้งสูงสุด</span><pre><code>int attempts = 0;
+int maxAttempts = 7;
+while (guess != secret &amp;&amp; attempts &lt; maxAttempts) {
+    guess = scanner.nextInt();
+    attempts++;
+    // แสดงคำใบ้
+}
+if (guess == secret) System.out.println("You win");
+else System.out.println("Out of attempts. Answer: " + secret);</code></pre></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S1.4</span>คิดกรณีทดสอบเกม</h4><p>ระบุ test cases อย่างน้อย 4 แบบสำหรับช่วง 1–100 รวมการทายถูกครั้งแรก, ต่ำกว่า, สูงกว่า และหมดจำนวนครั้ง</p><div class="answer-gate" data-answer-id="S1.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านข้อ S1.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง test</h4><ul><li>secret=50, guess=50 → ชนะหนึ่งครั้ง</li><li>secret=50, guess=20 → แจ้ง Too low</li><li>secret=50, guess=80 → แจ้ง Too high</li><li>ทายผิดครบ maxAttempts → จบเกมและเฉลย secret</li></ul></div></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="../index.html#extras">← บทเสริมทั้งหมด</a><a class="pager-link" href="side-quest-timer.html">Timer และ Thread →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทเสริม Random · เช็กขอบเขตช่วงสุ่มทุกครั้ง</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

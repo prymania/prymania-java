@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 19: GUI Capstone | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 19"><p class="toc-label">บทที่ 19 · GUI Capstone</p><a href="#topic-19-1"><span class="toc-number">19.1</span>กำหนดขอบเขตและ flow</a><a href="#topic-19-2"><span class="toc-number">19.2</span>วาง model และ class</a><a href="#topic-19-3"><span class="toc-number">19.3</span>สร้าง layout</a><a href="#topic-19-4"><span class="toc-number">19.4</span>ต่อ event และ validation</a><a href="#topic-19-5"><span class="toc-number">19.5</span>ทดสอบและขยายงาน</a><a href="#chapter-exercises"><span class="toc-number">ส่งงาน</span>โปรเจกต์เต็ม</a></nav>
+      <div class="sidebar-bottom">วางแผนก่อนต่อ component</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 19 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 19 · ประกอบความรู้ Swing เป็นโปรแกรมจริง</p><h1>GUI Capstone: Course Planner</h1><p>โปรเจกต์นี้รวม class และ object, layout manager, event listener, validation, model และ CardLayout เป็นแอปจัดรายการวิชาที่วางแผนลงทะเบียนได้</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>แปลงโจทย์เป็นหน้าจอและ user flow</li><li>แยก Course model จาก Swing components</li><li>ประกอบหลาย panel ด้วย CardLayout</li><li>ตรวจ input และอัปเดตผลตาม event</li><li>ทดสอบกรณีปกติและกรณีผิดพลาดอย่างเป็นระบบ</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-19"><h2 id="section-19">19. สร้าง Course Planner ทีละชั้น</h2><p>เริ่มจากเวอร์ชันเล็ก: เพิ่มรายวิชาด้วยรหัส ชื่อ และหน่วยกิต แสดงรายการในหน้าสรุป และลบรายการที่เลือกได้ เวอร์ชันแรกเก็บข้อมูลในหน่วยความจำ ไม่ใช้ฐานข้อมูล</p>
+        <article class="subtopic" id="topic-19-1">
+          <h3>19.1 กำหนดความต้องการและ user flow</h3><p>เขียนสิ่งที่ผู้ใช้ทำได้ก่อนคิดเรื่องสีหรือ component วิธีนี้ช่วยตัดสินใจว่าต้องมีหน้าอะไรและข้อมูลใดต้องเก็บ</p>
+          <div class="concept-box"><span class="box-title">ขอบเขตเวอร์ชันแรก</span><ul><li>หน้า Home แสดงจำนวนวิชาและหน่วยกิตรวม</li><li>หน้า Add Course รับรหัส ชื่อ และหน่วยกิต</li><li>ตรวจช่องว่าง, หน่วยกิตเป็นจำนวนเต็มช่วง 1–6, รหัสไม่ซ้ำ</li><li>หน้า Course List แสดงรายการและเลือกวิชาเพื่อลบ</li><li>ข้อมูลอยู่ใน memory; ปิดโปรแกรมแล้วไม่ต้องคงข้อมูล</li></ul></div>
+          <div class="example-box"><span class="box-title">เส้นทางผู้ใช้</span><pre><code>HOME --Add course--&gt; FORM
+FORM --valid Save--&gt; COURSE LIST
+FORM --invalid Save--&gt; show error, remain on FORM
+COURSE LIST --Home--&gt; HOME
+COURSE LIST --Add another--&gt; FORM</code></pre><p>การเขียน flow ให้เห็นเส้นทาง invalid ด้วย ช่วยไม่ให้หน้าเปลี่ยนทั้งที่ข้อมูลยังไม่ผ่าน</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 19.1</span>เขียน acceptance criteria</h4><p>เขียน 4 เงื่อนไขที่ผู้ใช้สังเกตหรือทดสอบได้สำหรับการเพิ่มวิชา รวมอย่างน้อยหนึ่งกรณีผิดพลาด</p><div class="answer-gate" data-answer-id="19.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 19.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างเกณฑ์</h4><ol><li>กรอกข้อมูลถูกต้องแล้วกด Save รายวิชาปรากฏในรายการ</li><li>ใส่หน่วยกิต 0 หรือ 7 แล้วระบบแจ้งเตือนและไม่เพิ่มรายการ</li><li>ชื่อว่างแล้วระบบแจ้งให้กรอกชื่อ</li><li>รหัสซ้ำแล้วระบบปฏิเสธรายการใหม่</li></ol></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-19-2">
+          <h3>19.2 ออกแบบ model และความรับผิดชอบของ class</h3><p>Course เป็นข้อมูลหนึ่งรายการ; CoursePlanner เก็บรายการและกติกา; panel จัด UI; main สร้าง window และเชื่อม navigation เริ่มด้วย class ที่มีหน้าที่เดียวก่อนเพิ่ม abstraction</p>
+          <div class="example-box"><span class="box-title">Course เก็บข้อมูลหนึ่งวิชา</span><pre><code>class Course {
+    private String code;
+    private String name;
+    private int credits;
+
+    public Course(String code, String name, int credits) {
+        this.code = code;
+        this.name = name;
+        this.credits = credits;
+    }
+
+    public String getCode() { return code; }
+    public String getName() { return name; }
+    public int getCredits() { return credits; }
+}</code></pre><p>field เป็น private; สร้าง object เมื่อข้อมูลผ่าน validation เพื่อไม่ให้เกิด Course ที่ไม่สมบูรณ์</p></div>
+          <div class="example-box"><span class="box-title">รายการและ rule อยู่ใน planner</span><pre><code>class CoursePlanner {
+    private ArrayList&lt;Course&gt; courses = new ArrayList&lt;&gt;();
+
+    public boolean containsCode(String code) {
+        for (Course course : courses) {
+            if (course.getCode().equalsIgnoreCase(code)) return true;
+        }
+        return false;
+    }
+
+    public ArrayList&lt;Course&gt; getCourses() { return courses; }
+}</code></pre><p>ในโปรเจกต์จริงอาจคืนสำเนาหรือ immutable view เพื่อป้องกันผู้เรียกแก้ list โดยไม่ผ่าน planner; สำหรับเวอร์ชันเริ่มต้นให้เข้าใจขอบเขตข้อมูลก่อน</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 19.2</span>คำนวณหน่วยกิตรวม</h4><p>เพิ่ม method ใน CoursePlanner เพื่อรวม credits ของทุก Course และคืนค่าเป็น int</p><div class="answer-gate" data-answer-id="19.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 19.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public int getTotalCredits() {
+    int total = 0;
+    for (Course course : courses) {
+        total += course.getCredits();
+    }
+    return total;
+}</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-19-3">
+          <h3>19.3 ประกอบหน้าด้วย layout manager</h3><p>วาง navigation container ไว้กลาง JFrame ใช้ CardLayout สลับ Home, Form และ List; ภายในแต่ละ panel ใช้ layout ที่เหมาะกับหน้าที่ เช่น BorderLayout สำหรับกรอบหลัก, GridLayout สำหรับ label/input คู่สั้น ๆ</p>
+          <div class="example-box"><span class="box-title">โครง container ของแอป</span><pre><code>CardLayout layout = new CardLayout();
+JPanel pages = new JPanel(layout);
+pages.add(homePanel, "HOME");
+pages.add(formPanel, "FORM");
+pages.add(listPanel, "LIST");
+frame.add(pages, BorderLayout.CENTER);
+layout.show(pages, "HOME");</code></pre></div>
+          <div class="note-box"><span class="box-title">JList สำหรับรายการ</span><p>ใช้ JList&lt;Course&gt; แสดงรายการ; เพื่อให้ข้อความอ่านง่าย Course สามารถ override <code>toString()</code> ให้คืน code, name และ credits หรือใช้ ListModel ที่จัดข้อความแสดงผล</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 19.3</span>วางฟอร์มด้วย GridLayout</h4><p>ออกแบบ panel ที่มี label และ field ของ code, name, credits เป็น 3 แถว 2 คอลัมน์ และปุ่ม Save/Cancel อยู่ด้านล่าง</p><div class="answer-gate" data-answer-id="19.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 19.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างโครงสร้าง</h4><pre><code>JPanel fields = new JPanel(new GridLayout(3, 2, 8, 8));
+fields.add(new JLabel("Code")); fields.add(codeField);
+fields.add(new JLabel("Name")); fields.add(nameField);
+fields.add(new JLabel("Credits")); fields.add(creditsField);
+JPanel form = new JPanel(new BorderLayout(8, 8));
+form.add(fields, BorderLayout.CENTER);
+form.add(buttons, BorderLayout.SOUTH);</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-19-4">
+          <h3>19.4 ต่อ event, validation และ model</h3><p>ปุ่ม Save ประสาน input กับกติกาของ planner: อ่านและ normalize, ตรวจ required fields, parse credits, ตรวจช่วงและรหัสซ้ำ, สร้าง Course เมื่อผ่าน, เพิ่มเข้า planner แล้ว refresh list</p>
+          <div class="example-box"><span class="box-title">ตัวอย่างลำดับใน handler</span><pre><code>saveButton.addActionListener(event -&gt; {
+    String code = codeField.getText().trim();
+    String name = nameField.getText().trim();
+    String creditsText = creditsField.getText().trim();
+
+    if (code.isEmpty() || name.isEmpty() || creditsText.isEmpty()) {
+        showError("กรุณากรอกข้อมูลให้ครบ");
+        return;
+    }
+    // parse credits, ตรวจช่วงและรหัสซ้ำ
+    // สร้าง Course, เพิ่ม model, refresh list
+    layout.show(pages, "LIST");
+});</code></pre><p>อย่าเปลี่ยนหน้าและอย่าแก้ model จนกว่าจะตรวจผ่านครบทุกเงื่อนไข</p></div>
+          <div class="concept-box"><span class="box-title">ป้องกัน add ซ้ำ</span><pre><code>if (planner.containsCode(code)) {
+    showError("รหัสวิชานี้มีอยู่แล้ว");
+    return;
+}
+Course course = new Course(code, name, credits);
+planner.addCourse(course);
+refreshCourseList();</code></pre><p>ควรทำการตรวจรหัสซ้ำใน method ของ planner ด้วย เพื่อให้ rule ไม่ผูกติดกับปุ่ม UI เพียงจุดเดียว</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 19.4</span>กำหนดขอบเขตของ rule</h4><p>จัด rule ต่อไปนี้ว่าเหมาะจะอยู่ที่ UI handler หรือ CoursePlanner: ตรวจช่องว่าง, parse credits, ตรวจรหัสซ้ำ, รวมหน่วยกิต พร้อมอธิบายสั้น ๆ</p><div class="answer-gate" data-answer-id="19.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 19.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><p>handler อ่านค่าจาก component และแจ้ง validation error; parse credits อยู่บริเวณแปลง input; ตรวจรหัสซ้ำและรวมหน่วยกิตควรเป็น method ของ CoursePlanner เพราะเป็น rule ที่ไม่ควรขึ้นกับหน้าจอ</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-19-5">
+          <h3>19.5 ทดสอบ flow และเพิ่มความสามารถอย่างปลอดภัย</h3><p>ทดสอบทั้ง method ของ model และการเดินหน้าจอ แยก test rule ที่ไม่ต้องเปิดหน้าต่างออกจากการทดสอบ interaction</p>
+          <div class="concept-box"><span class="box-title">ชุดทดสอบขั้นต่ำ</span><ul><li>เพิ่มวิชาถูกต้องแล้วจำนวนรายการและ credits รวมเพิ่ม</li><li>credits เป็นตัวอักษรแล้วแสดง error โดยไม่เพิ่มรายการ</li><li>credits = 0 หรือ 7 ถูกปฏิเสธ</li><li>code ซ้ำโดยเปลี่ยนตัวพิมพ์เล็ก/ใหญ่ถูกปฏิเสธ</li><li>ยกเลิกหรือลบรายการที่ไม่ได้เลือกไม่ทำให้ข้อมูลเปลี่ยน</li></ul></div>
+          <div class="example-box"><span class="box-title">normalize code ให้เปรียบเทียบสม่ำเสมอ</span><pre><code>String normalizedCode = code.trim().toUpperCase();
+if (planner.containsCode(normalizedCode)) {
+    showError("รหัสวิชานี้มีอยู่แล้ว");
+    return;
+}</code></pre><p>เลือกกติกา normalize ให้ชัดและใช้ทั้งตอนตรวจและบันทึก</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 19.5</span>ออกแบบ test cases</h4><p>เขียน test case อย่างน้อย 5 กรณีสำหรับ addCourse รวม code ซ้ำที่ต่างเฉพาะตัวพิมพ์ และตรวจผลที่คาดหวัง</p><div class="answer-gate" data-answer-id="19.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 19.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่าง cases</h4><ol><li>CS101, Intro, 3 → เพิ่มสำเร็จ หนึ่งรายการ</li><li>credits = 0 → ปฏิเสธ</li><li>credits = 7 → ปฏิเสธ</li><li>credits = abc → parse ไม่ผ่านและไม่มีรายการใหม่</li><li>CS101 ตามด้วย cs101 → รายการที่สองถูกปฏิเสธ</li></ol></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">โปรเจกต์ปลายภาค</h2><p>Course Planner เป็นจุดเริ่มต้น ให้ส่ง source code พร้อมภาพหน้าจอและตาราง test cases</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 19.6</span>Course Planner ฉบับสมบูรณ์</h3><p>สร้างโปรแกรม Swing ที่เพิ่ม แสดง ลบ และสรุปรายวิชา ใช้ JFrame เดียวแบ่งหน้า Home, Add Course และ Course List ด้วย CardLayout; เก็บ Course ใน ArrayList; ตรวจข้อมูลและรหัสซ้ำ; แสดงจำนวนวิชาและหน่วยกิตรวม; มีปุ่ม Clear และยืนยันก่อนลบ</p><div class="answer-gate" data-answer-id="19.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดู rubric และแนวทาง</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 19.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดแนวทาง</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">Rubric 100 คะแนน</h4><ul><li>โครงสร้าง class/model แยกจาก UI: 20 คะแนน</li><li>layout และ navigation ทำงานครบ: 20 คะแนน</li><li>validation/error feedback ไม่ทำข้อมูลเสีย: 20 คะแนน</li><li>เพิ่ม/แสดง/ลบและสรุปยอดถูกต้อง: 25 คะแนน</li><li>test cases และ UX เช่น reset/confirm/focus: 15 คะแนน</li></ul><p>ทำทีละ milestone: (1) model + test (2) หน้าและ layout (3) add/validation (4) list/delete/summary (5) ทดสอบ invalid input และ navigation ทุกเส้นทาง</p></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-18.html">← บทที่ 18</a><a class="pager-link" href="../index.html#extras">บทเสริม: Random และ Timer →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 19 · วาง model และ flow ก่อนประกอบ GUI</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

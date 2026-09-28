@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 14: เริ่มต้นสร้าง GUI ด้วย Swing | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 14"><p class="toc-label">บทที่ 14 · หน้าต่างแรก</p><a href="#topic-14-1"><span class="toc-number">14.1</span>Console กับ GUI</a><a href="#topic-14-2"><span class="toc-number">14.2</span>สร้าง JFrame</a><a href="#topic-14-3"><span class="toc-number">14.3</span>Container และ JPanel</a><a href="#topic-14-4"><span class="toc-number">14.4</span>Event Dispatch Thread</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">สร้างหน้าต่างบน Event Dispatch Thread</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 14 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 14 · เริ่มต้น GUI ด้วย javax.swing</p><h1>หน้าต่างแรกของเรา</h1><p>เปลี่ยนจากโปรแกรมที่รับ/แสดงข้อความใน console ไปเป็นหน้าต่างที่มีพื้นที่วางส่วนควบคุม และตอบสนองเหตุการณ์ของผู้ใช้</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบาย JFrame, container และ component</li><li>สร้างหน้าต่างและกำหนดการปิด</li><li>เพิ่ม JPanel เป็นพื้นที่จัดกลุ่ม component</li><li>เริ่ม GUI บน Event Dispatch Thread</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-14"><h2 id="section-14">14. จากผลลัพธ์ใน console สู่หน้าต่าง GUI</h2><p>GUI (Graphical User Interface) ให้ผู้ใช้เห็นหน้าต่าง ปุ่ม ช่องกรอกข้อมูล และผลลัพธ์ แทนการพิมพ์คำสั่งใน console โดย Swing เป็นชุด component มาตรฐานใน Java SE สำหรับสร้าง GUI</p>
+        <article class="subtopic" id="topic-14-1">
+          <h3>14.1 หน้าต่าง, container และ component</h3><p><code>JFrame</code> เป็นหน้าต่างหลัก; <strong>container</strong> ใช้บรรจุ/จัดกลุ่ม component; <strong>component</strong> คือสิ่งที่มองเห็นหรือโต้ตอบได้ เช่น label, button และ text field</p>
+          <div class="concept-box"><span class="box-title">แผนผังส่วนประกอบ</span><pre><code>JFrame (หน้าต่าง)
+└── JPanel (พื้นที่จัดกลุ่ม)
+    ├── JLabel (ข้อความ)
+    ├── JTextField (ช่องกรอก)
+    └── JButton (ปุ่มกด)</code></pre><p>หน้าต่างทำหน้าที่เป็น root container; เรามักเพิ่ม JPanel ก่อน แล้วใส่ component ลงใน panel เพื่อจัด layout</p></div>
+          <div class="example-box"><span class="box-title">เทียบกับโปรแกรม console</span><p>Console รอ input จาก Scanner ตามลำดับคำสั่ง ส่วน GUI เปิดรับเหตุการณ์ เช่น click หรือพิมพ์ข้อความ ผู้ใช้เป็นผู้กำหนดว่าจะเกิดเหตุการณ์ใดก่อน</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 14.1</span>จับคู่หน้าที่</h4><p>จับคู่ JFrame, JPanel, JLabel และ JButton กับบทบาทของแต่ละส่วนในหน้าจอ</p><div class="answer-gate" data-answer-id="14.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><p>JFrame = หน้าต่างหลัก; JPanel = container สำหรับจัดกลุ่ม; JLabel = แสดงข้อความ; JButton = ปุ่มรับการคลิก</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-14-2">
+          <h3>14.2 สร้าง JFrame และกำหนดวงจรชีวิต</h3><p>สร้างหน้าต่าง, ตั้งชื่อ, ขนาด และนโยบายปิด แล้วจึงทำให้มองเห็น ลำดับสำคัญคือจัดค่าให้ครบก่อนเรียก <code>setVisible(true)</code></p>
+          <div class="concept-box"><span class="box-title">ลำดับการเปิดหน้าต่าง</span><ol><li>สร้าง JFrame</li><li>ตั้ง default close operation</li><li>เพิ่ม content และจัด component</li><li>กำหนดขนาดหรือ pack</li><li>ตั้งตำแหน่งแล้วแสดงหน้าต่าง</li></ol></div>
+          <div class="example-box"><span class="box-title">หน้าต่าง GUI ขั้นต่ำ</span><pre><code>import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+public class Main {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("My First GUI");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(480, 320);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p><code>EXIT_ON_CLOSE</code> จบโปรแกรมเมื่อปิดหน้าต่าง; <code>setLocationRelativeTo(null)</code> วางหน้าต่างกลางจอ</p></div>
+          <div class="note-box"><span class="box-title">setSize กับ pack</span><p><code>setSize(width, height)</code> กำหนดขนาดหน้าต่างโดยตรง; <code>pack()</code> คำนวณขนาดจาก preferred size ของ component และ layout</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 14.2</span>ปรับหน้าต่าง</h4><p>แก้ตัวอย่างให้ title เป็น <code>Student Profile</code>, ขนาด 600 × 400 และเปิดกลางจอ</p><div class="answer-gate" data-answer-id="14.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JFrame frame = new JFrame("Student Profile");
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frame.setSize(600, 400);
+frame.setLocationRelativeTo(null);
+frame.setVisible(true);</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-14-3">
+          <h3>14.3 JPanel เป็น container สำหรับ component</h3><p>เพิ่ม component ลง panel แล้วเพิ่ม panel ไปใน frame ทำให้เปลี่ยน layout หรือสลับเนื้อหาได้ง่ายขึ้น ใน Swing แต่ละ container มี layout manager คอยจัดตำแหน่ง</p>
+          <div class="example-box"><span class="box-title">หน้าต่างมีข้อความหนึ่งบรรทัด</span><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class Main {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Profile");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel(new FlowLayout());
+            panel.add(new JLabel("Student: Mali"));
+            frame.setContentPane(panel);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p>FlowLayout เรียง component ตามลำดับที่เพิ่มลง panel และ <code>pack()</code> ปรับหน้าต่างให้พอดีกับ preferred size</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 14.3</span>วางข้อความสองส่วน</h4><p>สร้าง JFrame และ JPanel แล้วเพิ่ม JLabel สองตัว: ชื่อวิชาและชื่อผู้สอน</p><div class="answer-gate" data-answer-id="14.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JPanel panel = new JPanel(new FlowLayout());
+panel.add(new JLabel("Course: Java Programming"));
+panel.add(new JLabel("Instructor: Prymania"));
+frame.setContentPane(panel);
+frame.pack();</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-14-4">
+          <h3>14.4 Event Dispatch Thread (EDT)</h3><p>Swing สร้างหน้าต่างและจัดการ event บน thread ชื่อ EDT ถ้าแก้ component จากหลาย thread โดยไม่ระวังอาจเกิดอาการกระพริบหรือ state ผิด จึงเริ่มสร้าง GUI ด้วย <code>SwingUtilities.invokeLater</code></p>
+          <div class="concept-box"><span class="box-title">งานบน EDT ควรสั้น</span><p>EDT รับผิดชอบวาดหน้าจอและจัดการคลิก ถ้าใส่ loop ยาว, <code>Thread.sleep</code> หรือคำนวณหนักไว้บน EDT หน้าต่างจะตอบสนองไม่ได้ บทเสริมเรื่อง Timer/Thread จะอธิบายการทำงานเบื้องหลัง</p></div>
+          <div class="example-box"><span class="box-title">เริ่มต้น GUI บน EDT</span><pre><code>public static void main(String[] args) {
+    SwingUtilities.invokeLater(() -&gt; createAndShowGui());
+}
+
+static void createAndShowGui() {
+    JFrame frame = new JFrame("Safe Swing Start");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(400, 250);
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+}</code></pre></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 14.4</span>หาความเสี่ยงของ EDT</h4><p>โค้ดสร้างหน้าต่างแล้วเรียก <code>Thread.sleep(5000)</code> บน EDT ระบุสิ่งที่ผู้ใช้จะเห็นและตำแหน่งที่ควรย้ายงานหนัก</p><div class="answer-gate" data-answer-id="14.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><p>หน้าต่างค้างและ repaint/click ไม่ตอบสนอง 5 วินาที เพราะ EDT ถูก block; งานที่ใช้เวลานานควรทำบน worker thread แล้วส่งผลกลับ EDT</p></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>สร้างหน้าต่างที่จัดวางและปิดได้ตามต้องการ แล้วอธิบายลำดับการสร้าง</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 14.5</span>หน้าต่างชื่อของฉัน</h3><p>สร้างหน้าต่างชื่อ About Me ขนาดพอดีกับข้อความ มี JLabel แสดงชื่อและวิชา ปิดหน้าต่างแล้วจบโปรแกรม</p><div class="answer-gate" data-answer-id="14.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><pre><code>JPanel panel = new JPanel(new FlowLayout());
+panel.add(new JLabel("Name: Your Name"));
+panel.add(new JLabel("Course: Java"));
+JFrame frame = new JFrame("About Me");
+frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+frame.setContentPane(panel);
+frame.pack();
+frame.setLocationRelativeTo(null);
+frame.setVisible(true);</code></pre></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 14.6</span>ออกแบบโครงหน้าจอ</h3><p>วาดลำดับ component tree สำหรับหน้าต่างลงทะเบียนที่มี label, text field, ปุ่มยืนยัน และข้อความสถานะ โดยยังไม่ต้องเขียน event</p><div class="answer-gate" data-answer-id="14.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โครงสร้างตัวอย่าง</h4><pre><code>JFrame
+└── JPanel
+    ├── JLabel("Name")
+    ├── JTextField
+    ├── JButton("Submit")
+    └── JLabel("Status")</code></pre></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-13.html">← บทที่ 13</a><a class="pager-link" href="chapter-15.html">บทที่ 15: Components และ Layout →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 14 · สร้างและแก้ component บน Event Dispatch Thread</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

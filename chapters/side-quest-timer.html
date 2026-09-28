@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทเสริม: Timer, Thread และ Swing | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน"><a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">SIDE QUEST</span></span></a><nav class="lesson-toc" aria-label="สารบัญบทเสริม Timer"><p class="toc-label">บทเสริม · Timer และ Thread</p><a href="#topic-timer-1"><span class="toc-number">S2.1</span>Event Dispatch Thread</a><a href="#topic-timer-2"><span class="toc-number">S2.2</span>Swing Timer</a><a href="#topic-timer-3"><span class="toc-number">S2.3</span>งานเบื้องหลัง</a><a href="#topic-timer-4"><span class="toc-number">S2.4</span>เลือกเครื่องมือและทดสอบ</a></nav><div class="sidebar-bottom">อย่าบล็อก event thread</div></aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html#extras">← บทเสริม</a><span class="utility-code">SIDE QUEST 02</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทเสริม · งานตามเวลาและงานเบื้องหลัง</p><h1>Timer, Thread และ Swing</h1><p>ทำความเข้าใจว่าทำไม GUI ค้างเมื่อทำงานนานบน event thread และเลือกเครื่องมือที่เหมาะกับนาฬิกานับถอยหลังหรืองานเบื้องหลัง</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบายบทบาทของ Event Dispatch Thread</li><li>ใช้ javax.swing.Timer สำหรับ event ตามช่วงเวลา</li><li>แยกงานที่ใช้เวลานานไปทำเบื้องหลัง</li><li>อัปเดต Swing component บน EDT เท่านั้น</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-timer"><h2 id="section-timer">ให้หน้าต่างตอบสนองเสมอ</h2><p>Swing event handler ทำงานบน Event Dispatch Thread (EDT) ซึ่งมีหน้าที่รับ event และวาด/อัปเดต UI ถ้า handler หยุดรอนาน event อื่นและการวาดหน้าจอจะรอไปด้วย</p>
+        <article class="subtopic" id="topic-timer-1"><h3>S2.1 Event Dispatch Thread ทำอะไร</h3><p>EDT จัดการ event ของ Swing ตามลำดับ รวมทั้ง listener และการอัปเดต component จึงควรทำงานบน thread นี้ให้สั้น ไม่วนรอหรือทำ network ที่ใช้เวลานาน</p><div class="concept-box"><span class="box-title">ผลของการ block EDT</span><ul><li>ปุ่มอื่นไม่ตอบสนองระหว่าง handler ทำงาน</li><li>หน้าต่างอาจวาดใหม่ไม่ได้และแสดงเป็นภาพค้าง</li><li>event ที่รออยู่จะถูกประมวลผลช้า</li></ul></div><div class="example-box"><span class="box-title">เริ่มสร้าง Swing UI บน EDT</span><pre><code>SwingUtilities.invokeLater(() -&gt; {
+    JFrame frame = new JFrame("Timer Demo");
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(360, 180);
+    frame.setLocationRelativeTo(null);
+    frame.setVisible(true);
+});</code></pre><p>invokeLater ส่งงานสร้าง UI เข้า queue ของ EDT</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S2.1</span>หาสาเหตุหน้าต่างค้าง</h4><p>อธิบายว่าทำไมปุ่มที่มี <code>Thread.sleep(5000)</code> ใน ActionListener จึงทำให้หน้าต่างไม่ตอบสนองชั่วคราว</p><div class="answer-gate" data-answer-id="S2.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านข้อ S2.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><p>ActionListener รันบน EDT; sleep หยุด thread นี้ห้าวินาที จึงไม่มีการประมวลผล click/paint event อื่นจนกว่าจะตื่น</p></div></div></div></article>
+        <article class="subtopic" id="topic-timer-2"><h3>S2.2 javax.swing.Timer สำหรับ event ตามช่วง</h3><p>Swing Timer เรียก ActionListener ตาม delay ที่กำหนด และ handler ทำงานบน EDT เหมาะกับนาฬิกานับถอยหลังหรืออัปเดตสถานะสั้น ๆ ไม่เหมาะกับการทำงานหนักในแต่ละ tick</p><div class="example-box"><span class="box-title">นับถอยหลังและหยุดเมื่อครบ</span><pre><code>int[] seconds = {10};
+Timer timer = new Timer(1000, event -&gt; {
+    seconds[0]--;
+    timeLabel.setText("Seconds: " + seconds[0]);
+    if (seconds[0] == 0) {
+        ((Timer) event.getSource()).stop();
+    }
+});
+timer.setInitialDelay(0);
+timer.start();</code></pre><p>delay มีหน่วยเป็น milliseconds; tick เกิดทุกประมาณ 1000 ms ไม่ได้รับประกันเวลา real-time แบบแม่นยำเมื่อ EDT กำลังยุ่ง</p></div><div class="note-box"><span class="box-title">หยุด timer เมื่อไม่ใช้</span><p>เรียก <code>stop()</code> เมื่อจบหรือออกจาก view เพื่อไม่ให้ timer ทำงานต่อโดยไม่จำเป็น</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S2.2</span>อัปเดตนาฬิกาทุกวินาที</h4><p>ใช้ Swing Timer เพิ่มตัวนับจาก 0 และแสดงค่าใน JLabel ทุกหนึ่งวินาที; ปุ่ม Stop หยุด timer</p><div class="answer-gate" data-answer-id="S2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านข้อ S2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่าง</h4><pre><code>int[] seconds = {0};
+Timer timer = new Timer(1000, event -&gt; {
+    seconds[0]++;
+    label.setText("Seconds: " + seconds[0]);
+});
+stopButton.addActionListener(event -&gt; timer.stop());
+timer.start();</code></pre></div></div></div></article>
+        <article class="subtopic" id="topic-timer-3"><h3>S2.3 งานที่ใช้เวลานานทำเบื้องหลัง</h3><p>งานเช่นอ่านไฟล์ใหญ่หรือเรียก network ไม่ควรทำบน EDT ใช้ worker thread หรือ SwingWorker ทำงานเบื้องหลัง ส่วนการแสดงผล component ให้กลับมาทำบน EDT</p><div class="example-box"><span class="box-title">ใช้ SwingWorker สำหรับงานเบื้องหลัง</span><pre><code>new SwingWorker&lt;String, Void&gt;() {
+    @Override
+    protected String doInBackground() throws Exception {
+        return loadData(); // งานที่ใช้เวลานาน
+    }
+
+    @Override
+    protected void done() {
+        try {
+            resultLabel.setText(get());
+        } catch (Exception error) {
+            resultLabel.setText("Load failed");
+        }
+    }
+}.execute();</code></pre><p><code>doInBackground</code> ทำงานนอก EDT; <code>done</code> กลับมาทำบน EDT จึงอัปเดต label ได้</p></div><div class="note-box"><span class="box-title">Thread.sleep ไม่ใช่ timer สำหรับ GUI</span><p>sleep หยุด thread ปัจจุบัน ถ้าเป็น EDT หน้าต่างค้าง; ถ้าต้องการหน่วงการแสดง UI ให้ใช้ Swing Timer แทน</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S2.3</span>แยกงานเบื้องหลังกับอัปเดต UI</h4><p>ระบุบรรทัดที่ควรทำใน doInBackground และ done สำหรับโหลดข้อความจากไฟล์แล้วแสดงใน JTextArea</p><div class="answer-gate" data-answer-id="S2.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านข้อ S2.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><p>อ่านไฟล์และสร้าง String ใน doInBackground; เรียก get() แล้วใช้ textArea.setText(...) ใน done; จัดการ exception ที่ done เพื่อแสดง error โดยไม่ให้ EDT ค้าง</p></div></div></div></article>
+        <article class="subtopic" id="topic-timer-4"><h3>S2.4 เลือกเครื่องมือและทดสอบ</h3><p>คำถามสำคัญคือ “ต้องเกิด event เป็นช่วง” หรือ “ต้องคำนวณ/รอผลนาน” Timer จัดการการกระตุ้นตามเวลา; worker จัดการงานที่ใช้เวลานาน</p><div class="concept-box"><span class="box-title">กฎเลือกแบบสั้น</span><ul><li>อัปเดตตัวเลขหรือ animation เบา ๆ ตามเวลา → Swing Timer</li><li>โหลดไฟล์/network หรือคำนวณนาน → SwingWorker</li><li>อัปเดต Swing component → EDT</li><li>หยุด timer/worker เมื่อ view หรือหน้าต่างไม่ต้องใช้งานแล้ว</li></ul></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S2.4</span>ออกแบบ Pomodoro สั้น ๆ</h4><p>ออกแบบตัวจับเวลา 25 นาที มี Start, Pause, Reset และข้อความเมื่อครบ ระบุว่าจะใช้ Swing Timer ทำอะไร และจะทดสอบอย่างน้อย 3 กรณีใด</p><div class="answer-gate" data-answer-id="S2.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านข้อ S2.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><p>เก็บจำนวนวินาทีที่เหลือ; Timer ทุก 1000 ms ลดหนึ่งและอัปเดต label; เมื่อถึงศูนย์หยุด timer และแจ้งครบ; Pause หยุดโดยเก็บค่าไว้; Reset หยุดและตั้ง 1500 วินาที</p><ul><li>Start แล้วเวลาเริ่มลด</li><li>Pause แล้วค่าคงเดิม</li><li>Reset คืน 25:00</li><li>นับถึงศูนย์แล้วหยุดและแสดงข้อความ</li></ul></div></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="side-quest-random.html">← Random</a><a class="pager-link" href="../index.html">กลับสารบัญรายวิชา →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทเสริม Timer และ Thread · ให้ EDT ว่างพอรับ event และวาด UI</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 15: Components และ Layout | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 15"><p class="toc-label">บทที่ 15 · ส่วนประกอบและการจัดวาง</p><a href="#topic-15-1"><span class="toc-number">15.1</span>Label, Button และ Panel</a><a href="#topic-15-2"><span class="toc-number">15.2</span>รับและแสดงข้อความ</a><a href="#topic-15-3"><span class="toc-number">15.3</span>ComboBox</a><a href="#topic-15-4"><span class="toc-number">15.4</span>Layout Manager</a><a href="#topic-15-5"><span class="toc-number">15.5</span>ประกอบหลาย Panel</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">เลือก component และ layout ตามหน้าที่</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 15 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 15 · สร้างส่วนต่าง ๆ บนหน้าต่าง</p><h1>Components และ Layout</h1><p>เลือก component ให้ตรงกับข้อมูล และใช้ layout manager จัดตำแหน่งโดยไม่กำหนดพิกัดทุกชิ้นด้วยตัวเอง</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เลือก JLabel, JButton, JTextField และ JTextArea</li><li>ใช้ JScrollPane กับเนื้อหาที่ยาว</li><li>รับตัวเลือกด้วย JComboBox</li><li>เลือกระหว่าง Flow, Border, Grid และ Box layout</li><li>ประกอบ panel ย่อยเป็นหน้าจอเดียว</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-15"><h2 id="section-15">15. ประกอบหน้าจอจากชิ้นส่วน</h2><p>Swing แบ่งเป็น component ที่แสดงหรือรับข้อมูล กับ container ที่บรรจุ component อีกที แต่ละ container มี layout manager คำนวณตำแหน่งให้ตามขนาดหน้าต่าง</p>
+        <article class="subtopic" id="topic-15-1">
+          <h3>15.1 JLabel, JButton และ JPanel</h3><p><code>JLabel</code> ใช้แสดงข้อความหรือไอคอน, <code>JButton</code> เป็นปุ่มที่ผู้ใช้กด และ <code>JPanel</code> เป็น container ย่อยสำหรับจัดกลุ่มสิ่งที่เกี่ยวข้อง</p>
+          <div class="example-box"><span class="box-title">เพิ่ม label และปุ่มลง panel</span><pre><code>JPanel panel = new JPanel();
+JLabel title = new JLabel("Welcome");
+JButton nextButton = new JButton("Next");
+panel.add(title);
+panel.add(nextButton);
+frame.setContentPane(panel);</code></pre><p>JPanel ใช้ FlowLayout โดยปริยาย จึงวาง component ต่อกันตามลำดับที่ add</p></div>
+          <div class="note-box"><span class="box-title">ปุ่มยังไม่ทำงานจนกว่าจะผูก event</span><p>บทนี้สร้างรูปร่างและตำแหน่งของปุ่มก่อน การตอบสนองต่อการคลิกจะเรียนในบทถัดไป</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.1</span>หัวหน้าต่างโปรไฟล์</h4><p>สร้าง JPanel ที่มี JLabel แสดงชื่อหน้าและ JButton ชื่อ Edit</p><div class="answer-gate" data-answer-id="15.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JPanel panel = new JPanel();
+panel.add(new JLabel("Student Profile"));
+panel.add(new JButton("Edit"));</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-15-2">
+          <h3>15.2 JTextField, JTextArea และ JScrollPane</h3><p><code>JTextField</code> เหมาะกับข้อความบรรทัดเดียว เช่น ชื่อหรือรหัส; <code>JTextArea</code> รับข้อความหลายบรรทัด และมักใส่ใน <code>JScrollPane</code> เพื่อเลื่อนดูเมื่อข้อความยาว</p>
+          <div class="example-box"><span class="box-title">สร้างช่องกรอกและกล่องข้อความ</span><pre><code>JTextField nameField = new JTextField(18);
+JTextArea noteArea = new JTextArea(5, 18);
+noteArea.setLineWrap(true);
+noteArea.setWrapStyleWord(true);
+JScrollPane noteScroll = new JScrollPane(noteArea);
+panel.add(new JLabel("Name:"));
+panel.add(nameField);
+panel.add(noteScroll);</code></pre><p>ตัวเลขใน constructor บอกขนาดที่ต้องการโดยประมาณ ไม่ใช่จำนวนตัวอักษรสูงสุด</p></div>
+          <div class="note-box"><span class="box-title">Password field</span><p>ข้อมูลรหัสผ่านควรใช้ <code>JPasswordField</code> ซึ่งแสดงอักขระแทนค่าจริง และอ่านผ่าน <code>getPassword()</code> แทนการใช้ JTextField ปกติ</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.2</span>กล่องบันทึกคำอธิบาย</h4><p>เพิ่ม JTextField สำหรับหัวข้อ และ JTextArea ที่เลื่อนอ่านได้สำหรับรายละเอียด</p><div class="answer-gate" data-answer-id="15.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JTextField titleField = new JTextField(20);
+JTextArea details = new JTextArea(6, 20);
+details.setLineWrap(true);
+JScrollPane scroll = new JScrollPane(details);
+panel.add(titleField);
+panel.add(scroll);</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-15-3">
+          <h3>15.3 JComboBox สำหรับตัวเลือก</h3><p>ใช้ <code>JComboBox</code> เมื่อผู้ใช้ควรเลือกหนึ่งค่าจากรายการที่กำหนดไว้ ช่วยลด input ที่สะกดไม่ตรงและใช้พื้นที่น้อยกว่าแสดงทุกตัวเลือกพร้อมกัน</p>
+          <div class="example-box"><span class="box-title">เติมรายการและกำหนดค่าเริ่มต้น</span><pre><code>String[] levels = {"Beginner", "Intermediate", "Advanced"};
+JComboBox&lt;String&gt; levelBox = new JComboBox&lt;&gt;(levels);
+levelBox.setSelectedIndex(0);
+panel.add(new JLabel("Level:"));
+panel.add(levelBox);</code></pre><p>อ่านตัวเลือกที่เลือกภายหลังด้วย <code>getSelectedItem()</code>; ค่าที่คืนมีชนิด Object จึงอาจต้องแปลงชนิดตามที่ประกาศ</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.3</span>เลือกสาขาวิชา</h4><p>สร้าง ComboBox สำหรับ Computer Science, Information Technology และ Data Science โดยเลือก Computer Science เป็นค่าเริ่มต้น</p><div class="answer-gate" data-answer-id="15.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String[] majors = {"Computer Science", "Information Technology", "Data Science"};
+JComboBox&lt;String&gt; majorBox = new JComboBox&lt;&gt;(majors);
+majorBox.setSelectedIndex(0);</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-15-4">
+          <h3>15.4 Layout Manager เลือกตามรูปแบบหน้าจอ</h3><p>หลีกเลี่ยงการกำหนดตำแหน่งด้วยพิกัด absolute เพราะหน้าต่างปรับขนาดไม่ได้ดี Layout manager จัดตำแหน่งใหม่ตามขนาด container และ preferred size</p>
+          <table class="comparison-table"><thead><tr><th>Layout</th><th>วิธีจัด</th><th>เหมาะกับ</th></tr></thead><tbody><tr><td>FlowLayout</td><td>เรียงต่อกันตามแนว แล้วขึ้นบรรทัด</td><td>แถบปุ่มหรือรายการสั้น</td></tr><tr><td>BorderLayout</td><td>แบ่ง North, South, East, West, Center</td><td>โครงหน้าต่างหลัก</td></tr><tr><td>GridLayout</td><td>ตารางแถว/คอลัมน์ ขนาดช่องเท่ากัน</td><td>เครื่องคิดเลขหรือปุ่มตัวเลข</td></tr><tr><td>BoxLayout</td><td>เรียงแนวตั้งหรือแนวนอน</td><td>ฟอร์มที่จัดเป็นแนวเดียว</td></tr></tbody></table>
+          <div class="example-box"><span class="box-title">BorderLayout แบ่งพื้นที่หลัก</span><pre><code>JPanel panel = new JPanel(new BorderLayout(8, 8));
+panel.add(new JLabel("Header"), BorderLayout.NORTH);
+panel.add(new JScrollPane(new JTextArea()), BorderLayout.CENTER);
+panel.add(new JButton("Save"), BorderLayout.SOUTH);</code></pre><p>BorderLayout รับ component ได้หนึ่งชิ้นต่อ region; ถ้าต้องมีหลายชิ้นใน region ให้สร้าง JPanel ย่อย</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.4</span>เลือก Layout</h4><p>เลือก layout ที่เหมาะกับ (1) ปุ่ม 12 ปุ่มในตาราง 3×4 (2) แถบปุ่ม Save/Cancel เรียงกัน (3) พื้นที่เนื้อหากลางหน้าต่าง</p><div class="answer-gate" data-answer-id="15.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><ol><li>GridLayout(3, 4)</li><li>FlowLayout หรือ BoxLayout แนวนอน</li><li>BorderLayout.CENTER</li></ol></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-15-5">
+          <h3>15.5 ประกอบหลาย JPanel และใช้ pack()</h3><p>หน้าจอจริงมักใช้ panel ซ้อนกัน แต่ละ panel ดูแล layout ส่วนของตัวเอง แล้วนำไปวางใน JFrame ที่ใช้ BorderLayout เป็นโครงหลัก</p>
+          <div class="example-box"><span class="box-title">จัด header, form และ footer แยกหน้าที่</span><pre><code>JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
+header.add(new JLabel("Student Form"));
+
+JPanel form = new JPanel(new GridLayout(2, 2, 8, 8));
+form.add(new JLabel("Name:"));
+form.add(new JTextField(16));
+form.add(new JLabel("Major:"));
+form.add(new JComboBox&lt;&gt;(new String[]{"CS", "IT"}));
+
+frame.add(header, BorderLayout.NORTH);
+frame.add(form, BorderLayout.CENTER);
+frame.pack();</code></pre><p>จัด panel ย่อยก่อน แล้วประกอบเข้าพื้นที่หลัก; pack ปรับขนาดหน้าต่างให้พอดีกับ component</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.5</span>หน้าจอค้นหาหนังสือ</h4><p>ออกแบบหน้าจอด้วย JPanel: ด้านบนมีช่องค้นหาและปุ่ม, ตรงกลางเป็นพื้นที่ผลลัพธ์เลื่อนดูได้ และใช้ pack กำหนดขนาดตามเนื้อหา</p><div class="answer-gate" data-answer-id="15.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวโครงสร้าง</h4><pre><code>JPanel searchBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+searchBar.add(new JTextField(18));
+searchBar.add(new JButton("Search"));
+JTextArea results = new JTextArea(8, 24);
+frame.add(searchBar, BorderLayout.NORTH);
+frame.add(new JScrollPane(results), BorderLayout.CENTER);
+frame.pack();</code></pre></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ร่าง component tree และเลือก layout ก่อนเขียน code</p><article class="end-exercise"><h3><span class="exercise-id">Exercise 15.6</span>ออกแบบฟอร์มลงทะเบียน</h3><p>สร้างหน้าต่างมีชื่อ, รหัสนักศึกษา, สาขา, หมายเหตุหลายบรรทัด และปุ่ม Clear/Submit แบ่งกลุ่มด้วย JPanel และใช้ JScrollPane กับหมายเหตุ</p><div class="answer-gate" data-answer-id="15.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โครงสร้างตัวอย่าง</h4><pre><code>JPanel form = new JPanel(new GridLayout(3, 2, 8, 8));
+form.add(new JLabel("Name:")); form.add(new JTextField(18));
+form.add(new JLabel("Student ID:")); form.add(new JTextField(18));
+form.add(new JLabel("Major:")); form.add(new JComboBox&lt;&gt;(majors));
+JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+buttons.add(new JButton("Clear")); buttons.add(new JButton("Submit"));
+frame.add(form, BorderLayout.CENTER);
+frame.add(new JScrollPane(new JTextArea(4, 20)), BorderLayout.SOUTH);
+frame.add(buttons, BorderLayout.PAGE_END);
+frame.pack();</code></pre><p>ในงานจริงอาจปรับ layout ย่อยเพื่อไม่ให้ footer ซ้ำ region กับ South</p></div></div></article></section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-14.html">← บทที่ 14</a><a class="pager-link" href="chapter-16.html">บทที่ 16: เหตุการณ์และปุ่ม →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 15 · Layout manager ช่วยจัดวางเมื่อหน้าต่างเปลี่ยนขนาด</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

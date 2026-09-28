@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 13: ArrayList และชุดข้อมูล | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 13"><p class="toc-label">บทที่ 13 · รายการที่ปรับขนาดได้</p><a href="#topic-13-1"><span class="toc-number">13.1</span>Array หรือ ArrayList</a><a href="#topic-13-2"><span class="toc-number">13.2</span>Generic type</a><a href="#topic-13-3"><span class="toc-number">13.3</span>เพิ่ม อ่าน แก้ข้อมูล</a><a href="#topic-13-4"><span class="toc-number">13.4</span>ลบและ index ที่เลื่อน</a><a href="#topic-13-5"><span class="toc-number">13.5</span>วนอ่านรายการ</a><a href="#topic-13-6"><span class="toc-number">13.6</span>เก็บ object ในรายการ</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">ใช้ List เมื่อจำนวนสมาชิกเปลี่ยนได้</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 13 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 13 · เลือกโครงสร้างเก็บข้อมูล</p><h1>ArrayList และชุดข้อมูล</h1><p>ใช้รายการที่เพิ่มหรือลบสมาชิกได้ เรียก operation ผ่าน method และเลือกโครงสร้างให้เหมาะกับจำนวนข้อมูลที่เปลี่ยนระหว่างโปรแกรมทำงาน</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบายความต่างระหว่าง array กับ ArrayList</li><li>ประกาศ generic type และเข้าใจ boxing เบื้องต้น</li><li>เพิ่ม อ่าน แก้ และลบสมาชิก</li><li>วนอ่าน List และเก็บ object ที่สร้างเอง</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-13"><h2 id="section-13">13. รายการข้อมูลที่โตและหดได้</h2><p>array มีความยาวคงที่หลังสร้าง ส่วน <code>ArrayList</code> เพิ่มและลบสมาชิกได้ เหมาะเมื่อยังไม่รู้จำนวนข้อมูลแน่นอน เช่น รายชื่อที่ผู้ใช้เพิ่มทีละรายการ</p>
+        <article class="subtopic" id="topic-13-1">
+          <h3>13.1 Array กับ ArrayList เลือกใช้อย่างไร</h3><p>ทั้งสองเก็บสมาชิกตามลำดับและเข้าถึงด้วย index แต่ใช้วิธีประกาศและจัดการขนาดต่างกัน Array มี <code>length</code>; ArrayList ใช้ <code>size()</code></p>
+          <table class="comparison-table"><thead><tr><th>หัวข้อ</th><th>Array</th><th>ArrayList</th></tr></thead><tbody><tr><td>ขนาด</td><td>กำหนดตอนสร้าง</td><td>เปลี่ยนตาม add/remove</td></tr><tr><td>จำนวนสมาชิก</td><td><code>length</code></td><td><code>size()</code></td></tr><tr><td>เข้าถึงสมาชิก</td><td><code>values[i]</code></td><td><code>values.get(i)</code></td></tr><tr><td>เหมาะกับ</td><td>จำนวนคงที่และโครงสร้างพื้นฐาน</td><td>รายการที่เพิ่ม/ลบบ่อย</td></tr></tbody></table>
+          <div class="example-box"><span class="box-title">ArrayList ปรับจำนวนสมาชิก</span><pre><code>import java.util.ArrayList;
+ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();
+names.add("Mali");
+names.add("Nida");
+System.out.println(names.size()); // 2</code></pre><p>เริ่มจากรายการว่าง แล้ว size เปลี่ยนตามจำนวนครั้งที่ add/remove</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 13.1</span>เลือกใช้ array หรือ ArrayList</h4><p>เลือกโครงสร้างให้เหมาะ: (1) เก็บชื่อเดือน 12 เดือนตลอดโปรแกรม (2) เก็บงานที่ผู้ใช้เพิ่มและลบได้ (3) เก็บผลการอ่าน 100 ช่องที่ทราบขนาดล่วงหน้า</p><div class="answer-gate" data-answer-id="13.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><ol><li>Array เหมาะกับจำนวนคงที่ 12 ค่า</li><li>ArrayList เหมาะเพราะสมาชิกเปลี่ยนได้</li><li>Array หรือ ArrayList ใช้ได้; ถ้าจำนวนรู้แน่นอนและไม่แก้ขนาด Array เรียบง่ายกว่า</li></ol></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-13-2">
+          <h3>13.2 Generic type และชนิดข้อมูลที่เก็บ</h3><p><code>ArrayList&lt;String&gt;</code> ระบุว่ารายการนี้เก็บ String เท่านั้น ช่วยให้ compiler ตรวจชนิดและไม่ต้อง cast ตอนอ่าน Generic type ใช้ reference type; สำหรับเลข primitive ใช้ wrapper class เช่น <code>Integer</code> แทน <code>int</code></p>
+          <div class="example-box"><span class="box-title">int ถูกแปลงเป็น Integer โดยอัตโนมัติ</span><pre><code>ArrayList&lt;Integer&gt; scores = new ArrayList&lt;&gt;();
+scores.add(90); // autoboxing: int → Integer
+int firstScore = scores.get(0); // unboxing: Integer → int</code></pre><p>เรียกสิ่งนี้ว่า autoboxing/unboxing; ถ้า List ว่างแล้วอ่าน get(0) จะเกิด <code>IndexOutOfBoundsException</code></p></div>
+          <div class="note-box"><span class="box-title">ระบุชนิดให้ตรงกับงาน</span><p>เลือก <code>ArrayList&lt;String&gt;</code> สำหรับข้อความ, <code>ArrayList&lt;Integer&gt;</code> สำหรับจำนวนเต็ม และ <code>ArrayList&lt;Student&gt;</code> สำหรับ object Student</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 13.2</span>ประกาศรายการอุณหภูมิ</h4><p>ประกาศ ArrayList สำหรับเก็บ double แล้วเพิ่มอุณหภูมิ 29.5 และ 31.0 พร้อมพิมพ์จำนวนรายการ</p><div class="answer-gate" data-answer-id="13.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.ArrayList;
+ArrayList&lt;Double&gt; temperatures = new ArrayList&lt;&gt;();
+temperatures.add(29.5);
+temperatures.add(31.0);
+System.out.println(temperatures.size()); // 2</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-13-3">
+          <h3>13.3 add, get, set และ size</h3><p>เพิ่มสมาชิกด้วย <code>add(value)</code>, อ่านด้วย <code>get(index)</code>, แก้สมาชิกด้วย <code>set(index, value)</code> และดูจำนวนด้วย <code>size()</code> โดย index เริ่มจาก 0 เหมือน array</p>
+          <div class="example-box"><span class="box-title">operation แต่ละตัวเปลี่ยนรายการอย่างไร</span><pre><code>ArrayList&lt;String&gt; tasks = new ArrayList&lt;&gt;();
+tasks.add("Read");       // [Read]
+tasks.add("Practice");   // [Read, Practice]
+tasks.set(0, "Review");  // [Review, Practice]
+System.out.println(tasks.get(1)); // Practice
+System.out.println(tasks.size()); // 2</code></pre></div>
+          <div class="note-box"><span class="box-title">get/set ที่ index ไม่มีจะเกิดอะไร?</span><p>ถ้า size เท่ากับ 2 จะเข้าถึง index 0 และ 1 ได้ การเรียก <code>get(2)</code> หรือ <code>set(2, ...)</code> เกิด <code>IndexOutOfBoundsException</code>; ถ้าต้องการเพิ่มท้าย List ให้ใช้ add</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 13.3</span>จัดรายการซื้อของ</h4><p>เพิ่ม <code>"Rice"</code> และ <code>"Eggs"</code>, เปลี่ยนสมาชิก index 0 เป็น <code>"Brown rice"</code> แล้วแสดงสมาชิกทั้งสอง</p><div class="answer-gate" data-answer-id="13.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>ArrayList&lt;String&gt; items = new ArrayList&lt;&gt;();
+items.add("Rice");
+items.add("Eggs");
+items.set(0, "Brown rice");
+System.out.println(items.get(0)); // Brown rice
+System.out.println(items.get(1)); // Eggs</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-13-4">
+          <h3>13.4 remove และ index ที่เลื่อน</h3><p><code>remove(index)</code> ลบสมาชิกตำแหน่งนั้น แล้วสมาชิกด้านขวาจะเลื่อนมาทางซ้ายหนึ่งตำแหน่ง size จึงลดลง 1</p>
+          <div class="example-box"><span class="box-title">ตำแหน่งหลังลบเปลี่ยน</span><pre><code>ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();
+names.add("A"); names.add("B"); names.add("C");
+names.remove(0);
+System.out.println(names); // [B, C]
+System.out.println(names.get(0)); // B</code></pre></div>
+          <div class="concept-box"><span class="box-title">remove กับ Integer มี overload</span><p>สำหรับ <code>ArrayList&lt;Integer&gt;</code>, <code>remove(1)</code> อาจหมายถึงลบที่ index 1; ถ้าต้องการลบค่า Integer 1 ให้ระบุ object ชัด ๆ ด้วย <code>Integer.valueOf(1)</code></p><pre><code>ArrayList&lt;Integer&gt; values = new ArrayList&lt;&gt;(List.of(1, 2, 1));
+values.remove(1); // ลบสมาชิก index 1 (ค่า 2)
+values.remove(Integer.valueOf(1)); // ลบ object ที่มีค่า 1 ตัวแรก</code></pre></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 13.4</span>ลบงานที่เสร็จแล้ว</h4><p>ในรายการ <code>["Draft", "Review", "Submit"]</code> ลบ <code>"Review"</code> ด้วย index แล้วพิมพ์รายการที่เหลือ</p><div class="answer-gate" data-answer-id="13.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>ArrayList&lt;String&gt; tasks = new ArrayList&lt;&gt;();
+tasks.add("Draft");
+tasks.add("Review");
+tasks.add("Submit");
+tasks.remove(1);
+System.out.println(tasks); // [Draft, Submit]</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-13-5">
+          <h3>13.5 วนอ่านรายการและลบอย่างปลอดภัย</h3><p>อ่านทุกสมาชิกได้ด้วย for-index หรือ enhanced for หากต้องลบระหว่างวนด้วย index ให้เริ่มจากท้ายมาหน้า เพื่อไม่ให้การเลื่อน index ทำให้ข้ามสมาชิกถัดไป</p>
+          <div class="example-box"><span class="box-title">ลบคะแนนที่ต่ำกว่า 50 จากท้าย</span><pre><code>for (int i = scores.size() - 1; i &gt;= 0; i--) {
+    if (scores.get(i) &lt; 50) {
+        scores.remove(i);
+    }
+}</code></pre><p>เมื่อเอาสมาชิก index สูงออก ตำแหน่งด้านหน้าที่เรายังไม่ตรวจจะไม่เปลี่ยน</p></div>
+          <div class="note-box"><span class="box-title">อย่าแก้ขนาดระหว่าง enhanced for</span><p>การ add/remove จาก List ระหว่าง enhanced for อาจทำให้เกิด <code>ConcurrentModificationException</code>; ใช้ index loop, สร้างรายการใหม่ หรือ Iterator เมื่อต้องลบระหว่างวน</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 13.5</span>ลบค่าซ้ำตามเงื่อนไข</h4><p>มี ArrayList คะแนนหลายค่า ลบคะแนนที่ต่ำกว่า 50 โดยห้ามข้ามสมาชิกที่เลื่อนตำแหน่ง</p><div class="answer-gate" data-answer-id="13.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>ArrayList&lt;Integer&gt; scores = new ArrayList&lt;&gt;(List.of(40, 45, 70, 30, 90));
+for (int i = scores.size() - 1; i &gt;= 0; i--) {
+    if (scores.get(i) &lt; 50) scores.remove(i);
+}
+System.out.println(scores); // [70, 90]</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-13-6">
+          <h3>13.6 เก็บ object ใน ArrayList</h3><p>ArrayList ใช้เก็บ object ที่สร้างเองได้ ทำให้รายการเป็นชุดข้อมูลของชนิดเดียวกัน เช่น Student หลายคน แล้วใช้ method ของแต่ละ object ทำงานต่อ</p>
+          <div class="example-box"><span class="box-title">วนแสดง Student ทุกคน</span><pre><code>ArrayList&lt;Student&gt; students = new ArrayList&lt;&gt;();
+students.add(new Student("Mali", 82));
+students.add(new Student("Nida", 95));
+for (Student student : students) {
+    student.printSummary();
+}</code></pre></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 13.6</span>รายการหนังสือ</h4><p>ใช้ <code>ArrayList&lt;Book&gt;</code> เก็บหนังสืออย่างน้อย 3 เล่ม แล้ววนแสดงชื่อทั้งหมด</p><div class="answer-gate" data-answer-id="13.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><p>ประกาศ <code>ArrayList&lt;Book&gt;</code>, add object ที่สร้างด้วย constructor แล้วใช้ enhanced for อ่าน <code>book.title</code> หรือเรียก <code>book.printDetails()</code></p></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ใช้ operation ของ List ให้เหมาะ และระวัง index ที่เปลี่ยนหลังลบสมาชิก</p>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 13.7</span>จัดการ playlist</h3><p>สร้างรายการเพลง เพิ่ม 4 เพลง, แก้ชื่อเพลงที่สอง, ลบเพลงที่สาม และแสดงรายการสุดท้ายพร้อม size</p><div class="answer-gate" data-answer-id="13.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>ArrayList&lt;String&gt; playlist = new ArrayList&lt;&gt;();
+playlist.add("Intro");
+playlist.add("Song A");
+playlist.add("Song B");
+playlist.add("Outro");
+playlist.set(1, "Song A - Remaster");
+playlist.remove(2);
+System.out.println(playlist);
+System.out.println("Size: " + playlist.size());</code></pre></div></div></article>
+        <article class="end-exercise"><h3><span class="exercise-id">Exercise 13.8</span>สรุปคะแนนและค้นหาผู้ผ่าน</h3><p>ใช้ ArrayList เก็บคะแนน, คำนวณค่าเฉลี่ย, นับจำนวนผู้ผ่าน และพิมพ์คะแนนที่สูงสุด</p><div class="answer-gate" data-answer-id="13.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><p>วน List หนึ่งรอบสะสมผลรวมและ passCount; ตั้ง maximum จากสมาชิกตัวแรกแล้วเปรียบเทียบค่าที่เหลือ; หารผลรวมด้วย <code>scores.size()</code> แบบ double เพื่อรักษาทศนิยม</p></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-12.html">← บทที่ 12</a><a class="pager-link" href="chapter-14.html">บทที่ 14: เริ่มต้นสร้าง GUI →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 13 · ใช้ ArrayList เมื่อจำนวนสมาชิกเปลี่ยนได้</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>

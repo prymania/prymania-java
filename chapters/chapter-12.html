@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f7f4">
+  <title>บทที่ 12: จัดระเบียบคลาสและปกป้องข้อมูล | Java programming by Prymania</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body>
+  <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
+  <div class="lesson-shell">
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 12"><p class="toc-label">บทที่ 12 · ออกแบบคลาสให้ดูแลง่าย</p><a href="#topic-12-1"><span class="toc-number">12.1</span>access modifier</a><a href="#topic-12-2"><span class="toc-number">12.2</span>encapsulation</a><a href="#topic-12-3"><span class="toc-number">12.3</span>validation และ invariant</a><a href="#topic-12-4"><span class="toc-number">12.4</span>composition</a><a href="#topic-12-5"><span class="toc-number">12.5</span>inheritance และ override</a><a href="#topic-12-6"><span class="toc-number">12.6</span>polymorphism</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">object ควรดูแล state ของตัวเอง</div>
+    </aside>
+    <main class="lesson-main" id="lesson-content">
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 12 / 19</span></div>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 12 · ปกป้องข้อมูลและแบ่งหน้าที่</p><h1>จัดระเบียบคลาสและปกป้องข้อมูล</h1><p>กำหนดขอบเขตการเข้าถึงข้อมูล ให้ object ตรวจการเปลี่ยน state และต่อยอดชนิดข้อมูลผ่าน composition หรือ inheritance</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เลือก access modifier ตามหน้าที่</li><li>ซ่อน field และเปิดพฤติกรรมผ่าน method</li><li>ตรวจข้อมูลเพื่อรักษา invariant</li><li>แยก composition ออกจาก inheritance</li><li>อธิบาย polymorphism จาก method override</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-12"><h2 id="section-12">12. ทำให้ class ปกป้องข้อมูลของตัวเอง</h2><p>ถ้าเปิด field ทุกตัวเป็น public โค้ดส่วนไหนก็เปลี่ยนค่าได้ ทำให้ object กลายเป็นสถานะที่ไม่สมเหตุผลได้ง่าย การออกแบบ class ที่ดีจำกัดจุดเปลี่ยนข้อมูลและให้ method เป็นผู้รักษากฎ</p>
+        <article class="subtopic" id="topic-12-1">
+          <h3>12.1 public, private และ protected</h3><p>access modifier กำหนดว่าโค้ดส่วนใดมองเห็นสมาชิกได้ บทนี้เน้น <code>private</code> เพื่อซ่อนรายละเอียดภายใน และ <code>public</code> สำหรับสิ่งที่ class อนุญาตให้ผู้ใช้เรียก</p>
+          <table class="comparison-table"><thead><tr><th>modifier</th><th>แนวคิด</th><th>ใช้เมื่อ</th></tr></thead><tbody><tr><td><code>private</code></td><td>ใช้ภายใน class เดียว</td><td>field/state และ helper ที่ไม่ควรให้ภายนอกเรียก</td></tr><tr><td>ไม่มี modifier</td><td>package-private</td><td>เข้าถึงได้จาก package เดียวกัน</td></tr><tr><td><code>protected</code></td><td>package และ subclass</td><td>เมื่อออกแบบ inheritance ให้ลูกใช้</td></tr><tr><td><code>public</code></td><td>เปิดให้เรียกจากที่อื่น</td><td>constructor และ public API</td></tr></tbody></table>
+          <div class="example-box"><span class="box-title">ไม่เปิด field โดยไม่จำเป็น</span><pre><code>class Student {
+    private String name;
+    private int score;
+
+    public void printSummary() {
+        System.out.println(name + ": " + score);
+    }
+}</code></pre><p>ภายนอกเรียก <code>printSummary()</code> ได้ แต่แก้ <code>score</code> ตรง ๆ ไม่ได้ ต้องผ่าน method ที่ class จัดเตรียมให้</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.1</span>เลือก field ที่ควร private</h4><p>class BankAccount เก็บเลขบัญชี, ยอดเงิน และชื่อเจ้าของ ระบุ field ที่ควร private และเหตุผล</p><div class="answer-gate" data-answer-id="12.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><p>ทั้งสาม field ควรเป็น private เพื่อไม่ให้โค้ดอื่นเปลี่ยนเลขบัญชี, ยอดเงิน หรือชื่อโดยข้ามกฎของ BankAccount เปิด public methods เฉพาะการอ่านหรือทำธุรกรรมที่อนุญาต</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-12-2">
+          <h3>12.2 Encapsulation: ให้ method ดูแล state</h3><p>encapsulation คือซ่อนรายละเอียดข้อมูลและควบคุมการใช้งานผ่าน public method ไม่ใช่แค่สร้าง getter/setter ให้ทุก field แบบอัตโนมัติ แต่เลือกเปิด operation ที่ผู้ใช้ควรทำจริง</p>
+          <div class="example-box"><span class="box-title">ยอดเงินเปลี่ยนผ่าน deposit และ withdraw</span><pre><code>class BankAccount {
+    private double balance;
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void deposit(double amount) {
+        if (amount &gt; 0) balance += amount;
+    }
+}</code></pre><p>ไม่มี <code>setBalance()</code> ให้กำหนดยอดเองโดยตรง; ยอดเปลี่ยนผ่านการฝากเงินที่มีเงื่อนไข</p></div>
+          <div class="note-box"><span class="box-title">getter ไม่จำเป็นต้องมีทุก field</span><p>เปิด getter เท่าที่ผู้เรียกจำเป็นต้องรู้ บางข้อมูลเป็นรายละเอียดภายใน ไม่ควรเปิดให้อ่านหรือแก้จากภายนอก</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.2</span>เติม method ถอนเงิน</h4><p>เขียน <code>withdraw(amount)</code> คืน boolean: ถอนสำเร็จเมื่อ amount เป็นบวกและยอดเงินพอ; มิฉะนั้นไม่เปลี่ยน balance และคืน false</p><div class="answer-gate" data-answer-id="12.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public boolean withdraw(double amount) {
+    if (amount &lt;= 0 || amount &gt; balance) {
+        return false;
+    }
+    balance -= amount;
+    return true;
+}</code></pre><p>ทุกการเปลี่ยน balance เกิดภายใน method ของ object</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-12-3">
+          <h3>12.3 Validation และ invariant</h3><p><strong>invariant</strong> คือกฎที่ object ต้องรักษาไว้เสมอ เช่น คะแนนอยู่ระหว่าง 0–100 หรือยอดคงเหลือไม่ติดลบ การตรวจควรอยู่ตรงจุดที่เปลี่ยน field เพื่อกันข้อมูลผิดตั้งแต่ต้น</p>
+          <div class="example-box"><span class="box-title">setter ที่ปฏิเสธคะแนนนอกช่วง</span><pre><code>class ExamResult {
+    private int score;
+
+    public boolean setScore(int score) {
+        if (score &lt; 0 || score &gt; 100) return false;
+        this.score = score;
+        return true;
+    }
+
+    public int getScore() { return score; }
+}</code></pre><p><code>this.score</code> คือ field; parameter ที่ชื่อ score คือค่าที่กำลังตรวจ</p></div>
+          <div class="note-box"><span class="box-title">ทำไมต้องตรวจที่ setter?</span><p>ถ้าตรวจเฉพาะตอนแสดงผล ค่าไม่ถูกต้องอาจถูกเก็บและส่งต่อไปคำนวณแล้ว ให้ตรวจตอนรับเข้าหรือเปลี่ยน state เพื่อคง invariant ให้จริงตลอดอายุ object</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.3</span>ควบคุมปริมาณสินค้า</h4><p>class Product มี quantity ที่ห้ามติดลบ เขียน method <code>setQuantity</code> คืน false เมื่อค่าใหม่ติดลบ และไม่เปลี่ยนค่าเดิม</p><div class="answer-gate" data-answer-id="12.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>private int quantity;
+public boolean setQuantity(int quantity) {
+    if (quantity &lt; 0) return false;
+    this.quantity = quantity;
+    return true;
+}</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-12-4">
+          <h3>12.4 Composition: object ประกอบด้วย object อื่น</h3><p>ใช้ composition เมื่อสิ่งหนึ่ง “มี” อีกสิ่งหนึ่ง เช่น Car มี Engine หรือ Order มีรายการสินค้า class เก็บ reference ของ object ที่เป็นส่วนประกอบและส่งงานให้ object นั้น</p>
+          <div class="example-box"><span class="box-title">รถมีเครื่องยนต์</span><pre><code>class Engine {
+    void start() { System.out.println("Engine started"); }
+}
+class Car {
+    private Engine engine;
+    Car(Engine engine) { this.engine = engine; }
+    void start() { engine.start(); }
+}</code></pre><p>Car ไม่ได้สืบทอดจาก Engine; Car มี Engine เป็นส่วนหนึ่ง</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.4</span>Order มีรายการสินค้า</h4><p>ออกแบบ class Order ที่เก็บรายการ Product หนึ่งรายการและจำนวน แล้วมี method คืนราคารวมของรายการ</p><div class="answer-gate" data-answer-id="12.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างแบบ</h4><pre><code>class Order {
+    private Product product;
+    private int quantity;
+    Order(Product product, int quantity) {
+        this.product = product;
+        this.quantity = quantity;
+    }
+    double total() {
+        return product.getPrice() * quantity;
+    }
+}</code></pre><p>Order ประกอบด้วย Product และใช้ข้อมูลราคาผ่าน public method</p></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-12-5">
+          <h3>12.5 Inheritance และ method override</h3><p>ใช้ inheritance เมื่อชนิดหนึ่งเป็นชนิดย่อยของอีกชนิด เช่น Dog เป็น Animal; class ลูกใช้ field/method ที่เปิดให้สืบทอดและ override method เพื่อกำหนดพฤติกรรมเฉพาะ</p>
+          <div class="example-box"><span class="box-title">class ลูกเปลี่ยนพฤติกรรม</span><pre><code>class Animal {
+    void speak() { System.out.println("..."); }
+}
+class Dog extends Animal {
+    @Override
+    void speak() { System.out.println("Woof"); }
+}</code></pre><p><code>@Override</code> ช่วยให้ compiler ตรวจว่าชื่อและ signature ตรงกับ method แม่จริง</p></div>
+          <div class="note-box"><span class="box-title">ใช้ inheritance เมื่อ “เป็นชนิดหนึ่งของ”</span><p>ถ้า relation เป็น “มีสิ่งหนึ่ง” ใช้ composition; อย่าใช้ inheritance แค่ต้องการ reuse code เพราะจะผูกโครงสร้าง class เข้าด้วยกันแน่นเกินไป</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.5</span>ชนิดย่อยของ Employee</h4><p>สร้าง class Manager extends Employee และ override method <code>describeRole()</code> ให้แสดงบทบาทผู้จัดการ</p><div class="answer-gate" data-answer-id="12.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>class Employee {
+    void describeRole() { System.out.println("Employee"); }
+}
+class Manager extends Employee {
+    @Override
+    void describeRole() { System.out.println("Manager"); }
+}</code></pre></div></div></div>
+        </article>
+        <article class="subtopic" id="topic-12-6">
+          <h3>12.6 Polymorphism: reference แม่เรียกพฤติกรรมลูก</h3><p>ตัวแปรชนิดแม่สามารถอ้าง object ชนิดลูกได้ เมื่อเรียก method ที่ถูก override Java เลือก implementation ตามชนิด object จริงขณะรัน เรียกว่า dynamic dispatch</p>
+          <div class="example-box"><span class="box-title">ชนิดตัวแปรกับชนิด object ต่างกันได้</span><pre><code>Animal animal = new Dog();
+animal.speak(); // Woof</code></pre><p>ตัวแปรประกาศเป็น Animal แต่ object จริงเป็น Dog จึงเรียก speak ของ Dog</p></div>
+          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.6</span>เรียกหลายรูปแบบผ่านชนิดแม่</h4><p>สร้าง Cat extends Animal ที่ override <code>speak()</code> แล้วเก็บ Dog และ Cat ลงใน array ชนิด Animal จากนั้นวนเรียก speak</p><div class="answer-gate" data-answer-id="12.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>class Cat extends Animal {
+    @Override
+    void speak() { System.out.println("Meow"); }
+}
+Animal[] pets = {new Dog(), new Cat()};
+for (Animal pet : pets) pet.speak();</code></pre><p>แม้ reference ใน array เป็น Animal แต่ method ที่ทำงานตามชนิดจริงคือ Dog.speak และ Cat.speak</p></div></div></div>
+        </article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>เลือกความสัมพันธ์ class ให้ถูก: “มี” ใช้ composition; “เป็นชนิดย่อย” จึงพิจารณา inheritance</p>
+        <article class="end-exercise"><h3>ออกแบบระบบร้านค้าอย่างย่อ</h3><p>มี Product ที่ปกป้องราคาไม่ให้ติดลบ และ Order ที่มี Product กับจำนวนเพื่อคำนวณยอดรวม อธิบายว่า class ใดเป็น composition และควรเปิด method ใดให้ผู้ใช้เรียก</p></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-11.html">← บทที่ 11</a><a class="pager-link" href="chapter-13.html">บทที่ 13: ArrayList →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 12 · ซ่อน state แล้วเปิดเฉพาะ operation ที่ class อนุญาต</footer>
+    </main>
+  </div>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+</body>
+</html>
