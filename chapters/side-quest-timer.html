@@ -10,54 +10,658 @@
 <body>
   <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
   <div class="lesson-shell">
-    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน"><a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">SIDE QUEST</span></span></a><nav class="lesson-toc" aria-label="สารบัญบทเสริม Timer"><p class="toc-label">บทเสริม · Timer และ Thread</p><a href="#topic-timer-1"><span class="toc-number">S2.1</span>Event Dispatch Thread</a><a href="#topic-timer-2"><span class="toc-number">S2.2</span>Swing Timer</a><a href="#topic-timer-3"><span class="toc-number">S2.3</span>งานเบื้องหลัง</a><a href="#topic-timer-4"><span class="toc-number">S2.4</span>เลือกเครื่องมือและทดสอบ</a></nav><div class="sidebar-bottom">อย่าบล็อก event thread</div></aside>
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทเสริม Timer"><p class="toc-label">บทเสริม · Timer และ Thread</p><a href="#topic-S2-1"><span class="toc-number">S2.1</span>Event Dispatch Thread</a><a href="#topic-S2-2"><span class="toc-number">S2.2</span>Swing Timer</a><a href="#topic-S2-3"><span class="toc-number">S2.3</span>งานเบื้องหลัง</a><a href="#topic-S2-4"><span class="toc-number">S2.4</span>เลือกเครื่องมือและทดสอบ</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">งานนานไปทำเบื้องหลัง อัปเดต UI บน EDT</div>
+    </aside>
     <main class="lesson-main" id="lesson-content">
-      <div class="utility-row"><a href="../index.html#extras">← บทเสริม</a><span class="utility-code">SIDE QUEST 02</span></div>
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">SIDE QUEST 02</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทเสริม · งานตามเวลาและงานเบื้องหลัง</p><h1>Timer, Thread และ Swing</h1><p>ทำความเข้าใจว่าทำไม GUI ค้างเมื่อทำงานนานบน event thread และเลือกเครื่องมือที่เหมาะกับนาฬิกานับถอยหลังหรืองานเบื้องหลัง</p></header>
-      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบายบทบาทของ Event Dispatch Thread</li><li>ใช้ javax.swing.Timer สำหรับ event ตามช่วงเวลา</li><li>แยกงานที่ใช้เวลานานไปทำเบื้องหลัง</li><li>อัปเดต Swing component บน EDT เท่านั้น</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-timer"><h2 id="section-timer">ให้หน้าต่างตอบสนองเสมอ</h2><p>Swing event handler ทำงานบน Event Dispatch Thread (EDT) ซึ่งมีหน้าที่รับ event และวาด/อัปเดต UI ถ้า handler หยุดรอนาน event อื่นและการวาดหน้าจอจะรอไปด้วย</p>
-        <article class="subtopic" id="topic-timer-1"><h3>S2.1 Event Dispatch Thread ทำอะไร</h3><p>EDT จัดการ event ของ Swing ตามลำดับ รวมทั้ง listener และการอัปเดต component จึงควรทำงานบน thread นี้ให้สั้น ไม่วนรอหรือทำ network ที่ใช้เวลานาน</p><div class="concept-box"><span class="box-title">ผลของการ block EDT</span><ul><li>ปุ่มอื่นไม่ตอบสนองระหว่าง handler ทำงาน</li><li>หน้าต่างอาจวาดใหม่ไม่ได้และแสดงเป็นภาพค้าง</li><li>event ที่รออยู่จะถูกประมวลผลช้า</li></ul></div><div class="example-box"><span class="box-title">เริ่มสร้าง Swing UI บน EDT</span><pre><code>SwingUtilities.invokeLater(() -&gt; {
-    JFrame frame = new JFrame("Timer Demo");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(360, 180);
-    frame.setLocationRelativeTo(null);
-    frame.setVisible(true);
-});</code></pre><p>invokeLater ส่งงานสร้าง UI เข้า queue ของ EDT</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S2.1</span>หาสาเหตุหน้าต่างค้าง</h4><p>อธิบายว่าทำไมปุ่มที่มี <code>Thread.sleep(5000)</code> ใน ActionListener จึงทำให้หน้าต่างไม่ตอบสนองชั่วคราว</p><div class="answer-gate" data-answer-id="S2.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านข้อ S2.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><p>ActionListener รันบน EDT; sleep หยุด thread นี้ห้าวินาที จึงไม่มีการประมวลผล click/paint event อื่นจนกว่าจะตื่น</p></div></div></div></article>
-        <article class="subtopic" id="topic-timer-2"><h3>S2.2 javax.swing.Timer สำหรับ event ตามช่วง</h3><p>Swing Timer เรียก ActionListener ตาม delay ที่กำหนด และ handler ทำงานบน EDT เหมาะกับนาฬิกานับถอยหลังหรืออัปเดตสถานะสั้น ๆ ไม่เหมาะกับการทำงานหนักในแต่ละ tick</p><div class="example-box"><span class="box-title">นับถอยหลังและหยุดเมื่อครบ</span><pre><code>int[] seconds = {10};
-Timer timer = new Timer(1000, event -&gt; {
-    seconds[0]--;
-    timeLabel.setText("Seconds: " + seconds[0]);
-    if (seconds[0] == 0) {
-        ((Timer) event.getSource()).stop();
-    }
-});
-timer.setInitialDelay(0);
-timer.start();</code></pre><p>delay มีหน่วยเป็น milliseconds; tick เกิดทุกประมาณ 1000 ms ไม่ได้รับประกันเวลา real-time แบบแม่นยำเมื่อ EDT กำลังยุ่ง</p></div><div class="note-box"><span class="box-title">หยุด timer เมื่อไม่ใช้</span><p>เรียก <code>stop()</code> เมื่อจบหรือออกจาก view เพื่อไม่ให้ timer ทำงานต่อโดยไม่จำเป็น</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S2.2</span>อัปเดตนาฬิกาทุกวินาที</h4><p>ใช้ Swing Timer เพิ่มตัวนับจาก 0 และแสดงค่าใน JLabel ทุกหนึ่งวินาที; ปุ่ม Stop หยุด timer</p><div class="answer-gate" data-answer-id="S2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านข้อ S2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่าง</h4><pre><code>int[] seconds = {0};
-Timer timer = new Timer(1000, event -&gt; {
-    seconds[0]++;
-    label.setText("Seconds: " + seconds[0]);
-});
-stopButton.addActionListener(event -&gt; timer.stop());
-timer.start();</code></pre></div></div></div></article>
-        <article class="subtopic" id="topic-timer-3"><h3>S2.3 งานที่ใช้เวลานานทำเบื้องหลัง</h3><p>งานเช่นอ่านไฟล์ใหญ่หรือเรียก network ไม่ควรทำบน EDT ใช้ worker thread หรือ SwingWorker ทำงานเบื้องหลัง ส่วนการแสดงผล component ให้กลับมาทำบน EDT</p><div class="example-box"><span class="box-title">ใช้ SwingWorker สำหรับงานเบื้องหลัง</span><pre><code>new SwingWorker&lt;String, Void&gt;() {
-    @Override
-    protected String doInBackground() throws Exception {
-        return loadData(); // งานที่ใช้เวลานาน
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบายบทบาทของ Event Dispatch Thread</li><li>ใช้ javax.swing.Timer สำหรับ event ตามช่วงเวลา</li><li>แยกงานที่ใช้เวลานานไปทำเบื้องหลังด้วย Thread และ SwingWorker</li><li>อัปเดต Swing component บน EDT เท่านั้น</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">ให้หน้าต่างตอบสนองเสมอ</h2>
+        <p>Swing event handler ทำงานบน <strong>Event Dispatch Thread (EDT)</strong> ซึ่งมีหน้าที่รับ event และวาด/อัปเดต UI ถ้า handler หยุดรอนาน event อื่นและการวาดหน้าจอจะรอไปด้วย บทนี้เริ่มจาก thread ใน console เพื่อเข้าใจแนวคิด แล้วจึงนำไปใช้กับ Swing ภาพหน้าต่างถ่ายหลังโปรแกรมทำงานไประยะหนึ่ง (ระบุเวลาในคำบรรยายภาพ)</p>
+<article class="subtopic" id="topic-S2-1">
+<h3>S2.1 Thread และ Event Dispatch Thread</h3>
+<p><strong>Thread</strong> คือเส้นทางการทำงานหนึ่งเส้นในโปรแกรม โปรแกรมทั่วไปเริ่มด้วย thread ชื่อ main โปรแกรม Swing มีอีก thread คือ EDT ที่รอ event และวาดหน้าจอ เราสร้าง thread เพิ่มเพื่อทำงานพร้อมกันได้</p>
+<div class="source-example"><h4>ตัวอย่าง S2.1.1 · สอง thread ทำงานสลับกัน (console) <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง Thread ด้วย lambda แล้ว <code>start()</code> — main และ worker ทำงานคู่ขนาน <code>join()</code> รอให้ worker จบก่อนทำต่อ</p><div class="source-example-grid"><div class="source-field"><span>Java source · TwoThreads.java</span><pre class="source-code">public class TwoThreads {
+    public static void main(String[] args) throws InterruptedException {
+        Thread worker = new Thread(() -&gt; {
+            for (int i = 1; i &lt;= 3; i++) {
+                System.out.println("worker step " + i);
+                sleep(120);
+            }
+        });
+        worker.start();
+        for (int i = 1; i &lt;= 3; i++) {
+            System.out.println("main step " + i);
+            sleep(100);
+        }
+        worker.join();
+        System.out.println("both finished");
     }
 
-    @Override
-    protected void done() {
-        try {
-            resultLabel.setText(get());
-        } catch (Exception error) {
-            resultLabel.setText("Load failed");
+    static void sleep(int ms) {
+        try { Thread.sleep(ms); } catch (InterruptedException e) { }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>worker step 1
+main step 1
+main step 2
+worker step 2
+main step 3
+worker step 3
+both finished</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>start() เริ่ม thread ใหม่ทันที main ไม่รอ</li><li>ข้อความของสอง thread สลับกัน ลำดับอาจต่างเล็กน้อยในแต่ละครั้งที่รัน</li><li>join() ทำให้ main รอ worker จบก่อนพิมพ์ “both finished”</li></ol></div></div>
+<div class="source-example"><h4>ทดลองบั๊ก S2.1.2 · Thread.sleep บน EDT ทำหน้าต่างค้าง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> listener เปลี่ยนข้อความเป็น Working... แล้ว sleep 2 วินาที — แต่หน้าจอไม่ได้วาดข้อความนั้นเลย เพราะ EDT ถูกบล็อก ปุ่มยังค้างในสถานะถูกกด</p><div class="source-example-grid"><div class="source-field"><span>Java source · FrozenUi.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class FrozenUi {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Frozen");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel status = new JLabel("Idle", SwingConstants.CENTER);
+            JButton start = new JButton("Start (blocking)");
+            start.addActionListener(e -&gt; {
+                status.setText("Working...");
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException ex) { }
+                status.setText("Done");
+            });
+            frame.add(status, BorderLayout.CENTER);
+            frame.add(start, BorderLayout.SOUTH);
+            frame.setSize(260, 120);
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ภาพแรกที่จับได้หลังคลิก — ได้เมื่อ EDT ว่างแล้วเท่านั้น (หลัง 2 วินาที)</p><figure class="gui-shot"><div class="gui-titlebar">Frozen</div><img src="../assets/gui/gf307fb13ff-0.png" width="244" height="81" alt="ภาพหน้าต่าง Frozen" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>setText("Working...") แค่บันทึกว่าต้องวาดใหม่ การวาดจริงทำโดย EDT ภายหลัง</li><li>แต่ EDT กำลัง sleep อยู่ใน listener จึงไม่มีโอกาสวาด</li><li>แม้แต่โปรแกรมที่ใช้ถ่ายภาพหน้าจอนี้ก็ต้องรอ EDT ว่าง — ภาพแรกที่ได้จึงเป็น Done ทันที ไม่เคยมีจังหวะที่หน้าจอแสดง Working...</li><li>ระหว่าง 2 วินาทีนั้นหน้าต่างไม่ตอบสนอง ย้าย/ย่อ/กดปุ่มไม่ได้</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ทำไมค้าง</strong><div><p>ถ้าระหว่าง listener ข้างต้น sleep ผู้ใช้คลิกปุ่มอื่นอีก 3 ครั้ง จะเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>การคลิกถูกเก็บไว้ในคิว event และจะถูกประมวลผลต่อกันทันทีหลัง listener แรกจบ — ผู้ใช้จะรู้สึกว่าโปรแกรมไม่ตอบสนองแล้วกระตุก</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-S2-2">
+<h3>S2.2 javax.swing.Timer: งานตามช่วงเวลา</h3>
+<p><code>new Timer(delayMs, listener)</code> เรียก listener ซ้ำทุก delay มิลลิวินาที <strong>บน EDT</strong> จึงแก้ component ได้ปลอดภัยและไม่บล็อกหน้าจอระหว่างรอ ใช้กับนาฬิกา นับถอยหลัง แอนิเมชันง่าย ๆ (ระวัง: ใช้ <code>javax.swing.Timer</code> ไม่ใช่ <code>java.util.Timer</code>)</p>
+<div class="source-example"><h4>ตัวอย่าง S2.2.1 · นับถอยหลัง 10 วินาที <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Timer ทุก 1000 ms ลดตัวเลขทีละ 1 และหยุดตัวเองด้วย <code>timer.stop()</code> เมื่อถึง 0</p><div class="source-example-grid"><div class="source-field"><span>Java source · Countdown.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class Countdown {
+    private static int seconds = 10;
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Countdown");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel label = new JLabel("10", SwingConstants.CENTER);
+            label.setFont(new Font("SansSerif", Font.BOLD, 40));
+            JButton start = new JButton("Start");
+            Timer timer = new Timer(1000, null);
+            timer.addActionListener(e -&gt; {
+                seconds--;
+                label.setText(String.valueOf(seconds));
+                if (seconds == 0) {
+                    timer.stop();
+                    label.setText("Time's up!");
+                    start.setEnabled(true);
+                }
+            });
+            start.addActionListener(e -&gt; {
+                seconds = 10;
+                label.setText("10");
+                start.setEnabled(false);
+                timer.start();
+            });
+            frame.add(label, BorderLayout.CENTER);
+            frame.add(start, BorderLayout.SOUTH);
+            frame.setSize(240, 160);
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 3 วินาทีหลังคลิก Start</p><figure class="gui-shot"><div class="gui-titlebar">Countdown</div><img src="../assets/gui/g09f455837e-0.png" width="224" height="121" alt="ภาพหน้าต่าง Countdown" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สร้าง Timer ก่อน แล้วเพิ่ม listener ทีหลังเพื่อให้ lambda อ้างถึงตัวแปร timer ได้</li><li>ทุกวินาที listener ทำงานบน EDT และแก้ label ได้ตรง ๆ</li><li>ระหว่างรอระหว่าง tick หน้าต่างยังตอบสนองปกติ</li><li>ปุ่ม Start ปิดระหว่างนับ ป้องกันเริ่มซ้อน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง S2.2.2 · นาฬิกาจับเวลา Start / Stop / Reset <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ Timer ถี่ (100 ms) เพื่อแสดงทศนิยม แต่คำนวณเวลาจริงจาก <code>System.currentTimeMillis()</code> — แม่นกว่าการนับ tick เพราะ Timer อาจมาช้าเล็กน้อย</p><div class="source-example-grid"><div class="source-field"><span>Java source · Stopwatch.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class Stopwatch {
+    private static long startMillis;
+    private static long accumulated = 0;
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Stopwatch");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel display = new JLabel("0.0 s", SwingConstants.CENTER);
+            display.setFont(new Font("Monospaced", Font.BOLD, 32));
+            Timer timer = new Timer(100, e -&gt; {
+                long elapsed = accumulated + System.currentTimeMillis() - startMillis;
+                display.setText(String.format("%.1f s", elapsed / 1000.0));
+            });
+            JButton start = new JButton("Start");
+            JButton stop = new JButton("Stop");
+            JButton reset = new JButton("Reset");
+            start.addActionListener(e -&gt; {
+                if (!timer.isRunning()) {
+                    startMillis = System.currentTimeMillis();
+                    timer.start();
+                }
+            });
+            stop.addActionListener(e -&gt; {
+                if (timer.isRunning()) {
+                    timer.stop();
+                    accumulated += System.currentTimeMillis() - startMillis;
+                }
+            });
+            reset.addActionListener(e -&gt; {
+                timer.stop();
+                accumulated = 0;
+                display.setText("0.0 s");
+            });
+            JPanel buttons = new JPanel();
+            buttons.add(start);
+            buttons.add(stop);
+            buttons.add(reset);
+            frame.add(display, BorderLayout.CENTER);
+            frame.add(buttons, BorderLayout.SOUTH);
+            frame.setSize(260, 150);
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">Start แล้ว Stop หลังประมาณ 1.6 วินาที</p><figure class="gui-shot"><div class="gui-titlebar">Stopwatch</div><img src="../assets/gui/gc4d23b42a3-0.png" width="244" height="111" alt="ภาพหน้าต่าง Stopwatch" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>accumulated เก็บเวลารวมของช่วงก่อนหน้า ทำให้ Start ต่อหลัง Stop ได้</li><li>timer.isRunning() ป้องกันกด Start ซ้ำ</li><li>ตัวเลขในภาพอาจต่างเล็กน้อยจาก 1.6 ตามจังหวะเวลาของเครื่อง</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง S2.2.3 · แอนิเมชัน: แถบความคืบหน้าและสีที่เปลี่ยน <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Timer 50 ms เพิ่มค่า JProgressBar ทีละ 2% และเปลี่ยนสีตามช่วง — เป็นพื้นฐานของแอนิเมชันใน Swing</p><div class="source-example-grid"><div class="source-field"><span>Java source · ProgressAnimation.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class ProgressAnimation {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Loading");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JProgressBar bar = new JProgressBar(0, 100);
+            bar.setStringPainted(true);
+            JLabel status = new JLabel("Starting...", SwingConstants.CENTER);
+            Timer timer = new Timer(50, null);
+            timer.addActionListener(e -&gt; {
+                int v = bar.getValue() + 2;
+                bar.setValue(v);
+                bar.setForeground(v &lt; 40 ? new Color(200, 80, 60) : v &lt; 80 ? new Color(230, 160, 30) : new Color(60, 160, 60));
+                status.setText(v &lt; 100 ? "Loading course data..." : "Ready!");
+                if (v &gt;= 100) timer.stop();
+            });
+            timer.start();
+            JPanel p = new JPanel(new GridLayout(2, 1, 6, 6));
+            p.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+            p.add(bar);
+            p.add(status);
+            frame.setContentPane(p);
+            frame.setSize(300, 120);
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 1.3 วินาทีหลังเปิดโปรแกรม</p><figure class="gui-shot"><div class="gui-titlebar">Loading</div><img src="../assets/gui/g0f071d4d81-0.png" width="284" height="81" alt="ภาพหน้าต่าง Loading" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ทุก 50 ms เพิ่ม 2% → ครบ 100% ในประมาณ 2.5 วินาที</li><li>ภาพที่ประมาณ 1.3 วินาทีจึงอยู่ราวครึ่งทาง</li><li>สีเปลี่ยนจากแดง → ส้ม → เขียว ตามค่า</li><li>timer.stop() เมื่อครบ</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · Timer</strong><div><p>ถ้าใช้ <code>while (seconds &gt; 0) { Thread.sleep(1000); seconds--; label.setText(...); }</code> ใน listener ของปุ่ม แทนการใช้ Timer จะเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>หน้าต่างค้าง 10 วินาทีและไม่เห็นตัวเลขเปลี่ยนระหว่างนั้น เพราะลูปบล็อก EDT — Timer แบ่งงานเป็นชิ้นสั้น ๆ ทำให้ EDT ว่างวาดหน้าจอระหว่างแต่ละ tick</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-S2-3">
+<h3>S2.3 งานเบื้องหลังด้วย SwingWorker</h3>
+<p>งานที่ใช้เวลานานจริง ๆ (คำนวณหนัก อ่านไฟล์ใหญ่ ดาวน์โหลด) ต้องทำบน thread อื่น แต่<strong>ห้ามแก้ component จาก thread นั้น</strong> <code>SwingWorker&lt;T, V&gt;</code> จัดการให้: <code>doInBackground()</code> ทำงานบน thread เบื้องหลัง, <code>publish()</code>/<code>process()</code> ส่งความคืบหน้ากลับมาบน EDT, และ <code>done()</code> ทำงานบน EDT เมื่อเสร็จ</p>
+<div class="concept-box"><span class="box-title">เมธอดของ SwingWorker ทำงานบน thread ไหน</span><pre><code>worker.execute()
+    │
+    ├── doInBackground()   ← background thread  (ห้ามแตะ component)
+    │      publish(x) ───┐
+    │                    ▼
+    ├── process(chunks)   ← EDT  (อัปเดต progress ได้)
+    │
+    └── done()            ← EDT  (เรียก get() เอาผลลัพธ์ แล้วแสดงผล)</code></pre></div>
+<div class="source-example"><h4>ตัวอย่าง S2.3.1 · นับจำนวนเฉพาะเบื้องหลังพร้อม progress <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หน้าต่างยังตอบสนองระหว่างคำนวณ ความคืบหน้าส่งผ่าน <code>setProgress</code> ซึ่ง SwingWorker แจ้ง listener บน EDT ให้อัตโนมัติ</p><div class="source-example-grid"><div class="source-field"><span>Java source · PrimeWorkerDemo.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class PrimeWorkerDemo {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Background work");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JProgressBar bar = new JProgressBar(0, 100);
+            bar.setStringPainted(true);
+            JLabel result = new JLabel("Primes below 2,000,000: ?", SwingConstants.CENTER);
+            JButton go = new JButton("Count primes");
+            go.addActionListener(e -&gt; {
+                go.setEnabled(false);
+                SwingWorker&lt;Integer, Void&gt; worker = new SwingWorker&lt;&gt;() {
+                    @Override
+                    protected Integer doInBackground() {
+                        int limit = 2_000_000, count = 0;
+                        for (int n = 2; n &lt; limit; n++) {
+                            if (isPrime(n)) count++;
+                            if (n % 20_000 == 0) setProgress(n * 100 / limit);
+                        }
+                        return count;
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            result.setText(String.format("Primes below 2,000,000: %,d", get()));
+                        } catch (Exception ex) {
+                            result.setText("Error: " + ex.getMessage());
+                        }
+                        bar.setValue(100);
+                        go.setEnabled(true);
+                    }
+                };
+                worker.addPropertyChangeListener(ev -&gt; {
+                    if ("progress".equals(ev.getPropertyName())) bar.setValue((Integer) ev.getNewValue());
+                });
+                worker.execute();
+            });
+            JPanel p = new JPanel(new GridLayout(3, 1, 6, 6));
+            p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            p.add(go);
+            p.add(bar);
+            p.add(result);
+            frame.setContentPane(p);
+            frame.setSize(320, 150);
+            frame.setVisible(true);
+        });
+    }
+
+    static boolean isPrime(int n) {
+        for (int d = 2; (long) d * d &lt;= n; d++) if (n % d == 0) return false;
+        return true;
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 2.5 วินาทีหลังคลิก (งานเสร็จแล้ว)</p><figure class="gui-shot"><div class="gui-titlebar">Background work</div><img src="../assets/gui/g03f6fdf2ee-0.png" width="304" height="111" alt="ภาพหน้าต่าง Background work" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>doInBackground ทำงานบน thread อื่น ไม่แตะ component เลย</li><li>setProgress (0–100) ปลอดภัยที่จะเรียกจาก background — listener ได้รับบน EDT</li><li>done() ทำงานบน EDT: get() เอาผลลัพธ์แล้วแสดง</li><li>ระหว่างคำนวณ ผู้ใช้ยังย้ายหน้าต่างหรือคลิกส่วนอื่นได้</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง S2.3.2 · invokeLater: ส่งงานกลับมาที่ EDT จาก Thread ธรรมดา <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าใช้ Thread เองแทน SwingWorker ทุกการแก้ component ต้องห่อด้วย <code>SwingUtilities.invokeLater</code> เพื่อส่งงานนั้นกลับไปทำบน EDT</p><div class="source-example-grid"><div class="source-field"><span>Java source · ManualThreadDemo.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class ManualThreadDemo {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Fake download");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            DefaultListModel&lt;String&gt; log = new DefaultListModel&lt;&gt;();
+            JButton download = new JButton("Download");
+            download.addActionListener(e -&gt; {
+                download.setEnabled(false);
+                new Thread(() -&gt; {
+                    for (int part = 1; part &lt;= 4; part++) {
+                        try { Thread.sleep(250); } catch (InterruptedException ex) { return; }
+                        final int p = part;
+                        SwingUtilities.invokeLater(() -&gt; log.addElement("received part " + p + "/4"));
+                    }
+                    SwingUtilities.invokeLater(() -&gt; {
+                        log.addElement("download complete");
+                        download.setEnabled(true);
+                    });
+                }).start();
+            });
+            frame.add(new JScrollPane(new JList&lt;&gt;(log)), BorderLayout.CENTER);
+            frame.add(download, BorderLayout.SOUTH);
+            frame.setSize(260, 170);
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 1.5 วินาทีหลังคลิก</p><figure class="gui-shot"><div class="gui-titlebar">Fake download</div><img src="../assets/gui/g33d29ef1de-0.png" width="244" height="131" alt="ภาพหน้าต่าง Fake download" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Thread ใหม่ sleep ได้โดยไม่บล็อกหน้าจอ</li><li>แต่การ addElement ต้องทำบน EDT จึงห่อด้วย invokeLater</li><li><code>final int p = part</code> เพราะ lambda ใช้ได้เฉพาะตัวแปรที่ไม่เปลี่ยนค่า (effectively final)</li><li>SwingWorker มักง่ายและปลอดภัยกว่าวิธีนี้</li></ol></div></div>
+</article>
+<article class="subtopic" id="topic-S2-4">
+<h3>S2.4 เลือกเครื่องมือและทดสอบ</h3>
+<table class="comparison-table"><thead><tr><th>สถานการณ์</th><th>เครื่องมือ</th><th>เหตุผล</th></tr></thead><tbody><tr><td>อัปเดตทุก n มิลลิวินาที (นาฬิกา, นับถอยหลัง, แอนิเมชัน)</td><td><code>javax.swing.Timer</code></td><td>ทำงานบน EDT แก้ UI ได้ตรง ๆ</td></tr><tr><td>งานนานครั้งเดียวแล้วแสดงผล</td><td><code>SwingWorker</code></td><td>แยก background/EDT ให้ชัด มี progress และ done()</td></tr><tr><td>งานเบื้องหลังที่ไม่เกี่ยวกับ UI (console)</td><td><code>Thread</code></td><td>ง่ายที่สุด</td></tr><tr><td>ส่งงานจาก thread อื่นมาแก้ UI</td><td><code>SwingUtilities.invokeLater</code></td><td>รับประกันว่าทำบน EDT</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง S2.4.1 · แยก logic เวลาออกจาก Timer เพื่อทดสอบ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>CountdownModel</code> ไม่รู้จัก Timer หรือ Swing — มีแค่เมธอด tick() ทดสอบได้ทันทีโดยไม่ต้องรอเวลาจริง แล้วค่อยให้ Timer เรียก tick() ในแอปจริง</p><div class="source-example-grid"><div class="source-field"><span>Java source · CountdownModelTest.java</span><pre class="source-code">public class CountdownModelTest {
+    public static void main(String[] args) {
+        CountdownModel m = new CountdownModel(3);
+        System.out.println("start: " + m.display() + " finished=" + m.isFinished());
+        for (int i = 0; i &lt; 5; i++) {
+            m.tick();
+            System.out.println("tick " + (i + 1) + ": " + m.display() + " finished=" + m.isFinished());
+        }
+        CountdownModel long1 = new CountdownModel(125);
+        System.out.println("125 s shows " + long1.display());
+    }
+}
+
+class CountdownModel {
+    private int remaining;
+
+    CountdownModel(int seconds) { remaining = seconds; }
+
+    void tick() {
+        if (remaining &gt; 0) remaining--;
+    }
+
+    boolean isFinished() { return remaining == 0; }
+
+    String display() {
+        return String.format("%02d:%02d", remaining / 60, remaining % 60);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>start: 00:03 finished=false
+tick 1: 00:02 finished=false
+tick 2: 00:01 finished=false
+tick 3: 00:00 finished=true
+tick 4: 00:00 finished=true
+tick 5: 00:00 finished=true
+125 s shows 02:05</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>tick ไม่ลดต่ำกว่า 0 แม้ถูกเรียกเกิน</li><li>display จัดรูปแบบนาที:วินาที</li><li>ทดสอบ 5 tick ได้ในพริบตา ไม่ต้องรอ 5 วินาที</li></ol></div></div>
+<div class="note-box"><span class="box-title">Checklist เมื่อใช้ thread กับ Swing</span><ul><li>ไม่มี Thread.sleep หรือลูปยาวใน listener</li><li>ไม่แก้ component จาก thread อื่นโดยไม่ผ่าน invokeLater / SwingWorker</li><li>ปิดปุ่มเริ่มระหว่างทำงาน ป้องกันเริ่มงานซ้อน</li><li>หยุด Timer เมื่อไม่ใช้ (stop) เพื่อไม่ให้ทำงานค้างเบื้องหลัง</li></ul></div>
+</article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ข้อที่เป็น GUI ภาพตัวอย่างถ่ายหลังจากโปรแกรมทำงานตามเวลาที่ระบุ ตัวเลขที่เกี่ยวกับเวลาอาจต่างเล็กน้อยเมื่อรันบนเครื่องของนิสิต</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise S2.1</span>หาสาเหตุหน้าต่างค้าง<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>อธิบายว่าทำไมปุ่มที่มี <code>Thread.sleep(5000)</code> ใน ActionListener จึงทำให้หน้าต่างค้าง แล้วเขียนโปรแกรม console ที่สาธิตแนวคิดเดียวกัน: thread หลักทำงานยาว 3 รอบ (รอบละ 200 ms) ขณะที่ thread “ui” พยายามพิมพ์ “refresh” ทุก 100 ms — เวอร์ชันแรกทำงานต่อกันใน thread เดียว เวอร์ชันที่สองแยกเป็นสอง thread ให้เห็นความต่าง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ Thread และ join()</li><li>แสดงผลทั้งสองเวอร์ชันพร้อมหัวข้อ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>== single thread ==
+working 1
+working 2
+working 3
+refresh (late)
+refresh (late)
+refresh (late)
+== two threads ==
+working 1
+refresh
+refresh
+working 2
+refresh
+refresh
+working 3
+refresh
+refresh</pre></div><div class="answer-gate" data-answer-id="S2.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S2.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class BlockingDemo {
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("== single thread ==");
+        longWork();
+        for (int i = 0; i &lt; 3; i++) System.out.println("refresh (late)");
+
+        System.out.println("== two threads ==");
+        Thread ui = new Thread(() -&gt; {
+            for (int i = 0; i &lt; 6; i++) {
+                System.out.println("refresh");
+                pause(100);
+            }
+        });
+        ui.start();
+        longWork();
+        ui.join();
+    }
+
+    static void longWork() {
+        for (int i = 1; i &lt;= 3; i++) {
+            System.out.println("working " + i);
+            pause(200);
         }
     }
-}.execute();</code></pre><p><code>doInBackground</code> ทำงานนอก EDT; <code>done</code> กลับมาทำบน EDT จึงอัปเดต label ได้</p></div><div class="note-box"><span class="box-title">Thread.sleep ไม่ใช่ timer สำหรับ GUI</span><p>sleep หยุด thread ปัจจุบัน ถ้าเป็น EDT หน้าต่างค้าง; ถ้าต้องการหน่วงการแสดง UI ให้ใช้ Swing Timer แทน</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S2.3</span>แยกงานเบื้องหลังกับอัปเดต UI</h4><p>ระบุบรรทัดที่ควรทำใน doInBackground และ done สำหรับโหลดข้อความจากไฟล์แล้วแสดงใน JTextArea</p><div class="answer-gate" data-answer-id="S2.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านข้อ S2.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><p>อ่านไฟล์และสร้าง String ใน doInBackground; เรียก get() แล้วใช้ textArea.setText(...) ใน done; จัดการ exception ที่ done เพื่อแสดง error โดยไม่ให้ EDT ค้าง</p></div></div></div></article>
-        <article class="subtopic" id="topic-timer-4"><h3>S2.4 เลือกเครื่องมือและทดสอบ</h3><p>คำถามสำคัญคือ “ต้องเกิด event เป็นช่วง” หรือ “ต้องคำนวณ/รอผลนาน” Timer จัดการการกระตุ้นตามเวลา; worker จัดการงานที่ใช้เวลานาน</p><div class="concept-box"><span class="box-title">กฎเลือกแบบสั้น</span><ul><li>อัปเดตตัวเลขหรือ animation เบา ๆ ตามเวลา → Swing Timer</li><li>โหลดไฟล์/network หรือคำนวณนาน → SwingWorker</li><li>อัปเดต Swing component → EDT</li><li>หยุด timer/worker เมื่อ view หรือหน้าต่างไม่ต้องใช้งานแล้ว</li></ul></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S2.4</span>ออกแบบ Pomodoro สั้น ๆ</h4><p>ออกแบบตัวจับเวลา 25 นาที มี Start, Pause, Reset และข้อความเมื่อครบ ระบุว่าจะใช้ Swing Timer ทำอะไร และจะทดสอบอย่างน้อย 3 กรณีใด</p><div class="answer-gate" data-answer-id="S2.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านข้อ S2.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><p>เก็บจำนวนวินาทีที่เหลือ; Timer ทุก 1000 ms ลดหนึ่งและอัปเดต label; เมื่อถึงศูนย์หยุด timer และแจ้งครบ; Pause หยุดโดยเก็บค่าไว้; Reset หยุดและตั้ง 1500 วินาที</p><ul><li>Start แล้วเวลาเริ่มลด</li><li>Pause แล้วค่าคงเดิม</li><li>Reset คืน 25:00</li><li>นับถึงศูนย์แล้วหยุดและแสดงข้อความ</li></ul></div></div></div></article>
+
+    static void pause(int ms) {
+        try { Thread.sleep(ms); } catch (InterruptedException e) { }
+    }
+}</code></pre><p>ใน Swing listener ทำงานบน EDT ซึ่งเป็น thread เดียวที่วาดหน้าจอ การ sleep ใน listener จึงเหมือนเวอร์ชันแรก: “refresh” (การวาดหน้าจอ) ต้องรอจนงานยาวจบ ลำดับข้อความในเวอร์ชันสองอาจสลับต่างเล็กน้อยในแต่ละครั้งที่รัน</p></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise S2.2</span>นาฬิกาดิจิทัล<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างหน้าต่างแสดงเวลาปัจจุบันรูปแบบ <code>HH:mm:ss</code> ตัวใหญ่ อัปเดตทุกวินาทีด้วย javax.swing.Timer และแสดงวันที่ด้านล่าง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>java.time.LocalTime.now()</code> และ <code>DateTimeFormatter.ofPattern("HH:mm:ss")</code></li><li>เรียกอัปเดตครั้งแรกทันทีก่อน timer.start() เพื่อไม่ให้ว่าง 1 วินาที</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Clock</div><img src="../assets/gui/ge74c868eb6-0.png" width="244" height="91" alt="ภาพหน้าต่าง Clock" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="S2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+public class DigitalClock {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Clock");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel time = new JLabel("", SwingConstants.CENTER);
+            time.setFont(new Font("Monospaced", Font.BOLD, 36));
+            JLabel date = new JLabel(LocalDate.now().toString(), SwingConstants.CENTER);
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
+            Runnable update = () -&gt; time.setText(LocalTime.now().format(fmt));
+            update.run();
+            new Timer(1000, e -&gt; update.run()).start();
+            frame.add(time, BorderLayout.CENTER);
+            frame.add(date, BorderLayout.SOUTH);
+            frame.setSize(260, 130);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p>ภาพตัวอย่างแสดงเวลาตอนที่สร้างเอกสารนี้ — เมื่อรันจริงจะเป็นเวลาปัจจุบันของเครื่อง</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise S2.3</span>ตั้งเวลานับถอยหลังจากค่าที่ผู้ใช้ป้อน<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>ผู้ใช้ป้อนจำนวนวินาที (1–3600) กด Start แล้วแสดงนับถอยหลังรูปแบบ mm:ss ปุ่ม Pause/Resume สลับได้ และเมื่อหมดเวลาให้ข้อความเป็นสีแดง “Time's up!” ตรวจข้อมูลที่ป้อนด้วย (แสดงข้อความ error ถ้าผิด)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ CountdownModel จากหัวข้อ S2.4 แยก logic</li><li>ปุ่มเดียวเปลี่ยนข้อความระหว่าง Pause และ Resume</li><li>ภาพตัวอย่าง: ป้อน 75 กด Start รอประมาณ 2 วินาที</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Timer</div><img src="../assets/gui/g7831eebb67-0.png" width="324" height="111" alt="ภาพหน้าต่าง Timer" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="S2.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S2.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class CustomCountdown {
+    private static CountdownModel model;
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Timer");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JTextField input = new JTextField("60", 5);
+            JButton start = new JButton("Start");
+            JButton pause = new JButton("Pause");
+            pause.setEnabled(false);
+            JLabel display = new JLabel("--:--", SwingConstants.CENTER);
+            display.setFont(new Font("Monospaced", Font.BOLD, 34));
+            Timer timer = new Timer(1000, null);
+            timer.addActionListener(e -&gt; {
+                model.tick();
+                display.setText(model.display());
+                if (model.isFinished()) {
+                    timer.stop();
+                    display.setText("Time's up!");
+                    display.setForeground(Color.RED);
+                    pause.setEnabled(false);
+                    start.setEnabled(true);
+                }
+            });
+            start.addActionListener(e -&gt; {
+                try {
+                    int s = Integer.parseInt(input.getText().trim());
+                    if (s &lt; 1 || s &gt; 3600) throw new NumberFormatException();
+                    model = new CountdownModel(s);
+                    display.setForeground(Color.BLACK);
+                    display.setText(model.display());
+                    timer.start();
+                    start.setEnabled(false);
+                    pause.setEnabled(true);
+                    pause.setText("Pause");
+                } catch (NumberFormatException ex) {
+                    display.setForeground(Color.RED);
+                    display.setText("1-3600 only");
+                }
+            });
+            pause.addActionListener(e -&gt; {
+                if (timer.isRunning()) { timer.stop(); pause.setText("Resume"); }
+                else { timer.start(); pause.setText("Pause"); }
+            });
+            JPanel top = new JPanel();
+            top.add(new JLabel("Seconds:"));
+            top.add(input);
+            top.add(start);
+            top.add(pause);
+            frame.add(top, BorderLayout.NORTH);
+            frame.add(display, BorderLayout.CENTER);
+            frame.setSize(340, 150);
+            frame.setVisible(true);
+        });
+    }
+}
+
+class CountdownModel {
+    private int remaining;
+    CountdownModel(int seconds) { remaining = seconds; }
+    void tick() { if (remaining &gt; 0) remaining--; }
+    boolean isFinished() { return remaining == 0; }
+    String display() { return String.format("%02d:%02d", remaining / 60, remaining % 60); }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise S2.4</span>ไฟจราจรด้วย Timer<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างไฟจราจรด้วย JLabel 3 ดวง (วงกลมแทนด้วยพื้นหลังสี) ที่เปลี่ยนสถานะตามลำดับ เขียว 3 วินาที → เหลือง 1 วินาที → แดง 3 วินาที วนซ้ำ ดวงที่ไม่ติดแสดงเป็นสีเทาเข้ม และแสดงชื่อสถานะกับวินาทีที่เหลือ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>Timer tick ทุก 1 วินาที และเก็บ state (index ของไฟ, วินาทีที่เหลือ)</li><li>ระยะเวลาแต่ละสถานะเก็บในอาเรย์ <code>{3, 1, 3}</code></li><li>JLabel ต้อง setOpaque(true) เพื่อแสดงสีพื้น</li><li>ภาพตัวอย่าง: ประมาณ 3.5 วินาทีหลังเริ่ม (ไฟเหลือง)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Traffic light</div><img src="../assets/gui/g7489d329a6-0.png" width="144" height="191" alt="ภาพหน้าต่าง Traffic light" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="S2.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S2.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class TrafficLight {
+    private static int state = 0;
+    private static int remaining = 3;
+    static final String[] NAMES = {"GREEN", "YELLOW", "RED"};
+    static final int[] DURATION = {3, 1, 3};
+    static final Color[] ON = {new Color(40, 180, 70), new Color(240, 200, 30), new Color(220, 50, 40)};
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Traffic light");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel[] lamps = new JLabel[3];
+            JPanel pole = new JPanel(new GridLayout(3, 1, 6, 6));
+            pole.setBackground(Color.BLACK);
+            pole.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+            for (int i = 2; i &gt;= 0; i--) {
+                lamps[i] = new JLabel();
+                lamps[i].setOpaque(true);
+                lamps[i].setPreferredSize(new Dimension(50, 40));
+            }
+            pole.add(lamps[2]);
+            pole.add(lamps[1]);
+            pole.add(lamps[0]);
+            JLabel status = new JLabel("", SwingConstants.CENTER);
+            Runnable paint = () -&gt; {
+                for (int i = 0; i &lt; 3; i++) lamps[i].setBackground(i == state ? ON[i] : new Color(60, 60, 60));
+                status.setText(NAMES[state] + " (" + remaining + "s)");
+            };
+            paint.run();
+            new Timer(1000, e -&gt; {
+                remaining--;
+                if (remaining == 0) {
+                    state = (state + 1) % 3;
+                    remaining = DURATION[state];
+                }
+                paint.run();
+            }).start();
+            frame.add(pole, BorderLayout.CENTER);
+            frame.add(status, BorderLayout.SOUTH);
+            frame.setSize(160, 230);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p>ภาพถ่ายหลังเปิดโปรแกรมรวมประมาณ 3.6 วินาที (มีช่วงเริ่มต้นของ harness ~0.9 วินาที) จึงอยู่ในสถานะเหลือง</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise S2.5</span>เกมจับเวลากดปุ่ม (reaction test)<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างเกมทดสอบความไว: กด <code>Ready</code> แล้วรอเวลาสุ่ม 1–3 วินาที (ใช้ Timer แบบครั้งเดียว <code>setRepeats(false)</code>) จากนั้นพื้นหลังเปลี่ยนเป็นสีเขียวพร้อมข้อความ “CLICK!” ผู้เล่นกดปุ่ม <code>Click</code> ให้เร็วที่สุด แสดงเวลาตอบสนองเป็นมิลลิวินาที ถ้ากดก่อนเขียวให้แจ้ง “Too early!” เก็บสถิติเวลาที่ดีที่สุด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>state: waiting / ready / go</li><li>ใช้ System.nanoTime() วัดเวลา</li><li>สุ่มเวลาด้วย Random</li><li>ภาพตัวอย่าง: กด Click ทันทีหลัง Ready (กดก่อนเวลา)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Reaction test</div><img src="../assets/gui/g3fcf9e6899-0.png" width="304" height="141" alt="ภาพหน้าต่าง Reaction test" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="S2.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S2.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+import java.util.Random;
+
+public class ReactionTest {
+    private enum State { IDLE, WAITING, GO }
+    private static State state = State.IDLE;
+    private static long goTime;
+    private static long best = Long.MAX_VALUE;
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Reaction test");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel screen = new JLabel("Press Ready", SwingConstants.CENTER);
+            screen.setOpaque(true);
+            screen.setBackground(Color.LIGHT_GRAY);
+            screen.setFont(screen.getFont().deriveFont(Font.BOLD, 20f));
+            JLabel stats = new JLabel("Best: -");
+            Random rng = new Random();
+            Timer delay = new Timer(1000, e -&gt; {
+                state = State.GO;
+                goTime = System.nanoTime();
+                screen.setBackground(new Color(60, 180, 75));
+                screen.setText("CLICK!");
+            });
+            delay.setRepeats(false);
+            JButton ready = new JButton("Ready");
+            JButton click = new JButton("Click");
+            ready.addActionListener(e -&gt; {
+                state = State.WAITING;
+                screen.setBackground(new Color(200, 60, 50));
+                screen.setText("Wait for green...");
+                delay.setInitialDelay(1000 + rng.nextInt(2000));
+                delay.restart();
+            });
+            click.addActionListener(e -&gt; {
+                if (state == State.WAITING) {
+                    delay.stop();
+                    screen.setBackground(Color.ORANGE);
+                    screen.setText("Too early!");
+                } else if (state == State.GO) {
+                    long ms = (System.nanoTime() - goTime) / 1_000_000;
+                    best = Math.min(best, ms);
+                    screen.setBackground(Color.LIGHT_GRAY);
+                    screen.setText(ms + " ms");
+                    stats.setText("Best: " + best + " ms");
+                }
+                state = State.IDLE;
+            });
+            JPanel buttons = new JPanel();
+            buttons.add(ready);
+            buttons.add(click);
+            buttons.add(stats);
+            frame.add(screen, BorderLayout.CENTER);
+            frame.add(buttons, BorderLayout.SOUTH);
+            frame.setSize(320, 180);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p><code>enum State</code> คือชนิดข้อมูลที่มีค่าได้เฉพาะที่กำหนด (IDLE, WAITING, GO) อ่านง่ายและปลอดภัยกว่าใช้ int 0/1/2</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise S2.6</span>ประมวลผลไฟล์จำลองด้วย SwingWorker แบบยกเลิกได้<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>จำลองการประมวลผลข้อมูล 50 รายการ (แต่ละรายการใช้เวลา 40 ms ด้วย Thread.sleep ใน doInBackground) แสดง progress bar และรายการที่ประมวลผลแล้วใน JTextArea ผ่าน <code>publish/process</code> มีปุ่ม Cancel ที่หยุดงานได้ทันที (<code>worker.cancel(true)</code>) และเมื่อจบให้แสดงว่า “Completed” หรือ “Cancelled after N items”</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>SwingWorker&lt;Integer, String&gt;: ผลลัพธ์คือจำนวนที่ทำเสร็จ, ข้อมูลกลางทางคือข้อความ</li><li>ใน doInBackground ตรวจ <code>isCancelled()</code> ทุกรอบ</li><li>ใน done() ตรวจ isCancelled() ก่อนเรียก get()</li><li>ภาพตัวอย่าง: Start แล้วกด Cancel หลังประมาณ 0.6 วินาที</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Processor</div><img src="../assets/gui/gfd4927581f-0.png" width="284" height="221" alt="ภาพหน้าต่าง Processor" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="S2.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S2.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+import java.util.List;
+
+public class CancellableWorker {
+    private static SwingWorker&lt;Integer, String&gt; worker;
+    private static int processed = 0;
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Processor");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JProgressBar bar = new JProgressBar(0, 50);
+            bar.setStringPainted(true);
+            JTextArea log = new JTextArea(6, 22);
+            log.setEditable(false);
+            JLabel status = new JLabel("Ready");
+            JButton start = new JButton("Start");
+            JButton cancel = new JButton("Cancel");
+            cancel.setEnabled(false);
+            start.addActionListener(e -&gt; {
+                processed = 0;
+                log.setText("");
+                start.setEnabled(false);
+                cancel.setEnabled(true);
+                status.setText("Working...");
+                worker = new SwingWorker&lt;&gt;() {
+                    @Override
+                    protected Integer doInBackground() throws Exception {
+                        for (int i = 1; i &lt;= 50 &amp;&amp; !isCancelled(); i++) {
+                            Thread.sleep(40);
+                            publish("item " + i + " ok");
+                        }
+                        return 50;
+                    }
+
+                    @Override
+                    protected void process(List&lt;String&gt; chunks) {
+                        for (String s : chunks) {
+                            log.append(s + "\n");
+                            processed++;
+                        }
+                        bar.setValue(processed);
+                    }
+
+                    @Override
+                    protected void done() {
+                        status.setText(isCancelled() ? "Cancelled after " + processed + " items" : "Completed");
+                        start.setEnabled(true);
+                        cancel.setEnabled(false);
+                    }
+                };
+                worker.execute();
+            });
+            cancel.addActionListener(e -&gt; worker.cancel(true));
+            JPanel top = new JPanel();
+            top.add(start);
+            top.add(cancel);
+            JPanel root = new JPanel(new BorderLayout(4, 4));
+            root.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+            root.add(top, BorderLayout.NORTH);
+            root.add(new JScrollPane(log), BorderLayout.CENTER);
+            JPanel south = new JPanel(new GridLayout(2, 1, 0, 4));
+            south.add(bar);
+            south.add(status);
+            root.add(south, BorderLayout.SOUTH);
+            frame.setContentPane(root);
+            frame.setSize(300, 260);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p>cancel(true) ขัดจังหวะ Thread.sleep ใน background (เกิด InterruptedException ซึ่ง SwingWorker จัดการให้) และ done() ยังถูกเรียกบน EDT เสมอ จำนวนรายการในภาพอาจต่างเล็กน้อยตามความเร็วเครื่อง</p></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="side-quest-random.html">← Random</a><a class="pager-link" href="../index.html">กลับสารบัญรายวิชา →</a></nav>
-      <footer class="lesson-footer">Java programming by Prymania · บทเสริม Timer และ Thread · ให้ EDT ว่างพอรับ event และวาด UI</footer>
+      <footer class="lesson-footer">Java programming by Prymania · บทเสริม Timer · อย่า block EDT</footer>
     </main>
   </div>
   <script src="../password.js"></script><script src="../assets/lesson.js"></script>

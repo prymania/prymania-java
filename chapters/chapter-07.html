@@ -19,106 +19,679 @@
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 07 / 19</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทที่ 7 · จัดกลุ่มคำสั่งให้เรียกใช้ซ้ำ</p><h1>เมธอด: แบ่งโปรแกรมเป็นส่วน</h1><p>เมธอดช่วยตั้งชื่อให้การทำงานหนึ่งอย่าง เรียกใช้ซ้ำได้ และทำให้ main ไม่ต้องรับผิดชอบทุกขั้นตอนเอง</p></header>
       <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>ประกาศและเรียกใช้ static method</li><li>ส่งข้อมูลผ่าน parameter</li><li>คืนผลลัพธ์ด้วย return</li><li>อธิบายขอบเขตของตัวแปรและการ overload</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-7">
-        <h2 id="section-7">7. ย้ายงานย่อยไปไว้ในเมธอด</h2><p>เมธอด (method) คือชุดคำสั่งที่ตั้งชื่อไว้เพื่อทำงานหนึ่งอย่าง เช่น คำนวณราคา หรือพิมพ์ใบเสร็จ เมื่อโปรแกรมยาวขึ้น เราแยกงานเป็นเมธอดเล็ก ๆ เพื่อให้อ่านง่าย เรียกซ้ำได้ และตรวจข้อผิดพลาดทีละส่วนได้</p>
-        <article class="subtopic" id="topic-7-1">
-            <h3>7.1 ประกาศและเรียกใช้เมธอด</h3><p>เมธอดที่ประกาศเป็น <code>static</code> สามารถเรียกจาก <code>main</code> ได้โดยตรง รูปแบบพื้นฐานคือ <code>static void ชื่อเมธอด() { ... }</code> โดย <code>void</code> หมายถึงเมธอดนี้ไม่ส่งค่ากลับ</p>
-            <div class="concept-box"><span class="box-title">แยกส่วนของ method declaration</span><pre><code>static void printWelcome() {
-        System.out.println("Welcome");
-      }</code></pre><ul><li><code>static</code> บอกว่าเรียกผ่านคลาสได้โดยยังไม่ต้องสร้าง object (ใช้ในบทพื้นฐานนี้)</li><li><code>void</code> คือชนิดผลลัพธ์: ไม่มีค่าคืนกลับ</li><li><code>printWelcome</code> เป็นชื่อ method ใช้ lower camelCase และตั้งชื่อตามการกระทำ</li><li><code>()</code> เป็นตำแหน่ง parameter; ตอนนี้ยังไม่มี parameter</li><li>วงเล็บปีกกาครอบ body ซึ่งเป็นคำสั่งที่ทำเมื่อถูกเรียก</li></ul></div>
-          <div class="example-box"><span class="box-title">แยกการแสดงข้อความออกจาก main</span><pre><code>public class Welcome {&#10;    public static void main(String[] args) {&#10;        printWelcome();&#10;        printWelcome();&#10;    }&#10;&#10;    static void printWelcome() {&#10;        System.out.println("Welcome to Java");&#10;    }&#10;}</code></pre><p>เมธอดถูกประกาศอยู่ภายในคลาส แต่อยู่นอกเมธอด <code>main</code> ส่วนการเรียกใช้เขียนชื่อเมธอดตามด้วย <code>()</code></p></div>
-            <table class="comparison-table"><thead><tr><th>ลำดับ</th><th>ตำแหน่งที่ทำงาน</th><th>สิ่งที่เกิดขึ้น</th></tr></thead><tbody><tr><td>1</td><td>main</td><td>เจอ <code>printWelcome()</code> จึงพัก main ชั่วคราว</td></tr><tr><td>2</td><td>printWelcome</td><td>พิมพ์ Welcome to Java แล้วจบ body</td></tr><tr><td>3</td><td>main</td><td>กลับมาทำบรรทัดถัดจากจุดเรียก</td></tr><tr><td>4</td><td>main</td><td>เรียกครั้งที่สอง จึงพิมพ์ข้อความอีกครั้ง</td></tr></tbody></table>
-            <div class="example-box"><span class="box-title">void ไม่ได้แปลว่าไม่มี output</span><pre><code>static void showTotal() {
-        System.out.println(2 + 3);
-      }</code></pre><p>method นี้ไม่มี <em>return value</em> แต่ยังพิมพ์ output ได้ การแสดงผลกับการคืนค่าเป็นคนละหน้าที่</p></div>
-          <div class="note-box"><span class="box-title">ทำไมไม่ใส่ทุกอย่างใน main</span><p>แยกเมธอดทำให้แต่ละช่วงอ่านและทดสอบง่ายขึ้น และแก้คำสั่งที่ใช้ซ้ำได้จากตำแหน่งเดียว</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.1</span>พิมพ์ชื่อรายวิชา</h4><p>สร้างเมธอด <code>printCourseName</code> เพื่อแสดง <code>Java Programming</code> แล้วเรียกจาก <code>main</code> สองครั้ง</p><div class="answer-gate" data-answer-id="7.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class CourseInfo {&#10;    public static void main(String[] args) {&#10;        printCourseName();&#10;        printCourseName();&#10;    }&#10;&#10;    static void printCourseName() {&#10;        System.out.println("Java Programming");&#10;    }&#10;}</code></pre></div></div></div>
-            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.8</span>ทำนายลำดับการเรียก</h4><p>ก่อนดูเฉลย จงเขียน output ของโปรแกรมนี้ โดยสังเกตว่าหลัง method จบ โปรแกรมกลับไปทำบรรทัดใด</p><div class="answer-gate" data-answer-id="7.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ลำดับและ output</h4><pre><code>static void printMark() {
-        System.out.println("*");
-      }
-      printMark();
-      System.out.println("A");
-      printMark();</code></pre><p>output คือดาว, A, ดาว ตามลำดับ เพราะทุกครั้งที่ method จบจะกลับไปบรรทัดถัดจากจุดเรียก</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-7-2">
-            <h3>7.2 พารามิเตอร์และ argument</h3><p><strong>parameter</strong> คือช่องรับค่าที่ประกาศใน method ส่วน <strong>argument</strong> คือข้อมูลจริงที่ส่งเข้ามาตอนเรียก แต่ละ argument ถูกจับคู่กับ parameter ตามลำดับจากซ้ายไปขวา</p>
-            <div class="concept-box"><span class="box-title">Syntax ของ method ที่รับค่า</span><pre><code>static void methodName(Type first, Type second) {
-        // ใช้ first และ second ทำงาน
-      }
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">7. ย้ายงานย่อยไปไว้ในเมธอด</h2>
+        <p><strong>เมธอด (method)</strong> คือชุดคำสั่งที่ตั้งชื่อไว้เพื่อทำงานหนึ่งอย่าง เช่น คำนวณราคา หรือพิมพ์ใบเสร็จ เมื่อโปรแกรมยาวขึ้น เราแยกงานเป็นเมธอดเล็ก ๆ เพื่อให้อ่านง่าย เรียกซ้ำได้ และตรวจข้อผิดพลาดทีละส่วนได้ จริง ๆ แล้วเราใช้เมธอดมาตั้งแต่บทแรก: <code>main</code>, <code>println</code>, <code>nextInt</code>, <code>Math.sqrt</code> ล้วนเป็นเมธอด บทนี้จะเขียนเมธอดของเราเอง</p>
+<article class="subtopic" id="topic-7-1">
+<h3>7.1 ประกาศและเรียกใช้เมธอด</h3>
+<div class="concept-box"><span class="box-title">แยกส่วนของ method declaration</span><pre><code>static  void  printWelcome  ( )  {
+  ①      ②         ③        ④   ⑤ body ...
+}</code></pre><ol><li><code>static</code> — เรียกผ่านคลาสได้โดยไม่ต้องสร้าง object (ใช้ในบทพื้นฐานนี้ ความหมายเต็มอยู่ในบทที่ 11–12)</li><li><code>void</code> — ชนิดผลลัพธ์: ไม่มีค่าคืนกลับ</li><li>ชื่อเมธอด — lowerCamelCase ขึ้นต้นด้วยคำกริยา เช่น <code>printReceipt</code>, <code>calculateTax</code></li><li><code>( )</code> — ตำแหน่ง parameter ตอนนี้ยังว่าง</li><li><code>{ }</code> — body คือคำสั่งที่ทำเมื่อถูกเรียก</li></ol><p>เมธอดประกาศ<strong>ภายในคลาส แต่นอกเมธอดอื่น</strong> (ไม่ซ้อนอยู่ใน main) และลำดับการประกาศไม่สำคัญ</p></div>
+<div class="source-example"><h4>ตัวอย่าง 7.1.1 · แยกการแสดงข้อความออกจาก main <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ประกาศครั้งเดียว เรียกกี่ครั้งก็ได้ด้วยชื่อตามด้วย <code>()</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · Welcome.java</span><pre class="source-code">public class Welcome {
+    public static void main(String[] args) {
+        printWelcome();
+        System.out.println("(main continues)");
+        printWelcome();
+    }
 
-      methodName(value1, value2);</code></pre><p>จำนวนและลำดับชนิดของ argument ตอนเรียกต้องตรงกับ parameter ใน declaration เช่น <code>(String, int)</code> ไม่ใช่ <code>(int, String)</code></p></div>
-          <div class="example-box"><span class="box-title">รับชื่อแล้วทักทาย</span><pre><code>static void greet(String name) {&#10;    System.out.println("Hello, " + name);&#10;}&#10;&#10;greet("Mali"); // argument คือ "Mali"&#10;greet("Nida");</code></pre><p><code>name</code> เป็น parameter; ค่าข้อความแต่ละครั้งเป็น argument</p></div>
-            <div class="example-box"><span class="box-title">รับหลายค่าและคำนวณ</span><pre><code>static void showRectangle(double width, double height) {
-        double area = width * height;
-        System.out.println("Area = " + area);
-      }
+    static void printWelcome() {
+        System.out.println("Welcome to Java");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Welcome to Java
+(main continues)
+Welcome to Java</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main เจอ <code>printWelcome()</code> จึงพัก main ชั่วคราวแล้วกระโดดไปที่เมธอด</li><li>เมธอดพิมพ์ข้อความแล้วจบ body</li><li>กลับมาที่ main บรรทัด<strong>ถัดจากจุดเรียก</strong></li><li>เรียกครั้งที่สองก็ทำซ้ำแบบเดิม</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 7.1.2 · เมธอดเรียกเมธอดอื่นต่อได้ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดหนึ่งเรียกเมธอดอื่นได้ โปรแกรมจะจำว่าต้องกลับไปที่ใด (call stack) ลองไล่ลำดับก่อนดู output</p><div class="source-example-grid"><div class="source-field"><span>Java source · CallChain.java</span><pre class="source-code">public class CallChain {
+    public static void main(String[] args) {
+        System.out.println("main: start");
+        printHeader();
+        System.out.println("main: end");
+    }
 
-      showRectangle(4.0, 3.0);</code></pre><p>ตอนเรียก <code>4.0</code> จับคู่กับ width และ <code>3.0</code> จับคู่กับ height ตามลำดับ</p></div>
-          <div class="note-box"><span class="box-title">ชนิดและจำนวนต้องตรงกัน</span><p>เมธอดที่รับ <code>String</code> หนึ่งค่า ต้องถูกเรียกพร้อม argument ที่เข้ากันได้หนึ่งค่า เมธอดอาจรับหลาย parameter โดยคั่นด้วย comma</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.2</span>คำนวณราคารวม</h4><p>เขียนเมธอด <code>printTotal</code> รับราคาต่อชิ้นและจำนวนชิ้น แล้วแสดงราคารวม เรียกใช้ด้วยราคา 25 บาท จำนวน 4 ชิ้น</p><div class="answer-gate" data-answer-id="7.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class PricePrinter {&#10;    public static void main(String[] args) {&#10;        printTotal(25.0, 4);&#10;    }&#10;&#10;    static void printTotal(double price, int quantity) {&#10;        double total = price * quantity;&#10;        System.out.println("Total: " + total);&#10;    }&#10;}</code></pre></div></div></div>
-            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.9</span>พิมพ์ใบเสร็จหนึ่งรายการ</h4><p>เขียนโปรแกรมรับชื่อสินค้า ราคา และจำนวนผ่าน argument ของ method <code>printReceipt</code> แล้วแสดงชื่อสินค้า จำนวน และยอดรวม</p><div class="answer-gate" data-answer-id="7.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างโปรแกรม</h4><pre><code>public class Receipt {
-        public static void main(String[] args) {
-          printReceipt("Notebook", 12.50, 3);
+    static void printHeader() {
+        printLine();
+        System.out.println("  REPORT");
+        printLine();
+    }
+
+    static void printLine() {
+        System.out.println("==========");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>main: start
+==========
+  REPORT
+==========
+main: end</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main พิมพ์ start แล้วเรียก printHeader</li><li>printHeader เรียก printLine → พิมพ์เส้น → กลับมา printHeader</li><li>พิมพ์ REPORT แล้วเรียก printLine อีกครั้ง</li><li>printHeader จบ → กลับมา main พิมพ์ end</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 7.1.3 · แบ่ง main เป็นขั้นตอนที่มีชื่อ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> main ที่ดีควรอ่านเหมือนสารบัญ: แต่ละบรรทัดบอกว่าทำอะไร รายละเอียดอยู่ในเมธอด</p><div class="source-example-grid"><div class="source-field"><span>Java source · ShopSteps.java</span><pre class="source-code">public class ShopSteps {
+    public static void main(String[] args) {
+        showBanner();
+        showMenu();
+        showFooter();
+    }
+
+    static void showBanner() {
+        System.out.println("*** JAVA CAFE ***");
+    }
+
+    static void showMenu() {
+        System.out.println("1. Espresso   45");
+        System.out.println("2. Latte      55");
+        System.out.println("3. Mocha      60");
+    }
+
+    static void showFooter() {
+        System.out.println("Open 8:00-18:00");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>*** JAVA CAFE ***
+1. Espresso   45
+2. Latte      55
+3. Mocha      60
+Open 8:00-18:00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่าน main แล้วรู้ทันทีว่าโปรแกรมมี 3 ส่วน</li><li>ถ้าต้องแก้เมนู แก้เฉพาะ showMenu</li></ol></div></div>
+<div class="note-box"><span class="box-title">void ไม่ได้แปลว่าไม่มี output</span><p>เมธอด void พิมพ์ข้อความได้ตามปกติ “void” หมายถึงไม่<strong>ส่งค่ากลับ</strong>ไปให้ผู้เรียกนำไปใช้ต่อ การแสดงผล (print) กับการคืนค่า (return) เป็นคนละเรื่อง — จะเห็นชัดในหัวข้อ 7.3</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ลำดับการเรียก</strong><div><pre><code>static void a() { System.out.print("A"); b(); System.out.print("a"); }
+static void b() { System.out.print("B"); }
+// ใน main:
+a(); b();</code></pre></div><details><summary>ดูคำตอบ</summary><div><p><strong>ABaB</strong> — a พิมพ์ A, เรียก b พิมพ์ B, กลับมาพิมพ์ a, แล้ว main เรียก b อีกครั้งพิมพ์ B</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-7-2">
+<h3>7.2 พารามิเตอร์และ argument</h3>
+<p><strong>parameter</strong> คือตัวแปรที่ประกาศในวงเล็บของเมธอดเพื่อรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก เมื่อเรียก Java จะคัดลอกค่า argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em></p>
+<div class="concept-box"><span class="box-title">parameter vs argument</span><pre><code>static void greet(String name, int times) { ... }   // name, times = parameter
+greet("Mali", 3);                                  // "Mali", 3   = argument
+        │      └──→ times = 3
+        └──────────→ name  = "Mali"</code></pre><ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul></div>
+<div class="source-example"><h4>ตัวอย่าง 7.2.1 · parameter หนึ่งตัว <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดเดียวทำงานกับข้อมูลต่างกันได้ ขึ้นอยู่กับ argument ที่ส่งมา</p><div class="source-example-grid"><div class="source-field"><span>Java source · GreetParam.java</span><pre class="source-code">public class GreetParam {
+    public static void main(String[] args) {
+        greet("Mali");
+        greet("Beam");
+        String friend = "Nida";
+        greet(friend);
+    }
+
+    static void greet(String name) {
+        System.out.println("Hello, " + name + "!");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Hello, Mali!
+Hello, Beam!
+Hello, Nida!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ครั้งแรก name = "Mali"</li><li>ครั้งที่สอง name = "Beam"</li><li>ครั้งที่สามส่งตัวแปร friend → name ได้ค่า "Nida"</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 7.2.2 · หลาย parameter และลูปในเมธอด <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> parameter ใช้ได้เหมือนตัวแปรปกติภายในเมธอด รวมถึงเป็นขอบเขตของลูป</p><div class="source-example-grid"><div class="source-field"><span>Java source · DrawLine.java</span><pre class="source-code">public class DrawLine {
+    public static void main(String[] args) {
+        drawLine('*', 10);
+        drawLine('-', 4);
+        drawLine('=', 2 * 6);
+    }
+
+    static void drawLine(char symbol, int length) {
+        for (int i = 0; i &lt; length; i++) {
+            System.out.print(symbol);
         }
+        System.out.println();
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>**********
+----
+============</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>symbol = '*', length = 10 → ดาว 10 ตัว</li><li>argument ที่สามเป็นนิพจน์ 2 * 6 คำนวณได้ 12 ก่อนส่ง</li><li>ลำดับสำคัญ: <code>drawLine(10, '*')</code> จะคอมไพล์ไม่ผ่าน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 7.2.3 · pass-by-value: เมธอดแก้ค่าตัวแปรของผู้เรียกไม่ได้ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java ส่ง<strong>สำเนาของค่า</strong> การเปลี่ยน parameter ภายในเมธอดไม่กระทบตัวแปรใน main</p><div class="source-example-grid"><div class="source-field"><span>Java source · PassByValue.java</span><pre class="source-code">public class PassByValue {
+    public static void main(String[] args) {
+        int score = 50;
+        addBonus(score);
+        System.out.println("main: score = " + score);
+    }
 
-        static void printReceipt(String item, double price, int quantity) {
-          double total = price * quantity;
-          System.out.printf("%s x %d = %.2f baht%n", item, quantity, total);
-        }
-      }</code></pre><p>ในโจทย์จริงอาจเปลี่ยน arguments แล้ว reuse method เดิมได้</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-7-3">
-            <h3>7.3 return value: ส่งผลลัพธ์กลับไปให้ผู้เรียก</h3><p>ถ้า method คำนวณแล้วผู้เรียกต้องนำผลไปใช้ต่อ ให้ระบุ return type แทน <code>void</code> และใช้ <code>return</code> ส่งค่ากลับ return จะจบการทำงานของ method ทันที</p>
-            <div class="concept-box"><span class="box-title">Syntax และ flow ของ return</span><pre><code>static ReturnType methodName(ParameterType input) {
-        // คำนวณค่า
-        return result;
-      }</code></pre><ol><li>ผู้เรียกส่ง argument ให้ parameter</li><li>method คำนวณ local variables</li><li><code>return</code> ส่งค่าชนิดที่ตรงกับ ReturnType กลับ</li><li>ผู้เรียกทำงานต่อหลังจุดเรียก หรือใช้ค่ากลับใน expression</li></ol><p>method ที่ไม่ใช่ void ต้องคืนค่าทุกเส้นทางที่ทำงานได้</p></div>
-          <div class="example-box"><span class="box-title">คำนวณพื้นที่แล้วนำผลไปใช้ต่อ</span><pre><code>static double rectangleArea(double width, double height) {&#10;    double area = width * height;&#10;    return area;&#10;}&#10;&#10;double result = rectangleArea(4.0, 3.0);&#10;System.out.println(result); // 12.0</code></pre><p>ชนิดที่ return ต้องตรงกับชนิดที่ประกาศ และทุกเส้นทางในเมธอดที่ไม่ใช่ <code>void</code> ต้องส่งค่ากลับให้ครบ</p></div>
-            <div class="example-box"><span class="box-title">ใช้ผลลัพธ์เป็นส่วนหนึ่งของ expression</span><pre><code>static double tax(double amount) {
-        return amount * 0.07;
-      }
+    static void addBonus(int score) {
+        score = score + 10;
+        System.out.println("addBonus: score = " + score);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>addBonus: score = 60
+main: score = 50</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main ส่งค่า 50 ไป</li><li>parameter score ในเมธอดเป็นตัวแปร<em>คนละตัว</em>แม้ชื่อเหมือนกัน</li><li>เปลี่ยนเป็น 60 เฉพาะในเมธอด</li><li>main ยังเป็น 50 — ถ้าต้องการผลลัพธ์ต้องใช้ return (หัวข้อถัดไป)</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 7.2.4 · argument ไม่ตรงกับ parameter <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> compiler ตรวจจำนวนและชนิดของ argument ทุกครั้งที่เรียก</p><div class="source-example-grid"><div class="source-field"><span>Java source · WrongArguments.java</span><pre class="source-code">public class WrongArguments {
+    public static void main(String[] args) {
+        drawLine(5, '*');
+        drawLine('*');
+    }
 
-      double total = 100.0 + tax(100.0);
-      System.out.println(total); // 107.0</code></pre><p>ผลจาก <code>tax(100.0)</code> ถูกคืนกลับมาแล้วนำไปบวกต่อได้ ต่างจาก void method ที่ใช้เป็นค่าของ expression ไม่ได้</p></div>
-            <div class="note-box"><span class="box-title">Compile error: ลืม return</span><pre><code>static int larger(int first, int second) {
-        if (first > second) {
-          return first;
-        }
-        // ถ้า first <= second ไม่มีค่าถูกคืน
-      }</code></pre><p>ทุก branch ต้องคืน int; เพิ่ม <code>return second;</code> หลัง if เพื่อครอบคลุมกรณีที่เหลือ</p></div>
-          <div class="note-box"><span class="box-title">return ไม่ใช่ println</span><p><code>println</code> แสดงค่าบนหน้าจอ แต่ <code>return</code> ส่งค่าไปให้โค้ดที่เรียกเมธอดนำไปคำนวณหรือเก็บต่อได้</p></div>
-          <div class="note-box"><span class="box-title">Scope: local variable อยู่ใน method/block</span><p>ตัวแปรที่ประกาศใน body ของ method ใช้ได้เฉพาะภายในวงเล็บปีกกานั้น หากผู้เรียกต้องใช้ค่าจาก method ให้ส่งออกด้วย <code>return</code> ไม่ใช่อ้างชื่อ local variable ตรง ๆ</p><pre><code>static int addFive(int value) {&#10;    int result = value + 5;&#10;    return result;&#10;}&#10;int answer = addFive(10); // answer ได้ 15</code></pre></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.3</span>คืนค่าที่มากกว่า</h4><p>เขียนเมธอด <code>maxOf</code> รับจำนวนเต็มสองค่าแล้วคืนค่าที่มากกว่า ถ้าค่าเท่ากันคืนค่าใดค่าหนึ่งก็ได้</p><div class="answer-gate" data-answer-id="7.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>static int maxOf(int first, int second) {&#10;    if (first &gt; second) {&#10;        return first;&#10;    }&#10;    return second;&#10;}&#10;&#10;int larger = maxOf(8, 13); // 13</code></pre><p>ตัวแปร <code>first</code> และ <code>second</code> มีอยู่ภายในเมธอดเท่านั้น</p></div></div></div>
-            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.10</span>คำนวณค่าส่ง</h4><p>เขียน method คืนค่าส่ง: ถ้ายอดซื้ออย่างน้อย 500 บาทให้ส่งฟรี มิฉะนั้นค่าส่ง 40 บาท แล้วคำนวณยอดจ่ายรวม</p><div class="answer-gate" data-answer-id="7.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>static double shippingFee(double subtotal) {
-        if (subtotal >= 500) {
-          return 0.0;
-        }
-        return 40.0;
-      }
+    static void drawLine(char symbol, int length) {
+        System.out.println(String.valueOf(symbol).repeat(length));
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WrongArguments.java:3: error: incompatible types: possible lossy conversion from int to char
+        drawLine(5, '*');
+                 ^
+WrongArguments.java:4: error: method drawLine in class WrongArguments cannot be applied to given types;
+        drawLine('*');
+        ^
+  required: char,int
+  found:    char
+  reason: actual and formal argument lists differ in length</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัด 3 สลับลำดับ: ส่ง 5 (int) ไปที่ parameter แรกซึ่งเป็น char → <code>possible lossy conversion from int to char</code></li><li>บรรทัด 4 ขาด argument → <code>cannot be applied to given types</code></li><li><code>required: char,int</code> / <code>found: char</code> บอกว่าคาดหวังอะไรและได้อะไร</li><li>แก้: <code>drawLine('*', 5);</code></li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ส่งค่า</strong><div><pre><code>static void show(int a, int b) { System.out.println(a + "-" + b); }
+// main
+int x = 3, y = 8;
+show(y, x);
+show(x + y, x * y);</code></pre></div><details><summary>ดูคำตอบ</summary><div><p><strong>8-3</strong> และ <strong>11-24</strong> — ค่าจับคู่ตามตำแหน่ง ไม่ใช่ตามชื่อตัวแปร</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-7-3">
+<h3>7.3 return value: เมธอดที่คืนผลลัพธ์</h3>
+<p>เมื่อเมธอดคำนวณค่าที่ผู้เรียกต้องนำไปใช้ต่อ ให้ระบุ<strong>ชนิดผลลัพธ์</strong>แทน void แล้วใช้ <code>return ค่า;</code> ส่งค่ากลับ เมื่อเจอ return เมธอดจะจบทันที</p>
+<div class="concept-box"><span class="box-title">โครงสร้างเมธอดที่คืนค่า</span><pre><code>static double calculateArea(double width, double height) {
+    double area = width * height;
+    return area;                    // ส่งค่า area กลับไปยังจุดที่เรียก
+}
 
-      double subtotal = 320.0;
-      double total = subtotal + shippingFee(subtotal);
-      System.out.println(total); // 360.0</code></pre></div></div></div>
-        </article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 7.12</span>ส่งค่าออกจาก method</h3><p>ใช้ <code>addFive</code> ในตัวอย่าง เรียกด้วย 10 แล้วแสดงผล โดยห้ามอ้าง local variable <code>result</code> จาก <code>main</code></p><div class="answer-gate" data-answer-id="7.12"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.12<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class ScopeDemo {&#10;    public static void main(String[] args) {&#10;        int answer = addFive(10);&#10;        System.out.println(answer); // 15&#10;    }&#10;&#10;    static int addFive(int value) {&#10;        int result = value + 5;&#10;        return result;&#10;    }&#10;}</code></pre><p><code>result</code> มี scope อยู่ใน addFive; main รับค่าที่ return ผ่าน answer</p></div></div></article>
-        <article class="subtopic" id="topic-7-4">
-          <h3>7.4 เมธอดชื่อเดียวกัน (overloading)</h3><p>Java อนุญาตให้เมธอดชื่อเดียวกันได้ ถ้ารายการ parameter ต่างกัน เช่น จำนวนหรือชนิดต่างกัน เรียกว่า <strong>method overloading</strong> การเปลี่ยนแค่ชนิด return อย่างเดียวไม่พอให้ overload</p>
-          <div class="concept-box"><span class="box-title">compiler เลือก overload จากอะไร?</span><p>Java เลือกจากชื่อ method และชนิด/จำนวน/ลำดับของ arguments ตอน compile time ไม่ได้เลือกจากค่าผลลัพธ์</p><pre><code>static void show(int number) { System.out.println("int"); }&#10;static void show(double number) { System.out.println("double"); }&#10;show(5);   // เลือก show(int)&#10;show(5.0); // เลือก show(double)</code></pre><p>ถ้ามี overload ที่รับได้พอดีกับ argument compiler จะเลือกอันนั้น; signature ซ้ำกันแต่ return type ต่างกันอย่างเดียวถือว่าประกาศซ้ำ</p></div>
-          <div class="example-box"><span class="box-title">หาพื้นที่จากรูปแบบ input ที่ต่างกัน</span><pre><code>static double area(double side) {&#10;    return side * side;&#10;}&#10;&#10;static double area(double width, double height) {&#10;    return width * height;&#10;}&#10;&#10;double square = area(4.0);&#10;double rectangle = area(4.0, 3.0);</code></pre></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.4</span>ตรวจเลขคู่</h4><p>เขียนเมธอด <code>isEven</code> รับจำนวนเต็ม แล้วคืนค่า <code>true</code> เมื่อเลขนั้นหาร 2 ลงตัว</p><div class="answer-gate" data-answer-id="7.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>static boolean isEven(int number) {&#10;    return number % 2 == 0;&#10;}&#10;&#10;System.out.println(isEven(14)); // true&#10;System.out.println(isEven(9));  // false</code></pre><p>นิพจน์ <code>number % 2 == 0</code> เป็น boolean จึง return ได้ตรง ๆ</p></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.11</span>สร้าง overload สำหรับพื้นที่</h4><p>สร้าง <code>area(double side)</code> สำหรับสี่เหลี่ยมจัตุรัส และ <code>area(double width, double height)</code> สำหรับสี่เหลี่ยมผืนผ้า เรียกทั้งสองแบบ</p><div class="answer-gate" data-answer-id="7.11"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.11<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>static double area(double side) {&#10;    return side * side;&#10;}&#10;static double area(double width, double height) {&#10;    return width * height;&#10;}&#10;System.out.println(area(4.0)); // 16.0&#10;System.out.println(area(4.0, 3.0)); // 12.0</code></pre><p>จำนวน parameters ต่างกัน จึงเลือก overload ได้ชัดเจน</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-7-5">
-          <h3>7.5 ออกแบบโปรแกรมจากหลายเมธอด</h3><p>method ที่ดีแบ่งงานตามหน้าที่ เช่น อ่านโจทย์และกำหนด input ใน main, คำนวณผลใน method ที่คืนค่า, และแสดงรายงานใน method ที่ไม่คืนค่า main จึงทำหน้าที่เรียงลำดับงานแทนการรวมโค้ดทั้งหมดไว้ที่เดียว</p>
-          <div class="concept-box"><span class="box-title">ขั้นตอนแยกงาน</span><ol><li>กำหนด input และ output ของโปรแกรม</li><li>ระบุงานย่อยและตั้งชื่อเป็นคำกริยา</li><li>กำหนด parameter ที่แต่ละงานต้องใช้</li><li>ตัดสินใจว่า method จะคืนค่าอะไร หรือเป็น void</li><li>เรียก method จาก main และทดสอบค่าตัวอย่าง</li></ol></div>
-          <div class="example-box"><span class="box-title">ตัวอย่าง: รายงานผลสอบ</span><p>main เรียก method หาค่าเฉลี่ย → ใช้ค่าเฉลี่ยหาระดับ → ส่งข้อมูลให้ method พิมพ์รายงาน</p><pre><code>public class GradeReport {&#10;    public static void main(String[] args) {&#10;        double average = averageOf(80, 70, 90);&#10;        String grade = gradeOf(average);&#10;        printReport("Mali", average, grade);&#10;    }&#10;    static double averageOf(double a, double b, double c) {&#10;        return (a + b + c) / 3.0;&#10;    }&#10;    static String gradeOf(double average) {&#10;        if (average &gt;= 80) return "A";&#10;        if (average &gt;= 70) return "B";&#10;        return "C";&#10;    }&#10;    static void printReport(String name, double average, String grade) {&#10;        System.out.printf("%s: %.1f (%s)%n", name, average, grade);&#10;    }&#10;}</code></pre><p>โค้ดใน main อ่านเป็นขั้นตอนได้ เพราะรายละเอียดของแต่ละงานถูกตั้งชื่อแยกไว้</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 7.13</span>โปรแกรมสรุปค่าน้ำมัน</h4><p>สร้าง method คำนวณระยะทางจากลิตร × km/L, method คำนวณค่าใช้จ่ายจากลิตร × ราคา/ลิตร และ method พิมพ์สรุป ใช้ 25 ลิตร, 12 km/L และ 36 บาท/ลิตร</p><div class="answer-gate" data-answer-id="7.13"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.13<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class FuelSummary {&#10;    public static void main(String[] args) {&#10;        double liters = 25;&#10;        double distance = calculateDistance(liters, 12);&#10;        double cost = calculateCost(liters, 36);&#10;        printSummary(distance, cost);&#10;    }&#10;    static double calculateDistance(double liters, double kmPerLiter) {&#10;        return liters * kmPerLiter;&#10;    }&#10;    static double calculateCost(double liters, double pricePerLiter) {&#10;        return liters * pricePerLiter;&#10;    }&#10;    static void printSummary(double distance, double cost) {&#10;        System.out.printf("Distance: %.1f km%nFuel cost: %.2f baht%n", distance, cost);&#10;    }&#10;}</code></pre><p>ผลคือ 300 km และ 900.00 บาท; method คำนวณไม่ต้องทำหน้าที่พิมพ์รายงาน</p></div></div></div>
-        </article>
+double a = calculateArea(4, 2.5);   // นำค่าที่คืนมาเก็บในตัวแปร
+System.out.println(calculateArea(3, 3) * 2);  // หรือใช้ในนิพจน์โดยตรง</code></pre><p>คิดว่าการเรียกเมธอดที่คืนค่าคือ “นิพจน์” ที่ถูกแทนด้วยค่าที่ return ออกมา</p></div>
+<div class="source-example"><h4>ตัวอย่าง 7.3.1 · คืนค่าแล้วนำไปใช้ต่อ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ค่าที่คืนกลับมาเก็บในตัวแปร พิมพ์ หรือใช้คำนวณต่อได้</p><div class="source-example-grid"><div class="source-field"><span>Java source · SquareReturn.java</span><pre class="source-code">public class SquareReturn {
+    public static void main(String[] args) {
+        int a = square(4);
+        System.out.println("square(4) = " + a);
+        System.out.println("square(3) + square(4) = " + (square(3) + square(4)));
+        System.out.println("square(square(2)) = " + square(square(2)));
+    }
+
+    static int square(int n) {
+        return n * n;
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>square(4) = 16
+square(3) + square(4) = 25
+square(square(2)) = 16</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>square(4) คืน 16 เก็บใน a</li><li>square(3) + square(4) = 9 + 16 = 25</li><li>square(square(2)): ในสุดได้ 4 → square(4) = 16</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 7.3.2 · print กับ return ต่างกันอย่างไร <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดที่<em>พิมพ์</em>ผลลัพธ์ให้คนเห็น แต่โปรแกรมนำค่าไปใช้ต่อไม่ได้ เมธอดที่ <em>return</em> ให้ค่ากับโปรแกรม</p><div class="source-example-grid"><div class="source-field"><span>Java source · PrintVsReturn.java</span><pre class="source-code">public class PrintVsReturn {
+    public static void main(String[] args) {
+        printTotal(100, 3);
+        double total = getTotal(100, 3);
+        double withVat = total * 1.07;
+        System.out.println("With VAT: " + withVat);
+    }
+
+    static void printTotal(double price, int qty) {
+        System.out.println("Total: " + price * qty);
+    }
+
+    static double getTotal(double price, int qty) {
+        return price * qty;
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Total: 300.0
+With VAT: 321.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>printTotal แสดง 300.0 แต่ main ไม่ได้ค่ากลับมา</li><li>getTotal คืน 300.0 → main นำไปคูณ VAT ต่อได้</li><li>แนวทาง: เมธอดคำนวณควร return ให้ main เป็นผู้ตัดสินใจว่าจะแสดงผลอย่างไร</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 7.3.3 · return หลายจุด และคืน boolean <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดอาจมี return หลายจุดตามเงื่อนไข แต่<strong>ทุกเส้นทาง</strong>ต้องคืนค่าเสมอ เมธอดที่คืน boolean นิยมตั้งชื่อขึ้นต้นด้วย is/has/can</p><div class="source-example-grid"><div class="source-field"><span>Java source · ReturnPaths.java</span><pre class="source-code">public class ReturnPaths {
+    public static void main(String[] args) {
+        System.out.println(gradeOf(85) + " " + gradeOf(72) + " " + gradeOf(40));
+        for (int n = 1; n &lt;= 20; n++) {
+            if (isPrime(n)) {
+                System.out.print(n + " ");
+            }
+        }
+        System.out.println();
+    }
+
+    static char gradeOf(int score) {
+        if (score &gt;= 80) return 'A';
+        if (score &gt;= 70) return 'B';
+        if (score &gt;= 60) return 'C';
+        return 'F';
+    }
+
+    static boolean isPrime(int n) {
+        if (n &lt; 2) return false;
+        for (int d = 2; d * d &lt;= n; d++) {
+            if (n % d == 0) return false;
+        }
+        return true;
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>A B F
+2 3 5 7 11 13 17 19</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>gradeOf(85): เจอ return 'A' แล้วจบเมธอดทันที ไม่ตรวจบรรทัดล่าง</li><li>ไม่ต้องใช้ else เพราะ return ออกไปแล้ว</li><li>isPrime เจอตัวหารก็ return false ทันที (ไม่ต้องใช้ break หรือ flag)</li><li>ถ้าวนครบโดยไม่เจอตัวหาร จึง return true</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 7.3.4 · บางเส้นทางไม่มี return <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้ามีกรณีที่เมธอดจบโดยไม่ return ค่า compiler จะไม่ยอม</p><div class="source-example-grid"><div class="source-field"><span>Java source · MissingReturn.java</span><pre class="source-code">public class MissingReturn {
+    public static void main(String[] args) {
+        System.out.println(sign(5));
+    }
+
+    static String sign(int n) {
+        if (n &gt; 0) {
+            return "positive";
+        } else if (n &lt; 0) {
+            return "negative";
+        }
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingReturn.java:12: error: missing return statement
+    }
+    ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>กรณี n == 0 หลุดออกจาก if ทั้งหมดโดยไม่มี return</li><li>javac แจ้ง <code>missing return statement</code></li><li>แก้: เพิ่ม <code>return "zero";</code> ท้ายเมธอด</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ค่าที่คืน</strong><div><pre><code>static int f(int x) {
+    if (x % 2 == 0) return x / 2;
+    return 3 * x + 1;
+}
+// f(6), f(7), f(f(5))</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>f(6) = 3, f(7) = 22, f(5) = 16 → f(16) = <strong>8</strong></p></div></details></div>
+</article>
+<article class="subtopic" id="topic-7-4">
+<h3>7.4 scope ของตัวแปร และ method overloading</h3>
+<p><strong>scope</strong> คือบริเวณที่ตัวแปรถูกมองเห็นและใช้งานได้ ตัวแปรที่ประกาศในบล็อก <code>{ }</code> ใดใช้ได้เฉพาะในบล็อกนั้น (local variable) parameter ก็เป็น local ของเมธอดนั้น ส่วน <strong>overloading</strong> คือการมีหลายเมธอดชื่อเดียวกันแต่ parameter ต่างกัน</p>
+<div class="source-example"><h4>ตัวอย่าง 7.4.1 · ตัวแปรชื่อเดียวกันในคนละเมธอด <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรในแต่ละเมธอดแยกกันโดยสิ้นเชิง แม้ชื่อเหมือนกัน</p><div class="source-example-grid"><div class="source-field"><span>Java source · ScopeDemo.java</span><pre class="source-code">public class ScopeDemo {
+    public static void main(String[] args) {
+        int count = 1;
+        helper();
+        System.out.println("main count = " + count);
+    }
+
+    static void helper() {
+        int count = 99;
+        System.out.println("helper count = " + count);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>helper count = 99
+main count = 1</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>count ใน main และใน helper เป็นคนละตัว</li><li>helper ไม่เห็น count ของ main และแก้ไขไม่ได้</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 7.4.2 · ใช้ตัวแปรนอก scope <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรที่ประกาศใน for หรือใน if หายไปเมื่อออกจากบล็อก</p><div class="source-example-grid"><div class="source-field"><span>Java source · OutOfScope.java</span><pre class="source-code">public class OutOfScope {
+    public static void main(String[] args) {
+        for (int i = 0; i &lt; 3; i++) {
+            int doubled = i * 2;
+        }
+        System.out.println(i);
+        System.out.println(doubled);
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>OutOfScope.java:6: error: cannot find symbol
+        System.out.println(i);
+                           ^
+  symbol:   variable i
+  location: class OutOfScope
+OutOfScope.java:7: error: cannot find symbol
+        System.out.println(doubled);
+                           ^
+  symbol:   variable doubled
+  location: class OutOfScope</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>i</code> ประกาศใน header ของ for ใช้ได้เฉพาะในลูป</li><li><code>doubled</code> ประกาศใน body ใช้ได้เฉพาะในรอบนั้น</li><li>javac แจ้ง <code>cannot find symbol</code> ทั้งสองจุด</li><li>แก้: ประกาศตัวแปรไว้ก่อนลูปถ้าต้องใช้หลังลูป</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 7.4.3 · overloading: ชื่อเดียว หลายรูปแบบ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> compiler เลือกเมธอดจาก<strong>จำนวนและชนิด</strong>ของ argument (เรียกว่า signature) — แบบเดียวกับ <code>println</code> ที่รับได้ทั้ง int, double, String</p><div class="source-example-grid"><div class="source-field"><span>Java source · OverloadDemo.java</span><pre class="source-code">public class OverloadDemo {
+    public static void main(String[] args) {
+        System.out.println(max(3, 9));
+        System.out.println(max(2.5, 1.75));
+        System.out.println(max(4, 11, 7));
+        System.out.println(area(5));
+        System.out.println(area(4, 6));
+    }
+
+    static int max(int a, int b) {
+        return a &gt; b ? a : b;
+    }
+
+    static double max(double a, double b) {
+        return a &gt; b ? a : b;
+    }
+
+    static int max(int a, int b, int c) {
+        return max(max(a, b), c);
+    }
+
+    static double area(double side) {
+        return side * side;
+    }
+
+    static double area(double width, double height) {
+        return width * height;
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>9
+2.5
+11
+25.0
+24.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>max(3, 9) → เวอร์ชัน int, int</li><li>max(2.5, 1.75) → เวอร์ชัน double, double</li><li>max(4, 11, 7) → เวอร์ชัน 3 parameter ซึ่งเรียกเวอร์ชัน 2 parameter ซ้ำ</li><li>area(5) → สี่เหลี่ยมจัตุรัส, area(4, 6) → สี่เหลี่ยมผืนผ้า</li><li>หมายเหตุ: ชนิดผลลัพธ์อย่างเดียวต่างกันไม่ถือเป็น overload</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · scope</strong><div><pre><code>int total = 0;
+for (int i = 1; i &lt;= 3; i++) {
+    int temp = i * 10;
+    total += temp;
+}
+// บรรทัดนี้ใช้ตัวแปรใดได้บ้าง: total, i, temp ?</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>ใช้ได้เฉพาะ <strong>total</strong> (มีค่า 60) ส่วน i และ temp หมด scope เมื่อออกจากลูป</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-7-5">
+<h3>7.5 ประกอบโปรแกรมจากเมธอด</h3>
+<div class="concept-box"><span class="box-title">ขั้นตอนออกแบบโปรแกรมด้วยเมธอด (top-down)</span><ol class="step-list"><li>เขียนสิ่งที่โปรแกรมต้องทำเป็นข้อ ๆ ภาษาคน เช่น รับข้อมูล → คำนวณ → ตัดสิน → แสดงผล</li><li>แต่ละข้อที่ทำงานชัดเจนหนึ่งอย่าง → ตั้งเป็นเมธอดหนึ่งตัว ตั้งชื่อด้วยคำกริยา</li><li>กำหนดว่าแต่ละเมธอด <em>ต้องรู้อะไร</em> (parameter) และ <em>ให้อะไรกลับ</em> (return type)</li><li>เขียน main ให้เรียกเมธอดตามลำดับเหมือนสารบัญ</li><li>เขียนและทดสอบเมธอดทีละตัว โดยเรียกจาก main ด้วยค่าที่รู้คำตอบ</li></ol></div>
+<div class="source-example"><h4>ตัวอย่าง 7.5.1 · เครื่องคำนวณเกรดจากเมธอดหลายตัว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> main ประสานงาน ส่วนเมธอดแต่ละตัวทำหน้าที่เดียว: รวมคะแนน ตัดเกรด และพิมพ์รายงาน</p><div class="source-example-grid"><div class="source-field"><span>Java source · GradeReport.java</span><pre class="source-code">import java.util.Scanner;
+
+public class GradeReport {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Name: ");
+        String name = input.nextLine();
+        System.out.print("Work Mid Final: ");
+        double work = input.nextDouble();
+        double mid = input.nextDouble();
+        double fin = input.nextDouble();
+
+        double total = totalScore(work, mid, fin);
+        char grade = gradeOf(total);
+        printReport(name, total, grade);
+    }
+
+    static double totalScore(double work, double mid, double fin) {
+        return work + mid + fin;
+    }
+
+    static char gradeOf(double total) {
+        if (total &gt;= 80) return 'A';
+        if (total &gt;= 70) return 'B';
+        if (total &gt;= 60) return 'C';
+        if (total &gt;= 50) return 'D';
+        return 'F';
+    }
+
+    static void printReport(String name, double total, char grade) {
+        System.out.println("-".repeat(24));
+        System.out.printf("%-8s %s%n", "Name", name);
+        System.out.printf("%-8s %.1f%n", "Total", total);
+        System.out.printf("%-8s %c%n", "Grade", grade);
+        System.out.printf("%-8s %s%n", "Result", grade == 'F' ? "Fail" : "Pass");
+        System.out.println("-".repeat(24));
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Name: <b class="stdin">Mali</b>
+Work Mid Final: <b class="stdin">32 24 27</b>
+------------------------
+Name     Mali
+Total    83.0
+Grade    A
+Result   Pass
+------------------------</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main อ่านแล้วเข้าใจทันที: รับข้อมูล → รวม → ตัดเกรด → รายงาน</li><li>totalScore และ gradeOf คืนค่า → ทดสอบแยกได้ง่าย</li><li>printReport เป็น void เพราะหน้าที่คือแสดงผล</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 7.5.2 · ทดสอบเมธอดด้วยตารางค่าที่รู้คำตอบ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อเมธอด return ค่า เราเขียนโค้ดทดสอบอัตโนมัติได้: เรียกด้วย input ที่รู้คำตอบแล้วเทียบผล</p><div class="source-example-grid"><div class="source-field"><span>Java source · TestGradeOf.java</span><pre class="source-code">public class TestGradeOf {
+    public static void main(String[] args) {
+        check(95, 'A');
+        check(80, 'A');
+        check(79.9, 'B');
+        check(60, 'C');
+        check(49, 'F');
+    }
+
+    static void check(double score, char expected) {
+        char actual = gradeOf(score);
+        String status = actual == expected ? "PASS" : "FAIL";
+        System.out.printf("%-4s gradeOf(%.1f) = %c (expected %c)%n", status, score, actual, expected);
+    }
+
+    static char gradeOf(double total) {
+        if (total &gt;= 80) return 'A';
+        if (total &gt;= 70) return 'B';
+        if (total &gt;= 60) return 'C';
+        if (total &gt;= 50) return 'D';
+        return 'F';
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>PASS gradeOf(95.0) = A (expected A)
+PASS gradeOf(80.0) = A (expected A)
+PASS gradeOf(79.9) = B (expected B)
+PASS gradeOf(60.0) = C (expected C)
+PASS gradeOf(49.0) = F (expected F)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>check เรียก gradeOf แล้วเปรียบเทียบกับคำตอบที่คาด</li><li>ทดสอบค่าขอบ 80 และ 79.9 ด้วย — จุดที่มักผิด</li><li>บทที่ 10 จะขยายแนวคิดนี้เป็นการออกแบบ test case</li></ol></div></div>
+<div class="note-box"><span class="box-title">สัญญาณว่าควรแยกเมธอด</span><ul><li>มีโค้ดชุดเดิมซ้ำตั้งแต่ 2 ที่ขึ้นไป</li><li>main ยาวเกินหนึ่งหน้าจอ</li><li>ต้องเขียน comment อธิบายว่า “ส่วนนี้ทำ …” — ชื่อเมธอดทำหน้าที่แทน comment ได้</li><li>อยากทดสอบการคำนวณส่วนหนึ่งแยกจากส่วนรับข้อมูล</li></ul></div>
+</article>
       </section>
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ออกแบบชื่อเมธอดให้บอกหน้าที่ และแยกค่าที่รับเข้าออกจากค่าที่คืนกลับ</p>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 7.5</span>คำนวณภาษี</h3><p>สร้างเมธอดรับยอดก่อนภาษีและอัตราภาษี แล้วคืนยอดรวมภาษี ทดสอบยอด 100 บาท อัตรา 7%</p><div class="answer-gate" data-answer-id="7.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>static double totalWithTax(double subtotal, double taxRate) {&#10;    return subtotal * (1 + taxRate);&#10;}&#10;&#10;System.out.println(totalWithTax(100.0, 0.07)); // 107.0</code></pre></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 7.6</span>แปลงอุณหภูมิ</h3><p>เขียนเมธอดคืนค่าอุณหภูมิฟาเรนไฮต์จากเซลเซียส ใช้สูตร <code>F = C × 9 / 5 + 32</code></p><div class="answer-gate" data-answer-id="7.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>static double toFahrenheit(double celsius) {&#10;    return celsius * 9.0 / 5 + 32;&#10;}&#10;&#10;System.out.println(toFahrenheit(0)); // 32.0</code></pre><p>ใช้ 9.0 เพื่อให้การคำนวณมีทศนิยม</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 7.7</span>รวมคะแนนในเมธอด</h3><p>เขียนเมธอดคืนค่าเฉลี่ยของคะแนน 3 จำนวน แล้วเรียกเมธอดเพื่อแสดงผล</p><div class="answer-gate" data-answer-id="7.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>static double averageOf(double first, double second, double third) {&#10;    return (first + second + third) / 3.0;&#10;}&#10;&#10;double average = averageOf(80, 90, 100);&#10;System.out.println(average); // 90.0</code></pre></div></div></article>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ทำตามลำดับจากง่ายไปยาก อ่านโจทย์และตัวอย่างผลลัพธ์ให้ครบก่อนเริ่มเขียน แล้วจึงเปิดเฉลยเพื่อเทียบแนวคิด</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 7.1</span>พิมพ์ชื่อรายวิชา<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างเมธอด <code>printCourseName()</code> ที่แสดง <code>Java Programming</code> แล้วเรียกจาก main สองครั้ง โดยมีบรรทัด <code>---</code> คั่นระหว่างการเรียก (พิมพ์จาก main)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เมธอดเป็น static void ไม่มี parameter</li><li>ประกาศเมธอดนอก main</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Java Programming
+---
+Java Programming</pre></div><div class="answer-gate" data-answer-id="7.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class CourseName {
+    public static void main(String[] args) {
+        printCourseName();
+        System.out.println("---");
+        printCourseName();
+    }
+
+    static void printCourseName() {
+        System.out.println("Java Programming");
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 7.2</span>กล่องข้อความ<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างเมธอด <code>printBox(String text)</code> ที่พิมพ์ข้อความในกรอบที่กว้างพอดีกับข้อความ (ซ้ายขวามีช่องว่าง 1 ตัว) แล้วเรียกด้วยข้อความ 2 แบบ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ความกว้างกรอบ = text.length() + 4</li><li>ใช้ <code>"-".repeat(n)</code> สร้างเส้น</li><li>เรียก printBox("Hi") และ printBox("Java Methods")</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>+----+
+| Hi |
++----+
++--------------+
+| Java Methods |
++--------------+</pre></div><div class="answer-gate" data-answer-id="7.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class TextBox {
+    public static void main(String[] args) {
+        printBox("Hi");
+        printBox("Java Methods");
+    }
+
+    static void printBox(String text) {
+        String line = "+" + "-".repeat(text.length() + 2) + "+";
+        System.out.println(line);
+        System.out.println("| " + text + " |");
+        System.out.println(line);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 7.3</span>เมธอดคำนวณค่าเฉลี่ย<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>เขียนเมธอด <code>averageOf(double a, double b, double c)</code> ที่<strong>คืนค่า</strong>เฉลี่ยของ 3 จำนวน แล้วใน main เรียกใช้กับข้อมูล 2 ชุด และแสดงผลทศนิยม 2 ตำแหน่ง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เมธอดต้อง return ค่า ไม่พิมพ์เอง</li><li>main เป็นผู้พิมพ์ผล</li><li>ชุดข้อมูล: (80, 90, 100) และ (7, 8, 8)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Average 1 = 90.00
+Average 2 = 7.67</pre></div><div class="answer-gate" data-answer-id="7.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class AverageMethod {
+    public static void main(String[] args) {
+        System.out.printf("Average 1 = %.2f%n", averageOf(80, 90, 100));
+        System.out.printf("Average 2 = %.2f%n", averageOf(7, 8, 8));
+    }
+
+    static double averageOf(double a, double b, double c) {
+        return (a + b + c) / 3.0;
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 7.4</span>แปลงหน่วยด้วยหลายเมธอด<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอดคืนค่า 3 ตัว: <code>cToF(double c)</code>, <code>kmToMile(double km)</code> (1 km = 0.621371 mile) และ <code>kgToPound(double kg)</code> (1 kg = 2.20462 lb) แล้วให้ main รับค่าทั้งสามจากผู้ใช้และแสดงผลแปลงเป็นตาราง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ค่าคงที่แปลงหน่วยประกาศเป็น <code>static final</code> ในคลาส</li><li>ทุกเมธอดแปลงหน่วยเป็น static double และ return ค่า</li><li>แสดงผลทศนิยม 2 ตำแหน่ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>Celsius km kg: <b class="stdin">30 42.195 65</b>
+   30.00 C  =    86.00 F
+   42.20 km =    26.22 mi
+   65.00 kg =   143.30 lb</pre></div><div class="answer-gate" data-answer-id="7.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class UnitConverter {
+    static final double MILE_PER_KM = 0.621371;
+    static final double POUND_PER_KG = 2.20462;
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Celsius km kg: ");
+        double c = input.nextDouble();
+        double km = input.nextDouble();
+        double kg = input.nextDouble();
+        System.out.printf("%8.2f C  = %8.2f F%n", c, cToF(c));
+        System.out.printf("%8.2f km = %8.2f mi%n", km, kmToMile(km));
+        System.out.printf("%8.2f kg = %8.2f lb%n", kg, kgToPound(kg));
+    }
+
+    static double cToF(double c) {
+        return c * 9 / 5 + 32;
+    }
+
+    static double kmToMile(double km) {
+        return km * MILE_PER_KM;
+    }
+
+    static double kgToPound(double kg) {
+        return kg * POUND_PER_KG;
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 7.5</span>isEven, isPrime และนับจำนวน<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอด <code>boolean isEven(int n)</code> และ <code>boolean isPrime(int n)</code> แล้วใน main รับช่วง a ถึง b และใช้สองเมธอดนี้นับว่ามีเลขคู่กี่ตัวและจำนวนเฉพาะกี่ตัว พร้อมแสดงรายการจำนวนเฉพาะ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>isPrime คืน false สำหรับ n &lt; 2</li><li>main ห้ามมีโค้ดตรวจจำนวนเฉพาะเอง ต้องเรียกเมธอด</li><li>ทดสอบช่วง 10 ถึง 30</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>a b: <b class="stdin">10 30</b>
+Primes: 11 13 17 19 23 29 
+Even count: 11
+Prime count: 6</pre></div><div class="answer-gate" data-answer-id="7.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class CountWithMethods {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("a b: ");
+        int a = input.nextInt(), b = input.nextInt();
+        int evens = 0, primes = 0;
+        System.out.print("Primes: ");
+        for (int n = a; n &lt;= b; n++) {
+            if (isEven(n)) evens++;
+            if (isPrime(n)) {
+                primes++;
+                System.out.print(n + " ");
+            }
+        }
+        System.out.println();
+        System.out.println("Even count: " + evens);
+        System.out.println("Prime count: " + primes);
+    }
+
+    static boolean isEven(int n) {
+        return n % 2 == 0;
+    }
+
+    static boolean isPrime(int n) {
+        if (n &lt; 2) return false;
+        for (int d = 2; d * d &lt;= n; d++) {
+            if (n % d == 0) return false;
+        }
+        return true;
+    }
+}</code></pre><p><code>return n % 2 == 0;</code> คืนผลของนิพจน์ boolean ได้โดยตรง ไม่ต้องเขียน if</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 7.6</span>overload เมธอดคำนวณพื้นที่<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอดชื่อ <code>area</code> สามแบบ (overload): <code>area(double r)</code> พื้นที่วงกลม, <code>area(double w, double h)</code> พื้นที่สี่เหลี่ยมผืนผ้า และ <code>area(double a, double b, double c)</code> พื้นที่สามเหลี่ยมจากความยาวด้านด้วยสูตรเฮรอน (s = (a+b+c)/2, พื้นที่ = √(s(s−a)(s−b)(s−c)))</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ Math.PI และ Math.sqrt</li><li>เรียกทั้งสามแบบจาก main ด้วยค่าในตัวอย่าง</li><li>อธิบายว่า compiler รู้ได้อย่างไรว่าต้องเรียกแบบไหน</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Circle r=3       : 28.27
+Rectangle 4x6    : 24.00
+Triangle 3,4,5   : 6.00</pre></div><div class="answer-gate" data-answer-id="7.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class AreaOverload {
+    public static void main(String[] args) {
+        System.out.printf("Circle r=3       : %.2f%n", area(3));
+        System.out.printf("Rectangle 4x6    : %.2f%n", area(4, 6));
+        System.out.printf("Triangle 3,4,5   : %.2f%n", area(3, 4, 5));
+    }
+
+    static double area(double r) {
+        return Math.PI * r * r;
+    }
+
+    static double area(double w, double h) {
+        return w * h;
+    }
+
+    static double area(double a, double b, double c) {
+        double s = (a + b + c) / 2;
+        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+}</code></pre><p>compiler ดูจากจำนวน argument (1, 2 หรือ 3 ตัว) เพื่อเลือกเมธอดที่ signature ตรงกัน</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 7.7</span>ตารางเงินกู้ด้วยเมธอด<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอด <code>monthlyPayment(double principal, double annualRate, int months)</code> คืนค่างวดรายเดือนด้วยสูตร P × r / (1 − (1 + r)<sup>−n</sup>) โดย r = อัตราต่อปี ÷ 12 ÷ 100 ถ้าอัตราเป็น 0 ให้คืน principal ÷ months จากนั้นใน main แสดงค่างวดของเงินกู้ 500,000 บาทที่ระยะเวลา 12, 24, 36, 48, 60 เดือน ดอกเบี้ย 6% ต่อปี</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>Math.pow(1 + r, -n)</code></li><li>ใช้ลูปใน main เรียกเมธอดซ้ำ</li><li>แสดงค่างวดและดอกเบี้ยรวม (ค่างวด × เดือน − เงินต้น)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Months      Payment     Interest
+    12    43,033.21    16,398.58
+    24    22,160.31    31,847.32
+    36    15,210.97    47,594.87
+    48    11,742.51    63,640.70
+    60     9,666.40    79,984.05</pre></div><div class="answer-gate" data-answer-id="7.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class LoanTable {
+    public static void main(String[] args) {
+        double principal = 500000;
+        double rate = 6;
+        System.out.printf("%6s %12s %12s%n", "Months", "Payment", "Interest");
+        for (int months = 12; months &lt;= 60; months += 12) {
+            double pay = monthlyPayment(principal, rate, months);
+            System.out.printf("%6d %,12.2f %,12.2f%n", months, pay, pay * months - principal);
+        }
+    }
+
+    static double monthlyPayment(double principal, double annualRate, int months) {
+        if (annualRate == 0) return principal / months;
+        double r = annualRate / 12 / 100;
+        return principal * r / (1 - Math.pow(1 + r, -months));
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 7.8</span>เครื่องมือตัวเลข: digitSum, reverse, isPalindrome<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>เขียนเมธอด 3 ตัวที่ทำงานกับจำนวนเต็มบวกโดยไม่ใช้ String: <code>int digitSum(int n)</code>, <code>int reverse(int n)</code> และ <code>boolean isPalindrome(int n)</code> (ต้องเรียก reverse) จากนั้นให้ main หาจำนวนพาลินโดรมทั้งหมดในช่วง 100–200 และแสดงผลรวมหลักของแต่ละตัว</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>isPalindrome ต้องใช้ reverse ไม่เขียนลูปซ้ำ</li><li>แสดงผลในรูปแบบ <code>121 (sum 4)</code> บรรทัดละ 5 ตัว</li><li>สรุปจำนวนพาลินโดรมที่พบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>101 (sum 2)  111 (sum 3)  121 (sum 4)  131 (sum 5)  141 (sum 6)  
+151 (sum 7)  161 (sum 8)  171 (sum 9)  181 (sum 10)  191 (sum 11)  
+Found 10 palindromes</pre></div><div class="answer-gate" data-answer-id="7.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class NumberTools {
+    public static void main(String[] args) {
+        int found = 0;
+        for (int n = 100; n &lt;= 200; n++) {
+            if (isPalindrome(n)) {
+                System.out.printf("%d (sum %d)  ", n, digitSum(n));
+                found++;
+                if (found % 5 == 0) System.out.println();
+            }
+        }
+        if (found % 5 != 0) System.out.println();
+        System.out.println("Found " + found + " palindromes");
+    }
+
+    static int digitSum(int n) {
+        int sum = 0;
+        while (n &gt; 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        return sum;
+    }
+
+    static int reverse(int n) {
+        int rev = 0;
+        while (n &gt; 0) {
+            rev = rev * 10 + n % 10;
+            n /= 10;
+        }
+        return rev;
+    }
+
+    static boolean isPalindrome(int n) {
+        return n == reverse(n);
+    }
+}</code></pre><p>การแก้ parameter n ใน digitSum และ reverse ไม่กระทบตัวแปร n ใน main เพราะ Java ส่งสำเนาของค่า</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 7.9</span>ตัวช่วยตรวจการรับข้อมูล<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>เขียนเมธอด <code>readIntInRange(Scanner in, String prompt, int min, int max)</code> ที่ถามซ้ำจนกว่าผู้ใช้จะป้อนจำนวนเต็มในช่วง [min, max] แล้ว return ค่านั้น จากนั้นใช้เมธอดนี้สร้างโปรแกรมรับวันเกิด (วัน 1–31, เดือน 1–12, ปี ค.ศ. 1900–2026) และคำนวณอายุ ณ วันที่ 4/10/2026 (ถ้ายังไม่ถึงวันเกิดในปีนี้ให้ลบ 1)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ส่ง Scanner ตัวเดียวเป็น argument (ไม่สร้างใหม่ในเมธอด)</li><li>แสดง <code>Please enter min-max</code> เมื่อป้อนผิดช่วง</li><li>เขียนเมธอด <code>ageOn(int d, int m, int y, int nowD, int nowM, int nowY)</code> คืนอายุ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>Day: <b class="stdin">45</b>
+Please enter 1-31
+Day: <b class="stdin">15</b>
+Month: <b class="stdin">13</b>
+Please enter 1-12
+Month: <b class="stdin">8</b>
+Year: <b class="stdin">2005</b>
+Born 15/8/2005
+Age on 4/10/2026: 21</pre></div><div class="answer-gate" data-answer-id="7.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class BirthdayInput {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int d = readIntInRange(in, "Day: ", 1, 31);
+        int m = readIntInRange(in, "Month: ", 1, 12);
+        int y = readIntInRange(in, "Year: ", 1900, 2026);
+        System.out.println("Born " + d + "/" + m + "/" + y);
+        System.out.println("Age on 4/10/2026: " + ageOn(d, m, y, 4, 10, 2026));
+    }
+
+    static int readIntInRange(Scanner in, String prompt, int min, int max) {
+        int value;
+        while (true) {
+            System.out.print(prompt);
+            value = in.nextInt();
+            if (value &gt;= min &amp;&amp; value &lt;= max) return value;
+            System.out.println("Please enter " + min + "-" + max);
+        }
+    }
+
+    static int ageOn(int d, int m, int y, int nowD, int nowM, int nowY) {
+        int age = nowY - y;
+        if (nowM &lt; m || (nowM == m &amp;&amp; nowD &lt; d)) {
+            age--;
+        }
+        return age;
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 7.10</span>เกมลูกเต๋าแบบแบ่งเมธอด<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างเกมลูกเต๋าสองลูกแบบ “ผลลัพธ์กำหนดไว้” (ใช้ค่าจากผู้ใช้แทนการสุ่ม เพื่อให้ทดสอบได้) ผู้เล่นป้อนผลทอยทีละคู่ กติกา: ทอยครั้งแรกได้ผลรวม 7 หรือ 11 ชนะทันที, 2, 3, 12 แพ้ทันที, ค่าอื่นกลายเป็น “แต้มเป้าหมาย” แล้วทอยต่อไปจนได้แต้มเป้าหมาย (ชนะ) หรือได้ 7 (แพ้)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เมธอด <code>int readRoll(Scanner in)</code> อ่านลูกเต๋า 2 ลูก ตรวจว่าแต่ละลูกอยู่ใน 1–6 แล้วคืนผลรวม</li><li>เมธอด <code>String firstRollResult(int sum)</code> คืน "WIN", "LOSE" หรือ "POINT"</li><li>เมธอด <code>boolean playForPoint(Scanner in, int point)</code> วนทอยจนรู้ผล คืน true ถ้าชนะ</li><li>main เรียกเมธอดเหล่านี้และแสดงผลทุกการทอย</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Roll (two dice): <b class="stdin">4 2</b>
+  sum = 6
+Point is 6
+Roll (two dice): <b class="stdin">3 5</b>
+  sum = 8
+Roll (two dice): <b class="stdin">5 1</b>
+  sum = 6
+You WIN!</pre></div><div><small>ครั้งที่ 2</small><pre>Roll (two dice): <b class="stdin">6 6</b>
+  sum = 12
+You LOSE!</pre></div></div></div><div class="answer-gate" data-answer-id="7.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class DiceGame {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int first = readRoll(in);
+        String result = firstRollResult(first);
+        if (result.equals("POINT")) {
+            System.out.println("Point is " + first);
+            boolean win = playForPoint(in, first);
+            System.out.println(win ? "You WIN!" : "You LOSE!");
+        } else {
+            System.out.println("You " + result + "!");
+        }
+    }
+
+    static int readRoll(Scanner in) {
+        while (true) {
+            System.out.print("Roll (two dice): ");
+            int a = in.nextInt(), b = in.nextInt();
+            if (a &gt;= 1 &amp;&amp; a &lt;= 6 &amp;&amp; b &gt;= 1 &amp;&amp; b &lt;= 6) {
+                System.out.println("  sum = " + (a + b));
+                return a + b;
+            }
+            System.out.println("  dice must be 1-6");
+        }
+    }
+
+    static String firstRollResult(int sum) {
+        if (sum == 7 || sum == 11) return "WIN";
+        if (sum == 2 || sum == 3 || sum == 12) return "LOSE";
+        return "POINT";
+    }
+
+    static boolean playForPoint(Scanner in, int point) {
+        while (true) {
+            int sum = readRoll(in);
+            if (sum == point) return true;
+            if (sum == 7) return false;
+        }
+    }
+}</code></pre></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-06.html">← บทที่ 6</a><a class="pager-link" href="chapter-08.html">บทที่ 8: อาเรย์ →</a></nav>
       <footer class="lesson-footer">Java programming by Prymania · บทที่ 7 · ให้แต่ละเมธอดทำงานที่อธิบายได้ด้วยประโยคสั้น ๆ</footer>

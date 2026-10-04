@@ -10,45 +10,463 @@
 <body>
   <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
   <div class="lesson-shell">
-    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน"><a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">SIDE QUEST</span></span></a><nav class="lesson-toc" aria-label="สารบัญบทเสริม Random"><p class="toc-label">บทเสริม · Random</p><a href="#topic-random-1"><span class="toc-number">S1.1</span>สุ่มค่าด้วย Math.random</a><a href="#topic-random-2"><span class="toc-number">S1.2</span>ใช้ java.util.Random</a><a href="#topic-random-3"><span class="toc-number">S1.3</span>เกมทายตัวเลข</a><a href="#topic-random-4"><span class="toc-number">S1.4</span>จำนวนครั้งและทดสอบ</a></nav><div class="sidebar-bottom">สุ่มช่วงปิดทั้งสองด้านอย่างระวัง</div></aside>
+    <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
+      <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
+      <nav class="lesson-toc" aria-label="สารบัญบทเสริม Random"><p class="toc-label">บทเสริม · Random</p><a href="#topic-S1-1"><span class="toc-number">S1.1</span>สุ่มค่าด้วย Math.random</a><a href="#topic-S1-2"><span class="toc-number">S1.2</span>ใช้ java.util.Random</a><a href="#topic-S1-3"><span class="toc-number">S1.3</span>เกมทายตัวเลข</a><a href="#topic-S1-4"><span class="toc-number">S1.4</span>จำนวนครั้งและทดสอบ</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">สุ่มช่วงปิดทั้งสองด้านอย่างระวัง</div>
+    </aside>
     <main class="lesson-main" id="lesson-content">
-      <div class="utility-row"><a href="../index.html#extras">← บทเสริม</a><span class="utility-code">SIDE QUEST 01</span></div>
+      <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">SIDE QUEST 01</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทเสริม · Random</p><h1>สุ่มตัวเลขและเกมทายคำตอบ</h1><p>สร้างค่าที่เปลี่ยนได้ตามการรัน แล้วนำไปฝึกเงื่อนไข ลูป และการรับข้อมูลด้วยเกมทายตัวเลข</p></header>
-      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เข้าใจช่วงค่าที่ Math.random คืน</li><li>สุ่มจำนวนเต็มในช่วงที่กำหนด</li><li>ใช้ Random object</li><li>ออกแบบ loop เกมทายเลขพร้อมคำใบ้</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-random"><h2 id="section-random">สุ่มค่าอย่างตั้งใจ</h2><p>ก่อนเขียนสูตร ให้ระบุขอบเขตล่างและบนก่อนว่าแต่ละค่ารวมอยู่ในช่วงหรือไม่ ความผิดพลาดเรื่อง inclusive/exclusive เป็นบั๊กที่พบบ่อย</p>
-        <article class="subtopic" id="topic-random-1"><h3>S1.1 Math.random และช่วง [0, 1)</h3><p><code>Math.random()</code> คืนค่า double ตั้งแต่ 0.0 รวมถึง แต่ต่ำกว่า 1.0 จึงไม่คืน 1.0</p><div class="example-box"><span class="box-title">สุ่มจำนวนเต็มตั้งแต่ 1 ถึง 6</span><pre><code>int roll = (int) (Math.random() * 6) + 1;</code></pre><p>คูณ 6 ได้ค่าในช่วง 0 ถึงน้อยกว่า 6; cast เป็น int ตัดเศษจึงได้ 0–5 แล้วบวก 1 เป็น 1–6</p></div><div class="concept-box"><span class="box-title">สูตรทั่วไปที่รวมขอบเขตทั้งคู่</span><pre><code>int value = min + (int) (Math.random() * (max - min + 1));</code></pre><p>ใช้เมื่อ min ≤ max และต้องการจำนวนเต็มทุกค่าตั้งแต่ min ถึง max</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S1.1</span>สุ่มเลขสองหลัก</h4><p>สุ่มจำนวนเต็มตั้งแต่ 10 ถึง 99 โดยมีโอกาสออกได้ครบทุกค่า</p><div class="answer-gate" data-answer-id="S1.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านข้อ S1.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><pre><code>int number = 10 + (int) (Math.random() * 90);</code></pre><p>ช่วง offset มี 90 ค่า: 0–89 จึงได้ 10–99</p></div></div></div></article>
-        <article class="subtopic" id="topic-random-2"><h3>S1.2 ใช้ java.util.Random</h3><p>สร้าง Random object หนึ่งตัวแล้วเรียก method ซ้ำเมื่ออยากได้ค่าใหม่ <code>nextInt(bound)</code> คืนจำนวนเต็มตั้งแต่ 0 รวมถึง แต่ต่ำกว่า bound</p><div class="example-box"><span class="box-title">สุ่มจำนวนเต็มช่วง 20–30</span><pre><code>import java.util.Random;
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เข้าใจช่วงค่าที่ Math.random คืน</li><li>สุ่มจำนวนเต็มในช่วงที่กำหนด</li><li>ใช้ Random object และ seed เพื่อทดสอบได้</li><li>ออกแบบ loop เกมทายเลขพร้อมคำใบ้</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">สุ่มค่าอย่างตั้งใจ</h2>
+        <p>ก่อนเขียนสูตร ให้ระบุขอบเขตล่างและบนก่อนว่าแต่ละค่า<strong>รวมอยู่ในช่วงหรือไม่</strong> ความผิดพลาดเรื่อง inclusive/exclusive เป็นบั๊กที่พบบ่อย</p>
+<div class="note-box"><span class="box-title">เกี่ยวกับ output ของการสุ่ม</span><p>ตัวอย่างที่ใช้ <code>Math.random()</code> หรือ <code>new Random()</code> แบบไม่กำหนด seed จะได้ผลต่างกันทุกครั้งที่รัน ผลที่แสดงเป็นเพียงการรันครั้งหนึ่ง ส่วนตัวอย่างที่ใช้ <code>new Random(seed)</code> จะได้ผลเหมือนกันทุกครั้ง จึงใช้ทดสอบได้</p></div>
+<article class="subtopic" id="topic-S1-1">
+<h3>S1.1 Math.random และช่วง [0, 1)</h3>
+<p><code>Math.random()</code> คืนค่า double ตั้งแต่ 0.0 <strong>รวม</strong> แต่ต่ำกว่า 1.0 (<strong>ไม่รวม</strong>) — เขียนแบบคณิตศาสตร์ว่า [0, 1)</p>
+<div class="concept-box"><span class="box-title">สร้างสูตรสุ่มจำนวนเต็ม min ถึง max (รวมทั้งสองขอบ)</span><ol class="step-list"><li>นับจำนวนค่าที่เป็นไปได้: <code>count = max - min + 1</code> (1–6 มี 6 ค่า)</li><li>คูณ: <code>Math.random() * count</code> ได้ช่วง [0, count)</li><li>cast เป็น int ตัดเศษ: ได้ 0, 1, …, count − 1</li><li>บวก min: ได้ min, …, max</li><li>สูตร: <code>int v = min + (int) (Math.random() * (max - min + 1));</code></li></ol></div>
+<div class="source-example"><h4>ตัวอย่าง S1.1.1 · ค่าดิบจาก Math.random <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ดูหน้าตาค่าที่ได้ — ทุกค่าอยู่ระหว่าง 0 ถึงน้อยกว่า 1</p><div class="source-example-grid"><div class="source-field"><span>Java source · RawRandom.java</span><pre class="source-code">public class RawRandom {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;= 5; i++) {
+            double r = Math.random();
+            System.out.printf("r = %.4f   r*6 = %.4f   (int)(r*6)+1 = %d%n", r, r * 6, (int) (r * 6) + 1);
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>r = 0.3454   r*6 = 2.0722   (int)(r*6)+1 = 3
+r = 0.1727   r*6 = 1.0361   (int)(r*6)+1 = 2
+r = 0.5440   r*6 = 3.2637   (int)(r*6)+1 = 4
+r = 0.6558   r*6 = 3.9345   (int)(r*6)+1 = 4
+r = 0.8183   r*6 = 4.9096   (int)(r*6)+1 = 5</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>r อยู่ใน [0, 1)</li><li>r × 6 อยู่ใน [0, 6)</li><li>(int) ตัดเศษ → 0–5 แล้ว + 1 → 1–6</li><li>รันซ้ำจะได้ตัวเลขต่างจากนี้</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง S1.1.2 · ทอยลูกเต๋า 6000 ครั้ง ตรวจว่ากระจายเท่ากัน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้อาเรย์นับความถี่ (บทที่ 8) แต่ละหน้าควรออกใกล้ 1000 ครั้ง ถ้าหน้า 6 ไม่เคยออกแปลว่าสูตรผิด</p><div class="source-example-grid"><div class="source-field"><span>Java source · DiceFrequency.java</span><pre class="source-code">public class DiceFrequency {
+    public static void main(String[] args) {
+        int[] count = new int[7];
+        for (int i = 0; i &lt; 6000; i++) {
+            int roll = (int) (Math.random() * 6) + 1;
+            count[roll]++;
+        }
+        for (int face = 1; face &lt;= 6; face++) {
+            System.out.printf("%d: %4d %s%n", face, count[face], "#".repeat(count[face] / 50));
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>1: 1029 ####################
+2:  965 ###################
+3: 1005 ####################
+4:  970 ###################
+5:  974 ###################
+6: 1057 #####################</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>count[roll]++ ใช้ค่าที่สุ่มเป็น index</li><li>index 0 ไม่ใช้ จึงสร้างขนาด 7</li><li>ความถี่ใกล้ 1000 แต่ไม่เท่ากันพอดี — นั่นคือธรรมชาติของการสุ่ม</li></ol></div></div>
+<div class="source-example"><h4>ทดลองบั๊ก S1.1.3 · ลืม +1 หรือวาง cast ผิดที่ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สองบั๊กที่พบบ่อย: ไม่บวก 1 (ได้ 0–5) และ cast ก่อนคูณ (ได้ 0 เสมอ)</p><div class="source-example-grid"><div class="source-field"><span>Java source · RandomBugs.java</span><pre class="source-code">public class RandomBugs {
+    public static void main(String[] args) {
+        int min1 = 99, max1 = -1, min2 = 99, max2 = -1;
+        for (int i = 0; i &lt; 10000; i++) {
+            int a = (int) (Math.random() * 6);
+            int b = (int) Math.random() * 6;
+            min1 = Math.min(min1, a); max1 = Math.max(max1, a);
+            min2 = Math.min(min2, b); max2 = Math.max(max2, b);
+        }
+        System.out.println("(int)(Math.random() * 6) range: " + min1 + " to " + max1);
+        System.out.println("(int) Math.random() * 6 range: " + min2 + " to " + max2);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>(int)(Math.random() * 6) range: 0 to 5
+(int) Math.random() * 6 range: 0 to 0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>แบบแรกได้ 0–5 (ลืม +1)</li><li>แบบที่สอง: cast ทำก่อนคูณ (int) 0.xx = 0 → 0 × 6 = 0 ทุกครั้ง</li><li>เทคนิคตรวจสูตร: สุ่มหลายพันครั้งแล้วดูค่าต่ำสุดและสูงสุดที่ได้</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · สูตร</strong><div><p>เขียนสูตรสุ่มจำนวนเต็มตั้งแต่ −5 ถึง 5</p></div><details><summary>ดูคำตอบ</summary><div><p>count = 5 − (−5) + 1 = 11 → <code>int v = -5 + (int) (Math.random() * 11);</code></p></div></details></div>
+</article>
+<article class="subtopic" id="topic-S1-2">
+<h3>S1.2 ใช้ java.util.Random</h3>
+<table class="comparison-table"><thead><tr><th>เมธอด</th><th>คืนค่า</th></tr></thead><tbody><tr><td><code>nextInt(bound)</code></td><td>int ใน [0, bound)</td></tr><tr><td><code>nextInt(origin, bound)</code> (Java 17+)</td><td>int ใน [origin, bound)</td></tr><tr><td><code>nextDouble()</code></td><td>double ใน [0, 1)</td></tr><tr><td><code>nextBoolean()</code></td><td>true หรือ false</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง S1.2.1 · สุ่มจำนวนเต็มในช่วงด้วย nextInt <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง Random หนึ่งตัวแล้วเรียกซ้ำ — <code>nextInt(11) + 20</code> ได้ 20–30</p><div class="source-example-grid"><div class="source-field"><span>Java source · RandomRange.java</span><pre class="source-code">import java.util.Random;
 
-Random random = new Random();
-int value = random.nextInt(11) + 20;</code></pre><p><code>nextInt(11)</code> ได้ 0–10; บวก 20 จึงได้ 20–30</p></div><div class="note-box"><span class="box-title">ทดสอบแบบทำซ้ำได้</span><p>ส่ง seed คงที่ เช่น <code>new Random(42)</code> เพื่อให้ลำดับสุ่มเดิมกลับมาในการทดสอบและการดีบัก; เกมจริงทั่วไปจึงค่อยใช้ constructor เปล่า</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S1.2</span>ทอยลูกเต๋าหลายหน้า</h4><p>ใช้ Random สุ่มผลลูกเต๋า 12 หน้า มีค่าตั้งแต่ 1 ถึง 12</p><div class="answer-gate" data-answer-id="S1.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านข้อ S1.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><pre><code>Random random = new Random();
-int roll = random.nextInt(12) + 1;</code></pre></div></div></div></article>
-        <article class="subtopic" id="topic-random-3"><h3>S1.3 เกมทายตัวเลข</h3><p>สุ่มคำตอบหนึ่งครั้งก่อนเริ่ม loop จากนั้นรับตัวเลขจากผู้เล่น เปรียบเทียบแล้วให้คำใบ้จนกว่าจะทายถูก</p><div class="example-box"><span class="box-title">โครงเกมแบบ console</span><pre><code>Random random = new Random();
-int secret = random.nextInt(100) + 1;
-Scanner scanner = new Scanner(System.in);
-int guess = 0;
+public class RandomRange {
+    public static void main(String[] args) {
+        Random rng = new Random();
+        for (int i = 0; i &lt; 8; i++) {
+            System.out.print((rng.nextInt(11) + 20) + " ");
+        }
+        System.out.println();
+        System.out.println("coin: " + (rng.nextBoolean() ? "heads" : "tails"));
+        System.out.println("1-6 (Java 17+): " + rng.nextInt(1, 7));
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>29 29 25 26 24 29 21 21 
+coin: heads
+1-6 (Java 17+): 2</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>nextInt(11) → 0–10, + 20 → 20–30</li><li>nextBoolean จำลองการโยนเหรียญ</li><li>nextInt(1, 7) → ขอบบนไม่รวม จึงได้ 1–6</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง S1.2.2 · seed: สุ่มแบบทำซ้ำได้ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>new Random(42)</code> ให้ลำดับตัวเลขเดิมทุกครั้งที่รัน — ใช้ทดสอบโปรแกรมที่มีการสุ่ม และ output ด้านขวาจึงเหมือนกับที่นิสิตรันได้</p><div class="source-example-grid"><div class="source-field"><span>Java source · SeededRandom.java</span><pre class="source-code">import java.util.Random;
 
-while (guess != secret) {
-    System.out.print("Guess 1-100: ");
-    guess = scanner.nextInt();
-    if (guess &lt; secret) System.out.println("Too low");
-    else if (guess &gt; secret) System.out.println("Too high");
-}
-System.out.println("Correct!");</code></pre><p>สร้าง secret นอก loop เพื่อให้คำตอบไม่เปลี่ยนทุกครั้งที่ทาย และกำหนดช่วง input ให้ตรงกับช่วงสุ่ม</p></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S1.3</span>เกมคำใบ้</h4><p>เพิ่มข้อความ Hint เมื่อผู้เล่นทายต่ำหรือสูง และจบ loop เมื่อทายถูก</p><div class="answer-gate" data-answer-id="S1.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านข้อ S1.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง</h4><pre><code>if (guess &lt; secret) {
-    System.out.println("Too low");
-} else if (guess &gt; secret) {
-    System.out.println("Too high");
-} else {
-    System.out.println("Correct!");
-}</code></pre></div></div></div></article>
-        <article class="subtopic" id="topic-random-4"><h3>S1.4 จำกัดจำนวนครั้งและทดสอบ</h3><p>ใช้ตัวนับ attempts เพิ่มเมื่อรับคำทายแต่ละครั้ง แล้วหยุดเมื่อทายถูกหรือใช้ครบจำนวนครั้ง อย่าลืมแยกกรณีชนะกับหมดสิทธิ์</p><div class="example-box"><span class="box-title">นับจำนวนครั้งสูงสุด</span><pre><code>int attempts = 0;
-int maxAttempts = 7;
-while (guess != secret &amp;&amp; attempts &lt; maxAttempts) {
-    guess = scanner.nextInt();
-    attempts++;
-    // แสดงคำใบ้
-}
-if (guess == secret) System.out.println("You win");
-else System.out.println("Out of attempts. Answer: " + secret);</code></pre></div><div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise S1.4</span>คิดกรณีทดสอบเกม</h4><p>ระบุ test cases อย่างน้อย 4 แบบสำหรับช่วง 1–100 รวมการทายถูกครั้งแรก, ต่ำกว่า, สูงกว่า และหมดจำนวนครั้ง</p><div class="answer-gate" data-answer-id="S1.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านข้อ S1.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวทาง test</h4><ul><li>secret=50, guess=50 → ชนะหนึ่งครั้ง</li><li>secret=50, guess=20 → แจ้ง Too low</li><li>secret=50, guess=80 → แจ้ง Too high</li><li>ทายผิดครบ maxAttempts → จบเกมและเฉลย secret</li></ul></div></div></div></article>
+public class SeededRandom {
+    public static void main(String[] args) {
+        Random a = new Random(42);
+        Random b = new Random(42);
+        Random c = new Random(7);
+        for (int i = 0; i &lt; 6; i++) {
+            System.out.printf("a=%d  b=%d  c=%d%n", a.nextInt(100), b.nextInt(100), c.nextInt(100));
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>a=30  b=30  c=36
+a=63  b=63  c=64
+a=48  b=48  c=85
+a=84  b=84  c=44
+a=70  b=70  c=80
+a=25  b=25  c=54</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>a และ b ใช้ seed เดียวกัน → ได้ลำดับเดียวกันทุกค่า</li><li>c ใช้ seed ต่าง → ลำดับต่าง</li><li>ตัวเลขเหล่านี้จะเหมือนเดิมทุกครั้งที่รัน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง S1.2.3 · สุ่มเลือกจากอาเรย์และสับไพ่ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สุ่ม index แทนการสุ่มค่าโดยตรง: <code>arr[rng.nextInt(arr.length)]</code> และใช้ <code>Collections.shuffle</code> สับลำดับรายการ</p><div class="source-example-grid"><div class="source-field"><span>Java source · PickAndShuffle.java</span><pre class="source-code">import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+public class PickAndShuffle {
+    public static void main(String[] args) {
+        Random rng = new Random(2026);
+        String[] menu = {"Pad Thai", "Fried rice", "Som tam", "Khao man gai", "Noodle soup"};
+        System.out.println("Today's lunch: " + menu[rng.nextInt(menu.length)]);
+
+        List&lt;String&gt; students = new ArrayList&lt;&gt;(List.of("Mali", "Beam", "Nida", "Ploy", "Tan", "Pim"));
+        Collections.shuffle(students, rng);
+        System.out.println("Shuffled: " + students);
+        System.out.println("Team A: " + students.subList(0, 3));
+        System.out.println("Team B: " + students.subList(3, 6));
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Today's lunch: Noodle soup
+Shuffled: [Beam, Pim, Ploy, Mali, Nida, Tan]
+Team A: [Beam, Pim, Ploy]
+Team B: [Mali, Nida, Tan]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>nextInt(menu.length) → index 0–4 ถูกต้องเสมอแม้เปลี่ยนจำนวนเมนู</li><li>shuffle(list, rng) ใช้ seed ทำให้ผลทำซ้ำได้</li><li>subList แบ่งทีมหลังสับแล้ว</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · nextInt</strong><div><p><code>rng.nextInt(5) * 2 + 1</code> ได้ค่าอะไรได้บ้าง</p></div><details><summary>ดูคำตอบ</summary><div><p>nextInt(5) ได้ 0–4 → × 2 + 1 → <strong>1, 3, 5, 7, 9</strong> (เลขคี่ 1–9)</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-S1-3">
+<h3>S1.3 เกมทายตัวเลข</h3>
+<div class="concept-box"><span class="box-title">ออกแบบเกม</span><ol class="step-list"><li>สุ่มคำตอบ 1–100 หนึ่งครั้งก่อนเริ่มลูป</li><li>วน: รับคำทาย → นับครั้ง → เทียบกับคำตอบ → บอก Too high/Too low</li><li>หยุดเมื่อทายถูก แล้วสรุปจำนวนครั้ง</li><li>เพิ่มเติม: จำกัดจำนวนครั้ง, ตรวจค่านอกช่วง, เล่นใหม่</li></ol></div>
+<div class="source-example"><h4>ตัวอย่าง S1.3.1 · เกมพื้นฐาน (ใช้ seed เพื่อให้ทดสอบได้) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> while วนจนทายถูก — ใช้ seed 7 ทำให้คำตอบเหมือนเดิมทุกครั้ง จึงเขียน input ทดสอบล่วงหน้าได้ (ในเกมจริงใช้ new Random())</p><div class="source-example-grid"><div class="source-field"><span>Java source · GuessGame.java</span><pre class="source-code">import java.util.Random;
+import java.util.Scanner;
+
+public class GuessGame {
+    public static void main(String[] args) {
+        Random rng = new Random(7);
+        int secret = rng.nextInt(100) + 1;
+        Scanner input = new Scanner(System.in);
+        int tries = 0;
+        int guess = 0;
+        while (guess != secret) {
+            System.out.print("Guess (1-100): ");
+            guess = input.nextInt();
+            tries++;
+            if (guess &gt; secret) System.out.println("  Too high");
+            else if (guess &lt; secret) System.out.println("  Too low");
+        }
+        System.out.println("Correct! " + secret + " in " + tries + " tries");
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Guess (1-100): <b class="stdin">50</b>
+  Too high
+Guess (1-100): <b class="stdin">25</b>
+  Too low
+Guess (1-100): <b class="stdin">40</b>
+  Too high
+Guess (1-100): <b class="stdin">35</b>
+  Too low
+Guess (1-100): <b class="stdin">37</b>
+Correct! 37 in 5 tries</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สุ่มคำตอบครั้งเดียวก่อนลูป (ถ้าสุ่มในลูปคำตอบจะเปลี่ยนทุกรอบ!)</li><li>ทายแบบแบ่งครึ่ง (binary search) ช่วยให้ได้ภายใน 7 ครั้งเสมอ</li><li>guess เริ่มที่ 0 ซึ่งไม่ใช่คำตอบที่เป็นไปได้ จึงเข้าลูปครั้งแรกแน่นอน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง S1.3.2 · จำกัดจำนวนครั้งและตรวจค่านอกช่วง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> for นับครั้ง + break เมื่อถูก ค่านอกช่วงไม่นับเป็นครั้ง (ใช้ continue หลังลดตัวนับ) และเฉลยเมื่อหมดสิทธิ์</p><div class="source-example-grid"><div class="source-field"><span>Java source · LimitedGuess.java</span><pre class="source-code">import java.util.Random;
+import java.util.Scanner;
+
+public class LimitedGuess {
+    public static void main(String[] args) {
+        final int MAX_TRIES = 5;
+        int secret = new Random(99).nextInt(100) + 1;
+        Scanner input = new Scanner(System.in);
+        boolean won = false;
+        for (int t = 1; t &lt;= MAX_TRIES; t++) {
+            System.out.print("Try " + t + "/" + MAX_TRIES + ": ");
+            int g = input.nextInt();
+            if (g &lt; 1 || g &gt; 100) {
+                System.out.println("  Out of range, not counted");
+                t--;
+                continue;
+            }
+            if (g == secret) {
+                won = true;
+                System.out.println("  Correct!");
+                break;
+            }
+            System.out.println(g &gt; secret ? "  Too high" : "  Too low");
+        }
+        if (!won) System.out.println("Out of tries. The number was " + secret);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Try 1/5: <b class="stdin">150</b>
+  Out of range, not counted
+Try 1/5: <b class="stdin">40</b>
+  Too low
+Try 2/5: <b class="stdin">80</b>
+  Too low
+Try 3/5: <b class="stdin">60</b>
+  Too low
+Try 4/5: <b class="stdin">70</b>
+  Too low
+Try 5/5: <b class="stdin">65</b>
+  Too low
+Out of tries. The number was 88</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>150 นอกช่วง → t-- แล้ว continue ไม่เสียสิทธิ์</li><li>ทายครบ 5 ครั้งไม่ถูก → แสดงคำตอบ</li><li>won เป็น flag แยกกรณีชนะ/แพ้หลังลูป</li></ol></div></div>
+</article>
+<article class="subtopic" id="topic-S1-4">
+<h3>S1.4 ทดสอบโปรแกรมที่มีการสุ่ม</h3>
+<p>โปรแกรมที่สุ่มทดสอบยาก เพราะผลไม่เหมือนเดิม เทคนิคหลัก: (1) แยกการสุ่มออกจาก logic — ให้เมธอดรับค่าที่สุ่มแล้วเป็น parameter (2) ใช้ seed (3) ทดสอบด้วยการรันจำนวนมากแล้วตรวจคุณสมบัติ เช่น ค่าทั้งหมดอยู่ในช่วง</p>
+<div class="source-example"><h4>ตัวอย่าง S1.4.1 · แยก logic ออกจากการสุ่ม แล้วทดสอบ logic ตรง ๆ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอด <code>hint(guess, secret)</code> ไม่สุ่มเอง จึงทดสอบทุกกรณีได้แน่นอน ส่วน <code>randomInRange</code> ทดสอบด้วยการรันหมื่นครั้งดูว่าได้ครบทุกค่าและไม่หลุดช่วง</p><div class="source-example-grid"><div class="source-field"><span>Java source · RandomTesting.java</span><pre class="source-code">import java.util.Random;
+
+public class RandomTesting {
+    public static void main(String[] args) {
+        System.out.println(hint(30, 42) + " / " + hint(50, 42) + " / " + hint(42, 42));
+
+        Random rng = new Random();
+        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+        boolean[] seen = new boolean[11];
+        for (int i = 0; i &lt; 10000; i++) {
+            int v = randomInRange(rng, 5, 10);
+            min = Math.min(min, v);
+            max = Math.max(max, v);
+            seen[v] = true;
+        }
+        boolean allSeen = true;
+        for (int v = 5; v &lt;= 10; v++) allSeen &amp;= seen[v];
+        System.out.println("range check: min=" + min + " max=" + max + " allValuesSeen=" + allSeen);
+    }
+
+    static String hint(int guess, int secret) {
+        if (guess &gt; secret) return "Too high";
+        if (guess &lt; secret) return "Too low";
+        return "Correct";
+    }
+
+    static int randomInRange(Random rng, int min, int max) {
+        return min + rng.nextInt(max - min + 1);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Too low / Too high / Correct
+range check: min=5 max=10 allValuesSeen=true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>hint ทดสอบได้ตรง ๆ ทุกกรณี</li><li>randomInRange ถูกต้องเมื่อ min=5, max=10 และทุกค่า 5–10 ปรากฏ</li><li>แม้ไม่ใช้ seed ผลการตรวจคุณสมบัติก็เหมือนเดิมทุกครั้ง</li></ol></div></div>
+</article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ทำตามลำดับจากง่ายไปยาก อ่านโจทย์และตัวอย่างผลลัพธ์ให้ครบก่อนเริ่มเขียน แล้วจึงเปิดเฉลยเพื่อเทียบแนวคิด</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise S1.1</span>สุ่มเลขสองหลัก<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สุ่มจำนวนเต็มตั้งแต่ 10 ถึง 99 จำนวน 10 ค่าด้วย <code>Math.random()</code> พิมพ์ในบรรทัดเดียว แล้วตรวจด้วยการสุ่ม 100,000 ครั้งว่าค่าต่ำสุดคือ 10 และสูงสุดคือ 99</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้สูตร min + (int)(Math.random() * (max − min + 1))</li><li>ผลลัพธ์ 10 ค่าแรกจะต่างจากตัวอย่าง แต่บรรทัดตรวจช่วงต้องได้ 10 และ 99</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>90 21 47 31 63 25 11 53 94 10 
+min = 10, max = 99</pre></div><div class="answer-gate" data-answer-id="S1.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S1.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class TwoDigit {
+    public static void main(String[] args) {
+        for (int i = 0; i &lt; 10; i++) {
+            System.out.print(10 + (int) (Math.random() * 90) + " ");
+        }
+        System.out.println();
+        int min = 100, max = 0;
+        for (int i = 0; i &lt; 100000; i++) {
+            int v = 10 + (int) (Math.random() * 90);
+            min = Math.min(min, v);
+            max = Math.max(max, v);
+        }
+        System.out.println("min = " + min + ", max = " + max);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise S1.2</span>โยนเหรียญ<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>ใช้ <code>new Random(5)</code> โยนเหรียญ 20 ครั้ง แสดงผลเป็น H/T ต่อกัน นับจำนวนหัวและก้อย และหาจำนวนครั้งที่ออกหน้าเดิม<strong>ติดกันยาวที่สุด</strong></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ nextBoolean()</li><li>เพราะใช้ seed 5 ผลต้องตรงกับตัวอย่างทุกตัวอักษร</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>HTTHTHTHTTHHTTHHTTHH
+Heads: 10, Tails: 10
+Longest streak: 2</pre></div><div class="answer-gate" data-answer-id="S1.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S1.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Random;
+
+public class CoinFlips {
+    public static void main(String[] args) {
+        Random rng = new Random(5);
+        int heads = 0, longest = 0, run = 0;
+        char prev = ' ';
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; 20; i++) {
+            char f = rng.nextBoolean() ? 'H' : 'T';
+            sb.append(f);
+            if (f == 'H') heads++;
+            run = (f == prev) ? run + 1 : 1;
+            longest = Math.max(longest, run);
+            prev = f;
+        }
+        System.out.println(sb);
+        System.out.println("Heads: " + heads + ", Tails: " + (20 - heads));
+        System.out.println("Longest streak: " + longest);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise S1.3</span>เกมเป่ายิ้งฉุบกับคอมพิวเตอร์<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>ผู้ใช้ป้อน rock / paper / scissors (หรือ quit เพื่อจบ) คอมพิวเตอร์สุ่มเลือก (<code>new Random(3)</code>) แสดงว่าใครชนะในแต่ละรอบ และสรุปสถิติ ชนะ/แพ้/เสมอ เมื่อจบ ถ้าป้อนคำอื่นให้แจ้งว่าไม่ถูกต้องและไม่นับรอบ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เก็บตัวเลือกในอาเรย์ String</li><li>เขียนเมธอด <code>int judge(int user, int cpu)</code> คืน 1 ชนะ, −1 แพ้, 0 เสมอ</li><li>สุ่มหลังตรวจว่า input ถูกต้องแล้วเท่านั้น</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>Your move: <b class="stdin">rock</b>
+  CPU: scissors -&gt; you win
+Your move: <b class="stdin">paper</b>
+  CPU: scissors -&gt; you lose
+Your move: <b class="stdin">lizard</b>
+  invalid move
+Your move: <b class="stdin">scissors</b>
+  CPU: rock -&gt; you lose
+Your move: <b class="stdin">rock</b>
+  CPU: paper -&gt; you lose
+Your move: <b class="stdin">quit</b>
+Win 1, Lose 3, Draw 0</pre></div><div class="answer-gate" data-answer-id="S1.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S1.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Random;
+import java.util.Scanner;
+
+public class RockPaperScissors {
+    static final String[] CHOICES = {"rock", "paper", "scissors"};
+
+    public static void main(String[] args) {
+        Random rng = new Random(3);
+        Scanner in = new Scanner(System.in);
+        int win = 0, lose = 0, draw = 0;
+        while (true) {
+            System.out.print("Your move: ");
+            String move = in.next().toLowerCase();
+            if (move.equals("quit")) break;
+            int user = indexOf(move);
+            if (user &lt; 0) {
+                System.out.println("  invalid move");
+                continue;
+            }
+            int cpu = rng.nextInt(3);
+            int r = judge(user, cpu);
+            System.out.println("  CPU: " + CHOICES[cpu] + " -&gt; " + (r &gt; 0 ? "you win" : r &lt; 0 ? "you lose" : "draw"));
+            if (r &gt; 0) win++; else if (r &lt; 0) lose++; else draw++;
+        }
+        System.out.println("Win " + win + ", Lose " + lose + ", Draw " + draw);
+    }
+
+    static int indexOf(String move) {
+        for (int i = 0; i &lt; CHOICES.length; i++) if (CHOICES[i].equals(move)) return i;
+        return -1;
+    }
+
+    static int judge(int user, int cpu) {
+        if (user == cpu) return 0;
+        return (user - cpu + 3) % 3 == 1 ? 1 : -1;
+    }
+}</code></pre><p><code>(user − cpu + 3) % 3 == 1</code> คือผู้ใช้ชนะ เพราะในลำดับ rock(0) → paper(1) → scissors(2) ตัวที่อยู่ถัดไปหนึ่งตำแหน่ง (วนรอบ) ชนะตัวก่อนหน้า</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise S1.4</span>สุ่มรหัสผ่านตามกฎ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอด <code>String generatePassword(Random rng, int length)</code> สร้างรหัสผ่านยาว length (≥ 8) ที่<strong>รับประกัน</strong>ว่ามีตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก ตัวเลข และอักขระพิเศษ (!@#$%) อย่างน้อยอย่างละหนึ่งตัว ตำแหน่งต้องสุ่มด้วย (ไม่ใช่ขึ้นต้นด้วยตัวพิมพ์ใหญ่เสมอ) ใช้ seed 2026 สร้าง 3 รหัสยาว 10 และตรวจกฎด้วยโค้ด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เลือกอักขระบังคับ 4 ตัวก่อน ที่เหลือสุ่มจากทุกกลุ่ม แล้วสลับตำแหน่ง (shuffle)</li><li>เขียนเมธอดตรวจ <code>boolean isValid(String pw)</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>@8aamZ!MxS  valid=true
+if2$8nxbPq  valid=true
+z4vKM2UM#n  valid=true</pre></div><div class="answer-gate" data-answer-id="S1.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S1.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
+public class PasswordGenerator {
+    static final String UPPER = "ABCDEFGHJKLMNPQRSTUVWXYZ", LOWER = "abcdefghijkmnopqrstuvwxyz",
+        DIGITS = "23456789", SPECIAL = "!@#$%";
+
+    public static void main(String[] args) {
+        Random rng = new Random(2026);
+        for (int i = 0; i &lt; 3; i++) {
+            String pw = generatePassword(rng, 10);
+            System.out.println(pw + "  valid=" + isValid(pw));
+        }
+    }
+
+    static String generatePassword(Random rng, int length) {
+        String all = UPPER + LOWER + DIGITS + SPECIAL;
+        List&lt;Character&gt; chars = new ArrayList&lt;&gt;();
+        for (String group : new String[]{UPPER, LOWER, DIGITS, SPECIAL}) chars.add(pick(rng, group));
+        while (chars.size() &lt; length) chars.add(pick(rng, all));
+        Collections.shuffle(chars, rng);
+        StringBuilder sb = new StringBuilder();
+        for (char c : chars) sb.append(c);
+        return sb.toString();
+    }
+
+    static char pick(Random rng, String s) {
+        return s.charAt(rng.nextInt(s.length()));
+    }
+
+    static boolean isValid(String pw) {
+        boolean u = false, l = false, d = false, s = false;
+        for (char c : pw.toCharArray()) {
+            if (Character.isUpperCase(c)) u = true;
+            else if (Character.isLowerCase(c)) l = true;
+            else if (Character.isDigit(c)) d = true;
+            else if (SPECIAL.indexOf(c) &gt;= 0) s = true;
+        }
+        return pw.length() &gt;= 8 &amp;&amp; u &amp;&amp; l &amp;&amp; d &amp;&amp; s;
+    }
+}</code></pre><p>ตัดตัวอักษรที่สับสนง่ายอย่าง O/0, I/l/1 ออกจากกลุ่มอักขระ เพื่อให้ผู้ใช้อ่านรหัสได้ถูก</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise S1.5</span>จำลองมอนติคาร์โล: ประมาณค่า π<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สุ่มจุด (x, y) ในสี่เหลี่ยมจัตุรัส [0, 1) × [0, 1) จำนวน N จุด นับจุดที่อยู่ในวงกลมหนึ่งในสี่ (x² + y² ≤ 1) แล้วประมาณ π ≈ 4 × (จุดในวง / N) ทำสำหรับ N = 100, 10,000 และ 1,000,000 ด้วย <code>new Random(1)</code> แสดงค่าประมาณ และความคลาดเคลื่อนจาก Math.PI</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เขียนเมธอด <code>double estimatePi(Random rng, int n)</code></li><li>แสดงตาราง N, ค่าประมาณ, error ทศนิยม 5 ตำแหน่ง</li><li>อธิบายว่าทำไม N มากขึ้นค่าจึงแม่นขึ้น</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>         N   estimate      error
+       100    3.12000    0.02159
+    10,000    3.13960    0.00199
+ 1,000,000    3.14336    0.00176</pre></div><div class="answer-gate" data-answer-id="S1.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S1.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Random;
+
+public class MonteCarloPi {
+    public static void main(String[] args) {
+        Random rng = new Random(1);
+        System.out.printf("%10s %10s %10s%n", "N", "estimate", "error");
+        for (int n : new int[]{100, 10_000, 1_000_000}) {
+            double pi = estimatePi(rng, n);
+            System.out.printf("%,10d %10.5f %10.5f%n", n, pi, Math.abs(pi - Math.PI));
+        }
+    }
+
+    static double estimatePi(Random rng, int n) {
+        int inside = 0;
+        for (int i = 0; i &lt; n; i++) {
+            double x = rng.nextDouble(), y = rng.nextDouble();
+            if (x * x + y * y &lt;= 1) inside++;
+        }
+        return 4.0 * inside / n;
+    }
+}</code></pre><p>พื้นที่วงกลมหนึ่งในสี่ = π/4 ของสี่เหลี่ยม สัดส่วนจุดที่ตกในวงจึงเข้าใกล้ π/4 เมื่อจำนวนจุดมากขึ้น (กฎของจำนวนมาก) — ความคลาดเคลื่อน<em>โดยเฉลี่ย</em>ลดลงตาม N แต่การรันครั้งหนึ่งอาจไม่ดีขึ้นทุกขั้น ดังที่เห็นในตัวอย่างว่า N = 1,000,000 คลาดเคลื่อนพอ ๆ กับ 10,000</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise S1.6</span>เกมทายตัวเลขแบบหลายรอบพร้อมสถิติ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>ขยายเกมทายตัวเลขให้เล่นได้หลายรอบ: แต่ละรอบสุ่มคำตอบใหม่ (ใช้ <code>new Random(11)</code> ตัวเดียวตลอดเกม) จำกัด 7 ครั้งต่อรอบ จบรอบแล้วถาม <code>Play again? (y/n)</code> เมื่อเลิกเล่นให้สรุป: จำนวนรอบ, ชนะกี่รอบ, จำนวนครั้งเฉลี่ยในรอบที่ชนะ และสถิติดีที่สุด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แยกเมธอด <code>int playRound(Scanner in, int secret)</code> คืนจำนวนครั้งที่ใช้ หรือ −1 ถ้าแพ้</li><li>เก็บผลของรอบที่ชนะใน ArrayList&lt;Integer&gt;</li><li>ตัวอย่างใช้ seed 11: คำตอบรอบแรกคือ 39 รอบที่สองคือ 69 (ตัวอย่างแพ้รอบที่สอง)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>== Round 1 ==
+Guess 1: <b class="stdin">50</b>
+  Too high
+Guess 2: <b class="stdin">25</b>
+  Too low
+Guess 3: <b class="stdin">37</b>
+  Too low
+Guess 4: <b class="stdin">39</b>
+  Correct in 4
+Play again? (y/n) <b class="stdin">y</b>
+== Round 2 ==
+Guess 1: <b class="stdin">50</b>
+  Too low
+Guess 2: <b class="stdin">75</b>
+  Too high
+Guess 3: <b class="stdin">62</b>
+  Too low
+Guess 4: <b class="stdin">68</b>
+  Too low
+Guess 5: <b class="stdin">70</b>
+  Too high
+Guess 6: <b class="stdin">71</b>
+  Too high
+Guess 7: <b class="stdin">72</b>
+  Too high
+  Lost! It was 69
+Play again? (y/n) <b class="stdin">n</b>
+Rounds: 2, Wins: 1
+Average tries: 4.00, Best: 4</pre></div><div class="answer-gate" data-answer-id="S1.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ S1.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+public class MultiRoundGuess {
+    public static void main(String[] args) {
+        Random rng = new Random(11);
+        Scanner in = new Scanner(System.in);
+        ArrayList&lt;Integer&gt; wins = new ArrayList&lt;&gt;();
+        int rounds = 0;
+        String again;
+        do {
+            rounds++;
+            System.out.println("== Round " + rounds + " ==");
+            int result = playRound(in, rng.nextInt(100) + 1);
+            if (result &gt; 0) wins.add(result);
+            System.out.print("Play again? (y/n) ");
+            again = in.next();
+        } while (again.equalsIgnoreCase("y"));
+        System.out.println("Rounds: " + rounds + ", Wins: " + wins.size());
+        if (!wins.isEmpty()) {
+            int sum = 0, best = Integer.MAX_VALUE;
+            for (int w : wins) { sum += w; best = Math.min(best, w); }
+            System.out.printf("Average tries: %.2f, Best: %d%n", (double) sum / wins.size(), best);
+        }
+    }
+
+    static int playRound(Scanner in, int secret) {
+        for (int t = 1; t &lt;= 7; t++) {
+            System.out.print("Guess " + t + ": ");
+            int g = in.nextInt();
+            if (g == secret) {
+                System.out.println("  Correct in " + t);
+                return t;
+            }
+            System.out.println(g &gt; secret ? "  Too high" : "  Too low");
+        }
+        System.out.println("  Lost! It was " + secret);
+        return -1;
+    }
+}</code></pre></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="../index.html#extras">← บทเสริมทั้งหมด</a><a class="pager-link" href="side-quest-timer.html">Timer และ Thread →</a></nav>
       <footer class="lesson-footer">Java programming by Prymania · บทเสริม Random · เช็กขอบเขตช่วงสุ่มทุกครั้ง</footer>

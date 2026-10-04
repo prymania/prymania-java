@@ -13,108 +13,439 @@
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
       <nav class="lesson-toc" aria-label="สารบัญบทที่ 14"><p class="toc-label">บทที่ 14 · หน้าต่างแรก</p><a href="#topic-14-1"><span class="toc-number">14.1</span>Console กับ GUI</a><a href="#topic-14-2"><span class="toc-number">14.2</span>สร้าง JFrame</a><a href="#topic-14-3"><span class="toc-number">14.3</span>Container และ JPanel</a><a href="#topic-14-4"><span class="toc-number">14.4</span>Event Dispatch Thread</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
-      <div class="sidebar-bottom">สร้างหน้าต่างบน Event Dispatch Thread</div>
+      <div class="sidebar-bottom">สร้าง GUI บน Event Dispatch Thread เสมอ</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 14 / 19</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทที่ 14 · เริ่มต้น GUI ด้วย javax.swing</p><h1>หน้าต่างแรกของเรา</h1><p>เปลี่ยนจากโปรแกรมที่รับ/แสดงข้อความใน console ไปเป็นหน้าต่างที่มีพื้นที่วางส่วนควบคุม และตอบสนองเหตุการณ์ของผู้ใช้</p></header>
       <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบาย JFrame, container และ component</li><li>สร้างหน้าต่างและกำหนดการปิด</li><li>เพิ่ม JPanel เป็นพื้นที่จัดกลุ่ม component</li><li>เริ่ม GUI บน Event Dispatch Thread</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-14"><h2 id="section-14">14. จากผลลัพธ์ใน console สู่หน้าต่าง GUI</h2><p>GUI (Graphical User Interface) ให้ผู้ใช้เห็นหน้าต่าง ปุ่ม ช่องกรอกข้อมูล และผลลัพธ์ แทนการพิมพ์คำสั่งใน console โดย Swing เป็นชุด component มาตรฐานใน Java SE สำหรับสร้าง GUI</p>
-        <article class="subtopic" id="topic-14-1">
-          <h3>14.1 หน้าต่าง, container และ component</h3><p><code>JFrame</code> เป็นหน้าต่างหลัก; <strong>container</strong> ใช้บรรจุ/จัดกลุ่ม component; <strong>component</strong> คือสิ่งที่มองเห็นหรือโต้ตอบได้ เช่น label, button และ text field</p>
-          <div class="concept-box"><span class="box-title">แผนผังส่วนประกอบ</span><pre><code>JFrame (หน้าต่าง)
-└── JPanel (พื้นที่จัดกลุ่ม)
-    ├── JLabel (ข้อความ)
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">14. จากผลลัพธ์ใน console สู่หน้าต่าง GUI</h2>
+        <p>GUI (Graphical User Interface) ให้ผู้ใช้เห็นหน้าต่าง ปุ่ม ช่องกรอกข้อมูล และผลลัพธ์ แทนการพิมพ์คำสั่งใน console <strong>Swing</strong> (แพ็กเกจ <code>javax.swing</code>) เป็นชุด component มาตรฐานใน Java SE สำหรับสร้าง GUI</p>
+<div class="note-box"><span class="box-title">เกี่ยวกับภาพผลลัพธ์ในบท GUI</span><p>ภาพหน้าต่างทางขวาของทุกตัวอย่าง<strong>ถ่ายจากการรันโค้ดนั้นจริง</strong> (ใช้ look and feel มาตรฐานของ Swing ชื่อ Metal) แถบชื่อหน้าต่างวาดเพิ่มให้ดู ถ้ารันบนเครื่องของนิสิต กรอบหน้าต่างจะเป็นแบบของระบบปฏิบัติการ แต่เนื้อหาภายในเหมือนกัน บางตัวอย่างมีภาพ “หลังผู้ใช้กระทำ” ซึ่งได้จากการจำลองพิมพ์/คลิกด้วยโปรแกรม</p></div>
+<article class="subtopic" id="topic-14-1">
+<h3>14.1 หน้าต่าง, container และ component</h3>
+<p><strong>JFrame</strong> เป็นหน้าต่างหลัก; <strong>container</strong> (เช่น JPanel) ใช้บรรจุและจัดกลุ่ม component; <strong>component</strong> คือสิ่งที่มองเห็นหรือโต้ตอบได้ เช่น label, button และ text field</p>
+<div class="example-box"><span class="box-title">แผนผังส่วนประกอบ (component tree)</span><pre><code>JFrame (หน้าต่าง)
+└── content pane / JPanel (พื้นที่จัดกลุ่ม)
+    ├── JLabel     (ข้อความ)
     ├── JTextField (ช่องกรอก)
-    └── JButton (ปุ่มกด)</code></pre><p>หน้าต่างทำหน้าที่เป็น root container; เรามักเพิ่ม JPanel ก่อน แล้วใส่ component ลงใน panel เพื่อจัด layout</p></div>
-          <div class="example-box"><span class="box-title">เทียบกับโปรแกรม console</span><p>Console รอ input จาก Scanner ตามลำดับคำสั่ง ส่วน GUI เปิดรับเหตุการณ์ เช่น click หรือพิมพ์ข้อความ ผู้ใช้เป็นผู้กำหนดว่าจะเกิดเหตุการณ์ใดก่อน</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 14.1</span>จับคู่หน้าที่</h4><p>จับคู่ JFrame, JPanel, JLabel และ JButton กับบทบาทของแต่ละส่วนในหน้าจอ</p><div class="answer-gate" data-answer-id="14.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><p>JFrame = หน้าต่างหลัก; JPanel = container สำหรับจัดกลุ่ม; JLabel = แสดงข้อความ; JButton = ปุ่มรับการคลิก</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-14-2">
-          <h3>14.2 สร้าง JFrame และกำหนดวงจรชีวิต</h3><p>สร้างหน้าต่าง, ตั้งชื่อ, ขนาด และนโยบายปิด แล้วจึงทำให้มองเห็น ลำดับสำคัญคือจัดค่าให้ครบก่อนเรียก <code>setVisible(true)</code></p>
-          <div class="concept-box"><span class="box-title">ลำดับการเปิดหน้าต่าง</span><ol><li>สร้าง JFrame</li><li>ตั้ง default close operation</li><li>เพิ่ม content และจัด component</li><li>กำหนดขนาดหรือ pack</li><li>ตั้งตำแหน่งแล้วแสดงหน้าต่าง</li></ol></div>
-          <div class="example-box"><span class="box-title">หน้าต่าง GUI ขั้นต่ำ</span><pre><code>import javax.swing.JFrame;
+    └── JButton    (ปุ่มกด)</code></pre><p>หน้าต่างทำหน้าที่เป็น root container; เรามักเพิ่ม JPanel ก่อน แล้วใส่ component ลงใน panel เพื่อจัด layout</p></div>
+<h4>Console กับ GUI ต่างกันอย่างไร</h4><table class="comparison-table"><thead><tr><th></th><th>Console</th><th>GUI</th></tr></thead><tbody><tr><td>ลำดับการทำงาน</td><td>โปรแกรมกำหนด: ถาม → รอ → ถามต่อ</td><td>ผู้ใช้กำหนด: คลิก/พิมพ์อะไรก่อนก็ได้</td></tr><tr><td>รับข้อมูล</td><td>Scanner อ่านทีละบรรทัด</td><td>อ่านจาก component เมื่อเกิดเหตุการณ์</td></tr><tr><td>แสดงผล</td><td>println ต่อท้ายไปเรื่อย ๆ</td><td>เปลี่ยนข้อความใน label/area ที่มีอยู่</td></tr><tr><td>โครงสร้างโค้ด</td><td>main ทำงานจากบนลงล่างจนจบ</td><td>main สร้างหน้าต่างแล้วจบ ที่เหลือขับเคลื่อนด้วย event</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 14.1.1 · เทียบโปรแกรมเดียวกัน: เวอร์ชัน console <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรม console ทำงานตามลำดับที่เขียน ผลลัพธ์ต่อท้ายใน console</p><div class="source-example-grid"><div class="source-field"><span>Java source · ConsoleGreeting.java</span><pre class="source-code">public class ConsoleGreeting {
+    public static void main(String[] args) {
+        String name = "Mali";
+        System.out.println("Welcome to Java GUI course");
+        System.out.println("Student: " + name);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Welcome to Java GUI course
+Student: Mali</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ทำบรรทัดแรก แล้วบรรทัดถัดไป จนจบ main</li><li>ไม่มีหน้าต่าง ผลลัพธ์อยู่ใน console</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 14.1.2 · เวอร์ชัน GUI: ข้อความเดียวกันในหน้าต่าง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง JFrame ใส่ JLabel สองตัวลงใน JPanel แล้วแสดงหน้าต่าง — ข้อความอยู่ในหน้าต่างแทน console</p><div class="source-example-grid"><div class="source-field"><span>Java source · GuiGreeting.java</span><pre class="source-code">import javax.swing.*;
+
+public class GuiGreeting {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Greeting");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Welcome to Java GUI course"));
+            panel.add(new JLabel("Student: Mali"));
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Greeting</div><img src="../assets/gui/gfe87b6b16c-0.png" width="251" height="26" alt="ภาพหน้าต่าง Greeting" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>import javax.swing.*;</code> นำเข้าคลาส Swing ทั้งหมด</li><li>สร้างหน้าต่าง → สร้าง panel → ใส่ label → ใส่ panel ลงหน้าต่าง</li><li><code>pack()</code> ปรับขนาดพอดีเนื้อหา แล้ว <code>setVisible(true)</code> แสดง</li><li>main จบทันที แต่หน้าต่างยังอยู่จนกว่าผู้ใช้จะปิด</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · บทบาท</strong><div><p>ในหน้าจอ login: กรอบหน้าต่าง, พื้นที่จัดกลุ่ม, คำว่า “Username”, ช่องพิมพ์ชื่อ, ปุ่ม Login ตรงกับคลาสใดของ Swing</p></div><details><summary>ดูคำตอบ</summary><div><p>JFrame, JPanel, JLabel, JTextField, JButton ตามลำดับ</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-14-2">
+<h3>14.2 สร้าง JFrame และกำหนดวงจรชีวิต</h3>
+<div class="concept-box"><span class="box-title">ลำดับการเปิดหน้าต่าง</span><ol class="step-list"><li>สร้าง <code>new JFrame("ชื่อหน้าต่าง")</code></li><li>กำหนดการปิด <code>setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)</code> — ไม่เช่นนั้นปิดหน้าต่างแล้วโปรแกรมยังทำงานค้าง</li><li>เพิ่ม content และ component</li><li>กำหนดขนาด: <code>setSize(w, h)</code> หรือ <code>pack()</code></li><li>วางตำแหน่ง <code>setLocationRelativeTo(null)</code> (กลางจอ)</li><li>เรียก <code>setVisible(true)</code> <strong>เป็นขั้นสุดท้าย</strong></li></ol></div>
+<div class="source-example"><h4>ตัวอย่าง 14.2.1 · หน้าต่างขั้นต่ำด้วย setSize <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หน้าต่างว่างที่มีขนาดตามที่กำหนด — เป็นโครงเริ่มต้นของทุกโปรแกรม GUI</p><div class="source-example-grid"><div class="source-field"><span>Java source · FirstWindow.java</span><pre class="source-code">import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-public class Main {
+public class FirstWindow {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -&gt; {
             JFrame frame = new JFrame("My First GUI");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(480, 320);
+            frame.setSize(360, 160);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
     }
-}</code></pre><p><code>EXIT_ON_CLOSE</code> จบโปรแกรมเมื่อปิดหน้าต่าง; <code>setLocationRelativeTo(null)</code> วางหน้าต่างกลางจอ</p></div>
-          <div class="note-box"><span class="box-title">setSize กับ pack</span><p><code>setSize(width, height)</code> กำหนดขนาดหน้าต่างโดยตรง; <code>pack()</code> คำนวณขนาดจาก preferred size ของ component และ layout</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 14.2</span>ปรับหน้าต่าง</h4><p>แก้ตัวอย่างให้ title เป็น <code>Student Profile</code>, ขนาด 600 × 400 และเปิดกลางจอ</p><div class="answer-gate" data-answer-id="14.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JFrame frame = new JFrame("Student Profile");
-frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-frame.setSize(600, 400);
-frame.setLocationRelativeTo(null);
-frame.setVisible(true);</code></pre></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-14-3">
-          <h3>14.3 JPanel เป็น container สำหรับ component</h3><p>เพิ่ม component ลง panel แล้วเพิ่ม panel ไปใน frame ทำให้เปลี่ยน layout หรือสลับเนื้อหาได้ง่ายขึ้น ใน Swing แต่ละ container มี layout manager คอยจัดตำแหน่ง</p>
-          <div class="example-box"><span class="box-title">หน้าต่างมีข้อความหนึ่งบรรทัด</span><pre><code>import javax.swing.*;
-import java.awt.*;
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">My First GUI</div><img src="../assets/gui/gb0ca37f2df-0.png" width="344" height="121" alt="ภาพหน้าต่าง My First GUI" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ชื่อหน้าต่างปรากฏในแถบด้านบน</li><li>ขนาด 360 × 160 พิกเซลรวมขอบหน้าต่าง</li><li>EXIT_ON_CLOSE จบโปรแกรมเมื่อกดปิด</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 14.2.2 · setSize กับ pack() <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>pack()</code> คำนวณขนาดจาก preferred size ของ component ข้างใน — ได้หน้าต่างที่พอดีเนื้อหาไม่ว่าฟอนต์ของเครื่องจะเป็นแบบไหน</p><div class="source-example-grid"><div class="source-field"><span>Java source · PackDemo.java</span><pre class="source-code">import javax.swing.*;
 
-public class Main {
+public class PackDemo {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -&gt; {
-            JFrame frame = new JFrame("Profile");
+            JFrame frame = new JFrame("Packed");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            JPanel panel = new JPanel(new FlowLayout());
-            panel.add(new JLabel("Student: Mali"));
-            frame.setContentPane(panel);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("This window is exactly as big as its content."));
+            frame.add(panel);
             frame.pack();
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
     }
-}</code></pre><p>FlowLayout เรียง component ตามลำดับที่เพิ่มลง panel และ <code>pack()</code> ปรับหน้าต่างให้พอดีกับ preferred size</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 14.3</span>วางข้อความสองส่วน</h4><p>สร้าง JFrame และ JPanel แล้วเพิ่ม JLabel สองตัว: ชื่อวิชาและชื่อผู้สอน</p><div class="answer-gate" data-answer-id="14.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JPanel panel = new JPanel(new FlowLayout());
-panel.add(new JLabel("Course: Java Programming"));
-panel.add(new JLabel("Instructor: Prymania"));
-frame.setContentPane(panel);
-frame.pack();</code></pre></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-14-4">
-          <h3>14.4 Event Dispatch Thread (EDT)</h3><p>Swing สร้างหน้าต่างและจัดการ event บน thread ชื่อ EDT ถ้าแก้ component จากหลาย thread โดยไม่ระวังอาจเกิดอาการกระพริบหรือ state ผิด จึงเริ่มสร้าง GUI ด้วย <code>SwingUtilities.invokeLater</code></p>
-          <div class="concept-box"><span class="box-title">งานบน EDT ควรสั้น</span><p>EDT รับผิดชอบวาดหน้าจอและจัดการคลิก ถ้าใส่ loop ยาว, <code>Thread.sleep</code> หรือคำนวณหนักไว้บน EDT หน้าต่างจะตอบสนองไม่ได้ บทเสริมเรื่อง Timer/Thread จะอธิบายการทำงานเบื้องหลัง</p></div>
-          <div class="example-box"><span class="box-title">เริ่มต้น GUI บน EDT</span><pre><code>public static void main(String[] args) {
-    SwingUtilities.invokeLater(() -&gt; createAndShowGui());
-}
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Packed</div><img src="../assets/gui/g721259ef06-0.png" width="258" height="26" alt="ภาพหน้าต่าง Packed" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ไม่ได้กำหนดขนาดเอง</li><li>pack() ถามขนาดที่ต้องการของ panel และ label แล้วปรับหน้าต่างให้พอดี</li><li>ถ้าเพิ่ม component ต้องเรียก pack() <em>หลัง</em> add ทั้งหมด</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 14.2.3 · คลาสที่สืบทอด JFrame <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรม GUI ขนาดใหญ่นิยมสร้างคลาสของหน้าต่างเองด้วย <code>extends JFrame</code> แล้วจัดหน้าจอใน constructor (ใช้ inheritance จากบทที่ 12)</p><div class="source-example-grid"><div class="source-field"><span>Java source · ProfileWindow.java</span><pre class="source-code">import javax.swing.*;
 
-static void createAndShowGui() {
-    JFrame frame = new JFrame("Safe Swing Start");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(400, 250);
-    frame.setLocationRelativeTo(null);
-    frame.setVisible(true);
-}</code></pre></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 14.4</span>หาความเสี่ยงของ EDT</h4><p>โค้ดสร้างหน้าต่างแล้วเรียก <code>Thread.sleep(5000)</code> บน EDT ระบุสิ่งที่ผู้ใช้จะเห็นและตำแหน่งที่ควรย้ายงานหนัก</p><div class="answer-gate" data-answer-id="14.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><p>หน้าต่างค้างและ repaint/click ไม่ตอบสนอง 5 วินาที เพราะ EDT ถูก block; งานที่ใช้เวลานานควรทำบน worker thread แล้วส่งผลกลับ EDT</p></div></div></div>
-        </article>
+public class ProfileWindow extends JFrame {
+    public ProfileWindow(String student) {
+        super("Student Profile");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Name: " + student));
+        panel.add(new JLabel("Faculty: Science"));
+        add(panel);
+        setSize(320, 100);
+        setLocationRelativeTo(null);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; new ProfileWindow("Mali").setVisible(true));
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Student Profile</div><img src="../assets/gui/g0ea353d149-0.png" width="304" height="61" alt="ภาพหน้าต่าง Student Profile" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>super("Student Profile")</code> ส่งชื่อหน้าต่างให้ constructor ของ JFrame</li><li>เรียก setSize, add ได้ตรง ๆ เพราะเป็นเมธอดที่สืบทอดมา</li><li>constructor รับ parameter ได้ ทำให้สร้างหน้าต่างหลายแบบจากคลาสเดียว</li><li>main เหลือบรรทัดเดียว</li></ol></div></div>
+<div class="note-box"><span class="box-title">ค่าที่ใช้กับ setDefaultCloseOperation</span><ul><li><code>EXIT_ON_CLOSE</code> — ปิดหน้าต่างแล้วจบโปรแกรม (ใช้กับหน้าต่างหลัก)</li><li><code>DISPOSE_ON_CLOSE</code> — ปิดเฉพาะหน้าต่างนี้ (ใช้กับหน้าต่างรอง บทที่ 18)</li><li><code>HIDE_ON_CLOSE</code> — ค่าเริ่มต้น ซ่อนหน้าต่างแต่โปรแกรมยังทำงาน (มักเป็นบั๊กสำหรับผู้เริ่มต้น)</li></ul></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ลำดับ</strong><div><p>ถ้าเรียก <code>setVisible(true)</code> ก่อน <code>add(panel)</code> และไม่เรียก pack() อาจเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>หน้าต่างอาจแสดงว่างหรือขนาดผิด เพราะ component ถูกเพิ่มหลังจากหน้าต่างคำนวณ layout ไปแล้ว — จึงควรตั้งค่าทุกอย่างก่อน setVisible(true) (ถ้าจำเป็นต้องเพิ่มทีหลังให้เรียก revalidate() และ repaint())</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-14-3">
+<h3>14.3 JPanel เป็น container สำหรับ component</h3>
+<p>เพิ่ม component ลง panel แล้วเพิ่ม panel ไปใน frame ทำให้เปลี่ยน layout หรือสลับเนื้อหาได้ง่าย แต่ละ container มี <strong>layout manager</strong> คอยจัดตำแหน่ง JPanel ใช้ <code>FlowLayout</code> เป็นค่าเริ่มต้น (เรียงซ้ายไปขวา ขึ้นบรรทัดใหม่เมื่อเต็ม) บทที่ 15 จะเรียน layout อื่น ๆ</p>
+<div class="source-example"><h4>ตัวอย่าง 14.3.1 · หลาย component ใน panel เดียว <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> FlowLayout วาง component ตามลำดับที่ add จากซ้ายไปขวา</p><div class="source-example-grid"><div class="source-field"><span>Java source · LoginPanel.java</span><pre class="source-code">import javax.swing.*;
+
+public class LoginPanel {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Login");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Username:"));
+            panel.add(new JTextField(10));
+            panel.add(new JButton("Login"));
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Login</div><img src="../assets/gui/g40af0a934c-0.png" width="261" height="36" alt="ภาพหน้าต่าง Login" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JTextField(10) กำหนดความกว้างประมาณ 10 ตัวอักษร</li><li>ลำดับ add = ลำดับบนหน้าจอ</li><li>ยังกดปุ่มแล้วไม่มีอะไรเกิดขึ้น — บทที่ 16 จะเพิ่ม event</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 14.3.2 · ตกแต่ง panel: สีพื้นหลัง ขอบ และฟอนต์ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> component มีเมธอดปรับหน้าตา เช่น <code>setBackground</code>, <code>setForeground</code>, <code>setFont</code> และ <code>setBorder</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · StyledPanel.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class StyledPanel {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Styled");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.setBackground(new Color(229, 244, 207));
+            panel.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
+            JLabel title = new JLabel("Java Cafe");
+            title.setFont(new Font("SansSerif", Font.BOLD, 22));
+            title.setForeground(new Color(8, 125, 134));
+            panel.add(title);
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Styled</div><img src="../assets/gui/g453692cc21-0.png" width="160" height="71" alt="ภาพหน้าต่าง Styled" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>new Color(r, g, b)</code> กำหนดสีด้วยค่า 0–255 (ต้อง import java.awt.*)</li><li>EmptyBorder เว้นระยะขอบ บน-ซ้าย-ล่าง-ขวา</li><li>Font(ชื่อ, รูปแบบ, ขนาด) — BOLD, ITALIC, PLAIN</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 14.3.3 · panel ซ้อน panel: แยกส่วนหัวกับส่วนเนื้อหา <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> panel ใส่ใน panel ได้ ทำให้แบ่งหน้าจอเป็นส่วน ๆ แต่ละส่วนตกแต่งแยกกันได้ ในตัวอย่างใช้ BorderLayout ของ frame วางส่วนหัวด้านบนและเนื้อหาตรงกลาง</p><div class="source-example-grid"><div class="source-field"><span>Java source · NestedPanels.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class NestedPanels {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Course Card");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JPanel header = new JPanel();
+            header.setBackground(new Color(32, 44, 40));
+            JLabel title = new JLabel("CS101 Programming");
+            title.setForeground(Color.WHITE);
+            header.add(title);
+
+            JPanel body = new JPanel();
+            body.add(new JLabel("Credits: 3"));
+            body.add(new JLabel("Seats: 40"));
+            body.add(new JButton("Enroll"));
+
+            frame.add(header, BorderLayout.NORTH);
+            frame.add(body, BorderLayout.CENTER);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Course Card</div><img src="../assets/gui/g63ae3c4123-0.png" width="193" height="62" alt="ภาพหน้าต่าง Course Card" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>header และ body เป็น panel แยกกัน</li><li>content pane ของ JFrame ใช้ BorderLayout: NORTH คือแถบบน, CENTER คือพื้นที่หลัก</li><li>เปลี่ยนสีหัวได้โดยไม่กระทบเนื้อหา</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · FlowLayout</strong><div><p>ถ้าหน้าต่าง FlowLayout แคบเกินไปสำหรับ component ทั้งหมดในแถวเดียว จะเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>component ที่ไม่พอจะถูกย้ายไปบรรทัดถัดไป (wrap) — ถ้าหน้าต่างสูงไม่พอก็จะมองไม่เห็นบางส่วน จึงควรใช้ pack() หรือ layout ที่เหมาะสม</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-14-4">
+<h3>14.4 Event Dispatch Thread (EDT)</h3>
+<p>Swing ไม่ปลอดภัยต่อการใช้งานจากหลาย thread พร้อมกัน ทุกการสร้างและแก้ไข component ต้องทำบน <strong>Event Dispatch Thread (EDT)</strong> ซึ่งเป็น thread เดียวที่วาดหน้าจอและประมวลผลเหตุการณ์ วิธีมาตรฐานคือห่อโค้ดสร้าง GUI ด้วย <code>SwingUtilities.invokeLater(() -&gt; { ... });</code></p>
+<div class="concept-box"><span class="box-title">invokeLater ทำอะไร</span><pre><code>main thread                      Event Dispatch Thread
+───────────                      ─────────────────────
+main() เริ่ม
+invokeLater(งานสร้าง GUI) ──────▶ คิวงาน: [สร้าง GUI]
+main() จบ                        ทำ "สร้าง GUI" → แสดงหน้าต่าง
+                                 รอ event: คลิก, พิมพ์, วาดใหม่ ...</code></pre><p><code>() -&gt; { ... }</code> คือ lambda — “งานชิ้นหนึ่ง” ที่ส่งให้ EDT ทำภายหลัง จะเรียนละเอียดในบทที่ 16</p></div>
+<div class="source-example"><h4>ตัวอย่าง 14.4.1 · ดูชื่อ thread ที่ทำงาน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> แสดงว่าโค้ดใน invokeLater ทำงานบน thread ชื่อ AWT-EventQueue-0 ไม่ใช่ main</p><div class="source-example-grid"><div class="source-field"><span>Java source · WhichThread.java</span><pre class="source-code">import javax.swing.*;
+
+public class WhichThread {
+    public static void main(String[] args) {
+        String mainThread = Thread.currentThread().getName();
+        SwingUtilities.invokeLater(() -&gt; {
+            String edt = Thread.currentThread().getName();
+            JFrame frame = new JFrame("Threads");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("main ran on: " + mainThread));
+            panel.add(new JLabel("GUI built on: " + edt));
+            panel.add(new JLabel("isEDT = " + SwingUtilities.isEventDispatchThread()));
+            frame.add(panel);
+            frame.setSize(260, 110);
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Threads</div><img src="../assets/gui/g33165ca4d6-0.png" width="244" height="71" alt="ภาพหน้าต่าง Threads" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main ทำงานบน thread ชื่อ main</li><li>โค้ดใน lambda ทำงานบน AWT-EventQueue-0 (EDT)</li><li><code>SwingUtilities.isEventDispatchThread()</code> ใช้ตรวจได้ว่าอยู่บน EDT หรือไม่</li><li>สังเกต: setSize(260, …) แคบ FlowLayout จึงตัดขึ้นบรรทัดใหม่</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 14.4.2 · โครงโปรแกรม GUI มาตรฐานที่จะใช้ทั้งหน่วย <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> แยกเมธอด <code>createAndShowGui()</code> แล้วให้ main เรียกผ่าน invokeLater — โครงนี้ใช้ได้กับทุกบทถัดไป</p><div class="source-example-grid"><div class="source-field"><span>Java source · GuiTemplate.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class GuiTemplate {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(GuiTemplate::createAndShowGui);
+    }
+
+    private static void createAndShowGui() {
+        JFrame frame = new JFrame("App Template");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(buildContent());
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    private static JPanel buildContent() {
+        JPanel panel = new JPanel(new BorderLayout(8, 8));
+        panel.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
+        panel.add(new JLabel("Header goes here"), BorderLayout.NORTH);
+        panel.add(new JTextArea("Main content area", 4, 24), BorderLayout.CENTER);
+        panel.add(new JButton("Action"), BorderLayout.SOUTH);
+        return panel;
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">App Template</div><img src="../assets/gui/gbf44286295-0.png" width="288" height="146" alt="ภาพหน้าต่าง App Template" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>GuiTemplate::createAndShowGui</code> คือ method reference — สั้นกว่าเขียน lambda</li><li>buildContent() คืน JPanel ที่จัดเสร็จแล้ว แยกส่วนสร้างหน้าตาออกจากส่วนตั้งค่าหน้าต่าง</li><li>setContentPane แทนที่ content pane ด้วย panel ของเรา</li></ol></div></div>
+<div class="note-box"><span class="box-title">งานหนักห้ามทำบน EDT</span><p>ถ้าโค้ดบน EDT ทำงานนาน (เช่น ลูปคำนวณหลายวินาที หรือ Thread.sleep) หน้าต่างจะค้าง กดอะไรไม่ได้ เพราะ EDT ไม่ว่างวาดหน้าจอ บทเสริม “Timer, Thread และ Swing” อธิบายวิธีแก้ด้วย Swing Timer และ SwingWorker</p></div>
+</article>
       </section>
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>สร้างหน้าต่างที่จัดวางและปิดได้ตามต้องการ แล้วอธิบายลำดับการสร้าง</p>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 14.5</span>หน้าต่างชื่อของฉัน</h3><p>สร้างหน้าต่างชื่อ About Me ขนาดพอดีกับข้อความ มี JLabel แสดงชื่อและวิชา ปิดหน้าต่างแล้วจบโปรแกรม</p><div class="answer-gate" data-answer-id="14.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><pre><code>JPanel panel = new JPanel(new FlowLayout());
-panel.add(new JLabel("Name: Your Name"));
-panel.add(new JLabel("Course: Java"));
-JFrame frame = new JFrame("About Me");
-frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-frame.setContentPane(panel);
-frame.pack();
-frame.setLocationRelativeTo(null);
-frame.setVisible(true);</code></pre></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 14.6</span>ออกแบบโครงหน้าจอ</h3><p>วาดลำดับ component tree สำหรับหน้าต่างลงทะเบียนที่มี label, text field, ปุ่มยืนยัน และข้อความสถานะ โดยยังไม่ต้องเขียน event</p><div class="answer-gate" data-answer-id="14.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โครงสร้างตัวอย่าง</h4><pre><code>JFrame
-└── JPanel
-    ├── JLabel("Name")
-    ├── JTextField
-    ├── JButton("Submit")
-    └── JLabel("Status")</code></pre></div></div></article>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ทุกข้อเป็นโปรแกรม GUI ให้รันแล้วเทียบหน้าต่างกับภาพตัวอย่าง (ขนาดและฟอนต์อาจต่างเล็กน้อยตามเครื่อง) ทุกโปรแกรมต้องสร้าง GUI ใน SwingUtilities.invokeLater</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 14.1</span>หน้าต่าง Student Profile<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างหน้าต่างชื่อ <code>Student Profile</code> ขนาด 400 × 150 เปิดกลางจอ และปิดแล้วจบโปรแกรม ภายในมีข้อความ <code>Name: (ชื่อของคุณ)</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ setSize, setLocationRelativeTo(null), EXIT_ON_CLOSE</li><li>ใส่ JLabel ผ่าน JPanel</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Student Profile</div><img src="../assets/gui/gb226e8bcdc-0.png" width="384" height="111" alt="ภาพหน้าต่าง Student Profile" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="14.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+
+public class StudentProfile {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Student Profile");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Name: Mali Jaidee"));
+            frame.add(panel);
+            frame.setSize(400, 150);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 14.2</span>ป้ายข้อความสามบรรทัดด้วย pack()<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างหน้าต่าง <code>About</code> ที่มี JLabel 3 ตัว: ชื่อโปรแกรม, เวอร์ชัน และผู้พัฒนา ใช้ <code>pack()</code> แทน setSize และสังเกตว่า FlowLayout วางข้อความในแถวเดียวกัน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ JPanel ค่าเริ่มต้น (FlowLayout)</li><li>เรียก pack() หลัง add ทั้งหมด</li><li>ตอบคำถาม: ถ้าอยากให้อยู่คนละบรรทัดต้องทำอย่างไร (ดูเฉลย)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">About</div><img src="../assets/gui/g5fbfb2c3a8-0.png" width="177" height="26" alt="ภาพหน้าต่าง About" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="14.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+
+public class AboutWindow {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("About");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Grade Calculator"));
+            panel.add(new JLabel("v1.0"));
+            panel.add(new JLabel("by Mali"));
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p>ถ้าต้องการให้แต่ละ label อยู่คนละบรรทัด ใช้ layout อื่น เช่น <code>new JPanel(new GridLayout(0, 1))</code> หรือ BoxLayout (บทที่ 15)</p></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 14.3</span>หน้าต่างล็อกอิน (ยังไม่ทำงาน)<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างหน้าต่าง <code>Login</code> ที่มี JLabel “Username:”, JTextField กว้าง 12, JLabel “Password:”, <code>JPasswordField</code> กว้าง 12 และปุ่ม <code>Sign in</code> ปรับความกว้างหน้าต่างให้ช่องเรียงเป็น 2 แถวตามภาพ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>JPasswordField แสดงจุดแทนตัวอักษร</li><li>ใช้ setSize ให้แคบพอที่ FlowLayout จะตัดขึ้นแถวใหม่ (ประมาณ 300 × 130)</li><li>ยังไม่ต้องมี event</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Login</div><img src="../assets/gui/ga26a546174-0.png" width="284" height="91" alt="ภาพหน้าต่าง Login" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="14.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+
+public class LoginWindow {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Login");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Username:"));
+            panel.add(new JTextField(12));
+            panel.add(new JLabel("Password:"));
+            panel.add(new JPasswordField(12));
+            panel.add(new JButton("Sign in"));
+            frame.add(panel);
+            frame.setSize(300, 130);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p>ภาพตัวอย่างจำลองการพิมพ์ชื่อและรหัสผ่านแล้ว — JPasswordField เป็นคลาสลูกของ JTextField จึงพิมพ์ได้เหมือนกันแต่แสดงเป็นจุด</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 14.4</span>นามบัตรแบบมีสี<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างหน้าต่าง <code>Business Card</code> ที่มีพื้นหลังสีเข้ม (เช่น RGB 32, 44, 40) ชื่อเป็นตัวหนาขนาด 20 สีขาว และตำแหน่งงานสีเขียวอ่อน มีระยะขอบภายใน 20 พิกเซลทุกด้าน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ setBackground, setForeground, setFont, BorderFactory.createEmptyBorder</li><li>จัดชื่อและตำแหน่งให้อยู่คนละบรรทัดด้วย <code>new JPanel(new GridLayout(2, 1))</code></li><li>ใช้ pack()</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Business Card</div><img src="../assets/gui/g3e118cd07d-0.png" width="166" height="98" alt="ภาพหน้าต่าง Business Card" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="14.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class BusinessCardGui {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Business Card");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel card = new JPanel(new GridLayout(2, 1, 0, 6));
+            card.setBackground(new Color(32, 44, 40));
+            card.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            JLabel name = new JLabel("Mali Jaidee");
+            name.setFont(new Font("SansSerif", Font.BOLD, 20));
+            name.setForeground(Color.WHITE);
+            JLabel role = new JLabel("Junior Java Developer");
+            role.setForeground(new Color(180, 223, 57));
+            card.add(name);
+            card.add(role);
+            frame.setContentPane(card);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 14.5</span>หน้าต่างจากคลาสที่สืบทอด JFrame<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างคลาส <code>MessageWindow extends JFrame</code> ที่ constructor รับชื่อหน้าต่างและข้อความ แล้วแสดงข้อความนั้นในหน้าต่างขนาดพอดี (pack) ใน main สร้างหน้าต่าง 2 บานจากคลาสเดียวกัน วางตำแหน่งไม่ให้ซ้อนกันด้วย <code>setLocation(x, y)</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เรียก super(title) ใน constructor</li><li>หน้าต่างแรกที่ (100, 100) หน้าต่างที่สองที่ (100, 220)</li><li>ทั้งสองใช้ EXIT_ON_CLOSE (ปิดบานใดก็จบโปรแกรม)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Reminder</div><img src="../assets/gui/g9954d58337-0.png" width="196" height="46" alt="ภาพหน้าต่าง Reminder" loading="lazy"></figure><figure class="gui-shot"><div class="gui-titlebar">Tip</div><img src="../assets/gui/g9954d58337-1.png" width="177" height="46" alt="ภาพหน้าต่าง Tip" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="14.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+
+public class MessageWindow extends JFrame {
+    public MessageWindow(String title, String message) {
+        super(title);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel panel = new JPanel();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 16, 10, 16));
+        panel.add(new JLabel(message));
+        add(panel);
+        pack();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            MessageWindow a = new MessageWindow("Reminder", "Submit lab 14 before Friday");
+            a.setLocation(100, 100);
+            a.setVisible(true);
+            MessageWindow b = new MessageWindow("Tip", "Use pack() to fit content");
+            b.setLocation(100, 220);
+            b.setVisible(true);
+        });
+    }
+}</code></pre><p>ภาพตัวอย่างแสดงหน้าต่างทั้งสองบาน — คลาสเดียวสร้างออบเจ็กต์ได้หลายตัว (บทที่ 11)</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 14.6</span>หน้าต่างแบ่ง 3 ส่วน<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างหน้าต่าง <code>Dashboard</code> ที่แบ่งเป็น 3 ส่วนด้วย panel: ส่วนหัว (NORTH) พื้นสีเข้มมีชื่อแอป, ส่วนกลาง (CENTER) มีข้อความ “Welcome back!”, ส่วนล่าง (SOUTH) มีปุ่ม 3 ปุ่ม: Home, Reports, Settings</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ BorderLayout ของ content pane</li><li>แต่ละส่วนเป็น JPanel ของตัวเอง</li><li>หน้าต่างกว้างประมาณ 360</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Dashboard</div><img src="../assets/gui/g8e7cc7950e-0.png" width="344" height="161" alt="ภาพหน้าต่าง Dashboard" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="14.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class Dashboard {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Dashboard");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel header = new JPanel();
+            header.setBackground(new Color(8, 125, 134));
+            JLabel appName = new JLabel("Study Tracker");
+            appName.setForeground(Color.WHITE);
+            appName.setFont(new Font("SansSerif", Font.BOLD, 16));
+            header.add(appName);
+
+            JPanel center = new JPanel();
+            center.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+            center.add(new JLabel("Welcome back!"));
+
+            JPanel footer = new JPanel();
+            footer.add(new JButton("Home"));
+            footer.add(new JButton("Reports"));
+            footer.add(new JButton("Settings"));
+
+            frame.add(header, BorderLayout.NORTH);
+            frame.add(center, BorderLayout.CENTER);
+            frame.add(footer, BorderLayout.SOUTH);
+            frame.setSize(360, 200);
+            frame.setVisible(true);
+        });
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 14.7</span>ตารางเวลาเรียนจากอาเรย์<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>มีอาเรย์ <code>String[] days</code> และ <code>String[] subjects</code> (5 วัน) ให้สร้างหน้าต่างที่แสดงตาราง 2 คอลัมน์ด้วย <code>GridLayout(0, 2)</code> โดย<strong>สร้าง JLabel ด้วยลูป</strong> หัวตารางเป็นตัวหนา และแถววันเสาร์อาทิตย์ (ถ้ามี) เป็นสีแดง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ข้อมูลอยู่ในอาเรย์ ไม่เขียน label ทีละบรรทัด</li><li>หัวตาราง “Day” และ “Subject” ใช้ Font.BOLD</li><li>เว้นระยะระหว่างช่องด้วย GridLayout(0, 2, 12, 4)</li><li>ใส่ EmptyBorder รอบ panel</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Timetable</div><img src="../assets/gui/g2f1a57e5b1-0.png" width="208" height="140" alt="ภาพหน้าต่าง Timetable" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="14.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class TimetableGui {
+    public static void main(String[] args) {
+        String[] days = {"Mon", "Tue", "Wed", "Thu", "Sat"};
+        String[] subjects = {"Programming", "Calculus", "Physics", "English", "Lab (make-up)"};
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Timetable");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel grid = new JPanel(new GridLayout(0, 2, 12, 4));
+            grid.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
+            JLabel h1 = new JLabel("Day");
+            JLabel h2 = new JLabel("Subject");
+            Font bold = h1.getFont().deriveFont(Font.BOLD);
+            h1.setFont(bold);
+            h2.setFont(bold);
+            grid.add(h1);
+            grid.add(h2);
+            for (int i = 0; i &lt; days.length; i++) {
+                JLabel d = new JLabel(days[i]);
+                JLabel s = new JLabel(subjects[i]);
+                if (days[i].equals("Sat") || days[i].equals("Sun")) {
+                    d.setForeground(Color.RED);
+                    s.setForeground(Color.RED);
+                }
+                grid.add(d);
+                grid.add(s);
+            }
+            frame.add(grid);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p><code>deriveFont(Font.BOLD)</code> สร้างฟอนต์ใหม่จากฟอนต์เดิมโดยเปลี่ยนแค่รูปแบบ ทำให้ขนาดเท่าเดิม</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 14.8</span>ปุ่มตัวเลขแบบเครื่องคิดเลข<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างหน้าต่าง <code>Keypad</code> ที่มีช่องแสดงผล (JTextField ไม่ให้แก้ไขด้วย <code>setEditable(false)</code> ชิดขวา) ด้านบน และปุ่ม 16 ปุ่มในตาราง 4 × 4: <code>7 8 9 /</code>, <code>4 5 6 *</code>, <code>1 2 3 -</code>, <code>0 . = +</code> สร้างปุ่มด้วยลูปจากอาเรย์ String และทำปุ่ม <code>=</code> ให้มีสีพื้นต่างจากปุ่มอื่น</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ช่องแสดงผลอยู่ NORTH, ตารางปุ่มอยู่ CENTER</li><li>ใช้ <code>GridLayout(4, 4, 4, 4)</code></li><li>ตั้งข้อความเริ่มต้นในช่องเป็น 0 ชิดขวาด้วย <code>setHorizontalAlignment(JTextField.RIGHT)</code></li><li>ยังไม่ต้องทำให้ปุ่มคำนวณได้ (ทำในบทที่ 16)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Keypad</div><img src="../assets/gui/g831182df97-0.png" width="192" height="169" alt="ภาพหน้าต่าง Keypad" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="14.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 14.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class KeypadGui {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Keypad");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JTextField display = new JTextField("0", 12);
+            display.setEditable(false);
+            display.setHorizontalAlignment(JTextField.RIGHT);
+            display.setFont(new Font("Monospaced", Font.BOLD, 20));
+
+            String[] keys = {"7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"};
+            JPanel pad = new JPanel(new GridLayout(4, 4, 4, 4));
+            for (String k : keys) {
+                JButton b = new JButton(k);
+                if (k.equals("=")) {
+                    b.setBackground(new Color(180, 223, 57));
+                }
+                pad.add(b);
+            }
+            JPanel root = new JPanel(new BorderLayout(6, 6));
+            root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+            root.add(display, BorderLayout.NORTH);
+            root.add(pad, BorderLayout.CENTER);
+            frame.setContentPane(root);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-13.html">← บทที่ 13</a><a class="pager-link" href="chapter-15.html">บทที่ 15: Components และ Layout →</a></nav>
-      <footer class="lesson-footer">Java programming by Prymania · บทที่ 14 · สร้างและแก้ component บน Event Dispatch Thread</footer>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 14 · ลองรันทุกตัวอย่างเพื่อเห็นหน้าต่างจริง</footer>
     </main>
   </div>
   <script src="../password.js"></script><script src="../assets/lesson.js"></script>

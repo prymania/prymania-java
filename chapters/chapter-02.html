@@ -12,52 +12,287 @@
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญบทที่ 2">
-        <p class="toc-label">บทที่ 2 · โปรแกรมแรก</p>
-        <a href="#topic-2-1"><span class="toc-number">2.1</span>JDK, JVM และ IDE</a>
-        <a href="#topic-2-2"><span class="toc-number">2.2</span>โครงสร้างโปรแกรม Java</a>
-        <a href="#topic-2-3"><span class="toc-number">2.3</span>คอมไพล์ รัน และอ่าน error</a>
-        <a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a>
-      </nav>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 2"><p class="toc-label">บทที่ 2 · โปรแกรมแรก</p><a href="#topic-2-1"><span class="toc-number">2.1</span>JDK, JVM และ IDE</a><a href="#topic-2-2"><span class="toc-number">2.2</span>โครงสร้างโปรแกรม Java</a><a href="#topic-2-3"><span class="toc-number">2.3</span>คอมไพล์ รัน และอ่าน error</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
       <div class="sidebar-bottom">เขียนโปรแกรมแรกให้รันได้ด้วยตัวเอง</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 02 / 19</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทที่ 2 · รู้จักเครื่องมือและภาษา Java</p><h1>เริ่มต้นกับ Java และโปรแกรมแรก</h1><p>รู้จักเส้นทางจากไฟล์ที่เราเขียนไปจนถึงผลลัพธ์บนหน้าจอ แล้วสร้างโปรแกรม Java ขนาดเล็กด้วยตัวเอง</p></header>
-      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบายหน้าที่ของ JDK, JVM และ IDE</li><li>อ่านโครงสร้างคลาสและเมธอด main</li><li>คอมไพล์และรันโปรแกรมพื้นฐาน</li><li>เริ่มตรวจ syntax error อย่างเป็นขั้นตอน</li></ul></div>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อธิบายหน้าที่ของ JDK, JVM และ IDE</li><li>อ่านโครงสร้างคลาสและเมธอด main</li><li>ใช้ println, print, comment และ escape sequence</li><li>คอมไพล์ รัน และแก้ syntax error อย่างเป็นขั้นตอน</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">2. จากไฟล์ข้อความเป็นโปรแกรมที่ทำงาน</h2>
+        <p>โค้ด Java เป็นข้อความที่มนุษย์เขียนและอ่านได้ ก่อนทำงานต้องแปลงให้อยู่ในรูปที่ Java Virtual Machine (JVM) เข้าใจ ขั้นตอนนี้ช่วยตรวจข้อผิดพลาดด้านไวยากรณ์ก่อนเริ่มรัน บทนี้จะเริ่มจากภาพรวมของเครื่องมือ แล้วค่อย ๆ เขียนโปรแกรมจากบรรทัดเดียวไปจนถึงโปรแกรมที่จัดรูปแบบผลลัพธ์ได้</p>
+<article class="subtopic" id="topic-2-1">
+<h3>2.1 JDK, JVM และ IDE ทำหน้าที่อะไร</h3>
+<p><strong>JDK</strong> (Java Development Kit) คือชุดเครื่องมือพัฒนา มี compiler ชื่อ <code>javac</code> และ JVM อยู่ในตัว ส่วน <strong>JVM</strong> (Java Virtual Machine) ใช้รัน bytecode ในไฟล์ <code>.class</code> ขณะที่ <strong>IDE</strong> (เช่น IntelliJ IDEA, NetBeans, VS Code) คือโปรแกรมช่วยเขียนโค้ด ไฮไลต์ error และกดปุ่มเดียวเพื่อเรียก javac และ JVM ให้</p>
+<div class="example-box"><span class="box-title">ภาพรวมการทำงาน</span><pre><code>ไฟล์ Hello.java  →  javac (compiler)  →  Hello.class (bytecode)  →  JVM  →  ผลลัพธ์บนจอ
+   เราเขียน            ตรวจ+แปล             ไฟล์ที่ได้               รัน</code></pre><p>เราแก้เฉพาะไฟล์ <code>.java</code> เท่านั้น ไฟล์ <code>.class</code> ถูกสร้างใหม่ทุกครั้งที่คอมไพล์</p></div>
+<div class="concept-box"><span class="box-title">ลำดับเหตุการณ์เมื่อกด Run ใน IDE</span><ol class="step-list"><li>IDE บันทึกไฟล์ <code>.java</code></li><li>IDE เรียก <code>javac</code> ตรวจไวยากรณ์ ถ้าผิดจะหยุดและแสดง <strong>compile error</strong> (ยังไม่ได้รันเลย)</li><li>ถ้าผ่าน javac สร้างไฟล์ <code>.class</code> ที่มี bytecode</li><li>IDE เรียก JVM ให้โหลดคลาสและเริ่มทำงานที่เมธอด <code>main</code></li><li>ผลลัพธ์แสดงในหน้าต่าง Console/Output ถ้าเกิดปัญหาระหว่างรันจะเป็น <strong>runtime error</strong></li></ol></div>
+<table class="comparison-table"><thead><tr><th>คำ</th><th>คืออะไร</th><th>เปรียบเทียบ</th></tr></thead><tbody><tr><td>JDK</td><td>ชุดเครื่องมือสำหรับนักพัฒนา (javac, java, เครื่องมืออื่น)</td><td>กล่องเครื่องมือช่าง</td></tr><tr><td>javac</td><td>compiler แปล .java → .class และตรวจไวยากรณ์</td><td>บรรณาธิการตรวจคำผิดก่อนพิมพ์</td></tr><tr><td>JVM</td><td>เครื่องจำลองที่รัน bytecode ได้บนทุกระบบปฏิบัติการ</td><td>ล่ามที่อ่าน bytecode ให้เครื่องเข้าใจ</td></tr><tr><td>IDE</td><td>โปรแกรมช่วยเขียนโค้ดที่รวมทุกอย่างไว้ที่เดียว</td><td>โต๊ะทำงานที่จัดเครื่องมือไว้ครบ</td></tr></tbody></table>
+<div class="note-box"><span class="box-title">ทำไม Java รันได้หลายระบบ</span><p>bytecode ไม่ผูกกับ Windows/macOS/Linux ระบบใดที่มี JVM ก็รันไฟล์ <code>.class</code> เดียวกันได้ จึงเป็นที่มาของคำว่า <em>“Write once, run anywhere”</em></p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ใครทำงานเมื่อไร</strong><div><p>ถ้าลืม <code>;</code> แล้วกด Run — ข้อผิดพลาดถูกพบโดย javac หรือ JVM? โปรแกรมได้เริ่มทำงานหรือยัง?</p></div><details><summary>ดูคำตอบ</summary><div><p>พบโดย <strong>javac</strong> ตอนคอมไพล์ โปรแกรมยังไม่ได้เริ่มทำงานเลย เพราะไม่มีไฟล์ .class ใหม่ให้ JVM รัน</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-2-2">
+<h3>2.2 โครงสร้างของโปรแกรม Java และการแสดงผล</h3>
+<p>โปรแกรมเริ่มจาก<strong>คลาส</strong> ภายในคลาสมีเมธอด <code>main</code> ซึ่งเป็นจุดเริ่มทำงาน คำสั่งแต่ละคำสั่งลงท้ายด้วย <code>;</code> และบล็อกคำสั่งอยู่ระหว่างวงเล็บปีกกา <code>{ }</code></p>
+<div class="concept-box"><span class="box-title">แยกส่วนประกอบของโปรแกรมแรก</span><pre><code>public class Hello {                          // ① ประกาศคลาสชื่อ Hello
+    public static void main(String[] args) {  // ② เมธอด main = จุดเริ่มทำงาน
+        System.out.println("Hello, Java!");   // ③ คำสั่ง: พิมพ์ข้อความแล้วขึ้นบรรทัดใหม่
+    }                                         // ④ ปิดเมธอด main
+}                                             // ⑤ ปิดคลาส</code></pre><ul><li><code>public class Hello</code> — ชื่อคลาสต้องตรงกับชื่อไฟล์ <code>Hello.java</code> (ตัวพิมพ์เล็ก-ใหญ่ต้องตรงด้วย)</li><li><code>public static void main(String[] args)</code> — ต้องเขียนแบบนี้ทุกตัวอักษร ความหมายของแต่ละคำจะเรียนในบทเมธอดและคลาส</li><li><code>System.out.println(...)</code> — สั่งพิมพ์ค่าในวงเล็บไปที่ console</li><li>ข้อความ (String) ต้องอยู่ใน <code>" "</code> เครื่องหมายคำพูดคู่</li></ul></div>
+<div class="source-example"><h4>ตัวอย่าง 2.2.1 · โปรแกรมแรก: Hello, Java! <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมที่สั้นที่สุดที่มีครบทุกส่วน: คลาส → main → คำสั่งหนึ่งคำสั่ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · Hello.java</span><pre class="source-code">public class Hello {
+    public static void main(String[] args) {
+        System.out.println("Hello, Java!");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Hello, Java!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JVM เริ่มที่ <code>main</code></li><li>ทำคำสั่ง println หนึ่งครั้ง พิมพ์ <code>Hello, Java!</code> และขึ้นบรรทัดใหม่</li><li>ถึง <code>}</code> ของ main → โปรแกรมจบ</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 2.2.2 · หลายคำสั่ง ทำงานจากบนลงล่าง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งใน main ทำงานเรียงตามลำดับบรรทัด (sequence) ทีละคำสั่ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · AboutMe.java</span><pre class="source-code">public class AboutMe {
+    public static void main(String[] args) {
+        System.out.println("Name: Mali");
+        System.out.println("Major: Computer Science");
+        System.out.println("Year: 1");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Name: Mali
+Major: Computer Science
+Year: 1</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัดแรกพิมพ์ชื่อ</li><li>บรรทัดที่สองพิมพ์สาขา</li><li>บรรทัดที่สามพิมพ์ชั้นปี — ลำดับใน output ตรงกับลำดับในโค้ดเสมอ</li></ol></div><p class="try-it">สลับบรรทัด Name กับ Year แล้วดูว่า output เปลี่ยนตามหรือไม่</p></div>
+<div class="source-example"><h4>ตัวอย่าง 2.2.3 · print กับ println ต่างกันอย่างไร <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>print</code> พิมพ์แล้ว<strong>อยู่บรรทัดเดิม</strong> ส่วน <code>println</code> พิมพ์แล้ว<strong>ขึ้นบรรทัดใหม่</strong> และ <code>println()</code> เปล่า ๆ ใช้เว้นบรรทัด</p><div class="source-example-grid"><div class="source-field"><span>Java source · PrintVsPrintln.java</span><pre class="source-code">public class PrintVsPrintln {
+    public static void main(String[] args) {
+        System.out.print("A");
+        System.out.print("B");
+        System.out.println("C");
+        System.out.println("D");
+        System.out.println();
+        System.out.print("E ");
+        System.out.println("F");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>ABC
+D
 
-      <section class="lesson-section" aria-labelledby="section-2">
-        <h2 id="section-2">2. จากไฟล์ข้อความเป็นโปรแกรมที่ทำงาน</h2>
-        <p>โค้ด Java เป็นข้อความที่มนุษย์เขียนและอ่านได้ ก่อนทำงานต้องแปลงให้อยู่ในรูปที่ Java Virtual Machine (JVM) เข้าใจ ขั้นตอนนี้ช่วยตรวจข้อผิดพลาดด้านไวยากรณ์ก่อนเริ่มรัน</p>
-        <article class="subtopic" id="topic-2-1">
-          <h3>2.1 JDK, JVM และ IDE ทำหน้าที่อะไร</h3>
-          <p><strong>JDK</strong> (Java Development Kit) มีเครื่องมือพัฒนา เช่น compiler ชื่อ <code>javac</code> และ JVM ส่วน <strong>JVM</strong> (Java Virtual Machine) ใช้รัน bytecode ในไฟล์ <code>.class</code> ขณะที่ <strong>IDE</strong> คือโปรแกรมช่วยเขียนโค้ดและเรียกใช้เครื่องมือเหล่านี้</p>
-          <div class="example-box"><span class="box-title">ภาพรวมการทำงาน</span><pre><code>ไฟล์ Hello.java  →  javac  →  Hello.class  →  JVM  →  ผลลัพธ์</code></pre><p>เราแก้ไฟล์ <code>.java</code>; compiler สร้าง <code>.class</code>; จากนั้น JVM จึงรัน bytecode</p></div>
-          <div class="note-box"><span class="box-title">แยกคำให้ชัด</span><p>JDK ใช้พัฒนา, JVM ใช้รัน และ IDE เป็นเครื่องมืออำนวยความสะดวก โปรแกรมเดียวกันอาจใช้ IDE ต่างกันได้</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 2.1</span>เรียงขั้นตอน</h4><p>เรียงสิ่งต่อไปนี้ให้เป็นลำดับการทำงาน: JVM รันโปรแกรม, เขียนไฟล์ <code>Welcome.java</code>, compiler สร้าง bytecode</p><div class="answer-gate" data-answer-id="2.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ลำดับคำตอบ</h4><pre><code>1. เขียน Welcome.java&#10;2. compiler แปลงเป็น bytecode ใน Welcome.class&#10;3. JVM โหลดและรัน bytecode</code></pre><p>ถ้าคอมไพล์ไม่ผ่าน จะยังไม่มีโปรแกรมที่พร้อมให้ JVM รัน</p></div></div></div>
-        </article>
+E F</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>print A และ B ต่อกันในบรรทัดเดิม → <code>AB</code></li><li>println C ต่อท้ายแล้วขึ้นบรรทัด → บรรทัดแรกคือ <code>ABC</code></li><li>println D อยู่บรรทัดที่สอง</li><li><code>println()</code> ว่าง ทำให้เกิดบรรทัดว่าง</li><li>print "E " (มีช่องว่าง) แล้ว println F → <code>E F</code></li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 2.2.4 · Comment: ข้อความที่ compiler ไม่สนใจ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> comment ใช้อธิบายโค้ดให้คนอ่าน <code>//</code> ใช้บรรทัดเดียว <code>/* ... */</code> ใช้หลายบรรทัด โค้ดที่อยู่ใน comment จะไม่ทำงาน</p><div class="source-example-grid"><div class="source-field"><span>Java source · CommentDemo.java</span><pre class="source-code">/*
+ * โปรแกรมนี้ใช้ทดลอง comment
+ * ผู้เขียน: Mali
+ */
+public class CommentDemo {
+    public static void main(String[] args) {
+        // พิมพ์บรรทัดแรก
+        System.out.println("Line 1");
+        // System.out.println("Line 2");  &lt;- บรรทัดนี้ถูกปิดไว้
+        System.out.println("Line 3"); // comment ท้ายบรรทัดก็ได้
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Line 1
+Line 3</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ส่วน <code>/* ... */</code> ด้านบนไม่ถูกคอมไพล์</li><li><code>Line 2</code> ไม่ถูกพิมพ์เพราะทั้งบรรทัดเป็น comment</li><li>comment ท้ายบรรทัดไม่กระทบคำสั่งก่อนหน้า</li></ol></div><p>เทคนิค “comment out” (ปิดบรรทัดชั่วคราว) มีประโยชน์มากเวลาหาว่าบรรทัดไหนทำให้เกิดปัญหา</p></div>
+<h4>Escape sequence: อักขระพิเศษในข้อความ</h4><table class="comparison-table"><thead><tr><th>เขียนว่า</th><th>ความหมาย</th><th>ตัวอย่าง</th><th>ผลลัพธ์</th></tr></thead><tbody><tr><td><code>\n</code></td><td>ขึ้นบรรทัดใหม่</td><td><code>"A\nB"</code></td><td>A<br>B</td></tr><tr><td><code>\t</code></td><td>แท็บ (เว้นช่องเป็นคอลัมน์)</td><td><code>"A\tB"</code></td><td>A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B</td></tr><tr><td><code>\"</code></td><td>เครื่องหมาย " ในข้อความ</td><td><code>"Say \"Hi\""</code></td><td>Say "Hi"</td></tr><tr><td><code>\\</code></td><td>เครื่องหมาย \ หนึ่งตัว</td><td><code>"C:\\java"</code></td><td>C:\java</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 2.2.5 · จัดรูปแบบผลลัพธ์ด้วย escape sequence <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>\t</code> ทำตาราง ใช้ <code>\n</code> ขึ้นบรรทัดในคำสั่งเดียว และใช้ <code>\"</code> เมื่อต้องการแสดงเครื่องหมายคำพูด</p><div class="source-example-grid"><div class="source-field"><span>Java source · ReceiptHeader.java</span><pre class="source-code">public class ReceiptHeader {
+    public static void main(String[] args) {
+        System.out.println("==== \"Java Cafe\" ====");
+        System.out.println("Item\tQty\tPrice");
+        System.out.println("Latte\t2\t90");
+        System.out.println("Cake\t1\t65");
+        System.out.println("Thank you!\nSee you again.");
+        System.out.println("Saved at C:\\receipts");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>==== "Java Cafe" ====
+Item	Qty	Price
+Latte	2	90
+Cake	1	65
+Thank you!
+See you again.
+Saved at C:\receipts</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>\"</code> ทำให้ชื่อร้านมีเครื่องหมายคำพูดครอบ</li><li><code>\t</code> ดันข้อความไปคอลัมน์ถัดไป ทำให้ Qty และ Price ตรงกัน</li><li><code>\n</code> แบ่งข้อความเป็น 2 บรรทัดในคำสั่งเดียว</li><li><code>\\</code> แสดงเป็น <code>\</code> หนึ่งตัว</li></ol></div></div>
+<div class="note-box"><span class="box-title">ชื่อไฟล์ต้องตรงกับคลาส public</span><p>ถ้าประกาศ <code>public class Hello</code> ต้องบันทึกเป็น <code>Hello.java</code> ไม่ใช่ <code>hello.java</code> หรือ <code>Hello.txt</code> และชื่อคลาสนิยมขึ้นต้นด้วยตัวพิมพ์ใหญ่ทุกคำ (PascalCase) เช่น <code>StudentReport</code></p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ทำนาย output</strong><div><pre><code>System.out.print("Java");
+System.out.println(" is");
+System.out.print("fun\n!");</code></pre></div><details><summary>ดูคำตอบ</summary><div><pre><code>Java is
+fun
+!</code></pre></div></details></div>
+</article>
+<article class="subtopic" id="topic-2-3">
+<h3>2.3 คอมไพล์ รัน และเริ่มอ่าน error</h3>
+<p>ถ้าใช้ command line ให้เปิด terminal ในโฟลเดอร์ที่มีไฟล์ จากนั้นคอมไพล์ก่อนแล้วจึงรัน คำสั่งที่ขาดเครื่องหมายหรือสะกดชื่อผิดทำให้ compiler แจ้ง <strong>ชื่อไฟล์ เลขบรรทัด และชนิดปัญหา</strong> ซึ่งเป็นเบาะแสที่ดีที่สุดในการแก้</p>
+<div class="example-box"><span class="box-title">คำสั่งพื้นฐานบน command line</span><pre><code>javac Hello.java     ← คอมไพล์ ได้ไฟล์ Hello.class
+java Hello           ← รัน (ไม่ต้องเติม .class)</code></pre><p>ตั้งแต่ Java 11 สามารถรันไฟล์เดียวโดยตรงด้วย <code>java Hello.java</code> ได้ด้วย (คอมไพล์ในหน่วยความจำให้อัตโนมัติ)</p></div>
+<div class="concept-box"><span class="box-title">วิธีอ่าน error อย่างเป็นขั้นตอน</span><ol class="step-list"><li>อ่านบรรทัดแรกของ error: <code>Hello.java:3: error: ';' expected</code> → ไฟล์ Hello.java บรรทัด 3 ขาด <code>;</code></li><li>ดูบรรทัดที่ javac คัดลอกมาและเครื่องหมาย <code>^</code> ที่ชี้ตำแหน่ง</li><li>ตรวจบรรทัดนั้น <em>และบรรทัดก่อนหน้า</em> เพราะบางครั้งต้นเหตุอยู่ก่อนจุดที่ถูกชี้</li><li>แก้<strong>ทีละจุด</strong>โดยเริ่มจาก error แรก แล้วคอมไพล์ใหม่ — error ตัวหลัง ๆ มักเป็นผลพวงของตัวแรก</li></ol></div>
+<div class="source-example"><h4>ทดลอง error 2.3.1 · ลืม semicolon <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ทุกคำสั่งต้องจบด้วย <code>;</code> javac ชี้ตำแหน่งท้ายคำสั่งที่ขาด</p><div class="source-example-grid"><div class="source-field"><span>Java source · MissingSemicolon.java</span><pre class="source-code">public class MissingSemicolon {
+    public static void main(String[] args) {
+        System.out.println("Start")
+        System.out.println("End");
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingSemicolon.java:3: error: ';' expected
+        System.out.println("Start")
+                                   ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>MissingSemicolon.java:3</code> บอกว่าปัญหาอยู่บรรทัด 3</li><li><code>';' expected</code> บอกชนิดปัญหา: ขาด semicolon</li><li><code>^</code> ชี้ตำแหน่งท้าย <code>"Start")</code> → เติม <code>;</code> ตรงนั้น</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 2.3.2 · สะกดชื่อผิด (ตัวพิมพ์ใหญ่-เล็ก) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java แยกตัวพิมพ์ใหญ่-เล็ก (case-sensitive) <code>system</code> กับ <code>System</code> คือคนละชื่อ</p><div class="source-example-grid"><div class="source-field"><span>Java source · WrongCase.java</span><pre class="source-code">public class WrongCase {
+    public static void main(String[] args) {
+        system.out.println("Hello");
+        System.out.printn("World");
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WrongCase.java:3: error: package system does not exist
+        system.out.println("Hello");
+              ^
+WrongCase.java:4: error: cannot find symbol
+        System.out.printn("World");
+                  ^
+  symbol:   method printn(String)
+  location: variable out of type PrintStream</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>error แรก: <code>package system does not exist</code> — compiler ไม่รู้จัก <code>system</code> ตัวเล็ก ต้องเป็น <code>System</code></li><li>error ที่สอง: <code>cannot find symbol</code> ชี้ที่ <code>printn</code> — ไม่มีเมธอดชื่อนี้ ต้องเป็น <code>println</code></li><li><code>cannot find symbol</code> เป็น error ที่พบบ่อยที่สุด มักแปลว่า “สะกดผิด” หรือ “ยังไม่ได้ประกาศ”</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 2.3.3 · วงเล็บปีกกาไม่ครบคู่ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ทุก <code>{</code> ต้องมี <code>}</code> คู่กัน ถ้าขาด javac จะอ่านไปจนสุดไฟล์แล้วจึงแจ้ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · MissingBrace.java</span><pre class="source-code">public class MissingBrace {
+    public static void main(String[] args) {
+        System.out.println("Open");
+        System.out.println("Close");
 
-        <article class="subtopic" id="topic-2-2">
-          <h3>2.2 โครงสร้างของโปรแกรม Java</h3>
-          <p>โปรแกรมเริ่มจากคลาส ภายในคลาสมีเมธอด <code>main</code> ซึ่งเป็นจุดเริ่มทำงานของตัวอย่างพื้นฐาน คำสั่ง Java แต่ละคำสั่งมักลงท้ายด้วย <code>;</code> และบล็อกคำสั่งอยู่ระหว่างวงเล็บปีกกา</p>
-          <div class="example-box"><span class="box-title">โปรแกรมแรก: Hello, Java!</span><pre><code>public class Hello {&#10;    public static void main(String[] args) {&#10;        System.out.println("Hello, Java!");&#10;    }&#10;}</code></pre><p>อ่านจากด้านนอกเข้าด้านใน: คลาส <code>Hello</code> มี <code>main</code>; ภายใน <code>main</code> สั่งพิมพ์ข้อความหนึ่งบรรทัด</p></div>
-          <div class="note-box"><span class="box-title">ชื่อไฟล์ต้องตรงกับคลาส public</span><p>ถ้าประกาศ <code>public class Hello</code> ให้บันทึกเป็น <code>Hello.java</code> ตัวพิมพ์เล็ก-ใหญ่ต้องตรงกันด้วย</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 2.2</span>ทักทายผู้ใช้</h4><p>สร้างคลาสชื่อ <code>Greeting</code> ให้พิมพ์คำว่า <code>สวัสดี Java</code> หนึ่งบรรทัด ชื่อไฟล์ควรเป็นอะไร?</p><div class="answer-gate" data-answer-id="2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Greeting {&#10;    public static void main(String[] args) {&#10;        System.out.println("สวัสดี Java");&#10;    }&#10;}</code></pre><p>บันทึกไฟล์เป็น <code>Greeting.java</code></p></div></div></div>
-        </article>
-
-        <article class="subtopic" id="topic-2-3">
-          <h3>2.3 คอมไพล์ รัน และเริ่มอ่าน error</h3>
-          <p>ถ้าใช้ command line ให้เปิด terminal ในโฟลเดอร์ที่มีไฟล์ จากนั้นคอมไพล์ก่อนแล้วจึงรัน คำสั่งที่ขาดเครื่องหมายหรือสะกดชื่อผิดอาจทำให้ compiler แจ้งตำแหน่งที่ควรตรวจ</p>
-          <div class="example-box"><span class="box-title">คำสั่งพื้นฐาน</span><pre><code>javac Hello.java&#10;java Hello</code></pre><p>คำสั่งแรกสร้างไฟล์ bytecode; คำสั่งที่สองเรียกคลาส <code>Hello</code> มาทำงาน (ไม่ต้องเติม <code>.class</code>)</p></div>
-          <div class="concept-box"><span class="box-title">วิธีอ่าน error อย่างเป็นขั้นตอน</span><ol><li>อ่านข้อความเพื่อดูชนิดปัญหา</li><li>หาชื่อไฟล์และเลขบรรทัด</li><li>ตรวจบรรทัดนั้นและบรรทัดก่อนหน้า เช่น <code>;</code>, วงเล็บ, ชื่อคลาส</li><li>แก้ทีละจุดแล้วคอมไพล์ใหม่</li></ol></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 2.3</span>พิมพ์สองบรรทัด</h4><p>เติมคำสั่งใน <code>main</code> ให้แสดง <code>My first program</code> และ <code>I can run Java</code> คนละบรรทัด พร้อมใส่ comment ว่าโปรแกรมนี้ใช้ฝึกพิมพ์ข้อความ</p><div class="answer-gate" data-answer-id="2.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Main {&#10;    public static void main(String[] args) {&#10;        // ฝึกแสดงข้อความทางหน้าจอ&#10;        System.out.println("My first program");&#10;        System.out.println("I can run Java");&#10;    }&#10;}</code></pre><p><code>//</code> ทำให้ข้อความที่ตามมาในบรรทัดนั้นเป็น comment ไม่ใช่คำสั่งที่ถูกรัน</p></div></div></div>
-        </article>
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingBrace.java:6: error: reached end of file while parsing
+}
+ ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>reached end of file while parsing</code> แปลว่าอ่านถึงท้ายไฟล์แล้วยังปิดบล็อกไม่ครบ</li><li>error ถูกรายงานที่บรรทัดสุดท้าย แต่จุดที่ต้องแก้คือ <code>}</code> ของ main ที่หายไป</li><li>การจัดย่อหน้า (indent) ให้สม่ำเสมอทำให้เห็นวงเล็บที่ขาดได้ง่าย</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 2.3.4 · ข้อความไม่ปิดเครื่องหมายคำพูด <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> String ต้องเปิดและปิดด้วย <code>"</code> ในบรรทัดเดียวกัน</p><div class="source-example-grid"><div class="source-field"><span>Java source · UnclosedString.java</span><pre class="source-code">public class UnclosedString {
+    public static void main(String[] args) {
+        System.out.println("Hello);
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>UnclosedString.java:3: error: unclosed string literal
+        System.out.println("Hello);
+                           ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>unclosed string literal</code> → เปิด <code>"</code> แล้วไม่ปิด</li><li>compiler มองว่า <code>);</code> เป็นส่วนหนึ่งของข้อความ คำสั่งจึงไม่สมบูรณ์</li><li>แก้เป็น <code>"Hello");</code></li></ol></div></div>
+<h4>สรุป error ที่พบบ่อยในบทนี้</h4><table class="comparison-table"><thead><tr><th>ข้อความ error</th><th>สาเหตุที่เป็นไปได้</th><th>วิธีแก้</th></tr></thead><tbody><tr><td><code>';' expected</code></td><td>ลืม semicolon</td><td>เติม ; ท้ายคำสั่ง</td></tr><tr><td><code>cannot find symbol</code></td><td>สะกดชื่อผิด/ตัวพิมพ์ผิด</td><td>ตรวจตัวสะกด เช่น println, System</td></tr><tr><td><code>reached end of file while parsing</code></td><td>ขาด <code>}</code></td><td>นับคู่วงเล็บ จัด indent</td></tr><tr><td><code>unclosed string literal</code></td><td>ไม่ปิด <code>"</code></td><td>ปิดเครื่องหมายคำพูด</td></tr><tr><td><code>class X is public, should be declared in a file named X.java</code></td><td>ชื่อไฟล์ไม่ตรงชื่อคลาส</td><td>เปลี่ยนชื่อไฟล์หรือชื่อคลาสให้ตรงกัน</td></tr></tbody></table>
+<div class="quick-check"><strong>ลองคิดก่อน · หา error</strong><div><pre><code>public class Test {
+    public static void main(String[] args) {
+        System.out.println("A")
+        System.out.Println("B");
+    }
+}</code></pre><p>มีกี่จุดที่ผิด อะไรบ้าง</p></div><details><summary>ดูคำตอบ</summary><div><p>2 จุด: บรรทัด 3 ขาด <code>;</code> และบรรทัด 4 <code>Println</code> ต้องเป็น <code>println</code> (ตัวเล็ก)</p></div></details></div>
+</article>
       </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ทำตามลำดับจากง่ายไปยาก อ่านโจทย์และตัวอย่างผลลัพธ์ให้ครบก่อนเริ่มเขียน แล้วจึงเปิดเฉลยเพื่อเทียบแนวคิด</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 2.1</span>ทักทายด้วยโปรแกรมแรก<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างคลาสชื่อ <code>Greeting</code> ให้พิมพ์ข้อความ <code>สวัสดี Java</code> หนึ่งบรรทัด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ประกาศ <code>public class Greeting</code></li><li>บันทึกไฟล์ให้ชื่อถูกต้อง (ตอบด้วยว่าชื่อไฟล์คืออะไร)</li><li>ใช้ <code>System.out.println</code> หนึ่งครั้ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>สวัสดี Java</pre></div><div class="answer-gate" data-answer-id="2.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Greeting {
+    public static void main(String[] args) {
+        System.out.println("สวัสดี Java");
+    }
+}</code></pre><p>ชื่อไฟล์ต้องเป็น <code>Greeting.java</code> ให้ตรงกับชื่อคลาส public</p></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 2.2</span>ป้ายต้อนรับ 3 บรรทัด<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>แสดงข้อความ 3 บรรทัด: ชื่อวิชา, ชื่อของคุณ และ <code>Ready to learn Java</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ println 3 คำสั่ง</li><li>ใส่ comment บรรทัดบนสุดของ main ว่าโปรแกรมนี้ทำอะไร</li><li>ข้อความในบรรทัดที่ 1–2 เปลี่ยนเป็นของตนเองได้</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Computer Programming 1
+Mali Jaidee
+Ready to learn Java</pre></div><div class="answer-gate" data-answer-id="2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Welcome {
+    public static void main(String[] args) {
+        // แสดงป้ายต้อนรับ 3 บรรทัด
+        System.out.println("Computer Programming 1");
+        System.out.println("Mali Jaidee");
+        System.out.println("Ready to learn Java");
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 2.3</span>print ต่อบรรทัด<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>ใช้ <code>System.out.print</code> อย่างน้อย 3 คำสั่งเพื่อพิมพ์คำว่า <code>I</code>, <code>love</code>, <code>Java</code> ให้อยู่ในบรรทัดเดียวกันโดยมีช่องว่างคั่น แล้วใช้ println พิมพ์ <code>Done</code> ในบรรทัดถัดไป</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ห้ามเขียนทั้งประโยคในคำสั่งเดียว</li><li>ระวังช่องว่างระหว่างคำ</li><li>ต้องขึ้นบรรทัดใหม่ก่อนพิมพ์ Done</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>I love Java
+Done</pre></div><div class="answer-gate" data-answer-id="2.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class PrintSameLine {
+    public static void main(String[] args) {
+        System.out.print("I ");
+        System.out.print("love ");
+        System.out.print("Java");
+        System.out.println();
+        System.out.println("Done");
+    }
+}</code></pre><p><code>println()</code> เปล่า ๆ ทำหน้าที่ขึ้นบรรทัดใหม่หลังจาก print ชุดแรก</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 2.4</span>หาข้อผิดพลาดและแก้ไข<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>โค้ดต่อไปนี้คอมไพล์ไม่ผ่าน มี<strong>ข้อผิดพลาด 3 จุด</strong> ให้ระบุว่าแต่ละจุดผิดอย่างไร javac จะแจ้งว่าอย่างไร แล้วเขียนโค้ดที่ถูกต้อง</p><pre><code>public class Start {
+    public static void main(String[] args) {
+        System.out.println("Start")
+        system.out.println("Middle");
+        System.out.println("End);
+    }
+}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ระบุเลขบรรทัดและสาเหตุของแต่ละจุด</li><li>แก้ให้คอมไพล์ผ่านและได้ผลลัพธ์ตามตัวอย่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Start
+Middle
+End</pre></div><div class="answer-gate" data-answer-id="2.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Start {
+    public static void main(String[] args) {
+        System.out.println("Start");
+        System.out.println("Middle");
+        System.out.println("End");
+    }
+}</code></pre><p>บรรทัด 3 ขาด <code>;</code> (<code>';' expected</code>), บรรทัด 4 <code>system</code> ต้องเป็น <code>System</code> (<code>package system does not exist</code>), บรรทัด 5 ไม่ปิด <code>"</code> (<code>unclosed string literal</code>)</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 2.5</span>ข้อความที่มีเครื่องหมายพิเศษ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนโปรแกรมแสดงผล<strong>ให้ตรงตามตัวอย่างทุกตัวอักษร</strong> ซึ่งมีทั้งเครื่องหมายคำพูดและ backslash</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>\"</code> สำหรับเครื่องหมายคำพูด</li><li>ใช้ <code>\\</code> สำหรับ backslash</li><li>บรรทัดที่ 3 และ 4 ต้องเกิดจาก println <strong>คำสั่งเดียว</strong> โดยใช้ <code>\n</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Teacher said "Practice every day"
+File: C:\java\Hello.java
+Line A
+Line B</pre></div><div class="answer-gate" data-answer-id="2.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class SpecialChars {
+    public static void main(String[] args) {
+        System.out.println("Teacher said \"Practice every day\"");
+        System.out.println("File: C:\\java\\Hello.java");
+        System.out.println("Line A\nLine B");
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 2.6</span>ตารางเวลาเรียนด้วย \t<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>แสดงตารางเรียน 3 วิชา โดยใช้ <code>\t</code> จัดคอลัมน์ให้ตรงกัน มีหัวตาราง และเส้นคั่นด้วยเครื่องหมาย <code>-</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>หัวตารางมี 3 คอลัมน์: Day, Time, Subject</li><li>มีเส้นคั่นใต้หัวตาราง</li><li>ข้อมูล 3 แถวตามตัวอย่าง (เปลี่ยนวิชาเป็นของตนเองได้)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Day	Time	Subject
+-------------------------------
+Mon	09:00	Programming
+Tue	13:00	Math
+Wed	10:00	English</pre></div><div class="answer-gate" data-answer-id="2.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Timetable {
+    public static void main(String[] args) {
+        System.out.println("Day\tTime\tSubject");
+        System.out.println("-------------------------------");
+        System.out.println("Mon\t09:00\tProgramming");
+        System.out.println("Tue\t13:00\tMath");
+        System.out.println("Wed\t10:00\tEnglish");
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 2.7</span>ใบเสร็จอย่างง่าย<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>แสดงใบเสร็จร้านค้าที่มีชื่อร้าน เส้นคั่น ชื่อสินค้า 2 รายการพร้อมราคา ราคารวม และคำว่า <code>Thank you!</code> ตามตัวอย่าง (ยังไม่ต้องคำนวณ ให้พิมพ์ตัวเลขตรง ๆ)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>=</code> ทำเส้นคั่นบนและล่าง</li><li>ใช้ <code>\t</code> คั่นชื่อสินค้ากับราคา</li><li>มีบรรทัดว่าง 1 บรรทัดก่อน Thank you!</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>===== MINI MART =====
+Pen		15
+Notebook	35
+---------------------
+Total		50
+=====================
 
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>เขียนและทดลองรันแต่ละข้อ ตรวจชื่อไฟล์ให้ตรงกับชื่อคลาส <code>public</code></p>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 2.4</span>ป้ายต้อนรับ</h3><p>แสดงข้อความ 3 บรรทัด: ชื่อวิชา, ชื่อของคุณ และ <code>Ready to learn Java</code></p><div class="answer-gate" data-answer-id="2.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Welcome {&#10;    public static void main(String[] args) {&#10;        System.out.println("Java Programming");&#10;        System.out.println("Student: Your Name");&#10;        System.out.println("Ready to learn Java");&#10;    }&#10;}</code></pre><p>เปลี่ยน <code>Your Name</code> เป็นชื่อของตนเอง และบันทึกเป็น <code>Welcome.java</code></p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 2.5</span>หาข้อผิดพลาด</h3><p>โค้ดนี้มีจุดผิด ให้ระบุและแก้ไข: <code>public class Start { public static void main(String[] args) { System.out.println("Start") } }</code></p><div class="answer-gate" data-answer-id="2.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โค้ดที่แก้แล้ว</h4><pre><code>public class Start {&#10;    public static void main(String[] args) {&#10;        System.out.println("Start");&#10;    }&#10;}</code></pre><p>ขาด <code>;</code> หลังคำสั่ง <code>println</code> และต้องปิดวงเล็บปีกกาให้ครบ</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 2.6</span>ใบเสร็จอย่างง่าย</h3><p>แสดงชื่อสินค้า 2 รายการ ราคารวม เส้นคั่น และคำว่า <code>Thank you!</code> โดยแต่ละรายการอยู่คนละบรรทัด</p><div class="answer-gate" data-answer-id="2.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Receipt {&#10;    public static void main(String[] args) {&#10;        System.out.println("Notebook: 18 baht");&#10;        System.out.println("Pen: 10 baht");&#10;        System.out.println("----------------");&#10;        System.out.println("Total: 28 baht");&#10;        System.out.println("Thank you!");&#10;    }&#10;}</code></pre><p>เมื่อคลาสชื่อ <code>Receipt</code> ให้ใช้ชื่อไฟล์ <code>Receipt.java</code></p></div></div></article>
+Thank you!</pre></div><div class="answer-gate" data-answer-id="2.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class SimpleReceipt {
+    public static void main(String[] args) {
+        System.out.println("===== MINI MART =====");
+        System.out.println("Pen\t\t15");
+        System.out.println("Notebook\t35");
+        System.out.println("---------------------");
+        System.out.println("Total\t\t50");
+        System.out.println("=====================");
+        System.out.println();
+        System.out.println("Thank you!");
+    }
+}</code></pre><p><code>Pen</code> สั้นกว่า <code>Notebook</code> จึงใช้ <code>\t\t</code> เพื่อให้ราคาอยู่คอลัมน์เดียวกัน</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 2.8</span>วาดรูปด้วยตัวอักษร<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>ใช้ println แสดงรูปบ้านด้วยตัวอักษรตามตัวอย่าง รูปมีหลังคา (<code>/</code> และ <code>\</code>) ผนัง และประตู</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ต้องแสดง backslash ให้ถูกต้อง (ใช้ <code>\\</code>)</li><li>จัดช่องว่างนำหน้าให้รูปสมมาตร</li><li>อธิบายว่าทำไมบรรทัดหลังคาในโค้ดดูยาวกว่าผลลัพธ์</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>     /\
+    /  \
+   /    \
+  /______\
+  |      |
+  |  []  |
+  |______|</pre></div><div class="answer-gate" data-answer-id="2.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class AsciiHouse {
+    public static void main(String[] args) {
+        System.out.println("     /\\");
+        System.out.println("    /  \\");
+        System.out.println("   /    \\");
+        System.out.println("  /______\\");
+        System.out.println("  |      |");
+        System.out.println("  |  []  |");
+        System.out.println("  |______|");
+    }
+}</code></pre><p>ในโค้ด <code>\\</code> สองตัวแสดงผลเป็น <code>\</code> ตัวเดียว บรรทัดในโค้ดจึงยาวกว่าผลลัพธ์หนึ่งตัวอักษร</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 2.9</span>นามบัตรในกรอบ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างนามบัตรในกรอบที่ทำจาก <code>+</code>, <code>-</code> และ <code>|</code> ภายในมีชื่อ ตำแหน่ง อีเมล และคำคมในเครื่องหมายคำพูด ทุกบรรทัดต้องกว้างเท่ากัน (ขอบขวาตรงกัน)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ภาษาอังกฤษในการ์ดเพื่อให้นับความกว้างได้ง่าย</li><li>บรรทัดคำคมต้องมีเครื่องหมาย <code>"</code> ครอบ</li><li>นับจำนวนตัวอักษรแต่ละบรรทัดให้เท่ากัน (ในตัวอย่างกว้าง 32 ตัวอักษร)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>+------------------------------+
+| Mali Jaidee                  |
+| Junior Java Developer        |
+| mali@example.com             |
+|                              |
+| "Code a little every day."   |
++------------------------------+</pre></div><div class="answer-gate" data-answer-id="2.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class BusinessCard {
+    public static void main(String[] args) {
+        System.out.println("+------------------------------+");
+        System.out.println("| Mali Jaidee                  |");
+        System.out.println("| Junior Java Developer        |");
+        System.out.println("| mali@example.com             |");
+        System.out.println("|                              |");
+        System.out.println("| \"Code a little every day.\"   |");
+        System.out.println("+------------------------------+");
+    }
+}</code></pre><p>บรรทัดคำคมในโค้ดมี <code>\"</code> 2 ที่ ดูยาวกว่าบรรทัดอื่น 2 ตัวอักษร แต่ผลลัพธ์กว้างเท่ากัน</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 2.10</span>แก้โปรแกรมที่มีหลาย error<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>โค้ดนี้บันทึกในไฟล์ <code>Report.java</code> แต่มีข้อผิดพลาด<strong>อย่างน้อย 4 จุด</strong> ให้คอมไพล์ อ่าน error ทีละตัว แก้ทีละจุดจนรันได้ผลตามตัวอย่าง และบันทึกว่าแก้อะไรตามลำดับ</p><pre><code>public class report {
+    public static void main(String[] args) {
+        System.out.println("Student Report")
+        System.out.println("Name:	Mali");
+        System.out.printline("Score:	85");
+        System.out.println("Status: "Pass"");
+}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เริ่มแก้จาก error แรกที่ javac รายงาน แล้วคอมไพล์ใหม่ทุกครั้ง</li><li>ผลลัพธ์บรรทัดสุดท้ายต้องมีเครื่องหมายคำพูดรอบคำว่า Pass</li><li>เขียนสรุปว่าแต่ละ error มีข้อความว่าอะไร</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Student Report
+Name:	Mali
+Score:	85
+Status: "Pass"</pre></div><div class="answer-gate" data-answer-id="2.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Report {
+    public static void main(String[] args) {
+        System.out.println("Student Report");
+        System.out.println("Name:\tMali");
+        System.out.println("Score:\t85");
+        System.out.println("Status: \"Pass\"");
+    }
+}</code></pre><p>จุดที่แก้: (1) ชื่อคลาส <code>report</code> → <code>Report</code> ให้ตรงชื่อไฟล์ (2) เติม <code>;</code> บรรทัด 3 (3) <code>printline</code> → <code>println</code> (4) ใช้ <code>\"</code> รอบ Pass (5) เติม <code>}</code> ปิดคลาส</p></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-01.html">← บทที่ 1</a><a class="pager-link" href="chapter-03.html">บทที่ 3: ตัวแปรและการคำนวณ →</a></nav>
       <footer class="lesson-footer">Java programming by Prymania · บทที่ 2 · บันทึกไฟล์และลองรันด้วยตัวเอง</footer>

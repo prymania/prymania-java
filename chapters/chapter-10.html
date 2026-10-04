@@ -12,46 +12,597 @@
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญบทที่ 10"><p class="toc-label">บทที่ 10 · ตรวจและแก้โปรแกรม</p><a href="#topic-10-1"><span class="toc-number">10.1</span>จำแนก error</a><a href="#topic-10-2"><span class="toc-number">10.2</span>อ่าน compiler diagnostics</a><a href="#topic-10-3"><span class="toc-number">10.3</span>trace และ debugger</a><a href="#topic-10-4"><span class="toc-number">10.4</span>ออกแบบ test case</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
-      <div class="sidebar-bottom">อ่าน error เป็นข้อมูล ไม่ใช่คำตัดสิน</div>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 10"><p class="toc-label">บทที่ 10 · หาและแก้ข้อผิดพลาด</p><a href="#topic-10-1"><span class="toc-number">10.1</span>จำแนก error</a><a href="#topic-10-2"><span class="toc-number">10.2</span>อ่าน compiler diagnostics</a><a href="#topic-10-3"><span class="toc-number">10.3</span>trace และ debugger</a><a href="#topic-10-4"><span class="toc-number">10.4</span>ออกแบบ test case</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">error คือเบาะแส ไม่ใช่ศัตรู</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 10 / 19</span></div>
-      <header class="lesson-header"><p class="lesson-kicker">บทที่ 10 · ตรวจสอบก่อนเชื่อผลลัพธ์</p><h1>ทดสอบ อ่าน error และแก้บั๊ก</h1><p>ฝึกแยกประเภทปัญหา อ่านข้อความจาก compiler ไล่ค่าตัวแปรตามลำดับ และทดสอบกรณีปกติกับขอบเขตอย่างเป็นระบบ</p></header>
-      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>แยก compile, runtime และ logic error</li><li>อ่านชื่อไฟล์และบรรทัดจาก diagnostic</li><li>trace ค่าตัวแปรระหว่างลูป</li><li>ออกแบบ test case ที่ครอบคลุมขอบเขต</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-10"><h2 id="section-10">10. โปรแกรมที่รันได้ยังอาจให้คำตอบผิด</h2><p>การเห็นผลลัพธ์หนึ่งครั้งยังไม่พอจะสรุปว่าโปรแกรมถูก ต้องแยกให้ได้ว่าปัญหาเกิดตอนเขียน, ตอนรัน หรือเกิดจากวิธีคิด แล้วเลือกเครื่องมือให้ตรงประเภท</p>
-        <article class="subtopic" id="topic-10-1">
-          <h3>10.1 รู้จัก error สามประเภท</h3><p>ตั้งชื่อปัญหาให้ถูกก่อนแก้ เพราะแต่ละประเภทเกิดคนละช่วงเวลาและต้องตรวจคนละอย่าง</p>
-          <table class="comparison-table"><thead><tr><th>ประเภท</th><th>เกิดเมื่อใด</th><th>ตัวอย่าง</th></tr></thead><tbody><tr><td>Compile / syntax</td><td>ก่อนเริ่มรัน</td><td>ขาด <code>;</code>, ใช้ชื่อตัวแปรที่ไม่ประกาศ</td></tr><tr><td>Runtime</td><td>ระหว่างทำงาน</td><td>หารด้วยศูนย์, index เกิน, แปลงข้อความไม่ได้</td></tr><tr><td>Logic</td><td>โปรแกรมจบแต่คำตอบผิด</td><td>ใช้สูตรผิด, เงื่อนไขกลับด้าน</td></tr></tbody></table>
-          <div class="example-box"><span class="box-title">เทียบตัวอย่างทั้งสามแบบ</span><pre><code>// Compile error: ขาด semicolon&#10;int score = 80&#10;&#10;// Runtime error: ตัวหารเป็นศูนย์&#10;int result = 10 / 0;&#10;&#10;// Logic error: ตั้งใจเฉลี่ย 2 คะแนน แต่หารผิด&#10;int average = (80 + 90) / 3;</code></pre><p>กรณีสุดท้ายไม่มี exception แต่คำตอบผิด ควรได้ 85 ไม่ใช่ 56</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 10.1</span>จัดประเภทปัญหา</h4><p>จำแนกแต่ละกรณีเป็น compile, runtime หรือ logic error: (1) ใช้ชื่อตัวแปรที่ยังไม่ประกาศ (2) อ่าน <code>values[5]</code> จาก array ยาว 3 (3) ใช้สูตรพื้นที่วงกลม <code>2 * PI * r</code></p><div class="answer-gate" data-answer-id="10.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบ</h4><ol><li>Compile error: compiler ไม่รู้จักชื่อตัวแปร</li><li>Runtime error: index อยู่นอกช่วง</li><li>Logic error: ใช้สูตรเส้นรอบวงแทนสูตรพื้นที่</li></ol></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 10.7</span>เลือกวิธีตรวจให้ตรงปัญหา</h4><p>จับคู่สถานการณ์กับวิธีตรวจ: compiler ขีดเส้นใต้โค้ด, โปรแกรมหยุดขณะหาร, และโปรแกรมแสดงยอดรวมผิดแต่จบปกติ</p><div class="answer-gate" data-answer-id="10.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><p>อ่าน compiler diagnostic สำหรับ syntax; ดู exception/stack trace สำหรับ runtime; ใช้ test case และ trace สูตร/ค่าตัวแปรสำหรับ logic error</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-10-2">
-          <h3>10.2 อ่าน compiler diagnostic ทีละส่วน</h3><p>diagnostic มักบอกชื่อไฟล์, line/column และชนิดปัญหา จุดที่รายงานคือจุดที่ compiler ตรวจพบ ไม่จำเป็นต้องเป็นต้นเหตุจริง เช่น วงเล็บที่ขาดก่อนหน้าอาจทำให้บรรทัดถัดไปถูกตีความผิด</p>
-          <div class="concept-box"><span class="box-title">ไล่ตรวจโดยไม่แก้สุ่ม</span><ol><li>อ่านข้อความเพื่อดูชนิด error</li><li>เปิดไฟล์และไปยังบรรทัดที่แจ้ง</li><li>ตรวจบรรทัดนั้นและบรรทัดก่อนหน้า: semicolon, วงเล็บ, ปีกกา, ชื่อและชนิดตัวแปร</li><li>แก้หนึ่งจุดแล้ว compile ใหม่ เพราะ error หนึ่งอาจทำให้ข้อความอื่นหายไป</li></ol></div>
-          <div class="example-box"><span class="box-title">ตัวอย่าง: วงเล็บเปิดแต่ไม่ปิด</span><pre><code>if (score &gt;= 50 {&#10;    System.out.println("ผ่าน");&#10;}</code></pre><p>เมื่อเห็นข้อความคล้าย <code>')' expected</code> ให้ตรวจวงเล็บในเงื่อนไขก่อน ไม่ใช่เพิ่มวงเล็บที่ท้ายไฟล์แบบสุ่ม</p></div>
-          <div class="note-box"><span class="box-title">error ท้ายไฟล์อาจเกิดจากบรรทัดก่อนหน้า</span><p>ถ้า compiler ฟ้อง <code>reached end of file while parsing</code> ให้ไล่นับ <code>{</code> และ <code>}</code> ของ class, method และ if ว่าปิดครบคู่หรือยัง</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 10.2</span>แก้ syntax error</h4><p>โค้ดนี้ขาด semicolon และวงเล็บปีกกาปิด จงแก้ให้แสดงผลรวม 15</p><pre><code>public class SumTest {&#10;    public static void main(String[] args) {&#10;        int sum = 7 + 8&#10;        System.out.println(sum);&#10;}</code></pre><div class="answer-gate" data-answer-id="10.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โค้ดที่แก้แล้ว</h4><pre><code>public class SumTest {&#10;    public static void main(String[] args) {&#10;        int sum = 7 + 8;&#10;        System.out.println(sum);&#10;    }&#10;}</code></pre><p>เพิ่ม semicolon หลัง assignment และปิดปีกกาของ main กับ class ให้ครบ</p></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 10.8</span>เรียงลำดับการแก้ error</h4><p>ไฟล์แจ้ง error 5 จุดหลังจากลบปีกกาไปหนึ่งตัว คุณจะเริ่มตรวจจากตรงไหนและทำไมไม่ควรแก้ทั้ง 5 จุดพร้อมกัน?</p><div class="answer-gate" data-answer-id="10.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคิด</h4><p>เริ่มจาก error แรกและตรวจโครงสร้างรอบบรรทัดนั้นก่อน ปีกกาที่ขาดอาจทำให้ compiler อ่านส่วนที่เหลือผิด แก้ทีละจุดแล้ว compile ใหม่เพื่อแยกผลของแต่ละการแก้</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-10-3">
-          <h3>10.3 Trace ค่าตัวแปรและใช้ debugger</h3><p>trace คือการจำลองโปรแกรมทีละคำสั่งแล้วจดค่าตัวแปร ช่วยหาว่าค่าผิดเริ่มรอบไหน ส่วน debugger ทำแบบเดียวกันขณะโปรแกรมหยุดที่ breakpoint</p>
-          <div class="example-box"><span class="box-title">Trace ผลรวม 1 ถึง 3</span><pre><code>int sum = 0;&#10;for (int i = 1; i &lt;= 3; i++) {&#10;    sum += i;&#10;}</code></pre><table class="comparison-table"><thead><tr><th>รอบ</th><th>i ก่อน body</th><th>sum ก่อน</th><th>sum หลัง</th></tr></thead><tbody><tr><td>เริ่ม</td><td>—</td><td>—</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>2</td><td>2</td><td>1</td><td>3</td></tr><tr><td>3</td><td>3</td><td>3</td><td>6</td></tr></tbody></table></div>
-          <div class="note-box"><span class="box-title">ขั้นตอน debugger</span><p>ตั้ง breakpoint ที่บรรทัดคำนวณ → เริ่ม Debug → ดูค่าตัวแปร → Step Over ทีละบรรทัด → ทำซ้ำจนพบจุดที่ค่าต่างจากที่คาด</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 10.3</span>หา logic error จาก trace</h4><p>โปรแกรมตั้งใจรวม 1 ถึง 4 แต่ใช้ <code>i &lt; 4</code> จงเขียนค่า sum ทุกครั้งและระบุว่าค่าใดหายไป</p><div class="answer-gate" data-answer-id="10.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">Trace และแก้ไข</h4><pre><code>i=1: sum=1&#10;i=2: sum=3&#10;i=3: sum=6</code></pre><p>เมื่อ i เป็น 4 เงื่อนไข <code>i &lt; 4</code> เป็น false จึงไม่รวม 4; แก้เป็น <code>i &lt;= 4</code></p></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 10.9</span>ตรวจลูปสะสมยอด</h4><p>กำหนด <code>total = 0</code>, <code>i = 1</code>; แต่ละรอบเพิ่ม i เข้า total แล้วเพิ่ม i ทีละ 2 จน i &gt; 5 จง trace ค่าและหาผลสุดท้าย</p><div class="answer-gate" data-answer-id="10.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">Trace</h4><pre><code>เริ่ม: i=1, total=0&#10;รอบ 1: total=1, i=3&#10;รอบ 2: total=4, i=5&#10;รอบ 3: total=9, i=7&#10;จบ: 7 &gt; 5</code></pre></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-10-4">
-          <h3>10.4 ออกแบบ test case ให้ครอบคลุม</h3><p>อย่าทดสอบเพียงค่าปกติ ให้ทดสอบค่าขอบเขตและค่าที่ไม่ถูกต้องด้วย สำหรับกฎคะแนนผ่านเมื่อคะแนนตั้งแต่ 50 ควรลองต่ำกว่า, เท่ากับ และสูงกว่าขอบเขต</p>
-          <table class="comparison-table"><thead><tr><th>ประเภท test</th><th>คะแนน</th><th>ผลที่คาด</th></tr></thead><tbody><tr><td>ต่ำกว่าขอบเขต</td><td>49</td><td>ไม่ผ่าน</td></tr><tr><td>ตรงขอบเขต</td><td>50</td><td>ผ่าน</td></tr><tr><td>สูงกว่าขอบเขต</td><td>51</td><td>ผ่าน</td></tr><tr><td>ผิดช่วง</td><td>-1 หรือ 101</td><td>ปฏิเสธหรือแจ้งข้อผิดพลาด</td></tr></tbody></table>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 10.4</span>ชุดทดสอบส่วนลด</h4><p>ร้านให้ส่วนลด 10% เมื่อยอดซื้ออย่างน้อย 1,000 บาท ออกแบบ test case อย่างน้อย 4 ค่าเพื่อทดสอบผลและขอบเขต</p><div class="answer-gate" data-answer-id="10.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ชุดทดสอบตัวอย่าง</h4><table class="comparison-table"><thead><tr><th>ยอดซื้อ</th><th>ผล</th></tr></thead><tbody><tr><td>999.99</td><td>0%</td></tr><tr><td>1,000</td><td>10%</td></tr><tr><td>1,000.01</td><td>10%</td></tr><tr><td>-1</td><td>ข้อมูลไม่ถูกต้อง</td></tr></tbody></table></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 10.10</span>ทดสอบเครื่องคิดเลข</h4><p>มี method รับตัวดำเนินการ <code>+</code>, <code>-</code>, <code>*</code> และ <code>/</code> ออกแบบ test case สำหรับผลปกติ, หารศูนย์ และ operator ที่ไม่รองรับ พร้อมระบุชนิดปัญหาที่ควรตรวจ</p><div class="answer-gate" data-answer-id="10.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนว test case</h4><table class="comparison-table"><thead><tr><th>input</th><th>สิ่งที่ตรวจ</th></tr></thead><tbody><tr><td>8 + 2</td><td>ผลปกติ = 10</td></tr><tr><td>8 / 0</td><td>หารศูนย์: guard/runtime behavior</td></tr><tr><td>8 % 2</td><td>operator ไม่รองรับ: validation</td></tr></tbody></table></div></div></div>
-        </article>
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 10 · เปลี่ยนข้อผิดพลาดให้เป็นเบาะแส</p><h1>ทดสอบ อ่าน error และแก้บั๊ก</h1><p>จำแนกชนิดของข้อผิดพลาด อ่านข้อความจาก compiler และ JVM ไล่ค่าตัวแปรอย่างเป็นระบบ และออกแบบกรณีทดสอบก่อนส่งงาน</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>แยก syntax, runtime และ logic error</li><li>อ่าน compiler diagnostics และ stack trace</li><li>trace ค่าตัวแปรและใช้ debugger</li><li>ออกแบบ test case รวมถึงค่าขอบ</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">10. บั๊กเป็นเรื่องปกติ การหาบั๊กคือทักษะ</h2>
+        <p>โปรแกรมเมอร์ทุกคนเขียนโค้ดที่มีบั๊ก สิ่งที่ต่างกันคือ<strong>วิธีหาและแก้</strong> บทนี้รวบรวมเครื่องมือคิดที่ใช้ได้กับทุกบท: รู้ว่า error เป็นชนิดไหน อ่านข้อความให้ได้เบาะแส ไล่ค่าตัวแปรจนเจอจุดที่ผิด และทดสอบให้มั่นใจว่าแก้แล้วไม่พังที่อื่น</p>
+<div class="concept-box"><span class="box-title">วงจรการแก้บั๊ก</span><ol class="step-list"><li><strong>ทำให้เกิดซ้ำได้</strong> — หา input ที่ทำให้ผิดทุกครั้ง</li><li><strong>จำกัดขอบเขต</strong> — หาว่าผิดตั้งแต่บรรทัดไหน (อ่าน error, พิมพ์ค่า, ใช้ debugger)</li><li><strong>ตั้งสมมติฐาน</strong> — “น่าจะเพราะ…” แล้วแก้ทีละจุด</li><li><strong>ทดสอบซ้ำ</strong> — ทั้ง input ที่เคยผิดและ input อื่นที่เคยถูก</li></ol></div>
+<article class="subtopic" id="topic-10-1">
+<h3>10.1 จำแนกชนิดของ error</h3>
+<table class="comparison-table"><thead><tr><th>ชนิด</th><th>เกิดเมื่อ</th><th>ใครเป็นคนบอก</th><th>ตัวอย่าง</th></tr></thead><tbody><tr><td><strong>Syntax / compile error</strong></td><td>ตอนคอมไพล์</td><td>javac (โปรแกรมยังไม่ได้รัน)</td><td>ขาด ;, สะกดผิด, ชนิดไม่ตรง</td></tr><tr><td><strong>Runtime error (exception)</strong></td><td>ระหว่างรัน</td><td>JVM แสดง stack trace แล้วหยุด</td><td>หารด้วย 0, index เกิน, parse ผิด</td></tr><tr><td><strong>Logic error</strong></td><td>รันจบแต่ผลผิด</td><td>ไม่มีใครบอก! ต้องทดสอบเอง</td><td>ใช้ &gt; แทน &gt;=, หาร int, ลืมรีเซ็ตตัวแปร</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 10.1.1 · Compile error: compiler หยุดตั้งแต่ก่อนรัน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ไม่มี output ใด ๆ จากโปรแกรมเลย แม้บรรทัดแรกจะถูกต้อง เพราะคอมไพล์ไม่ผ่านทั้งไฟล์</p><div class="source-example-grid"><div class="source-field"><span>Java source · CompileErrorDemo.java</span><pre class="source-code">public class CompileErrorDemo {
+    public static void main(String[] args) {
+        System.out.println("Line 1 is fine");
+        int total = "100";
+        System.out.println("Total: " + total);
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>CompileErrorDemo.java:4: error: incompatible types: String cannot be converted to int
+        int total = "100";
+                    ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>javac พบชนิดไม่ตรงที่บรรทัด 4</li><li>"Line 1 is fine" ไม่ถูกพิมพ์ เพราะไม่ได้สร้าง .class</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 10.1.2 · Runtime error: ทำงานไปบางส่วนแล้วหยุด <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> บรรทัดก่อนจุดผิดทำงานตามปกติ เมื่อถึงบรรทัดที่เกิด exception โปรแกรมหยุดทันที</p><div class="source-example-grid"><div class="source-field"><span>Java source · RuntimeErrorDemo.java</span><pre class="source-code">public class RuntimeErrorDemo {
+    public static void main(String[] args) {
+        int[] data = {10, 20, 30};
+        System.out.println("Start");
+        for (int i = 0; i &lt;= data.length; i++) {
+            System.out.println("data[" + i + "] = " + data[i]);
+        }
+        System.out.println("End");
+    }
+}</pre></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Start
+data[0] = 10
+data[1] = 20
+data[2] = 30
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+	at RuntimeErrorDemo.main(RuntimeErrorDemo.java:6)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>พิมพ์ Start และ 3 ค่าแรกได้</li><li>i = 3 → ArrayIndexOutOfBoundsException</li><li>End ไม่ถูกพิมพ์</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 10.1.3 · Logic error: เงียบแต่ผิด <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รันจบโดยไม่มี error แต่คำตอบไม่ถูก — อันตรายที่สุดเพราะไม่มีสัญญาณเตือน</p><div class="source-example-grid"><div class="source-field"><span>Java source · LogicErrorDemo.java</span><pre class="source-code">public class LogicErrorDemo {
+    public static void main(String[] args) {
+        int[] scores = {80, 90, 85};
+        int sum = 0;
+        for (int i = 1; i &lt; scores.length; i++) {
+            sum += scores[i];
+        }
+        double average = sum / scores.length;
+        System.out.println("Average = " + average);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Average = 58.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>คำตอบที่ถูกคือ (80 + 90 + 85) / 3 = 85.0</li><li>บั๊กที่ 1: ลูปเริ่ม i = 1 ข้าม scores[0]</li><li>บั๊กที่ 2: หาร int ด้วย int ตัดทศนิยม</li><li>ได้ 175 / 3 = 58 → 58.0 ซึ่งผิด แต่ไม่มีใครเตือน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 10.1.4 · ดักจับ exception ด้วย try-catch <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> runtime error บางชนิดคาดการณ์ได้ (ผู้ใช้ป้อนผิด) ใช้ <code>try-catch</code> จัดการให้โปรแกรมทำงานต่อได้ แทนการหยุดทันที</p><div class="source-example-grid"><div class="source-field"><span>Java source · TryCatchDemo.java</span><pre class="source-code">import java.util.Scanner;
+
+public class TryCatchDemo {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        for (int round = 1; round &lt;= 3; round++) {
+            try {
+                System.out.print("a b: ");
+                int a = Integer.parseInt(input.next());
+                int b = Integer.parseInt(input.next());
+                System.out.println("  a / b = " + (a / b));
+            } catch (ArithmeticException e) {
+                System.out.println("  Cannot divide by zero");
+            } catch (NumberFormatException e) {
+                System.out.println("  Not a number: " + e.getMessage());
+            }
+        }
+        System.out.println("Program finished normally");
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>a b: <b class="stdin">10</b>
+<b class="stdin">0</b>
+  Cannot divide by zero
+a b: <b class="stdin">10</b>
+<b class="stdin">abc</b>
+  Not a number: For input string: "abc"
+a b: <b class="stdin">10</b>
+<b class="stdin">4</b>
+  a / b = 2
+Program finished normally</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>รอบ 1: 10 / 0 → ArithmeticException → ไปที่ catch แรก</li><li>รอบ 2: "abc" → NumberFormatException → catch ที่สอง</li><li>รอบ 3: 10 / 4 = 2 ปกติ</li><li>โปรแกรมไม่หยุดกลางคัน</li></ol></div><p>ใช้ try-catch กับสถานการณ์ที่ควบคุมไม่ได้ (ข้อมูลจากผู้ใช้ ไฟล์ เครือข่าย) ไม่ใช่ใช้กลบบั๊กในโค้ดของเราเอง เช่น index เกิน ควรแก้เงื่อนไขลูปแทน</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · จำแนก</strong><div><p>จัดประเภท: (ก) <code>Strin name;</code> (ข) <code>Integer.parseInt("")</code> (ค) คำนวณพื้นที่วงกลมด้วย <code>2 * Math.PI * r</code></p></div><details><summary>ดูคำตอบ</summary><div><p>(ก) compile error — cannot find symbol (ข) runtime error — NumberFormatException (ค) logic error — นั่นคือสูตรเส้นรอบวง</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-10-2">
+<h3>10.2 อ่าน compiler diagnostics และ stack trace</h3>
+<div class="concept-box"><span class="box-title">กายวิภาคของข้อความ error</span><pre><code>Compile error:
+Score.java:7: error: cannot find symbol
+─────┬──── ┬        ────────┬────────
+   ไฟล์   บรรทัด         ชนิดปัญหา
+        totl += s;
+        ^          ← ตำแหน่งที่ compiler สะดุด
+  symbol:   variable totl     ← ชื่อที่หาไม่เจอ
+  location: class Score
+
+Runtime error (stack trace):
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+                          ─────────┬──────────────────  ────┬────
+                              ชนิด exception              รายละเอียด
+    at Stats.average(Stats.java:12)      ← เกิดจริงที่นี่ (อ่านบรรทัดบนสุดก่อน)
+    at Stats.main(Stats.java:5)          ← เรียกมาจากที่นี่</code></pre></div>
+<div class="source-example"><h4>ตัวอย่าง 10.2.1 · หลาย error พร้อมกัน — แก้ตัวแรกก่อน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> javac รายงานหลาย error ในครั้งเดียว แก้จากบนลงล่างทีละตัวแล้วคอมไพล์ใหม่</p><div class="source-example-grid"><div class="source-field"><span>Java source · Score.java</span><pre class="source-code">public class Score {
+    public static void main(String[] args) {
+        int[] scores = {7, 9, 8};
+        int total = 0;
+        for (int s : scores) {
+            totl += s;
+        }
+        String result = total;
+        System.out.println("Total: " + result)
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>Score.java:9: error: ';' expected
+        System.out.println("Total: " + result)
+                                              ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>javac รายงาน <code>';' expected</code> (บรรทัด 9) <em>ก่อน</em> — syntax error ถูกตรวจในรอบแรก ก่อนตรวจชื่อและชนิด</li><li>เมื่อเติม ; แล้วคอมไพล์ใหม่ จะเห็น error ใหม่: <code>cannot find symbol: totl</code> และ <code>int cannot be converted to String</code></li><li>บทเรียน: จำนวน error ที่เห็นอาจไม่ใช่ทั้งหมด แก้แล้วต้องคอมไพล์ซ้ำเสมอ</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 10.2.2 · error ชี้ผิดที่: ต้นเหตุอยู่บรรทัดก่อนหน้า <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อวงเล็บไม่ครบ compiler อาจแจ้งที่บรรทัดหลัง ๆ เพราะเพิ่งรู้ตัวว่าโครงสร้างผิด</p><div class="source-example-grid"><div class="source-field"><span>Java source · WrongPlace.java</span><pre class="source-code">public class WrongPlace {
+    public static void main(String[] args) {
+        int x = 5;
+        if (x &gt; 3) {
+            System.out.println("big");
+        else {
+            System.out.println("small");
+        }
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WrongPlace.java:6: error: 'else' without 'if'
+        else {
+        ^
+WrongPlace.java:10: error: reached end of file while parsing
+}
+ ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>javac แจ้ง <code>'else' without 'if'</code> ที่บรรทัด 6</li><li>สาเหตุจริงคือบรรทัด 5–6 ขาด <code>}</code> ปิด if ก่อน else</li><li>error ที่สอง <code>reached end of file</code> เป็นผลพวงจากวงเล็บที่ขาดตัวเดียวกัน — แก้จุดเดียวหายทั้งสอง</li><li>เคล็ดลับ: ใช้ IDE จัดย่อหน้าอัตโนมัติ (Format) วงเล็บที่ขาดจะเห็นชัด</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 10.2.3 · อ่าน stack trace ข้ามหลายเมธอด <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> stack trace แสดงลำดับการเรียกเมธอด บรรทัดแรกที่เป็นโค้ดของเราคือจุดเกิดเหตุ บรรทัดล่างบอกว่าใครเรียกมา</p><div class="source-example-grid"><div class="source-field"><span>Java source · StackTraceDemo.java</span><pre class="source-code">public class StackTraceDemo {
+    public static void main(String[] args) {
+        int[] empty = {};
+        System.out.println("Report:");
+        printAverage(empty);
+    }
+
+    static void printAverage(int[] values) {
+        System.out.println("Average = " + average(values));
+    }
+
+    static int average(int[] values) {
+        int sum = 0;
+        for (int v : values) sum += v;
+        return sum / values.length;
+    }
+}</pre></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Report:
+Exception in thread "main" java.lang.ArithmeticException: / by zero
+	at StackTraceDemo.average(StackTraceDemo.java:15)
+	at StackTraceDemo.printAverage(StackTraceDemo.java:9)
+	at StackTraceDemo.main(StackTraceDemo.java:5)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่านจากบน: เกิดใน <code>average</code> บรรทัด 15 (หารด้วย length = 0)</li><li><code>average</code> ถูกเรียกจาก <code>printAverage</code> บรรทัด 9</li><li>ซึ่งถูกเรียกจาก <code>main</code> บรรทัด 5</li><li>แก้ที่ต้นเหตุ: ตรวจ <code>values.length == 0</code> ใน average</li></ol></div></div>
+<h4>Exception ที่พบบ่อยและความหมาย</h4><table class="comparison-table"><thead><tr><th>Exception</th><th>สาเหตุที่พบบ่อย</th></tr></thead><tbody><tr><td><code>ArithmeticException: / by zero</code></td><td>หาร int ด้วย 0</td></tr><tr><td><code>ArrayIndexOutOfBoundsException</code></td><td>index &lt; 0 หรือ ≥ length (มัก <code>&lt;=</code> ในลูป)</td></tr><tr><td><code>StringIndexOutOfBoundsException</code></td><td>charAt/substring เกินความยาว</td></tr><tr><td><code>NullPointerException</code></td><td>เรียกเมธอดบนตัวแปรที่เป็น null</td></tr><tr><td><code>NumberFormatException</code></td><td>parseInt/parseDouble กับข้อความที่ไม่ใช่ตัวเลข</td></tr><tr><td><code>InputMismatchException</code></td><td>Scanner.nextInt() เจอข้อมูลที่ไม่ใช่จำนวนเต็ม</td></tr></tbody></table>
+<div class="quick-check"><strong>ลองคิดก่อน · อ่าน stack trace</strong><div><pre><code>Exception in thread "main" java.lang.NullPointerException
+    at Shop.totalPrice(Shop.java:21)
+    at Shop.checkout(Shop.java:14)
+    at Shop.main(Shop.java:6)</code></pre><p>ควรเปิดดูบรรทัดไหนก่อน และ null น่าจะมาจากที่ใด</p></div><details><summary>ดูคำตอบ</summary><div><p>ดู <strong>Shop.java บรรทัด 21</strong> ใน totalPrice ก่อน ตัวแปรที่เรียกเมธอดในบรรทัดนั้นเป็น null — ค่า null อาจถูกส่งมาจาก checkout (บรรทัด 14) จึงต้องย้อนดูต่อ</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-10-3">
+<h3>10.3 trace ค่าตัวแปร และใช้ debugger</h3>
+<p>เมื่อเจอ logic error ให้หาจุดที่<strong>ค่าจริงเริ่มต่างจากค่าที่คาด</strong> มี 3 วิธีที่ใช้ร่วมกัน: (1) trace table ด้วยมือ (2) พิมพ์ค่ากลางทาง (print debugging) (3) debugger ใน IDE</p>
+<div class="source-example"><h4>ตัวอย่าง 10.3.1 · print debugging: หาว่าผิดตั้งแต่รอบไหน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เพิ่ม println ชั่วคราวในลูปแสดงค่าตัวแปรสำคัญทุกรอบ แล้วเทียบกับ trace table ที่ทำด้วยมือ</p><div class="source-example-grid"><div class="source-field"><span>Java source · DebugFactorial.java</span><pre class="source-code">public class DebugFactorial {
+    public static void main(String[] args) {
+        int n = 5;
+        int result = 0;
+        for (int i = 1; i &lt;= n; i++) {
+            result *= i;
+            System.out.println("DEBUG i=" + i + " result=" + result);
+        }
+        System.out.println(n + "! = " + result);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>DEBUG i=1 result=0
+DEBUG i=2 result=0
+DEBUG i=3 result=0
+DEBUG i=4 result=0
+DEBUG i=5 result=0
+5! = 0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>คาดว่า i=1 → result=1, i=2 → 2, … i=5 → 120</li><li>แต่ DEBUG แสดง result = 0 ตั้งแต่รอบแรก</li><li>จึงรู้ว่าปัญหาอยู่ที่ค่าเริ่มต้น: ผลคูณต้องเริ่มที่ 1</li><li>แก้แล้วลบบรรทัด DEBUG ออก</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 10.3.2 · แก้แล้ว: เทียบ trace ที่คาดกับผลจริง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หลังแก้ ให้รันพร้อม trace อีกครั้งเพื่อยืนยันว่าทุกรอบตรงกับที่คาด</p><div class="source-example-grid"><div class="source-field"><span>Java source · DebugFactorialFixed.java</span><pre class="source-code">public class DebugFactorialFixed {
+    public static void main(String[] args) {
+        int n = 5;
+        int result = 1;
+        for (int i = 1; i &lt;= n; i++) {
+            result *= i;
+            System.out.printf("i=%d result=%d%n", i, result);
+        }
+        System.out.println(n + "! = " + result);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>i=1 result=1
+i=2 result=2
+i=3 result=6
+i=4 result=24
+i=5 result=120
+5! = 120</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ทุกรอบตรงกับ trace table ด้านล่าง</li><li>ผลลัพธ์ 120 ถูกต้อง</li></ol></div></div>
+<table class="comparison-table trace-table"><thead><tr><th>i</th><th>result ที่คาด</th><th>ผลจริง (ก่อนแก้)</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>0</td></tr><tr><td>2</td><td>2</td><td>0</td></tr><tr><td>3</td><td>6</td><td>0</td></tr><tr><td>4</td><td>24</td><td>0</td></tr><tr><td>5</td><td>120</td><td>0</td></tr></tbody></table>
+<div class="concept-box"><span class="box-title">ใช้ debugger ใน IDE (IntelliJ / VS Code / NetBeans)</span><ol class="step-list"><li><strong>ตั้ง breakpoint</strong>: คลิกที่ขอบซ้ายของบรรทัดที่สงสัย จะเกิดจุดสีแดง</li><li><strong>รันแบบ Debug</strong> (ไอคอนแมลง 🐞) โปรแกรมจะหยุดเมื่อถึง breakpoint</li><li><strong>ดูหน้าต่าง Variables</strong>: เห็นค่าของทุกตัวแปรในขณะนั้น</li><li><strong>Step Over (F8 / F10)</strong>: ทำบรรทัดปัจจุบันแล้วหยุดที่บรรทัดถัดไป</li><li><strong>Step Into (F7 / F11)</strong>: ถ้าบรรทัดนั้นเรียกเมธอด ให้เข้าไปดูข้างในเมธอด</li><li><strong>Resume</strong>: ทำต่อจนถึง breakpoint ถัดไป — ใช้ <em>conditional breakpoint</em> (เช่น หยุดเมื่อ i == 50) เมื่อลูปมีหลายรอบ</li></ol></div>
+<div class="source-example"><h4>ตัวอย่าง 10.3.3 · บั๊กลูปซ้อน: ลืมรีเซ็ตตัวแปร <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ผลรวมของแถวแรกถูก แต่แถวถัดไปผิดสะสม — สัญญาณว่าตัวแปรสะสมถูกประกาศนอกลูปนอก</p><div class="source-example-grid"><div class="source-field"><span>Java source · ResetBug.java</span><pre class="source-code">public class ResetBug {
+    public static void main(String[] args) {
+        int[][] sales = {{5, 3, 2}, {4, 4, 4}, {1, 0, 6}};
+        int rowTotal = 0;
+        for (int r = 0; r &lt; sales.length; r++) {
+            for (int c = 0; c &lt; sales[r].length; c++) {
+                rowTotal += sales[r][c];
+            }
+            System.out.println("Row " + r + " total = " + rowTotal);
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Row 0 total = 10
+Row 1 total = 22
+Row 2 total = 29</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>คาด: 10, 12, 7</li><li>ได้: 10, 22, 29 — แถว 1 เริ่มจาก 10 แทน 0</li><li>แก้: ย้าย <code>int rowTotal = 0;</code> เข้าไปไว้ต้นลูปนอก</li><li>ใน debugger จะเห็น rowTotal = 10 ตอนเริ่มแถว 1 ทันที</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 10.3.4 · เมธอดตรวจสอบสมมติฐาน (assert-style) <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนเมธอดเล็ก ๆ ตรวจเงื่อนไขที่ “ต้องจริงเสมอ” และแจ้งเตือนทันทีเมื่อผิด ช่วยจับบั๊กใกล้จุดเกิดเหตุ</p><div class="source-example-grid"><div class="source-field"><span>Java source · CheckInvariant.java</span><pre class="source-code">public class CheckInvariant {
+    public static void main(String[] args) {
+        int[] stock = {5, 2, 8};
+        sell(stock, 0, 3);
+        sell(stock, 1, 5);
+        sell(stock, 2, 8);
+    }
+
+    static void sell(int[] stock, int item, int qty) {
+        stock[item] -= qty;
+        check(stock[item] &gt;= 0, "stock of item " + item + " became " + stock[item]);
+        System.out.println("Sold " + qty + " of item " + item + ", left " + stock[item]);
+    }
+
+    static void check(boolean condition, String message) {
+        if (!condition) {
+            System.out.println("!! CHECK FAILED: " + message);
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Sold 3 of item 0, left 2
+!! CHECK FAILED: stock of item 1 became -3
+Sold 5 of item 1, left -3
+Sold 8 of item 2, left 0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>กฎที่ต้องจริงเสมอ: สต็อกต้องไม่ติดลบ</li><li>ขายสินค้า 1 จำนวน 5 ทั้งที่มี 2 → check แจ้งเตือนทันที</li><li>ชี้ว่าบั๊กอยู่ที่ sell ไม่ได้ตรวจก่อนลด (ควรตรวจ qty ≤ stock ก่อน)</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · trace</strong><div><pre><code>int a = 1, b = 1;
+for (int i = 0; i &lt; 4; i++) {
+    int t = a + b;
+    a = b;
+    b = t;
+}</code></pre><p>ทำ trace table: a และ b หลังจบลูปมีค่าเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>(a, b): (1,1) → (1,2) → (2,3) → (3,5) → (5,8) ดังนั้น <strong>a = 5, b = 8</strong> (ลำดับฟีโบนัชชี)</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-10-4">
+<h3>10.4 ออกแบบ test case</h3>
+<p>การทดสอบด้วยค่าที่ “คิดว่าน่าจะใช้” ค่าเดียวไม่พอ ควรเลือก test case ที่ครอบคลุม: <strong>กรณีปกติ</strong>, <strong>ค่าขอบ (boundary)</strong> และ<strong>กรณีผิดปกติ/ข้อมูลไม่ถูกต้อง</strong> แล้วเขียน “ผลที่คาด” ก่อนรันทุกครั้ง</p>
+<h4>ตัวอย่าง: test case ของฟังก์ชันตัดเกรด (A ≥ 80, B ≥ 70, C ≥ 60, D ≥ 50, F)</h4><table class="comparison-table"><thead><tr><th>ประเภท</th><th>input</th><th>ผลที่คาด</th><th>เหตุผล</th></tr></thead><tbody><tr><td>ปกติ</td><td>85, 65</td><td>A, C</td><td>ค่ากลางช่วง</td></tr><tr><td>ขอบ</td><td>80, 79</td><td>A, B</td><td>รอยต่อระหว่างเกรด</td></tr><tr><td>ขอบ</td><td>50, 49</td><td>D, F</td><td>ขอบผ่าน/ไม่ผ่าน</td></tr><tr><td>ขอบสุด</td><td>0, 100</td><td>F, A</td><td>ค่าต่ำ/สูงสุดที่ยอมรับ</td></tr><tr><td>ผิดปกติ</td><td>-1, 101</td><td>Invalid</td><td>นอกช่วง</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 10.4.1 · เขียนโค้ดทดสอบแบบตาราง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เก็บ input และผลที่คาดในอาเรย์คู่ขนาน แล้ววนเรียกเมธอดเทียบผล — เพิ่ม test ใหม่ได้ง่าย</p><div class="source-example-grid"><div class="source-field"><span>Java source · GradeTests.java</span><pre class="source-code">public class GradeTests {
+    public static void main(String[] args) {
+        int[] inputs = {85, 65, 80, 79, 50, 49, 0, 100, -1, 101};
+        String[] expected = {"A", "C", "A", "B", "D", "F", "F", "A", "Invalid", "Invalid"};
+        int passed = 0;
+        for (int i = 0; i &lt; inputs.length; i++) {
+            String actual = grade(inputs[i]);
+            boolean ok = actual.equals(expected[i]);
+            if (ok) passed++;
+            System.out.printf("%-4s grade(%d) = %s, expected %s%n", ok ? "OK" : "FAIL", inputs[i], actual, expected[i]);
+        }
+        System.out.println(passed + "/" + inputs.length + " tests passed");
+    }
+
+    static String grade(int score) {
+        if (score &lt; 0 || score &gt; 100) return "Invalid";
+        if (score &gt; 80) return "A";
+        if (score &gt;= 70) return "B";
+        if (score &gt;= 60) return "C";
+        if (score &gt;= 50) return "D";
+        return "F";
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>OK   grade(85) = A, expected A
+OK   grade(65) = C, expected C
+FAIL grade(80) = B, expected A
+OK   grade(79) = B, expected B
+OK   grade(50) = D, expected D
+OK   grade(49) = F, expected F
+OK   grade(0) = F, expected F
+OK   grade(100) = A, expected A
+OK   grade(-1) = Invalid, expected Invalid
+OK   grade(101) = Invalid, expected Invalid
+9/10 tests passed</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>9 จาก 10 ผ่าน</li><li>FAIL ที่ grade(80) ได้ B — test ค่าขอบจับบั๊ก <code>&gt; 80</code> ที่ควรเป็น <code>&gt;= 80</code></li><li>ถ้าทดสอบแค่ 85 และ 65 จะไม่มีวันเจอบั๊กนี้</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 10.4.2 · ทดสอบเมธอดที่คืน double <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เทียบ double ด้วยค่าคลาดเคลื่อนที่ยอมรับได้ (epsilon) ไม่ใช่ <code>==</code> และทดสอบกรณีพิเศษ เช่น อาเรย์ว่าง</p><div class="source-example-grid"><div class="source-field"><span>Java source · AverageTests.java</span><pre class="source-code">public class AverageTests {
+    public static void main(String[] args) {
+        test(new double[]{2, 4, 6}, 4.0);
+        test(new double[]{0.1, 0.2}, 0.15);
+        test(new double[]{-5, 5}, 0.0);
+        test(new double[]{7}, 7.0);
+        test(new double[]{}, 0.0);
+    }
+
+    static double average(double[] values) {
+        if (values.length == 0) return 0.0;
+        double sum = 0;
+        for (double v : values) sum += v;
+        return sum / values.length;
+    }
+
+    static void test(double[] values, double expected) {
+        double actual = average(values);
+        boolean ok = Math.abs(actual - expected) &lt; 1e-9;
+        System.out.printf("%s n=%d actual=%.4f expected=%.4f%n", ok ? "OK  " : "FAIL", values.length, actual, expected);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>OK   n=3 actual=4.0000 expected=4.0000
+OK   n=2 actual=0.1500 expected=0.1500
+OK   n=2 actual=0.0000 expected=0.0000
+OK   n=1 actual=7.0000 expected=7.0000
+OK   n=0 actual=0.0000 expected=0.0000</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>กรณีปกติ, ทศนิยม, ค่าลบ, สมาชิกเดียว, อาเรย์ว่าง</li><li>0.1 + 0.2 ไม่เท่ากับ 0.3 พอดี จึงใช้ epsilon</li><li>กรณีว่างต้องตัดสินใจล่วงหน้าว่าควรคืนอะไร (ที่นี่คืน 0.0)</li></ol></div></div>
+<div class="note-box"><span class="box-title">Checklist ก่อนส่งงาน</span><ul><li>ทดสอบตัวอย่างในโจทย์ทุกตัว และเทียบ output ทีละตัวอักษร (ช่องว่าง ตัวพิมพ์)</li><li>ทดสอบค่าขอบทุกเงื่อนไข (=, ค่าก่อน และค่าหลังขอบ)</li><li>ทดสอบ 0, ค่าติดลบ, ข้อมูลว่าง, ข้อมูลตัวเดียว</li><li>ลบ println ที่ใช้ debug ออก</li><li>ตั้งชื่อตัวแปรและจัดย่อหน้าให้อ่านง่าย</li></ul></div>
+<div class="quick-check"><strong>ลองคิดก่อน · เลือก test case</strong><div><p>เมธอด <code>isTeen(int age)</code> คืน true เมื่ออายุ 13–19 ควรทดสอบด้วยค่าใดบ้างอย่างน้อย</p></div><details><summary>ดูคำตอบ</summary><div><p>12, 13, 19, 20 (ค่าขอบสองด้าน) + ค่ากลางเช่น 16 + ค่าผิดปกติเช่น −1 — ผลที่คาด: false, true, true, false, true, false</p></div></details></div>
+</article>
       </section>
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>แก้จากหลักฐาน: ระบุประเภท, trace หรือออกแบบ test ก่อนเปลี่ยนโค้ด</p><article class="end-exercise"><h3>บันทึกการ debug</h3><p>เลือกโปรแกรมในบทก่อนหน้า 1 โปรแกรม บันทึก input, output ที่คาด, output จริง, error ที่พบ และการแก้ไขอย่างน้อยหนึ่งรอบ</p></article></section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>แต่ละข้อมีโค้ดที่มีบั๊กหรือโจทย์ให้ออกแบบการทดสอบ ให้หาสาเหตุด้วยวิธีในบทนี้ (อ่าน error, trace, print debugging) แล้วแก้ให้ได้ผลตามตัวอย่าง</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 10.1</span>แก้ compile error 3 จุด<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>โค้ดนี้คอมไพล์ไม่ผ่าน ให้คอมไพล์ อ่าน error ทีละตัว และแก้ให้รันได้ผลตามตัวอย่าง</p><pre><code>public class Rectangle {
+    public static void main(String[] args) {
+        double width = 4.5
+        double height = 2;
+        doubel area = width * height;
+        System.out.println("Area = " + Area);
+    }
+}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>บันทึกข้อความ error ของแต่ละจุด</li><li>แก้ทีละจุดแล้วคอมไพล์ใหม่</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Area = 9.0</pre></div><div class="answer-gate" data-answer-id="10.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Rectangle {
+    public static void main(String[] args) {
+        double width = 4.5;
+        double height = 2;
+        double area = width * height;
+        System.out.println("Area = " + area);
+    }
+}</code></pre><p>(1) <code>';' expected</code> บรรทัด 3 (2) <code>cannot find symbol: class doubel</code> (3) <code>cannot find symbol: variable Area</code> — Java แยกตัวพิมพ์ใหญ่เล็ก</p></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 10.2</span>จำแนกและอธิบาย error<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สำหรับแต่ละโค้ดสั้น ๆ ต่อไปนี้ ให้ระบุว่าเป็น compile, runtime หรือ logic error พร้อมเหตุผลและวิธีแก้ แล้วเขียนโปรแกรมฉบับแก้ไขที่รวมทั้ง 4 ส่วนให้รันได้ผลตามตัวอย่าง</p><pre><code>(1) int count = 10.0;
+(2) String s = "abc";  int n = Integer.parseInt(s);
+(3) int celsius = 30;  double f = celsius * 9 / 5 + 32;   // คาดว่า 86.0 ✓ แต่ถ้า celsius = 31 ได้ 87.0 (ที่ถูก 87.8)
+(4) int[] a = new int[3];  a[3] = 7;</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ตอบชนิด error ของแต่ละข้อ</li><li>ฉบับแก้ไข: (1) ใช้ int 10 (2) ใช้ "123" (3) celsius = 31 ได้ 87.8 (4) กำหนดค่าที่ index 2</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>count = 10
+n = 123
+f = 87.8
+a[2] = 7</pre></div><div class="answer-gate" data-answer-id="10.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class ClassifyFix {
+    public static void main(String[] args) {
+        int count = 10;
+        int n = Integer.parseInt("123");
+        int celsius = 31;
+        double f = celsius * 9.0 / 5 + 32;
+        int[] a = new int[3];
+        a[2] = 7;
+        System.out.println("count = " + count);
+        System.out.println("n = " + n);
+        System.out.println("f = " + f);
+        System.out.println("a[2] = " + a[2]);
+    }
+}</code></pre><p>(1) compile — lossy conversion (2) runtime — NumberFormatException (3) logic — หาร int ตัดทศนิยม (4) runtime — ArrayIndexOutOfBounds</p></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 10.3</span>ออกแบบ test case ของ isLeapYear<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>ออกแบบ test case อย่างน้อย 6 กรณีสำหรับเมธอด <code>isLeapYear(int year)</code> (หาร 4 ลงตัว และไม่ลงตัวด้วย 100 หรือหาร 400 ลงตัว) ครอบคลุมทุกเส้นทางของเงื่อนไข แล้วเขียนโปรแกรมทดสอบแบบตารางที่แสดง OK/FAIL</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ต้องมีกรณี: หาร 4 ไม่ลงตัว, หาร 4 ลงตัวแต่ไม่ลงตัว 100, หาร 100 ลงตัวแต่ไม่ลงตัว 400, หาร 400 ลงตัว</li><li>เก็บ input/expected ในอาเรย์คู่ขนาน</li><li>สรุปจำนวนที่ผ่าน</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>OK   2023 -&gt; false
+OK   2024 -&gt; true
+OK   1900 -&gt; false
+OK   2000 -&gt; true
+OK   2100 -&gt; false
+OK   2400 -&gt; true
+6/6 passed</pre></div><div class="answer-gate" data-answer-id="10.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class LeapYearTests {
+    public static void main(String[] args) {
+        int[] years = {2023, 2024, 1900, 2000, 2100, 2400};
+        boolean[] expected = {false, true, false, true, false, true};
+        int passed = 0;
+        for (int i = 0; i &lt; years.length; i++) {
+            boolean actual = isLeapYear(years[i]);
+            boolean ok = actual == expected[i];
+            if (ok) passed++;
+            System.out.printf("%-4s %d -&gt; %b%n", ok ? "OK" : "FAIL", years[i], actual);
+        }
+        System.out.println(passed + "/" + years.length + " passed");
+    }
+
+    static boolean isLeapYear(int year) {
+        return (year % 4 == 0 &amp;&amp; year % 100 != 0) || year % 400 == 0;
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.4</span>ค่าเฉลี่ยที่ผิด<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>โปรแกรมนี้ควรรับคะแนน 5 ค่าแล้วแสดงค่าเฉลี่ยทศนิยม 2 ตำแหน่ง แต่ผลผิด เช่น ป้อน 70 80 90 85 76 ได้ <code>Average = 65.00</code> (ที่ถูกคือ 80.20) ให้ใช้ print debugging หาสาเหตุ แก้ให้ถูก และอธิบายว่ามีบั๊กกี่จุด</p><pre><code>Scanner input = new Scanner(System.in);
+int sum = 0;
+int score = 0;
+for (int i = 1; i &lt; 5; i++) {
+    score = input.nextInt();
+    sum += score;
+}
+double average = sum / 5;
+System.out.printf("Average = %.2f%n", average);</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เพิ่ม println แสดง i และ sum ในลูปเพื่อดูว่าวนกี่รอบ</li><li>แก้ทั้งจำนวนรอบและการหาร</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>5 scores: <b class="stdin">70 80 90 85 76</b>
+Average = 80.20</pre></div><div class="answer-gate" data-answer-id="10.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class FixAverage {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("5 scores: ");
+        int sum = 0;
+        for (int i = 0; i &lt; 5; i++) {
+            sum += input.nextInt();
+        }
+        double average = sum / 5.0;
+        System.out.printf("Average = %.2f%n", average);
+    }
+}</code></pre><p>บั๊ก 2 จุด: (1) ลูป <code>i = 1; i &lt; 5</code> วนแค่ 4 รอบ อ่านแค่ 70 80 90 85 ได้ sum = 325 (2) <code>sum / 5</code> เป็นการหาร int ได้ 65 แล้วจึงกลายเป็น 65.0 ต้องใช้ 5.0</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.5</span>ค้นหาที่หาไม่เจอ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เมธอด <code>indexOf</code> ด้านล่างควรคืนตำแหน่งของ target ในอาเรย์ หรือ −1 ถ้าไม่พบ แต่ทดสอบแล้วได้ผลแปลก: หา 30 ใน {10, 20, 30, 40} ได้ −1 ให้ trace หาบั๊กและแก้ไข พร้อมเขียน test 4 กรณี (ตัวแรก, ตัวกลาง, ตัวสุดท้าย, ไม่มี)</p><pre><code>static int indexOf(int[] a, int target) {
+    for (int i = 0; i &lt; a.length; i++) {
+        if (a[i] == target) {
+            return i;
+        } else {
+            return -1;
+        }
+    }
+    return -1;
+}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>trace: ลูปวนกี่รอบจริง ๆ</li><li>แก้ให้คืน −1 เฉพาะเมื่อวนครบแล้วไม่พบ</li><li>ทดสอบทั้ง 4 กรณี</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>OK   indexOf(10) = 0
+OK   indexOf(30) = 2
+OK   indexOf(40) = 3
+OK   indexOf(99) = -1</pre></div><div class="answer-gate" data-answer-id="10.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class FixSearch {
+    public static void main(String[] args) {
+        int[] a = {10, 20, 30, 40};
+        int[] targets = {10, 30, 40, 99};
+        int[] expected = {0, 2, 3, -1};
+        for (int i = 0; i &lt; targets.length; i++) {
+            int actual = indexOf(a, targets[i]);
+            System.out.printf("%s indexOf(%d) = %d%n", actual == expected[i] ? "OK  " : "FAIL", targets[i], actual);
+        }
+    }
+
+    static int indexOf(int[] a, int target) {
+        for (int i = 0; i &lt; a.length; i++) {
+            if (a[i] == target) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}</code></pre><p>else return -1 ทำให้เมธอดจบตั้งแต่รอบแรกถ้าตัวแรกไม่ตรง — เป็นบั๊กที่พบบ่อยมาก</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.6</span>Exception จากข้อมูลผู้ใช้<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนโปรแกรมรับ “จำนวนสินค้า” และ “ราคารวม” เป็นข้อความ (nextLine) แล้วคำนวณราคาต่อชิ้น ให้ดักทุกกรณีผิดพลาดด้วย try-catch และข้อความที่เป็นมิตร: ป้อนไม่ใช่ตัวเลข, จำนวนเป็น 0, จำนวนติดลบ (ตรวจด้วย if) ถ้าผิดให้ถามใหม่ทั้งชุดจนกว่าจะถูก</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ Integer.parseInt และ Double.parseDouble</li><li>catch NumberFormatException</li><li>ตรวจจำนวน ≤ 0 ด้วย if ก่อนหาร</li><li>วนด้วย while จนสำเร็จ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>Quantity: <b class="stdin">five</b>
+  Please enter numbers only. Try again.
+Quantity: <b class="stdin">0</b>
+Total price: <b class="stdin">100</b>
+  Quantity must be positive. Try again.
+Quantity: <b class="stdin">4</b>
+Total price: <b class="stdin">100</b>
+Unit price = 25.00</pre></div><div class="answer-gate" data-answer-id="10.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class SafeUnitPrice {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        boolean done = false;
+        while (!done) {
+            try {
+                System.out.print("Quantity: ");
+                int qty = Integer.parseInt(input.nextLine().trim());
+                System.out.print("Total price: ");
+                double total = Double.parseDouble(input.nextLine().trim());
+                if (qty &lt;= 0) {
+                    System.out.println("  Quantity must be positive. Try again.");
+                } else {
+                    System.out.printf("Unit price = %.2f%n", total / qty);
+                    done = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("  Please enter numbers only. Try again.");
+            }
+        }
+    }
+}</code></pre><p>เมื่อ parseInt โยน exception คำสั่งที่เหลือใน try (รวมถึงคำถาม Total price) จะถูกข้ามทันทีแล้วไปที่ catch</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.7</span>พีระมิดที่เบี้ยว<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>โค้ดนี้ควรพิมพ์พีระมิดสูง 4 แถวตามตัวอย่าง แต่ได้รูปที่ผิด ให้ทำ trace table ของจำนวนช่องว่างและจำนวนดาวในแต่ละแถว (ที่คาด vs ที่ได้) แล้วแก้ไข</p><pre><code>int h = 4;
+for (int row = 1; row &lt;= h; row++) {
+    for (int s = 0; s &lt;= h - row; s++) System.out.print(" ");
+    for (int k = 0; k &lt;= 2 * row; k++) System.out.print("*");
+    System.out.println();
+}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แถวที่ row ควรมีช่องว่าง h − row และดาว 2·row − 1</li><li>ระบุว่าลูปทั้งสองนับเกินไปกี่รอบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>   *
+  ***
+ *****
+*******</pre></div><div class="answer-gate" data-answer-id="10.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class FixPyramid {
+    public static void main(String[] args) {
+        int h = 4;
+        for (int row = 1; row &lt;= h; row++) {
+            for (int s = 0; s &lt; h - row; s++) System.out.print(" ");
+            for (int k = 0; k &lt; 2 * row - 1; k++) System.out.print("*");
+            System.out.println();
+        }
+    }
+}</code></pre><p>ลูปที่เริ่ม 0 และใช้ <= วนเกิน 1 รอบ (off-by-one) และจำนวนดาวต้องเป็น 2·row − 1 ไม่ใช่ 2·row + 1</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 10.8</span>ระบบคิดค่าส่งที่มีบั๊กหลายจุด<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>กติกา: น้ำหนัก ≤ 1 กก. 40 บาท, > 1 ถึง ≤ 5 กก. 40 บาท + กิโลละ 15 บาทในส่วนที่เกิน 1 กก., > 5 กก. ค่าส่งเหมา 120 บาท + กิโลละ 10 บาทในส่วนที่เกิน 5 กก. สมาชิกลด 10% ของค่าส่ง (ปัดเศษ 2 ตำแหน่ง) น้ำหนัก ≤ 0 ให้คืน −1</p><p>โค้ดด้านล่างมีบั๊ก<strong>อย่างน้อย 3 จุด</strong> ให้เขียน test case ครอบคลุมค่าขอบ (0, 1, 1.5, 5, 5.5, 10 ทั้งสมาชิกและไม่ใช่) หาบั๊กด้วยการทดสอบ แล้วแก้ไข</p><pre><code>static double shipping(double kg, boolean member) {
+    double fee;
+    if (kg &lt; 0) return -1;
+    if (kg &lt; 1) fee = 40;
+    else if (kg &lt;= 5) fee = 40 + kg * 15;
+    else fee = 120 + (kg - 5) * 10;
+    if (member) fee = fee * 0.1;
+    return fee;
+}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เขียนตารางผลที่คาดด้วยมือก่อนรัน</li><li>โปรแกรมทดสอบแสดง OK/FAIL ทุกกรณี</li><li>หลังแก้ต้องผ่านทุกกรณี</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>OK   kg=0.0 member=false -&gt; -1.00 (expected -1.00)
+OK   kg=1.0 member=false -&gt; 40.00 (expected 40.00)
+OK   kg=1.5 member=false -&gt; 47.50 (expected 47.50)
+OK   kg=5.0 member=false -&gt; 100.00 (expected 100.00)
+OK   kg=5.5 member=false -&gt; 125.00 (expected 125.00)
+OK   kg=10.0 member=false -&gt; 170.00 (expected 170.00)
+OK   kg=1.0 member=true  -&gt; 36.00 (expected 36.00)
+OK   kg=5.5 member=true  -&gt; 112.50 (expected 112.50)
+8/8 passed</pre></div><div class="answer-gate" data-answer-id="10.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class ShippingTests {
+    public static void main(String[] args) {
+        double[] kg = {0, 1, 1.5, 5, 5.5, 10, 1, 5.5};
+        boolean[] member = {false, false, false, false, false, false, true, true};
+        double[] expected = {-1, 40, 47.5, 100, 125, 170, 36, 112.5};
+        int passed = 0;
+        for (int i = 0; i &lt; kg.length; i++) {
+            double actual = shipping(kg[i], member[i]);
+            boolean ok = Math.abs(actual - expected[i]) &lt; 0.001;
+            if (ok) passed++;
+            System.out.printf("%-4s kg=%.1f member=%-5b -&gt; %.2f (expected %.2f)%n", ok ? "OK" : "FAIL", kg[i], member[i], actual, expected[i]);
+        }
+        System.out.println(passed + "/" + kg.length + " passed");
+    }
+
+    static double shipping(double kg, boolean member) {
+        if (kg &lt;= 0) return -1;
+        double fee;
+        if (kg &lt;= 1) fee = 40;
+        else if (kg &lt;= 5) fee = 40 + (kg - 1) * 15;
+        else fee = 120 + (kg - 5) * 10;
+        if (member) fee = fee * 0.9;
+        return Math.round(fee * 100) / 100.0;
+    }
+}</code></pre><p>บั๊กที่แก้: (1) <code>kg &lt; 0</code> → <code>kg &lt;= 0</code> (2) <code>kg &lt; 1</code> → <code>kg &lt;= 1</code> (3) ส่วนเกินต้องเป็น <code>(kg − 1) * 15</code> (4) ลด 10% คือคูณ 0.9 ไม่ใช่ 0.1 (5) ไม่ได้ปัดเศษ</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 10.9</span>Bubble sort ที่เรียงไม่ครบ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>โค้ดนี้ควรเรียงอาเรย์จากน้อยไปมาก แต่บางชุดข้อมูลเรียงไม่ถูก ให้ (1) หาชุดข้อมูลที่ทำให้ผิด (2) พิมพ์อาเรย์หลังแต่ละ pass เพื่อหาสาเหตุ (3) แก้ไขและทดสอบกับ: อาเรย์เรียงแล้ว, เรียงกลับ, มีค่าซ้ำ, สมาชิกเดียว, ว่าง</p><pre><code>static void sort(int[] a) {
+    for (int pass = 0; pass &lt; a.length - 2; pass++) {
+        for (int i = 0; i &lt; a.length - 1 - pass; i++) {
+            if (a[i] &gt; a[i + 1]) {
+                a[i] = a[i + 1];
+                a[i + 1] = a[i];
+            }
+        }
+    }
+}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>มีบั๊ก 2 จุด: จำนวน pass และการสลับค่า</li><li>เขียนเมธอด <code>isSorted(int[] a)</code> ใช้ตรวจผลอัตโนมัติ</li><li>แสดงผลทุกชุดทดสอบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[1, 2, 3, 4]     -&gt; [1, 2, 3, 4]     OK
+[4, 3, 2, 1]     -&gt; [1, 2, 3, 4]     OK
+[3, 1, 3, 2, 1]  -&gt; [1, 1, 2, 3, 3]  OK
+[7]              -&gt; [7]              OK
+[]               -&gt; []               OK</pre></div><div class="answer-gate" data-answer-id="10.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Arrays;
+
+public class FixBubbleSort {
+    public static void main(String[] args) {
+        int[][] tests = {{1, 2, 3, 4}, {4, 3, 2, 1}, {3, 1, 3, 2, 1}, {7}, {}};
+        for (int[] t : tests) {
+            String before = Arrays.toString(t);
+            sort(t);
+            System.out.printf("%-16s -&gt; %-16s %s%n", before, Arrays.toString(t), isSorted(t) ? "OK" : "FAIL");
+        }
+    }
+
+    static void sort(int[] a) {
+        for (int pass = 0; pass &lt; a.length - 1; pass++) {
+            for (int i = 0; i &lt; a.length - 1 - pass; i++) {
+                if (a[i] &gt; a[i + 1]) {
+                    int temp = a[i];
+                    a[i] = a[i + 1];
+                    a[i + 1] = temp;
+                }
+            }
+        }
+    }
+
+    static boolean isSorted(int[] a) {
+        for (int i = 0; i + 1 &lt; a.length; i++) {
+            if (a[i] &gt; a[i + 1]) return false;
+        }
+        return true;
+    }
+}</code></pre><p>(1) การสลับไม่มีตัวแปร temp ทำให้ทั้งสองช่องได้ค่าเดียวกัน — ข้อมูลหาย (2) <code>a.length - 2</code> ทำให้ขาดไป 1 pass อาเรย์เรียงกลับขนาด 4 จะไม่เรียงครบ</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 10.10</span>ตัวตรวจสอบเลขบัญชีพร้อมชุดทดสอบ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>เขียนเมธอด <code>String validateAccount(String acc)</code> ตรวจเลขบัญชีรูปแบบ <code>XXX-X-XXXXX-X</code> (ตัวเลข 10 หลัก มีขีดตามตำแหน่งนี้เท่านั้น) คืน <code>"OK"</code> หรือข้อความบอกปัญหาแรกที่พบ: <code>"empty"</code>, <code>"wrong length"</code>, <code>"dash at position N"</code>, <code>"non-digit at position N"</code> (N นับจาก 0) จากนั้นออกแบบชุดทดสอบอย่างน้อย 7 กรณีที่ทำให้ได้ข้อความครบทุกแบบ และแสดงผล OK/FAIL</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ความยาวที่ถูกคือ 13 ตัวอักษร ขีดอยู่ที่ index 3, 5, 11</li><li>ตรวจตามลำดับ: ว่าง → ความยาว → ทีละตำแหน่ง</li><li>ข้อมูล null ให้ถือเป็น empty</li><li>ทุก test case เขียนผลที่คาดไว้ล่วงหน้า</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>OK   "123-4-56789-0"  -&gt; OK
+OK   ""               -&gt; empty
+OK   "123-4-56789"    -&gt; wrong length
+OK   "1234-5-6789-0"  -&gt; dash at position 3
+OK   "123-4-5678a-0"  -&gt; non-digit at position 10
+OK   "12a-4-56789-0"  -&gt; non-digit at position 2
+OK   "123-4-56789-01" -&gt; wrong length
+OK   "null"           -&gt; empty
+8/8 passed</pre></div><div class="answer-gate" data-answer-id="10.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class AccountValidator {
+    public static void main(String[] args) {
+        String[] inputs = {"123-4-56789-0", "", "123-4-56789", "1234-5-6789-0", "123-4-5678a-0", "12a-4-56789-0", "123-4-56789-01", null};
+        String[] expected = {"OK", "empty", "wrong length", "dash at position 3", "non-digit at position 10", "non-digit at position 2", "wrong length", "empty"};
+        int passed = 0;
+        for (int i = 0; i &lt; inputs.length; i++) {
+            String actual = validateAccount(inputs[i]);
+            boolean ok = actual.equals(expected[i]);
+            if (ok) passed++;
+            System.out.printf("%-4s %-16s -&gt; %s%n", ok ? "OK" : "FAIL", "\"" + inputs[i] + "\"", actual);
+        }
+        System.out.println(passed + "/" + inputs.length + " passed");
+    }
+
+    static String validateAccount(String acc) {
+        if (acc == null || acc.isEmpty()) return "empty";
+        if (acc.length() != 13) return "wrong length";
+        for (int i = 0; i &lt; acc.length(); i++) {
+            char ch = acc.charAt(i);
+            boolean dashPos = i == 3 || i == 5 || i == 11;
+            if (dashPos &amp;&amp; ch != '-') return "dash at position " + i;
+            if (!dashPos &amp;&amp; !Character.isDigit(ch)) {
+                return ch == '-' ? "dash at position " + i : "non-digit at position " + i;
+            }
+        }
+        return "OK";
+    }
+}</code></pre><p>ตรวจ <code>acc == null</code> ก่อนเรียก isEmpty() เสมอ (short-circuit ของ || ช่วยป้องกัน NullPointerException)</p></div></div></article>
+      </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-09.html">← บทที่ 9</a><a class="pager-link" href="chapter-11.html">บทที่ 11: คลาสและออบเจ็กต์ →</a></nav>
-      <footer class="lesson-footer">Java programming by Prymania · บทที่ 10 · แยก compile/runtime/logic error ก่อนเลือกวิธีแก้</footer>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 10 · แก้ทีละจุด แล้วทดสอบใหม่ทุกครั้ง</footer>
     </main>
   </div>
   <script src="../password.js"></script><script src="../assets/lesson.js"></script>

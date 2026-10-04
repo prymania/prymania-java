@@ -12,100 +12,699 @@
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญบทที่ 15"><p class="toc-label">บทที่ 15 · ส่วนประกอบและการจัดวาง</p><a href="#topic-15-1"><span class="toc-number">15.1</span>Label, Button และ Panel</a><a href="#topic-15-2"><span class="toc-number">15.2</span>รับและแสดงข้อความ</a><a href="#topic-15-3"><span class="toc-number">15.3</span>ComboBox</a><a href="#topic-15-4"><span class="toc-number">15.4</span>Layout Manager</a><a href="#topic-15-5"><span class="toc-number">15.5</span>ประกอบหลาย Panel</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
-      <div class="sidebar-bottom">เลือก component และ layout ตามหน้าที่</div>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 15"><p class="toc-label">บทที่ 15 · ชิ้นส่วนและการจัดวาง</p><a href="#topic-15-1"><span class="toc-number">15.1</span>Label, Button และ Panel</a><a href="#topic-15-2"><span class="toc-number">15.2</span>รับและแสดงข้อความ</a><a href="#topic-15-3"><span class="toc-number">15.3</span>ComboBox</a><a href="#topic-15-4"><span class="toc-number">15.4</span>Layout Manager</a><a href="#topic-15-5"><span class="toc-number">15.5</span>ประกอบหลาย Panel</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">ให้ layout manager คำนวณตำแหน่งแทนเรา</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 15 / 19</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทที่ 15 · สร้างส่วนต่าง ๆ บนหน้าต่าง</p><h1>Components และ Layout</h1><p>เลือก component ให้ตรงกับข้อมูล และใช้ layout manager จัดตำแหน่งโดยไม่กำหนดพิกัดทุกชิ้นด้วยตัวเอง</p></header>
-      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เลือก JLabel, JButton, JTextField และ JTextArea</li><li>ใช้ JScrollPane กับเนื้อหาที่ยาว</li><li>รับตัวเลือกด้วย JComboBox</li><li>เลือกระหว่าง Flow, Border, Grid และ Box layout</li><li>ประกอบ panel ย่อยเป็นหน้าจอเดียว</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-15"><h2 id="section-15">15. ประกอบหน้าจอจากชิ้นส่วน</h2><p>Swing แบ่งเป็น component ที่แสดงหรือรับข้อมูล กับ container ที่บรรจุ component อีกที แต่ละ container มี layout manager คำนวณตำแหน่งให้ตามขนาดหน้าต่าง</p>
-        <article class="subtopic" id="topic-15-1">
-          <h3>15.1 JLabel, JButton และ JPanel</h3><p><code>JLabel</code> ใช้แสดงข้อความหรือไอคอน, <code>JButton</code> เป็นปุ่มที่ผู้ใช้กด และ <code>JPanel</code> เป็น container ย่อยสำหรับจัดกลุ่มสิ่งที่เกี่ยวข้อง</p>
-          <div class="example-box"><span class="box-title">เพิ่ม label และปุ่มลง panel</span><pre><code>JPanel panel = new JPanel();
-JLabel title = new JLabel("Welcome");
-JButton nextButton = new JButton("Next");
-panel.add(title);
-panel.add(nextButton);
-frame.setContentPane(panel);</code></pre><p>JPanel ใช้ FlowLayout โดยปริยาย จึงวาง component ต่อกันตามลำดับที่ add</p></div>
-          <div class="note-box"><span class="box-title">ปุ่มยังไม่ทำงานจนกว่าจะผูก event</span><p>บทนี้สร้างรูปร่างและตำแหน่งของปุ่มก่อน การตอบสนองต่อการคลิกจะเรียนในบทถัดไป</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.1</span>หัวหน้าต่างโปรไฟล์</h4><p>สร้าง JPanel ที่มี JLabel แสดงชื่อหน้าและ JButton ชื่อ Edit</p><div class="answer-gate" data-answer-id="15.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JPanel panel = new JPanel();
-panel.add(new JLabel("Student Profile"));
-panel.add(new JButton("Edit"));</code></pre></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-15-2">
-          <h3>15.2 JTextField, JTextArea และ JScrollPane</h3><p><code>JTextField</code> เหมาะกับข้อความบรรทัดเดียว เช่น ชื่อหรือรหัส; <code>JTextArea</code> รับข้อความหลายบรรทัด และมักใส่ใน <code>JScrollPane</code> เพื่อเลื่อนดูเมื่อข้อความยาว</p>
-          <div class="example-box"><span class="box-title">สร้างช่องกรอกและกล่องข้อความ</span><pre><code>JTextField nameField = new JTextField(18);
-JTextArea noteArea = new JTextArea(5, 18);
-noteArea.setLineWrap(true);
-noteArea.setWrapStyleWord(true);
-JScrollPane noteScroll = new JScrollPane(noteArea);
-panel.add(new JLabel("Name:"));
-panel.add(nameField);
-panel.add(noteScroll);</code></pre><p>ตัวเลขใน constructor บอกขนาดที่ต้องการโดยประมาณ ไม่ใช่จำนวนตัวอักษรสูงสุด</p></div>
-          <div class="note-box"><span class="box-title">Password field</span><p>ข้อมูลรหัสผ่านควรใช้ <code>JPasswordField</code> ซึ่งแสดงอักขระแทนค่าจริง และอ่านผ่าน <code>getPassword()</code> แทนการใช้ JTextField ปกติ</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.2</span>กล่องบันทึกคำอธิบาย</h4><p>เพิ่ม JTextField สำหรับหัวข้อ และ JTextArea ที่เลื่อนอ่านได้สำหรับรายละเอียด</p><div class="answer-gate" data-answer-id="15.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>JTextField titleField = new JTextField(20);
-JTextArea details = new JTextArea(6, 20);
-details.setLineWrap(true);
-JScrollPane scroll = new JScrollPane(details);
-panel.add(titleField);
-panel.add(scroll);</code></pre></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-15-3">
-          <h3>15.3 JComboBox สำหรับตัวเลือก</h3><p>ใช้ <code>JComboBox</code> เมื่อผู้ใช้ควรเลือกหนึ่งค่าจากรายการที่กำหนดไว้ ช่วยลด input ที่สะกดไม่ตรงและใช้พื้นที่น้อยกว่าแสดงทุกตัวเลือกพร้อมกัน</p>
-          <div class="example-box"><span class="box-title">เติมรายการและกำหนดค่าเริ่มต้น</span><pre><code>String[] levels = {"Beginner", "Intermediate", "Advanced"};
-JComboBox&lt;String&gt; levelBox = new JComboBox&lt;&gt;(levels);
-levelBox.setSelectedIndex(0);
-panel.add(new JLabel("Level:"));
-panel.add(levelBox);</code></pre><p>อ่านตัวเลือกที่เลือกภายหลังด้วย <code>getSelectedItem()</code>; ค่าที่คืนมีชนิด Object จึงอาจต้องแปลงชนิดตามที่ประกาศ</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.3</span>เลือกสาขาวิชา</h4><p>สร้าง ComboBox สำหรับ Computer Science, Information Technology และ Data Science โดยเลือก Computer Science เป็นค่าเริ่มต้น</p><div class="answer-gate" data-answer-id="15.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>String[] majors = {"Computer Science", "Information Technology", "Data Science"};
-JComboBox&lt;String&gt; majorBox = new JComboBox&lt;&gt;(majors);
-majorBox.setSelectedIndex(0);</code></pre></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-15-4">
-          <h3>15.4 Layout Manager เลือกตามรูปแบบหน้าจอ</h3><p>หลีกเลี่ยงการกำหนดตำแหน่งด้วยพิกัด absolute เพราะหน้าต่างปรับขนาดไม่ได้ดี Layout manager จัดตำแหน่งใหม่ตามขนาด container และ preferred size</p>
-          <table class="comparison-table"><thead><tr><th>Layout</th><th>วิธีจัด</th><th>เหมาะกับ</th></tr></thead><tbody><tr><td>FlowLayout</td><td>เรียงต่อกันตามแนว แล้วขึ้นบรรทัด</td><td>แถบปุ่มหรือรายการสั้น</td></tr><tr><td>BorderLayout</td><td>แบ่ง North, South, East, West, Center</td><td>โครงหน้าต่างหลัก</td></tr><tr><td>GridLayout</td><td>ตารางแถว/คอลัมน์ ขนาดช่องเท่ากัน</td><td>เครื่องคิดเลขหรือปุ่มตัวเลข</td></tr><tr><td>BoxLayout</td><td>เรียงแนวตั้งหรือแนวนอน</td><td>ฟอร์มที่จัดเป็นแนวเดียว</td></tr></tbody></table>
-          <div class="example-box"><span class="box-title">BorderLayout แบ่งพื้นที่หลัก</span><pre><code>JPanel panel = new JPanel(new BorderLayout(8, 8));
-panel.add(new JLabel("Header"), BorderLayout.NORTH);
-panel.add(new JScrollPane(new JTextArea()), BorderLayout.CENTER);
-panel.add(new JButton("Save"), BorderLayout.SOUTH);</code></pre><p>BorderLayout รับ component ได้หนึ่งชิ้นต่อ region; ถ้าต้องมีหลายชิ้นใน region ให้สร้าง JPanel ย่อย</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.4</span>เลือก Layout</h4><p>เลือก layout ที่เหมาะกับ (1) ปุ่ม 12 ปุ่มในตาราง 3×4 (2) แถบปุ่ม Save/Cancel เรียงกัน (3) พื้นที่เนื้อหากลางหน้าต่าง</p><div class="answer-gate" data-answer-id="15.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><ol><li>GridLayout(3, 4)</li><li>FlowLayout หรือ BoxLayout แนวนอน</li><li>BorderLayout.CENTER</li></ol></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-15-5">
-          <h3>15.5 ประกอบหลาย JPanel และใช้ pack()</h3><p>หน้าจอจริงมักใช้ panel ซ้อนกัน แต่ละ panel ดูแล layout ส่วนของตัวเอง แล้วนำไปวางใน JFrame ที่ใช้ BorderLayout เป็นโครงหลัก</p>
-          <div class="example-box"><span class="box-title">จัด header, form และ footer แยกหน้าที่</span><pre><code>JPanel header = new JPanel(new FlowLayout(FlowLayout.LEFT));
-header.add(new JLabel("Student Form"));
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เลือก JLabel, JButton, JTextField และ JTextArea</li><li>ใช้ JScrollPane กับเนื้อหาที่ยาว</li><li>รับตัวเลือกด้วย JComboBox, JCheckBox, JRadioButton</li><li>เลือกระหว่าง Flow, Border, Grid และ Box layout แล้วประกอบหลาย panel</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">15. ประกอบหน้าจอจากชิ้นส่วน Swing</h2>
+        <p>หน้าจอแบ่งเป็น <strong>component</strong> ที่แสดงหรือรับข้อมูล กับ <strong>container</strong> ที่บรรจุ component อีกที แต่ละ container มี <strong>layout manager</strong> คำนวณตำแหน่งให้ตามขนาดหน้าต่าง ทำให้หน้าจอยังดูดีเมื่อผู้ใช้ย่อขยายหน้าต่างหรือใช้ฟอนต์ต่างกัน บทนี้ยังไม่ทำให้ปุ่มตอบสนอง (บทที่ 16) แต่บางภาพจำลองการพิมพ์หรือเลือกค่าเพื่อให้เห็นสถานะของ component</p>
+<article class="subtopic" id="topic-15-1">
+<h3>15.1 JLabel, JButton และ JPanel</h3>
+<table class="comparison-table"><thead><tr><th>Component</th><th>ใช้ทำอะไร</th><th>เมธอดที่ใช้บ่อย</th></tr></thead><tbody><tr><td><code>JLabel</code></td><td>แสดงข้อความ (ผู้ใช้แก้ไม่ได้)</td><td><code>setText</code>, <code>getText</code>, <code>setFont</code>, <code>setForeground</code></td></tr><tr><td><code>JButton</code></td><td>ปุ่มให้ผู้ใช้กด</td><td><code>setText</code>, <code>setEnabled</code>, <code>setToolTipText</code>, <code>addActionListener</code> (บทที่ 16)</td></tr><tr><td><code>JPanel</code></td><td>container จัดกลุ่ม</td><td><code>add</code>, <code>setLayout</code>, <code>setBorder</code>, <code>setBackground</code></td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 15.1.1 · label และปุ่มหลายสถานะ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ปุ่มที่ <code>setEnabled(false)</code> จะเป็นสีเทาและกดไม่ได้ ใช้บอกผู้ใช้ว่ายังทำขั้นนั้นไม่ได้</p><div class="source-example-grid"><div class="source-field"><span>Java source · LabelButtons.java</span><pre class="source-code">import javax.swing.*;
 
-JPanel form = new JPanel(new GridLayout(2, 2, 8, 8));
-form.add(new JLabel("Name:"));
-form.add(new JTextField(16));
-form.add(new JLabel("Major:"));
-form.add(new JComboBox&lt;&gt;(new String[]{"CS", "IT"}));
+public class LabelButtons {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Step 1 of 3");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Welcome to registration"));
+            JButton back = new JButton("Back");
+            back.setEnabled(false);
+            JButton next = new JButton("Next");
+            next.setToolTipText("Go to step 2");
+            panel.add(back);
+            panel.add(next);
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Step 1 of 3</div><img src="../assets/gui/gdf95db5e8d-0.png" width="280" height="36" alt="ภาพหน้าต่าง Step 1 of 3" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Back ถูกปิดเพราะอยู่หน้าแรก</li><li>Next มี tooltip แสดงเมื่อเอาเมาส์ชี้</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.1.2 · label แบบ HTML และการจัดแนว <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> JLabel รับข้อความ HTML อย่างง่ายได้ (ขึ้นบรรทัดด้วย &lt;br&gt;, ตัวหนา, สี) และจัดแนวข้อความด้วย <code>SwingConstants</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · HtmlLabel.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
 
-frame.add(header, BorderLayout.NORTH);
-frame.add(form, BorderLayout.CENTER);
-frame.pack();</code></pre><p>จัด panel ย่อยก่อน แล้วประกอบเข้าพื้นที่หลัก; pack ปรับขนาดหน้าต่างให้พอดีกับ component</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 15.5</span>หน้าจอค้นหาหนังสือ</h4><p>ออกแบบหน้าจอด้วย JPanel: ด้านบนมีช่องค้นหาและปุ่ม, ตรงกลางเป็นพื้นที่ผลลัพธ์เลื่อนดูได้ และใช้ pack กำหนดขนาดตามเนื้อหา</p><div class="answer-gate" data-answer-id="15.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวโครงสร้าง</h4><pre><code>JPanel searchBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-searchBar.add(new JTextField(18));
-searchBar.add(new JButton("Search"));
-JTextArea results = new JTextArea(8, 24);
-frame.add(searchBar, BorderLayout.NORTH);
-frame.add(new JScrollPane(results), BorderLayout.CENTER);
-frame.pack();</code></pre></div></div></div>
-        </article>
+public class HtmlLabel {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Notice");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel label = new JLabel("&lt;html&gt;&lt;b&gt;Exam schedule&lt;/b&gt;&lt;br&gt;Midterm: 12 Oct&lt;br&gt;"
+                + "&lt;font color='red'&gt;Final: 15 Dec&lt;/font&gt;&lt;/html&gt;");
+            label.setHorizontalAlignment(SwingConstants.CENTER);
+            label.setBorder(BorderFactory.createEmptyBorder(12, 30, 12, 30));
+            frame.add(label, BorderLayout.CENTER);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notice</div><img src="../assets/gui/gecde4b239a-0.png" width="150" height="72" alt="ภาพหน้าต่าง Notice" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ข้อความขึ้นต้น &lt;html&gt; จะถูกตีความเป็น HTML</li><li>&lt;br&gt; ขึ้นบรรทัด &lt;b&gt; ตัวหนา &lt;font color&gt; สี</li><li>ใช้เท่าที่จำเป็น: ข้อความธรรมดาอ่านและดูแลง่ายกว่า</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · component</strong><div><p>ต้องการแสดงผลลัพธ์การคำนวณที่ผู้ใช้<strong>ไม่ควรแก้ไข</strong> ควรใช้ JLabel หรือ JTextField</p></div><details><summary>ดูคำตอบ</summary><div><p>JLabel เหมาะที่สุด (หรือ JTextField ที่ setEditable(false) ถ้าต้องการให้ผู้ใช้คัดลอกข้อความได้)</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-15-2">
+<h3>15.2 JTextField, JTextArea และ JScrollPane</h3>
+<p><code>JTextField</code> เหมาะกับข้อความบรรทัดเดียว เช่น ชื่อหรือรหัส; <code>JPasswordField</code> สำหรับรหัสผ่าน; <code>JTextArea</code> รับข้อความหลายบรรทัด และควรใส่ใน <code>JScrollPane</code> เพื่อเลื่อนดูเมื่อข้อความยาว ค่าที่อ่านได้จากช่องเหล่านี้เป็น <strong>String เสมอ</strong> (ตัวเลขต้อง parse แบบบทที่ 9)</p>
+<div class="source-example"><h4>ตัวอย่าง 15.2.1 · ช่องกรอกบรรทัดเดียวพร้อมข้อความที่ผู้ใช้พิมพ์ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> JTextField(คอลัมน์) กำหนดความกว้างโดยประมาณ ภาพนี้จำลองว่าผู้ใช้พิมพ์ข้อมูลลงไปแล้ว</p><div class="source-example-grid"><div class="source-field"><span>Java source · TextFields.java</span><pre class="source-code">import javax.swing.*;
+
+public class TextFields {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Student");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Name:"));
+            panel.add(new JTextField(12));
+            panel.add(new JLabel("ID:"));
+            panel.add(new JTextField(7));
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Student</div><img src="../assets/gui/g49524d7399-0.png" width="292" height="30" alt="ภาพหน้าต่าง Student" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ช่องแรกกว้าง 12 คอลัมน์ ช่องที่สองกว้าง 7</li><li>ค่าที่พิมพ์อ่านได้ด้วย <code>getText()</code> (บทที่ 16–17)</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.2.2 · JTextArea ใน JScrollPane <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตั้งจำนวนแถว/คอลัมน์ เปิดการตัดคำด้วย <code>setLineWrap(true)</code> และ <code>setWrapStyleWord(true)</code> แล้วห่อด้วย JScrollPane</p><div class="source-example-grid"><div class="source-field"><span>Java source · NotesArea.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class NotesArea {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Notes");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JTextArea notes = new JTextArea(5, 24);
+            notes.setLineWrap(true);
+            notes.setWrapStyleWord(true);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 1; i &lt;= 8; i++) {
+                sb.append("Line ").append(i).append(": remember to practice Java every day.\n");
+            }
+            notes.setText(sb.toString());
+            notes.setCaretPosition(0);
+            frame.add(new JScrollPane(notes), BorderLayout.CENTER);
+            frame.add(new JLabel("8 lines - scroll to read more"), BorderLayout.SOUTH);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notes</div><img src="../assets/gui/gd0118e70d4-0.png" width="282" height="99" alt="ภาพหน้าต่าง Notes" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JTextArea(5, 24) แสดง 5 แถว กว้าง 24 คอลัมน์</li><li>ข้อความ 8 บรรทัดยาวเกิน จึงมี scrollbar</li><li><code>setCaretPosition(0)</code> เลื่อนไปบนสุด</li><li>ถ้าไม่ห่อด้วย JScrollPane หน้าต่างจะขยายหรือข้อความล้น</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.2.3 · ช่องอ่านอย่างเดียว ช่องรหัสผ่าน และการจัดแนว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>setEditable(false)</code> ใช้แสดงค่าที่คำนวณได้, JPasswordField แสดงจุดแทนตัวอักษร, <code>setHorizontalAlignment</code> จัดตัวเลขชิดขวา</p><div class="source-example-grid"><div class="source-field"><span>Java source · FieldVariants.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class FieldVariants {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Field types");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel(new GridLayout(3, 2, 6, 6));
+            panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            JTextField total = new JTextField("1,250.00");
+            total.setEditable(false);
+            total.setHorizontalAlignment(JTextField.RIGHT);
+            panel.add(new JLabel("Total (read-only):"));
+            panel.add(total);
+            panel.add(new JLabel("Password:"));
+            panel.add(new JPasswordField(10));
+            JTextField qty = new JTextField("3");
+            qty.setHorizontalAlignment(JTextField.RIGHT);
+            panel.add(new JLabel("Quantity:"));
+            panel.add(qty);
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Field types</div><img src="../assets/gui/g136aa8c966-0.png" width="254" height="92" alt="ภาพหน้าต่าง Field types" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ช่อง Total พื้นเทา แก้ไม่ได้ แต่คัดลอกได้</li><li>JPasswordField ซ่อนตัวอักษร — อ่านค่าด้วย getPassword() ซึ่งคืน char[]</li><li>GridLayout(3, 2) จัดป้ายกับช่องเป็นคู่ ๆ</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · เลือก component</strong><div><p>เลือก component สำหรับ: ที่อยู่ (หลายบรรทัด), รหัสไปรษณีย์, รหัส PIN, ผลรวมที่คำนวณได้</p></div><details><summary>ดูคำตอบ</summary><div><p>JTextArea ใน JScrollPane, JTextField, JPasswordField, JLabel หรือ JTextField ที่ setEditable(false)</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-15-3">
+<h3>15.3 ตัวเลือก: JComboBox, JCheckBox และ JRadioButton</h3>
+<table class="comparison-table"><thead><tr><th>Component</th><th>เหมาะกับ</th><th>อ่านค่า</th></tr></thead><tbody><tr><td><code>JComboBox&lt;String&gt;</code></td><td>เลือก 1 จากรายการยาว (เมนูดรอปดาวน์)</td><td><code>getSelectedItem()</code>, <code>getSelectedIndex()</code></td></tr><tr><td><code>JRadioButton</code> + <code>ButtonGroup</code></td><td>เลือก 1 จากตัวเลือกน้อย ๆ ที่อยากให้เห็นทั้งหมด</td><td><code>isSelected()</code></td></tr><tr><td><code>JCheckBox</code></td><td>เปิด/ปิดแต่ละตัวเลือกอิสระ (เลือกได้หลายอัน)</td><td><code>isSelected()</code></td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 15.3.1 · JComboBox จากอาเรย์ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง combo box จากอาเรย์ String ภาพจำลองว่าผู้ใช้เลือกรายการที่ index 2</p><div class="source-example-grid"><div class="source-field"><span>Java source · FacultyCombo.java</span><pre class="source-code">import javax.swing.*;
+
+public class FacultyCombo {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Faculty");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            String[] faculties = {"Science", "Engineering", "Education", "Arts"};
+            JComboBox&lt;String&gt; combo = new JComboBox&lt;&gt;(faculties);
+            JPanel panel = new JPanel();
+            panel.add(new JLabel("Faculty:"));
+            panel.add(combo);
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Faculty</div><img src="../assets/gui/g3c9ab271e7-0.png" width="153" height="35" alt="ภาพหน้าต่าง Faculty" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>JComboBox&lt;String&gt;</code> ใช้ generic เหมือน ArrayList</li><li>ค่าเริ่มต้นเลือกตัวแรก</li><li>อ่านค่าด้วย <code>(String) combo.getSelectedItem()</code></li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.3.2 · radio button ในกลุ่มเดียวกัน และ check box <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> radio ใน <code>ButtonGroup</code> เดียวกันเลือกได้ทีละอัน ส่วน check box เลือกได้อิสระ</p><div class="source-example-grid"><div class="source-field"><span>Java source · DrinkOptions.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class DrinkOptions {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Drink options");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JRadioButton small = new JRadioButton("Small", true);
+            JRadioButton medium = new JRadioButton("Medium");
+            JRadioButton large = new JRadioButton("Large");
+            ButtonGroup sizes = new ButtonGroup();
+            sizes.add(small);
+            sizes.add(medium);
+            sizes.add(large);
+
+            JPanel sizePanel = new JPanel();
+            sizePanel.setBorder(BorderFactory.createTitledBorder("Size"));
+            sizePanel.add(small);
+            sizePanel.add(medium);
+            sizePanel.add(large);
+
+            JPanel extraPanel = new JPanel();
+            extraPanel.setBorder(BorderFactory.createTitledBorder("Extras"));
+            extraPanel.add(new JCheckBox("Extra shot"));
+            extraPanel.add(new JCheckBox("Oat milk"));
+            extraPanel.add(new JCheckBox("Less sugar"));
+
+            frame.add(sizePanel, BorderLayout.NORTH);
+            frame.add(extraPanel, BorderLayout.SOUTH);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Drink options</div><img src="../assets/gui/ga012e8a8f4-0.png" width="274" height="114" alt="ภาพหน้าต่าง Drink options" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เริ่มต้นเลือก Small (parameter true)</li><li>ภาพจำลองคลิก Large → Small ถูกยกเลิกอัตโนมัติเพราะอยู่กลุ่มเดียวกัน</li><li>เลือก Extra shot และ Oat milk พร้อมกันได้</li><li><code>createTitledBorder</code> วาดกรอบพร้อมหัวข้อ ช่วยจัดกลุ่มให้อ่านง่าย</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.3.3 · JSpinner และ JSlider สำหรับตัวเลขในช่วง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อค่าเป็นตัวเลขในช่วงจำกัด ใช้ spinner (ปุ่มขึ้นลง) หรือ slider (แถบเลื่อน) แทนช่องพิมพ์ ช่วยลดข้อมูลผิดรูปแบบ</p><div class="source-example-grid"><div class="source-field"><span>Java source · NumberInputs.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class NumberInputs {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Order");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JSpinner qty = new JSpinner(new SpinnerNumberModel(2, 1, 20, 1));
+            JSlider sweet = new JSlider(0, 100, 50);
+            sweet.setMajorTickSpacing(25);
+            sweet.setPaintTicks(true);
+            sweet.setPaintLabels(true);
+            JPanel panel = new JPanel(new GridLayout(2, 2, 8, 8));
+            panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            panel.add(new JLabel("Quantity (1-20):"));
+            panel.add(qty);
+            panel.add(new JLabel("Sweetness %:"));
+            panel.add(sweet);
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Order</div><img src="../assets/gui/g8163a5cece-0.png" width="428" height="114" alt="ภาพหน้าต่าง Order" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>SpinnerNumberModel(ค่าเริ่ม, ต่ำสุด, สูงสุด, ขั้น)</li><li>JSlider(ต่ำสุด, สูงสุด, ค่าเริ่ม) พร้อมขีดและตัวเลขทุก 25</li><li>อ่านค่า: <code>(int) qty.getValue()</code>, <code>sweet.getValue()</code></li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · เลือกตัวเลือก</strong><div><p>ฟอร์มสมัครสมาชิกต้องการ: เพศ (3 ตัวเลือก), จังหวัด (77 จังหวัด), ความสนใจ (เลือกได้หลายข้อ) ควรใช้ component ใด</p></div><details><summary>ดูคำตอบ</summary><div><p>เพศ → JRadioButton + ButtonGroup, จังหวัด → JComboBox, ความสนใจ → JCheckBox หลายตัว</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-15-4">
+<h3>15.4 Layout Manager: Flow, Border, Grid และ Box</h3>
+<table class="comparison-table"><thead><tr><th>Layout</th><th>จัดอย่างไร</th><th>เหมาะกับ</th></tr></thead><tbody><tr><td><code>FlowLayout</code></td><td>เรียงซ้าย→ขวา ตัดบรรทัดเมื่อเต็ม ขนาดตาม preferred size</td><td>แถวปุ่ม, แถบเครื่องมือเล็ก ๆ</td></tr><tr><td><code>BorderLayout</code></td><td>5 พื้นที่: NORTH, SOUTH, EAST, WEST, CENTER (CENTER ยืดเต็มที่เหลือ)</td><td>โครงหน้าจอหลัก</td></tr><tr><td><code>GridLayout(r, c)</code></td><td>ตารางที่ทุกช่องขนาดเท่ากัน</td><td>ปุ่มเครื่องคิดเลข, ฟอร์มป้าย–ช่อง</td></tr><tr><td><code>BoxLayout</code></td><td>เรียงแนวตั้งหรือแนวนอนแถวเดียว ไม่ยืดเท่ากัน</td><td>รายการแนวตั้ง, ฟอร์มที่ต้องการระยะห่างอิสระ</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 15.4.1 · BorderLayout: 5 พื้นที่ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใส่ปุ่มทั้ง 5 ตำแหน่งให้เห็นว่าแต่ละพื้นที่ขยายตัวอย่างไร — CENTER ได้พื้นที่ที่เหลือทั้งหมด</p><div class="source-example-grid"><div class="source-field"><span>Java source · BorderDemo.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class BorderDemo {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("BorderLayout");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel p = new JPanel(new BorderLayout(4, 4));
+            p.add(new JButton("NORTH"), BorderLayout.NORTH);
+            p.add(new JButton("SOUTH"), BorderLayout.SOUTH);
+            p.add(new JButton("WEST"), BorderLayout.WEST);
+            p.add(new JButton("EAST"), BorderLayout.EAST);
+            p.add(new JButton("CENTER"), BorderLayout.CENTER);
+            frame.setContentPane(p);
+            frame.setSize(340, 200);
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">BorderLayout</div><img src="../assets/gui/ge97ca8c624-0.png" width="324" height="161" alt="ภาพหน้าต่าง BorderLayout" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>NORTH/SOUTH ยืดเต็มความกว้าง สูงเท่าที่จำเป็น</li><li>WEST/EAST ยืดเต็มความสูงที่เหลือ กว้างเท่าที่จำเป็น</li><li>CENTER ได้พื้นที่ที่เหลือทั้งหมด</li><li>BorderLayout(4, 4) เว้นช่องว่างระหว่างพื้นที่</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.4.2 · GridLayout: ทุกช่องเท่ากัน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> GridLayout(แถว, คอลัมน์) — ใส่ 0 ที่แถวเพื่อให้เพิ่มแถวอัตโนมัติตามจำนวน component</p><div class="source-example-grid"><div class="source-field"><span>Java source · GridDemo.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class GridDemo {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("GridLayout");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel grid = new JPanel(new GridLayout(0, 3, 5, 5));
+            grid.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+            for (int i = 1; i &lt;= 8; i++) {
+                grid.add(new JButton("Seat " + i));
+            }
+            frame.setContentPane(grid);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">GridLayout</div><img src="../assets/gui/gad28151efe-0.png" width="236" height="104" alt="ภาพหน้าต่าง GridLayout" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>3 คอลัมน์ แถวเพิ่มเองเป็น 3 แถวสำหรับ 8 ปุ่ม</li><li>ทุกปุ่มขนาดเท่ากัน (ตามปุ่มที่ใหญ่ที่สุด)</li><li>สร้างปุ่มด้วยลูป — ดีกว่าเขียนทีละบรรทัด</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.4.3 · BoxLayout แนวตั้งพร้อมระยะห่าง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> BoxLayout.Y_AXIS วางเป็นแนวตั้ง ใช้ <code>Box.createVerticalStrut(n)</code> เว้นระยะ และ <code>setAlignmentX</code> จัดชิดซ้าย</p><div class="source-example-grid"><div class="source-field"><span>Java source · BoxDemo.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class BoxDemo {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Settings");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel box = new JPanel();
+            box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+            box.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
+            JLabel title = new JLabel("Notifications");
+            title.setFont(title.getFont().deriveFont(Font.BOLD, 15f));
+            box.add(title);
+            box.add(Box.createVerticalStrut(8));
+            box.add(new JCheckBox("Email me when grades are posted", true));
+            box.add(new JCheckBox("Remind me before deadlines", true));
+            box.add(new JCheckBox("Weekly summary"));
+            box.add(Box.createVerticalStrut(12));
+            box.add(new JButton("Save"));
+            for (Component c : box.getComponents()) {
+                ((JComponent) c).setAlignmentX(Component.LEFT_ALIGNMENT);
+            }
+            frame.setContentPane(box);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Settings</div><img src="../assets/gui/g6d0d53e07c-0.png" width="250" height="162" alt="ภาพหน้าต่าง Settings" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>component เรียงลงมาทีละแถว ขนาดตามธรรมชาติ (ไม่ยืดเท่ากันแบบ Grid)</li><li>strut เว้นระยะแนวตั้งคงที่</li><li>ทุก component ต้อง alignment เดียวกัน ไม่เช่นนั้นจะเยื้องกัน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.4.4 · FlowLayout ชิดขวาสำหรับแถวปุ่ม <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>new FlowLayout(FlowLayout.RIGHT)</code> เหมาะกับแถวปุ่ม OK/Cancel ด้านล่างของฟอร์ม</p><div class="source-example-grid"><div class="source-field"><span>Java source · ButtonBar.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class ButtonBar {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Confirm");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel msg = new JLabel("Save changes before closing?", SwingConstants.CENTER);
+            msg.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+            JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            buttons.add(new JButton("Don't save"));
+            buttons.add(new JButton("Cancel"));
+            buttons.add(new JButton("Save"));
+            frame.add(msg, BorderLayout.CENTER);
+            frame.add(buttons, BorderLayout.SOUTH);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Confirm</div><img src="../assets/gui/g02def436fe-0.png" width="248" height="92" alt="ภาพหน้าต่าง Confirm" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ข้อความอยู่ CENTER, แถวปุ่มอยู่ SOUTH</li><li>FlowLayout.RIGHT ดันปุ่มไปชิดขวา</li><li>รูปแบบนี้พบในโปรแกรมทั่วไป ผู้ใช้คุ้นเคย</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · เลือก layout</strong><div><p>หน้าจอแชต: รายการข้อความเต็มพื้นที่, ช่องพิมพ์และปุ่มส่งด้านล่าง ควรจัดอย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><p>panel หลักใช้ BorderLayout: JScrollPane(รายการข้อความ) ที่ CENTER และ panel ล่าง (BorderLayout อีกชั้น: ช่องพิมพ์ CENTER, ปุ่มส่ง EAST) ที่ SOUTH</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-15-5">
+<h3>15.5 ประกอบหลาย panel เป็นหน้าจอเดียว</h3>
+<div class="concept-box"><span class="box-title">ขั้นตอนออกแบบหน้าจอ</span><ol class="step-list"><li>ร่างหน้าจอบนกระดาษ แล้วตีกรอบเป็นสี่เหลี่ยมตามกลุ่มของข้อมูล</li><li>แต่ละกรอบคือ panel หนึ่งตัว เลือก layout ตามลักษณะของกรอบนั้น (ฟอร์ม → Grid, แถวปุ่ม → Flow, รายการ → Box)</li><li>panel ใหญ่ที่สุด (content pane) มักใช้ BorderLayout วางกรอบย่อยตามตำแหน่ง</li><li>แยกการสร้างแต่ละ panel เป็นเมธอด เช่น <code>buildForm()</code>, <code>buildButtons()</code></li><li>ทดสอบย่อ/ขยายหน้าต่าง ว่าส่วนที่ควรยืดยืดจริง</li></ol></div>
+<div class="source-example"><h4>ตัวอย่าง 15.5.1 · ฟอร์มลงทะเบียนจาก 3 panel <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หัวเรื่อง (NORTH) + ฟอร์ม GridLayout (CENTER) + แถวปุ่ม FlowLayout (SOUTH) แต่ละส่วนสร้างในเมธอดของตัวเอง</p><div class="source-example-grid"><div class="source-field"><span>Java source · RegistrationForm.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class RegistrationForm {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(RegistrationForm::show);
+    }
+
+    static void show() {
+        JFrame frame = new JFrame("Registration");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel root = new JPanel(new BorderLayout(8, 8));
+        root.setBorder(BorderFactory.createEmptyBorder(10, 12, 10, 12));
+        root.add(buildHeader(), BorderLayout.NORTH);
+        root.add(buildForm(), BorderLayout.CENTER);
+        root.add(buildButtons(), BorderLayout.SOUTH);
+        frame.setContentPane(root);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    static JComponent buildHeader() {
+        JLabel title = new JLabel("Workshop Registration");
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 16f));
+        return title;
+    }
+
+    static JComponent buildForm() {
+        JPanel form = new JPanel(new BorderLayout(6, 6));
+        JPanel fields = new JPanel(new GridLayout(3, 2, 6, 6));
+        fields.add(new JLabel("Full name:"));
+        fields.add(new JTextField(16));
+        fields.add(new JLabel("Email:"));
+        fields.add(new JTextField(16));
+        fields.add(new JLabel("Session:"));
+        fields.add(new JComboBox&lt;&gt;(new String[]{"Morning", "Afternoon", "Evening"}));
+        form.add(fields, BorderLayout.NORTH);
+        JTextArea note = new JTextArea(3, 20);
+        note.setLineWrap(true);
+        JScrollPane scroll = new JScrollPane(note);
+        scroll.setBorder(BorderFactory.createTitledBorder("Note"));
+        form.add(scroll, BorderLayout.CENTER);
+        return form;
+    }
+
+    static JComponent buildButtons() {
+        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
+        buttons.add(new JButton("Clear"));
+        buttons.add(new JButton("Submit"));
+        return buttons;
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Registration</div><img src="../assets/gui/gbbf1f8fc06-0.png" width="390" height="247" alt="ภาพหน้าต่าง Registration" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>แต่ละเมธอดคืน component ที่ประกอบเสร็จ อ่านง่ายและแก้แยกได้</li><li>ฟอร์มซ้อน: GridLayout สำหรับป้าย–ช่อง ภายใน BorderLayout ที่มี Note ยืดตรงกลาง</li><li>ภาพจำลองการกรอกข้อมูลครบทุกช่อง</li><li>บทที่ 16–17 จะทำให้ Submit อ่านค่าและตรวจสอบได้</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 15.5.2 · หน้าจอแชตแบบ 2 ชั้นของ BorderLayout <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> BorderLayout ซ้อนกัน: ชั้นนอกวางรายการข้อความ (CENTER) กับแถบพิมพ์ (SOUTH), ชั้นในของแถบพิมพ์วางช่อง (CENTER) กับปุ่ม (EAST) ทำให้ช่องพิมพ์ยืดตามความกว้างหน้าต่าง</p><div class="source-example-grid"><div class="source-field"><span>Java source · ChatLayout.java</span><pre class="source-code">import javax.swing.*;
+import java.awt.*;
+
+public class ChatLayout {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Class Chat");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            DefaultListModel&lt;String&gt; messages = new DefaultListModel&lt;&gt;();
+            messages.addElement("Mali: Has anyone finished lab 15?");
+            messages.addElement("Beam: Almost, stuck on BoxLayout");
+            messages.addElement("Nida: Remember setAlignmentX!");
+            JList&lt;String&gt; list = new JList&lt;&gt;(messages);
+
+            JPanel inputBar = new JPanel(new BorderLayout(6, 0));
+            inputBar.add(new JTextField(), BorderLayout.CENTER);
+            inputBar.add(new JButton("Send"), BorderLayout.EAST);
+
+            JPanel root = new JPanel(new BorderLayout(0, 8));
+            root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+            root.add(new JScrollPane(list), BorderLayout.CENTER);
+            root.add(inputBar, BorderLayout.SOUTH);
+            frame.setContentPane(root);
+            frame.setSize(340, 220);
+            frame.setVisible(true);
+        });
+    }
+}</pre></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Class Chat</div><img src="../assets/gui/gdf02998d93-0.png" width="324" height="181" alt="ภาพหน้าต่าง Class Chat" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>JList</code> + <code>DefaultListModel</code> แสดงรายการที่เพิ่ม/ลบได้ (คล้าย ArrayList)</li><li>รายการข้อความยืดเต็มพื้นที่ CENTER</li><li>ช่องพิมพ์ยืดตามความกว้าง ปุ่ม Send กว้างคงที่ทางขวา</li></ol></div></div>
+<div class="note-box"><span class="box-title">ทำไมไม่ใช้ setBounds กำหนดพิกัดเอง</span><p>การใช้ <code>setLayout(null)</code> กับ <code>setBounds(x, y, w, h)</code> ดูง่ายในตอนแรก แต่หน้าจอจะพังเมื่อผู้ใช้ขยายหน้าต่าง เปลี่ยนขนาดฟอนต์ หรือรันบนระบบปฏิบัติการอื่น layout manager คำนวณใหม่ให้ทุกครั้งโดยอัตโนมัติ</p></div>
+</article>
       </section>
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ร่าง component tree และเลือก layout ก่อนเขียน code</p><article class="end-exercise"><h3><span class="exercise-id">Exercise 15.6</span>ออกแบบฟอร์มลงทะเบียน</h3><p>สร้างหน้าต่างมีชื่อ, รหัสนักศึกษา, สาขา, หมายเหตุหลายบรรทัด และปุ่ม Clear/Submit แบ่งกลุ่มด้วย JPanel และใช้ JScrollPane กับหมายเหตุ</p><div class="answer-gate" data-answer-id="15.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โครงสร้างตัวอย่าง</h4><pre><code>JPanel form = new JPanel(new GridLayout(3, 2, 8, 8));
-form.add(new JLabel("Name:")); form.add(new JTextField(18));
-form.add(new JLabel("Student ID:")); form.add(new JTextField(18));
-form.add(new JLabel("Major:")); form.add(new JComboBox&lt;&gt;(majors));
-JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-buttons.add(new JButton("Clear")); buttons.add(new JButton("Submit"));
-frame.add(form, BorderLayout.CENTER);
-frame.add(new JScrollPane(new JTextArea(4, 20)), BorderLayout.SOUTH);
-frame.add(buttons, BorderLayout.PAGE_END);
-frame.pack();</code></pre><p>ในงานจริงอาจปรับ layout ย่อยเพื่อไม่ให้ footer ซ้ำ region กับ South</p></div></div></article></section>
-      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-14.html">← บทที่ 14</a><a class="pager-link" href="chapter-16.html">บทที่ 16: เหตุการณ์และปุ่ม →</a></nav>
-      <footer class="lesson-footer">Java programming by Prymania · บทที่ 15 · Layout manager ช่วยจัดวางเมื่อหน้าต่างเปลี่ยนขนาด</footer>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>สร้างหน้าจอให้ใกล้เคียงภาพตัวอย่าง (ไม่ต้องตรงทุกพิกเซล) เน้นเลือก component และ layout ให้เหมาะสม ภาพบางข้อจำลองการกรอกข้อมูลไว้แล้ว ยังไม่ต้องทำให้ปุ่มทำงาน</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 15.1</span>หัวหน้าต่างโปรไฟล์<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างหน้าต่างที่มี JLabel ชื่อหน้า “Student Profile” ตัวหนาขนาด 16 และปุ่ม <code>Edit</code> กับปุ่ม <code>Delete</code> ที่ถูกปิดใช้งาน (setEnabled(false)) เรียงในแถวเดียว</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ JPanel (FlowLayout)</li><li>ปุ่ม Delete ต้องเป็นสีเทา</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Profile</div><img src="../assets/gui/gdf468029c0-0.png" width="258" height="36" alt="ภาพหน้าต่าง Profile" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="15.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class ProfileHeader {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Profile");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel panel = new JPanel();
+            JLabel title = new JLabel("Student Profile");
+            title.setFont(new Font("SansSerif", Font.BOLD, 16));
+            JButton delete = new JButton("Delete");
+            delete.setEnabled(false);
+            panel.add(title);
+            panel.add(new JButton("Edit"));
+            panel.add(delete);
+            frame.add(panel);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 15.2</span>ช่องความคิดเห็นที่เลื่อนได้<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างหน้าต่าง <code>Feedback</code> ที่มี JLabel “Your comments:” ด้านบน และ JTextArea ขนาด 6 แถว × 30 คอลัมน์ที่ตัดคำ (wrap) อยู่ใน JScrollPane ตรงกลาง และปุ่ม Send ด้านล่าง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ BorderLayout: NORTH, CENTER, SOUTH</li><li>setLineWrap(true) และ setWrapStyleWord(true)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Feedback</div><img src="../assets/gui/g6ed2c35002-0.png" width="349" height="169" alt="ภาพหน้าต่าง Feedback" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="15.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class FeedbackWindow {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Feedback");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JTextArea area = new JTextArea(6, 30);
+            area.setLineWrap(true);
+            area.setWrapStyleWord(true);
+            JPanel root = new JPanel(new BorderLayout(6, 6));
+            root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+            root.add(new JLabel("Your comments:"), BorderLayout.NORTH);
+            root.add(new JScrollPane(area), BorderLayout.CENTER);
+            root.add(new JButton("Send"), BorderLayout.SOUTH);
+            frame.setContentPane(root);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 15.3</span>เลือกขนาดเสื้อ<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างหน้าต่างที่มี radio button ขนาดเสื้อ S, M, L, XL ในกลุ่มเดียวกัน (เริ่มต้นเลือก M) อยู่ในกรอบ TitledBorder “Size” และ combo box สีเสื้อ (White, Black, Navy, Red)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ ButtonGroup</li><li>สร้าง radio ด้วยลูปจากอาเรย์ String</li><li>combo box อยู่ในอีก panel หนึ่ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">T-Shirt</div><img src="../assets/gui/gb2eae0d02a-0.png" width="175" height="92" alt="ภาพหน้าต่าง T-Shirt" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="15.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class ShirtOptions {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("T-Shirt");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel sizes = new JPanel();
+            sizes.setBorder(BorderFactory.createTitledBorder("Size"));
+            ButtonGroup group = new ButtonGroup();
+            for (String s : new String[]{"S", "M", "L", "XL"}) {
+                JRadioButton r = new JRadioButton(s, s.equals("M"));
+                group.add(r);
+                sizes.add(r);
+            }
+            JPanel colorPanel = new JPanel();
+            colorPanel.add(new JLabel("Color:"));
+            colorPanel.add(new JComboBox&lt;&gt;(new String[]{"White", "Black", "Navy", "Red"}));
+            frame.add(sizes, BorderLayout.NORTH);
+            frame.add(colorPanel, BorderLayout.SOUTH);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p>ภาพตัวอย่างจำลองการเลือก XL และสี Navy</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 15.4</span>ฟอร์มข้อมูลติดต่อด้วย GridLayout<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างฟอร์ม <code>Contact</code> ที่มีป้ายกับช่องเป็นคู่ 4 แถว: Name, Phone, Email, Province (combo box 5 จังหวัด) ใช้ <code>GridLayout(0, 2, 8, 6)</code> และมีแถวปุ่ม Cancel/Save ชิดขวาด้านล่าง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ฟอร์มกับแถวปุ่มเป็นคนละ panel</li><li>content pane ใช้ BorderLayout</li><li>เว้นขอบ 10 พิกเซลด้วย EmptyBorder</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Contact</div><img src="../assets/gui/gea90ba2c52-0.png" width="344" height="174" alt="ภาพหน้าต่าง Contact" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="15.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class ContactForm {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Contact");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel form = new JPanel(new GridLayout(0, 2, 8, 6));
+            form.add(new JLabel("Name:"));
+            form.add(new JTextField(14));
+            form.add(new JLabel("Phone:"));
+            form.add(new JTextField(14));
+            form.add(new JLabel("Email:"));
+            form.add(new JTextField(14));
+            form.add(new JLabel("Province:"));
+            form.add(new JComboBox&lt;&gt;(new String[]{"Bangkok", "Chiang Mai", "Khon Kaen", "Phuket", "Songkhla"}));
+
+            JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
+            buttons.add(new JButton("Cancel"));
+            buttons.add(new JButton("Save"));
+
+            JPanel root = new JPanel(new BorderLayout(0, 10));
+            root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            root.add(form, BorderLayout.CENTER);
+            root.add(buttons, BorderLayout.SOUTH);
+            frame.setContentPane(root);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 15.5</span>แผงตั้งค่าแนวตั้งด้วย BoxLayout<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างหน้าต่าง <code>Preferences</code> เรียงแนวตั้ง: หัวข้อ “Display” ตัวหนา, check box 2 ตัว, เว้นระยะ, หัวข้อ “Font size” ตัวหนา, slider 10–24 ค่าเริ่ม 14 มีตัวเลขทุก 2, เว้นระยะ และปุ่ม Apply ทุก component ชิดซ้าย</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ BoxLayout.Y_AXIS</li><li>เว้นระยะด้วย Box.createVerticalStrut</li><li>ตั้ง setAlignmentX(LEFT_ALIGNMENT) ด้วยลูป</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Preferences</div><img src="../assets/gui/g5cdbf2a372-0.png" width="228" height="193" alt="ภาพหน้าต่าง Preferences" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="15.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class PreferencesPanel {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Preferences");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JPanel box = new JPanel();
+            box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+            box.setBorder(BorderFactory.createEmptyBorder(12, 14, 12, 14));
+            box.add(heading("Display"));
+            box.add(new JCheckBox("Dark mode"));
+            box.add(new JCheckBox("Show line numbers", true));
+            box.add(Box.createVerticalStrut(10));
+            box.add(heading("Font size"));
+            JSlider size = new JSlider(10, 24, 14);
+            size.setMajorTickSpacing(2);
+            size.setPaintTicks(true);
+            size.setPaintLabels(true);
+            box.add(size);
+            box.add(Box.createVerticalStrut(10));
+            box.add(new JButton("Apply"));
+            for (Component c : box.getComponents()) {
+                ((JComponent) c).setAlignmentX(Component.LEFT_ALIGNMENT);
+            }
+            frame.setContentPane(box);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+
+    static JLabel heading(String text) {
+        JLabel l = new JLabel(text);
+        l.setFont(l.getFont().deriveFont(Font.BOLD));
+        return l;
+    }
+}</code></pre><p>แยกเมธอด heading() เพราะสร้างหัวข้อแบบเดียวกันสองครั้ง</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 15.6</span>ผังที่นั่งโรงภาพยนตร์<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างผังที่นั่ง 5 แถว (A–E) × 8 ที่นั่ง ด้วย GridLayout ปุ่มแต่ละปุ่มมีข้อความเช่น <code>A1</code> ที่นั่งในอาเรย์ <code>String[] booked = {"A3", "A4", "C5", "E1"}</code> ให้แสดงเป็นปุ่มที่ปิดใช้งาน ด้านบนมี label “SCREEN” อยู่กลาง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>สร้างปุ่มด้วยลูปซ้อน: แถว char จาก 'A' ถึง 'E', ที่นั่ง 1–8</li><li>ตรวจว่าที่นั่งอยู่ใน booked หรือไม่ด้วยลูปหรือ <code>Arrays.asList(booked).contains(code)</code></li><li>GridLayout(5, 8, 3, 3)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Seat Map</div><img src="../assets/gui/gd8aee82a83-0.png" width="273" height="188" alt="ภาพหน้าต่าง Seat Map" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="15.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+
+public class SeatMap {
+    public static void main(String[] args) {
+        List&lt;String&gt; booked = Arrays.asList("A3", "A4", "C5", "E1");
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Seat Map");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            JLabel screen = new JLabel("SCREEN", SwingConstants.CENTER);
+            screen.setOpaque(true);
+            screen.setBackground(Color.DARK_GRAY);
+            screen.setForeground(Color.WHITE);
+            JPanel seats = new JPanel(new GridLayout(5, 8, 3, 3));
+            for (char row = 'A'; row &lt;= 'E'; row++) {
+                for (int n = 1; n &lt;= 8; n++) {
+                    String code = "" + row + n;
+                    JButton b = new JButton(code);
+                    b.setMargin(new Insets(2, 4, 2, 4));
+                    if (booked.contains(code)) b.setEnabled(false);
+                    seats.add(b);
+                }
+            }
+            JPanel root = new JPanel(new BorderLayout(0, 10));
+            root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+            root.add(screen, BorderLayout.NORTH);
+            root.add(seats, BorderLayout.CENTER);
+            frame.setContentPane(root);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p>JLabel โปร่งใสโดยปริยาย ต้อง setOpaque(true) ก่อนสีพื้นหลังจึงจะแสดง</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 15.7</span>หน้าจอสั่งอาหารแบบสมบูรณ์<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>ออกแบบหน้าจอสั่งอาหารที่ประกอบด้วย panel อย่างน้อย 4 ส่วน:</p><ul><li>หัว (NORTH): ชื่อร้านพื้นสีเข้มตัวอักษรขาว</li><li>ซ้าย (WEST): รายการเมนูใน JList (อย่างน้อย 6 รายการ) อยู่ใน JScrollPane ที่มี TitledBorder “Menu”</li><li>กลาง (CENTER): ตัวเลือก ขนาด (radio), เพิ่มเติม (check box 3 ตัว), จำนวน (spinner 1–10) และหมายเหตุ (text area)</li><li>ล่าง (SOUTH): ป้ายยอดรวม “Total: 0.00 baht” ชิดซ้าย และปุ่ม Add to cart ชิดขวา</li></ul></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แยกการสร้างแต่ละส่วนเป็นเมธอด</li><li>ใช้ layout อย่างน้อย 3 ชนิด</li><li>หน้าต่างขนาดประมาณ 560 × 360 และส่วนกลางยืดได้</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Order</div><img src="../assets/gui/g390e967f2f-0.png" width="544" height="321" alt="ภาพหน้าต่าง Order" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="15.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class FoodOrderScreen {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(FoodOrderScreen::show);
+    }
+
+    static void show() {
+        JFrame frame = new JFrame("Order");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JPanel root = new JPanel(new BorderLayout(8, 8));
+        root.add(header(), BorderLayout.NORTH);
+        root.add(menu(), BorderLayout.WEST);
+        root.add(options(), BorderLayout.CENTER);
+        root.add(footer(), BorderLayout.SOUTH);
+        frame.setContentPane(root);
+        frame.setSize(560, 360);
+        frame.setVisible(true);
+    }
+
+    static JComponent header() {
+        JLabel title = new JLabel("  Java Pizza House");
+        title.setOpaque(true);
+        title.setBackground(new Color(32, 44, 40));
+        title.setForeground(Color.WHITE);
+        title.setFont(title.getFont().deriveFont(Font.BOLD, 18f));
+        title.setPreferredSize(new Dimension(0, 40));
+        return title;
+    }
+
+    static JComponent menu() {
+        String[] items = {"Margherita", "Pepperoni", "Hawaiian", "Seafood", "Veggie", "Four Cheese", "BBQ Chicken"};
+        JScrollPane scroll = new JScrollPane(new JList&lt;&gt;(items));
+        scroll.setBorder(BorderFactory.createTitledBorder("Menu"));
+        scroll.setPreferredSize(new Dimension(160, 0));
+        return scroll;
+    }
+
+    static JComponent options() {
+        JPanel p = new JPanel();
+        p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
+        JPanel size = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        size.setBorder(BorderFactory.createTitledBorder("Size"));
+        ButtonGroup g = new ButtonGroup();
+        for (String s : new String[]{"Small", "Medium", "Large"}) {
+            JRadioButton r = new JRadioButton(s, s.equals("Medium"));
+            g.add(r);
+            size.add(r);
+        }
+        JPanel extras = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        extras.setBorder(BorderFactory.createTitledBorder("Extras"));
+        extras.add(new JCheckBox("Extra cheese"));
+        extras.add(new JCheckBox("Thin crust"));
+        extras.add(new JCheckBox("Spicy"));
+        JPanel qty = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        qty.add(new JLabel("Quantity:"));
+        qty.add(new JSpinner(new SpinnerNumberModel(1, 1, 10, 1)));
+        JScrollPane note = new JScrollPane(new JTextArea(3, 20));
+        note.setBorder(BorderFactory.createTitledBorder("Note"));
+        p.add(size);
+        p.add(extras);
+        p.add(qty);
+        p.add(note);
+        for (Component c : p.getComponents()) ((JComponent) c).setAlignmentX(Component.LEFT_ALIGNMENT);
+        return p;
+    }
+
+    static JComponent footer() {
+        JPanel p = new JPanel(new BorderLayout());
+        p.setBorder(BorderFactory.createEmptyBorder(0, 8, 8, 8));
+        p.add(new JLabel("Total: 0.00 baht"), BorderLayout.WEST);
+        p.add(new JButton("Add to cart"), BorderLayout.EAST);
+        return p;
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 15.8</span>เครื่องคิดเลขแบบมีประวัติ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างหน้าจอเครื่องคิดเลขที่มี (1) ช่องแสดงผลด้านบน อ่านอย่างเดียว ตัวเลขชิดขวา ฟอนต์ใหญ่ (2) ปุ่มตัวเลขและเครื่องหมาย 4 × 4 ตรงกลาง (3) แผงประวัติการคำนวณทางขวาเป็น JTextArea อ่านอย่างเดียวใน JScrollPane ที่มีหัว “History” โดยใส่ข้อความตัวอย่างประวัติ 3 บรรทัด และ (4) แถวล่างมีปุ่ม C และ Clear history</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>root ใช้ BorderLayout: NORTH, CENTER, EAST, SOUTH</li><li>ปุ่มสร้างด้วยลูปจากอาเรย์</li><li>ให้ปุ่มเครื่องหมาย (/ * - + =) มีสีพื้นต่างจากปุ่มตัวเลข</li><li>ยังไม่ต้องคำนวณจริง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Calculator</div><img src="../assets/gui/gc271caf444-0.png" width="340" height="207" alt="ภาพหน้าต่าง Calculator" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="15.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 15.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import javax.swing.*;
+import java.awt.*;
+
+public class CalculatorLayout {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -&gt; {
+            JFrame frame = new JFrame("Calculator");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            JTextField display = new JTextField("128", 10);
+            display.setEditable(false);
+            display.setHorizontalAlignment(JTextField.RIGHT);
+            display.setFont(new Font("Monospaced", Font.BOLD, 22));
+
+            String[] keys = {"7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"};
+            JPanel pad = new JPanel(new GridLayout(4, 4, 4, 4));
+            for (String k : keys) {
+                JButton b = new JButton(k);
+                if ("/*-+=".contains(k)) b.setBackground(new Color(217, 243, 243));
+                pad.add(b);
+            }
+
+            JTextArea history = new JTextArea("12 * 8 = 96\n96 + 32 = 128\n128 / 4 = 32", 6, 12);
+            history.setEditable(false);
+            JScrollPane historyPane = new JScrollPane(history);
+            historyPane.setBorder(BorderFactory.createTitledBorder("History"));
+
+            JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, 0));
+            bottom.add(new JButton("C"));
+            bottom.add(new JButton("Clear history"));
+
+            JPanel root = new JPanel(new BorderLayout(6, 6));
+            root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+            root.add(display, BorderLayout.NORTH);
+            root.add(pad, BorderLayout.CENTER);
+            root.add(historyPane, BorderLayout.EAST);
+            root.add(bottom, BorderLayout.SOUTH);
+            frame.setContentPane(root);
+            frame.pack();
+            frame.setVisible(true);
+        });
+    }
+}</code></pre><p><code>"/*-+=".contains(k)</code> เป็นเทคนิคสั้น ๆ ตรวจว่า k เป็นหนึ่งในเครื่องหมายหรือไม่</p></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-14.html">← บทที่ 14</a><a class="pager-link" href="chapter-16.html">บทที่ 16: เหตุการณ์ →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 15 · ร่างหน้าจอบนกระดาษก่อนเลือก layout</footer>
     </main>
   </div>
   <script src="../password.js"></script><script src="../assets/lesson.js"></script>

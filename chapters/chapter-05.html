@@ -19,44 +19,644 @@
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 05 / 19</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทที่ 5 · ให้โปรแกรมเลือกทำงาน</p><h1>เงื่อนไขและการตัดสินใจ</h1><p>สอนให้โปรแกรมตอบสนองต่อข้อมูลที่แตกต่างกัน ด้วย boolean การเปรียบเทียบ และโครงสร้าง if หรือ switch</p></header>
       <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>อ่านผลนิพจน์เปรียบเทียบเป็น true หรือ false</li><li>รวมเงื่อนไขด้วย &amp;&amp;, || และ !</li><li>เลือกใช้ if/else กับ switch</li><li>จัดลำดับเงื่อนไขไม่ให้กรณีสำคัญถูกบัง</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-5">
-        <h2 id="section-5">5. เปลี่ยนเงื่อนไขให้เป็นเส้นทางของโปรแกรม</h2><p>เงื่อนไขคือนิพจน์ที่ให้ผลเป็น <code>true</code> หรือ <code>false</code> โปรแกรมใช้ผลนี้เลือกคำสั่งที่จะทำต่อ อย่าใส่ <code>;</code> ต่อท้ายเงื่อนไขของ <code>if</code> เพราะจะเปลี่ยนความหมายของโปรแกรม</p>
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">5. เปลี่ยนเงื่อนไขให้เป็นเส้นทางของโปรแกรม</h2>
+        <p>เงื่อนไขคือนิพจน์ที่ให้ผลเป็น <code>true</code> หรือ <code>false</code> โปรแกรมใช้ผลนี้เลือกคำสั่งที่จะทำต่อ — เหมือนข้าวหลามตัดใน Flowchart บทที่ 1 บทนี้เริ่มจากการสร้างค่า boolean ไปจนถึงการเลือกทางหลายทาง</p>
+<article class="subtopic" id="topic-5-1">
+<h3>5.1 boolean และตัวดำเนินการเปรียบเทียบ</h3>
+<p><code>boolean</code> เก็บได้เพียง <code>true</code> หรือ <code>false</code> นิพจน์เปรียบเทียบ เช่น <code>score &gt;= 50</code> จะ<em>คำนวณ</em>ออกมาเป็นค่า boolean ที่นำไปเก็บในตัวแปรหรือใช้ใน if ได้</p>
+<table class="comparison-table"><thead><tr><th>ตัวดำเนินการ</th><th>ความหมาย</th><th>ตัวอย่าง (x = 7)</th><th>ผล</th></tr></thead><tbody><tr><td><code>==</code></td><td>เท่ากับ</td><td><code>x == 7</code></td><td>true</td></tr><tr><td><code>!=</code></td><td>ไม่เท่ากับ</td><td><code>x != 7</code></td><td>false</td></tr><tr><td><code>&gt;</code></td><td>มากกว่า</td><td><code>x &gt; 10</code></td><td>false</td></tr><tr><td><code>&lt;</code></td><td>น้อยกว่า</td><td><code>x &lt; 10</code></td><td>true</td></tr><tr><td><code>&gt;=</code></td><td>มากกว่าหรือเท่ากับ</td><td><code>x &gt;= 7</code></td><td>true</td></tr><tr><td><code>&lt;=</code></td><td>น้อยกว่าหรือเท่ากับ</td><td><code>x &lt;= 6</code></td><td>false</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 5.1.1 · นิพจน์เปรียบเทียบให้ค่า boolean <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เปรียบเทียบได้ผลเป็นค่า true/false ที่เก็บในตัวแปรหรือพิมพ์ออกมาได้เหมือนค่าอื่น</p><div class="source-example-grid"><div class="source-field"><span>Java source · Comparisons.java</span><pre class="source-code">public class Comparisons {
+    public static void main(String[] args) {
+        int score = 72;
+        boolean passed = score &gt;= 50;
+        boolean perfect = score == 100;
+        System.out.println("passed = " + passed);
+        System.out.println("perfect = " + perfect);
+        System.out.println("score &lt; 80 ? " + (score &lt; 80));
+        System.out.println("score != 72 ? " + (score != 72));
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>passed = true
+perfect = false
+score &lt; 80 ? true
+score != 72 ? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>72 ≥ 50 → true</li><li>72 == 100 → false</li><li>ต้องมีวงเล็บรอบนิพจน์เปรียบเทียบเมื่อต่อข้อความ</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 5.1.2 · ใช้ = แทน == <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>=</code> คือการกำหนดค่า ส่วน <code>==</code> คือการเปรียบเทียบ if ต้องการค่า boolean จึงคอมไพล์ไม่ผ่าน</p><div class="source-example-grid"><div class="source-field"><span>Java source · AssignInIf.java</span><pre class="source-code">public class AssignInIf {
+    public static void main(String[] args) {
+        int score = 72;
+        if (score = 100) {
+            System.out.println("Perfect!");
+        }
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>AssignInIf.java:4: error: incompatible types: int cannot be converted to boolean
+        if (score = 100) {
+                  ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>score = 100</code> มีชนิดเป็น int</li><li>if ต้องการ boolean → <code>int cannot be converted to boolean</code></li><li>แก้เป็น <code>score == 100</code></li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.1.3 · เปรียบเทียบ String ต้องใช้ equals <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>==</code> กับ String เปรียบเทียบว่าเป็น<em>ออบเจ็กต์เดียวกัน</em>หรือไม่ ไม่ใช่เนื้อหา ต้องใช้ <code>.equals()</code> (หรือ <code>.equalsIgnoreCase()</code> ถ้าไม่สนตัวพิมพ์)</p><div class="source-example-grid"><div class="source-field"><span>Java source · StringCompare.java</span><pre class="source-code">import java.util.Scanner;
 
-        <article class="subtopic" id="topic-5-1">
-          <h3>5.1 boolean และตัวดำเนินการเปรียบเทียบ</h3><p><code>boolean</code> เก็บได้เพียง <code>true</code> หรือ <code>false</code> นิพจน์เปรียบเทียบ เช่น <code>score &gt;= 50</code> จะสร้างค่า boolean ที่ใช้ใน <code>if</code> ได้</p>
-          <div class="concept-box"><span class="box-title">ตัวดำเนินการเปรียบเทียบ</span><ul><li><code>==</code> เท่ากับ และ <code>!=</code> ไม่เท่ากับ</li><li><code>&gt;</code>, <code>&lt;</code> มากกว่า / น้อยกว่า</li><li><code>&gt;=</code>, <code>&lt;=</code> มากกว่าหรือเท่ากับ / น้อยกว่าหรือเท่ากับ</li></ul></div>
-          <div class="example-box"><span class="box-title">เครื่องหมาย = กับ == ทำคนละหน้าที่</span><pre><code>int score = 72; // กำหนดค่า 72 ให้ score&#10;boolean passed = score &gt;= 50; // เปรียบเทียบ ได้ true</code></pre><p><code>=</code> กำหนดค่า ส่วน <code>==</code> เปรียบเทียบว่าเท่ากันหรือไม่</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 5.1</span>ตรวจช่วงอายุ</h4><p>กำหนด <code>age = 19</code> เขียนนิพจน์ boolean ที่ตรวจว่าอายุอยู่ในช่วง 18 ถึง 25 ปี รวมขอบเขตทั้งสองด้าน</p><div class="answer-gate" data-answer-id="5.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int age = 19;&#10;boolean isInRange = age &gt;= 18 &amp;&amp; age &lt;= 25;&#10;System.out.println(isInRange); // true</code></pre><p>ขอบเขตต้องใช้ <code>&gt;=</code> และ <code>&lt;=</code> เพราะโจทย์รวม 18 และ 25 ด้วย</p></div></div></div>
-        </article>
+public class StringCompare {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Username: ");
+        String user = input.next();
+        System.out.println("user == \"admin\"      -&gt; " + (user == "admin"));
+        System.out.println("user.equals(\"admin\") -&gt; " + user.equals("admin"));
+        System.out.println("equalsIgnoreCase(\"ADMIN\") -&gt; " + user.equalsIgnoreCase("ADMIN"));
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Username: <b class="stdin">admin</b>
+user == "admin"      -&gt; false
+user.equals("admin") -&gt; true
+equalsIgnoreCase("ADMIN") -&gt; true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ผู้ใช้พิมพ์ admin</li><li><code>==</code> ได้ false เพราะ String ที่อ่านจาก Scanner เป็นคนละออบเจ็กต์กับ "admin" ในโค้ด</li><li><code>equals</code> เปรียบเทียบตัวอักษร → true</li><li>จำไว้: <strong>String ใช้ equals เสมอ</strong></li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.1.4 · เปรียบเทียบ double อย่างปลอดภัย <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> double เก็บค่าแบบประมาณ ห้ามใช้ <code>==</code> ตรง ๆ ให้ตรวจว่า “ต่างกันน้อยมาก” ด้วย <code>Math.abs(a - b) &lt; 1e-9</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · DoubleCompare.java</span><pre class="source-code">public class DoubleCompare {
+    public static void main(String[] args) {
+        double a = 0.1 + 0.2;
+        double b = 0.3;
+        System.out.println("a = " + a);
+        System.out.println("a == b ? " + (a == b));
+        System.out.println("close enough ? " + (Math.abs(a - b) &lt; 1e-9));
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>a = 0.30000000000000004
+a == b ? false
+close enough ? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>0.1 + 0.2 ได้ 0.30000000000000004</li><li><code>==</code> จึงได้ false</li><li>ผลต่าง 0.00000000000000004 น้อยกว่า 0.000000001 → ถือว่าเท่ากัน</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ผลของนิพจน์</strong><div><p>ถ้า <code>int a = 5, b = 8;</code> ผลของ <code>a * 2 &gt; b</code>, <code>a + 3 == b</code>, <code>b % a != 3</code> คืออะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>10 &gt; 8 → <strong>true</strong>; 8 == 8 → <strong>true</strong>; 8 % 5 = 3, 3 != 3 → <strong>false</strong></p></div></details></div>
+</article>
+<article class="subtopic" id="topic-5-2">
+<h3>5.2 รวมเงื่อนไขด้วย AND, OR และ NOT</h3>
+<p><code>&amp;&amp;</code> (AND) เป็นจริงเมื่อ<strong>ทั้งสอง</strong>เงื่อนไขเป็นจริง, <code>||</code> (OR) เป็นจริงเมื่อ<strong>อย่างน้อยหนึ่ง</strong>เงื่อนไขเป็นจริง และ <code>!</code> (NOT) กลับค่าจริงเป็นเท็จ</p>
+<table class="comparison-table"><thead><tr><th>A</th><th>B</th><th>A &amp;&amp; B</th><th>A || B</th><th>!A</th></tr></thead><tbody><tr><td>true</td><td>true</td><td>true</td><td>true</td><td>false</td></tr><tr><td>true</td><td>false</td><td>false</td><td>true</td><td>false</td></tr><tr><td>false</td><td>true</td><td>false</td><td>true</td><td>true</td></tr><tr><td>false</td><td>false</td><td>false</td><td>false</td><td>true</td></tr></tbody></table>
+<div class="source-example"><h4>ตัวอย่าง 5.2.1 · ตรวจช่วงตัวเลขด้วย && <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ภาษาคณิตศาสตร์เขียน 18 ≤ age ≤ 25 ได้ แต่ Java ต้องแยกเป็นสองเงื่อนไขแล้วเชื่อมด้วย <code>&amp;&amp;</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · RangeCheck.java</span><pre class="source-code">public class RangeCheck {
+    public static void main(String[] args) {
+        int age = 19;
+        boolean inRange = age &gt;= 18 &amp;&amp; age &lt;= 25;
+        boolean outOfRange = age &lt; 18 || age &gt; 25;
+        System.out.println("18-25? " + inRange);
+        System.out.println("outside? " + outOfRange);
+        System.out.println("not in range? " + !inRange);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>18-25? true
+outside? false
+not in range? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>19 ≥ 18 true และ 19 ≤ 25 true → true</li><li>นอกช่วงคือ “น้อยกว่า 18 <em>หรือ</em> มากกว่า 25” → false</li><li><code>!inRange</code> ให้ผลเท่ากับ outOfRange</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.2.2 · สิทธิ์ส่วนลด: ผสม && กับ || <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>&amp;&amp;</code> ทำก่อน <code>||</code> เสมอ ใช้วงเล็บเพื่อบอกความหมายให้ชัด</p><div class="source-example-grid"><div class="source-field"><span>Java source · DiscountRule.java</span><pre class="source-code">public class DiscountRule {
+    public static void main(String[] args) {
+        boolean isStudent = false;
+        boolean hasPass = true;
+        int age = 16;
 
-        <article class="subtopic" id="topic-5-2">
-          <h3>5.2 รวมเงื่อนไขด้วย AND, OR และ NOT</h3><p><code>&amp;&amp;</code> เป็นจริงเมื่อทั้งสองเงื่อนไขเป็นจริง, <code>||</code> เป็นจริงเมื่ออย่างน้อยหนึ่งเงื่อนไขเป็นจริง และ <code>!</code> ใช้กลับค่าจริงกับเท็จ</p>
-          <table class="comparison-table"><thead><tr><th>A</th><th>B</th><th>A &amp;&amp; B</th><th>A || B</th></tr></thead><tbody><tr><td>true</td><td>true</td><td>true</td><td>true</td></tr><tr><td>true</td><td>false</td><td>false</td><td>true</td></tr><tr><td>false</td><td>true</td><td>false</td><td>true</td></tr><tr><td>false</td><td>false</td><td>false</td><td>false</td></tr></tbody></table>
-          <div class="note-box"><span class="box-title">ใช้วงเล็บช่วยสื่อความหมาย</span><p>“เป็นนักศึกษาหรือมีบัตร” และ “อายุตั้งแต่ 18 ปี” เขียนเป็น <code>(isStudent || hasPass) &amp;&amp; age &gt;= 18</code></p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 5.2</span>ผ่านสิทธิ์ส่วนลด</h4><p>ผู้ซื้อได้ส่วนลดเมื่อยอดซื้ออย่างน้อย 500 บาท หรือมีบัตรสมาชิก เขียนนิพจน์ boolean โดยมีตัวแปร <code>total</code> และ <code>hasMemberCard</code></p><div class="answer-gate" data-answer-id="5.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>double total = 420.0;&#10;boolean hasMemberCard = true;&#10;boolean getsDiscount = total &gt;= 500 || hasMemberCard;</code></pre><p>ผลเป็น <code>true</code> เพราะผู้ซื้อมีบัตร แม้ยอดยังไม่ถึง 500 บาท</p></div></div></div>
-        </article>
+        boolean ruleA = (isStudent || hasPass) &amp;&amp; age &gt;= 18;
+        boolean ruleB = isStudent || hasPass &amp;&amp; age &gt;= 18;
+        boolean ruleC = isStudent || (hasPass &amp;&amp; age &gt;= 18);
 
-        <article class="subtopic" id="topic-5-3">
-          <h3>5.3 if, else if และ else</h3><p>ใช้ <code>if</code> เมื่อต้องทำคำสั่งเมื่อเงื่อนไขจริง, <code>else</code> สำหรับกรณีอื่น และ <code>else if</code> เมื่อต้องตรวจหลายกรณีตามลำดับ เงื่อนไขที่แคบหรือคะแนนสูงควรตรวจก่อน</p>
-          <div class="example-box"><span class="box-title">จัดระดับผลสอบจากคะแนน</span><pre><code>if (score &gt;= 80) {&#10;    grade = "A";&#10;} else if (score &gt;= 70) {&#10;    grade = "B";&#10;} else if (score &gt;= 60) {&#10;    grade = "C";&#10;} else {&#10;    grade = "ต้องฝึกเพิ่ม";&#10;}</code></pre><p>ถ้าคะแนน 85 โปรแกรมทำกรณีแรกและข้ามกรณีอื่น หากตรวจ <code>score &gt;= 60</code> ก่อน คะแนน 85 จะถูกจัดระดับ C ทันที</p></div>
-          <div class="note-box"><span class="box-title">ใส่วงเล็บปีกกาเสมอ</span><p>แม้มีคำสั่งเดียว วงเล็บช่วยให้เห็นขอบเขตของแต่ละกรณีและลดโอกาสเพิ่มคำสั่งผิดทาง</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 5.3</span>ตรวจจำนวนบวก ลบ หรือศูนย์</h4><p>กำหนดจำนวนเต็มหนึ่งจำนวน แล้วแสดง <code>positive</code>, <code>negative</code> หรือ <code>zero</code></p><div class="answer-gate" data-answer-id="5.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int number = -4;&#10;if (number &gt; 0) {&#10;    System.out.println("positive");&#10;} else if (number &lt; 0) {&#10;    System.out.println("negative");&#10;} else {&#10;    System.out.println("zero");&#10;}</code></pre><p>ตรวจมากกว่าและน้อยกว่า 0; กรณีที่เหลือจึงเป็น 0</p></div></div></div>
-        </article>
+        System.out.println("A = " + ruleA);
+        System.out.println("B = " + ruleB);
+        System.out.println("C = " + ruleC);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>A = false
+B = false
+C = false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>A: (false || true) = true, && (16 ≥ 18 false) → false</li><li>B: ไม่มีวงเล็บ && ทำก่อน → false || (true && false) → false</li><li>C: เขียนวงเล็บแบบเดียวกับ B จึงได้ผลเท่ากัน</li><li>ลอง isStudent = true: A เป็น false (อายุไม่ถึง) แต่ B, C เป็น true — ความหมายต่างกันจริง</li></ol></div><p class="try-it">เปลี่ยน isStudent = true แล้วดูว่า A กับ B ต่างกันอย่างไร</p></div>
+<div class="source-example"><h4>ตัวอย่าง 5.2.3 · Short-circuit: หยุดตรวจเมื่อรู้คำตอบแล้ว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าด้านซ้ายของ <code>&amp;&amp;</code> เป็น false Java ไม่ตรวจด้านขวาเลย ใช้ป้องกันการหารด้วยศูนย์ได้</p><div class="source-example-grid"><div class="source-field"><span>Java source · ShortCircuit.java</span><pre class="source-code">public class ShortCircuit {
+    public static void main(String[] args) {
+        int total = 100;
+        int count = 0;
+        if (count != 0 &amp;&amp; total / count &gt; 10) {
+            System.out.println("Average above 10");
+        } else {
+            System.out.println("No data or average too low");
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>No data or average too low</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>count != 0</code> เป็น false</li><li>เนื่องจาก false && อะไรก็ได้ = false Java จึงข้าม <code>total / count</code></li><li>ไม่เกิด ArithmeticException</li><li>ถ้าสลับเป็น <code>total / count &gt; 10 &amp;&amp; count != 0</code> จะ error ทันที</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.2.4 · ปีอธิกสุรทิน: เงื่อนไขซับซ้อน <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ปีอธิกสุรทิน = หารด้วย 4 ลงตัว <em>และ</em> ไม่ลงตัวด้วย 100 <em>หรือ</em> หารด้วย 400 ลงตัว</p><div class="source-example-grid"><div class="source-field"><span>Java source · LeapYear.java</span><pre class="source-code">public class LeapYear {
+    public static void main(String[] args) {
+        int[] years = {2024, 2025, 1900, 2000};
+        for (int year : years) {
+            boolean leap = (year % 4 == 0 &amp;&amp; year % 100 != 0) || year % 400 == 0;
+            System.out.println(year + " leap? " + leap);
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>2024 leap? true
+2025 leap? false
+1900 leap? false
+2000 leap? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>2024: หาร 4 ลงตัว ไม่ลงตัวด้วย 100 → true</li><li>2025: หาร 4 ไม่ลงตัว และไม่ลงตัวด้วย 400 → false</li><li>1900: หาร 100 ลงตัว ทำให้วงเล็บแรก false และ 1900 % 400 ≠ 0 → false</li><li>2000: หาร 400 ลงตัว → true</li></ol></div><p>ตัวอย่างนี้ใช้อาเรย์และลูปวนทดสอบหลายปี (จะเรียนในบทที่ 6 และ 8) เพื่อให้เห็นทุกกรณีพร้อมกัน ตอนนี้ให้โฟกัสที่บรรทัด boolean leap</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · De Morgan</strong><div><p><code>!(a &gt; 0 &amp;&amp; b &gt; 0)</code> เขียนใหม่โดยไม่ใช้ ! ด้านนอกได้อย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><p><code>a &lt;= 0 || b &lt;= 0</code> — กลับ && เป็น || และกลับเงื่อนไขย่อยทุกตัว (กฎของ De Morgan)</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-5-3">
+<h3>5.3 if, else if และ else</h3>
+<div class="concept-box"><span class="box-title">รูปแบบของ if ทั้ง 3 แบบ</span><pre><code>if (เงื่อนไข) {              if (เงื่อนไข) {              if (เงื่อนไข1) {
+    ทำเมื่อจริง                 ทำเมื่อจริง                  ...
+}                           } else {                     } else if (เงื่อนไข2) {
+                                ทำเมื่อเท็จ                  ...
+                            }                            } else {
+① ทางเลือกเดียว             ② สองทาง                         ทำเมื่อไม่ตรงข้อใด
+                                                         }
+                                                         ③ หลายทาง</code></pre><p>if-else if ตรวจ<strong>จากบนลงล่าง</strong> และทำเฉพาะกรณีแรกที่เป็นจริง กรณีที่เหลือถูกข้ามทั้งหมด</p></div>
+<div class="source-example"><h4>ตัวอย่าง 5.3.1 · if อย่างเดียว: แจ้งเตือนเมื่อเกินกำหนด <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อต้องทำอะไรเพิ่ม<em>เฉพาะบางกรณี</em> และกรณีอื่นไม่ต้องทำอะไร ใช้ if อย่างเดียว</p><div class="source-example-grid"><div class="source-field"><span>Java source · FeverAlert.java</span><pre class="source-code">import java.util.Scanner;
 
-        <article class="subtopic" id="topic-5-4">
-          <h3>5.4 เลือกทางด้วย switch</h3><p><code>switch</code> เหมาะเมื่อเปรียบเทียบค่าหนึ่งกับตัวเลือกหลายค่า เช่น รหัสเมนู แต่ละ <code>case</code> ในรูปแบบพื้นฐานควรจบด้วย <code>break</code>; <code>default</code> รองรับค่าที่ไม่ได้ระบุ</p>
-          <div class="example-box"><span class="box-title">แสดงชื่อวันจากเลขวัน</span><pre><code>switch (day) {&#10;    case 1:&#10;        dayName = "Monday";&#10;        break;&#10;    case 2:&#10;        dayName = "Tuesday";&#10;        break;&#10;    default:&#10;        dayName = "Unknown day";&#10;}</code></pre></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 5.4</span>เลือกเครื่องดื่ม</h4><p>เลข 1 แทนชา, 2 แทนกาแฟ, 3 แทนน้ำเปล่า และเลขอื่นแสดง <code>เมนูไม่ถูกต้อง</code> เขียนด้วย <code>switch</code></p><div class="answer-gate" data-answer-id="5.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int choice = 2;&#10;switch (choice) {&#10;    case 1:&#10;        System.out.println("ชา");&#10;        break;&#10;    case 2:&#10;        System.out.println("กาแฟ");&#10;        break;&#10;    case 3:&#10;        System.out.println("น้ำเปล่า");&#10;        break;&#10;    default:&#10;        System.out.println("เมนูไม่ถูกต้อง");&#10;}</code></pre><p>เพิ่ม <code>break</code> หลังแต่ละตัวเลือกเพื่อไม่ให้ไหลไป case ถัดไป</p></div></div></div>
-        </article>
+public class FeverAlert {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Temperature: ");
+        double temp = input.nextDouble();
+        if (temp &gt;= 37.5) {
+            System.out.println("Warning: fever!");
+        }
+        System.out.println("Recorded " + temp);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Temperature: <b class="stdin">38.2</b>
+Warning: fever!
+Recorded 38.2</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>38.2 ≥ 37.5 → true → พิมพ์ Warning</li><li>บรรทัด Recorded อยู่นอก if จึงทำทุกครั้ง</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.3.2 · if-else: คู่หรือคี่ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สองทางที่ไม่ซ้อนทับกัน — ทำทางใดทางหนึ่งเสมอ</p><div class="source-example-grid"><div class="source-field"><span>Java source · EvenOdd.java</span><pre class="source-code">import java.util.Scanner;
+
+public class EvenOdd {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Number: ");
+        int n = input.nextInt();
+        if (n % 2 == 0) {
+            System.out.println(n + " is even");
+        } else {
+            System.out.println(n + " is odd");
+        }
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Number: <b class="stdin">17</b>
+17 is odd</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>17 % 2 = 1 ไม่เท่ากับ 0</li><li>ไปทาง else → odd</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.3.3 · else-if: ตัดเกรดและลำดับเงื่อนไข <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตรวจจากคะแนนสูงลงต่ำ แต่ละขั้นจึงไม่ต้องเขียนขอบบน (เพราะกรณีที่สูงกว่าถูกดักไปแล้ว)</p><div class="source-example-grid"><div class="source-field"><span>Java source · GradeIf.java</span><pre class="source-code">import java.util.Scanner;
+
+public class GradeIf {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Score: ");
+        int score = input.nextInt();
+        String grade;
+        if (score &gt;= 80) {
+            grade = "A";
+        } else if (score &gt;= 70) {
+            grade = "B";
+        } else if (score &gt;= 60) {
+            grade = "C";
+        } else if (score &gt;= 50) {
+            grade = "D";
+        } else {
+            grade = "F";
+        }
+        System.out.println("Grade: " + grade);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score: <b class="stdin">85</b>
+Grade: A</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>85 ≥ 80 → grade = A แล้วข้ามทั้งหมด</li><li>ถ้าเรียง score ≥ 50 ไว้ก่อน คะแนน 85 จะได้ D ทันที เพราะ 85 ≥ 50 เป็นจริงก่อน</li><li>else สุดท้ายรับทุกกรณีที่เหลือ ตัวแปร grade จึงมีค่าแน่นอน</li></ol></div></div>
+<div class="source-example"><h4>ทดลองบั๊ก 5.3.4 · เงื่อนไขเรียงผิด: กรณีสำคัญถูกบัง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่ให้ผลผิด (logic error) เพราะเงื่อนไขที่กว้างกว่าถูกตรวจก่อน</p><div class="source-example-grid"><div class="source-field"><span>Java source · WrongOrder.java</span><pre class="source-code">import java.util.Scanner;
+
+public class WrongOrder {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Score: ");
+        int score = input.nextInt();
+        if (score &gt;= 50) {
+            System.out.println("Pass");
+        } else if (score &gt;= 90) {
+            System.out.println("Excellent");
+        }
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score: <b class="stdin">92</b>
+Pass</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>92 ≥ 50 เป็นจริงตั้งแต่เงื่อนไขแรก → Pass</li><li>เงื่อนไข ≥ 90 ไม่มีทางถูกตรวจเลย</li><li>แก้: ย้าย ≥ 90 ขึ้นก่อน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.3.5 · if ซ้อน และตัวดำเนินการ ?: <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> if ซ้อน (nested) ใช้เมื่อการตัดสินใจชั้นที่สองขึ้นกับชั้นแรก ส่วน <code>เงื่อนไข ? ค่า1 : ค่า2</code> (ternary) ใช้เลือก<em>ค่า</em>สั้น ๆ</p><div class="source-example-grid"><div class="source-field"><span>Java source · ShippingFee.java</span><pre class="source-code">import java.util.Scanner;
+
+public class ShippingFee {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Order total: ");
+        double total = input.nextDouble();
+        System.out.print("Member (y/n): ");
+        String member = input.next();
+
+        double shipping;
+        if (total &gt;= 1000) {
+            shipping = 0;
+        } else {
+            if (member.equals("y")) {
+                shipping = 20;
+            } else {
+                shipping = 50;
+            }
+        }
+        String label = shipping == 0 ? "FREE" : shipping + " baht";
+        System.out.println("Shipping: " + label);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Order total: <b class="stdin">1200</b>
+Member (y/n): <b class="stdin">y</b>
+Shipping: FREE</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ยอด 1200 ≥ 1000 → ส่งฟรี ไม่ต้องดูสถานะสมาชิกเลย</li><li>ถ้ายอดไม่ถึง จึงค่อยตรวจสมาชิก (if ชั้นใน)</li><li>ternary เลือกข้อความ: 0 → "FREE"</li></ol></div><p class="try-it">ป้อน 800 และ y → 20 baht, ป้อน 800 และ n → 50 baht</p></div>
+<div class="note-box"><span class="box-title">ใส่วงเล็บปีกกาเสมอ และอย่าใส่ ; หลัง if</span><pre><code>if (score &gt;= 50);              // ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป
+    System.out.println("Pass");  // ← ทำงานทุกครั้ง!</code></pre><p>แม้มีคำสั่งเดียวก็ควรใส่ <code>{ }</code> เพื่อให้เห็นขอบเขตชัดและป้องกันการเพิ่มคำสั่งผิดตำแหน่ง</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · trace if-else if</strong><div><pre><code>int x = 15;
+if (x &gt; 20) System.out.println("A");
+else if (x &gt; 10) System.out.println("B");
+else if (x &gt; 5) System.out.println("C");
+else System.out.println("D");</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>พิมพ์ <strong>B</strong> เท่านั้น แม้ x &gt; 5 ก็จริง แต่ถูกข้ามเพราะเจอกรณีที่จริงก่อนแล้ว</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-5-4">
+<h3>5.4 เลือกทางด้วย switch</h3>
+<p><code>switch</code> เหมาะเมื่อเปรียบเทียบ<strong>ค่าเดียว</strong>กับตัวเลือกที่เป็นค่าแน่นอนหลายค่า เช่น รหัสเมนู วันในสัปดาห์ ใช้กับ <code>int</code>, <code>char</code>, <code>String</code> ได้ (แต่ไม่ใช้กับช่วงค่า เช่น ≥ 80 — กรณีนั้นใช้ if)</p>
+<div class="concept-box"><span class="box-title">switch แบบดั้งเดิม vs แบบลูกศร (Java 14+)</span><pre><code>switch (day) {                       switch (day) {
+    case 1:                              case 1 -&gt; name = "Mon";
+        name = "Mon";                    case 2 -&gt; name = "Tue";
+        break;                           default -&gt; name = "?";
+    case 2:                          }
+        name = "Tue";
+        break;                       // ไม่ต้องมี break ไม่มี fall-through
+    default:
+        name = "?";
+}</code></pre></div>
+<div class="source-example"><h4>ตัวอย่าง 5.4.1 · switch แบบดั้งเดิม: ชื่อวัน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java กระโดดไปที่ case ที่ค่าตรงกัน ทำคำสั่งจนเจอ <code>break</code> ถ้าไม่มี case ใดตรงจะไป <code>default</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · DayName.java</span><pre class="source-code">import java.util.Scanner;
+
+public class DayName {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Day (1-7): ");
+        int day = input.nextInt();
+        String name;
+        switch (day) {
+            case 1: name = "Monday"; break;
+            case 2: name = "Tuesday"; break;
+            case 3: name = "Wednesday"; break;
+            case 4: name = "Thursday"; break;
+            case 5: name = "Friday"; break;
+            case 6: name = "Saturday"; break;
+            case 7: name = "Sunday"; break;
+            default: name = "Unknown day";
+        }
+        System.out.println(name);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Day (1-7): <b class="stdin">3</b>
+Wednesday</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>day = 3 → กระโดดไป case 3</li><li>name = "Wednesday" แล้ว break ออกจาก switch</li></ol></div></div>
+<div class="source-example"><h4>ทดลองบั๊ก 5.4.2 · ลืม break: fall-through <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าไม่มี break จะ “ไหล” ไปทำ case ถัดไปทั้งหมดจนจบหรือเจอ break</p><div class="source-example-grid"><div class="source-field"><span>Java source · FallThrough.java</span><pre class="source-code">public class FallThrough {
+    public static void main(String[] args) {
+        int level = 2;
+        switch (level) {
+            case 1:
+                System.out.println("Bronze");
+            case 2:
+                System.out.println("Silver");
+            case 3:
+                System.out.println("Gold");
+            default:
+                System.out.println("End");
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Silver
+Gold
+End</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เริ่มที่ case 2 พิมพ์ Silver</li><li>ไม่มี break ไหลไป case 3 พิมพ์ Gold</li><li>ไหลต่อไป default พิมพ์ End</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.4.3 · ใช้ fall-through อย่างตั้งใจ: จัดกลุ่ม case <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หลาย case ที่ให้ผลเหมือนกันวางเรียงกันได้ — ในแบบลูกศรเขียน <code>case 12, 1, 2 -&gt;</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · Season.java</span><pre class="source-code">import java.util.Scanner;
+
+public class Season {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Month (1-12): ");
+        int month = input.nextInt();
+        String season = switch (month) {
+            case 3, 4, 5 -&gt; "Summer";
+            case 6, 7, 8, 9, 10 -&gt; "Rainy";
+            case 11, 12, 1, 2 -&gt; "Winter";
+            default -&gt; "Invalid month";
+        };
+        System.out.println("Season: " + season);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Month (1-12): <b class="stdin">4</b>
+Season: Summer</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เดือน 4 ตรงกับ case 3, 4, 5</li><li>switch แบบลูกศรคืนค่าได้ (switch expression) จึงเขียน <code>String season = switch ...;</code> (มี ; ปิดท้าย)</li><li>ไม่ต้องมี break</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.4.4 · switch กับ char: เครื่องคิดเลขขนาดเล็ก <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รับนิพจน์ <code>ตัวเลข ตัวดำเนินการ ตัวเลข</code> แล้วเลือกคำนวณตามตัวดำเนินการ พร้อมดักการหารด้วยศูนย์</p><div class="source-example-grid"><div class="source-field"><span>Java source · MiniCalculator.java</span><pre class="source-code">import java.util.Scanner;
+
+public class MiniCalculator {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Expression (a op b): ");
+        double a = input.nextDouble();
+        char op = input.next().charAt(0);
+        double b = input.nextDouble();
+
+        switch (op) {
+            case '+' -&gt; System.out.println("= " + (a + b));
+            case '-' -&gt; System.out.println("= " + (a - b));
+            case '*', 'x' -&gt; System.out.println("= " + (a * b));
+            case '/' -&gt; {
+                if (b == 0) {
+                    System.out.println("Cannot divide by zero");
+                } else {
+                    System.out.println("= " + (a / b));
+                }
+            }
+            default -&gt; System.out.println("Unknown operator: " + op);
+        }
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Expression (a op b): <b class="stdin">12 * 4</b>
+= 48.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่าน 12, "*" และ 4</li><li><code>.charAt(0)</code> ดึงอักขระแรกจาก String เป็น char</li><li>case '*' ทำงาน → 48.0</li><li>case '/' มีหลายคำสั่งจึงใช้ <code>{ }</code></li></ol></div></div>
+<h4>เลือก if หรือ switch</h4><table class="comparison-table"><thead><tr><th>สถานการณ์</th><th>ควรใช้</th></tr></thead><tbody><tr><td>ตรวจช่วงค่า (≥, &lt;)</td><td>if-else if</td></tr><tr><td>เงื่อนไขหลายตัวแปรรวมกัน (&amp;&amp;, ||)</td><td>if</td></tr><tr><td>ค่าเดียวเทียบกับค่าคงที่หลายค่า</td><td>switch</td></tr><tr><td>เมนูตัวเลข/ตัวอักษร</td><td>switch</td></tr></tbody></table>
+<div class="quick-check"><strong>ลองคิดก่อน · switch output</strong><div><pre><code>int n = 1;
+switch (n) {
+    case 1: System.out.print("one ");
+    case 2: System.out.print("two "); break;
+    case 3: System.out.print("three ");
+}</code></pre></div><details><summary>ดูคำตอบ</summary><div><p><strong>one two</strong> — case 1 ไม่มี break จึงไหลไป case 2 แล้วหยุดที่ break</p></div></details></div>
+</article>
       </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ทำตามลำดับจากง่ายไปยาก อ่านโจทย์และตัวอย่างผลลัพธ์ให้ครบก่อนเริ่มเขียน แล้วจึงเปิดเฉลยเพื่อเทียบแนวคิด</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 5.1</span>บวก ลบ หรือศูนย์<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับจำนวนเต็มหนึ่งจำนวน แล้วแสดงว่าเป็น <code>positive</code>, <code>negative</code> หรือ <code>zero</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ if – else if – else</li><li>ทดสอบทั้ง 3 กรณี</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Number: <b class="stdin">15</b>
+positive</pre></div><div><small>ครั้งที่ 2</small><pre>Number: <b class="stdin">-4</b>
+negative</pre></div><div><small>ครั้งที่ 3</small><pre>Number: <b class="stdin">0</b>
+zero</pre></div></div></div><div class="answer-gate" data-answer-id="5.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
 
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ทดสอบทั้งค่าขอบเขตและค่าที่อยู่นอกช่วงก่อนดูเฉลย</p>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 5.5</span>ค่าสัมบูรณ์</h3><p>กำหนดจำนวนเต็ม <code>number</code> แล้วเปลี่ยนเป็นค่าสัมบูรณ์ด้วย <code>if</code></p><div class="answer-gate" data-answer-id="5.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int number = -12;&#10;if (number &lt; 0) {&#10;    number = -number;&#10;}&#10;System.out.println(number); // 12</code></pre></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 5.6</span>ส่วนลดตามยอดซื้อ</h3><p>ยอดซื้อตั้งแต่ 1,000 บาทลด 10%; ตั้งแต่ 500 บาทลด 5%; ต่ำกว่านั้นไม่ลด คำนวณยอดที่ต้องจ่าย</p><div class="answer-gate" data-answer-id="5.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>double total = 780;&#10;double discountRate;&#10;if (total &gt;= 1000) {&#10;    discountRate = 0.10;&#10;} else if (total &gt;= 500) {&#10;    discountRate = 0.05;&#10;} else {&#10;    discountRate = 0.0;&#10;}&#10;double amountToPay = total * (1 - discountRate);&#10;System.out.println(amountToPay); // 741.0</code></pre><p>ตรวจ 1,000 ก่อน 500 เพื่อไม่ให้ส่วนลดสูงถูกเงื่อนไข 500 จับไปก่อน</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 5.7</span>เครื่องคิดเลขอย่างง่าย</h3><p>กำหนดตัวเลขสองค่าและเครื่องหมาย <code>+</code> หรือ <code>-</code> แล้วเลือกคำนวณด้วย <code>switch</code> กรณีอื่นให้แสดงข้อความว่าไม่รองรับ</p><div class="answer-gate" data-answer-id="5.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>double first = 12;&#10;double second = 5;&#10;char operator = '-';&#10;switch (operator) {&#10;    case '+':&#10;        System.out.println(first + second);&#10;        break;&#10;    case '-':&#10;        System.out.println(first - second);&#10;        break;&#10;    default:&#10;        System.out.println("เครื่องหมายนี้ยังไม่รองรับ");&#10;}</code></pre></div></div></article>
+public class SignCheck {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Number: ");
+        int n = input.nextInt();
+        if (n &gt; 0) {
+            System.out.println("positive");
+        } else if (n &lt; 0) {
+            System.out.println("negative");
+        } else {
+            System.out.println("zero");
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 5.2</span>ค่าสัมบูรณ์โดยไม่ใช้ Math.abs<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับจำนวนเต็ม แล้วแสดงค่าสัมบูรณ์ โดย<strong>ห้ามใช้</strong> <code>Math.abs</code> ให้ใช้ if แทน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ถ้าค่าน้อยกว่า 0 ให้คูณด้วย −1</li><li>แสดงผลรูปแบบ <code>|x| = y</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Number: <b class="stdin">-27</b>
+|-27| = 27</pre></div><div><small>ครั้งที่ 2</small><pre>Number: <b class="stdin">8</b>
+|8| = 8</pre></div></div></div><div class="answer-gate" data-answer-id="5.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class AbsoluteValue {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Number: ");
+        int x = input.nextInt();
+        int result = x;
+        if (x &lt; 0) {
+            result = -x;
+        }
+        System.out.println("|" + x + "| = " + result);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 5.3</span>เลือกเครื่องดื่ม<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>แสดงเมนู 1 = Tea, 2 = Coffee, 3 = Water รับหมายเลขเมนู แล้วแสดงชื่อเครื่องดื่มและราคา (25, 40, 10 บาท) ถ้าเป็นเลขอื่นให้แสดง <code>Invalid menu</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ switch</li><li>มี default สำหรับเลขที่ไม่ถูกต้อง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>1) Tea  2) Coffee  3) Water
+Choose: <b class="stdin">2</b>
+Coffee - 40 baht</pre></div><div><small>ครั้งที่ 2</small><pre>1) Tea  2) Coffee  3) Water
+Choose: <b class="stdin">9</b>
+Invalid menu</pre></div></div></div><div class="answer-gate" data-answer-id="5.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class DrinkMenu {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.println("1) Tea  2) Coffee  3) Water");
+        System.out.print("Choose: ");
+        int choice = input.nextInt();
+        switch (choice) {
+            case 1 -&gt; System.out.println("Tea - 25 baht");
+            case 2 -&gt; System.out.println("Coffee - 40 baht");
+            case 3 -&gt; System.out.println("Water - 10 baht");
+            default -&gt; System.out.println("Invalid menu");
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 5.4</span>ตรวจช่วงอายุและสิทธิ์<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับอายุ แล้วแสดงประเภทตั๋ว: อายุต่ำกว่า 0 หรือเกิน 120 แสดง <code>Invalid age</code>, 0–3 ปี <code>Free</code>, 4–12 ปี <code>Child 60 baht</code>, 13–59 ปี <code>Adult 120 baht</code>, 60 ปีขึ้นไป <code>Senior 70 baht</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ตรวจกรณีข้อมูลผิดก่อน</li><li>ใช้ else-if เรียงช่วงอย่างถูกต้อง</li><li>ทดสอบค่าขอบ 3, 4, 12, 13, 59, 60</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Age: <b class="stdin">3</b>
+Free</pre></div><div><small>ครั้งที่ 2</small><pre>Age: <b class="stdin">13</b>
+Adult 120 baht</pre></div><div><small>ครั้งที่ 3</small><pre>Age: <b class="stdin">60</b>
+Senior 70 baht</pre></div><div><small>ครั้งที่ 4</small><pre>Age: <b class="stdin">-5</b>
+Invalid age</pre></div></div></div><div class="answer-gate" data-answer-id="5.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class TicketType {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Age: ");
+        int age = input.nextInt();
+        if (age &lt; 0 || age &gt; 120) {
+            System.out.println("Invalid age");
+        } else if (age &lt;= 3) {
+            System.out.println("Free");
+        } else if (age &lt;= 12) {
+            System.out.println("Child 60 baht");
+        } else if (age &lt;= 59) {
+            System.out.println("Adult 120 baht");
+        } else {
+            System.out.println("Senior 70 baht");
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 5.5</span>ส่วนลดตามยอดซื้อและบัตรสมาชิก<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับยอดซื้อและสถานะสมาชิก (y/n) คิดส่วนลดดังนี้: ยอดตั้งแต่ 2000 ลด 15%, ตั้งแต่ 1000 ลด 10%, ต่ำกว่านั้นไม่ลด และ<strong>สมาชิกได้ลดเพิ่มอีก 5%</strong> (บวกกับเปอร์เซ็นต์ข้างต้น) แสดงเปอร์เซ็นต์ส่วนลด จำนวนเงินที่ลด และยอดสุทธิ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>หาเปอร์เซ็นต์ส่วนลดจากยอดก่อน แล้วค่อยบวกส่วนของสมาชิก</li><li>เปรียบเทียบ String ด้วย <code>equalsIgnoreCase</code></li><li>แสดงเงินทศนิยม 2 ตำแหน่ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Total: <b class="stdin">2500</b>
+Member (y/n): <b class="stdin">y</b>
+Discount 20% = 500.00
+Net = 2000.00</pre></div><div><small>ครั้งที่ 2</small><pre>Total: <b class="stdin">800</b>
+Member (y/n): <b class="stdin">Y</b>
+Discount 5% = 40.00
+Net = 760.00</pre></div><div><small>ครั้งที่ 3</small><pre>Total: <b class="stdin">1500</b>
+Member (y/n): <b class="stdin">n</b>
+Discount 10% = 150.00
+Net = 1350.00</pre></div></div></div><div class="answer-gate" data-answer-id="5.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class MemberDiscount {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Total: ");
+        double total = input.nextDouble();
+        System.out.print("Member (y/n): ");
+        String member = input.next();
+        int percent;
+        if (total &gt;= 2000) {
+            percent = 15;
+        } else if (total &gt;= 1000) {
+            percent = 10;
+        } else {
+            percent = 0;
+        }
+        if (member.equalsIgnoreCase("y")) {
+            percent += 5;
+        }
+        double discount = total * percent / 100;
+        System.out.printf("Discount %d%% = %.2f%n", percent, discount);
+        System.out.printf("Net = %.2f%n", total - discount);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 5.6</span>ค่าที่มากที่สุดจาก 3 จำนวน<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับจำนวนเต็ม 3 จำนวน แล้วแสดงค่าที่มากที่สุดและน้อยที่สุด โดย<strong>ห้ามใช้</strong> Math.max/Math.min</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>สมมติให้ค่าแรกเป็นค่ามากสุด แล้วเทียบกับค่าที่เหลือทีละค่า</li><li>ทำแบบเดียวกันกับค่าน้อยสุด</li><li>ทดสอบกรณีมีค่าซ้ำ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Enter 3 numbers: <b class="stdin">12 45 7</b>
+Max = 45
+Min = 7</pre></div><div><small>ครั้งที่ 2</small><pre>Enter 3 numbers: <b class="stdin">9 9 3</b>
+Max = 9
+Min = 3</pre></div></div></div><div class="answer-gate" data-answer-id="5.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class MaxMinOfThree {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter 3 numbers: ");
+        int a = input.nextInt(), b = input.nextInt(), c = input.nextInt();
+        int max = a;
+        if (b &gt; max) max = b;
+        if (c &gt; max) max = c;
+        int min = a;
+        if (b &lt; min) min = b;
+        if (c &lt; min) min = c;
+        System.out.println("Max = " + max);
+        System.out.println("Min = " + min);
+    }
+}</code></pre><p>ใช้ if แยกกัน (ไม่ใช่ else if) เพราะต้องเทียบทุกค่า</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 5.7</span>ตรวจรหัสผ่านและชื่อผู้ใช้<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับชื่อผู้ใช้และรหัสผ่าน (คำเดียว) ระบบมีบัญชีเดียวคือ <code>student</code> / <code>java2026</code> แสดงผลดังนี้</p><ul><li>ถูกทั้งคู่ → <code>Login successful</code></li><li>ชื่อถูก รหัสผิด → <code>Wrong password</code></li><li>ชื่อผิด → <code>User not found</code></li></ul></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เปรียบเทียบด้วย equals (ชื่อผู้ใช้ไม่สนตัวพิมพ์ ใช้ equalsIgnoreCase)</li><li>ใช้ if ซ้อนหรือ else-if ก็ได้</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Username: <b class="stdin">Student</b>
+Password: <b class="stdin">java2026</b>
+Login successful</pre></div><div><small>ครั้งที่ 2</small><pre>Username: <b class="stdin">student</b>
+Password: <b class="stdin">1234</b>
+Wrong password</pre></div><div><small>ครั้งที่ 3</small><pre>Username: <b class="stdin">teacher</b>
+Password: <b class="stdin">java2026</b>
+User not found</pre></div></div></div><div class="answer-gate" data-answer-id="5.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class LoginCheck {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Username: ");
+        String user = input.next();
+        System.out.print("Password: ");
+        String pass = input.next();
+        if (user.equalsIgnoreCase("student")) {
+            if (pass.equals("java2026")) {
+                System.out.println("Login successful");
+            } else {
+                System.out.println("Wrong password");
+            }
+        } else {
+            System.out.println("User not found");
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 5.8</span>ค่าไฟฟ้าแบบอัตราก้าวหน้า<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>คิดค่าไฟตามจำนวนหน่วยแบบขั้นบันได: 150 หน่วยแรก หน่วยละ 3.25 บาท, หน่วยที่ 151–400 หน่วยละ 4.22 บาท, ส่วนที่เกิน 400 หน่วยละ 4.42 บาท บวกค่าบริการ 38.22 บาท แล้วบวก VAT 7% ของยอดทั้งหมด</p><p>เช่น 450 หน่วย = 150×3.25 + 250×4.22 + 50×4.42</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แยกคิดตามช่วงด้วย if-else if (ระวัง: ไม่ใช่คิดทุกหน่วยด้วยอัตราสูงสุด)</li><li>แสดงค่าไฟก่อน VAT, VAT และยอดสุทธิ ทศนิยม 2 ตำแหน่ง</li><li>ทดสอบ 120, 300 และ 450 หน่วย</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Units: <b class="stdin">120</b>
+Energy charge: 390.00
+Before VAT: 428.22
+VAT: 29.98
+Total: 458.20</pre></div><div><small>ครั้งที่ 2</small><pre>Units: <b class="stdin">300</b>
+Energy charge: 1120.50
+Before VAT: 1158.72
+VAT: 81.11
+Total: 1239.83</pre></div><div><small>ครั้งที่ 3</small><pre>Units: <b class="stdin">450</b>
+Energy charge: 1763.50
+Before VAT: 1801.72
+VAT: 126.12
+Total: 1927.84</pre></div></div></div><div class="answer-gate" data-answer-id="5.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class ElectricBill {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Units: ");
+        int units = input.nextInt();
+        double energy;
+        if (units &lt;= 150) {
+            energy = units * 3.25;
+        } else if (units &lt;= 400) {
+            energy = 150 * 3.25 + (units - 150) * 4.22;
+        } else {
+            energy = 150 * 3.25 + 250 * 4.22 + (units - 400) * 4.42;
+        }
+        double beforeVat = energy + 38.22;
+        double vat = beforeVat * 0.07;
+        System.out.printf("Energy charge: %.2f%n", energy);
+        System.out.printf("Before VAT: %.2f%n", beforeVat);
+        System.out.printf("VAT: %.2f%n", vat);
+        System.out.printf("Total: %.2f%n", beforeVat + vat);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 5.9</span>ประเภทสามเหลี่ยม<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับความยาวด้าน 3 ด้าน (จำนวนเต็ม) ตรวจก่อนว่าประกอบเป็นสามเหลี่ยมได้หรือไม่ (ผลบวกของสองด้านใด ๆ ต้องมากกว่าด้านที่เหลือ และทุกด้านต้องมากกว่า 0) ถ้าได้ ให้บอกว่าเป็น <code>Equilateral</code> (ด้านเท่า), <code>Isosceles</code> (หน้าจั่ว) หรือ <code>Scalene</code> (ด้านไม่เท่า) และบอกเพิ่มว่าเป็น<strong>สามเหลี่ยมมุมฉาก</strong>หรือไม่ (a² + b² = c² เมื่อ c เป็นด้านยาวสุด)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ && และ || รวมเงื่อนไข</li><li>หาด้านที่ยาวที่สุดก่อนตรวจมุมฉาก</li><li>ทดสอบ 3 4 5, 5 5 5, 2 2 3, 1 2 3</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Sides: <b class="stdin">3 4 5</b>
+Scalene
+Right triangle: yes</pre></div><div><small>ครั้งที่ 2</small><pre>Sides: <b class="stdin">5 5 5</b>
+Equilateral
+Right triangle: no</pre></div><div><small>ครั้งที่ 3</small><pre>Sides: <b class="stdin">1 2 3</b>
+Not a triangle</pre></div></div></div><div class="answer-gate" data-answer-id="5.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class TriangleType {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Sides: ");
+        int a = input.nextInt(), b = input.nextInt(), c = input.nextInt();
+        boolean valid = a &gt; 0 &amp;&amp; b &gt; 0 &amp;&amp; c &gt; 0 &amp;&amp; a + b &gt; c &amp;&amp; a + c &gt; b &amp;&amp; b + c &gt; a;
+        if (!valid) {
+            System.out.println("Not a triangle");
+        } else {
+            if (a == b &amp;&amp; b == c) {
+                System.out.println("Equilateral");
+            } else if (a == b || b == c || a == c) {
+                System.out.println("Isosceles");
+            } else {
+                System.out.println("Scalene");
+            }
+            int longest = Math.max(a, Math.max(b, c));
+            int sumSquares = a * a + b * b + c * c - longest * longest;
+            if (sumSquares == longest * longest) {
+                System.out.println("Right triangle: yes");
+            } else {
+                System.out.println("Right triangle: no");
+            }
+        }
+    }
+}</code></pre><p>ผลรวมกำลังสองของสองด้านสั้น = ผลรวมกำลังสองทั้งหมด − กำลังสองของด้านยาวสุด วิธีนี้ไม่ต้องรู้ว่าด้านไหนยาวสุด</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 5.10</span>เครื่องคิดเลข BMI พร้อมคำแนะนำ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับเพศ (M/F) น้ำหนัก (กก.) และส่วนสูง (ซม.) คำนวณ BMI แล้วจัดกลุ่มตามเกณฑ์เอเชีย: ต่ำกว่า 18.5 <code>Underweight</code>, 18.5–22.9 <code>Normal</code>, 23–24.9 <code>Overweight</code>, 25–29.9 <code>Obese I</code>, ตั้งแต่ 30 <code>Obese II</code></p><p>นอกจากนี้ให้คำนวณ<strong>น้ำหนักที่ควรลด/เพิ่ม</strong>เพื่อให้ BMI อยู่ในช่วงปกติ (ใช้ขอบ 18.5 หรือ 22.9) และถ้าข้อมูลไม่สมเหตุสมผล (น้ำหนัก ≤ 0, ส่วนสูง &lt; 50 หรือ &gt; 250, เพศไม่ใช่ M/F) ให้แสดง <code>Invalid input</code> แล้วไม่คำนวณต่อ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ตรวจความถูกต้องของข้อมูลก่อน</li><li>เพศใช้ <code>char</code> ผ่าน <code>next().toUpperCase().charAt(0)</code></li><li>น้ำหนักเป้าหมาย = BMI ขอบ × (ส่วนสูงเมตร)²</li><li>แสดงผลทศนิยม 1–2 ตำแหน่งตามตัวอย่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Gender weight height: <b class="stdin">F 52 160</b>
+BMI = 20.31 (Normal)
+Keep it up!</pre></div><div><small>ครั้งที่ 2</small><pre>Gender weight height: <b class="stdin">M 92 175</b>
+BMI = 30.04 (Obese II)
+Lose about 21.9 kg</pre></div><div><small>ครั้งที่ 3</small><pre>Gender weight height: <b class="stdin">X 60 170</b>
+Invalid input</pre></div></div></div><div class="answer-gate" data-answer-id="5.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class BmiAdvisor {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Gender weight height: ");
+        char gender = input.next().toUpperCase().charAt(0);
+        double weight = input.nextDouble();
+        double heightCm = input.nextDouble();
+        if ((gender != 'M' &amp;&amp; gender != 'F') || weight &lt;= 0 || heightCm &lt; 50 || heightCm &gt; 250) {
+            System.out.println("Invalid input");
+        } else {
+            double h = heightCm / 100;
+            double bmi = weight / (h * h);
+            String group;
+            if (bmi &lt; 18.5) group = "Underweight";
+            else if (bmi &lt; 23) group = "Normal";
+            else if (bmi &lt; 25) group = "Overweight";
+            else if (bmi &lt; 30) group = "Obese I";
+            else group = "Obese II";
+            System.out.printf("BMI = %.2f (%s)%n", bmi, group);
+            if (bmi &lt; 18.5) {
+                System.out.printf("Gain about %.1f kg%n", 18.5 * h * h - weight);
+            } else if (bmi &gt;= 23) {
+                System.out.printf("Lose about %.1f kg%n", weight - 22.9 * h * h);
+            } else {
+                System.out.println("Keep it up!");
+            }
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 5.11</span>วันถัดไปในปฏิทิน<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับวัน เดือน ปี (ค.ศ.) แล้วแสดง<strong>วันถัดไป</strong> โดยคำนึงถึงจำนวนวันในแต่ละเดือนและปีอธิกสุรทิน (กุมภาพันธ์มี 29 วัน) ถ้าวันที่ไม่มีจริง (เช่น 31/4 หรือ 29/2/2025) ให้แสดง <code>Invalid date</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>หาจำนวนวันของเดือนด้วย switch (เดือน 4, 6, 9, 11 มี 30 วัน, เดือน 2 ขึ้นกับปีอธิกสุรทิน, ที่เหลือ 31)</li><li>ตรวจความถูกต้องของวันที่ก่อน</li><li>จัดการกรณีขึ้นเดือนใหม่และขึ้นปีใหม่</li><li>ทดสอบ 28/2/2024, 28/2/2025, 31/12/2025, 31/4/2025</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Date (d m y): <b class="stdin">28 2 2024</b>
+Next day: 29/2/2024</pre></div><div><small>ครั้งที่ 2</small><pre>Date (d m y): <b class="stdin">28 2 2025</b>
+Next day: 1/3/2025</pre></div><div><small>ครั้งที่ 3</small><pre>Date (d m y): <b class="stdin">31 12 2025</b>
+Next day: 1/1/2026</pre></div><div><small>ครั้งที่ 4</small><pre>Date (d m y): <b class="stdin">31 4 2025</b>
+Invalid date</pre></div></div></div><div class="answer-gate" data-answer-id="5.11"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.11<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class NextDay {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Date (d m y): ");
+        int d = input.nextInt(), m = input.nextInt(), y = input.nextInt();
+        boolean leap = (y % 4 == 0 &amp;&amp; y % 100 != 0) || y % 400 == 0;
+        int daysInMonth = switch (m) {
+            case 4, 6, 9, 11 -&gt; 30;
+            case 2 -&gt; leap ? 29 : 28;
+            case 1, 3, 5, 7, 8, 10, 12 -&gt; 31;
+            default -&gt; 0;
+        };
+        if (daysInMonth == 0 || d &lt; 1 || d &gt; daysInMonth) {
+            System.out.println("Invalid date");
+        } else {
+            d++;
+            if (d &gt; daysInMonth) {
+                d = 1;
+                m++;
+                if (m &gt; 12) {
+                    m = 1;
+                    y++;
+                }
+            }
+            System.out.println("Next day: " + d + "/" + m + "/" + y);
+        }
+    }
+}</code></pre></div></div></article>
       </section>
-      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-04.html">← บทที่ 4</a><a class="pager-link" href="chapter-06.html">บทที่ 6: การทำซ้ำด้วยลูป →</a></nav>
-      <footer class="lesson-footer">Java programming by Prymania · บทที่ 5 · ทดสอบค่าตรงขอบเขตของเงื่อนไขด้วย</footer>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-04.html">← บทที่ 4</a><a class="pager-link" href="chapter-06.html">บทที่ 6: การทำซ้ำ →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 5 · ทดสอบค่าขอบทุกเงื่อนไข</footer>
     </main>
   </div>
   <script src="../password.js"></script><script src="../assets/lesson.js"></script>

@@ -12,91 +12,685 @@
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญบทที่ 8"><p class="toc-label">บทที่ 8 · จัดกลุ่มข้อมูล</p><a href="#topic-8-1"><span class="toc-number">8.1</span>สร้างและเข้าถึงอาเรย์</a><a href="#topic-8-2"><span class="toc-number">8.2</span>วนอ่าน รวม และค้นหา</a><a href="#topic-8-3"><span class="toc-number">8.3</span>อาเรย์สองมิติ</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
-      <div class="sidebar-bottom">index เริ่มที่ 0; length คือจำนวนสมาชิก</div>
+      <nav class="lesson-toc" aria-label="สารบัญบทที่ 8"><p class="toc-label">บทที่ 8 · ข้อมูลหลายค่า</p><a href="#topic-8-1"><span class="toc-number">8.1</span>สร้างและเข้าถึงอาเรย์</a><a href="#topic-8-2"><span class="toc-number">8.2</span>วนอ่าน รวม และค้นหา</a><a href="#topic-8-3"><span class="toc-number">8.3</span>อาเรย์สองมิติ</a><a href="#topic-8-4"><span class="toc-number">8.4</span>อาเรย์กับเมธอด</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <div class="sidebar-bottom">index เริ่มที่ 0 และจบที่ length − 1</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 08 / 19</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทที่ 8 · เก็บข้อมูลหลายค่าเป็นชุด</p><h1>อาเรย์และชุดข้อมูล</h1><p>เก็บข้อมูลชนิดเดียวกันหลายค่าในโครงสร้างเดียว แล้วใช้ index และลูปเข้าถึงสมาชิกทีละตัว</p></header>
-      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>ประกาศและกำหนดค่าอาเรย์</li><li>ใช้ index และ length อย่างถูกต้อง</li><li>วนอ่าน รวม และค้นหาค่าสมาชิก</li><li>อ่านข้อมูลแบบแถวและคอลัมน์</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-8">
-        <h2 id="section-8">8. มองข้อมูลหลายค่าเป็นชุดเดียว</h2><p>ถ้าต้องเก็บคะแนนนักศึกษา 100 คน การสร้างตัวแปร 100 ตัวทำให้จัดการยาก อาเรย์ให้เราใช้ชื่อตัวแปรเดียวและเลข index เพื่อเลือกสมาชิกแต่ละตำแหน่ง</p>
-        <article class="subtopic" id="topic-8-1">
-          <h3>8.1 สร้างและเข้าถึงอาเรย์</h3><p>ชนิดอาเรย์เขียนเป็น <code>ชนิดข้อมูล[]</code> สมาชิกตัวแรกอยู่ที่ index 0 ไม่ใช่ 1 และอาเรย์ที่สร้างแล้วมีขนาดคงที่ ตรวจจำนวนสมาชิกได้ด้วย <code>array.length</code></p>
-          <div class="concept-box"><span class="box-title">Syntax: ประกาศ สร้าง และอ้างสมาชิก</span><pre><code>int[] scores;                 // ประกาศตัวแปรอาเรย์
-scores = new int[3];          // สร้างพื้นที่ 3 ช่อง
-scores[0] = 80;               // กำหนดสมาชิกช่องแรก
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>ประกาศและกำหนดค่าอาเรย์</li><li>ใช้ index และ length อย่างถูกต้อง</li><li>วนอ่าน รวม และค้นหาค่าสมาชิก</li><li>อ่านข้อมูลแบบแถวและคอลัมน์ และส่งอาเรย์ให้เมธอด</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">8. มองข้อมูลหลายค่าเป็นชุดเดียว</h2>
+        <p>ถ้าต้องเก็บคะแนนนักศึกษา 100 คน การสร้างตัวแปร 100 ตัว (<code>score1</code>, <code>score2</code>, …) ทำให้จัดการยากและวนลูปไม่ได้ <strong>อาเรย์ (array)</strong> ให้เราใช้ชื่อตัวแปรเดียวและเลข <strong>index</strong> เพื่อเลือกสมาชิกแต่ละตำแหน่ง</p>
+<article class="subtopic" id="topic-8-1">
+<h3>8.1 สร้างและเข้าถึงอาเรย์</h3>
+<p>ชนิดอาเรย์เขียนเป็น <code>ชนิดข้อมูล[]</code> สมาชิกตัวแรกอยู่ที่ <strong>index 0</strong> ไม่ใช่ 1 อาเรย์ที่สร้างแล้วมี<strong>ขนาดคงที่</strong> และตรวจจำนวนสมาชิกได้ด้วย <code>ชื่ออาเรย์.length</code> (ไม่มีวงเล็บ)</p>
+<div class="concept-box"><span class="box-title">Syntax: ประกาศ สร้าง และอ้างสมาชิก</span><pre><code>int[] scores;                    // ① ประกาศตัวแปรอาเรย์ (ยังไม่มีช่อง)
+scores = new int[3];             // ② สร้างพื้นที่ 3 ช่อง ค่าเริ่มต้นเป็น 0
+scores[0] = 80;                  // ③ กำหนดค่าช่อง index 0
+int[] other = {80, 75, 92};      // ประกาศ + สร้าง + กำหนดค่าในบรรทัดเดียว
 
-int[] otherScores = {80, 75, 92}; // ประกาศพร้อมค่าเริ่มต้น</code></pre><p>การประกาศบอกชนิด แต่ต้องสร้างอาเรย์ก่อนใช้งาน สมาชิกของ int array ที่ยังไม่กำหนดค่าจะเริ่มเป็น 0</p></div>
-          <div class="example-box"><span class="box-title">อาเรย์คะแนน 4 ค่า</span><pre><code>int[] scores = {80, 75, 92, 88};&#10;System.out.println(scores[0]);      // 80&#10;System.out.println(scores[3]);      // 88&#10;System.out.println(scores.length);  // 4</code></pre><p>index ที่ถูกต้องคือ 0 ถึง <code>length - 1</code>; การอ่าน <code>scores[4]</code> เกินขอบเขต</p></div>
-          <div class="example-box"><span class="box-title">Trace index ทีละตำแหน่ง</span><table class="comparison-table"><thead><tr><th>index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><th>scores[index]</th><td>80</td><td>75</td><td>92</td><td>88</td></tr></tbody></table><p>คำสั่ง <code>scores[1] = 100;</code> เปลี่ยนค่า 75 เป็น 100; จำนวนสมาชิกยังเท่าเดิมและ length ยังเป็น 4</p></div>
-          <div class="note-box"><span class="box-title">Index กับจำนวนสมาชิกเป็นคนละเรื่อง</span><p>อาเรย์มี 4 สมาชิก แต่ index ตัวสุดท้ายคือ 3 เพราะเริ่มนับจาก 0</p></div>
-          <div class="concept-box"><span class="box-title">Runtime error: index เกินขอบเขต</span><pre><code>int[] scores = {80, 75, 92};
-System.out.println(scores[3]); // error</code></pre><p>length เท่ากับ 3 จึงมี index 0, 1, 2 เท่านั้น โปรแกรมคอมไพล์ผ่าน แต่ตอนรันจะเกิด <code>ArrayIndexOutOfBoundsException</code> เพราะพยายามอ่านช่องที่ไม่มี</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.1</span>เก็บอุณหภูมิ</h4><p>สร้างอาเรย์เก็บอุณหภูมิ 3 วันเป็น 29, 31 และ 30 จากนั้นพิมพ์ค่าของวันที่สองและจำนวนสมาชิก</p><div class="answer-gate" data-answer-id="8.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] temperatures = {29, 31, 30};&#10;System.out.println(temperatures[1]); // 31: วันที่สองคือ index 1&#10;System.out.println(temperatures.length); // 3</code></pre></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.7</span>แก้ IndexOutOfBounds</h4><p>อาเรย์ <code>{4, 8, 12, 16}</code> มีสมาชิก 4 ตัว จงเขียน loop แสดงทุกค่าโดยไม่เกิด index เกิน และอธิบายว่าทำไมเงื่อนไขต้องใช้ <code>&lt; length</code></p><div class="answer-gate" data-answer-id="8.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] values = {4, 8, 12, 16};
-for (int i = 0; i &lt; values.length; i++) {
-    System.out.println(values[i]);
-}</code></pre><p>เมื่อ i เท่ากับ length คือ 4 ไม่มี index 4 จึงต้องหยุดก่อนถึงค่านั้น</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-8-2">
-          <h3>8.2 วนอ่าน รวม และค้นหาสมาชิก</h3><p>ใช้ลูป <code>for</code> ตั้งแต่ index 0 จนก่อน <code>length</code> เพื่อไม่อ่านเกินตำแหน่งสุดท้าย ถ้าไม่ต้องใช้ index โดยตรง ใช้ enhanced for อ่านค่าทีละตัวได้</p>
-          <div class="example-box"><span class="box-title">หาผลรวมและค่าเฉลี่ย</span><pre><code>int[] scores = {80, 75, 95};&#10;int sum = 0;&#10;for (int score : scores) {&#10;    sum += score;&#10;}&#10;double average = (double) sum / scores.length;&#10;System.out.println(average); // 83.333...</code></pre><p>enhanced for เหมาะกับการอ่านทุกค่า ส่วนการแก้ตำแหน่งเฉพาะต้องใช้ index</p></div>
-          <div class="example-box"><span class="box-title">Trace sum ตามจำนวนรอบ</span><table class="comparison-table"><thead><tr><th>รอบ</th><th>score</th><th>sum ก่อนบวก</th><th>sum หลังบวก</th></tr></thead><tbody><tr><td>1</td><td>80</td><td>0</td><td>80</td></tr><tr><td>2</td><td>75</td><td>80</td><td>155</td></tr><tr><td>3</td><td>95</td><td>155</td><td>250</td></tr></tbody></table><p>หลังจบ enhanced for, sum จึงเป็นผลรวมของสมาชิกทุกตัว</p></div>
-          <div class="note-box"><span class="box-title">ทำไมเงื่อนไขใช้ &lt; ไม่ใช่ &lt;=</span><p>ถ้า <code>scores.length</code> เท่ากับ 3 index ที่มีคือ 0, 1, 2 ดังนั้นใช้ <code>i &lt; scores.length</code> เพื่อหยุดก่อน i เป็น 3</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.2</span>ค้นหาคะแนน</h4><p>ในอาเรย์ <code>{72, 85, 91, 68}</code> ค้นหาคะแนน 91 แล้วแสดง index ที่พบ ถ้าไม่พบให้แสดง <code>not found</code></p><div class="answer-gate" data-answer-id="8.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] scores = {72, 85, 91, 68};&#10;int target = 91;&#10;int foundIndex = -1;&#10;for (int i = 0; i &lt; scores.length; i++) {&#10;    if (scores[i] == target) {&#10;        foundIndex = i;&#10;        break;&#10;    }&#10;}&#10;if (foundIndex == -1) {&#10;    System.out.println("not found");&#10;} else {&#10;    System.out.println(foundIndex); // 2&#10;}</code></pre><p>ใช้ -1 เป็นค่าพิเศษเพื่อบอกว่ายังไม่พบ และหยุดค้นเมื่อเจอแล้ว</p></div></div></div>
-            <div class="note-box"><span class="box-title">ข้อควรระวังเมื่อแก้สมาชิก</span><p>enhanced for เช่น <code>for (int score : scores)</code> เหมาะกับการอ่านทุกค่า แต่ตัวแปร score เป็นค่าที่คัดลอกมา การกำหนด <code>score = 0</code> ไม่ได้เปลี่ยนสมาชิกใน array; ถ้าต้องแก้ array ให้ใช้ index</p></div>
-            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.8</span>สรุปคะแนนสอบ</h4><p>จากคะแนนทั้งห้า <code>{49, 50, 72, 45, 88}</code> คำนวณค่าเฉลี่ยและนับจำนวนผู้ผ่าน (ตั้งแต่ 50 ขึ้นไป) ในการวนอ่านหนึ่งรอบ</p><div class="answer-gate" data-answer-id="8.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] scores = {49, 50, 72, 45, 88};
-      int sum = 0;
-      int passCount = 0;
-      for (int score : scores) {
-        sum += score;
-        if (score &gt;= 50) passCount++;
-      }
-      double average = (double) sum / scores.length;
-      System.out.println("Average: " + average); // 60.8
-      System.out.println("Passed: " + passCount); // 3</code></pre><p>แยกตัวนับ passCount ออกจาก sum: ตัวแรกนับจำนวน ส่วนตัวหลังสะสมคะแนน</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-8-3">
-          <h3>8.3 อาเรย์สองมิติ: แถวและคอลัมน์</h3><p>อาเรย์สองมิติจัดข้อมูลเป็นตาราง ใช้ index สองตัวคือ <code>array[row][column]</code> จึงมักอ่านด้วยลูปซ้อน จำนวนแถวคือ <code>matrix.length</code> และจำนวนคอลัมน์ของแถวหนึ่งดูได้จาก <code>matrix[row].length</code></p>
-          <div class="example-box"><span class="box-title">อ่านตารางคะแนน 2 แถว 3 วิชา</span><pre><code>int[][] scores = {&#10;    {80, 75, 90},&#10;    {68, 82, 77}&#10;};&#10;for (int row = 0; row &lt; scores.length; row++) {&#10;    for (int column = 0; column &lt; scores[row].length; column++) {&#10;        System.out.print(scores[row][column] + " ");&#10;    }&#10;    System.out.println();&#10;}</code></pre><p>ลูปชั้นนอกเลือกแถว ลูปชั้นในเดินผ่านคอลัมน์ของแถวนั้น</p></div>
-          <div class="concept-box"><span class="box-title">Flow ของ nested loop</span><ol><li>กำหนด row = 0 แล้วตรวจเงื่อนไข outer loop</li><li>ใน row ปัจจุบัน กำหนด column = 0 ใหม่ทุกครั้ง</li><li>inner loop ทำงานครบทุก column ของ row นั้น</li><li>เมื่อ inner loop จบ outer loop เพิ่ม row แล้วเริ่ม inner loop รอบใหม่</li></ol><p>ถ้ามี R แถว และแต่ละแถวมี C คอลัมน์ body ของ inner loop จะทำงานรวม R × C ครั้ง</p></div>
-          <div class="note-box"><span class="box-title">Jagged array และ error ที่พบบ่อย</span><p>Java อนุญาตให้แต่ละแถวมีจำนวนสมาชิกไม่เท่ากันได้ (jagged array) จึงใช้ <code>matrix[row].length</code> ตรวจคอลัมน์ของแถวปัจจุบัน อย่าใช้ <code>matrix[0].length</code> แทนทุกแถว</p><pre><code>int[][] data = {{1, 2}, {3, 4, 5}};
-// ถ้า row เป็น 1 แต่ column วนถึง 2 การอ่าน data[1][2] ใช้ได้
-// แต่การวนโดยอิง data[0].length จะอ่านแถวที่สองไม่ครบ</code></pre><p>การอ้าง <code>data[row][column]</code> เกินจำนวนสมาชิกของแถวนั้นจะเกิด <code>ArrayIndexOutOfBoundsException</code> ตอน runtime</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.3</span>รวมค่าตาราง</h4><p>จากตาราง <code>{{1, 2, 3}, {4, 5, 6}}</code> ใช้ลูปซ้อนหาผลรวมสมาชิกทุกตัว</p><div class="answer-gate" data-answer-id="8.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[][] values = {{1, 2, 3}, {4, 5, 6}};&#10;int sum = 0;&#10;for (int row = 0; row &lt; values.length; row++) {&#10;    for (int column = 0; column &lt; values[row].length; column++) {&#10;        sum += values[row][column];&#10;    }&#10;}&#10;System.out.println(sum); // 21</code></pre></div></div></div>
-            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 8.9</span>หาผลรวมแต่ละแถว</h4><p>จากตารางคะแนน ใช้ nested loop แสดงผลรวมแยกตามนักศึกษาแต่ละคน</p><div class="answer-gate" data-answer-id="8.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[][] scores = {{80, 70, 90}, {65, 75, 85}};
-      for (int row = 0; row &lt; scores.length; row++) {
-        int rowSum = 0;
-        for (int column = 0; column &lt; scores[row].length; column++) {
-          rowSum += scores[row][column];
+index:     0    1    2
+other:  [ 80 | 75 | 92 ]     other.length = 3</code></pre><p>ค่าเริ่มต้นเมื่อใช้ <code>new</code>: ตัวเลข → 0, double → 0.0, boolean → false, char → '\u0000', String/ออบเจ็กต์ → null</p></div>
+<div class="source-example"><h4>ตัวอย่าง 8.1.1 · อ่านและแก้ค่าสมาชิก <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>ชื่อ[index]</code> เหมือนตัวแปรปกติ ทั้งอ่านและกำหนดค่า</p><div class="source-example-grid"><div class="source-field"><span>Java source · ArrayBasics.java</span><pre class="source-code">public class ArrayBasics {
+    public static void main(String[] args) {
+        int[] scores = {80, 75, 92, 88};
+        System.out.println("First: " + scores[0]);
+        System.out.println("Last: " + scores[3]);
+        System.out.println("Length: " + scores.length);
+
+        scores[1] = 100;
+        scores[2] += 5;
+        System.out.println("scores[1] = " + scores[1]);
+        System.out.println("scores[2] = " + scores[2]);
+        System.out.println("Last via length-1: " + scores[scores.length - 1]);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>First: 80
+Last: 88
+Length: 4
+scores[1] = 100
+scores[2] = 97
+Last via length-1: 88</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>index 0 คือ 80, index 3 คือ 88</li><li>length = 4 แต่ index สุดท้ายคือ 3</li><li>แก้ช่อง 1 เป็น 100 และเพิ่มช่อง 2 อีก 5 → 97</li><li><code>scores[scores.length - 1]</code> เป็นวิธีอ้างตัวสุดท้ายที่ไม่ขึ้นกับขนาด</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.1.2 · สร้างด้วย new แล้วเติมค่าภายหลัง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อรู้ขนาดแต่ยังไม่รู้ค่า ใช้ <code>new ชนิด[ขนาด]</code> แล้วค่อยกำหนดค่า ช่องที่ยังไม่กำหนดจะเป็นค่าเริ่มต้น</p><div class="source-example-grid"><div class="source-field"><span>Java source · NewArray.java</span><pre class="source-code">public class NewArray {
+    public static void main(String[] args) {
+        double[] prices = new double[4];
+        String[] names = new String[3];
+        boolean[] done = new boolean[2];
+
+        prices[0] = 19.5;
+        prices[2] = 7.25;
+        names[0] = "Pen";
+
+        System.out.println(prices[0] + " " + prices[1] + " " + prices[2] + " " + prices[3]);
+        System.out.println(names[0] + " " + names[1]);
+        System.out.println(done[0]);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>19.5 0.0 7.25 0.0
+Pen null
+false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>prices[1] และ prices[3] ยังไม่กำหนด → 0.0</li><li>names[1] ยังไม่กำหนด → null</li><li>boolean เริ่มต้นเป็น false</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.1.3 · รับค่าจากผู้ใช้ใส่อาเรย์ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ให้ผู้ใช้กำหนดขนาด แล้วใช้ลูปอ่านค่าลงแต่ละช่อง — รูปแบบนี้ใช้บ่อยที่สุด</p><div class="source-example-grid"><div class="source-field"><span>Java source · ReadIntoArray.java</span><pre class="source-code">import java.util.Scanner;
+
+public class ReadIntoArray {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("How many days? ");
+        int n = input.nextInt();
+        double[] temps = new double[n];
+        System.out.print("Temperatures: ");
+        for (int i = 0; i &lt; temps.length; i++) {
+            temps[i] = input.nextDouble();
         }
-        System.out.println("Student " + (row + 1) + ": " + rowSum);
-      }</code></pre><p>rowSum ถูกกำหนดใหม่เป็น 0 ในแต่ละรอบของ outer loop</p></div></div></div>
-        </article>
-      </section>
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>เขียนลูปโดยใช้ length แทนการกำหนด index สุดท้ายเอง</p>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 8.4</span>หาคะแนนสูงสุด</h3><p>หาและแสดงค่าสูงสุดในอาเรย์จำนวนเต็ม โดยไม่ใช้เมธอดสำเร็จรูป</p><div class="answer-gate" data-answer-id="8.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] values = {12, 7, 25, 18};&#10;int maximum = values[0];&#10;for (int i = 1; i &lt; values.length; i++) {&#10;    if (values[i] &gt; maximum) {&#10;        maximum = values[i];&#10;    }&#10;}&#10;System.out.println(maximum); // 25</code></pre><p>ตั้งต้นจากสมาชิกตัวแรก ทำให้ไม่ต้องเดาว่าค่าสูงสุดเริ่มเป็นเท่าไร</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 8.5</span>นับจำนวนคนสอบผ่าน</h3><p>นับว่ามีคะแนนตั้งแต่ 50 ขึ้นไปกี่ค่าในอาเรย์</p><div class="answer-gate" data-answer-id="8.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[] scores = {49, 50, 72, 45, 88};&#10;int passCount = 0;&#10;for (int score : scores) {&#10;    if (score &gt;= 50) {&#10;        passCount++;&#10;    }&#10;}&#10;System.out.println(passCount); // 3</code></pre></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 8.6</span>รวมคะแนนแต่ละแถว</h3><p>จากอาเรย์สองมิติ แสดงผลรวมของแต่ละแถวแยกกัน</p><div class="answer-gate" data-answer-id="8.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int[][] scores = {{8, 7, 9}, {6, 10, 5}};&#10;for (int row = 0; row &lt; scores.length; row++) {&#10;    int rowSum = 0;&#10;    for (int column = 0; column &lt; scores[row].length; column++) {&#10;        rowSum += scores[row][column];&#10;    }&#10;    System.out.println("Row " + row + ": " + rowSum);&#10;}</code></pre><p>ตัวแปร rowSum กำหนดใหม่ภายในลูปชั้นนอกเพื่อเริ่มรวมของแต่ละแถวจากศูนย์</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 8.10</span>ค้นหาที่นั่งว่าง</h3><p>ตาราง boolean 3 แถว 4 คอลัมน์ใช้ <code>true</code> แทนที่นั่งถูกจอง จงค้นหาและแสดงพิกัดที่นั่งว่างตัวแรกตามลำดับแถวแล้วคอลัมน์</p><div class="answer-gate" data-answer-id="8.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>boolean[][] seats = {
-      {true, true, false, true},
-      {true, false, false, true},
-      {false, true, true, true}
-    };
-    boolean found = false;
-    for (int row = 0; row &lt; seats.length &amp;&amp; !found; row++) {
-      for (int column = 0; column &lt; seats[row].length; column++) {
-        if (!seats[row][column]) {
-          System.out.println("Free seat: " + row + "," + column);
-          found = true;
-          break;
+        for (int i = 0; i &lt; temps.length; i++) {
+            System.out.println("Day " + (i + 1) + ": " + temps[i]);
         }
-      }
-    }</code></pre><p>ผลแรกที่พบคือแถว 0 คอลัมน์ 2 เพราะค้นจากซ้ายไปขวาและบนลงล่าง</p></div></div></article>
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>How many days? <b class="stdin">4</b>
+Temperatures: <b class="stdin">29.5 31 30.2 28.8</b>
+Day 1: 29.5
+Day 2: 31.0
+Day 3: 30.2
+Day 4: 28.8</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สร้างอาเรย์ขนาด n = 4</li><li>ลูปแรกอ่านค่าใส่ index 0–3</li><li>ลูปที่สองแสดงผล โดยแสดงเลขวันเป็น i + 1 ให้คนอ่านเริ่มนับที่ 1</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 8.1.4 · index เกินขอบเขต <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมคอมไพล์ผ่าน แต่ตอนรันจะเกิด <code>ArrayIndexOutOfBoundsException</code> เมื่ออ่านช่องที่ไม่มี</p><div class="source-example-grid"><div class="source-field"><span>Java source · OutOfBounds.java</span><pre class="source-code">public class OutOfBounds {
+    public static void main(String[] args) {
+        int[] scores = {80, 75, 92};
+        for (int i = 0; i &lt;= scores.length; i++) {
+            System.out.println(scores[i]);
+        }
+    }
+}</pre></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>80
+75
+92
+Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
+	at OutOfBounds.main(OutOfBounds.java:5)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>พิมพ์ 80, 75, 92 ได้ปกติ</li><li>เงื่อนไข <code>&lt;=</code> ทำให้ i = 3 เข้าลูปด้วย</li><li><code>Index 3 out of bounds for length 3</code> บอกทั้ง index ที่ผิดและขนาดจริง</li><li>แก้: ใช้ <code>i &lt; scores.length</code></li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · trace อาเรย์</strong><div><pre><code>int[] a = {5, 10, 15, 20};
+a[0] = a[3] - a[1];
+a[2] = a[a.length - 2] / 5;</code></pre><p>อาเรย์ a มีค่าอะไรบ้าง</p></div><details><summary>ดูคำตอบ</summary><div><p>a[0] = 20 − 10 = 10, a[2] = a[2] / 5 = 15 / 5 = 3 → <strong>{10, 10, 3, 20}</strong></p></div></details></div>
+</article>
+<article class="subtopic" id="topic-8-2">
+<h3>8.2 วนอ่าน รวม และค้นหาสมาชิก</h3>
+<p>ใช้ลูป <code>for</code> ตั้งแต่ index 0 ถึง <code>length - 1</code> ถ้าต้องการแค่<em>ค่า</em>และไม่ต้องใช้ index ให้ใช้ <strong>enhanced for (for-each)</strong>: <code>for (int s : scores)</code> อ่านว่า “สำหรับ s แต่ละตัวใน scores”</p>
+<div class="source-example"><h4>ตัวอย่าง 8.2.1 · for ปกติ vs for-each <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> for-each อ่านง่ายกว่าเมื่อไม่ต้องใช้ index แต่แก้ค่าในอาเรย์ไม่ได้และไม่รู้ตำแหน่ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · TwoLoops.java</span><pre class="source-code">public class TwoLoops {
+    public static void main(String[] args) {
+        String[] fruits = {"Apple", "Banana", "Cherry"};
+        for (int i = 0; i &lt; fruits.length; i++) {
+            System.out.println(i + ": " + fruits[i]);
+        }
+        for (String f : fruits) {
+            System.out.println("I like " + f);
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>0: Apple
+1: Banana
+2: Cherry
+I like Apple
+I like Banana
+I like Cherry</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>for ปกติรู้ทั้ง index และค่า</li><li>for-each ได้ค่าทีละตัวในตัวแปร f</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.2.2 · ผลรวม ค่าเฉลี่ย และนับตามเงื่อนไข <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รวม (accumulate) และนับ (count) เป็นสองรูปแบบพื้นฐานที่ใช้กับอาเรย์เกือบทุกโจทย์</p><div class="source-example-grid"><div class="source-field"><span>Java source · SumAndCount.java</span><pre class="source-code">public class SumAndCount {
+    public static void main(String[] args) {
+        int[] scores = {72, 45, 88, 91, 50, 39, 67};
+        int sum = 0;
+        int passed = 0;
+        for (int s : scores) {
+            sum += s;
+            if (s &gt;= 50) {
+                passed++;
+            }
+        }
+        double average = (double) sum / scores.length;
+        System.out.println("Sum = " + sum);
+        System.out.printf("Average = %.2f%n", average);
+        System.out.println("Passed = " + passed + " / " + scores.length);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Sum = 452
+Average = 64.57
+Passed = 5 / 7</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>sum สะสมทุกค่า = 452</li><li>passed นับเฉพาะค่าที่ ≥ 50 = 5</li><li>หารด้วย length ไม่ใช่เลขตายตัว — ถ้าอาเรย์เปลี่ยนขนาดโค้ดยังถูก</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.2.3 · หาค่ามากสุด น้อยสุด และตำแหน่ง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เริ่มจากสมาชิกตัวแรก แล้วเทียบกับตัวที่เหลือ เก็บทั้ง<em>ค่า</em>และ <em>index</em> ที่พบ</p><div class="source-example-grid"><div class="source-field"><span>Java source · FindMax.java</span><pre class="source-code">public class FindMax {
+    public static void main(String[] args) {
+        double[] sales = {1200.5, 980.0, 1530.25, 760.0, 1490.0};
+        int maxIndex = 0;
+        int minIndex = 0;
+        for (int i = 1; i &lt; sales.length; i++) {
+            if (sales[i] &gt; sales[maxIndex]) maxIndex = i;
+            if (sales[i] &lt; sales[minIndex]) minIndex = i;
+        }
+        System.out.println("Best day: " + (maxIndex + 1) + " (" + sales[maxIndex] + ")");
+        System.out.println("Worst day: " + (minIndex + 1) + " (" + sales[minIndex] + ")");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Best day: 3 (1530.25)
+Worst day: 4 (760.0)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สมมติ index 0 เป็นทั้ง max และ min</li><li>เริ่มเทียบที่ i = 1</li><li>เก็บ index แทนค่า ทำให้รู้ทั้งตำแหน่งและค่า (sales[maxIndex])</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.2.4 · ค้นหาแบบเชิงเส้น (linear search) <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ไล่ตรวจทีละตัวจนเจอ ถ้าไม่เจอให้ใช้ค่าพิเศษ เช่น −1 แทนตำแหน่ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · LinearSearch.java</span><pre class="source-code">import java.util.Scanner;
+
+public class LinearSearch {
+    public static void main(String[] args) {
+        String[] students = {"Mali", "Beam", "Nida", "Ploy", "Tan"};
+        Scanner input = new Scanner(System.in);
+        System.out.print("Search name: ");
+        String target = input.next();
+
+        int found = -1;
+        for (int i = 0; i &lt; students.length; i++) {
+            if (students[i].equalsIgnoreCase(target)) {
+                found = i;
+                break;
+            }
+        }
+        if (found &gt;= 0) {
+            System.out.println(target + " is at index " + found);
+        } else {
+            System.out.println(target + " not found");
+        }
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Search name: <b class="stdin">Nida</b>
+Nida is at index 2</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>found = −1 หมายถึง “ยังไม่เจอ”</li><li>เทียบ String ด้วย equalsIgnoreCase</li><li>เจอที่ index 2 → break ไม่ต้องหาต่อ</li><li>หลังลูปตรวจ found เพื่อเลือกข้อความ</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.2.5 · กับดัก: = ไม่ได้คัดลอกอาเรย์ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรอาเรย์เก็บ<strong>การอ้างอิง (reference)</strong> ไปยังข้อมูล <code>b = a</code> ทำให้สองชื่อชี้ข้อมูลชุดเดียวกัน ถ้าต้องการสำเนาจริงใช้ <code>a.clone()</code> หรือ <code>Arrays.copyOf</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · ArrayReference.java</span><pre class="source-code">import java.util.Arrays;
+
+public class ArrayReference {
+    public static void main(String[] args) {
+        int[] a = {1, 2, 3};
+        int[] b = a;
+        int[] c = a.clone();
+        b[0] = 99;
+        System.out.println("a = " + Arrays.toString(a));
+        System.out.println("b = " + Arrays.toString(b));
+        System.out.println("c = " + Arrays.toString(c));
+        System.out.println("a == b ? " + (a == b));
+        System.out.println("a == c ? " + (a == c));
+        System.out.println("Arrays.equals(a, c) ? " + Arrays.equals(a, c));
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>a = [99, 2, 3]
+b = [99, 2, 3]
+c = [1, 2, 3]
+a == b ? true
+a == c ? false
+Arrays.equals(a, c) ? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>b = a → ชี้ข้อมูลเดียวกัน แก้ b[0] จึงเห็นใน a ด้วย</li><li>c เป็นสำเนา ไม่ได้รับผลกระทบ</li><li><code>Arrays.toString</code> แสดงอาเรย์ทั้งชุด (ถ้า println(a) ตรง ๆ จะได้ข้อความแปลก ๆ เช่น [I@1b6d3586)</li><li><code>==</code> เทียบว่าเป็นชุดเดียวกันไหม, <code>Arrays.equals</code> เทียบเนื้อหา</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · นับ</strong><div><pre><code>int[] v = {3, 8, 2, 8, 5, 8};
+int count = 0, last = -1;
+for (int i = 0; i &lt; v.length; i++) {
+    if (v[i] == 8) { count++; last = i; }
+}</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>count = <strong>3</strong>, last = <strong>5</strong> (ตำแหน่งสุดท้ายที่พบเลข 8)</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-8-3">
+<h3>8.3 อาเรย์สองมิติ</h3>
+<p>อาเรย์สองมิติเก็บข้อมูลแบบ<strong>ตาราง</strong> (แถว × คอลัมน์) เช่น คะแนนนักศึกษาหลายคน หลายวิชา อ้างสมาชิกด้วย <code>ชื่อ[แถว][คอลัมน์]</code> จริง ๆ แล้วเป็น “อาเรย์ของอาเรย์”: <code>grid.length</code> คือจำนวนแถว และ <code>grid[r].length</code> คือจำนวนคอลัมน์ของแถว r</p>
+<div class="concept-box"><span class="box-title">ภาพของอาเรย์ 2 มิติ</span><pre><code>int[][] scores = {
+    {80, 75, 90},     // แถว 0 (นักศึกษาคนที่ 1)
+    {60, 85, 70}      // แถว 1 (นักศึกษาคนที่ 2)
+};
+            col 0  col 1  col 2
+row 0   [   80  |  75  |  90  ]
+row 1   [   60  |  85  |  70  ]
+
+scores[1][2] = 70     scores.length = 2     scores[0].length = 3</code></pre></div>
+<div class="source-example"><h4>ตัวอย่าง 8.3.1 · อ่านทั้งตารางด้วยลูปซ้อน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ลูปนอกวนแถว ลูปในวนคอลัมน์ — เหมือนการพิมพ์รูปทรงในบทที่ 6</p><div class="source-example-grid"><div class="source-field"><span>Java source · Grid2D.java</span><pre class="source-code">public class Grid2D {
+    public static void main(String[] args) {
+        int[][] scores = {
+            {80, 75, 90},
+            {60, 85, 70}
+        };
+        System.out.println("rows = " + scores.length + ", cols = " + scores[0].length);
+        System.out.println("scores[1][2] = " + scores[1][2]);
+        for (int r = 0; r &lt; scores.length; r++) {
+            for (int c = 0; c &lt; scores[r].length; c++) {
+                System.out.printf("%4d", scores[r][c]);
+            }
+            System.out.println();
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>rows = 2, cols = 3
+scores[1][2] = 70
+  80  75  90
+  60  85  70</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>scores.length = 2 แถว</li><li>scores[0].length = 3 คอลัมน์</li><li>ลูปซ้อนพิมพ์ทีละแถว</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.3.2 · ผลรวมแต่ละแถวและแต่ละคอลัมน์ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ผลรวมแถว: ลูปนอกคือแถว ผลรวมรีเซ็ตทุกแถว / ผลรวมคอลัมน์: สลับให้ลูปนอกเป็นคอลัมน์</p><div class="source-example-grid"><div class="source-field"><span>Java source · RowColSums.java</span><pre class="source-code">public class RowColSums {
+    public static void main(String[] args) {
+        String[] students = {"Mali", "Beam", "Nida"};
+        String[] subjects = {"Math", "Sci", "Eng"};
+        int[][] s = {
+            {78, 85, 90},
+            {62, 70, 58},
+            {95, 88, 92}
+        };
+        System.out.printf("%-6s", "");
+        for (String sub : subjects) System.out.printf("%6s", sub);
+        System.out.printf("%7s%n", "Total");
+        for (int r = 0; r &lt; s.length; r++) {
+            int rowSum = 0;
+            System.out.printf("%-6s", students[r]);
+            for (int c = 0; c &lt; s[r].length; c++) {
+                System.out.printf("%6d", s[r][c]);
+                rowSum += s[r][c];
+            }
+            System.out.printf("%7d%n", rowSum);
+        }
+        System.out.printf("%-6s", "Avg");
+        for (int c = 0; c &lt; subjects.length; c++) {
+            int colSum = 0;
+            for (int r = 0; r &lt; s.length; r++) {
+                colSum += s[r][c];
+            }
+            System.out.printf("%6.1f", (double) colSum / s.length);
+        }
+        System.out.println();
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>        Math   Sci   Eng  Total
+Mali      78    85    90    253
+Beam      62    70    58    190
+Nida      95    88    92    275
+Avg     78.3  81.0  80.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อาเรย์ 1 มิติ students, subjects ใช้เป็นหัวแถว/หัวคอลัมน์ที่ index ตรงกับตาราง</li><li>rowSum ประกาศ<em>ใน</em>ลูปนอก จึงเริ่มที่ 0 ทุกแถว</li><li>ค่าเฉลี่ยคอลัมน์: ลูปนอกวน c ลูปในวน r</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.3.3 · ที่นั่งโรงภาพยนตร์: แก้ไขค่าในตาราง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ boolean[][] เก็บสถานะที่นั่ง จองแล้วเปลี่ยนเป็น true และตรวจว่าว่างก่อนจอง</p><div class="source-example-grid"><div class="source-field"><span>Java source · SeatBooking.java</span><pre class="source-code">import java.util.Scanner;
+
+public class SeatBooking {
+    public static void main(String[] args) {
+        boolean[][] booked = new boolean[3][4];
+        Scanner input = new Scanner(System.in);
+        for (int k = 0; k &lt; 3; k++) {
+            System.out.print("Book row col: ");
+            int r = input.nextInt(), c = input.nextInt();
+            if (booked[r][c]) {
+                System.out.println("  Seat taken!");
+            } else {
+                booked[r][c] = true;
+                System.out.println("  Booked.");
+            }
+        }
+        for (int r = 0; r &lt; booked.length; r++) {
+            for (int c = 0; c &lt; booked[r].length; c++) {
+                System.out.print(booked[r][c] ? "[X]" : "[ ]");
+            }
+            System.out.println();
+        }
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Book row col: <b class="stdin">1 2</b>
+  Booked.
+Book row col: <b class="stdin">0 0</b>
+  Booked.
+Book row col: <b class="stdin">1 2</b>
+  Seat taken!
+[X][ ][ ][ ]
+[ ][ ][X][ ]
+[ ][ ][ ][ ]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>new boolean[3][4] → 3 แถว 4 คอลัมน์ ทุกช่องเป็น false</li><li>จอง (1,2) และ (0,0) สำเร็จ</li><li>จอง (1,2) ซ้ำ → พบว่าเป็น true แล้ว</li><li>แสดงผัง X = จองแล้ว</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · index 2 มิติ</strong><div><pre><code>int[][] m = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+int sum = 0;
+for (int i = 0; i &lt; m.length; i++) sum += m[i][i];</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>บวกเส้นทแยงมุม m[0][0] + m[1][1] + m[2][2] = 1 + 5 + 9 = <strong>15</strong></p></div></details></div>
+</article>
+<article class="subtopic" id="topic-8-4">
+<h3>8.4 อาเรย์กับเมธอด และคลาส Arrays</h3>
+<p>อาเรย์ส่งเป็น argument และคืนจากเมธอดได้ เนื่องจากส่ง<strong>การอ้างอิง</strong> เมธอดที่แก้สมาชิกในอาเรย์จะทำให้ผู้เรียกเห็นการเปลี่ยนแปลงด้วย (ต่างจากตัวแปร int ในบทที่ 7) คลาส <code>java.util.Arrays</code> มีเมธอดสำเร็จรูป เช่น <code>toString</code>, <code>sort</code>, <code>fill</code>, <code>copyOf</code></p>
+<div class="source-example"><h4>ตัวอย่าง 8.4.1 · เมธอดรับอาเรย์และคืนค่า <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนเมธอดที่ใช้ซ้ำได้กับอาเรย์ทุกขนาด เพราะใช้ <code>.length</code> แทนเลขตายตัว</p><div class="source-example-grid"><div class="source-field"><span>Java source · ArrayMethods.java</span><pre class="source-code">public class ArrayMethods {
+    public static void main(String[] args) {
+        int[] a = {4, 9, 1, 7};
+        int[] b = {10, 20};
+        System.out.println("sum(a) = " + sum(a) + ", max(a) = " + max(a));
+        System.out.println("sum(b) = " + sum(b) + ", max(b) = " + max(b));
+        doubleAll(b);
+        System.out.println("after doubleAll: b[0]=" + b[0] + ", b[1]=" + b[1]);
+    }
+
+    static int sum(int[] values) {
+        int total = 0;
+        for (int v : values) total += v;
+        return total;
+    }
+
+    static int max(int[] values) {
+        int best = values[0];
+        for (int v : values) if (v &gt; best) best = v;
+        return best;
+    }
+
+    static void doubleAll(int[] values) {
+        for (int i = 0; i &lt; values.length; i++) {
+            values[i] *= 2;
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>sum(a) = 21, max(a) = 9
+sum(b) = 30, max(b) = 20
+after doubleAll: b[0]=20, b[1]=40</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>sum และ max ใช้ได้กับอาเรย์ทุกขนาด</li><li>doubleAll แก้สมาชิกผ่านการอ้างอิง → b ใน main เปลี่ยนจริง</li><li>doubleAll ต้องใช้ for ปกติ เพราะ for-each แก้ค่าในอาเรย์ไม่ได้</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.4.2 · Arrays.sort, toString, fill, copyOf <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ไม่ต้องเขียนการเรียงลำดับเองในงานทั่วไป — แต่ควรเข้าใจว่าเรียงแล้วอาเรย์เดิมถูกเปลี่ยน</p><div class="source-example-grid"><div class="source-field"><span>Java source · ArraysUtility.java</span><pre class="source-code">import java.util.Arrays;
+
+public class ArraysUtility {
+    public static void main(String[] args) {
+        int[] nums = {42, 7, 19, 3, 25};
+        int[] backup = Arrays.copyOf(nums, nums.length);
+        Arrays.sort(nums);
+        System.out.println("sorted : " + Arrays.toString(nums));
+        System.out.println("backup : " + Arrays.toString(backup));
+        System.out.println("median : " + nums[nums.length / 2]);
+
+        String[] names = {"Ploy", "Beam", "Mali"};
+        Arrays.sort(names);
+        System.out.println("names  : " + Arrays.toString(names));
+
+        int[] zeros = new int[5];
+        Arrays.fill(zeros, 7);
+        System.out.println("filled : " + Arrays.toString(zeros));
+        int[] bigger = Arrays.copyOf(backup, 7);
+        System.out.println("bigger : " + Arrays.toString(bigger));
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>sorted : [3, 7, 19, 25, 42]
+backup : [42, 7, 19, 3, 25]
+median : 19
+names  : [Beam, Mali, Ploy]
+filled : [7, 7, 7, 7, 7]
+bigger : [42, 7, 19, 3, 25, 0, 0]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>copyOf ทำสำเนาก่อน sort เพื่อเก็บลำดับเดิม</li><li>sort เรียงจากน้อยไปมาก (String เรียงตามตัวอักษร)</li><li>หลังเรียง ค่ากลาง (median) อยู่ที่ index length/2</li><li>copyOf ที่ขนาดใหญ่กว่าเดิมเติม 0 ให้ช่องใหม่</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 8.4.3 · เรียงลำดับเองด้วย Bubble Sort <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สลับคู่ที่ติดกันซึ่งเรียงผิด ทำซ้ำหลายรอบ ค่าที่มากที่สุดจะ “ลอย” ไปท้ายทีละตัว</p><div class="source-example-grid"><div class="source-field"><span>Java source · BubbleSort.java</span><pre class="source-code">import java.util.Arrays;
+
+public class BubbleSort {
+    public static void main(String[] args) {
+        int[] a = {5, 2, 9, 1, 6};
+        System.out.println("start  " + Arrays.toString(a));
+        for (int pass = 0; pass &lt; a.length - 1; pass++) {
+            for (int i = 0; i &lt; a.length - 1 - pass; i++) {
+                if (a[i] &gt; a[i + 1]) {
+                    int temp = a[i];
+                    a[i] = a[i + 1];
+                    a[i + 1] = temp;
+                }
+            }
+            System.out.println("pass " + (pass + 1) + " " + Arrays.toString(a));
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>start  [5, 2, 9, 1, 6]
+pass 1 [2, 5, 1, 6, 9]
+pass 2 [2, 1, 5, 6, 9]
+pass 3 [1, 2, 5, 6, 9]
+pass 4 [1, 2, 5, 6, 9]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>แต่ละ pass เทียบคู่ (i, i+1) และสลับถ้าเรียงผิด — ใช้เทคนิค temp จากบทที่ 3</li><li>หลัง pass 1 ค่า 9 ไปอยู่ท้ายสุดแล้ว</li><li>จึงลดขอบเขตลูปในลง pass ละ 1 (<code>- pass</code>)</li><li>n ค่าใช้ไม่เกิน n − 1 pass</li></ol></div></div>
+</article>
       </section>
-      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-07.html">← บทที่ 7</a><a class="pager-link" href="chapter-09.html">บทที่ 9: ข้อความและ String →</a></nav>
-      <footer class="lesson-footer">Java programming by Prymania · บทที่ 8 · ตรวจว่า index อยู่ในช่วง 0 ถึง length - 1 เสมอ</footer>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ทำตามลำดับจากง่ายไปยาก อ่านโจทย์และตัวอย่างผลลัพธ์ให้ครบก่อนเริ่มเขียน แล้วจึงเปิดเฉลยเพื่อเทียบแนวคิด</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 8.1</span>เก็บอุณหภูมิ<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างอาเรย์ <code>double</code> เก็บอุณหภูมิ 5 วัน: 29.5, 31.0, 30.2, 28.8, 32.1 แล้วแสดงอุณหภูมิของวันที่สอง วันสุดท้าย (โดยใช้ length) และจำนวนวัน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ประกาศพร้อมกำหนดค่าด้วย <code>{ }</code></li><li>วันสุดท้ายต้องใช้ <code>temps[temps.length - 1]</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Day 2: 31.0
+Last day: 32.1
+Days: 5</pre></div><div class="answer-gate" data-answer-id="8.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Temperatures {
+    public static void main(String[] args) {
+        double[] temps = {29.5, 31.0, 30.2, 28.8, 32.1};
+        System.out.println("Day 2: " + temps[1]);
+        System.out.println("Last day: " + temps[temps.length - 1]);
+        System.out.println("Days: " + temps.length);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 8.2</span>แสดงทุกค่าโดยไม่เกินขอบเขต<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>อาเรย์ <code>{4, 8, 12, 16, 20}</code> จงเขียน for ปกติแสดงค่าพร้อม index และเขียน for-each แสดงค่าแบบต่อกันในบรรทัดเดียว</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เงื่อนไขลูปต้องใช้ <code>i &lt; values.length</code></li><li>ผลลัพธ์รูปแบบ <code>[0] = 4</code></li><li>บรรทัดสุดท้ายแสดงค่าทั้งหมดคั่นด้วยช่องว่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[0] = 4
+[1] = 8
+[2] = 12
+[3] = 16
+[4] = 20
+4 8 12 16 20</pre></div><div class="answer-gate" data-answer-id="8.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class PrintAll {
+    public static void main(String[] args) {
+        int[] values = {4, 8, 12, 16, 20};
+        for (int i = 0; i &lt; values.length; i++) {
+            System.out.println("[" + i + "] = " + values[i]);
+        }
+        for (int v : values) {
+            System.out.print(v + " ");
+        }
+        System.out.println();
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 8.3</span>รวมและเฉลี่ยคะแนนที่ป้อน<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับจำนวนนักศึกษา n แล้วรับคะแนน n ค่าเก็บในอาเรย์ แสดงคะแนนทั้งหมด ผลรวม และค่าเฉลี่ย</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>สร้างอาเรย์ขนาด n ด้วย new</li><li>ใช้ลูปอ่านค่า และอีกลูปคำนวณ</li><li>แสดงค่าเฉลี่ย 2 ตำแหน่ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>n = <b class="stdin">5</b>
+Scores: <b class="stdin">70 82 65 90 77</b>
+Scores: [70, 82, 65, 90, 77]
+Sum: 384
+Average: 76.80</pre></div><div class="answer-gate" data-answer-id="8.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Arrays;
+import java.util.Scanner;
+
+public class ScoreArray {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("n = ");
+        int n = input.nextInt();
+        int[] scores = new int[n];
+        System.out.print("Scores: ");
+        for (int i = 0; i &lt; n; i++) {
+            scores[i] = input.nextInt();
+        }
+        int sum = 0;
+        for (int s : scores) sum += s;
+        System.out.println("Scores: " + Arrays.toString(scores));
+        System.out.println("Sum: " + sum);
+        System.out.printf("Average: %.2f%n", (double) sum / n);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 8.4</span>คะแนนสูงกว่าค่าเฉลี่ย<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับคะแนน n ค่า หาค่าเฉลี่ย แล้วแสดงรายการคะแนนที่<strong>สูงกว่าค่าเฉลี่ย</strong>พร้อมลำดับที่ของนักศึกษา (เริ่มนับที่ 1) และจำนวนคนที่สูงกว่าค่าเฉลี่ย</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ต้องเก็บคะแนนในอาเรย์ เพราะต้องวนสองรอบ (หาค่าเฉลี่ยก่อน แล้วจึงเทียบ)</li><li>แสดงในรูปแบบ <code>Student 2: 88</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>n = <b class="stdin">6</b>
+Scores: <b class="stdin">55 88 72 91 60 79</b>
+Average = 74.17
+Student 2: 88
+Student 4: 91
+Student 6: 79
+Above average: 3</pre></div><div class="answer-gate" data-answer-id="8.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class AboveAverage {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("n = ");
+        int n = input.nextInt();
+        int[] scores = new int[n];
+        int sum = 0;
+        System.out.print("Scores: ");
+        for (int i = 0; i &lt; n; i++) {
+            scores[i] = input.nextInt();
+            sum += scores[i];
+        }
+        double avg = (double) sum / n;
+        System.out.printf("Average = %.2f%n", avg);
+        int count = 0;
+        for (int i = 0; i &lt; n; i++) {
+            if (scores[i] &gt; avg) {
+                System.out.println("Student " + (i + 1) + ": " + scores[i]);
+                count++;
+            }
+        }
+        System.out.println("Above average: " + count);
+    }
+}</code></pre><p>นี่คือเหตุผลที่ต้องใช้อาเรย์ — ถ้าอ่านแล้วทิ้งเลย จะย้อนกลับไปเทียบกับค่าเฉลี่ยไม่ได้</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 8.5</span>ค้นหาสินค้าและราคา<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>มีอาเรย์คู่ขนาน (parallel arrays) <code>String[] items = {"Pen", "Pencil", "Eraser", "Ruler", "Notebook"}</code> และ <code>double[] prices = {12, 6, 8.5, 15, 35}</code> ให้ผู้ใช้ป้อนชื่อสินค้าและจำนวน แล้วแสดงราคารวม ถ้าไม่พบสินค้าให้แสดง <code>Item not found</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ค้นหาแบบไม่สนตัวพิมพ์ด้วย equalsIgnoreCase</li><li>index ของ items และ prices ต้องสอดคล้องกัน</li><li>ใช้ found = −1 เป็นค่าเริ่มต้น</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Item: <b class="stdin">ruler</b>
+Qty: <b class="stdin">3</b>
+Ruler x 3 = 45.00 baht</pre></div><div><small>ครั้งที่ 2</small><pre>Item: <b class="stdin">Glue</b>
+Qty: <b class="stdin">1</b>
+Item not found</pre></div></div></div><div class="answer-gate" data-answer-id="8.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class PriceLookup {
+    public static void main(String[] args) {
+        String[] items = {"Pen", "Pencil", "Eraser", "Ruler", "Notebook"};
+        double[] prices = {12, 6, 8.5, 15, 35};
+        Scanner input = new Scanner(System.in);
+        System.out.print("Item: ");
+        String name = input.next();
+        System.out.print("Qty: ");
+        int qty = input.nextInt();
+        int found = -1;
+        for (int i = 0; i &lt; items.length; i++) {
+            if (items[i].equalsIgnoreCase(name)) {
+                found = i;
+                break;
+            }
+        }
+        if (found == -1) {
+            System.out.println("Item not found");
+        } else {
+            System.out.printf("%s x %d = %.2f baht%n", items[found], qty, prices[found] * qty);
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 8.6</span>กลับลำดับอาเรย์ในที่เดิม<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอด <code>static void reverse(int[] a)</code> ที่กลับลำดับสมาชิก<strong>ในอาเรย์เดิม</strong> (ไม่สร้างอาเรย์ใหม่) โดยสลับตัวแรกกับตัวสุดท้าย ตัวที่สองกับตัวรองสุดท้าย … แล้วทดสอบกับอาเรย์ขนาดคู่และขนาดคี่</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ลูปวนแค่ครึ่งอาเรย์ (<code>i &lt; a.length / 2</code>)</li><li>ตำแหน่งคู่สลับคือ <code>a.length - 1 - i</code></li><li>แสดงผลด้วย Arrays.toString ก่อนและหลัง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>before: [1, 2, 3, 4, 5, 6] [10, 20, 30, 40, 50]
+after : [6, 5, 4, 3, 2, 1] [50, 40, 30, 20, 10]</pre></div><div class="answer-gate" data-answer-id="8.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Arrays;
+
+public class ReverseInPlace {
+    public static void main(String[] args) {
+        int[] even = {1, 2, 3, 4, 5, 6};
+        int[] odd = {10, 20, 30, 40, 50};
+        System.out.println("before: " + Arrays.toString(even) + " " + Arrays.toString(odd));
+        reverse(even);
+        reverse(odd);
+        System.out.println("after : " + Arrays.toString(even) + " " + Arrays.toString(odd));
+    }
+
+    static void reverse(int[] a) {
+        for (int i = 0; i &lt; a.length / 2; i++) {
+            int j = a.length - 1 - i;
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
+    }
+}</code></pre><p>ถ้าวนครบทั้งอาเรย์ จะสลับกลับไปเป็นลำดับเดิม! ขนาดคี่ ตัวกลางไม่ต้องสลับ</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 8.7</span>ความถี่ของคะแนน (histogram)<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับคะแนนแบบจำนวนเต็ม 0–10 จำนวน n ค่า แล้วนับว่าแต่ละคะแนนปรากฏกี่ครั้ง โดยใช้อาเรย์ <code>int[] freq = new int[11]</code> ซึ่ง index คือคะแนน แสดงผลเป็นแผนภูมิดาวเฉพาะคะแนนที่มีคนได้</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ค่าคะแนนเป็น index โดยตรง: <code>freq[score]++</code></li><li>ข้ามคะแนนที่มีความถี่เป็น 0</li><li>แสดงดาวด้วย <code>"*".repeat(freq[s])</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>n = <b class="stdin">12</b>
+Scores: <b class="stdin">7 8 7 10 5 8 7 9 6 8 7 10</b>
+ 5 | *      (1)
+ 6 | *      (1)
+ 7 | ****   (4)
+ 8 | ***    (3)
+ 9 | *      (1)
+10 | **     (2)</pre></div><div class="answer-gate" data-answer-id="8.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class ScoreHistogram {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("n = ");
+        int n = input.nextInt();
+        int[] freq = new int[11];
+        System.out.print("Scores: ");
+        for (int i = 0; i &lt; n; i++) {
+            int score = input.nextInt();
+            freq[score]++;
+        }
+        for (int s = 0; s &lt;= 10; s++) {
+            if (freq[s] &gt; 0) {
+                System.out.printf("%2d | %-6s (%d)%n", s, "*".repeat(freq[s]), freq[s]);
+            }
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 8.8</span>ตารางคะแนนรายวิชาแบบ 2 มิติ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับจำนวนนักศึกษา (แถว) และจำนวนวิชา (คอลัมน์) แล้วรับคะแนนลงอาเรย์ 2 มิติ จากนั้นแสดงตารางที่มี (1) คะแนนรวมและค่าเฉลี่ยของนักศึกษาแต่ละคน (2) ค่าเฉลี่ยของแต่ละวิชา และ (3) ลำดับที่ของนักศึกษาที่ได้คะแนนรวมสูงสุด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>int[][] scores = new int[rows][cols]</code></li><li>แต่ละแถวคำนวณ total ใหม่ (ประกาศในลูปนอก)</li><li>ค่าเฉลี่ยวิชาใช้ลูปนอกเป็นคอลัมน์</li><li>จัดคอลัมน์ด้วย printf</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>students subjects: <b class="stdin">3 4</b>
+Student 1: <b class="stdin">70 80 65 90</b>
+Student 2: <b class="stdin">88 92 79 85</b>
+Student 3: <b class="stdin">60 55 72 68</b>
+S1     70   80   65   90 |  305  76.25
+S2     88   92   79   85 |  344  86.00
+S3     60   55   72   68 |  255  63.75
+Avg  72.7 75.7 72.0 81.0
+Top student: S2 (344)</pre></div><div class="answer-gate" data-answer-id="8.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class ScoreTable {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("students subjects: ");
+        int rows = input.nextInt(), cols = input.nextInt();
+        int[][] scores = new int[rows][cols];
+        for (int r = 0; r &lt; rows; r++) {
+            System.out.print("Student " + (r + 1) + ": ");
+            for (int c = 0; c &lt; cols; c++) {
+                scores[r][c] = input.nextInt();
+            }
+        }
+        int bestRow = 0, bestTotal = -1;
+        for (int r = 0; r &lt; rows; r++) {
+            int total = 0;
+            System.out.printf("S%-3d", r + 1);
+            for (int c = 0; c &lt; cols; c++) {
+                System.out.printf("%5d", scores[r][c]);
+                total += scores[r][c];
+            }
+            System.out.printf(" | %4d %6.2f%n", total, (double) total / cols);
+            if (total &gt; bestTotal) {
+                bestTotal = total;
+                bestRow = r;
+            }
+        }
+        System.out.print("Avg ");
+        for (int c = 0; c &lt; cols; c++) {
+            int sum = 0;
+            for (int r = 0; r &lt; rows; r++) sum += scores[r][c];
+            System.out.printf("%5.1f", (double) sum / rows);
+        }
+        System.out.println();
+        System.out.println("Top student: S" + (bestRow + 1) + " (" + bestTotal + ")");
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 8.9</span>รวมอาเรย์ที่เรียงแล้วสองชุด<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>เขียนเมธอด <code>static int[] merge(int[] a, int[] b)</code> ที่รับอาเรย์สองชุดที่<strong>เรียงจากน้อยไปมากแล้ว</strong> และคืนอาเรย์ใหม่ที่มีสมาชิกทั้งหมดเรียงจากน้อยไปมาก <strong>ห้ามใช้ Arrays.sort</strong> ให้ใช้ตัวชี้ (index) สองตัวเดินไปพร้อมกัน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>อาเรย์ผลลัพธ์ขนาด a.length + b.length</li><li>เทียบ a[i] กับ b[j] ตัวที่น้อยกว่าใส่ผลลัพธ์ แล้วขยับตัวชี้นั้น</li><li>เมื่ออาเรย์หนึ่งหมด ให้คัดลอกส่วนที่เหลือของอีกอาเรย์</li><li>ทดสอบกรณีอาเรย์หนึ่งว่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[1, 2, 3, 4, 7, 8, 10, 12, 15]
+[2, 3, 8, 12, 15]</pre></div><div class="answer-gate" data-answer-id="8.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Arrays;
+
+public class MergeSorted {
+    public static void main(String[] args) {
+        int[] a = {1, 4, 7, 10};
+        int[] b = {2, 3, 8, 12, 15};
+        System.out.println(Arrays.toString(merge(a, b)));
+        System.out.println(Arrays.toString(merge(new int[0], b)));
+    }
+
+    static int[] merge(int[] a, int[] b) {
+        int[] result = new int[a.length + b.length];
+        int i = 0, j = 0, k = 0;
+        while (i &lt; a.length &amp;&amp; j &lt; b.length) {
+            if (a[i] &lt;= b[j]) {
+                result[k++] = a[i++];
+            } else {
+                result[k++] = b[j++];
+            }
+        }
+        while (i &lt; a.length) result[k++] = a[i++];
+        while (j &lt; b.length) result[k++] = b[j++];
+        return result;
+    }
+}</code></pre><p><code>result[k++] = a[i++];</code> คือใช้ค่า k และ i ปัจจุบันก่อน แล้วจึงเพิ่มทั้งคู่ทีละ 1</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 8.10</span>เกม Tic-Tac-Toe: ตรวจผู้ชนะ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>กระดาน 3×3 เก็บใน <code>char[][] board</code> (ค่า 'X', 'O' หรือ '.') ให้ผู้ใช้ป้อนกระดาน 3 บรรทัด (บรรทัดละ 3 ตัวอักษร) แล้วเขียนเมธอด <code>static char winner(char[][] b)</code> คืน 'X' หรือ 'O' ถ้ามีผู้ชนะ (เรียงกัน 3 ตัวในแถว คอลัมน์ หรือทแยง) หรือ '-' ถ้ายังไม่มี จากนั้นแสดงกระดานและผล</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>อ่านแต่ละบรรทัดด้วย <code>next()</code> แล้วใช้ <code>charAt(c)</code> เติมลงอาเรย์</li><li>ตรวจ 3 แถว 3 คอลัมน์ด้วยลูป และทแยง 2 เส้น</li><li>ช่องว่าง '.' ไม่นับเป็นผู้ชนะ</li><li>ถ้าไม่มีผู้ชนะและไม่มี '.' เหลือ ให้แสดง Draw</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Row 0: <b class="stdin">XOX</b>
+Row 1: <b class="stdin">OXO</b>
+Row 2: <b class="stdin">OOX</b>
+ X | O | X
+ O | X | O
+ O | O | X
+Winner: X</pre></div><div><small>ครั้งที่ 2</small><pre>Row 0: <b class="stdin">XOX</b>
+Row 1: <b class="stdin">XOO</b>
+Row 2: <b class="stdin">OXX</b>
+ X | O | X
+ X | O | O
+ O | X | X
+Draw</pre></div><div><small>ครั้งที่ 3</small><pre>Row 0: <b class="stdin">XO.</b>
+Row 1: <b class="stdin">.X.</b>
+Row 2: <b class="stdin">O..</b>
+ X | O | .
+ . | X | .
+ O | . | .
+Game continues</pre></div></div></div><div class="answer-gate" data-answer-id="8.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class TicTacToe {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        char[][] board = new char[3][3];
+        for (int r = 0; r &lt; 3; r++) {
+            System.out.print("Row " + r + ": ");
+            String line = input.next();
+            for (int c = 0; c &lt; 3; c++) board[r][c] = line.charAt(c);
+        }
+        for (char[] row : board) {
+            System.out.println(" " + row[0] + " | " + row[1] + " | " + row[2]);
+        }
+        char w = winner(board);
+        if (w != '-') System.out.println("Winner: " + w);
+        else if (isFull(board)) System.out.println("Draw");
+        else System.out.println("Game continues");
+    }
+
+    static char winner(char[][] b) {
+        for (int i = 0; i &lt; 3; i++) {
+            if (b[i][0] != '.' &amp;&amp; b[i][0] == b[i][1] &amp;&amp; b[i][1] == b[i][2]) return b[i][0];
+            if (b[0][i] != '.' &amp;&amp; b[0][i] == b[1][i] &amp;&amp; b[1][i] == b[2][i]) return b[0][i];
+        }
+        if (b[1][1] != '.' &amp;&amp; b[0][0] == b[1][1] &amp;&amp; b[1][1] == b[2][2]) return b[1][1];
+        if (b[1][1] != '.' &amp;&amp; b[0][2] == b[1][1] &amp;&amp; b[1][1] == b[2][0]) return b[1][1];
+        return '-';
+    }
+
+    static boolean isFull(char[][] b) {
+        for (char[] row : b)
+            for (char cell : row)
+                if (cell == '.') return false;
+        return true;
+    }
+}</code></pre></div></div></article>
+      </section>
+      <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-07.html">← บทที่ 7</a><a class="pager-link" href="chapter-09.html">บทที่ 9: String →</a></nav>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 8 · วาดตาราง index ทุกครั้งที่สับสน</footer>
     </main>
   </div>
   <script src="../password.js"></script><script src="../assets/lesson.js"></script>

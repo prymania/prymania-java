@@ -142,3 +142,101 @@ code:not(pre code) { border-radius: 3px; background: #e8efeb; padding: 1px 5px; 
   .pager-link { flex: 1 1 145px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* ---------- Code blocks with copy button ---------- */
+.code-wrap { position: relative; min-width: 0; }
+.code-wrap > pre { margin: 0; }
+.copy-button { position: absolute; top: 7px; right: 7px; z-index: 2; display: inline-flex; min-height: 28px; align-items: center; gap: 4px; border: 1px solid #ffffff38; border-radius: 4px; background: #2c3a35; color: #e6f0eb; padding: 3px 9px; font: 700 12px "Leelawadee UI", Tahoma, sans-serif; cursor: pointer; opacity: .85; }
+.copy-button:hover { background: var(--cyan-dark); opacity: 1; }
+.copy-button.copied { background: #3f6b17; border-color: var(--lime); color: #fff; opacity: 1; }
+.code-wrap > pre.source-code, .answer-content .code-wrap > pre, .code-wrap > pre.copyable { padding-top: 38px; }
+
+/* ---------- Side-by-side examples ---------- */
+.source-example .example-level { display: inline-block; margin-left: 6px; border-radius: 999px; background: #e8efeb; padding: 0 9px; color: #34443e; font-size: 12px; font-weight: 700; vertical-align: middle; }
+.source-example .concept-line { margin: 4px 0 10px; color: var(--ink); font-size: 15px; }
+.source-example .concept-line strong { color: var(--cyan-dark); }
+.source-output .stdin-box { min-height: 0; margin: 0 0 4px; background: #fff7dd; color: #4b3d0a; }
+.source-output pre b.stdin, .ex-sample pre b.stdin { color: #0b6b74; font-weight: 800; text-decoration: underline dotted; }
+.source-output.is-error pre { background: #fbeceb; color: #7a2219; }
+.source-output.is-gui .gui-stage { min-height: 210px; border-radius: 4px; background: #e8efeb; padding: 14px; }
+.walkthrough { margin: 10px 0 0; border-top: 1px dashed #cbdc9c; padding-top: 8px; font-size: 14.5px; }
+.walkthrough > strong { color: #405d16; font-size: 13px; }
+.walkthrough ol, .walkthrough ul { margin: 4px 0 0; padding-left: 22px; }
+.walkthrough li { margin: 2px 0; }
+.try-it { margin: 8px 0 0; border-radius: 4px; background: #eef7f8; padding: 7px 11px; color: #0f4f55; font-size: 14px; }
+.try-it::before { content: "ลองทำ: "; font-weight: 800; }
+
+/* ---------- Quick check (predict before reveal) ---------- */
+.quick-check { margin: 13px 0; border: 1px dashed var(--cyan); border-radius: 5px; background: #f3fbfb; padding: 12px 15px; }
+.quick-check > strong { color: var(--cyan-dark); font-size: 14px; }
+.quick-check details { margin-top: 6px; }
+.quick-check summary { color: var(--cyan-dark); font-size: 14px; font-weight: 700; cursor: pointer; }
+.quick-check details > div { margin-top: 6px; border-left: 3px solid var(--cyan); padding-left: 10px; font-size: 14.5px; }
+
+/* ---------- Steps / trace tables ---------- */
+.step-list { counter-reset: step; margin: 8px 0; padding: 0; list-style: none; }
+.step-list > li { position: relative; margin: 6px 0; padding-left: 38px; }
+.step-list > li::before { position: absolute; top: 1px; left: 0; display: grid; width: 26px; height: 26px; place-items: center; border-radius: 50%; background: var(--charcoal); color: var(--lime); content: counter(step); counter-increment: step; font: 700 13px Consolas, monospace; }
+.trace-table { width: auto; min-width: 50%; }
+.trace-table td, .trace-table th { font-family: Consolas, monospace; text-align: center; }
+
+/* ---------- End-of-chapter exercises ---------- */
+.level-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 12px; color: var(--muted); font-size: 13px; }
+.level { display: inline-flex; align-items: center; gap: 4px; border-radius: 999px; padding: 1px 10px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+.level-1 { background: #e5f4cf; color: #3a5a10; }
+.level-2 { background: #d9f3f3; color: #0c5f66; }
+.level-3 { background: #fde5dc; color: #8a2f14; }
+.end-exercise h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+.end-exercise h3 .level { margin-left: auto; }
+.end-exercise[data-level="1"] { border-left: 4px solid #8fc23a; }
+.end-exercise[data-level="2"] { border-left: 4px solid var(--cyan); }
+.end-exercise[data-level="3"] { border-left: 4px solid #d9663f; }
+.end-exercise .ex-body p { margin: 5px 0; }
+.ex-spec { margin: 9px 0; border-radius: 4px; background: #f6f9f7; padding: 8px 13px; font-size: 14.5px; }
+.ex-spec > strong, .ex-sample > strong { display: block; color: #34443e; font-size: 13px; }
+.ex-spec ol, .ex-spec ul { margin: 3px 0 0; padding-left: 22px; }
+.ex-sample { margin: 9px 0; }
+.ex-sample pre { margin: 4px 0 8px; background: #e8efeb; color: #18211e; white-space: pre-wrap; }
+.ex-sample small { color: var(--muted); }
+.ex-hint { margin: 6px 0 0 !important; color: #5a4a12; font-size: 14px; }
+.ex-hint::before { content: "💡 คำใบ้: "; font-weight: 800; }
+
+/* ---------- GUI window mock ---------- */
+.gui-window { max-width: 360px; margin: 0 auto; overflow: hidden; border: 1px solid #9aa9a1; border-radius: 6px; background: #eeeeee; box-shadow: 0 4px 14px #0000001f; font: 13px Tahoma, sans-serif; color: #111; }
+.gui-titlebar { display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: 1px solid #ccc; padding: 4px 8px; font-size: 12px; }
+.gui-titlebar::after { content: "—  ▢  ✕"; color: #666; letter-spacing: 2px; }
+.gui-body { display: grid; gap: 7px; padding: 12px; }
+.gui-row { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.gui-row.center { justify-content: center; }
+.gui-grid { display: grid; gap: 5px; }
+.gui-btn { display: inline-block; border: 1px solid #8a8a8a; border-radius: 3px; background: linear-gradient(#fdfdfd, #dedede); padding: 3px 12px; text-align: center; }
+.gui-field { display: inline-block; min-width: 110px; border: 1px solid #8a8a8a; background: #fff; padding: 2px 6px; }
+.gui-area { display: block; min-height: 54px; border: 1px solid #8a8a8a; background: #fff; padding: 4px 6px; white-space: pre-wrap; font-family: Consolas, monospace; font-size: 12px; }
+.gui-check::before { content: "☑ "; }
+.gui-uncheck::before { content: "☐ "; }
+.gui-radio::before { content: "◉ "; }
+.gui-unradio::before { content: "○ "; }
+.gui-combo { display: inline-block; min-width: 100px; border: 1px solid #8a8a8a; background: #fff; padding: 2px 6px; }
+.gui-combo::after { content: " ▾"; float: right; }
+.gui-dialog { max-width: 300px; }
+.gui-caption { margin: 8px 0 0; color: var(--muted); font-size: 12.5px; text-align: center; }
+
+@media (max-width: 700px) {
+  .end-exercise h3 .level { margin-left: 0; }
+  .copy-button { top: 5px; right: 5px; }
+}
+.ex-runs { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0 12px; }
+.ex-runs pre { margin-top: 2px; }
+
+/* ---------- Real GUI screenshots ---------- */
+.source-output.is-gui .gui-stage, .ex-sample .gui-stage { display: grid; gap: 12px; justify-items: center; min-height: 0; border-radius: 4px; background: #e8efeb; padding: 14px 10px; }
+.gui-group { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 12px; width: 100%; }
+.gui-group .gui-caption { flex-basis: 100%; margin: 0; color: #34443e; font-size: 12.5px; font-weight: 700; text-align: center; }
+.gui-shot { display: inline-block; max-width: 100%; margin: 0; overflow: hidden; border: 1px solid #8f9c95; border-radius: 6px; background: #eee; box-shadow: 0 4px 14px #0000002a; }
+.gui-shot .gui-titlebar { display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid #c9c9c9; background: #fff; padding: 3px 8px; color: #222; font: 12px "Segoe UI", Tahoma, sans-serif; white-space: nowrap; }
+.gui-shot.is-dialog .gui-titlebar::after { content: "✕"; }
+.gui-shot img { display: block; max-width: 100%; height: auto; }
+.gui-console { width: 100%; margin: 0; background: #19231f; color: #f0f5f1; font-size: 12.5px; }
+.source-example-grid:has(.is-gui) { grid-template-columns: minmax(0, 1.35fr) minmax(0, .65fr); }
+@media (max-width: 700px) { .source-example-grid:has(.is-gui) { grid-template-columns: 1fr; } }
+code:not(pre code) { overflow-wrap: anywhere; }
+.lesson-main, .source-example, .end-exercise, .concept-box, .note-box, .example-box { min-width: 0; overflow-wrap: break-word; }

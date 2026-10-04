@@ -19,342 +19,801 @@
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 06 / 19</span></div>
       <header class="lesson-header"><p class="lesson-kicker">บทที่ 6 · ให้โปรแกรมทำงานซ้ำ</p><h1>การทำซ้ำด้วยลูป</h1><p>ลดคำสั่งที่ต้องเขียนซ้ำ โดยกำหนดว่าจะทำซ้ำเมื่อใด ต้องปรับค่าอะไร และจะออกจากลูปอย่างไร</p></header>
       <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เขียน while และ for ได้ครบองค์ประกอบ</li><li>เลือก do-while เมื่อต้องทำอย่างน้อยหนึ่งครั้ง</li><li>ใช้ลูปซ้อนกับรูปแบบข้อมูล</li><li>ควบคุมและป้องกันลูปไม่รู้จบ</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-6">
-        <h2 id="section-6">6. ทำซ้ำโดยไม่เขียนคำสั่งเดิมหลายชุด</h2><p>สมมติต้องพิมพ์คะแนนของนักศึกษา 100 คน ถ้าไม่มีลูปเราต้องเขียนคำสั่งรับและแสดงผลซ้ำ 100 ชุด ซึ่งยาว แก้ยาก และพลาดได้ง่าย ลูปช่วยให้เขียนขั้นตอนครั้งเดียวแล้วให้โปรแกรมทำซ้ำตามเงื่อนไข</p><div class="concept-box"><span class="box-title">ลูปช่วยอะไร</span><ul><li>ลดโค้ดซ้ำ และแก้ขั้นตอนที่เดียว</li><li>ทำงานกับข้อมูลจำนวนมาก เช่น คะแนนในอาเรย์</li><li>ทำซ้ำจนกว่าจะเกิดเหตุการณ์ เช่น ผู้ใช้ป้อนค่าหยุด</li><li>ต้องออกแบบเงื่อนไขหยุด ไม่เช่นนั้นโปรแกรมอาจทำงานไม่จบ</li></ul></div>
-        <article class="subtopic" id="topic-6-1">
-            <h3>6.1 while: ทำซ้ำขณะเงื่อนไขเป็นจริง</h3><p><code>while</code> เหมาะเมื่อยังไม่รู้จำนวนรอบแน่นอน แต่รู้เงื่อนไขที่ต้องทำต่อ เช่น “ทำต่อขณะที่ยังมีข้อมูล” ก่อน body ทุกครั้ง Java ตรวจนิพจน์ในวงเล็บ ซึ่งต้องได้ค่า <code>boolean</code></p>
-            <div class="concept-box"><span class="box-title">Syntax ของ while</span><pre><code>while (condition) {
-        // คำสั่งที่ทำซ้ำ
-        // เปลี่ยนค่าที่มีผลต่อ condition
-      }</code></pre><ol><li>ตรวจ <code>condition</code> ก่อนเข้ารอบ</li><li>ถ้าเป็น <code>true</code> ทำคำสั่งในวงเล็บปีกกา</li><li>เมื่อจบรอบ กลับไปตรวจ condition ใหม่</li><li>ถ้าเป็น <code>false</code> ข้าม body แล้วทำคำสั่งถัดจากลูป</li></ol><p>ถ้า condition เป็น false ตั้งแต่ครั้งแรก body จะไม่ทำงานเลย (zero iterations)</p></div>
-          <div class="example-box"><span class="box-title">พิมพ์เลข 1 ถึง 5</span><pre><code>int number = 1;&#10;while (number &lt;= 5) {&#10;    System.out.println(number);&#10;    number++;&#10;}</code></pre><p>เริ่มที่ 1, เพิ่มทีละ 1; เมื่อ number เป็น 6 เงื่อนไขเท็จและออกจากลูป</p></div>
-            <div class="source-example"><h4>ตัวอย่าง 6.1.1 · while (i &gt; 0)</h4><p>ใช้เงื่อนไขนับถอยหลัง: เริ่ม 3 แล้วลด i ทุกครั้ง เมื่อ i ถึง 0 จึงหยุด</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.1.1">public class WhilePositive {
-        public static void main(String[] args) {
-          int i = 3;
-          while (i > 0) {
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">6. ทำซ้ำโดยไม่เขียนคำสั่งเดิมหลายชุด</h2>
+        <p>สมมติต้องพิมพ์คะแนนของนักศึกษา 100 คน ถ้าไม่มีลูปเราต้องเขียนคำสั่งซ้ำ 100 ชุด ซึ่งยาว แก้ยาก และพลาดได้ง่าย ลูปช่วยให้เขียนขั้นตอนครั้งเดียวแล้วให้โปรแกรมทำซ้ำตามเงื่อนไข</p>
+<div class="concept-box"><span class="box-title">องค์ประกอบ 4 อย่างของลูปที่ดี</span><ol class="step-list"><li><strong>ค่าเริ่มต้น (initialization)</strong> — ตัวนับหรือตัวแปรควบคุมเริ่มที่ค่าใด</li><li><strong>เงื่อนไข (condition)</strong> — ทำต่อขณะที่อะไรเป็นจริง</li><li><strong>งานที่ทำซ้ำ (body)</strong> — สิ่งที่ทำในแต่ละรอบ</li><li><strong>การอัปเดต (update)</strong> — เปลี่ยนค่าที่ทำให้เงื่อนไขเข้าใกล้ false ถ้าขาดข้อนี้จะเกิดลูปไม่รู้จบ</li></ol></div>
+<article class="subtopic" id="topic-6-1">
+<h3>6.1 while: ทำซ้ำขณะเงื่อนไขเป็นจริง</h3>
+<p><code>while</code> เหมาะเมื่อยังไม่รู้จำนวนรอบแน่นอน แต่รู้เงื่อนไขที่ต้องทำต่อ เช่น “ทำต่อขณะที่ยังมีข้อมูล” ก่อนเข้ารอบทุกครั้ง Java ตรวจนิพจน์ในวงเล็บ ซึ่งต้องได้ค่า <code>boolean</code></p>
+<div class="concept-box"><span class="box-title">ลำดับการทำงานของ while</span><p><pre><code>while (condition) {
+    // คำสั่งที่ทำซ้ำ
+    // เปลี่ยนค่าที่มีผลต่อ condition
+}</code></pre></p><ol class="step-list"><li>ตรวจ <code>condition</code> ก่อนเข้ารอบ</li><li>ถ้าเป็น <code>true</code> ทำคำสั่งในวงเล็บปีกกา</li><li>จบรอบแล้วกลับไปตรวจ condition ใหม่</li><li>ถ้าเป็น <code>false</code> ข้าม body ไปทำคำสั่งถัดจากลูป</li></ol><p>ถ้า condition เป็น false ตั้งแต่ครั้งแรก body จะไม่ทำงานเลย (zero iterations)</p></div>
+<div class="source-example"><h4>ตัวอย่าง 6.1.1 · นับ 1 ถึง 5 <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวนับเริ่มที่ 1 เพิ่มทีละ 1 และหยุดเมื่อเกิน 5</p><div class="source-example-grid"><div class="source-field"><span>Java source · CountUp.java</span><pre class="source-code">public class CountUp {
+    public static void main(String[] args) {
+        int number = 1;
+        while (number &lt;= 5) {
+            System.out.println(number);
+            number++;
+        }
+        System.out.println("After loop: number = " + number);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>1
+2
+3
+4
+5
+After loop: number = 6</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ตรวจ 1 ≤ 5 → พิมพ์ 1, number = 2</li><li>ทำต่อจนพิมพ์ 5 แล้ว number = 6</li><li>ตรวจ 6 ≤ 5 → false ออกจากลูป</li><li>หลังลูป number มีค่า 6 (ไม่ใช่ 5)</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.1.2 · นับถอยหลังด้วย while (i > 0) <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เงื่อนไขต้องสอดคล้องกับทิศทางการอัปเดต: ลดค่า → ใช้ &gt; หรือ &gt;=</p><div class="source-example-grid"><div class="source-field"><span>Java source · WhilePositive.java</span><pre class="source-code">public class WhilePositive {
+    public static void main(String[] args) {
+        int i = 3;
+        while (i &gt; 0) {
             System.out.println(i);
             i--;
-          }
-          System.out.println("Done");
         }
-      }</textarea></label><div class="source-output"><span>Output</span><pre>3
-      2
-      1
-      Done</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>แก้ค่าเริ่มต้นหรือเครื่องหมาย แล้วลองทำนายผลใหม่</small></div></div>
-            <div class="source-example"><h4>ตัวอย่าง 6.1.2 · while (1 != 0) และ break</h4><p><code>1 != 0</code> เป็น boolean ที่จริงเสมอ จึงต้องมี <code>break</code> ที่ไปถึงได้เพื่อออกจากลูป</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.1.2">public class WhileNotEqual {
-        public static void main(String[] args) {
-          int count = 1;
-          while (1 != 0) {
-            System.out.println(count);
-            if (count == 3) {
-              break;
-            }
-            count++;
-          }
-          System.out.println("Loop ended");
+        System.out.println("Done");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>3
+2
+1
+Done</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>3 > 0 → พิมพ์ 3, i = 2</li><li>2 > 0 → พิมพ์ 2, i = 1</li><li>1 > 0 → พิมพ์ 1, i = 0</li><li>0 > 0 false → ออก พิมพ์ Done</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.1.3 · สะสมผลรวม (accumulator) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบสำคัญที่สุดของลูป: ตัวแปรผลรวมเริ่มที่ 0 แล้วบวกค่าของแต่ละรอบเข้าไป</p><div class="source-example-grid"><div class="source-field"><span>Java source · SumToN.java</span><pre class="source-code">public class SumToN {
+    public static void main(String[] args) {
+        int n = 5;
+        int number = 1;
+        int sum = 0;
+        while (number &lt;= n) {
+            sum += number;
+            System.out.println("add " + number + " -&gt; sum = " + sum);
+            number++;
         }
-      }</textarea></label><div class="source-output"><span>Output</span><pre>1
-      2
-      3
-      Loop ended</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ลองลบ break ใน IDE แล้วกด Stop หากลูปไม่จบ</small></div></div>
-            <div class="source-example"><h4>ตัวอย่าง 6.1.3 · while (true)</h4><p><code>true</code> ทำให้ลูปตั้งใจทำงานต่อไปเรื่อย ๆ ในตัวอย่างนี้ <code>break</code> จะออกเมื่อครบ 3 รอบ</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.1.3">public class WhileTrueBreak {
-        public static void main(String[] args) {
-          int attempt = 1;
-          while (true) {
+        System.out.println("1 + ... + " + n + " = " + sum);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>add 1 -&gt; sum = 1
+add 2 -&gt; sum = 3
+add 3 -&gt; sum = 6
+add 4 -&gt; sum = 10
+add 5 -&gt; sum = 15
+1 + ... + 5 = 15</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>sum เริ่ม 0 (ถ้าเริ่มค่าอื่นผลรวมจะผิด)</li><li>แต่ละรอบ sum += number</li><li>พิมพ์ระหว่างทางช่วยให้เห็นการเปลี่ยนแปลง (เทคนิค debug)</li><li>ผลรวม 15 ตรงกับสูตร n(n+1)/2</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.1.4 · ไม่รู้จำนวนรอบ: นับหลักของตัวเลข <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> จำนวนรอบขึ้นกับข้อมูล — หาร 10 ไปเรื่อย ๆ จนเหลือ 0 นี่คือจุดที่ while เหมาะกว่า for</p><div class="source-example-grid"><div class="source-field"><span>Java source · CountDigits.java</span><pre class="source-code">import java.util.Scanner;
+
+public class CountDigits {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Number: ");
+        int n = input.nextInt();
+        int digits = 0;
+        int digitSum = 0;
+        int temp = n;
+        while (temp &gt; 0) {
+            digitSum += temp % 10;
+            temp /= 10;
+            digits++;
+        }
+        System.out.println(n + " has " + digits + " digits, digit sum = " + digitSum);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Number: <b class="stdin">907215</b>
+907215 has 6 digits, digit sum = 24</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>temp = 907215 → หลักหน่วย 5, temp = 90721</li><li>ทำซ้ำ: 1, 2, 7, 0, 9</li><li>temp เป็น 0 → หยุด นับได้ 6 หลัก ผลรวม 24</li><li>ใช้ temp แทน n เพื่อเก็บค่าเดิมไว้แสดงผล</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.1.5 · while (true) กับ break <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> บางครั้งเขียนลูปที่ตั้งใจไม่หยุดเอง แล้วใช้ <code>break</code> ออกเมื่อถึงเงื่อนไข — ต้องแน่ใจว่า break ไปถึงได้จริง</p><div class="source-example-grid"><div class="source-field"><span>Java source · WhileTrueBreak.java</span><pre class="source-code">public class WhileTrueBreak {
+    public static void main(String[] args) {
+        int attempt = 1;
+        while (true) {
             System.out.println("Attempt " + attempt);
-            if (attempt >= 3) {
-              break;
+            if (attempt &gt;= 3) {
+                break;
             }
             attempt++;
-          }
-          System.out.println("Stopped safely");
         }
-      }</textarea></label><div class="source-output"><span>Output</span><pre>Attempt 1
-      Attempt 2
-      Attempt 3
-      Stopped safely</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>อย่ารัน while(true) ที่ไม่มีทางออกในโปรแกรมที่ใช้งานจริง</small></div></div>
-            <div class="concept-box"><span class="box-title">Compile error: เงื่อนไขต้องเป็น boolean</span><pre><code>int i = 3;
-      while (i = 3) { // error: int cannot be converted to boolean
-        System.out.println(i);
-      }</code></pre><p><code>=</code> คือการกำหนดค่า ทำให้ expression มีชนิด <code>int</code> แต่ <code>while</code> ต้องการ <code>true</code>/<code>false</code>; ถ้าต้องการเปรียบเทียบให้ใช้ <code>i == 3</code> อย่างไรก็ตามอย่าลืมเปลี่ยนค่า i ใน body ด้วย</p></div>
-              <div class="source-example"><h4>ทดลอง error · assignment ไม่ใช่เงื่อนไข</h4><p>กด Run เพื่อดู compiler error จากนั้นเปลี่ยน <code>i = 3</code> เป็น <code>i == 3</code> และเพิ่มการอัปเดต i ใน body</p><div class="source-example-grid"><label class="source-field"><span>Java source · ลองแก้ไข</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง while assignment error">public class WhileConditionError {
-          public static void main(String[] args) {
-            int i = 3;
-            while (i = 3) {
-              System.out.println(i);
-              i--;
-            }
-          }
-        }</textarea></label><div class="source-output"><span>Error ที่คาด</span><pre>Compile error
-        condition must be boolean
-        int cannot be converted to boolean</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run เพื่อดู compile error</button><small>แก้ source ในช่องซ้ายแล้ว Run ซ้ำได้</small></div></div>
-            <div class="note-box"><span class="box-title">Logic error: ตัวนับวิ่งหนีเงื่อนไข</span><pre><code>int i = 3;
-      while (i > 0) {
-        System.out.println(i);
-        i++; // ผิดทิศ: 3, 4, 5, ... เงื่อนไขยัง true
-      }</code></pre><p>โค้ดนี้คอมไพล์ผ่าน แต่ไม่จบ เพราะ i เพิ่มขึ้นทั้งที่เงื่อนไขต้องการให้มันลดลง อย่ากด Run ตัวอย่างลูปไม่จบ ให้ trace ค่า 3 รอบแรกหรือใช้ Stop ใน IDE</p></div>
-          <div class="note-box"><span class="box-title">ตรวจลูปไม่รู้จบ</span><p>ถ้าลืม <code>number++</code> ค่า number คงเป็น 1 เงื่อนไข <code>number &lt;= 5</code> จึงจริงตลอด ลูปจะไม่จบ</p></div>
-          <div class="exercise-box"><h4 class="exercise-title">
-            <span class="exercise-id">Exercise 6.1</span>รวมเลขตั้งแต่ 1 ถึง n</h4><p>กำหนด <code>n = 5</code> ใช้ <code>while</code> รวม 1 + 2 + ... + n แล้วแสดงผล</p>
-            <div class="answer-gate" data-answer-id="6.1">
-                <button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.1<input type="password" autocomplete="off" required></label>
-                    <button class="password-submit" type="submit">เปิดเฉลย</button>
-                    <p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden>
-                        <h4 tabindex="-1">ตัวอย่างคำตอบ</h4>
-                        <pre><code>int n = 5;&#10;int number = 1;&#10;int sum = 0;&#10;while (number &lt;= n) {&#10;    sum += number;&#10;    number++;&#10;}&#10;System.out.println(sum); // 15</code></pre><p>อัปเดตตัวนับหลังบวกทุกครั้ง เพื่อให้เดินจาก 1 ไปถึง n + 1</p></div></div></div>
-            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.8</span>นับถอยหลังทีละสอง</h4><p>ใช้ <code>while (i &gt; 0)</code> แสดง 10, 8, 6, 4, 2 แล้วแสดง <code>Lift off!</code> อธิบายว่าทำไมค่า 0 ไม่ถูกพิมพ์</p><div class="answer-gate" data-answer-id="6.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int i = 10;
-      while (i > 0) {
-        System.out.println(i);
-        i -= 2;
-      }
-      System.out.println("Lift off!");</code></pre><p>หลังพิมพ์ 2 ค่า i ลดเป็น 0 เงื่อนไข <code>i &gt; 0</code> จึง false ก่อนเข้ารอบถัดไป</p></div></div></div>
-            <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.9</span>เงื่อนไขไม่ผ่านตั้งแต่ต้น</h4><p>กำหนด <code>int i = 0;</code> แล้วใช้ <code>while (i &gt; 0)</code> พิมพ์ <code>Inside</code> และหลังลูปพิมพ์ <code>After</code> ให้ทำนาย output</p><div class="answer-gate" data-answer-id="6.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำตอบและเหตุผล</h4><pre><code>int i = 0;
-      while (i > 0) {
-        System.out.println("Inside");
-      }
-      System.out.println("After");</code></pre><p>พิมพ์เพียง <code>After</code> เพราะตรวจ <code>0 &gt; 0</code> ก่อนเข้าลูปแล้วได้ false; while อาจทำ 0 รอบได้</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-6-2">
-          <h3>6.2 for: เมื่อรู้จำนวนรอบหรือตัวนับชัดเจน</h3><p><code>for</code> รวมจุดเริ่ม เงื่อนไข และการอัปเดตไว้ในบรรทัดเดียว รูปแบบคือ <code>for (เริ่มต้น; เงื่อนไข; อัปเดต)</code> แล้วตามด้วย body ของลูป</p>
-          <div class="concept-box"><span class="box-title">Syntax และ flow ของ for</span><pre><code>for (initialization; condition; update) {
-      // loop body
-    }</code></pre><ol><li>ทำ <code>initialization</code> ครั้งเดียวก่อนเริ่มลูป</li><li>ตรวจ <code>condition</code>; ถ้า false ให้ออกจากลูป</li><li>ถ้า true ให้ทำ body</li><li>ทำ <code>update</code> แล้วกลับไปตรวจ condition</li></ol><p>ตัวแปรที่ประกาศในส่วนเริ่มต้น เช่น <code>int i</code> ใช้ได้ภายใน for loop นั้น</p></div>
-          <div class="example-box"><span class="box-title">ผลบวกเลขคู่ 2 ถึง 10</span><pre><code>int sum = 0;&#10;for (int number = 2; number &lt;= 10; number += 2) {&#10;    sum += number;&#10;}&#10;System.out.println(sum); // 30</code></pre><p><code>number += 2</code> ทำให้ตัวนับขยับทีละ 2 รอบจึงมี 2, 4, 6, 8, 10</p></div>
-          <div class="note-box"><span class="box-title">เลือกใช้ให้เหมาะ</span><p>ใช้ <code>for</code> เมื่อรู้ช่วงหรือตัวนับชัดเจน ใช้ <code>while</code> เมื่อทำซ้ำจนกว่าเหตุการณ์หนึ่งจะเกิด ทั้งคู่ทำงานแทนกันได้ในหลายสถานการณ์ แต่รูปแบบที่ตรงโจทย์อ่านง่ายกว่า</p></div>
-          <div class="source-example"><h4>ตัวอย่าง 6.2.1 · อ่าน header ของ for ตามลำดับ</h4><p>ก่อนรันให้ทำนายค่าเริ่มต้น, จำนวนรอบ และค่าที่ i มีเมื่อออกจากลูป</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.2.1">public class ForFlow {
-      public static void main(String[] args) {
+        System.out.println("Stopped safely");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Attempt 1
+Attempt 2
+Attempt 3
+Stopped safely</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลูปพิมพ์ Attempt 1, 2, 3</li><li>เมื่อ attempt = 3 เงื่อนไข if จริง → break</li><li>ไปทำคำสั่งหลังลูป</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 6.1.6 · assignment ไม่ใช่เงื่อนไข <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>while (i = 3)</code> เป็นการกำหนดค่า ได้ชนิด int ไม่ใช่ boolean</p><div class="source-example-grid"><div class="source-field"><span>Java source · WhileConditionError.java</span><pre class="source-code">public class WhileConditionError {
+    public static void main(String[] args) {
+        int i = 3;
+        while (i = 3) {
+            System.out.println(i);
+            i--;
+        }
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WhileConditionError.java:4: error: incompatible types: int cannot be converted to boolean
+        while (i = 3) {
+                 ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>compiler แจ้ง <code>int cannot be converted to boolean</code></li><li>ต้องการเปรียบเทียบใช้ <code>==</code> แต่ในกรณีนี้ควรเป็น <code>i &gt; 0</code></li></ol></div></div>
+<div class="note-box"><span class="box-title">Logic error: ลูปไม่รู้จบ (อย่ากด Run)</span><pre><code>int i = 3;
+while (i &gt; 0) {
+    System.out.println(i);
+    i++;       // ผิดทิศ: 3, 4, 5, ... เงื่อนไข true ตลอด
+}
+
+int number = 1;
+while (number &lt;= 5) {
+    System.out.println(number);
+    // ลืม number++  → number = 1 ตลอดไป
+}</code></pre><p>ทั้งสองแบบคอมไพล์ผ่าน แต่ไม่จบ ถ้าเผลอรันใน IDE ให้กดปุ่ม Stop (■) วิธีป้องกันคือ trace 3 รอบแรกด้วยมือและตรวจว่าค่าเคลื่อนเข้าหาเงื่อนไขหยุด</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · นับรอบ</strong><div><pre><code>int x = 20;
+int rounds = 0;
+while (x &gt; 1) {
+    x = x / 2;
+    rounds++;
+}</code></pre><p>เมื่อจบลูป x และ rounds มีค่าเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>x: 20 → 10 → 5 → 2 → 1 → หยุด ดังนั้น <strong>x = 1, rounds = 4</strong></p></div></details></div>
+</article>
+<article class="subtopic" id="topic-6-2">
+<h3>6.2 for: เมื่อรู้จำนวนรอบหรือตัวนับชัดเจน</h3>
+<p><code>for</code> รวมจุดเริ่ม เงื่อนไข และการอัปเดตไว้ในบรรทัดเดียว ทำให้อ่านแล้วรู้จำนวนรอบทันที</p>
+<div class="concept-box"><span class="box-title">Syntax และ flow ของ for</span><p><pre><code>for (initialization; condition; update) {
+    // loop body
+}</code></pre></p><ol class="step-list"><li>ทำ <code>initialization</code> ครั้งเดียวก่อนเริ่มลูป</li><li>ตรวจ <code>condition</code>; ถ้า false ออกจากลูป</li><li>ถ้า true ทำ body</li><li>ทำ <code>update</code> แล้วกลับไปข้อ 2</li></ol><p>ตัวแปรที่ประกาศในส่วนเริ่มต้น เช่น <code>int i</code> ใช้ได้เฉพาะภายในลูปนั้น</p></div>
+<div class="source-example"><h4>ตัวอย่าง 6.2.1 · อ่าน header ของ for ตามลำดับ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ก่อนรัน ให้ทำนายค่าเริ่มต้น จำนวนรอบ และผลรวม</p><div class="source-example-grid"><div class="source-field"><span>Java source · ForFlow.java</span><pre class="source-code">public class ForFlow {
+    public static void main(String[] args) {
         int sum = 0;
-        for (int i = 1; i <= 3; i++) {
-          sum += i;
-          System.out.println("i=" + i + ", sum=" + sum);
+        for (int i = 1; i &lt;= 3; i++) {
+            sum += i;
+            System.out.println("i=" + i + ", sum=" + sum);
         }
         System.out.println("After loop, sum=" + sum);
-      }
-    }</textarea></label><div class="source-output"><span>Output</span><pre>i=1, sum=1
-    i=2, sum=3
-    i=3, sum=6
-    After loop, sum=6</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ลองเปลี่ยน i++ เป็น i += 2 แล้วไล่ flow ใหม่</small></div></div>
-          <div class="source-example"><h4>ตัวอย่าง 6.2.2 · นับถอยหลังด้วย for</h4><p>ส่วน update ลดค่าแทนการเพิ่มได้</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.2.2">public class ForCountdown {
-      public static void main(String[] args) {
-        for (int i = 5; i >= 1; i--) {
-          System.out.println(i);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>i=1, sum=1
+i=2, sum=3
+i=3, sum=6
+After loop, sum=6</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>i = 1 → ตรวจ 1 ≤ 3 → body → i++</li><li>i = 2, 3 ทำเช่นเดียวกัน</li><li>i = 4 → เงื่อนไข false → ออก</li><li><code>i</code> ใช้นอกลูปไม่ได้ เพราะประกาศใน header</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.2.2 · ขยับทีละมากกว่า 1 และนับถอยหลัง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ส่วน update เป็นนิพจน์ใดก็ได้ เช่น <code>i += 2</code>, <code>i--</code>, <code>i *= 2</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · ForSteps.java</span><pre class="source-code">public class ForSteps {
+    public static void main(String[] args) {
+        System.out.print("Even: ");
+        for (int i = 2; i &lt;= 10; i += 2) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        System.out.print("Countdown: ");
+        for (int i = 5; i &gt;= 1; i--) {
+            System.out.print(i + " ");
         }
         System.out.println("Go!");
-      }
-    }</textarea></label><div class="source-output"><span>Output</span><pre>5
-    4
-    3
-    2
-    1
-    Go!</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ถ้าเงื่อนไขเป็น i &gt; 1 จะเกิดผลต่างอย่างไร?</small></div></div>
-          <div class="note-box"><span class="box-title">Logic error: semicolon เกินหลัง for</span><pre><code>for (int i = 1; i &lt;= 3; i++); {
-      System.out.println("Hello");
-    }</code></pre><p>โค้ดนี้คอมไพล์ผ่าน แต่ <code>;</code> ทำให้ body ของลูปว่างเปล่า บล็อกพิมพ์ Hello จึงทำเพียงครั้งเดียวหลังลูปจบ เอา semicolon ออกและใส่คำสั่งไว้ในวงเล็บปีกกา</p></div>
-            <div class="source-example"><h4>ตัวอย่าง 6.2.3 · for(;;) ที่ออกด้วย break</h4><p>for ที่ละทั้งสามช่องเป็นลูปไม่สิ้นสุดโดยตั้งใจ จึงต้องมี break ที่เข้าถึงได้</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.2.3">public class InfiniteForWithBreak {
-        public static void main(String[] args) {
-          int count = 1;
-          for (;;) {
-            System.out.println(count);
-            if (count == 3) {
-              break;
-            }
-            count++;
-          }
+
+        System.out.print("Powers of 2: ");
+        for (int p = 1; p &lt;= 100; p *= 2) {
+            System.out.print(p + " ");
         }
-      }</textarea></label><div class="source-output"><span>Output</span><pre>1
-      2
-      3</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ลองสังเกตว่า break ถูกตรวจที่จุดใด</small></div></div>
-            <div class="source-example"><h4>ตัวอย่าง 6.2.4 · semicolon ทำให้ body ว่าง</h4><p>โค้ดนี้คอมไพล์ผ่าน แต่แสดง Hello เพียงครั้งเดียว ลองลบ semicolon หลัง header แล้วรันใหม่</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.2.4">public class EmptyForBody {
-        public static void main(String[] args) {
-          for (int i = 1; i <= 3; i++);
-          {
-            System.out.println("Hello");
-          }
-        }
-      }</textarea></label><div class="source-output"><span>Output</span><pre>Hello</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ย้าย ; ออกแล้วสังเกตว่า Hello พิมพ์กี่ครั้ง</small></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.2</span>ตารางสูตรคูณ</h4><p>กำหนด <code>number = 7</code> ใช้ <code>for</code> พิมพ์สูตรคูณตั้งแต่ 7 × 1 ถึง 7 × 12</p><div class="answer-gate" data-answer-id="6.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int number = 7;&#10;for (int multiplier = 1; multiplier &lt;= 12; multiplier++) {&#10;    System.out.printf("%d x %d = %d%n", number, multiplier, number * multiplier);&#10;}</code></pre><p>รอบแรก multiplier เป็น 1; รอบสุดท้ายเป็น 12 แล้วเพิ่มเป็น 13 จึงหยุด</p></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.10</span>รวมเลขคี่</h4><p>ใช้ <code>for</code> รวมเลขคี่ตั้งแต่ 1 ถึง 15 โดยขยับตัวนับครั้งละ 2 แล้วแสดงผลรวม</p><div class="answer-gate" data-answer-id="6.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int sum = 0;
-    for (int number = 1; number &lt;= 15; number += 2) {
-      sum += number;
+        System.out.println();
     }
-    System.out.println(sum); // 64</code></pre><p>เลขคี่คือ 1, 3, 5, 7, 9, 11, 13, 15 รวมกันได้ 64</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-6-3">
-          <h3>6.3 do-while และการทำซ้ำด้วย sentinel</h3><p><code>do-while</code> ตรวจเงื่อนไขหลังทำ body จึงทำอย่างน้อยหนึ่งครั้ง เหมาะกับการแสดงเมนูหรือถามข้อมูลก่อน แล้วค่อยตรวจว่าผู้ใช้ต้องการทำต่อหรือไม่</p>
-          <div class="concept-box"><span class="box-title">Syntax และ flow ของ do-while</span><pre><code>do {
-      // คำสั่งที่ต้องทำอย่างน้อยหนึ่งครั้ง
-    } while (condition);</code></pre><ol><li>เข้าทำ body ทันทีโดยยังไม่ตรวจเงื่อนไข</li><li>ทำคำสั่งใน body และปรับค่าที่เกี่ยวข้อง</li><li>ตรวจ condition ที่ท้ายลูป</li><li>ถ้า true กลับไปเริ่ม body; ถ้า false ออกจากลูป</li></ol><p>สังเกตอัฒภาค <code>;</code> หลังวงเล็บของ while เป็นส่วนหนึ่งของ syntax</p></div>
-          <div class="example-box"><span class="box-title">ถามให้ป้อนคะแนนในช่วงที่กำหนด</span><pre><code>int score;&#10;do {&#10;    System.out.print("Score (0-100): ");&#10;    score = input.nextInt();&#10;} while (score &lt; 0 || score &gt; 100);</code></pre><p>ส่วน <strong>sentinel</strong> คือค่าพิเศษที่ใช้สั่งหยุด เช่น ป้อน <code>0</code> เพื่อจบการรับข้อมูลที่เป็นจำนวนบวก</p></div>
-          <div class="source-example"><h4>ตัวอย่าง 6.3.1 · ทำอย่างน้อยหนึ่งครั้ง</h4><p>แม้เงื่อนไขท้ายเป็น false หลังรอบแรก body ก็ยังทำงานไปแล้วหนึ่งครั้ง</p><div class="source-example-grid"><label class="source-field"><span>Java source · แก้ไขได้</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.3.1">public class DoWhileOnce {
-      public static void main(String[] args) {
+}</pre></div><div class="source-output"><span>Output</span><pre>Even: 2 4 6 8 10 
+Countdown: 5 4 3 2 1 Go!
+Powers of 2: 1 2 4 8 16 32 64</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>i += 2</code> → 2, 4, 6, 8, 10</li><li><code>i--</code> → 5, 4, 3, 2, 1</li><li><code>p *= 2</code> → 1, 2, 4, …, 64 (128 เกิน 100)</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.2.3 · ตารางสูตรคูณจากค่าที่ผู้ใช้ป้อน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รู้จำนวนรอบแน่นอน (12 แถว) → for เหมาะที่สุด ใช้ printf จัดคอลัมน์</p><div class="source-example-grid"><div class="source-field"><span>Java source · MultiplicationTable.java</span><pre class="source-code">import java.util.Scanner;
+
+public class MultiplicationTable {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Table of: ");
+        int n = input.nextInt();
+        for (int m = 1; m &lt;= 12; m++) {
+            System.out.printf("%d x %2d = %3d%n", n, m, n * m);
+        }
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Table of: <b class="stdin">7</b>
+7 x  1 =   7
+7 x  2 =  14
+7 x  3 =  21
+7 x  4 =  28
+7 x  5 =  35
+7 x  6 =  42
+7 x  7 =  49
+7 x  8 =  56
+7 x  9 =  63
+7 x 10 =  70
+7 x 11 =  77
+7 x 12 =  84</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>m เดินจาก 1 ถึง 12</li><li><code>%2d</code> และ <code>%3d</code> ทำให้ตัวเลขชิดขวาตรงกัน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.2.4 · หาค่ามาก/น้อยสุดและค่าเฉลี่ยจากข้อมูล n ค่า <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบ “ติดตามค่าที่ดีที่สุด”: กำหนดค่าเริ่มจากข้อมูลตัวแรก แล้วเทียบกับตัวถัดไปทีละตัว</p><div class="source-example-grid"><div class="source-field"><span>Java source · MinMaxAverage.java</span><pre class="source-code">import java.util.Scanner;
+
+public class MinMaxAverage {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("How many scores? ");
+        int n = input.nextInt();
+        System.out.print("Scores: ");
+        int first = input.nextInt();
+        int max = first, min = first, sum = first;
+        for (int i = 2; i &lt;= n; i++) {
+            int score = input.nextInt();
+            sum += score;
+            if (score &gt; max) max = score;
+            if (score &lt; min) min = score;
+        }
+        System.out.printf("Max=%d Min=%d Avg=%.2f%n", max, min, (double) sum / n);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>How many scores? <b class="stdin">5</b>
+Scores: <b class="stdin">72 88 65 91 79</b>
+Max=91 Min=65 Avg=79.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่านค่าแรก (72) ก่อนลูป ตั้งเป็น max, min, sum</li><li>ลูปเริ่ม i = 2 อ่านค่าที่เหลืออีก 4 ค่า</li><li>แต่ละรอบปรับ max/min ถ้าเจอค่าที่ดีกว่า</li><li>cast sum เป็น double ก่อนหาร</li></ol></div></div>
+<div class="source-example"><h4>ทดลองบั๊ก 6.2.5 · semicolon ทำให้ body ว่าง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่ <code>;</code> หลัง header ทำให้ลูปไม่มี body บล็อกถัดไปทำครั้งเดียว</p><div class="source-example-grid"><div class="source-field"><span>Java source · EmptyForBody.java</span><pre class="source-code">public class EmptyForBody {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;= 3; i++);
+        {
+            System.out.println("Hello");
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Hello</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลูปวน 3 รอบโดยไม่ทำอะไร</li><li>บล็อก { } เป็นบล็อกธรรมดาหลังลูป → พิมพ์ Hello ครั้งเดียว</li><li>แก้: ลบ ; หลังวงเล็บ</li></ol></div></div>
+<div class="note-box"><span class="box-title">เลือก for หรือ while</span><p>ใช้ <code>for</code> เมื่อรู้ช่วงหรือจำนวนรอบชัดเจน (นับ 1–100, วนตามจำนวนข้อมูล) ใช้ <code>while</code> เมื่อทำซ้ำจนกว่าเหตุการณ์หนึ่งจะเกิด (ผู้ใช้ป้อน 0, ตัวเลขหารจนเหลือ 0) ทั้งคู่ทำงานแทนกันได้ แต่รูปแบบที่ตรงโจทย์อ่านง่ายกว่า</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · นับรอบของ for</strong><div><p><code>for (int i = 10; i &lt; 50; i += 7)</code> ทำกี่รอบ และ i ค่าสุดท้ายที่เข้า body คือเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>i = 10, 17, 24, 31, 38, 45 → <strong>6 รอบ</strong> ค่าสุดท้ายคือ <strong>45</strong> (52 ไม่ผ่านเงื่อนไข)</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-6-3">
+<h3>6.3 do-while และการทำซ้ำด้วย sentinel</h3>
+<p><code>do-while</code> ตรวจเงื่อนไข<strong>หลัง</strong>ทำ body จึงทำอย่างน้อยหนึ่งครั้ง เหมาะกับการแสดงเมนูหรือถามข้อมูลก่อน แล้วค่อยตรวจว่าต้องทำต่อหรือไม่ ส่วน <strong>sentinel</strong> คือค่าพิเศษที่ใช้สั่งหยุด เช่น ป้อน 0 หรือ -1</p>
+<div class="concept-box"><span class="box-title">Syntax และ flow ของ do-while</span><p><pre><code>do {
+    // คำสั่งที่ต้องทำอย่างน้อยหนึ่งครั้ง
+} while (condition);   // ← มี ; ปิดท้าย</code></pre></p><ol class="step-list"><li>เข้าทำ body ทันทีโดยยังไม่ตรวจเงื่อนไข</li><li>ทำคำสั่งใน body และปรับค่าที่เกี่ยวข้อง</li><li>ตรวจ condition ที่ท้ายลูป</li><li>ถ้า true กลับไปเริ่ม body; ถ้า false ออกจากลูป</li></ol></div>
+<div class="source-example"><h4>ตัวอย่าง 6.3.1 · ทำอย่างน้อยหนึ่งครั้ง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> แม้เงื่อนไขเป็น false ตั้งแต่แรก body ก็ทำไปแล้วหนึ่งครั้ง — ต่างจาก while</p><div class="source-example-grid"><div class="source-field"><span>Java source · DoWhileOnce.java</span><pre class="source-code">public class DoWhileOnce {
+    public static void main(String[] args) {
+        int count = 10;
+        do {
+            System.out.println("do-while body, count = " + count);
+            count++;
+        } while (count &lt;= 3);
+
+        int k = 10;
+        while (k &lt;= 3) {
+            System.out.println("while body");
+            k++;
+        }
+        System.out.println("Finished");
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>do-while body, count = 10
+Finished</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>do-while ทำ body ก่อน (count = 10) แล้วตรวจ 11 ≤ 3 → false จบ</li><li>while ตรวจ 10 ≤ 3 ก่อน → false ไม่ทำเลย</li><li>ผลจึงต่างกัน 1 รอบ</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.3.2 · บังคับป้อนค่าในช่วงที่ถูกต้อง (input validation) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ต้องถามอย่างน้อยหนึ่งครั้งเสมอ แล้วถามซ้ำถ้าค่าไม่ถูกต้อง → do-while พอดี</p><div class="source-example-grid"><div class="source-field"><span>Java source · ValidScore.java</span><pre class="source-code">import java.util.Scanner;
+
+public class ValidScore {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int score;
+        do {
+            System.out.print("Score (0-100): ");
+            score = input.nextInt();
+            if (score &lt; 0 || score &gt; 100) {
+                System.out.println("  Invalid, try again.");
+            }
+        } while (score &lt; 0 || score &gt; 100);
+        System.out.println("Accepted: " + score);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score (0-100): <b class="stdin">150</b>
+  Invalid, try again.
+Score (0-100): <b class="stdin">-5</b>
+  Invalid, try again.
+Score (0-100): <b class="stdin">87</b>
+Accepted: 87</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>150 นอกช่วง → แจ้งเตือนและวนใหม่</li><li>-5 นอกช่วง → วนใหม่</li><li>87 ในช่วง → เงื่อนไขท้าย false → ออก</li><li>ต้องใช้ <code>||</code> ไม่ใช่ <code>&amp;&amp;</code>: ไม่มีคะแนนใดน้อยกว่า 0 และมากกว่า 100 พร้อมกัน</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.3.3 · รวมค่าจนป้อน sentinel 0 <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> อ่านค่าก่อนตรวจ (priming read) แล้วอ่านค่าถัดไปที่ท้าย body — sentinel จะไม่ถูกบวกเข้าไป</p><div class="source-example-grid"><div class="source-field"><span>Java source · SentinelSum.java</span><pre class="source-code">import java.util.Scanner;
+
+public class SentinelSum {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int sum = 0, count = 0;
+        System.out.print("Number (0 to stop): ");
+        int number = input.nextInt();
+        while (number != 0) {
+            sum += number;
+            count++;
+            System.out.print("Number (0 to stop): ");
+            number = input.nextInt();
+        }
+        System.out.println("Count = " + count + ", Sum = " + sum);
+        if (count &gt; 0) {
+            System.out.printf("Average = %.2f%n", (double) sum / count);
+        }
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Number (0 to stop): <b class="stdin">12</b>
+Number (0 to stop): <b class="stdin">7</b>
+Number (0 to stop): <b class="stdin">30</b>
+Number (0 to stop): <b class="stdin">0</b>
+Count = 3, Sum = 49
+Average = 16.33</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่าน 12 ก่อนเข้าลูป</li><li>บวก 12, 7, 30 ตามลำดับ</li><li>อ่าน 0 → เงื่อนไข false ออกก่อนบวก</li><li>ตรวจ count > 0 ก่อนหาร ป้องกันการหารด้วยศูนย์</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.3.4 · เมนูวนซ้ำด้วย do-while + switch <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โครงสร้างพื้นฐานของโปรแกรมเมนู: แสดงเมนู → รับตัวเลือก → ทำตามตัวเลือก → วนจนกว่าจะเลือกออก</p><div class="source-example-grid"><div class="source-field"><span>Java source · BankMenu.java</span><pre class="source-code">import java.util.Scanner;
+
+public class BankMenu {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        double balance = 1000;
+        int choice;
+        do {
+            System.out.println("[1] Deposit [2] Withdraw [3] Balance [0] Exit");
+            System.out.print("Choice: ");
+            choice = input.nextInt();
+            switch (choice) {
+                case 1 -&gt; {
+                    System.out.print("Amount: ");
+                    balance += input.nextDouble();
+                }
+                case 2 -&gt; {
+                    System.out.print("Amount: ");
+                    double amount = input.nextDouble();
+                    if (amount &lt;= balance) balance -= amount;
+                    else System.out.println("Insufficient funds");
+                }
+                case 3 -&gt; System.out.printf("Balance: %.2f%n", balance);
+                case 0 -&gt; System.out.println("Goodbye");
+                default -&gt; System.out.println("Invalid choice");
+            }
+        } while (choice != 0);
+    }
+}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>[1] Deposit [2] Withdraw [3] Balance [0] Exit
+Choice: <b class="stdin">1</b>
+Amount: <b class="stdin">500</b>
+[1] Deposit [2] Withdraw [3] Balance [0] Exit
+Choice: <b class="stdin">2</b>
+Amount: <b class="stdin">200</b>
+[1] Deposit [2] Withdraw [3] Balance [0] Exit
+Choice: <b class="stdin">3</b>
+Balance: 1300.00
+[1] Deposit [2] Withdraw [3] Balance [0] Exit
+Choice: <b class="stdin">0</b>
+Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เมนูแสดงอย่างน้อยหนึ่งครั้งเสมอ</li><li>ฝาก 500 → 1500, ถอน 200 → 1300</li><li>เลือก 3 แสดงยอด</li><li>เลือก 0 พิมพ์ Goodbye แล้วเงื่อนไข choice != 0 เป็น false → จบ</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 6.3.5 · do-while ขาด semicolon <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบ do-while ต้องลงท้าย <code>while (เงื่อนไข);</code> เสมอ</p><div class="source-example-grid"><div class="source-field"><span>Java source · DoWhileSyntaxError.java</span><pre class="source-code">public class DoWhileSyntaxError {
+    public static void main(String[] args) {
         int count = 1;
         do {
-          System.out.println("Run " + count);
-          count++;
-        } while (count <= 3);
-        System.out.println("Finished at " + count);
-      }
-    }</textarea></label><div class="source-output"><span>Output</span><pre>Run 1
-    Run 2
-    Run 3
-    Finished at 4</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>ลองเปลี่ยน count &lt;= 3 เป็น count &lt;= 0 แล้วรันใหม่</small></div></div>
-          <div class="note-box"><span class="box-title">ระวังเครื่องหมายท้าย do-while</span><p>โครงสร้างต้องปิดด้วย <code>while (เงื่อนไข);</code> มีอัฒภาคท้ายบรรทัด ต่างจาก <code>while</code> ที่มี body ตามหลัง</p></div>
-          <div class="concept-box"><span class="box-title">Compile error: ลืม semicolon</span><pre><code>do {
-      count++;
-    } while (count &lt;= 3) // ขาด ;
-    System.out.println("Done");</code></pre><p>คอมไพเลอร์จะแจ้ง syntax error บริเวณคำสั่งถัดไปหรือปิดบล็อก เพราะรูปแบบ do-while ต้องลงท้ายด้วย <code>;</code></p></div>
-            <div class="source-example"><h4>ทดลอง error · do-while ขาด semicolon</h4><p>กด Run เพื่อดู syntax error จากนั้นเติม <code>;</code> หลังเงื่อนไข while แล้วลองใหม่</p><div class="source-example-grid"><label class="source-field"><span>Java source · ลองแก้ไข</span><textarea class="source-editor" spellcheck="false" aria-label="Java source do-while missing semicolon">public class DoWhileSyntaxError {
-        public static void main(String[] args) {
-          int count = 1;
-          do {
             System.out.println(count);
             count++;
-          } while (count <= 3)
+        } while (count &lt;= 3)
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>DoWhileSyntaxError.java:7: error: ';' expected
+        } while (count &lt;= 3)
+                            ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>compiler แจ้ง <code>';' expected</code> ที่ท้ายบรรทัด while</li><li>เติม ; แล้วโปรแกรมจะพิมพ์ 1, 2, 3</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · do-while</strong><div><pre><code>int n = 5;
+do {
+    System.out.print(n + " ");
+    n -= 2;
+} while (n &gt; 0);</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>พิมพ์ <strong>5 3 1</strong> แล้ว n = -1 ทำให้เงื่อนไขเท็จ</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-6-4">
+<h3>6.4 ลูปซ้อน, break และ continue</h3>
+<p>ก่อนเขียน nested loop ให้เริ่มจากสิ่งที่ต้องการเห็น แล้วแบ่งงานเป็น<strong>รอบนอก</strong> (มักคุมแถว) กับ<strong>งานที่ทำซ้ำในแต่ละรอบ</strong> (มักคุมคอลัมน์) ลูปในจะทำครบทุกรอบก่อนที่ลูปนอกจะขยับหนึ่งครั้ง</p>
+<div class="source-example"><h4>ตัวอย่าง 6.4.1 · ลูปเดียว: หนึ่งรอบต่อหนึ่งตัวเลข <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โจทย์ตั้งต้น — แสดงเลข 1–5 บรรทัดละหนึ่งเลข ลูปเดียวพอ</p><div class="source-example-grid"><div class="source-field"><span>Java source · OneLoop.java</span><pre class="source-code">public class OneLoop {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;= 5; i++) {
+            System.out.println(i);
         }
-      }</textarea></label><div class="source-output"><span>Error ที่คาด</span><pre>Compile error
-      ';' expected after while condition</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run เพื่อดู syntax error</button><small>เมื่อเติม ; แล้ว โปรแกรมจะแสดง 1, 2, 3</small></div></div>
-          <div class="note-box"><span class="box-title">Logic error: ใช้ AND แทน OR</span><p>การตรวจคะแนนนอกช่วงต้องใช้ <code>score &lt; 0 || score &gt; 100</code> ถ้าใช้ <code>&amp;&amp;</code> จะไม่มีคะแนนใดต่ำกว่า 0 และมากกว่า 100 พร้อมกัน ทำให้ลูปหยุดทันทีแม้ป้อน 150</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.3</span>รับคะแนนจนกว่าจะถูกต้อง</h4><p>เขียนส่วนรับคะแนนด้วย <code>do-while</code> ให้ถามซ้ำเมื่อคะแนนต่ำกว่า 0 หรือมากกว่า 100</p><div class="answer-gate" data-answer-id="6.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;&#10;Scanner input = new Scanner(System.in);&#10;int score;&#10;do {&#10;    System.out.print("Score (0-100): ");&#10;    score = input.nextInt();&#10;} while (score &lt; 0 || score &gt; 100);&#10;System.out.println("Accepted: " + score);</code></pre><p>ถ้าป้อน 75 จะออกจากลูป; ถ้าป้อน 120 จะถามใหม่</p></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.11</span>ยืนยันเมนูอย่างน้อยหนึ่งครั้ง</h4><p>เขียน <code>do-while</code> ให้แสดงเมนูหนึ่งครั้ง แล้ววนต่อเมื่อ <code>choice != 0</code> เริ่มต้น choice เป็น 0 ผลยังต้องแสดงเมนูหนึ่งครั้ง</p><div class="answer-gate" data-answer-id="6.11"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.11<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int choice = 0;
-    do {
-      System.out.println("1. Start");
-      System.out.println("0. Exit");
-    } while (choice != 0);</code></pre><p>body ทำหนึ่งครั้งก่อนตรวจ <code>choice != 0</code> ซึ่งเป็น false</p></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.12</span>รวมค่าจนป้อนศูนย์</h4><p>รับจำนวนเต็มแล้วบวกเข้าผลรวม ทำซ้ำจนผู้ใช้ป้อน 0 โดยไม่บวก sentinel 0 เข้าไป</p><div class="answer-gate" data-answer-id="6.12">
-            <button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button>
-            <form class="password-form" hidden><label>รหัสผ่านของข้อ 6.12
-                <input type="password" autocomplete="off" required></label>
-                <button class="password-submit" type="submit">เปิดเฉลย</button>
-                <p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden>
-                    <h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
-    Scanner input = new Scanner(System.in);
-    int number;
-    int sum = 0;
-    do {
-      System.out.print("Number (0 to stop): ");
-      number = input.nextInt();
-      if (number != 0) {
-        sum += number;
-      }
-    } while (number != 0);
-    System.out.println("Sum: " + sum);</code></pre><p>ค่าที่ตรวจซ้ำคือ number; เมื่อเป็นศูนย์จะไม่บวกและเงื่อนไขจบการทำซ้ำ</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-6-4">
-          <h3>6.4 ลูปซ้อน: เริ่มจาก output แล้วค่อยเพิ่มความต้องการ</h3><p>ก่อนเขียน nested loop ให้เริ่มจากสิ่งที่ต้องการเห็น แล้วแบ่งงานเป็นรอบนอกกับงานที่ต้องทำซ้ำในแต่ละรอบ จะช่วยให้รู้ว่าลูปไหนควบคุมค่า และลูปไหนควบคุมจำนวนครั้ง</p>
-          <div class="concept-box"><span class="box-title">โจทย์ตั้งต้น: แสดงเลข 1–5 บรรทัดละหนึ่งเลข</span><p>ต้องการให้โปรแกรมเลือกเลขปัจจุบันหนึ่งค่า แล้วขึ้นบรรทัดใหม่เมื่อแสดงเสร็จ ดังนั้นใช้ <strong>ลูปเดียว</strong> ให้ตัวแปร <code>i</code> เปลี่ยนจาก 1 ถึง 5</p></div>
-          <div class="source-example"><h4>ตัวอย่าง 6.4.1 · หนึ่งรอบต่อหนึ่งตัวเลข</h4><p>outer loop ยังไม่จำเป็น เพราะหนึ่งค่าต้องแสดงเพียงครั้งเดียว</p><div class="source-example-grid"><label class="source-field"><span>Java source</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.4.1">public class Main {
-      public static void main(String[] args) {
-        for (int i = 1; i <= 5; i++) {
-          System.out.println(i);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>1
+2
+3
+4
+5</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>i เปลี่ยนจาก 1 ถึง 5</li><li>แต่ละรอบพิมพ์ i หนึ่งครั้งแล้วขึ้นบรรทัด</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.4.2 · เพิ่มความต้องการ: พิมพ์แต่ละเลขซ้ำ 10 ครั้ง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตอนนี้มีสองหน้าที่: i เลือกเลข (ลูปนอก) และ j นับจำนวนครั้งที่พิมพ์เลขนั้น (ลูปใน)</p><div class="source-example-grid"><div class="source-field"><span>Java source · RepeatEachNumber.java</span><pre class="source-code">public class RepeatEachNumber {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;= 5; i++) {
+            for (int j = 1; j &lt;= 10; j++) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
         }
-      }
-    }</textarea></label><div class="source-output"><span>Output</span><pre>1
-    2
-    3
-    4
-    5</pre></div></div></div>
-          <div class="concept-box"><span class="box-title">เพิ่มความต้องการ: แสดงเลขแต่ละตัว 20 ครั้ง</span><p>ลูปเดิมยังต้องเลือกเลข 1, 2, 3, 4, 5 ทีละค่า แต่ตอนนี้ภายในแต่ละค่าต้องพิมพ์ซ้ำ 20 ครั้ง จึงแบ่งเป็นสองงาน:</p><ol><li><strong>outer loop (<code>i</code>)</strong> เลือกตัวเลขทีละค่า ตั้งแต่ 1 ถึง 5</li><li><strong>inner loop (<code>j</code>)</strong> พิมพ์ค่า <code>i</code> จำนวน 20 ครั้ง ก่อนให้ outer loop ขยับไปเลขถัดไป</li><li>เมื่อ inner loop จบ ให้ <code>println()</code> ขึ้นบรรทัดใหม่ แล้วเริ่ม inner loop ใหม่สำหรับค่า <code>i</code> ถัดไป</li></ol><p>นี่เป็นคนละหน้าที่และคนละตัวนับ: <code>i</code> เลือกเลข ส่วน <code>j</code> นับจำนวนครั้งที่แสดงเลขนั้น</p></div>
-          <table class="comparison-table"><thead><tr><th>รอบของ outer loop</th><th>ค่า i</th><th>inner loop ทำงาน</th><th>ผลก่อนขึ้นบรรทัดใหม่</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>j = 1 ถึง 20</td><td>พิมพ์เลข 1 จำนวน 20 ครั้ง</td></tr><tr><td>2</td><td>2</td><td>j เริ่ม 1 ถึง 20 อีกครั้ง</td><td>พิมพ์เลข 2 จำนวน 20 ครั้ง</td></tr><tr><td>3</td><td>3</td><td>j เริ่ม 1 ถึง 20 อีกครั้ง</td><td>พิมพ์เลข 3 จำนวน 20 ครั้ง</td></tr><tr><td>4</td><td>4</td><td>j เริ่ม 1 ถึง 20 อีกครั้ง</td><td>พิมพ์เลข 4 จำนวน 20 ครั้ง</td></tr><tr><td>5</td><td>5</td><td>j เริ่ม 1 ถึง 20 อีกครั้ง</td><td>พิมพ์เลข 5 จำนวน 20 ครั้ง</td></tr></tbody></table>
-          <div class="source-example"><h4>ตัวอย่าง 6.4.2 · inner loop พิมพ์เลขเดิม 20 ครั้ง</h4><p>ตัวอย่างนี้แสดง <code>i</code> ซ้ำ 20 ครั้งในหนึ่งบรรทัด แล้วจึงขึ้นบรรทัดใหม่</p><div class="source-example-grid"><label class="source-field"><span>Java source</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.4.2">public class Main {
-      public static void main(String[] args) {
-        for (int i = 1; i <= 5; i++) {
-          for (int j = 1; j <= 20; j++) {
-            System.out.print(i + " ");
-          }
-          System.out.println();
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>1 1 1 1 1 1 1 1 1 1 
+2 2 2 2 2 2 2 2 2 2 
+3 3 3 3 3 3 3 3 3 3 
+4 4 4 4 4 4 4 4 4 4 
+5 5 5 5 5 5 5 5 5 5</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>i = 1: j วิ่ง 1–10 พิมพ์ 1 สิบครั้ง แล้ว println ขึ้นบรรทัด</li><li>i = 2: j เริ่มใหม่ที่ 1 อีกครั้ง</li><li>รวมทั้งหมด 5 × 10 = 50 ครั้ง</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.4.3 · สามเหลี่ยมดาว: ลูปในขึ้นกับลูปนอก <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> จำนวนรอบของลูปในไม่จำเป็นต้องคงที่ — ใช้ค่า row ของลูปนอกเป็นขอบเขต</p><div class="source-example-grid"><div class="source-field"><span>Java source · StarTriangle.java</span><pre class="source-code">public class StarTriangle {
+    public static void main(String[] args) {
+        int height = 5;
+        for (int row = 1; row &lt;= height; row++) {
+            for (int col = 1; col &lt;= row; col++) {
+                System.out.print("* ");
+            }
+            System.out.println();
         }
-      }
-    }</textarea></label><div class="source-output"><span>Output · แต่ละบรรทัดมีเลขซ้ำ 20 ครั้ง</span><pre>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-    2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
-    3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
-    4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4
-    5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5</pre></div></div></div>
-          <div class="note-box"><span class="box-title">ทำไมต้องเป็นคนละ loop?</span><p>ถ้าเขียน <code>System.out.println(i)</code> ใน outer loop อย่างเดียว แต่ละเลขจะแสดงเพียงครั้งเดียว ถ้าเขียนคำสั่ง print 20 บรรทัดแทน inner loop โค้ดจะยาวและเปลี่ยนจำนวนรอบยาก inner loop จึงรับผิดชอบการทำซ้ำย่อยต่อค่า <code>i</code> โดยตรง</p></div>
-          <p>เมื่อเข้าใจการแบ่งงานเป็นรอบแล้ว จึงต่อยอดไปใช้ break เพื่อออกจากลูป และ continue เพื่อข้ามรอบบางรอบได้</p>
-          <div class="concept-box"><span class="box-title">Flow ของ break และ continue</span><ul><li><code>break;</code> ออกจากลูปชั้นในสุดที่กำลังทำ แล้วไปคำสั่งหลังลูปนั้น</li><li><code>continue;</code> หยุดรอบปัจจุบันทันทีแล้วเริ่มรอบใหม่</li><li>ใน <code>for</code> เมื่อ continue ทำงาน ส่วน update ในหัว for ยังถูกรันก่อนตรวจ condition รอบถัดไป</li><li>ใน <code>while</code> ถ้า update อยู่ท้าย body แล้ว continue มาก่อน update ค่านั้นจะถูกข้ามได้</li></ul></div>
-          <div class="example-box"><span class="box-title">พิมพ์สามเหลี่ยมดาว</span><pre><code>for (int row = 1; row &lt;= 3; row++) {&#10;    for (int column = 1; column &lt;= row; column++) {&#10;        System.out.print("* ");&#10;    }&#10;    System.out.println();&#10;}</code></pre><p>ลูปชั้นนอกคุมแถว ส่วนลูปชั้นในพิมพ์ดาวตามหมายเลขแถว</p></div>
-          <div class="source-example"><h4>ตัวอย่าง 6.4.3 · continue ข้ามเลขคู่, break ที่ 7</h4><p>continue ข้ามการพิมพ์เลขคู่ ส่วน break ออกจากลูปเมื่อเจอ 7</p><div class="source-example-grid"><label class="source-field"><span>Java source</span><textarea class="source-editor" spellcheck="false" aria-label="Java source ตัวอย่าง 6.4.3">public class Main {
-      public static void main(String[] args) {
-        for (int number = 1; number <= 10; number++) {
-          if (number % 2 == 0) {
-            continue;
-          }
-          if (number == 7) {
-            break;
-          }
-          System.out.println(number);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>* 
+* * 
+* * * 
+* * * * 
+* * * * *</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>row 1 → ดาว 1 ดวง</li><li>row 2 → 2 ดวง … row 5 → 5 ดวง</li><li>เคล็ดลับ: เขียนตาราง “แถว → จำนวนดาว” ก่อน แล้วหาความสัมพันธ์</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.4.4 · พีระมิด: ช่องว่างลดลง ดาวเพิ่มขึ้น <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ในแต่ละแถวมีลูปในสองชุด: ชุดแรกพิมพ์ช่องว่าง (height − row) ชุดที่สองพิมพ์ดาว (2 × row − 1)</p><div class="source-example-grid"><div class="source-field"><span>Java source · StarPyramid.java</span><pre class="source-code">public class StarPyramid {
+    public static void main(String[] args) {
+        int height = 4;
+        for (int row = 1; row &lt;= height; row++) {
+            for (int s = 1; s &lt;= height - row; s++) {
+                System.out.print(" ");
+            }
+            for (int k = 1; k &lt;= 2 * row - 1; k++) {
+                System.out.print("*");
+            }
+            System.out.println();
+        }
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>   *
+  ***
+ *****
+*******</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>row 1: ช่องว่าง 3, ดาว 1</li><li>row 2: ช่องว่าง 2, ดาว 3</li><li>row 4: ช่องว่าง 0, ดาว 7</li></ol></div></div>
+<table class="comparison-table trace-table"><thead><tr><th>row</th><th>ช่องว่าง = 4 − row</th><th>ดาว = 2·row − 1</th></tr></thead><tbody><tr><td>1</td><td>3</td><td>1</td></tr><tr><td>2</td><td>2</td><td>3</td></tr><tr><td>3</td><td>1</td><td>5</td></tr><tr><td>4</td><td>0</td><td>7</td></tr></tbody></table>
+<div class="concept-box"><span class="box-title">break และ continue</span><ul><li><code>break;</code> ออกจากลูป<strong>ชั้นในสุด</strong>ที่กำลังทำ แล้วไปคำสั่งหลังลูปนั้น</li><li><code>continue;</code> ข้ามส่วนที่เหลือของรอบนี้ แล้วเริ่มรอบใหม่ — ใน for ส่วน update ยังทำงาน แต่ใน while ถ้า update อยู่หลัง continue จะถูกข้าม (เสี่ยงลูปไม่รู้จบ)</li></ul></div>
+<div class="source-example"><h4>ตัวอย่าง 6.4.5 · continue ข้ามเลขคู่, break ที่ 7 <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> continue ทำให้ข้ามการพิมพ์เลขคู่ ส่วน break ออกจากลูปเมื่อเจอ 7</p><div class="source-example-grid"><div class="source-field"><span>Java source · BreakContinue.java</span><pre class="source-code">public class BreakContinue {
+    public static void main(String[] args) {
+        for (int number = 1; number &lt;= 10; number++) {
+            if (number % 2 == 0) {
+                continue;
+            }
+            if (number == 7) {
+                break;
+            }
+            System.out.println(number);
         }
         System.out.println("After loop");
-      }
-    }</textarea></label><div class="source-output"><span>Output</span><pre>1
-    3
-    5
-    After loop</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run Java example</button><small>break ออกก่อนพิมพ์ 7; continue ทำให้ข้ามเลขคู่</small></div></div>
-          <div class="example-box"><span class="box-title">break ในลูปซ้อนออกจากลูปไหน?</span><pre><code>for (int row = 1; row &lt;= 3; row++) {
-      for (int column = 1; column &lt;= 3; column++) {
-        if (column == 2) break;
-        System.out.println(row + "," + column);
-      }
-    }</code></pre><p><code>break</code> ปกติออกจากลูปชั้นในเท่านั้น ลูป row ยังทำแถวถัดไป</p></div>
-          <div class="note-box"><span class="box-title">Compile error: คำสั่งหลัง break ไปไม่ถึง</span><pre><code>while (true) {
-      break;
-      System.out.println("never reached"); // unreachable statement
-    }</code></pre><p>เมื่อ break ทำงานทุกครั้ง คำสั่งถัดไปในบล็อกนี้ไม่มีทางทำงาน Java จึงรายงาน unreachable statement</p></div>
-            <div class="source-example"><h4>ทดลอง error · unreachable statement</h4><p>คำสั่ง print หลัง break ทำงานไม่ได้ เพราะโปรแกรมออกจากลูปก่อนเสมอ</p><div class="source-example-grid"><label class="source-field"><span>Java source · ลองแก้ไข</span><textarea class="source-editor" spellcheck="false" aria-label="Java source unreachable statement">public class UnreachableAfterBreak {
-        public static void main(String[] args) {
-          while (true) {
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>1
+3
+5
+After loop</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>1 พิมพ์, 2 ข้าม, 3 พิมพ์, 4 ข้าม, 5 พิมพ์, 6 ข้าม</li><li>7 เป็นคี่ ผ่าน continue แต่ break ทำงาน → ออก</li><li>8–10 ไม่ถูกตรวจเลย</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 6.4.6 · หาจำนวนเฉพาะ: ลูปซ้อน + break <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สำหรับแต่ละ n ลองหารด้วย 2 ถึง √n ถ้าเจอตัวหารลงตัวก็ break ทันที (ไม่ต้องลองต่อ)</p><div class="source-example-grid"><div class="source-field"><span>Java source · PrimesUpTo50.java</span><pre class="source-code">public class PrimesUpTo50 {
+    public static void main(String[] args) {
+        int count = 0;
+        for (int n = 2; n &lt;= 50; n++) {
+            boolean isPrime = true;
+            for (int d = 2; d * d &lt;= n; d++) {
+                if (n % d == 0) {
+                    isPrime = false;
+                    break;          // ออกเฉพาะลูป d
+                }
+            }
+            if (isPrime) {
+                System.out.print(n + " ");
+                count++;
+            }
+        }
+        System.out.println();
+        System.out.println("Total primes: " + count);
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 
+Total primes: 15</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลูปนอกเลือก n ทีละค่า</li><li>ตั้งสมมติฐาน isPrime = true แล้วพยายามหาตัวหาร (flag pattern)</li><li>break ออกเฉพาะลูปใน ลูปนอกยังทำ n ถัดไป</li><li><code>d * d &lt;= n</code> เทียบเท่า d ≤ √n ลดจำนวนรอบได้มาก</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 6.4.7 · unreachable statement <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งหลัง break ในบล็อกเดียวกันไม่มีทางทำงาน compiler จึงไม่ยอม</p><div class="source-example-grid"><div class="source-field"><span>Java source · UnreachableAfterBreak.java</span><pre class="source-code">public class UnreachableAfterBreak {
+    public static void main(String[] args) {
+        while (true) {
             break;
             System.out.println("Never reached");
-          }
         }
-      }</textarea></label><div class="source-output"><span>Error ที่คาด</span><pre>Compile error
-      unreachable statement</pre></div></div><div class="source-actions"><button class="run-example" type="button" data-run-example>Run เพื่อดู compile error</button><small>ย้าย println ไปหลังลูปเพื่อให้คำสั่งทำงานได้</small></div></div>
-          <div class="note-box"><span class="box-title">Logic error: continue ข้าม update ใน while</span><pre><code>int i = 1;
-    while (i &lt;= 5) {
-      if (i % 2 == 0) continue;
-      System.out.println(i);
-      i++;
-    }</code></pre><p>เมื่อ i เป็น 2 จะ continue ก่อน <code>i++</code> ทำให้ i ค้างที่ 2 ตลอด ลูปไม่จบ ย้ายการอัปเดตไปตำแหน่งที่ทำงานทุกเส้นทาง หรือใช้ for</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.4</span>พิมพ์เลขคี่และหยุดก่อน 7</h4><p>วนเลขตั้งแต่ 1 ถึง 10 ข้ามเลขคู่ด้วย <code>continue</code> และหยุดเมื่อถึง 7 ด้วย <code>break</code> ผลที่พิมพ์ควรเป็น 1, 3, 5</p><div class="answer-gate" data-answer-id="6.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>for (int number = 1; number &lt;= 10; number++) {&#10;    if (number % 2 == 0) {&#10;        continue;&#10;    }&#10;    if (number == 7) {&#10;        break;&#10;    }&#10;    System.out.println(number);&#10;}</code></pre><p>เมื่อเป็น 7 จะไม่เข้าเงื่อนไขข้ามเลขคู่ แต่เข้า <code>break</code> ก่อนพิมพ์</p></div></div></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 6.13</span>ข้ามจำนวนที่หาร 3 ลงตัว</h4><p>พิมพ์เลข 1 ถึง 12 โดยใช้ <code>continue</code> ข้ามจำนวนที่หาร 3 ลงตัว</p><div class="answer-gate" data-answer-id="6.13"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.13<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>for (int i = 1; i &lt;= 12; i++) {
-      if (i % 3 == 0) continue;
-      System.out.println(i);
-    }</code></pre><p>ส่วน update <code>i++</code> อยู่ในหัว for จึงยังทำงานหลัง continue</p></div></div></div>
-        </article>
-      </section>
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>ทำนายจำนวนรอบและค่าตัวแปรก่อนรัน แล้วตรวจเทียบกับผลจริง</p>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 6.5</span>แฟกทอเรียล</h3><p>คำนวณ 5! โดยใช้ลูป (5! = 1 × 2 × 3 × 4 × 5)</p><div class="answer-gate" data-answer-id="6.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int n = 5;&#10;long factorial = 1;&#10;for (int number = 1; number &lt;= n; number++) {&#10;    factorial *= number;&#10;}&#10;System.out.println(factorial); // 120</code></pre><p>เริ่มผลคูณที่ 1 เพราะการคูณด้วย 1 ไม่เปลี่ยนค่า</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 6.6</span>วาดกรอบสี่เหลี่ยม</h3><p>ใช้ลูปซ้อนพิมพ์ดาว 4 แถว แถวละ 6 ดวง</p><div class="answer-gate" data-answer-id="6.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>for (int row = 1; row &lt;= 4; row++) {&#10;    for (int column = 1; column &lt;= 6; column++) {&#10;        System.out.print("* ");&#10;    }&#10;    System.out.println();&#10;}</code></pre><p>ลูปนอกทำ 4 รอบ; ลูปในทำ 6 รอบต่อหนึ่งแถว</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 6.7</span>นับถอยหลัง</h3><p>กำหนด <code>start = 5</code> ใช้ <code>while</code> พิมพ์ 5, 4, 3, 2, 1 แล้วแสดง <code>Go!</code></p><div class="answer-gate" data-answer-id="6.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>int start = 5;&#10;while (start &gt;= 1) {&#10;    System.out.println(start);&#10;    start--;&#10;}&#10;System.out.println("Go!");</code></pre><p>เมื่อตัวนับลดจาก 1 เป็น 0 เงื่อนไขเป็นเท็จ จึงออกจากลูป</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 6.14</span>break ออกจากลูปชั้นใด</h3><p>ไล่ output ของลูปซ้อนเมื่อ row และ column มีค่า 1 ถึง 3 และสั่ง <code>break</code> เมื่อ row เป็น 2 และ column เป็น 2</p><div class="answer-gate" data-answer-id="6.14"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.14<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>for (int row = 1; row &lt;= 3; row++) {
-      for (int column = 1; column &lt;= 3; column++) {
-        if (row == 2 &amp;&amp; column == 2) break;
-        System.out.println(row + "," + column);
-      }
-    }</code></pre><p>ผลคือ 1,1; 1,2; 1,3; 2,1; 3,1; 3,2; 3,3 เพราะ break ออกจากลูป column เท่านั้น</p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 6.15</span>ทำนายค่าก่อน break</h3><p>ทำนายค่า <code>total</code> และ <code>i</code> ตอนจบ ก่อนเปิดเฉลย</p><div class="answer-gate" data-answer-id="6.15"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.15<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">โปรแกรมและการ trace</h4><pre><code>int i = 1;
-    int total = 0;
-    while (i &lt; 4) {
-      total += i;
-      i++;
-      if (total &gt;= 3) break;
     }
-    System.out.println("total=" + total + ", i=" + i);</code></pre><p>รอบ 1 ได้ total=1, i=2; รอบ 2 ได้ total=3, i=3 แล้ว break จึงแสดง <code>total=3, i=3</code></p></div></div></article>
-        <article class="end-exercise"><h3><span class="exercise-id">Exercise 6.16</span>หาสาเหตุและแก้ลูป</h3><p>โปรแกรม A ใช้ <code>while (i = 3)</code> ส่วนโปรแกรม B มี semicolon ต่อท้าย <code>for (...)</code> อธิบายว่าแต่ละโปรแกรมผิดแบบใดและแก้ให้ถูก</p><div class="answer-gate" data-answer-id="6.16"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.16<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">คำอธิบายและแนวแก้</h4><pre><code>// A: compile error เพราะ assignment ให้ค่า int ไม่ใช่ boolean
-    while (i == 3) {
-      System.out.println(i);
-      i--;
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>UnreachableAfterBreak.java:5: error: unreachable statement
+            System.out.println("Never reached");
+            ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>unreachable statement</code> ชี้ที่ println</li><li>ย้าย println ไปหลังลูป หรือใส่ break ไว้ใน if</li></ol></div></div>
+<div class="note-box"><span class="box-title">Logic error: continue ข้าม update ใน while</span><pre><code>int i = 1;
+while (i &lt;= 5) {
+    if (i % 2 == 0) continue;   // i = 2 → continue ก่อน i++ → ค้างที่ 2 ตลอด
+    System.out.println(i);
+    i++;
+}</code></pre><p>แก้โดยย้าย <code>i++</code> ขึ้นไปก่อน continue หรือเปลี่ยนเป็น for loop</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · นับรอบลูปซ้อน</strong><div><pre><code>int count = 0;
+for (int a = 1; a &lt;= 4; a++)
+    for (int b = a; b &lt;= 4; b++)
+        count++;</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>a = 1 → 4 รอบ, a = 2 → 3, a = 3 → 2, a = 4 → 1 รวม <strong>10</strong></p></div></details></div>
+</article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ทำนายจำนวนรอบและค่าตัวแปรก่อนรัน แล้วตรวจเทียบกับผลจริง ข้อที่ยากขึ้นจะต้องผสมลูปกับเงื่อนไขและลูปซ้อน</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 6.1</span>รวมเลข 1 ถึง n<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับจำนวนเต็มบวก n แล้วใช้ <code>while</code> รวม 1 + 2 + … + n และแสดงผล พร้อมตรวจกับสูตร n(n+1)/2</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ while (ไม่ใช่ for)</li><li>แสดงผลรวมจากลูปและจากสูตรเพื่อเปรียบเทียบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>n = <b class="stdin">5</b>
+Loop sum = 15
+Formula  = 15</pre></div><div><small>ครั้งที่ 2</small><pre>n = <b class="stdin">100</b>
+Loop sum = 5050
+Formula  = 5050</pre></div></div></div><div class="answer-gate" data-answer-id="6.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class SumWhile {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("n = ");
+        int n = input.nextInt();
+        int i = 1, sum = 0;
+        while (i &lt;= n) {
+            sum += i;
+            i++;
+        }
+        System.out.println("Loop sum = " + sum);
+        System.out.println("Formula  = " + n * (n + 1) / 2);
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 6.2</span>นับถอยหลังทีละสอง<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>ใช้ <code>while (i &gt; 0)</code> แสดง 10, 8, 6, 4, 2 ในบรรทัดเดียวกันคั่นด้วยช่องว่าง แล้วแสดง <code>Lift off!</code> ในบรรทัดถัดไป</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เริ่มที่ 10 ลดทีละ 2</li><li>อธิบายในคำตอบว่าทำไม 0 ไม่ถูกพิมพ์</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>10 8 6 4 2 
+Lift off!</pre></div><div class="answer-gate" data-answer-id="6.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class CountdownByTwo {
+    public static void main(String[] args) {
+        int i = 10;
+        while (i &gt; 0) {
+            System.out.print(i + " ");
+            i -= 2;
+        }
+        System.out.println();
+        System.out.println("Lift off!");
+    }
+}</code></pre><p>หลังพิมพ์ 2 ค่า i ลดเป็น 0 เงื่อนไข i &gt; 0 จึงเป็น false ก่อนเข้ารอบถัดไป</p></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 6.3</span>ตารางสูตรคูณแบบกำหนดช่วง<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับแม่สูตรคูณ n และจำนวนแถว rows แล้วใช้ <code>for</code> แสดงสูตรคูณ n × 1 ถึง n × rows จัดคอลัมน์ให้ตรง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ printf จัดความกว้าง เช่น <code>%2d</code>, <code>%3d</code></li><li>ทดสอบ n = 9, rows = 6</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>n rows: <b class="stdin">9 6</b>
+9 x  1 =   9
+9 x  2 =  18
+9 x  3 =  27
+9 x  4 =  36
+9 x  5 =  45
+9 x  6 =  54</pre></div><div class="answer-gate" data-answer-id="6.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class TableRange {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("n rows: ");
+        int n = input.nextInt();
+        int rows = input.nextInt();
+        for (int m = 1; m &lt;= rows; m++) {
+            System.out.printf("%d x %2d = %3d%n", n, m, n * m);
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 6.4</span>แฟกทอเรียล<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับ n (0–20) แล้วคำนวณ n! = 1 × 2 × … × n โดยกำหนด 0! = 1 ใช้ตัวแปรชนิด <code>long</code> เพราะผลโตเร็วมาก</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ผลคูณเริ่มที่ 1 (ไม่ใช่ 0)</li><li>แสดงขั้นตอนการคูณ เช่น <code>5! = 1 x 2 x 3 x 4 x 5 = 120</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>n = <b class="stdin">5</b>
+5! = 1 x 2 x 3 x 4 x 5 = 120</pre></div><div><small>ครั้งที่ 2</small><pre>n = <b class="stdin">0</b>
+0! = 1 = 1</pre></div></div></div><div class="answer-gate" data-answer-id="6.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class Factorial {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("n = ");
+        int n = input.nextInt();
+        long fact = 1;
+        System.out.print(n + "! = 1");
+        for (int i = 2; i &lt;= n; i++) {
+            fact *= i;
+            System.out.print(" x " + i);
+        }
+        System.out.println(" = " + fact);
+    }
+}</code></pre><p>เมื่อ n = 0 หรือ 1 ลูปไม่ทำงานเลย ผลจึงเป็น 1 ตามนิยาม</p></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 6.5</span>รับคะแนนจนกว่าจะถูกต้อง แล้วตัดเกรด<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>ใช้ <code>do-while</code> ถามคะแนนซ้ำเมื่อคะแนนต่ำกว่า 0 หรือมากกว่า 100 (แสดงข้อความเตือนทุกครั้งที่ผิด) เมื่อได้คะแนนที่ถูกต้องแล้วให้ตัดเกรด A/B/C/D/F (80/70/60/50) และบอกว่าป้อนผิดไปกี่ครั้ง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ do-while สำหรับการรับค่า</li><li>นับจำนวนครั้งที่ป้อนผิด</li><li>ตัดเกรดหลังออกจากลูป</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>Score: <b class="stdin">120</b>
+Out of range!
+Score: <b class="stdin">-3</b>
+Out of range!
+Score: <b class="stdin">74</b>
+Grade B (invalid attempts: 2)</pre></div><div class="answer-gate" data-answer-id="6.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class ValidateAndGrade {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int score;
+        int wrong = 0;
+        do {
+            System.out.print("Score: ");
+            score = input.nextInt();
+            if (score &lt; 0 || score &gt; 100) {
+                System.out.println("Out of range!");
+                wrong++;
+            }
+        } while (score &lt; 0 || score &gt; 100);
+        char grade;
+        if (score &gt;= 80) grade = 'A';
+        else if (score &gt;= 70) grade = 'B';
+        else if (score &gt;= 60) grade = 'C';
+        else if (score &gt;= 50) grade = 'D';
+        else grade = 'F';
+        System.out.println("Grade " + grade + " (invalid attempts: " + wrong + ")");
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 6.6</span>สถิติจนกว่าจะป้อน -1<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับคะแนน (จำนวนเต็ม 0–100) ไปเรื่อย ๆ จนผู้ใช้ป้อน <code>-1</code> แล้วแสดงจำนวนข้อมูล ค่าสูงสุด ค่าต่ำสุด ค่าเฉลี่ย และจำนวนคนที่ได้ ≥ 50 ถ้าไม่มีข้อมูลเลยให้แสดง <code>No data</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>-1 เป็น sentinel ห้ามนำไปคำนวณ</li><li>ค่า max/min เริ่มต้นได้จากข้อมูลตัวแรก หรือใช้ <code>Integer.MIN_VALUE</code>/<code>MAX_VALUE</code></li><li>ป้องกันการหารด้วย 0</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Scores (-1 to stop): <b class="stdin">67 45 88 92 50 -1</b>
+Count: 5
+Max: 92, Min: 45
+Average: 68.40
+Passed: 4</pre></div><div><small>ครั้งที่ 2</small><pre>Scores (-1 to stop): <b class="stdin">-1</b>
+No data</pre></div></div></div><div class="answer-gate" data-answer-id="6.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class ScoreStats {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int count = 0, sum = 0, passed = 0;
+        int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
+        System.out.print("Scores (-1 to stop): ");
+        int score = input.nextInt();
+        while (score != -1) {
+            count++;
+            sum += score;
+            if (score &gt; max) max = score;
+            if (score &lt; min) min = score;
+            if (score &gt;= 50) passed++;
+            score = input.nextInt();
+        }
+        if (count == 0) {
+            System.out.println("No data");
+        } else {
+            System.out.println("Count: " + count);
+            System.out.println("Max: " + max + ", Min: " + min);
+            System.out.printf("Average: %.2f%n", (double) sum / count);
+            System.out.println("Passed: " + passed);
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 6.7</span>กลับหลักตัวเลขและตรวจพาลินโดรม<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับจำนวนเต็มบวก แล้วใช้ลูปสร้างตัวเลขกลับหลัก (เช่น 12345 → 54321) โดยใช้ <code>%</code> และ <code>/</code> เท่านั้น (ห้ามแปลงเป็น String) จากนั้นบอกว่าเป็น<strong>พาลินโดรม</strong> (อ่านกลับแล้วเท่าเดิม) หรือไม่</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>reversed = reversed × 10 + (temp % 10) แล้ว temp /= 10</li><li>เก็บค่าเดิมไว้เปรียบเทียบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Number: <b class="stdin">12345</b>
+Reversed: 54321
+Not palindrome</pre></div><div><small>ครั้งที่ 2</small><pre>Number: <b class="stdin">12321</b>
+Reversed: 12321
+Palindrome</pre></div></div></div><div class="answer-gate" data-answer-id="6.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class ReverseNumber {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Number: ");
+        int n = input.nextInt();
+        int temp = n, reversed = 0;
+        while (temp &gt; 0) {
+            reversed = reversed * 10 + temp % 10;
+            temp /= 10;
+        }
+        System.out.println("Reversed: " + reversed);
+        System.out.println(n == reversed ? "Palindrome" : "Not palindrome");
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 6.8</span>เกมทายตัวเลข (กำหนดคำตอบ)<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>กำหนดคำตอบในโปรแกรมเป็น <code>secret = 37</code> ให้ผู้ใช้ทายได้ไม่เกิน 6 ครั้ง ทุกครั้งที่ทายให้บอก <code>Too high</code> หรือ <code>Too low</code> ถ้าทายถูกให้แสดงจำนวนครั้งที่ใช้แล้วจบทันที ถ้าครบ 6 ครั้งยังไม่ถูกให้เฉลยคำตอบ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ for นับจำนวนครั้ง + break เมื่อทายถูก</li><li>ใช้ตัวแปร boolean ติดตามว่าทายถูกหรือยัง</li><li>บทเสริม Random จะสุ่มคำตอบแทนการกำหนดตายตัว</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Guess #1: <b class="stdin">50</b>
+Too high
+Guess #2: <b class="stdin">25</b>
+Too low
+Guess #3: <b class="stdin">37</b>
+Correct! You used 3 guesses.</pre></div><div><small>ครั้งที่ 2</small><pre>Guess #1: <b class="stdin">1</b>
+Too low
+Guess #2: <b class="stdin">2</b>
+Too low
+Guess #3: <b class="stdin">3</b>
+Too low
+Guess #4: <b class="stdin">4</b>
+Too low
+Guess #5: <b class="stdin">5</b>
+Too low
+Guess #6: <b class="stdin">6</b>
+Too low
+Out of guesses. The answer was 37</pre></div></div></div><div class="answer-gate" data-answer-id="6.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class GuessNumber {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int secret = 37;
+        boolean found = false;
+        for (int attempt = 1; attempt &lt;= 6; attempt++) {
+            System.out.print("Guess #" + attempt + ": ");
+            int guess = input.nextInt();
+            if (guess == secret) {
+                System.out.println("Correct! You used " + attempt + " guesses.");
+                found = true;
+                break;
+            } else if (guess &gt; secret) {
+                System.out.println("Too high");
+            } else {
+                System.out.println("Too low");
+            }
+        }
+        if (!found) {
+            System.out.println("Out of guesses. The answer was " + secret);
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 6.9</span>ตารางสูตรคูณ 2 มิติ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับ n แล้วแสดงตารางสูตรคูณขนาด n × n ที่มีหัวแถวและหัวคอลัมน์ ช่องในตารางเป็นผลคูณของหัวแถวกับหัวคอลัมน์ จัดให้ทุกคอลัมน์กว้าง 4 ตัวอักษร</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แถวแรกเป็นหัวคอลัมน์ 1..n โดยมุมซ้ายบนเป็นช่องว่าง</li><li>ใช้ลูปซ้อน: ลูปนอกคือแถว ลูปในคือคอลัมน์</li><li>มีเส้นคั่นใต้หัวคอลัมน์และ <code>|</code> หลังหัวแถว</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>n = <b class="stdin">6</b>
+    |   1   2   3   4   5   6
+-----------------------------
+  1 |   1   2   3   4   5   6
+  2 |   2   4   6   8  10  12
+  3 |   3   6   9  12  15  18
+  4 |   4   8  12  16  20  24
+  5 |   5  10  15  20  25  30
+  6 |   6  12  18  24  30  36</pre></div><div class="answer-gate" data-answer-id="6.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class TimesTable2D {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("n = ");
+        int n = input.nextInt();
+        System.out.print("    |");
+        for (int c = 1; c &lt;= n; c++) System.out.printf("%4d", c);
+        System.out.println();
+        System.out.println("-".repeat(5 + 4 * n));
+        for (int r = 1; r &lt;= n; r++) {
+            System.out.printf("%3d |", r);
+            for (int c = 1; c &lt;= n; c++) {
+                System.out.printf("%4d", r * c);
+            }
+            System.out.println();
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 6.10</span>รูปข้าวหลามตัดตัวเลข<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับความสูงครึ่งบน h แล้วพิมพ์รูปข้าวหลามตัดที่ประกอบด้วยตัวเลข แถวที่ k ของครึ่งบนแสดงเลข 1 ขึ้นไปถึง k แล้วลดกลับลงมาที่ 1 (เช่น <code>1234321</code>) ครึ่งล่างสะท้อนครึ่งบนโดยไม่ซ้ำแถวกลาง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แต่ละแถวมีลูปย่อย 3 ชุด: ช่องว่าง, ตัวเลขขาขึ้น, ตัวเลขขาลง</li><li>ครึ่งบนแถว 1..h, ครึ่งล่างแถว h−1..1</li><li>ทดสอบ h = 4</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>h = <b class="stdin">4</b>
+   1
+  121
+ 12321
+1234321
+ 12321
+  121
+   1</pre></div><div class="answer-gate" data-answer-id="6.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class NumberDiamond {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("h = ");
+        int h = input.nextInt();
+        for (int k = 1; k &lt;= h; k++) printRow(k, h);
+        for (int k = h - 1; k &gt;= 1; k--) printRow(k, h);
     }
 
-    // B: เอา semicolon ออกเพื่อให้บล็อกอยู่ใน body
-    for (int i = 1; i &lt;= 3; i++) {
-      System.out.println("Hello");
-    }</code></pre><p>A เป็น compile error จากชนิดเงื่อนไขผิดและควรเปรียบเทียบด้วย <code>==</code>; B คอมไพล์ผ่านแต่เป็น logic error เพราะลูปมี body ว่างและพิมพ์ Hello หลังลูปเพียงครั้งเดียว</p></div></div></article>
+    static void printRow(int k, int h) {
+        for (int s = 1; s &lt;= h - k; s++) System.out.print(" ");
+        for (int i = 1; i &lt;= k; i++) System.out.print(i);
+        for (int i = k - 1; i &gt;= 1; i--) System.out.print(i);
+        System.out.println();
+    }
+}</code></pre><p>เฉลยแยกการพิมพ์หนึ่งแถวเป็นเมธอด printRow เพื่อไม่ต้องเขียนลูปซ้ำสองชุด (จะเรียนเมธอดในบทที่ 7) ถ้ายังไม่ถนัดก็เขียนลูปครึ่งบนและครึ่งล่างแยกกันได้</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 6.11</span>จำนวนสมบูรณ์และจำนวนเฉพาะในช่วง<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับช่วง a ถึง b แล้วแสดง (1) จำนวนเฉพาะทั้งหมดในช่วง (2) จำนวนสมบูรณ์ (perfect number: ผลรวมตัวหารแท้เท่ากับตัวมันเอง เช่น 6 = 1 + 2 + 3) ทั้งหมดในช่วง และ (3) จำนวนของแต่ละประเภท</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ลูปนอกวน n จาก a ถึง b</li><li>ตรวจจำนวนเฉพาะด้วยลูปตัวหารถึง √n และ break เมื่อเจอตัวหาร</li><li>หาผลรวมตัวหารแท้ด้วยลูปอีกชุด</li><li>จำนวนที่น้อยกว่า 2 ไม่ใช่จำนวนเฉพาะ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>Range a b: <b class="stdin">1 30</b>
+Primes: 2 3 5 7 11 13 17 19 23 29 (10)
+Perfect: 6 28 (2)</pre></div><div class="answer-gate" data-answer-id="6.11"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.11<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class PrimeAndPerfect {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        System.out.print("Range a b: ");
+        int a = input.nextInt(), b = input.nextInt();
+        int primeCount = 0, perfectCount = 0;
+        System.out.print("Primes: ");
+        for (int n = a; n &lt;= b; n++) {
+            if (n &lt; 2) continue;
+            boolean prime = true;
+            for (int d = 2; d * d &lt;= n; d++) {
+                if (n % d == 0) { prime = false; break; }
+            }
+            if (prime) { System.out.print(n + " "); primeCount++; }
+        }
+        System.out.println("(" + primeCount + ")");
+        System.out.print("Perfect: ");
+        for (int n = Math.max(a, 2); n &lt;= b; n++) {
+            int sum = 0;
+            for (int d = 1; d &lt; n; d++) {
+                if (n % d == 0) sum += d;
+            }
+            if (sum == n) { System.out.print(n + " "); perfectCount++; }
+        }
+        System.out.println("(" + perfectCount + ")");
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 6.12</span>จำลองเงินฝากดอกเบี้ยทบต้น<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับเงินต้น อัตราดอกเบี้ยต่อปี (%) และเงินที่ต้องการมี (เป้าหมาย) ดอกเบี้ยทบต้นปีละครั้ง และ<strong>ฝากเพิ่มทุกต้นปีที่ 2 เป็นต้นไป</strong>อีกปีละ 12,000 บาท ให้แสดงตารางยอดเงินแต่ละปีจนกว่ายอดจะถึงเป้าหมาย แล้วสรุปว่าใช้กี่ปี ฝากเงินเองรวมเท่าไร และได้ดอกเบี้ยรวมเท่าไร</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ while เพราะไม่รู้จำนวนปีล่วงหน้า</li><li>ลำดับในแต่ละปี: (ถ้าปี ≥ 2) ฝากเพิ่ม → คิดดอกเบี้ย → แสดงยอดสิ้นปี</li><li>ป้องกันลูปไม่รู้จบ: ถ้าดอกเบี้ย ≤ 0 และไม่มีการฝากเพิ่มจะไม่มีทางถึง (ในโจทย์นี้มีการฝากเพิ่มเสมอ)</li><li>จัดตารางด้วย printf และ <code>%,.2f</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>Principal: <b class="stdin">50000</b>
+Rate (% per year): <b class="stdin">3.5</b>
+Goal: <b class="stdin">120000</b>
+Year     Interest      Balance
+   1     1,750.00    51,750.00
+   2     2,231.25    65,981.25
+   3     2,729.34    80,710.59
+   4     3,244.87    95,955.46
+   5     3,778.44   111,733.91
+   6     4,330.69   128,064.59
+Years needed: 6
+You deposited: 110,000.00
+Total interest: 18,064.59</pre></div><div class="answer-gate" data-answer-id="6.12"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 6.12<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+
+public class CompoundSavings {
+    public static void main(String[] args) {
+        final double YEARLY_DEPOSIT = 12000;
+        Scanner input = new Scanner(System.in);
+        System.out.print("Principal: ");
+        double balance = input.nextDouble();
+        System.out.print("Rate (% per year): ");
+        double rate = input.nextDouble();
+        System.out.print("Goal: ");
+        double goal = input.nextDouble();
+
+        double deposited = balance;
+        int year = 0;
+        System.out.printf("%4s %12s %12s%n", "Year", "Interest", "Balance");
+        while (balance &lt; goal) {
+            year++;
+            if (year &gt;= 2) {
+                balance += YEARLY_DEPOSIT;
+                deposited += YEARLY_DEPOSIT;
+            }
+            double interest = balance * rate / 100;
+            balance += interest;
+            System.out.printf("%4d %,12.2f %,12.2f%n", year, interest, balance);
+        }
+        System.out.println("Years needed: " + year);
+        System.out.printf("You deposited: %,.2f%n", deposited);
+        System.out.printf("Total interest: %,.2f%n", balance - deposited);
+    }
+}</code></pre></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-05.html">← บทที่ 5</a><a class="pager-link" href="chapter-07.html">บทที่ 7: เมธอด →</a></nav>
-      <footer class="lesson-footer">Java programming by Prymania · บทที่ 6 · เช็กจุดเริ่ม เงื่อนไข การอัปเดต และจุดหยุดของทุกลูป</footer>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 6 · ทำนายจำนวนรอบก่อนรันทุกครั้ง</footer>
     </main>
   </div>
-  <script src="../password.js"></script><script src="../assets/lesson.js"></script><script src="../assets/playground.js"></script>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
 </body>
 </html>

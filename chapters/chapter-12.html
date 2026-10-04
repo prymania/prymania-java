@@ -13,126 +13,1053 @@
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
       <nav class="lesson-toc" aria-label="สารบัญบทที่ 12"><p class="toc-label">บทที่ 12 · ออกแบบคลาสให้ดูแลง่าย</p><a href="#topic-12-1"><span class="toc-number">12.1</span>access modifier</a><a href="#topic-12-2"><span class="toc-number">12.2</span>encapsulation</a><a href="#topic-12-3"><span class="toc-number">12.3</span>validation และ invariant</a><a href="#topic-12-4"><span class="toc-number">12.4</span>composition</a><a href="#topic-12-5"><span class="toc-number">12.5</span>inheritance และ override</a><a href="#topic-12-6"><span class="toc-number">12.6</span>polymorphism</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
-      <div class="sidebar-bottom">object ควรดูแล state ของตัวเอง</div>
+      <div class="sidebar-bottom">ซ่อนข้อมูล เปิดเฉพาะสิ่งที่จำเป็น</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
       <div class="utility-row"><a href="../index.html">← สารบัญรายวิชา</a><span class="utility-code">CHAPTER 12 / 19</span></div>
-      <header class="lesson-header"><p class="lesson-kicker">บทที่ 12 · ปกป้องข้อมูลและแบ่งหน้าที่</p><h1>จัดระเบียบคลาสและปกป้องข้อมูล</h1><p>กำหนดขอบเขตการเข้าถึงข้อมูล ให้ object ตรวจการเปลี่ยน state และต่อยอดชนิดข้อมูลผ่าน composition หรือ inheritance</p></header>
-      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>เลือก access modifier ตามหน้าที่</li><li>ซ่อน field และเปิดพฤติกรรมผ่าน method</li><li>ตรวจข้อมูลเพื่อรักษา invariant</li><li>แยก composition ออกจาก inheritance</li><li>อธิบาย polymorphism จาก method override</li></ul></div>
-      <section class="lesson-section" aria-labelledby="section-12"><h2 id="section-12">12. ทำให้ class ปกป้องข้อมูลของตัวเอง</h2><p>ถ้าเปิด field ทุกตัวเป็น public โค้ดส่วนไหนก็เปลี่ยนค่าได้ ทำให้ object กลายเป็นสถานะที่ไม่สมเหตุผลได้ง่าย การออกแบบ class ที่ดีจำกัดจุดเปลี่ยนข้อมูลและให้ method เป็นผู้รักษากฎ</p>
-        <article class="subtopic" id="topic-12-1">
-          <h3>12.1 public, private และ protected</h3><p>access modifier กำหนดว่าโค้ดส่วนใดมองเห็นสมาชิกได้ บทนี้เน้น <code>private</code> เพื่อซ่อนรายละเอียดภายใน และ <code>public</code> สำหรับสิ่งที่ class อนุญาตให้ผู้ใช้เรียก</p>
-          <table class="comparison-table"><thead><tr><th>modifier</th><th>แนวคิด</th><th>ใช้เมื่อ</th></tr></thead><tbody><tr><td><code>private</code></td><td>ใช้ภายใน class เดียว</td><td>field/state และ helper ที่ไม่ควรให้ภายนอกเรียก</td></tr><tr><td>ไม่มี modifier</td><td>package-private</td><td>เข้าถึงได้จาก package เดียวกัน</td></tr><tr><td><code>protected</code></td><td>package และ subclass</td><td>เมื่อออกแบบ inheritance ให้ลูกใช้</td></tr><tr><td><code>public</code></td><td>เปิดให้เรียกจากที่อื่น</td><td>constructor และ public API</td></tr></tbody></table>
-          <div class="example-box"><span class="box-title">ไม่เปิด field โดยไม่จำเป็น</span><pre><code>class Student {
-    private String name;
-    private int score;
-
-    public void printSummary() {
-        System.out.println(name + ": " + score);
+      <header class="lesson-header"><p class="lesson-kicker">บทที่ 12 · ปกป้องข้อมูลและนำโค้ดกลับมาใช้</p><h1>จัดระเบียบคลาสและปกป้องข้อมูล</h1><p>ใช้ access modifier ซ่อนข้อมูลภายใน ตรวจความถูกต้องก่อนเปลี่ยน state ประกอบคลาสเข้าด้วยกัน และสืบทอดพฤติกรรมด้วย inheritance</p></header>
+      <div class="learning-goals"><strong>เมื่อจบบทนี้ นิสิตจะทำได้</strong><ul><li>ใช้ private/public และ getter/setter</li><li>รักษา invariant ด้วย validation</li><li>เลือกระหว่าง composition และ inheritance</li><li>override method และใช้ polymorphism</li></ul></div>
+      <section class="lesson-section" aria-labelledby="section-main">
+        <h2 id="section-main">12. ทำไมต้องปกป้องข้อมูลในออบเจ็กต์</h2>
+        <p>ในบทที่ 11 โค้ดภายนอกแก้ field ได้โดยตรง เช่น <code>account.balance = -5000;</code> ซึ่งทำให้ออบเจ็กต์อยู่ในสถานะที่ผิดกฎ บทนี้จะเรียนวิธีให้ออบเจ็กต์<strong>ควบคุม state ของตัวเอง</strong> และวิธีจัดความสัมพันธ์ระหว่างคลาสเพื่อนำโค้ดกลับมาใช้</p>
+<article class="subtopic" id="topic-12-1">
+<h3>12.1 access modifier: กำหนดว่าใครเข้าถึงได้</h3>
+<table class="comparison-table"><thead><tr><th>modifier</th><th>เข้าถึงได้จาก</th><th>ใช้กับ</th></tr></thead><tbody><tr><td><code>private</code></td><td>ภายในคลาสเดียวกันเท่านั้น</td><td>field เกือบทั้งหมด, เมธอดช่วยภายใน</td></tr><tr><td>(ไม่ระบุ) package-private</td><td>คลาสใน package เดียวกัน</td><td>ตัวอย่างในบทก่อน ๆ</td></tr><tr><td><code>protected</code></td><td>package เดียวกัน + subclass</td><td>สมาชิกที่ subclass ต้องใช้</td></tr><tr><td><code>public</code></td><td>ทุกที่</td><td>constructor และเมธอดที่เป็น “บริการ” ของคลาส</td></tr></tbody></table>
+<div class="source-example"><h4>ทดลอง error 12.1.1 · เข้าถึง private field จากภายนอก <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อ field เป็น private compiler จะไม่ยอมให้คลาสอื่นอ่านหรือเขียนตรง ๆ</p><div class="source-example-grid"><div class="source-field"><span>Java source · PrivateAccess.java</span><pre class="source-code">public class PrivateAccess {
+    public static void main(String[] args) {
+        Account acc = new Account();
+        acc.balance = -5000;
+        System.out.println(acc.balance);
     }
-}</code></pre><p>ภายนอกเรียก <code>printSummary()</code> ได้ แต่แก้ <code>score</code> ตรง ๆ ไม่ได้ ต้องผ่าน method ที่ class จัดเตรียมให้</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.1</span>เลือก field ที่ควร private</h4><p>class BankAccount เก็บเลขบัญชี, ยอดเงิน และชื่อเจ้าของ ระบุ field ที่ควร private และเหตุผล</p><div class="answer-gate" data-answer-id="12.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดคำตอบ</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">แนวคำตอบ</h4><p>ทั้งสาม field ควรเป็น private เพื่อไม่ให้โค้ดอื่นเปลี่ยนเลขบัญชี, ยอดเงิน หรือชื่อโดยข้ามกฎของ BankAccount เปิด public methods เฉพาะการอ่านหรือทำธุรกรรมที่อนุญาต</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-12-2">
-          <h3>12.2 Encapsulation: ให้ method ดูแล state</h3><p>encapsulation คือซ่อนรายละเอียดข้อมูลและควบคุมการใช้งานผ่าน public method ไม่ใช่แค่สร้าง getter/setter ให้ทุก field แบบอัตโนมัติ แต่เลือกเปิด operation ที่ผู้ใช้ควรทำจริง</p>
-          <div class="example-box"><span class="box-title">ยอดเงินเปลี่ยนผ่าน deposit และ withdraw</span><pre><code>class BankAccount {
+}
+
+class Account {
+    private double balance;
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>PrivateAccess.java:4: error: balance has private access in Account
+        acc.balance = -5000;
+           ^
+PrivateAccess.java:5: error: balance has private access in Account
+        System.out.println(acc.balance);
+                              ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>balance has private access in Account</code> ทั้งการเขียนและการอ่าน</li><li>นี่คือสิ่งที่ต้องการ: บังคับให้คนนอกต้องผ่านเมธอดที่เราควบคุม</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 12.1.2 · private field + public method <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เปิดเฉพาะเมธอดที่มีกฎตรวจสอบ ส่วนข้อมูลภายในแก้ได้จากภายในคลาสเท่านั้น</p><div class="source-example-grid"><div class="source-field"><span>Java source · PublicMethods.java</span><pre class="source-code">public class PublicMethods {
+    public static void main(String[] args) {
+        Account acc = new Account("Mali");
+        acc.deposit(500);
+        acc.deposit(-100);
+        acc.withdraw(800);
+        acc.withdraw(200);
+        System.out.println(acc.getOwner() + " balance: " + acc.getBalance());
+    }
+}
+
+class Account {
+    private String owner;
     private double balance;
 
-    public double getBalance() {
-        return balance;
+    public Account(String owner) {
+        this.owner = owner;
     }
 
     public void deposit(double amount) {
-        if (amount &gt; 0) balance += amount;
+        if (amount &lt;= 0) {
+            System.out.println("Deposit must be positive");
+            return;
+        }
+        balance += amount;
     }
-}</code></pre><p>ไม่มี <code>setBalance()</code> ให้กำหนดยอดเองโดยตรง; ยอดเปลี่ยนผ่านการฝากเงินที่มีเงื่อนไข</p></div>
-          <div class="note-box"><span class="box-title">getter ไม่จำเป็นต้องมีทุก field</span><p>เปิด getter เท่าที่ผู้เรียกจำเป็นต้องรู้ บางข้อมูลเป็นรายละเอียดภายใน ไม่ควรเปิดให้อ่านหรือแก้จากภายนอก</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.2</span>เติม method ถอนเงิน</h4><p>เขียน <code>withdraw(amount)</code> คืน boolean: ถอนสำเร็จเมื่อ amount เป็นบวกและยอดเงินพอ; มิฉะนั้นไม่เปลี่ยน balance และคืน false</p><div class="answer-gate" data-answer-id="12.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public boolean withdraw(double amount) {
-    if (amount &lt;= 0 || amount &gt; balance) {
-        return false;
+
+    public void withdraw(double amount) {
+        if (amount &gt; balance) {
+            System.out.println("Insufficient funds");
+            return;
+        }
+        balance -= amount;
     }
-    balance -= amount;
-    return true;
-}</code></pre><p>ทุกการเปลี่ยน balance เกิดภายใน method ของ object</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-12-3">
-          <h3>12.3 Validation และ invariant</h3><p><strong>invariant</strong> คือกฎที่ object ต้องรักษาไว้เสมอ เช่น คะแนนอยู่ระหว่าง 0–100 หรือยอดคงเหลือไม่ติดลบ การตรวจควรอยู่ตรงจุดที่เปลี่ยน field เพื่อกันข้อมูลผิดตั้งแต่ต้น</p>
-          <div class="example-box"><span class="box-title">setter ที่ปฏิเสธคะแนนนอกช่วง</span><pre><code>class ExamResult {
+
+    public String getOwner() { return owner; }
+    public double getBalance() { return balance; }
+}</pre></div><div class="source-output"><span>Output</span><pre>Deposit must be positive
+Insufficient funds
+Mali balance: 300.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ฝาก −100 ถูกปฏิเสธในเมธอด</li><li>ถอน 800 เกินยอด 500 → ปฏิเสธ</li><li>ถอน 200 สำเร็จ → 300</li><li>ไม่มีทางทำให้ balance ติดลบจากภายนอก</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ใครเข้าถึงได้</strong><div><p>field <code>private int score;</code> ในคลาส Student — เมธอด <code>Student.compare(Student other)</code> อ่าน <code>other.score</code> ได้หรือไม่</p></div><details><summary>ดูคำตอบ</summary><div><p><strong>ได้</strong> — private จำกัดที่<em>คลาส</em> ไม่ใช่ที่ออบเจ็กต์ เมธอดในคลาส Student อ่าน private field ของ Student ตัวอื่นได้</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-12-2">
+<h3>12.2 encapsulation: getter และ setter</h3>
+<p><strong>Encapsulation</strong> คือการห่อข้อมูลไว้ภายในและเปิดช่องทางที่ควบคุมได้ นิยมใช้ <strong>getter</strong> (<code>getX()</code> / <code>isX()</code> สำหรับ boolean) เพื่ออ่าน และ <strong>setter</strong> (<code>setX(value)</code>) เพื่อเขียนพร้อมตรวจสอบ ไม่จำเป็นต้องมี setter ทุก field — field ที่ไม่ควรเปลี่ยนหลังสร้าง (เช่น รหัส) ให้มีแค่ getter</p>
+<div class="source-example"><h4>ตัวอย่าง 12.2.1 · getter/setter พร้อมตรวจสอบ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> setter เป็นจุดเดียวที่ค่าเปลี่ยนได้ จึงใส่กฎไว้ที่นี่ที่เดียว</p><div class="source-example-grid"><div class="source-field"><span>Java source · GetterSetter.java</span><pre class="source-code">public class GetterSetter {
+    public static void main(String[] args) {
+        Student s = new Student("6601", "Mali");
+        s.setScore(85);
+        System.out.println(s.getId() + " " + s.getName() + " " + s.getScore());
+        s.setScore(150);
+        s.setName("  ");
+        System.out.println(s.getId() + " " + s.getName() + " " + s.getScore());
+    }
+}
+
+class Student {
+    private final String id;
+    private String name;
     private int score;
 
-    public boolean setScore(int score) {
-        if (score &lt; 0 || score &gt; 100) return false;
+    public Student(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public int getScore() { return score; }
+
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            System.out.println("Name cannot be blank");
+            return;
+        }
+        this.name = name.trim();
+    }
+
+    public void setScore(int score) {
+        if (score &lt; 0 || score &gt; 100) {
+            System.out.println("Score must be 0-100");
+            return;
+        }
         this.score = score;
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>6601 Mali 85
+Score must be 0-100
+Name cannot be blank
+6601 Mali 85</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>id เป็น <code>final</code> — กำหนดได้ครั้งเดียวใน constructor และไม่มี setter</li><li>setScore(150) ถูกปฏิเสธ ค่าเดิม 85 ยังอยู่</li><li>setName ช่องว่างถูกปฏิเสธ</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 12.2.2 · ซ่อนรายละเอียดภายใน: เปลี่ยนการเก็บข้อมูลได้โดยไม่กระทบผู้ใช้ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ผู้ใช้คลาสเห็นแค่เมธอด จะเก็บข้อมูลแบบไหนข้างในก็ได้ — คลาสนี้เก็บเวลาเป็น “นาทีทั้งหมด” แต่ให้บริการเป็นชั่วโมง/นาที</p><div class="source-example-grid"><div class="source-field"><span>Java source · HiddenRepresentation.java</span><pre class="source-code">public class HiddenRepresentation {
+    public static void main(String[] args) {
+        Duration d = new Duration(1, 50);
+        d.addMinutes(25);
+        System.out.println(d.getHours() + " h " + d.getMinutes() + " min");
+        System.out.println("Total minutes: " + d.getTotalMinutes());
+        System.out.println(d);
+    }
+}
+
+class Duration {
+    private int totalMinutes;
+
+    public Duration(int hours, int minutes) {
+        totalMinutes = hours * 60 + minutes;
+    }
+
+    public void addMinutes(int m) { totalMinutes += m; }
+    public int getHours() { return totalMinutes / 60; }
+    public int getMinutes() { return totalMinutes % 60; }
+    public int getTotalMinutes() { return totalMinutes; }
+
+    @Override
+    public String toString() {
+        return String.format("%d:%02d", getHours(), getMinutes());
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>2 h 15 min
+Total minutes: 135
+2:15</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ภายในมี field เดียว totalMinutes</li><li>getHours/getMinutes คำนวณเมื่อถูกเรียก</li><li>ถ้าวันหนึ่งเปลี่ยนไปเก็บเป็นวินาที โค้ดใน main ไม่ต้องแก้เลย</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · setter</strong><div><p>คลาส Product มี field <code>price</code> ควรมี setter ที่ยอมให้ตั้งราคาติดลบได้หรือไม่ ถ้าไม่ควรจัดการอย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><p>ไม่ควร — setter ควรปฏิเสธค่าติดลบ (แจ้งเตือนหรือโยน exception) เพื่อให้ออบเจ็กต์อยู่ในสถานะที่ถูกต้องเสมอ</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-12-3">
+<h3>12.3 validation และ invariant</h3>
+<p><strong>Invariant</strong> คือกฎที่ต้องเป็นจริงตลอดอายุของออบเจ็กต์ เช่น “ยอดเงินไม่ติดลบ” หรือ “จำนวนสินค้าในคลัง 0–999” ทุก constructor และทุกเมธอดที่เปลี่ยน state ต้องรักษากฎนี้ วิธีที่นิยมใน Java คือ<strong>โยน exception</strong> เมื่อได้รับค่าผิด ด้วย <code>throw new IllegalArgumentException("ข้อความ")</code> ให้ผู้เรียกตัดสินใจจัดการด้วย try-catch</p>
+<div class="source-example"><h4>ตัวอย่าง 12.3.1 · โยน IllegalArgumentException <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> แทนการพิมพ์ข้อความเอง ให้คลาสโยน exception — ผู้เรียกจะรู้แน่ว่าการทำงานล้มเหลว</p><div class="source-example-grid"><div class="source-field"><span>Java source · ThrowValidation.java</span><pre class="source-code">public class ThrowValidation {
+    public static void main(String[] args) {
+        Product p = new Product("Pen", 12, 50);
+        try {
+            p.sell(20);
+            System.out.println("Sold 20, stock = " + p.getStock());
+            p.sell(40);
+            System.out.println("This line is skipped");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        try {
+            Product bad = new Product("", -5, 10);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        System.out.println("Final stock = " + p.getStock());
+    }
+}
+
+class Product {
+    private final String name;
+    private final double price;
+    private int stock;
+
+    public Product(String name, double price, int stock) {
+        if (name.isBlank()) throw new IllegalArgumentException("name is required");
+        if (price &lt; 0) throw new IllegalArgumentException("price must not be negative");
+        if (stock &lt; 0) throw new IllegalArgumentException("stock must not be negative");
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+    }
+
+    public void sell(int qty) {
+        if (qty &lt;= 0) throw new IllegalArgumentException("qty must be positive");
+        if (qty &gt; stock) throw new IllegalArgumentException("only " + stock + " left");
+        stock -= qty;
+    }
+
+    public int getStock() { return stock; }
+}</pre></div><div class="source-output"><span>Output</span><pre>Sold 20, stock = 30
+Error: only 30 left
+Error: name is required
+Final stock = 30</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>sell(20) สำเร็จ เหลือ 30</li><li>sell(40) โยน exception → ข้ามไปที่ catch บรรทัดถัดไปใน try ไม่ทำ</li><li>constructor ตรวจทุกค่าก่อนกำหนด → ไม่มีออบเจ็กต์ที่ผิดกฎเกิดขึ้นได้</li><li>stock ยังเป็น 30 — การล้มเหลวไม่ทำให้ state เสีย</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 12.3.2 · invariant ที่เกี่ยวพันหลาย field <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> บางกฎเกี่ยวกับหลาย field พร้อมกัน เช่น วันเริ่มต้องไม่หลังวันสิ้นสุด — ต้องตรวจทุกครั้งที่ field ใด field หนึ่งเปลี่ยน</p><div class="source-example-grid"><div class="source-field"><span>Java source · RangeInvariant.java</span><pre class="source-code">public class RangeInvariant {
+    public static void main(String[] args) {
+        ScoreRange r = new ScoreRange(40, 80);
+        System.out.println(r);
+        r.setMax(90);
+        System.out.println(r);
+        try {
+            r.setMin(95);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Rejected: " + e.getMessage());
+        }
+        System.out.println(r + " contains 85? " + r.contains(85));
+    }
+}
+
+class ScoreRange {
+    private int min;
+    private int max;
+
+    public ScoreRange(int min, int max) {
+        check(min, max);
+        this.min = min;
+        this.max = max;
+    }
+
+    private static void check(int min, int max) {
+        if (min &gt; max) throw new IllegalArgumentException("min " + min + " &gt; max " + max);
+    }
+
+    public void setMin(int min) { check(min, max); this.min = min; }
+    public void setMax(int max) { check(min, max); this.max = max; }
+    public boolean contains(int x) { return x &gt;= min &amp;&amp; x &lt;= max; }
+
+    @Override
+    public String toString() { return "[" + min + ", " + max + "]"; }
+}</pre></div><div class="source-output"><span>Output</span><pre>[40, 80]
+[40, 90]
+Rejected: min 95 &gt; max 90
+[40, 90] contains 85? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เมธอด private check ใช้ซ้ำทั้งใน constructor และ setter</li><li>setMin(95) ทำให้ min > max → ถูกปฏิเสธก่อนเปลี่ยนค่า</li><li>ลำดับสำคัญ: <strong>ตรวจก่อน แล้วค่อยเปลี่ยน</strong></li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ลำดับการตรวจ</strong><div><pre><code>public void setAge(int age) {
+    this.age = age;
+    if (age &lt; 0) throw new IllegalArgumentException("negative");
+}</code></pre><p>เมธอดนี้มีปัญหาอะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>เปลี่ยนค่า<strong>ก่อน</strong>ตรวจ ถ้า age ติดลบ exception ถูกโยนแต่ field ถูกแก้เป็นค่าผิดไปแล้ว — ต้องตรวจก่อนกำหนดค่า</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-12-4">
+<h3>12.4 composition: คลาสประกอบด้วยคลาสอื่น</h3>
+<p><strong>Composition</strong> (ความสัมพันธ์แบบ “มี” / has-a) คือคลาสหนึ่งมีออบเจ็กต์ของอีกคลาสเป็น field เช่น <em>รถยนต์มีเครื่องยนต์</em>, <em>ใบสั่งซื้อมีรายการสินค้า</em> แต่ละคลาสดูแลงานของตัวเอง แล้วร่วมมือกันผ่านเมธอด</p>
+<div class="source-example"><h4>ตัวอย่าง 12.4.1 · Order มี Customer และอาเรย์ของ OrderLine <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Order ไม่ต้องรู้วิธีคิดราคาของแต่ละบรรทัด — ถาม OrderLine ผ่าน subtotal() แทน</p><div class="source-example-grid"><div class="source-field"><span>Java source · CompositionDemo.java</span><pre class="source-code">public class CompositionDemo {
+    public static void main(String[] args) {
+        Customer c = new Customer("Mali", true);
+        OrderLine[] lines = {
+            new OrderLine("Latte", 55, 2),
+            new OrderLine("Croissant", 45, 1),
+            new OrderLine("Water", 15, 3)
+        };
+        Order order = new Order(c, lines);
+        order.printReceipt();
+    }
+}
+
+class Customer {
+    private final String name;
+    private final boolean member;
+
+    public Customer(String name, boolean member) {
+        this.name = name;
+        this.member = member;
+    }
+
+    public String getName() { return name; }
+    public boolean isMember() { return member; }
+}
+
+class OrderLine {
+    private final String item;
+    private final double price;
+    private final int qty;
+
+    public OrderLine(String item, double price, int qty) {
+        this.item = item;
+        this.price = price;
+        this.qty = qty;
+    }
+
+    public double subtotal() { return price * qty; }
+
+    @Override
+    public String toString() {
+        return String.format("%-10s %3d x %6.2f = %7.2f", item, qty, price, subtotal());
+    }
+}
+
+class Order {
+    private final Customer customer;
+    private final OrderLine[] lines;
+
+    public Order(Customer customer, OrderLine[] lines) {
+        this.customer = customer;
+        this.lines = lines;
+    }
+
+    public double total() {
+        double sum = 0;
+        for (OrderLine line : lines) sum += line.subtotal();
+        return customer.isMember() ? sum * 0.9 : sum;
+    }
+
+    public void printReceipt() {
+        System.out.println("Customer: " + customer.getName() + (customer.isMember() ? " (member -10%)" : ""));
+        for (OrderLine line : lines) System.out.println("  " + line);
+        System.out.printf("Total: %.2f%n", total());
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Customer: Mali (member -10%)
+  Latte        2 x  55.00 =  110.00
+  Croissant    1 x  45.00 =   45.00
+  Water        3 x  15.00 =   45.00
+Total: 180.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Order <em>มี</em> Customer หนึ่งคน และ OrderLine หลายบรรทัด</li><li>total() ถาม subtotal() จากแต่ละบรรทัด และถาม isMember() จากลูกค้า</li><li>รวม 110 + 45 + 45 = 200 ลด 10% → 180.00</li><li>แต่ละคลาสเล็กและทดสอบแยกกันได้</li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · has-a</strong><div><p>ความสัมพันธ์ใดเป็น composition: (ก) ห้องเรียน–นักศึกษา (ข) รถยนต์–ยานพาหนะ (ค) บ้าน–ห้อง</p></div><details><summary>ดูคำตอบ</summary><div><p>(ก) และ (ค) เป็น “มี” (has-a) ส่วน (ข) รถยนต์ “เป็น” ยานพาหนะ (is-a) ซึ่งเหมาะกับ inheritance ในหัวข้อถัดไป</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-12-5">
+<h3>12.5 inheritance และ method override</h3>
+<p><strong>Inheritance</strong> (ความสัมพันธ์แบบ “เป็น” / is-a) ให้คลาสลูก (subclass) รับ field และเมธอดจากคลาสแม่ (superclass) ด้วยคำว่า <code>extends</code> แล้วเพิ่มหรือ<strong>override</strong> (เขียนทับ) พฤติกรรมได้ ใช้ <code>super(...)</code> เรียก constructor ของคลาสแม่ และ <code>super.method()</code> เรียกเมธอดเวอร์ชันของคลาสแม่</p>
+<div class="concept-box"><span class="box-title">โครงสร้าง</span><pre><code>class Employee {                       // superclass
+    protected String name;
+    protected double baseSalary;
+    double monthlyPay() { return baseSalary; }
+}
+
+class Manager extends Employee {       // subclass: Manager "เป็น" Employee
+    private double bonus;
+    @Override
+    double monthlyPay() { return super.monthlyPay() + bonus; }
+}</code></pre></div>
+<div class="source-example"><h4>ตัวอย่าง 12.5.1 · extends, super และ @Override <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Manager ได้ name และ baseSalary จาก Employee โดยไม่ต้องประกาศซ้ำ และ override การคำนวณเงินเดือน</p><div class="source-example-grid"><div class="source-field"><span>Java source · InheritanceDemo.java</span><pre class="source-code">public class InheritanceDemo {
+    public static void main(String[] args) {
+        Employee e = new Employee("Beam", 25000);
+        Manager m = new Manager("Mali", 40000, 8000);
+        System.out.println(e.describe());
+        System.out.println(m.describe());
+        m.raise(10);
+        System.out.println(m.describe());
+    }
+}
+
+class Employee {
+    protected String name;
+    protected double baseSalary;
+
+    public Employee(String name, double baseSalary) {
+        this.name = name;
+        this.baseSalary = baseSalary;
+    }
+
+    public double monthlyPay() {
+        return baseSalary;
+    }
+
+    public void raise(double percent) {
+        baseSalary *= 1 + percent / 100;
+    }
+
+    public String describe() {
+        return String.format("%-6s %-8s %,10.2f", name, getClass().getSimpleName(), monthlyPay());
+    }
+}
+
+class Manager extends Employee {
+    private double bonus;
+
+    public Manager(String name, double baseSalary, double bonus) {
+        super(name, baseSalary);
+        this.bonus = bonus;
+    }
+
+    @Override
+    public double monthlyPay() {
+        return super.monthlyPay() + bonus;
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Beam   Employee  25,000.00
+Mali   Manager   48,000.00
+Mali   Manager   52,000.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>super(name, baseSalary)</code> ต้องเป็นบรรทัดแรกของ constructor ลูก</li><li>Manager ไม่ได้เขียน raise และ describe แต่ใช้ได้เพราะสืบทอดมา</li><li>describe เรียก monthlyPay() — สำหรับ Manager จะได้เวอร์ชันที่ override (48,000)</li><li>raise 10% เพิ่มเฉพาะ baseSalary → 44,000 + 8,000 = 52,000</li></ol></div></div>
+<div class="source-example"><h4>ทดลอง error 12.5.2 · ลืมเรียก super(...) <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าคลาสแม่ไม่มี constructor ไม่มี parameter คลาสลูกต้องเรียก super(...) ให้ถูกต้องเสมอ</p><div class="source-example-grid"><div class="source-field"><span>Java source · MissingSuper.java</span><pre class="source-code">public class MissingSuper {
+    public static void main(String[] args) {
+        Dog d = new Dog("Lucky");
+    }
+}
+
+class Animal {
+    protected String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+}
+
+class Dog extends Animal {
+    public Dog(String name) {
+        this.name = name;
+    }
+}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingSuper.java:16: error: constructor Animal in class Animal cannot be applied to given types;
+    public Dog(String name) {
+                            ^
+  required: String
+  found:    no arguments
+  reason: actual and formal argument lists differ in length</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Java พยายามเรียก <code>super()</code> (ไม่มี parameter) ให้อัตโนมัติ</li><li>แต่ Animal มีแค่ Animal(String) → <code>constructor Animal in class Animal cannot be applied to given types</code></li><li>แก้: <code>super(name);</code></li></ol></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · override</strong><div><p>ถ้า Manager ไม่ override monthlyPay() แล้วเรียก <code>m.monthlyPay()</code> จะได้ค่าอะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>ได้ <strong>baseSalary</strong> จากเวอร์ชันของ Employee (ไม่รวม bonus)</p></div></details></div>
+</article>
+<article class="subtopic" id="topic-12-6">
+<h3>12.6 polymorphism: ชนิดเดียว หลายพฤติกรรม</h3>
+<p>ตัวแปรชนิดคลาสแม่ชี้ไปยังออบเจ็กต์ของคลาสลูกได้ (<code>Shape s = new Circle(2);</code>) เมื่อเรียกเมธอด Java จะเลือกเวอร์ชันตาม<strong>ชนิดจริงของออบเจ็กต์</strong>ขณะรัน ทำให้เขียนโค้ดเดียวจัดการได้หลายชนิด คลาสแม่ที่ไม่ควรถูกสร้างตรง ๆ ประกาศเป็น <code>abstract</code> และบังคับให้คลาสลูกเขียนเมธอดที่เป็น abstract</p>
+<div class="source-example"><h4>ตัวอย่าง 12.6.1 · abstract class และอาเรย์ของ Shape <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ลูปเดียวเรียก area() กับทุกรูปทรง แต่ละชนิดคำนวณด้วยสูตรของตัวเอง</p><div class="source-example-grid"><div class="source-field"><span>Java source · PolymorphismDemo.java</span><pre class="source-code">public class PolymorphismDemo {
+    public static void main(String[] args) {
+        Shape[] shapes = {
+            new Circle(1.5),
+            new Rectangle(4, 2.5),
+            new Triangle(3, 4, 5)
+        };
+        double total = 0;
+        for (Shape s : shapes) {
+            System.out.printf("%-10s area = %6.2f%n", s.getName(), s.area());
+            total += s.area();
+        }
+        System.out.printf("Total area = %.2f%n", total);
+    }
+}
+
+abstract class Shape {
+    public abstract double area();
+
+    public String getName() {
+        return getClass().getSimpleName();
+    }
+}
+
+class Circle extends Shape {
+    private final double r;
+    public Circle(double r) { this.r = r; }
+    @Override public double area() { return Math.PI * r * r; }
+}
+
+class Rectangle extends Shape {
+    private final double w, h;
+    public Rectangle(double w, double h) { this.w = w; this.h = h; }
+    @Override public double area() { return w * h; }
+}
+
+class Triangle extends Shape {
+    private final double a, b, c;
+    public Triangle(double a, double b, double c) { this.a = a; this.b = b; this.c = c; }
+    @Override public double area() {
+        double s = (a + b + c) / 2;
+        return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+}</pre></div><div class="source-output"><span>Output</span><pre>Circle     area =   7.07
+Rectangle  area =  10.00
+Triangle   area =   6.00
+Total area = 23.07</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>abstract double area();</code> ไม่มี body — บังคับทุกคลาสลูกต้องเขียน</li><li><code>new Shape()</code> ไม่ได้ เพราะเป็น abstract</li><li>ตัวแปร s เป็นชนิด Shape แต่เรียก area() ของ Circle/Rectangle/Triangle ตามชนิดจริง</li><li>เพิ่มรูปทรงใหม่ได้โดยไม่ต้องแก้ลูปใน main</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 12.6.2 · instanceof และ interface <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>interface</code> กำหนด “ความสามารถ” ที่หลายคลาสซึ่งไม่ได้สืบทอดกันมีร่วมกันได้ ส่วน <code>instanceof</code> ตรวจชนิดจริงขณะรัน</p><div class="source-example-grid"><div class="source-field"><span>Java source · InterfaceDemo.java</span><pre class="source-code">public class InterfaceDemo {
+    public static void main(String[] args) {
+        Payable[] bills = {
+            new Invoice("Internet", 599),
+            new Salary("Beam", 25000),
+            new Invoice("Electricity", 1240.5)
+        };
+        double sum = 0;
+        for (Payable p : bills) {
+            System.out.printf("%-24s %,10.2f%n", p.describe(), p.amountDue());
+            sum += p.amountDue();
+            if (p instanceof Salary s) {
+                System.out.println("   (tax withheld: " + s.tax() + ")");
+            }
+        }
+        System.out.printf("%-24s %,10.2f%n", "TOTAL", sum);
+    }
+}
+
+interface Payable {
+    double amountDue();
+    String describe();
+}
+
+class Invoice implements Payable {
+    private final String service;
+    private final double amount;
+    Invoice(String service, double amount) { this.service = service; this.amount = amount; }
+    public double amountDue() { return amount; }
+    public String describe() { return "Invoice: " + service; }
+}
+
+class Salary implements Payable {
+    private final String employee;
+    private final double gross;
+    Salary(String employee, double gross) { this.employee = employee; this.gross = gross; }
+    public double tax() { return gross * 0.05; }
+    public double amountDue() { return gross - tax(); }
+    public String describe() { return "Salary: " + employee; }
+}</pre></div><div class="source-output"><span>Output</span><pre>Invoice: Internet            599.00
+Salary: Beam              23,750.00
+   (tax withheld: 1250.0)
+Invoice: Electricity       1,240.50
+TOTAL                     25,589.50</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Invoice และ Salary ไม่ได้เป็นแม่ลูกกัน แต่ทั้งคู่ implements Payable</li><li>อาเรย์ Payable[] เก็บได้ทั้งสองชนิด</li><li><code>p instanceof Salary s</code> ตรวจชนิดและได้ตัวแปร s ชนิด Salary มาใช้เมธอด tax() (Java 16+)</li></ol></div></div>
+<h4>สรุป: เลือกใช้อะไรเมื่อไร</h4><table class="comparison-table"><thead><tr><th>ต้องการ</th><th>ใช้</th></tr></thead><tbody><tr><td>ซ่อนข้อมูล บังคับกฎ</td><td>private field + public method</td></tr><tr><td>คลาสหนึ่ง “มี” อีกคลาส</td><td>composition (field เป็นออบเจ็กต์)</td></tr><tr><td>คลาสหนึ่ง “เป็น” อีกคลาส และใช้โค้ดร่วม</td><td>inheritance (extends)</td></tr><tr><td>คลาสแม่ที่ไม่ควรสร้างตรง ๆ</td><td>abstract class</td></tr><tr><td>ความสามารถร่วมของคลาสที่ไม่เกี่ยวกัน</td><td>interface (implements)</td></tr></tbody></table>
+<div class="quick-check"><strong>ลองคิดก่อน · polymorphism</strong><div><p><code>Shape s = new Circle(2);</code> เรียก <code>s.area()</code> ได้เวอร์ชันของใคร และเรียกเมธอดที่มีเฉพาะใน Circle (เช่น getRadius) ผ่าน s ได้หรือไม่</p></div><details><summary>ดูคำตอบ</summary><div><p>ได้ area() ของ <strong>Circle</strong> (ตามชนิดจริง) แต่เรียก getRadius() ผ่าน s <strong>ไม่ได้</strong> เพราะ compiler มองตามชนิดตัวแปร (Shape) — ต้องใช้ instanceof/cast ก่อน</p></div></details></div>
+</article>
+      </section>
+      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
+        <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
+        <p>ทำตามลำดับจากง่ายไปยาก อ่านโจทย์และตัวอย่างผลลัพธ์ให้ครบก่อนเริ่มเขียน แล้วจึงเปิดเฉลยเพื่อเทียบแนวคิด</p>
+        <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 12.1</span>BankAccount แบบ encapsulated<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างคลาส <code>BankAccount</code> ที่มี field <code>private</code> คือ เลขบัญชี (final), ชื่อเจ้าของ และยอดเงิน มี getter ทั้งสาม และเมธอด <code>deposit</code>/<code>withdraw</code> ที่คืน <code>boolean</code> บอกว่าสำเร็จหรือไม่ (ปฏิเสธจำนวน ≤ 0 และการถอนเกินยอด)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ไม่มี setter ของยอดเงิน</li><li>main ทดสอบทั้งกรณีสำเร็จและล้มเหลวแล้วพิมพ์ผล true/false</li><li>แสดงยอดสุดท้าย</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>deposit 500: true
+deposit -50: false
+withdraw 2000: false
+withdraw 300: true
+001-2-34567 Mali balance 1200.0</pre></div><div class="answer-gate" data-answer-id="12.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class BankApp {
+    public static void main(String[] args) {
+        BankAccount acc = new BankAccount("001-2-34567", "Mali", 1000);
+        System.out.println("deposit 500: " + acc.deposit(500));
+        System.out.println("deposit -50: " + acc.deposit(-50));
+        System.out.println("withdraw 2000: " + acc.withdraw(2000));
+        System.out.println("withdraw 300: " + acc.withdraw(300));
+        System.out.println(acc.getNumber() + " " + acc.getOwner() + " balance " + acc.getBalance());
+    }
+}
+
+class BankAccount {
+    private final String number;
+    private String owner;
+    private double balance;
+
+    public BankAccount(String number, String owner, double balance) {
+        this.number = number;
+        this.owner = owner;
+        this.balance = balance;
+    }
+
+    public String getNumber() { return number; }
+    public String getOwner() { return owner; }
+    public double getBalance() { return balance; }
+
+    public boolean deposit(double amount) {
+        if (amount &lt;= 0) return false;
+        balance += amount;
         return true;
     }
 
-    public int getScore() { return score; }
-}</code></pre><p><code>this.score</code> คือ field; parameter ที่ชื่อ score คือค่าที่กำลังตรวจ</p></div>
-          <div class="note-box"><span class="box-title">ทำไมต้องตรวจที่ setter?</span><p>ถ้าตรวจเฉพาะตอนแสดงผล ค่าไม่ถูกต้องอาจถูกเก็บและส่งต่อไปคำนวณแล้ว ให้ตรวจตอนรับเข้าหรือเปลี่ยน state เพื่อคง invariant ให้จริงตลอดอายุ object</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.3</span>ควบคุมปริมาณสินค้า</h4><p>class Product มี quantity ที่ห้ามติดลบ เขียน method <code>setQuantity</code> คืน false เมื่อค่าใหม่ติดลบ และไม่เปลี่ยนค่าเดิม</p><div class="answer-gate" data-answer-id="12.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>private int quantity;
-public boolean setQuantity(int quantity) {
-    if (quantity &lt; 0) return false;
-    this.quantity = quantity;
-    return true;
-}</code></pre></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-12-4">
-          <h3>12.4 Composition: object ประกอบด้วย object อื่น</h3><p>ใช้ composition เมื่อสิ่งหนึ่ง “มี” อีกสิ่งหนึ่ง เช่น Car มี Engine หรือ Order มีรายการสินค้า class เก็บ reference ของ object ที่เป็นส่วนประกอบและส่งงานให้ object นั้น</p>
-          <div class="example-box"><span class="box-title">รถมีเครื่องยนต์</span><pre><code>class Engine {
-    void start() { System.out.println("Engine started"); }
+    public boolean withdraw(double amount) {
+        if (amount &lt;= 0 || amount &gt; balance) return false;
+        balance -= amount;
+        return true;
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 12.2</span>setter ที่ตรวจข้อมูล<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างคลาส <code>Person</code> มี field private <code>name</code> และ <code>age</code> setter ของ name ต้องไม่ว่าง (trim ก่อนเก็บ) setter ของ age ต้องอยู่ใน 0–150 ถ้าผิดให้โยน <code>IllegalArgumentException</code> พร้อมข้อความ ใน main ทดลองตั้งค่าที่ถูกและผิด แล้วดักด้วย try-catch</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>constructor เรียก setter เพื่อใช้กฎชุดเดียวกัน</li><li>พิมพ์ข้อความ error จาก e.getMessage()</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Mali, 19
+Error: age must be 0-150, got 200
+Error: name must not be blank
+Mali, 19</pre></div><div class="answer-gate" data-answer-id="12.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class PersonApp {
+    public static void main(String[] args) {
+        Person p = new Person("  Mali ", 19);
+        System.out.println(p.getName() + ", " + p.getAge());
+        try {
+            p.setAge(200);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        try {
+            p.setName("   ");
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        System.out.println(p.getName() + ", " + p.getAge());
+    }
 }
-class Car {
-    private Engine engine;
-    Car(Engine engine) { this.engine = engine; }
-    void start() { engine.start(); }
-}</code></pre><p>Car ไม่ได้สืบทอดจาก Engine; Car มี Engine เป็นส่วนหนึ่ง</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.4</span>Order มีรายการสินค้า</h4><p>ออกแบบ class Order ที่เก็บรายการ Product หนึ่งรายการและจำนวน แล้วมี method คืนราคารวมของรายการ</p><div class="answer-gate" data-answer-id="12.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูแนวคำตอบ</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างแบบ</h4><pre><code>class Order {
-    private Product product;
+
+class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        setName(name);
+        setAge(age);
+    }
+
+    public String getName() { return name; }
+    public int getAge() { return age; }
+
+    public void setName(String name) {
+        if (name == null || name.isBlank()) throw new IllegalArgumentException("name must not be blank");
+        this.name = name.trim();
+    }
+
+    public void setAge(int age) {
+        if (age &lt; 0 || age &gt; 150) throw new IllegalArgumentException("age must be 0-150, got " + age);
+        this.age = age;
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 12.3</span>คลังสินค้ากับ invariant<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างคลาส <code>Inventory</code> เก็บชื่อสินค้าและจำนวน (0–999) มีเมธอด <code>add(int qty)</code>, <code>remove(int qty)</code> ที่โยน exception เมื่อทำให้จำนวนออกนอกช่วงหรือ qty ≤ 0 และ <code>isLow()</code> คืน true เมื่อเหลือน้อยกว่า 10 ให้ main ประมวลผลคำสั่งชุดหนึ่งตามตัวอย่าง (บวกคือรับเข้า ลบคือเบิกออก) โดยคำสั่งที่ล้มเหลวต้องไม่ทำให้หยุดทั้งโปรแกรม</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>คำสั่ง: +50, −45, −10, +990, +500, −3</li><li>แต่ละคำสั่งอยู่ใน try-catch ของตัวเอง</li><li>แสดงจำนวนหลังทุกคำสั่งและคำเตือน LOW STOCK</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>  +50 -&gt;  70
+  -45 -&gt;  25
+  -10 -&gt;  15
+ +990 -&gt; rejected: would exceed 999
+ +500 -&gt; 515
+   -3 -&gt; 512</pre></div><div class="answer-gate" data-answer-id="12.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class InventoryApp {
+    public static void main(String[] args) {
+        Inventory inv = new Inventory("Paper A4", 20);
+        int[] commands = {50, -45, -10, 990, 500, -3};
+        for (int cmd : commands) {
+            try {
+                if (cmd &gt; 0) inv.add(cmd);
+                else inv.remove(-cmd);
+                System.out.printf("%+5d -&gt; %3d%s%n", cmd, inv.getQuantity(), inv.isLow() ? "  LOW STOCK" : "");
+            } catch (IllegalArgumentException e) {
+                System.out.printf("%+5d -&gt; rejected: %s%n", cmd, e.getMessage());
+            }
+        }
+    }
+}
+
+class Inventory {
+    private final String item;
     private int quantity;
-    Order(Product product, int quantity) {
-        this.product = product;
+
+    public Inventory(String item, int quantity) {
+        if (quantity &lt; 0 || quantity &gt; 999) throw new IllegalArgumentException("invalid start quantity");
+        this.item = item;
         this.quantity = quantity;
     }
-    double total() {
-        return product.getPrice() * quantity;
+
+    public int getQuantity() { return quantity; }
+
+    public void add(int qty) {
+        if (qty &lt;= 0) throw new IllegalArgumentException("qty must be positive");
+        if (quantity + qty &gt; 999) throw new IllegalArgumentException("would exceed 999");
+        quantity += qty;
     }
-}</code></pre><p>Order ประกอบด้วย Product และใช้ข้อมูลราคาผ่าน public method</p></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-12-5">
-          <h3>12.5 Inheritance และ method override</h3><p>ใช้ inheritance เมื่อชนิดหนึ่งเป็นชนิดย่อยของอีกชนิด เช่น Dog เป็น Animal; class ลูกใช้ field/method ที่เปิดให้สืบทอดและ override method เพื่อกำหนดพฤติกรรมเฉพาะ</p>
-          <div class="example-box"><span class="box-title">class ลูกเปลี่ยนพฤติกรรม</span><pre><code>class Animal {
-    void speak() { System.out.println("..."); }
+
+    public void remove(int qty) {
+        if (qty &lt;= 0) throw new IllegalArgumentException("qty must be positive");
+        if (qty &gt; quantity) throw new IllegalArgumentException("only " + quantity + " left");
+        quantity -= qty;
+    }
+
+    public boolean isLow() { return quantity &lt; 10; }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 12.4</span>Composition: ห้องเรียนและนักศึกษา<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างคลาส <code>Student</code> (ชื่อ, คะแนน) และ <code>Classroom</code> ที่<strong>มี</strong>อาเรย์ <code>Student[]</code> ขนาดคงที่ (ความจุ) และตัวนับจำนวนคนปัจจุบัน มีเมธอด <code>enroll(Student s)</code> (คืน false ถ้าเต็ม), <code>average()</code>, <code>top()</code> (คืนออบเจ็กต์ Student ที่คะแนนสูงสุด) และ <code>printRoster()</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>Classroom ความจุ 4 ลงทะเบียน 5 คน คนที่ 5 ต้องถูกปฏิเสธ</li><li>average และ top คิดจากเฉพาะคนที่ลงทะเบียนแล้ว (index 0 ถึง count − 1)</li><li>field ทั้งหมดเป็น private</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>enroll Mali: OK
+enroll Beam: OK
+enroll Nida: OK
+enroll Ploy: OK
+enroll Tan: FULL
+== CS101 (4/4) ==
+1. Mali   78
+2. Beam   65
+3. Nida   92
+4. Ploy   81
+Average: 79.00
+Top: Nida</pre></div><div class="answer-gate" data-answer-id="12.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class ClassroomApp {
+    public static void main(String[] args) {
+        Classroom room = new Classroom("CS101", 4);
+        String[] names = {"Mali", "Beam", "Nida", "Ploy", "Tan"};
+        int[] scores = {78, 65, 92, 81, 70};
+        for (int i = 0; i &lt; names.length; i++) {
+            boolean ok = room.enroll(new Student(names[i], scores[i]));
+            System.out.println("enroll " + names[i] + ": " + (ok ? "OK" : "FULL"));
+        }
+        room.printRoster();
+        System.out.printf("Average: %.2f%n", room.average());
+        System.out.println("Top: " + room.top().getName());
+    }
 }
-class Dog extends Animal {
-    @Override
-    void speak() { System.out.println("Woof"); }
-}</code></pre><p><code>@Override</code> ช่วยให้ compiler ตรวจว่าชื่อและ signature ตรงกับ method แม่จริง</p></div>
-          <div class="note-box"><span class="box-title">ใช้ inheritance เมื่อ “เป็นชนิดหนึ่งของ”</span><p>ถ้า relation เป็น “มีสิ่งหนึ่ง” ใช้ composition; อย่าใช้ inheritance แค่ต้องการ reuse code เพราะจะผูกโครงสร้าง class เข้าด้วยกันแน่นเกินไป</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.5</span>ชนิดย่อยของ Employee</h4><p>สร้าง class Manager extends Employee และ override method <code>describeRole()</code> ให้แสดงบทบาทผู้จัดการ</p><div class="answer-gate" data-answer-id="12.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>class Employee {
-    void describeRole() { System.out.println("Employee"); }
+
+class Student {
+    private final String name;
+    private final int score;
+    public Student(String name, int score) { this.name = name; this.score = score; }
+    public String getName() { return name; }
+    public int getScore() { return score; }
 }
-class Manager extends Employee {
-    @Override
-    void describeRole() { System.out.println("Manager"); }
-}</code></pre></div></div></div>
-        </article>
-        <article class="subtopic" id="topic-12-6">
-          <h3>12.6 Polymorphism: reference แม่เรียกพฤติกรรมลูก</h3><p>ตัวแปรชนิดแม่สามารถอ้าง object ชนิดลูกได้ เมื่อเรียก method ที่ถูก override Java เลือก implementation ตามชนิด object จริงขณะรัน เรียกว่า dynamic dispatch</p>
-          <div class="example-box"><span class="box-title">ชนิดตัวแปรกับชนิด object ต่างกันได้</span><pre><code>Animal animal = new Dog();
-animal.speak(); // Woof</code></pre><p>ตัวแปรประกาศเป็น Animal แต่ object จริงเป็น Dog จึงเรียก speak ของ Dog</p></div>
-          <div class="exercise-box"><h4 class="exercise-title"><span class="exercise-id">Exercise 12.6</span>เรียกหลายรูปแบบผ่านชนิดแม่</h4><p>สร้าง Cat extends Animal ที่ override <code>speak()</code> แล้วเก็บ Dog และ Cat ลงใน array ชนิด Animal จากนั้นวนเรียก speak</p><div class="answer-gate" data-answer-id="12.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดู code เฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>class Cat extends Animal {
-    @Override
-    void speak() { System.out.println("Meow"); }
+
+class Classroom {
+    private final String code;
+    private final Student[] students;
+    private int count;
+
+    public Classroom(String code, int capacity) {
+        this.code = code;
+        this.students = new Student[capacity];
+    }
+
+    public boolean enroll(Student s) {
+        if (count == students.length) return false;
+        students[count] = s;
+        count++;
+        return true;
+    }
+
+    public double average() {
+        if (count == 0) return 0;
+        int sum = 0;
+        for (int i = 0; i &lt; count; i++) sum += students[i].getScore();
+        return (double) sum / count;
+    }
+
+    public Student top() {
+        Student best = students[0];
+        for (int i = 1; i &lt; count; i++) {
+            if (students[i].getScore() &gt; best.getScore()) best = students[i];
+        }
+        return best;
+    }
+
+    public void printRoster() {
+        System.out.println("== " + code + " (" + count + "/" + students.length + ") ==");
+        for (int i = 0; i &lt; count; i++) {
+            System.out.printf("%d. %-5s %3d%n", i + 1, students[i].getName(), students[i].getScore());
+        }
+    }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 12.5</span>Vehicle และคลาสลูก<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างคลาสแม่ <code>Vehicle</code> (ทะเบียน, ชั่วโมงที่จอด) มีเมธอด <code>parkingFee()</code> คิดชั่วโมงละ 20 บาท และคลาสลูก <code>Motorcycle</code> (ชั่วโมงละ 10 บาท) และ <code>Truck</code> (ชั่วโมงละ 50 บาท + ค่าบริการ 100 บาท) ที่ override parkingFee() แล้วใช้อาเรย์ <code>Vehicle[]</code> คำนวณรายได้รวมของลานจอด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ protected หรือ getter ให้คลาสลูกเข้าถึงชั่วโมงได้</li><li>ใช้ @Override</li><li>แสดงชนิดด้วย <code>getClass().getSimpleName()</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Vehicle    1AB-234     3 h   60.00
+Motorcycle 9KK-11      5 h   50.00
+Truck      80-1234     2 h  200.00
+Vehicle    2CD-567     1 h   20.00
+Total income: 330.00</pre></div><div class="answer-gate" data-answer-id="12.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class ParkingLot {
+    public static void main(String[] args) {
+        Vehicle[] lot = {
+            new Vehicle("1AB-234", 3),
+            new Motorcycle("9KK-11", 5),
+            new Truck("80-1234", 2),
+            new Vehicle("2CD-567", 1)
+        };
+        double income = 0;
+        for (Vehicle v : lot) {
+            System.out.printf("%-10s %-10s %2d h %7.2f%n", v.getClass().getSimpleName(), v.plate, v.hours, v.parkingFee());
+            income += v.parkingFee();
+        }
+        System.out.printf("Total income: %.2f%n", income);
+    }
 }
-Animal[] pets = {new Dog(), new Cat()};
-for (Animal pet : pets) pet.speak();</code></pre><p>แม้ reference ใน array เป็น Animal แต่ method ที่ทำงานตามชนิดจริงคือ Dog.speak และ Cat.speak</p></div></div></div>
-        </article>
-      </section>
-      <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading"><h2 id="end-heading">แบบฝึกหัดท้ายบท</h2><p>เลือกความสัมพันธ์ class ให้ถูก: “มี” ใช้ composition; “เป็นชนิดย่อย” จึงพิจารณา inheritance</p>
-        <article class="end-exercise"><h3>ออกแบบระบบร้านค้าอย่างย่อ</h3><p>มี Product ที่ปกป้องราคาไม่ให้ติดลบ และ Order ที่มี Product กับจำนวนเพื่อคำนวณยอดรวม อธิบายว่า class ใดเป็น composition และควรเปิด method ใดให้ผู้ใช้เรียก</p></article>
+
+class Vehicle {
+    protected final String plate;
+    protected final int hours;
+    public Vehicle(String plate, int hours) { this.plate = plate; this.hours = hours; }
+    public double parkingFee() { return hours * 20; }
+}
+
+class Motorcycle extends Vehicle {
+    public Motorcycle(String plate, int hours) { super(plate, hours); }
+    @Override public double parkingFee() { return hours * 10; }
+}
+
+class Truck extends Vehicle {
+    public Truck(String plate, int hours) { super(plate, hours); }
+    @Override public double parkingFee() { return hours * 50 + 100; }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 12.6</span>toString, equals และ super.toString()<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างคลาส <code>Book</code> (ISBN, ชื่อเรื่อง, ราคา) override <code>toString()</code> และ <code>equals(Object o)</code> โดยถือว่าหนังสือสองเล่มเท่ากันเมื่อ ISBN ตรงกัน จากนั้นสร้างคลาสลูก <code>EBook</code> เพิ่ม field ขนาดไฟล์ (MB) และ override toString() โดยเรียก <code>super.toString()</code> แล้วต่อท้ายข้อมูลขนาดไฟล์</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>equals ตรวจ <code>o instanceof Book other</code> ก่อนเปรียบเทียบ</li><li>ทดสอบ == กับ equals ของหนังสือสองเล่มที่ ISBN เดียวกัน</li><li>พิมพ์ทั้ง Book และ EBook</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[978-1] Java Basics 350.00 baht
+[978-2] Swing in Action 199.00 baht (e-book, 12.5 MB)
+a == b ? false
+a.equals(b) ? true
+a.equals(c) ? false</pre></div><div class="answer-gate" data-answer-id="12.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class BookEquality {
+    public static void main(String[] args) {
+        Book a = new Book("978-1", "Java Basics", 350);
+        Book b = new Book("978-1", "Java Basics (2nd print)", 360);
+        Book c = new EBook("978-2", "Swing in Action", 199, 12.5);
+        System.out.println(a);
+        System.out.println(c);
+        System.out.println("a == b ? " + (a == b));
+        System.out.println("a.equals(b) ? " + a.equals(b));
+        System.out.println("a.equals(c) ? " + a.equals(c));
+    }
+}
+
+class Book {
+    private final String isbn;
+    private final String title;
+    private final double price;
+
+    public Book(String isbn, String title, double price) {
+        this.isbn = isbn;
+        this.title = title;
+        this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Book other)) return false;
+        return isbn.equals(other.isbn);
+    }
+
+    @Override
+    public int hashCode() { return isbn.hashCode(); }
+
+    @Override
+    public String toString() {
+        return String.format("[%s] %s %.2f baht", isbn, title, price);
+    }
+}
+
+class EBook extends Book {
+    private final double sizeMb;
+
+    public EBook(String isbn, String title, double price, double sizeMb) {
+        super(isbn, title, price);
+        this.sizeMb = sizeMb;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + " (e-book, " + sizeMb + " MB)";
+    }
+}</code></pre><p>เมื่อ override equals ควร override hashCode ด้วยเสมอ (จำเป็นเมื่อใช้กับ HashMap/HashSet ในอนาคต)</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 12.7</span>ระบบเงินเดือนด้วย abstract class<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้าง abstract class <code>Employee</code> (ชื่อ, รหัส) มี abstract method <code>monthlyPay()</code> และเมธอดปกติ <code>payslip()</code> ที่คืนข้อความสรุป แล้วสร้างคลาสลูก 3 แบบ:</p><ul><li><code>FullTime</code> — เงินเดือนคงที่</li><li><code>PartTime</code> — ค่าจ้างต่อชั่วโมง × ชั่วโมง (ชั่วโมงที่เกิน 80 ได้ 1.5 เท่า)</li><li><code>SalesPerson</code> — ฐานเงินเดือน + ค่าคอมมิชชัน 3% ของยอดขาย</li></ul><p>ใน main สร้างพนักงานหลายแบบในอาเรย์เดียว พิมพ์สลิปทุกคน ยอดรวม และพนักงานที่ได้มากที่สุด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>field ทุกตัว private (ใช้ getter ใน payslip)</li><li>ห้าม new Employee ตรง ๆ</li><li>constructor ตรวจค่าติดลบโดยโยน IllegalArgumentException</li><li>จัดรูปแบบตัวเลขด้วย %,.2f</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>E01 Mali  FullTime        32,000.00
+E02 Beam  PartTime        11,760.00
+E03 Nida  SalesPerson     29,400.00
+E04 Tan   PartTime         6,000.00
+Total payroll: 79,160.00
+Highest: Mali</pre></div><div class="answer-gate" data-answer-id="12.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Payroll {
+    public static void main(String[] args) {
+        Employee[] staff = {
+            new FullTime("E01", "Mali", 32000),
+            new PartTime("E02", "Beam", 120, 92),
+            new SalesPerson("E03", "Nida", 15000, 480000),
+            new PartTime("E04", "Tan", 150, 40)
+        };
+        double total = 0;
+        Employee top = staff[0];
+        for (Employee e : staff) {
+            System.out.println(e.payslip());
+            total += e.monthlyPay();
+            if (e.monthlyPay() &gt; top.monthlyPay()) top = e;
+        }
+        System.out.printf("Total payroll: %,.2f%n", total);
+        System.out.println("Highest: " + top.getName());
+    }
+}
+
+abstract class Employee {
+    private final String id;
+    private final String name;
+
+    protected Employee(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public abstract double monthlyPay();
+
+    public String payslip() {
+        return String.format("%s %-5s %-12s %,12.2f", id, name, getClass().getSimpleName(), monthlyPay());
+    }
+
+    protected static void requireNonNegative(double v, String what) {
+        if (v &lt; 0) throw new IllegalArgumentException(what + " must not be negative");
+    }
+}
+
+class FullTime extends Employee {
+    private final double salary;
+    public FullTime(String id, String name, double salary) {
+        super(id, name);
+        requireNonNegative(salary, "salary");
+        this.salary = salary;
+    }
+    @Override public double monthlyPay() { return salary; }
+}
+
+class PartTime extends Employee {
+    private final double rate;
+    private final int hours;
+    public PartTime(String id, String name, double rate, int hours) {
+        super(id, name);
+        requireNonNegative(rate, "rate");
+        requireNonNegative(hours, "hours");
+        this.rate = rate;
+        this.hours = hours;
+    }
+    @Override public double monthlyPay() {
+        int normal = Math.min(hours, 80);
+        int extra = Math.max(0, hours - 80);
+        return normal * rate + extra * rate * 1.5;
+    }
+}
+
+class SalesPerson extends Employee {
+    private final double base;
+    private final double sales;
+    public SalesPerson(String id, String name, double base, double sales) {
+        super(id, name);
+        requireNonNegative(base, "base");
+        requireNonNegative(sales, "sales");
+        this.base = base;
+        this.sales = sales;
+    }
+    @Override public double monthlyPay() { return base + sales * 0.03; }
+}</code></pre></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 12.8</span>interface สำหรับสิ่งที่คิดภาษีได้<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้าง interface <code>Taxable</code> มีเมธอด <code>double taxableAmount()</code> และ <code>default double tax()</code> ที่คืน 7% ของ taxableAmount() จากนั้นสร้างคลาสที่ไม่เกี่ยวข้องกัน 2 คลาส: <code>Product</code> (ราคา × จำนวน) และ <code>Service</code> (ชั่วโมง × อัตรา + ค่าเดินทาง แต่ค่าเดินทางไม่เสียภาษี) ที่ implements Taxable แล้วรวมภาษีทั้งหมดในใบแจ้งหนี้</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>Service override tax() ไม่ได้ — ให้ taxableAmount() คืนเฉพาะส่วนที่เสียภาษี</li><li>เพิ่มเมธอด total() ในแต่ละคลาส (ยอดรวมทั้งหมด + ภาษี)</li><li>ใช้อาเรย์ Taxable[] และแสดงตาราง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Monitor        taxable  9,180.00  tax   642.60
+Installation   taxable  1,350.00  tax    94.50
+Cable          taxable    480.00  tax    33.60
+VAT total  :     770.70
+Grand total:  12,080.70</pre></div><div class="answer-gate" data-answer-id="12.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class TaxInvoice {
+    public static void main(String[] args) {
+        Taxable[] items = {
+            new Product("Monitor", 4590, 2),
+            new Service("Installation", 3, 450, 300),
+            new Product("Cable", 120, 4)
+        };
+        double grand = 0, taxSum = 0;
+        for (Taxable t : items) {
+            System.out.printf("%-14s taxable %,9.2f  tax %,8.2f%n", t.label(), t.taxableAmount(), t.tax());
+            taxSum += t.tax();
+            grand += t.total();
+        }
+        System.out.printf("VAT total  : %,10.2f%n", taxSum);
+        System.out.printf("Grand total: %,10.2f%n", grand);
+    }
+}
+
+interface Taxable {
+    double taxableAmount();
+    double total();
+    String label();
+
+    default double tax() {
+        return taxableAmount() * 0.07;
+    }
+}
+
+class Product implements Taxable {
+    private final String name;
+    private final double price;
+    private final int qty;
+    Product(String name, double price, int qty) { this.name = name; this.price = price; this.qty = qty; }
+    public double taxableAmount() { return price * qty; }
+    public double total() { return taxableAmount() + tax(); }
+    public String label() { return name; }
+}
+
+class Service implements Taxable {
+    private final String name;
+    private final double hours, rate, travel;
+    Service(String name, double hours, double rate, double travel) {
+        this.name = name; this.hours = hours; this.rate = rate; this.travel = travel;
+    }
+    public double taxableAmount() { return hours * rate; }
+    public double total() { return taxableAmount() + travel + tax(); }
+    public String label() { return name; }
+}</code></pre><p>default method ใน interface ให้พฤติกรรมเริ่มต้นแก่ทุกคลาสที่ implements โดยไม่ต้องเขียนซ้ำ</p></div></div></article>
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 12.9</span>ระบบห้องสมุด: ยืม-คืนและค่าปรับ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>ออกแบบคลาสต่อไปนี้: <code>Item</code> (abstract: รหัส, ชื่อ, สถานะถูกยืม, abstract <code>loanDays()</code> และ <code>finePerDay()</code>), คลาสลูก <code>BookItem</code> (ยืม 14 วัน ปรับวันละ 5 บาท) และ <code>DvdItem</code> (ยืม 3 วัน ปรับวันละ 20 บาท) และ <code>Member</code> ที่ยืมได้ไม่เกิน 3 ชิ้น (composition: มีอาเรย์ Item[]) เขียนเมธอด <code>borrow(Item)</code> และ <code>giveBack(Item, int daysKept)</code> ที่คืนค่าปรับ พร้อมตรวจกฎทั้งหมดด้วย exception</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>กฎ: ยืมของที่ถูกยืมอยู่ไม่ได้, ยืมเกิน 3 ชิ้นไม่ได้, คืนของที่ไม่ได้ยืมไม่ได้</li><li>ค่าปรับ = max(0, daysKept − loanDays()) × finePerDay()</li><li>main ทำลำดับเหตุการณ์ตามตัวอย่าง และพิมพ์ผลหรือข้อความ error ของแต่ละเหตุการณ์</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Mali borrows B1 Java Basics
+  OK (1/3)
+Mali borrows D1 Coding Movie
+  OK (2/3)
+Beam borrows B1 Java Basics
+  ERROR: B1 is already on loan
+Mali borrows B2 Data Structures
+  OK (3/3)
+Mali borrows B3 Algorithms
+  ERROR: Mali already has 3 items
+Mali returns D1 Coding Movie after 6 days
+  fine = 60
+Mali returns B1 Java Basics after 10 days
+  fine = 0
+Beam returns B2 Data Structures after 1 days
+  ERROR: Beam did not borrow B2
+Beam borrows B1 Java Basics
+  OK (1/3)</pre></div><div class="answer-gate" data-answer-id="12.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 12.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Library {
+    public static void main(String[] args) {
+        Item b1 = new BookItem("B1", "Java Basics");
+        Item b2 = new BookItem("B2", "Data Structures");
+        Item d1 = new DvdItem("D1", "Coding Movie");
+        Item b3 = new BookItem("B3", "Algorithms");
+        Member mali = new Member("Mali");
+        Member beam = new Member("Beam");
+        run(() -&gt; mali.borrow(b1));
+        run(() -&gt; mali.borrow(d1));
+        run(() -&gt; beam.borrow(b1));
+        run(() -&gt; mali.borrow(b2));
+        run(() -&gt; mali.borrow(b3));
+        run(() -&gt; System.out.println("  fine = " + mali.giveBack(d1, 6)));
+        run(() -&gt; System.out.println("  fine = " + mali.giveBack(b1, 10)));
+        run(() -&gt; beam.giveBack(b2, 1));
+        run(() -&gt; beam.borrow(b1));
+    }
+
+    static void run(Runnable action) {
+        try {
+            action.run();
+        } catch (IllegalStateException e) {
+            System.out.println("  ERROR: " + e.getMessage());
+        }
+    }
+}
+
+abstract class Item {
+    private final String code;
+    private final String title;
+    private boolean onLoan;
+
+    protected Item(String code, String title) { this.code = code; this.title = title; }
+    public String getCode() { return code; }
+    public boolean isOnLoan() { return onLoan; }
+    void setOnLoan(boolean v) { onLoan = v; }
+    public abstract int loanDays();
+    public abstract int finePerDay();
+
+    @Override
+    public String toString() { return code + " " + title; }
+}
+
+class BookItem extends Item {
+    BookItem(String code, String title) { super(code, title); }
+    public int loanDays() { return 14; }
+    public int finePerDay() { return 5; }
+}
+
+class DvdItem extends Item {
+    DvdItem(String code, String title) { super(code, title); }
+    public int loanDays() { return 3; }
+    public int finePerDay() { return 20; }
+}
+
+class Member {
+    private final String name;
+    private final Item[] items = new Item[3];
+    private int count;
+
+    Member(String name) { this.name = name; }
+
+    public void borrow(Item item) {
+        System.out.println(name + " borrows " + item);
+        if (item.isOnLoan()) throw new IllegalStateException(item.getCode() + " is already on loan");
+        if (count == items.length) throw new IllegalStateException(name + " already has 3 items");
+        items[count++] = item;
+        item.setOnLoan(true);
+        System.out.println("  OK (" + count + "/3)");
+    }
+
+    public int giveBack(Item item, int daysKept) {
+        System.out.println(name + " returns " + item + " after " + daysKept + " days");
+        int index = -1;
+        for (int i = 0; i &lt; count; i++) {
+            if (items[i] == item) index = i;
+        }
+        if (index == -1) throw new IllegalStateException(name + " did not borrow " + item.getCode());
+        items[index] = items[count - 1];
+        items[count - 1] = null;
+        count--;
+        item.setOnLoan(false);
+        return Math.max(0, daysKept - item.loanDays()) * item.finePerDay();
+    }
+}</code></pre><p>เฉลยใช้ lambda <code>() -&gt; ...</code> ส่งงานแต่ละเหตุการณ์ให้เมธอด run ซึ่งรวม try-catch ไว้ที่เดียว (จะเรียน lambda ละเอียดในบทที่ 16) ถ้ายังไม่ถนัดให้เขียน try-catch แยกทุกเหตุการณ์ก็ได้</p></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-11.html">← บทที่ 11</a><a class="pager-link" href="chapter-13.html">บทที่ 13: ArrayList →</a></nav>
-      <footer class="lesson-footer">Java programming by Prymania · บทที่ 12 · ซ่อน state แล้วเปิดเฉพาะ operation ที่ class อนุญาต</footer>
+      <footer class="lesson-footer">Java programming by Prymania · บทที่ 12 · ออบเจ็กต์ควรดูแล state ของตัวเอง</footer>
     </main>
   </div>
   <script src="../password.js"></script><script src="../assets/lesson.js"></script>
