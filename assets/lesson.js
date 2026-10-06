@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       const answerId = gate.dataset.answerId;
-      const expectedPassword = window.EXERCISE_PASSWORDS?.[answerId];
+      const expectedPassword = window.EXERCISE_PASSWORDS?.[answerId] ?? window.PRACTICE_EXERCISE_PASSWORDS?.[answerId];
 
       if (expectedPassword && input.value === expectedPassword) {
         answer.hidden = false;

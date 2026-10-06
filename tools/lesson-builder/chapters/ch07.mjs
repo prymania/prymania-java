@@ -81,6 +81,45 @@ export default {
                 }
             }`,
           steps: ["อ่าน main แล้วรู้ทันทีว่าโปรแกรมมี 3 ส่วน", "ถ้าต้องแก้เมนู แก้เฉพาะ showMenu"] },
+        { type: "practice", level: 2, title: "ใบเสร็จร้านมินิมาร์ท (เมธอดเรียกเมธอดซ้ำ)",
+          html: `<p>รวมแนวคิดจากตัวอย่าง 7.1.2 (เมธอดเรียกเมธอดอื่นต่อ) และ 7.1.3 (แบ่ง main เป็นขั้นตอน) เข้าด้วยกัน: เขียนโปรแกรมพิมพ์ใบเสร็จร้านค้าที่ main เรียก 4 เมธอดตามลำดับคือ <code>printHeader()</code>, <code>printItems()</code>, <code>printTotal()</code>, <code>printFooter()</code> โดยให้ <code>printHeader()</code>, <code>printTotal()</code> และ <code>printFooter()</code> <strong>เรียกเมธอด <code>printDivider()</code> ซ้ำ</strong> เพื่อพิมพ์เส้นคั่น แทนการพิมพ์เส้นคั่นเองทุกครั้ง</p>`,
+          spec: ["ทุกเมธอดเป็น static void ไม่มี parameter (เรายังไม่เรียนเรื่อง parameter ในหัวข้อนี้)", "printDivider() พิมพ์เส้นคั่นหนึ่งบรรทัด แล้วให้เมธอดอื่นเรียกใช้ซ้ำอย่างน้อย 3 ครั้งรวมกัน", "printItems() พิมพ์รายการสินค้า 3 บรรทัด", "printTotal() พิมพ์ยอดรวมของสินค้าทั้ง 3 รายการ"],
+          solution: j`
+            public class MiniMartReceipt {
+                public static void main(String[] args) {
+                    printHeader();
+                    printItems();
+                    printTotal();
+                    printFooter();
+                }
+
+                static void printDivider() {
+                    System.out.println("------------------------");
+                }
+
+                static void printHeader() {
+                    printDivider();
+                    System.out.println("     MINI MART");
+                    printDivider();
+                }
+
+                static void printItems() {
+                    System.out.println("Milk          35");
+                    System.out.println("Bread         28");
+                    System.out.println("Eggs          92");
+                }
+
+                static void printTotal() {
+                    printDivider();
+                    System.out.println("TOTAL        155");
+                }
+
+                static void printFooter() {
+                    System.out.println("Thank you!");
+                    printDivider();
+                }
+            }`,
+          explain: "ข้อนี้ไม่มี parameter เลย เพราะหัวข้อ 7.1 ยังไม่สอนเรื่องนี้ — จุดที่ยากกว่าตัวอย่างคือต้องวางแผนว่าเมธอดไหน <em>ควรเรียก</em> printDivider() บ้าง แทนที่จะ copy โค้ดเส้นคั่นซ้ำ ๆ" },
         { type: "note", title: "void ไม่ได้แปลว่าไม่มี output", html: `<p>เมธอด void พิมพ์ข้อความได้ตามปกติ “void” หมายถึงไม่<strong>ส่งค่ากลับ</strong>ไปให้ผู้เรียกนำไปใช้ต่อ การแสดงผล (print) กับการคืนค่า (return) เป็นคนละเรื่อง — จะเห็นชัดในหัวข้อ 7.3</p>` },
         { type: "check", title: "ลำดับการเรียก", html: pre(`
           static void a() { System.out.print("A"); b(); System.out.print("a"); }
@@ -132,6 +171,67 @@ export default {
                 }
             }`,
           steps: ["symbol = '*', length = 10 → ดาว 10 ตัว", "argument ที่สามเป็นนิพจน์ 2 * 6 คำนวณได้ 12 ก่อนส่ง", "ลำดับสำคัญ: <code>drawLine(10, '*')</code> จะคอมไพล์ไม่ผ่าน"] },
+        { type: "practice", level: 1, title: "printRepeat(String text, int times)",
+          html: `<p>เขียนเมธอด <code>printRepeat(String text, int times)</code> ที่พิมพ์ <code>text</code> ซ้ำกัน <code>times</code> ครั้งติดกันบนบรรทัดเดียว (ไม่มีช่องว่างคั่น) แล้วขึ้นบรรทัดใหม่ เหมือนตัวอย่าง 7.2.2 แต่เปลี่ยนจาก <code>char</code> เป็น <code>String</code></p>`,
+          spec: ["parameter <code>text</code> (String) คือข้อความที่จะพิมพ์ซ้ำ, <code>times</code> (int) คือจำนวนครั้ง", "ต้องใช้ for loop พิมพ์ทีละครั้ง <strong>ห้ามใช้ <code>text.repeat(times)</code></strong> เพื่อฝึกเขียนลูปในเมธอดเอง", "main เรียก printRepeat(\"Hi\", 3), printRepeat(\"ab\", 5), printRepeat(\"=\", 10)"],
+          solution: j`
+            public class RepeatText {
+                public static void main(String[] args) {
+                    printRepeat("Hi", 3);
+                    printRepeat("ab", 5);
+                    printRepeat("=", 10);
+                }
+
+                static void printRepeat(String text, int times) {
+                    for (int i = 0; i < times; i++) {
+                        System.out.print(text);
+                    }
+                    System.out.println();
+                }
+            }` },
+        { type: "practice", level: 1, title: "printCountdown(int from)",
+          html: `<p>เขียนเมธอด <code>printCountdown(int from)</code> ที่พิมพ์ตัวเลขนับถอยหลังจาก <code>from</code> ลงมาถึง 1 คั่นด้วยช่องว่าง แล้วต่อท้ายด้วย <code>Go!</code> บนบรรทัดเดียวกัน</p>`,
+          spec: ["parameter เดียว: <code>from</code> (int) คือเลขเริ่มนับถอยหลัง", "ลูปต้องเดิน<strong>ลดค่าลง</strong> (ตรงข้ามกับตัวอย่าง 7.2.2 ที่เพิ่มค่าขึ้น)", "main เรียก printCountdown(5), printCountdown(3), printCountdown(1)"],
+          solution: j`
+            public class Countdown {
+                public static void main(String[] args) {
+                    printCountdown(5);
+                    printCountdown(3);
+                    printCountdown(1);
+                }
+
+                static void printCountdown(int from) {
+                    for (int i = from; i >= 1; i--) {
+                        System.out.print(i + " ");
+                    }
+                    System.out.println("Go!");
+                }
+            }`,
+          explain: "printCountdown(1) ต้องพิมพ์ \"1 Go!\" ได้โดยไม่ต้องแยกเขียนกรณีพิเศษ เพราะเงื่อนไข <code>i >= 1</code> ของ for ครอบคลุมอยู่แล้ว" },
+        { type: "practice", level: 2, title: "drawTriangle(int style, int length)",
+          html: `<p>เขียนเมธอด <code>drawTriangle(int style, int length)</code> วาดสามเหลี่ยมตัวเลขสูง <code>length</code> แถว แถวที่ <code>i</code> พิมพ์เลข <code>i</code> ซ้ำกัน <code>i</code> ตัว (แถว 1 → "1", แถว 2 → "22", แถว 3 → "333" ...) โดย <code>style</code> กำหนดการจัดแนว: <strong>1 = ชิดซ้าย</strong>, <strong>2 = ชิดขวา</strong> (เติมช่องว่างด้านหน้าให้ขอบขวาของทุกแถวตรงกัน)</p>`,
+          spec: ["parameter <code>style</code>: 1 = ชิดซ้าย, 2 = ชิดขวา", "parameter <code>length</code>: จำนวนแถว (ใช้ค่าไม่เกิน 9 เพื่อให้ตัวเลขแต่ละแถวเป็นหลักเดียว)", "แถว i ใช้ <code>String.valueOf(i).repeat(i)</code> สร้างข้อความตัวเลขซ้ำ", "ถ้า style เป็น 2 ให้เติมช่องว่างนำหน้าแถว i จำนวน <code>length - i</code> ตัวก่อนพิมพ์ตัวเลข"],
+          solution: j`
+            public class TriangleDrawer {
+                public static void main(String[] args) {
+                    System.out.println("drawTriangle(1, 5):");
+                    drawTriangle(1, 5);
+                    System.out.println();
+                    System.out.println("drawTriangle(2, 4):");
+                    drawTriangle(2, 4);
+                }
+
+                static void drawTriangle(int style, int length) {
+                    for (int i = 1; i <= length; i++) {
+                        String digits = String.valueOf(i).repeat(i);
+                        if (style == 2) {
+                            System.out.print(" ".repeat(length - i));
+                        }
+                        System.out.println(digits);
+                    }
+                }
+            }`,
+          explain: "เพราะ <code>length - i</code> ลดลงทีละ 1 ขณะที่จำนวนหลักเพิ่มขึ้นทีละ 1 พอดี ขอบขวาของทุกแถวจึงตรงกันเสมอ (ช่องว่าง + ตัวเลข = length ทุกแถว)" },
         { type: "run", title: "pass-by-value: เมธอดแก้ค่าตัวแปรของผู้เรียกไม่ได้", level: "ประยุกต์",
           concept: "Java ส่ง<strong>สำเนาของค่า</strong> การเปลี่ยน parameter ภายในเมธอดไม่กระทบตัวแปรใน main",
           code: j`
@@ -248,6 +348,31 @@ export default {
                 }
             }`,
           steps: ["gradeOf(85): เจอ return 'A' แล้วจบเมธอดทันที ไม่ตรวจบรรทัดล่าง", "ไม่ต้องใช้ else เพราะ return ออกไปแล้ว", "isPrime เจอตัวหารก็ return false ทันที (ไม่ต้องใช้ break หรือ flag)", "ถ้าวนครบโดยไม่เจอตัวหาร จึง return true"] },
+        { type: "practice", level: 2, title: "isLeapYear(int year) และนับปีอธิกสุรทิน",
+          html: `<p>เขียนเมธอด <code>boolean isLeapYear(int year)</code> ตรวจว่าปี ค.ศ. ที่รับมาเป็นปีอธิกสุรทินหรือไม่ (หารด้วย 4 ลงตัว <strong>และ</strong> ถ้าหารด้วย 100 ลงตัวต้องหารด้วย 400 ลงตัวด้วย) แล้วใน main ใช้เมธอดนี้ในลูปเพื่อแสดงรายการปีอธิกสุรทินช่วง 2000–2026 พร้อมนับจำนวน เหมือนวิธีที่ตัวอย่าง 7.3.3 ใช้ <code>isPrime</code> ในลูป</p>`,
+          spec: ["parameter เดียว: <code>year</code> (int) คือปี ค.ศ. ที่ต้องตรวจ", "isLeapYear ต้องมี return มากกว่า 1 จุดเหมือนตัวอย่าง (ไม่ใช้ else)", "main ห้ามเขียนเงื่อนไขปีอธิกสุรทินเอง ต้องเรียก isLeapYear เท่านั้น", "แสดงปีที่เป็นอธิกสุรทินทั้งหมดในบรรทัดเดียว คั่นด้วยช่องว่าง แล้วแสดงจำนวนรวม"],
+          solution: j`
+            public class LeapYearCheck {
+                public static void main(String[] args) {
+                    int count = 0;
+                    System.out.print("Leap years: ");
+                    for (int year = 2000; year <= 2026; year++) {
+                        if (isLeapYear(year)) {
+                            System.out.print(year + " ");
+                            count++;
+                        }
+                    }
+                    System.out.println();
+                    System.out.println("Count: " + count);
+                }
+
+                static boolean isLeapYear(int year) {
+                    if (year % 4 != 0) return false;
+                    if (year % 100 == 0 && year % 400 != 0) return false;
+                    return true;
+                }
+            }`,
+          explain: "จุดที่ยากกว่าตัวอย่าง: isPrime มีเงื่อนไขเดียวในลูป แต่ isLeapYear ต้องรวมสองเงื่อนไข (หาร 4 และข้อยกเว้นของหาร 100/400) ให้ครบในลำดับที่ return ค่าถูกทุกกรณี" },
         { type: "run", label: "ทดลอง error 7.3.4", title: "บางเส้นทางไม่มี return", level: "ท้าทาย", expect: "compile-error",
           concept: "ถ้ามีกรณีที่เมธอดจบโดยไม่ return ค่า compiler จะไม่ยอม",
           code: j`
@@ -339,6 +464,30 @@ export default {
                 }
             }`,
           steps: ["max(3, 9) → เวอร์ชัน int, int", "max(2.5, 1.75) → เวอร์ชัน double, double", "max(4, 11, 7) → เวอร์ชัน 3 parameter ซึ่งเรียกเวอร์ชัน 2 parameter ซ้ำ", "area(5) → สี่เหลี่ยมจัตุรัส, area(4, 6) → สี่เหลี่ยมผืนผ้า", "หมายเหตุ: ชนิดผลลัพธ์อย่างเดียวต่างกันไม่ถือเป็น overload"] },
+        { type: "practice", level: 2, title: "overload เมธอด volumeOf",
+          html: `<p>เขียนเมธอดชื่อ <code>volumeOf</code> สามแบบ (overload) เหมือนแนวคิดในตัวอย่าง 7.4.3 แต่คำนวณปริมาตรแทนพื้นที่: <code>volumeOf(double side)</code> ปริมาตรลูกบาศก์, <code>volumeOf(double radius, double height)</code> ปริมาตรทรงกระบอก และ <code>volumeOf(double length, double width, double height)</code> ปริมาตรกล่องสี่เหลี่ยม</p>`,
+          spec: ["ทุกเวอร์ชัน return double", "ทรงกระบอกใช้ <code>Math.PI * radius * radius * height</code>", "เรียกทั้งสามแบบจาก main ด้วย volumeOf(3), volumeOf(2, 5), volumeOf(2, 3, 4) แสดงผลทศนิยม 2 ตำแหน่ง", "อธิบายในคำตอบว่า compiler แยกแต่ละเวอร์ชันได้อย่างไรทั้งที่ชื่อเดียวกัน"],
+          solution: j`
+            public class VolumeOverload {
+                public static void main(String[] args) {
+                    System.out.printf("Cube side=3       : %.2f%n", volumeOf(3));
+                    System.out.printf("Cylinder r=2,h=5  : %.2f%n", volumeOf(2, 5));
+                    System.out.printf("Box 2x3x4         : %.2f%n", volumeOf(2, 3, 4));
+                }
+
+                static double volumeOf(double side) {
+                    return side * side * side;
+                }
+
+                static double volumeOf(double radius, double height) {
+                    return Math.PI * radius * radius * height;
+                }
+
+                static double volumeOf(double length, double width, double height) {
+                    return length * width * height;
+                }
+            }`,
+          explain: "ยากกว่าตัวอย่าง area ตรงที่ volumeOf(double, double) ของทรงกระบอกใช้สูตรที่ซับซ้อนกว่า และต้องระวังไม่ให้สลับลำดับ parameter กับเวอร์ชัน 3 ตัว" },
         { type: "check", title: "scope", html: pre(`
           int total = 0;
           for (int i = 1; i <= 3; i++) {
@@ -427,6 +576,37 @@ export default {
                 }
             }`,
           steps: ["check เรียก gradeOf แล้วเปรียบเทียบกับคำตอบที่คาด", "ทดสอบค่าขอบ 80 และ 79.9 ด้วย — จุดที่มักผิด", "บทที่ 10 จะขยายแนวคิดนี้เป็นการออกแบบ test case"] },
+        { type: "practice", level: 3, title: "เครื่องคำนวณ BMI พร้อมชุดทดสอบ",
+          html: `<p>รวมทุกแนวคิดของบทนี้: เขียนเมธอด <code>bmiOf(double weightKg, double heightM)</code> คืนค่าดัชนีมวลกาย (BMI = น้ำหนัก ÷ ส่วนสูง²) และ <code>categoryOf(double bmi)</code> คืนประเภทเป็น String (<code>"Underweight"</code> ถ้า BMI &lt; 18.5, <code>"Normal"</code> ถ้า &lt; 25, <code>"Overweight"</code> ถ้า &lt; 30, มิฉะนั้น <code>"Obese"</code>) จากนั้นเขียนเมธอด <code>check(double weight, double height, String expected)</code> ที่เรียกทั้งสองเมธอดต่อกันแล้วเทียบผลกับคำตอบที่คาด แบบเดียวกับตัวอย่าง 7.5.2 (เกณฑ์ตามมาตรฐาน WHO ใช้เพื่อฝึกเขียนโปรแกรมเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์)</p>`,
+          spec: ["bmiOf และ categoryOf ต้อง return ค่า ห้ามพิมพ์เอง", "check() เป็น void เรียก bmiOf แล้วส่งผลต่อให้ categoryOf (เมธอดเรียกเมธอด ต่อด้วยอีกเมธอด)", "main เรียก check 4 ครั้งด้วยส่วนสูงคงที่ 1.70 แล้วไล่น้ำหนักให้ครอบคลุมทั้ง 4 ประเภท เพื่อทดสอบค่าขอบเขตเหมือนตัวอย่าง 7.5.2"],
+          solution: j`
+            public class BmiCalculator {
+                public static void main(String[] args) {
+                    check(50, 1.70, "Underweight");
+                    check(65, 1.70, "Normal");
+                    check(85, 1.70, "Overweight");
+                    check(100, 1.70, "Obese");
+                }
+
+                static double bmiOf(double weightKg, double heightM) {
+                    return weightKg / (heightM * heightM);
+                }
+
+                static String categoryOf(double bmi) {
+                    if (bmi < 18.5) return "Underweight";
+                    if (bmi < 25) return "Normal";
+                    if (bmi < 30) return "Overweight";
+                    return "Obese";
+                }
+
+                static void check(double weight, double height, String expected) {
+                    double bmi = bmiOf(weight, height);
+                    String actual = categoryOf(bmi);
+                    String status = actual.equals(expected) ? "PASS" : "FAIL";
+                    System.out.printf("%-4s weight=%.1f height=%.2f -> BMI=%.1f (%s, expected %s)%n", status, weight, height, bmi, actual, expected);
+                }
+            }`,
+          explain: "ยากกว่า TestGradeOf เพราะ check() ต้องประสานสองเมธอดที่ return คนละชนิด (double แล้วต่อด้วย String) ก่อนจะเทียบผล — ถ้า bmiOf ผิดแม้เพียงเล็กน้อย categoryOf อาจจัดประเภทผิดไปทั้งหมด" },
         { type: "note", title: "สัญญาณว่าควรแยกเมธอด", html: `<ul><li>มีโค้ดชุดเดิมซ้ำตั้งแต่ 2 ที่ขึ้นไป</li><li>main ยาวเกินหนึ่งหน้าจอ</li><li>ต้องเขียน comment อธิบายว่า “ส่วนนี้ทำ …” — ชื่อเมธอดทำหน้าที่แทน comment ได้</li><li>อยากทดสอบการคำนวณส่วนหนึ่งแยกจากส่วนรับข้อมูล</li></ul>` },
       ],
     },

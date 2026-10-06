@@ -101,6 +101,7 @@ code:not(pre code) { border-radius: 3px; background: #e8efeb; padding: 1px 5px; 
 .chapter-end > p { margin: 4px 0 15px; color: var(--muted); }
 .end-exercise { margin: 12px 0; border: 1px solid var(--line); border-radius: 5px; background: #fff; padding: 14px 17px; }
 .end-exercise h3 { margin: 0 0 6px; font-size: 16px; }
+.end-exercise.inline-exercise { margin: 16px 0; border: 1px dashed var(--lime); background: #fafdf6; }
 .lesson-pager { display: flex; justify-content: space-between; gap: 12px; margin: 29px 0 0; border-top: 1px solid var(--line); padding-top: 15px; }
 .pager-link { min-height: 44px; font-size: 13px; }
 .pager-link.secondary { border-color: var(--line); background: #fff; color: var(--ink); }

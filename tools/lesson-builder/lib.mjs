@@ -145,6 +145,7 @@ const blockRenderers = {
   table: (b) => `${b.title ? `<h4>${b.title}</h4>` : ""}<table class="comparison-table${b.cls ? " " + b.cls : ""}"><thead><tr>${b.head.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((d) => `<td>${d}</td>`).join("")}</tr>`).join("")}</tbody></table>`,
   check: (b) => `<div class="quick-check"><strong>ลองคิดก่อน · ${b.title}</strong><div>${b.html}</div><details><summary>ดูคำตอบ</summary><div>${b.answer}</div></details></div>`,
   run: renderRun,
+  practice: renderPractice,
 };
 
 let exampleCounter = {};
@@ -181,8 +182,7 @@ function renderBlocks(blocks, ctx) {
   }).join("\n");
 }
 
-function renderExercise(ex, chapterNo) {
-  const id = ex.id;
+function renderExerciseCard(ex, id, { idLabel = "Exercise", extraClass = "" } = {}) {
   let samples = "";
   if (ex.solution) {
     const runs = ex.runs || [ex.stdin ?? ""];
@@ -205,18 +205,32 @@ function renderExercise(ex, chapterNo) {
   const hint = ex.hint ? `<p class="ex-hint">${ex.hint}</p>` : "";
   const answerCode = ex.solution && !ex.hideCode ? `<pre><code>${esc(dedent(ex.solution))}</code></pre>` : "";
   const answer = `<div class="answer-gate" data-answer-id="${id}"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ ${id}<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4>${ex.answerHtml && ex.answerFirst ? ex.answerHtml : ""}${answerCode}${ex.answerHtml && !ex.answerFirst ? ex.answerHtml : ""}${ex.explain ? `<p>${ex.explain}</p>` : ""}</div></div>`;
-  return `<article class="end-exercise" data-level="${ex.level}"><h3><span class="exercise-id">Exercise ${id}</span>${ex.title}<span class="level level-${ex.level}">${LEVEL[ex.level]}</span></h3><div class="ex-body">${ex.html}</div>${spec}${samples}${hint}${answer}</article>`;
+  return `<article class="end-exercise${extraClass ? " " + extraClass : ""}" data-level="${ex.level}"><h3><span class="exercise-id">${idLabel} ${id}</span>${ex.title}<span class="level level-${ex.level}">${LEVEL[ex.level]}</span></h3><div class="ex-body">${ex.html}</div>${spec}${samples}${hint}${answer}</article>`;
+}
+
+function renderExercise(ex) {
+  return renderExerciseCard(ex, ex.id);
+}
+
+let practiceCounter = {};
+function renderPractice(b, ctx) {
+  const n = (practiceCounter[ctx.topic] = (practiceCounter[ctx.topic] || 0) + 1);
+  const id = b.id || `${ctx.topic}-P${n}`;
+  allPracticeIds.push([id, ctx.practicePassPrefix || "prac"]);
+  return renderExerciseCard(b, id, { idLabel: "โจทย์ฝึก", extraClass: "inline-exercise" });
 }
 
 export const allExerciseIds = [];
+export const allPracticeIds = [];
 
 export function buildChapter(ch, outDir) {
   exampleCounter = {};
+  practiceCounter = {};
   const pad = String(ch.num).padStart(2, "0");
   const topicsToc = ch.topics.map((t) => `<a href="#topic-${t.num.replace(".", "-")}"><span class="toc-number">${t.num}</span>${t.toc}</a>`).join("");
   const topicsHtml = ch.topics.map((t) => `<article class="subtopic" id="topic-${t.num.replace(".", "-")}">
 <h3>${t.num} ${t.title}</h3>
-${renderBlocks(t.blocks, { topic: t.num })}
+${renderBlocks(t.blocks, { topic: t.num, practicePassPrefix: ch.practicePassPrefix })}
 </article>`).join("\n");
   const levels = [1, 2, 3].map((l) => `<span class="level level-${l}">${LEVEL[l]}</span>`).join("");
   ch.exercises.forEach((e, i) => { e.id = e.id || `${ch.idPrefix || ch.num}.${i + 1}`; allExerciseIds.push([e.id, ch.passPrefix || "java"]); });
@@ -259,7 +273,7 @@ ${ch.exercises.map((e) => renderExercise(e, ch.num)).join("\n")}
       <footer class="lesson-footer">Java programming by Prymania · ${ch.footer}</footer>
     </main>
   </div>
-  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+  <script src="../password.js"></script><script src="../password_practice.js"></script><script src="../assets/lesson.js"></script>
 </body>
 </html>
 `;
