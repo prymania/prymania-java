@@ -268,7 +268,8 @@ function renderCells(b) {
 let exampleCounter = {};
 function renderRun(b, ctx) {
   const n = (exampleCounter[ctx.topic] = (exampleCounter[ctx.topic] || 0) + 1);
-  const label = b.label || `ตัวอย่าง ${ctx.topic}.${n}`;
+  // number is always computed from position; a custom label (e.g. "ทดลอง error 4.1.5") keeps its words only
+  const label = b.label ? b.label.replace(/\s*[\dS]+\.\d+\.\d+$/, "") + ` ${ctx.topic}.${n}` : `ตัวอย่าง ${ctx.topic}.${n}`;
   const code = dedent(b.code);
   let outputBlock;
   if (b.gui) {

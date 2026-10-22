@@ -16,98 +16,78 @@ export default {
     {
       num: "4.1", toc: "print · println · printf", title: "แสดงผลด้วย print, println และ printf",
       blocks: [
-        { type: "p", html: `<code>print</code> แสดงข้อความโดยไม่ขึ้นบรรทัดใหม่, <code>println</code> แสดงแล้วขึ้นบรรทัดใหม่ ส่วน <code>printf</code> (print formatted) ใช้<strong>แม่แบบ (format string)</strong> ที่มีช่องว่างให้เติมค่า เรียกว่า format specifier ทำให้กำหนดจำนวนทศนิยม ความกว้าง และการจัดชิดได้` },
-        { type: "table", title: "Format specifier ที่ใช้บ่อย", head: ["specifier", "ใช้กับ", "ตัวอย่าง", "ผลลัพธ์"], rows: [
-          ["<code>%d</code>", "จำนวนเต็ม (int, long)", "<code>printf(\"%d\", 42)</code>", "42"],
-          ["<code>%f</code>", "ทศนิยม (double) ค่าเริ่มต้น 6 ตำแหน่ง", "<code>printf(\"%f\", 3.5)</code>", "3.500000"],
+        { type: "p", html: `<code>printf</code> (print formatted) พิมพ์ตาม<strong>แม่แบบ</strong> ที่มีช่องให้เติมค่า เรียกว่า format specifier ช่วยกำหนดจำนวนทศนิยม ความกว้าง และการจัดชิดได้ ต่างจาก <code>println</code> ที่พิมพ์ค่าตามจริง` },
+        { type: "table", head: ["specifier", "ใช้กับ", "ตัวอย่าง", "ผลลัพธ์"], rows: [
+          ["<code>%d</code>", "จำนวนเต็ม", "<code>printf(\"%d\", 42)</code>", "42"],
           ["<code>%.2f</code>", "ทศนิยม 2 ตำแหน่ง (ปัดเศษ)", "<code>printf(\"%.2f\", 3.456)</code>", "3.46"],
-          ["<code>%s</code>", "ข้อความ (String)", "<code>printf(\"%s\", \"JHope\")</code>", "JHope"],
-          ["<code>%c</code>", "อักขระ (char)", "<code>printf(\"%c\", 'A')</code>", "A"],
+          ["<code>%s</code>", "ข้อความ", "<code>printf(\"%s\", \"JHope\")</code>", "JHope"],
+          ["<code>%c</code>", "อักขระ", "<code>printf(\"%c\", 'A')</code>", "A"],
           ["<code>%n</code>", "ขึ้นบรรทัดใหม่", "<code>printf(\"A%nB\")</code>", "A↵B"],
-          ["<code>%,d</code>", "จำนวนเต็มมีจุลภาคคั่นหลักพัน", "<code>printf(\"%,d\", 1500000)</code>", "1,500,000"],
-          ["<code>%8d</code> / <code>%-8s</code>", "กว้าง 8 ช่อง ชิดขวา / ชิดซ้าย (มี -)", "<code>printf(\"[%5d]\", 42)</code>", "[&nbsp;&nbsp;&nbsp;42]"],
+          ["<code>%,d</code>", "คั่นหลักพัน", "<code>printf(\"%,d\", 1500000)</code>", "1,500,000"],
+          ["<code>%%</code>", "เครื่องหมาย % หนึ่งตัว", "<code>printf(\"15%%\")</code>", "15%"],
         ] },
-        { type: "run", title: "print ต่อกับ println", level: "พื้นฐาน",
-          concept: "print ไม่ขึ้นบรรทัด จึงใช้ทำ prompt ที่ให้ผู้ใช้พิมพ์ต่อท้ายในบรรทัดเดียวกัน",
-          code: j`
-            public class PrintExample {
-                public static void main(String[] args) {
-                    // print: ไม่ขึ้นบรรทัดใหม่
-                    System.out.print("Good ");
-                    // ต่อบรรทัดเดิม แล้วขึ้นบรรทัดใหม่
-                    System.out.println("morning");
-                    System.out.println("Next line");
-                }
-            }`,
-          steps: ["print \"Good \" แล้วเคอร์เซอร์รออยู่บรรทัดเดิม", "println \"morning\" ต่อท้าย แล้วขึ้นบรรทัด", "\"Next line\" อยู่บรรทัดใหม่"] },
-        { type: "run", title: "printf กับ specifier พื้นฐาน", level: "พื้นฐาน",
-          concept: "เขียนแม่แบบหนึ่งชุด แล้วส่งค่าตามลำดับ specifier ตัวที่ 1 ได้ค่าแรก ตัวที่ 2 ได้ค่าที่สอง …",
+        { type: "run", title: "แม่แบบหนึ่งชุด เติมค่าตามลำดับ",
           code: j`
             public class PrintfBasics {
                 public static void main(String[] args) {
                     String name = "JHope";
                     int score = 87;
                     double average = 3.456;
-                    // %s = ข้อความ, %n = ขึ้นบรรทัดใหม่
-                    System.out.printf("Student: %s%n", name);
-                    // %d = จำนวนเต็ม
-                    System.out.printf("Score: %d points%n", score);
-                    // %.2f = ทศนิยม 2 ตำแหน่ง (ปัดเศษ)
-                    System.out.printf("Average: %.2f%n", average);
-                    // ค่าเรียงตามลำดับของ % ในข้อความ
+                    System.out.printf("Student: %s%n", name);                 // Student: JHope
+                    System.out.printf("Score: %d points%n", score);           // Score: 87 points
+                    System.out.printf("Average: %.2f%n", average);            // Average: 3.46
                     System.out.printf("%s got %d (avg %.1f)%n", name, score, average);
                 }
             }`,
-          steps: ["<code>%s</code> ถูกแทนด้วย JHope", "<code>%d</code> ถูกแทนด้วย 87", "<code>%.2f</code> ปัด 3.456 → 3.46", "บรรทัดสุดท้ายมี 3 specifier จับคู่กับ name, score, average ตามลำดับ", "<code>%n</code> ขึ้นบรรทัด (printf ไม่ขึ้นบรรทัดเองเหมือน println)"] },
-        { type: "run", title: "จัดรูปแบบราคารวม", level: "ต่อยอด",
-          concept: "เงินควรแสดง 2 ตำแหน่งเสมอ และตัวเลขใหญ่ควรมีจุลภาคคั่นหลักพัน",
-          code: j`
-            public class PrintTotal {
-                public static void main(String[] args) {
-                    int quantity = 3;
-                    double unitPrice = 12.5;
-                    double total = quantity * unitPrice;
-                    // println แสดงทศนิยมตามจริง
-                    System.out.println("Total (println): " + total);
-                    // printf กำหนดจำนวนทศนิยมได้
-                    System.out.printf("Total (printf): %.2f baht%n", total);
+          },
+        { type: "tip", html: `ค่าที่ส่งตามหลังแม่แบบจับคู่กับ specifier <strong>ตามลำดับ</strong> ตัวแรกเข้า % ตัวแรก และ printf ไม่ขึ้นบรรทัดเอง ต้องใส่ <code>%n</code> ท้ายแม่แบบ` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: print ไม่ขึ้นบรรทัด", blocks: [
+          { type: "run", title: "print ต่อกับ println",
+            code: j`
+              public class PrintExample {
+                  public static void main(String[] args) {
+                      System.out.print("Good ");          // ยังอยู่บรรทัดเดิม
+                      System.out.println("morning");      // Good morning แล้วขึ้นบรรทัดใหม่
+                      System.out.println("Next line");
+                  }
+              }`,
+            after: "เพราะ print ไม่ขึ้นบรรทัด จึงใช้ทำข้อความถาม (prompt) ที่ให้ผู้ใช้พิมพ์ต่อท้ายในบรรทัดเดียวกัน" },
+        ] },
 
-                    double salary = 1234567.891;
-                    // , ใส่ตัวคั่นหลักพัน
-                    System.out.printf("Salary: %,.2f baht%n", salary);
-                    // %% แสดงเครื่องหมาย % หนึ่งตัว
-                    System.out.printf("Discount: %d%%%n", 15);
-                }
-            }`,
-          steps: ["println แสดง 37.5 (ทศนิยมตามค่าจริง)", "printf <code>%.2f</code> แสดง 37.50", "<code>%,.2f</code> → 1,234,567.89", "ถ้าต้องการแสดงเครื่องหมาย % ให้เขียน <code>%%</code>"],
-          tryIt: "เปลี่ยน %.2f เป็น %.1f หรือ %.0f แล้วเปรียบเทียบผล" },
-        { type: "run", title: "ตารางที่คอลัมน์ตรงกันด้วยความกว้าง", level: "ประยุกต์",
-          concept: "ใส่ตัวเลขความกว้างหน้า specifier: <code>%-10s</code> ข้อความกว้าง 10 ชิดซ้าย, <code>%5d</code> ตัวเลขกว้าง 5 ชิดขวา, <code>%8.2f</code> กว้าง 8 ทศนิยม 2",
+        { type: "h", text: "จัดรูปแบบเงินและตาราง" },
+        { type: "p", html: `ใส่ตัวเลขความกว้างหน้า specifier: <code>%-10s</code> ข้อความกว้าง 10 ช่องชิดซ้าย, <code>%5d</code> ตัวเลขกว้าง 5 ชิดขวา, <code>%8.2f</code> กว้าง 8 ทศนิยม 2 คอลัมน์จะตรงกันทุกบรรทัด` },
+        { type: "run", title: "ราคาและตารางที่คอลัมน์ตรงกัน",
           code: j`
             public class AlignedTable {
                 public static void main(String[] args) {
-                    // - ชิดซ้าย, ตัวเลข = ความกว้างช่อง
+                    double total = 3 * 12.5;
+                    System.out.println("println: " + total);                  // println: 37.5
+                    System.out.printf("printf : %.2f baht%n", total);         // printf : 37.50 baht
+                    System.out.printf("Salary : %,.2f%n", 1234567.891);       // Salary : 1,234,567.89
+                    System.out.printf("Discount %d%%%n", 15);                 // Discount 15%
+                    System.out.println();
+
                     System.out.printf("%-10s %5s %8s%n", "Item", "Qty", "Price");
                     System.out.printf("%-10s %5d %8.2f%n", "Pen", 12, 5.5);
                     System.out.printf("%-10s %5d %8.2f%n", "Notebook", 3, 45.0);
                     System.out.printf("%-10s %5d %8.2f%n", "Bag", 1, 399.75);
-                    // ทำซ้ำ "-" 25 ครั้ง
-                    System.out.println("-".repeat(25));
-                    System.out.printf("%-10s %14.2f%n", "Total", 12 * 5.5 + 3 * 45.0 + 399.75);
+                    System.out.println("-".repeat(25));                       // เส้น 25 ตัว
                 }
             }`,
-          steps: ["ชื่อสินค้าชิดซ้ายกว้าง 10 ช่อง ไม่ว่าชื่อยาวเท่าไร คอลัมน์ถัดไปก็เริ่มที่เดียวกัน", "ตัวเลขชิดขวา หลักหน่วยจึงตรงกัน อ่านง่าย", "<code>\"-\".repeat(25)</code> สร้างเส้น 25 ตัว"] },
-        { type: "run", label: "ทดลอง error 4.1.5", title: "specifier ไม่ตรงชนิด", level: "ท้าทาย", expect: "runtime-error",
-          concept: "printf ตรวจชนิดตอน<strong>รัน</strong> ไม่ใช่ตอนคอมไพล์ ถ้าใช้ <code>%d</code> กับ double โปรแกรมจะหยุดด้วย <code>IllegalFormatConversionException</code>",
-          code: j`
-            public class WrongSpecifier {
-                public static void main(String[] args) {
-                    double price = 19.5;
-                    System.out.printf("Price: %.2f%n", price);
-                    System.out.printf("Price: %d%n", price);
-                }
-            }`,
-          steps: ["บรรทัดแรกถูกต้อง พิมพ์ 19.50", "บรรทัดที่สองใช้ %d กับ double → <code>d != java.lang.Double</code>", "จำคู่: %d ↔ int, %f ↔ double, %s ↔ String"] },
+          },
+        { type: "warn", title: "specifier ต้องตรงชนิด", html: `printf ตรวจชนิดตอน<strong>รัน</strong> ใช้ <code>%d</code> กับค่า double โปรแกรมจะหยุดด้วย <code>IllegalFormatConversionException</code> จำคู่: <code>%d</code> ↔ int, <code>%f</code> ↔ double, <code>%s</code> ↔ String` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อ specifier ไม่ตรงชนิด", blocks: [
+          { type: "run", label: "ทดลอง error 4.1.5", title: "specifier ไม่ตรงชนิด", expect: "runtime-error",
+            code: j`
+              public class WrongSpecifier {
+                  public static void main(String[] args) {
+                      double price = 19.5;
+                      System.out.printf("Price: %.2f%n", price);
+                      System.out.printf("Price: %d%n", price);
+                  }
+              }`,
+            after: "บรรทัดแรกพิมพ์ 19.50 ได้ปกติ บรรทัดที่สองใช้ <code>%d</code> กับ double จึงได้ <code>d != java.lang.Double</code>" },
+        ] },
         { type: "check", title: "ทำนาย printf", html: jpre(`
           System.out.printf("[%6.1f]%n", 3.14159);
           System.out.printf("[%-6s]%n", "ab");
@@ -120,63 +100,31 @@ export default {
     {
       num: "4.2", toc: "Scanner", title: "รับข้อมูลตัวเลขด้วย Scanner",
       blocks: [
-        { type: "steps", title: "ขั้นตอนใช้ Scanner", items: [
-          "นำเข้าคลาสไว้บนสุดของไฟล์: <code>import java.util.Scanner;</code>",
-          "สร้างออบเจ็กต์หนึ่งครั้งใน main: <code>Scanner input = new Scanner(System.in);</code>",
-          "พิมพ์ prompt ด้วย <code>print</code> เพื่อบอกผู้ใช้ว่าต้องป้อนอะไร",
-          "เรียกเมธอดอ่านให้ตรงกับชนิด แล้วเก็บในตัวแปร: <code>int age = input.nextInt();</code>",
-          "นำค่าไปคำนวณและแสดงผล",
-        ] },
+        { type: "p", html: `<code>Scanner</code> อ่านสิ่งที่ผู้ใช้พิมพ์ ต้อง <code>import java.util.Scanner;</code> ไว้บนสุดของไฟล์ สร้างครั้งเดียวด้วย <code>new Scanner(System.in)</code> แล้วเรียกเมธอดอ่านให้ตรงกับชนิด` },
         { type: "table", head: ["เมธอด", "อ่านอะไร", "เก็บใน"], rows: [
-          ["<code>nextInt()</code>", "จำนวนเต็มหนึ่งค่า (token)", "<code>int</code>"],
-          ["<code>nextDouble()</code>", "ทศนิยมหนึ่งค่า (รับ 2 ก็ได้ จะกลายเป็น 2.0)", "<code>double</code>"],
-          ["<code>next()</code>", "ข้อความหนึ่งคำ (จนถึงช่องว่าง)", "<code>String</code>"],
-          ["<code>nextLine()</code>", "ข้อความทั้งบรรทัด (รวมช่องว่าง)", "<code>String</code>"],
-          ["<code>nextBoolean()</code>", "true หรือ false", "<code>boolean</code>"],
+          ["<code>nextInt()</code>", "จำนวนเต็มหนึ่งค่า", "<code>int</code>"],
+          ["<code>nextDouble()</code>", "ทศนิยมหนึ่งค่า (ป้อน 2 ได้ จะเป็น 2.0)", "<code>double</code>"],
+          ["<code>next()</code>", "ข้อความหนึ่งคำ (ถึงช่องว่าง)", "<code>String</code>"],
+          ["<code>nextLine()</code>", "ข้อความทั้งบรรทัด (มีช่องว่างได้)", "<code>String</code>"],
         ] },
-        { type: "run", title: "รับจำนวนเต็มหนึ่งค่า", level: "พื้นฐาน",
-          concept: "โปรแกรมหยุดรอที่ <code>nextInt()</code> จนผู้ใช้พิมพ์แล้วกด Enter",
-          stdin: "2007",
+        { type: "run", title: "ถาม รอ แล้วคำนวณ", stdin: "2007",
           code: j`
             import java.util.Scanner;
 
             public class AgeFromYear {
                 public static void main(String[] args) {
-                    // เตรียมอ่านข้อมูลจากคีย์บอร์ด
-                    Scanner input = new Scanner(System.in);
-                    // print ให้เคอร์เซอร์รอท้ายข้อความ
-                    System.out.print("Birth year (A.D.): ");
-                    // รอผู้ใช้พิมพ์จำนวนเต็ม
-                    int birthYear = input.nextInt();
-                    int age = 2026 - birthYear;
+                    Scanner input = new Scanner(System.in);          // สร้างครั้งเดียว
+                    System.out.print("Birth year (A.D.): ");          // print → ผู้ใช้พิมพ์ต่อบรรทัดเดิม
+                    int birthYear = input.nextInt();                  // หยุดรอจนผู้ใช้กด Enter
+                    int age = 2026 - birthYear;                       // 2026 - 2007 = 19
                     System.out.println("You are about " + age + " years old.");
                 }
             }`,
-          steps: ["พิมพ์ prompt แล้วรอ", "ผู้ใช้ป้อน 2007 → birthYear = 2007", "age = 2026 − 2007 = 19"] },
-        { type: "run", title: "รับทศนิยมสองค่าแล้วคำนวณ", level: "ต่อยอด",
-          concept: "ผู้ใช้ต้องป้อนตามลำดับที่โปรแกรมถาม และใช้จุดเป็นทศนิยม (4.5)",
-          stdin: "4.5\n2",
-          code: j`
-            import java.util.Scanner;
+          },
 
-            public class RectangleArea {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Width: ");
-                    double width = input.nextDouble();  // อ่านทศนิยม
-                    System.out.print("Height: ");
-                    double height = input.nextDouble();
-                    double area = width * height;
-                    // วงเล็บบวกก่อนคูณ
-                    double perimeter = 2 * (width + height);
-                    System.out.printf("Area: %.2f%n", area);
-                    System.out.printf("Perimeter: %.2f%n", perimeter);
-                }
-            }`,
-          steps: ["width = 4.5", "height = 2 (nextDouble รับเลขจำนวนเต็มได้ กลายเป็น 2.0)", "พื้นที่ 9.00 และเส้นรอบรูป 13.00"] },
-        { type: "run", title: "ป้อนหลายค่าในบรรทัดเดียว", level: "ประยุกต์",
-          concept: "nextInt/nextDouble อ่านทีละ <strong>token</strong> (คั่นด้วยช่องว่างหรือ Enter) ผู้ใช้จึงพิมพ์ <code>8 9 10</code> ในบรรทัดเดียวได้",
-          stdin: "8 9 10",
+        { type: "h", text: "รับหลายค่า" },
+        { type: "p", html: `<code>nextInt</code> / <code>nextDouble</code> อ่านทีละ <strong>token</strong> (คำที่คั่นด้วยช่องว่างหรือ Enter) ผู้ใช้จึงพิมพ์หลายค่าในบรรทัดเดียวได้` },
+        { type: "run", title: "ป้อน 3 คะแนนในบรรทัดเดียว", stdin: "8 9 10",
           code: j`
             import java.util.Scanner;
 
@@ -184,48 +132,57 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Enter 3 scores: ");
-                    int a = input.nextInt();  // อ่านทีละค่า คั่นด้วยช่องว่างได้
-                    int b = input.nextInt();
-                    int c = input.nextInt();
+                    int a = input.nextInt();             // 8    ส่วน "9 10" ยังค้างรอ
+                    int b = input.nextInt();             // 9    ไม่ต้องรอผู้ใช้อีก
+                    int c = input.nextInt();             // 10
                     int sum = a + b + c;
-                    double average = sum / 3.0;  // 3.0 ทำให้ได้ทศนิยม
+                    double average = sum / 3.0;          // 3.0 ทำให้ได้ทศนิยม
                     System.out.printf("Sum = %d, Average = %.2f%n", sum, average);
                 }
             }`,
-          steps: ["nextInt ครั้งแรกได้ 8 ส่วน \"9 10\" ยังค้างใน input", "ครั้งที่สองได้ 9 และครั้งที่สามได้ 10 โดยไม่ต้องรอผู้ใช้อีก", "หารด้วย 3.0 เพื่อให้ได้ทศนิยม"] },
-        { type: "run", label: "ทดลอง error 4.2.4", title: "ป้อนชนิดข้อมูลไม่ตรง", level: "ประยุกต์", expect: "runtime-error", stdin: "12.5",
-          concept: "โปรแกรมคาดว่าจะได้จำนวนเต็ม ถ้าผู้ใช้ป้อน 12.5 จะเกิด <code>InputMismatchException</code> ระหว่างรัน",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: รับทศนิยมสองค่า", blocks: [
+          { type: "run", title: "พื้นที่และเส้นรอบรูป", stdin: "4.5\n2",
+            code: j`
+              import java.util.Scanner;
 
-            public class ReadInteger {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Enter an integer: ");
-                    int value = input.nextInt();
-                    System.out.println("Value: " + value);
-                }
-            }`,
-          steps: ["nextInt พบ token \"12.5\" ซึ่งไม่ใช่จำนวนเต็ม", "โปรแกรมหยุดทันที บรรทัด Value ไม่ทำงาน", "แก้: ป้อน 12 หรือเปลี่ยนเป็น <code>double</code> + <code>nextDouble()</code> (บทที่ 10 จะสอนดักจับ error แบบนี้)"] },
-        { type: "note", title: "ใช้ Scanner ตัวเดียวทั้งโปรแกรม", html: `<p>สร้าง <code>new Scanner(System.in)</code> เพียงครั้งเดียวแล้วใช้ซ้ำ ไม่ต้องสร้างใหม่ทุกครั้งที่จะอ่าน และไม่ต้องเรียก <code>close()</code> กับ Scanner ของ System.in ในโปรแกรมฝึกหัด</p>` },
+              public class RectangleArea {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Width: ");
+                      double width = input.nextDouble();
+                      System.out.print("Height: ");
+                      double height = input.nextDouble();               // ป้อน 2 → 2.0
+                      System.out.printf("Area: %.2f%n", width * height);
+                      System.out.printf("Perimeter: %.2f%n", 2 * (width + height));
+                  }
+              }`,
+            },
+        ] },
+        { type: "warn", title: "ป้อนชนิดข้อมูลไม่ตรง", html: `ถ้าโปรแกรมเรียก <code>nextInt()</code> แต่ผู้ใช้ป้อน <code>12.5</code> โปรแกรมจะหยุดด้วย <code>InputMismatchException</code> (บทที่ 10 จะสอนวิธีดักจับ)` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อป้อนชนิดไม่ตรง", blocks: [
+          { type: "run", label: "ทดลอง error 4.2.4", title: "ป้อนชนิดข้อมูลไม่ตรง", expect: "runtime-error", stdin: "12.5",
+            code: j`
+              import java.util.Scanner;
+
+              public class ReadInteger {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Enter an integer: ");
+                      int value = input.nextInt();
+                      System.out.println("Value: " + value);
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "token", html: `<p>ถ้าโปรแกรมเรียก <code>nextInt()</code> 2 ครั้ง แล้วผู้ใช้พิมพ์ <code>5 7 9</code> กด Enter ครั้งเดียว ค่าที่อ่านได้คืออะไร และ 9 ไปไหน</p>`, answer: `<p>ได้ 5 และ 7 ส่วน 9 ยังค้างอยู่ใน input รอให้คำสั่งอ่านถัดไป (ถ้ามี) อ่านต่อ</p>` },
       ],
     },
     {
       num: "4.3", toc: "ตัวเลขและข้อความ", title: "อ่านข้อความและจัดการบรรทัด",
       blocks: [
-        { type: "p", html: `<code>next()</code> อ่านเพียงคำเดียว ถ้าข้อความมีช่องว่างให้ใช้ <code>nextLine()</code> ซึ่งอ่านทั้งบรรทัด หากอ่านตัวเลขด้วย <code>nextInt()</code> ก่อน ตัวกด Enter ที่ตามมาจะยังค้างอยู่และถูก <code>nextLine()</code> อ่านทันที` },
-        { type: "concept", title: "ภาพในหน่วยความจำ: เกิดอะไรขึ้นกับ Enter", html: fpre(`
-          ผู้ใช้พิมพ์:   2 0 ⏎ M a l i ␣ N i d a ⏎
-          nextInt()  →  อ่าน "20"         เหลือ:  ⏎ M a l i ␣ N i d a ⏎
-          nextLine() →  อ่านถึง ⏎ แรก = ""  (ค่าว่าง!)
-          ----------------------------------------------------------
-          แก้: เรียก nextLine() ทิ้งหนึ่งครั้งหลัง nextInt()
-          nextLine() →  ทิ้ง ⏎            เหลือ:  M a l i ␣ N i d a ⏎
-          nextLine() →  "JHope RM"  ✔`) },
-        { type: "run", title: "next() อ่านแค่คำแรก", level: "พื้นฐาน",
-          concept: "เมื่อชื่อมีช่องว่าง next() จะได้แค่คำแรก ส่วนที่เหลือค้างอยู่",
-          stdin: "JHope RM",
+        { type: "p", html: `<code>next()</code> อ่านแค่คำเดียว ถ้าข้อความมีช่องว่าง เช่น ชื่อ-นามสกุล ให้ใช้ <code>nextLine()</code> ซึ่งอ่านทั้งบรรทัด` },
+        { type: "run", title: "next() กับ nextLine()", stdin: "JHope RM",
           code: j`
             import java.util.Scanner;
 
@@ -233,35 +190,25 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Full name: ");
-                    // next(): อ่านแค่คำแรก
-                    String first = input.next();
-                    // nextLine(): อ่านส่วนที่เหลือของบรรทัด
-                    String rest = input.nextLine();
+                    String first = input.next();             // "JHope"   แค่คำแรก
+                    String rest = input.nextLine();          // " RM"     ส่วนที่เหลือของบรรทัด
                     System.out.println("next()     = [" + first + "]");
                     System.out.println("nextLine() = [" + rest + "]");
                 }
             }`,
-          steps: ["next() ได้ \"JHope\"", "nextLine() อ่านส่วนที่เหลือของบรรทัดคือ \" RM\" (มีช่องว่างนำหน้า)", "วงเล็บ [ ] ช่วยให้เห็นช่องว่างชัดเจน"] },
-        { type: "run", label: "ทดลองบั๊ก 4.3.2", title: "อ่านชื่อได้ค่าว่าง", level: "ต่อยอด", stdin: "20\nJHope",
-          concept: "nextLine() ต่อจาก nextInt() ทันที จะอ่านได้ Enter ที่ค้าง → ค่าว่าง และโปรแกรมไม่รอให้ผู้ใช้พิมพ์ชื่อ",
-          code: j`
-            import java.util.Scanner;
+          },
 
-            public class EmptyNameBug {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Age: ");
-                    // อ่านตัวเลข แต่ Enter ยังค้างอยู่
-                    int age = input.nextInt();
-                    System.out.print("Full name: ");
-                    // ได้บรรทัดว่าง เพราะอ่าน Enter ที่ค้าง
-                    String name = input.nextLine();
-                    System.out.println("Name is [" + name + "]");
-                }
-            }`,
-          steps: ["nextInt อ่าน 20 แต่ไม่อ่าน Enter", "nextLine อ่านถึง Enter ที่ค้าง → \"\" ทันที", "Output เห็น \"Full name: \" ตามด้วย \"Name is []\" โดยที่ชื่อ JHope ไม่ถูกอ่านเลย"] },
-        { type: "run", title: "แก้บั๊กด้วย nextLine() ทิ้งหนึ่งครั้ง", level: "ต่อยอด", stdin: "20\nJHope RM",
-          concept: "หลังอ่านตัวเลข ให้เรียก <code>input.nextLine();</code> เปล่า ๆ เพื่อเคลียร์ Enter ก่อนอ่านข้อความทั้งบรรทัด",
+        { type: "h", text: "ปัญหา Enter ค้าง" },
+        { type: "p", html: `<code>nextInt()</code> อ่านตัวเลขแต่<strong>ไม่อ่านปุ่ม Enter</strong> ที่ตามมา ถ้าเรียก <code>nextLine()</code> ต่อทันที มันจะอ่าน Enter ที่ค้างนั้นได้ข้อความว่าง` },
+        { type: "html", html: fpre(`
+          ผู้ใช้พิมพ์:   2 0 ⏎ J H o p e ␣ R M ⏎
+          nextInt()  →  อ่าน "20"         เหลือ:  ⏎ J H o p e ␣ R M ⏎
+          nextLine() →  อ่านถึง ⏎ แรก = ""  (ค่าว่าง!)
+          ----------------------------------------------------------
+          แก้: เรียก nextLine() ทิ้งหนึ่งครั้งหลัง nextInt()
+          nextLine() →  ทิ้ง ⏎            เหลือ:  J H o p e ␣ R M ⏎
+          nextLine() →  "JHope RM"  ✔`) },
+        { type: "run", title: "แก้ด้วย nextLine() ทิ้งหนึ่งครั้ง", stdin: "20\nJHope RM",
           code: j`
             import java.util.Scanner;
 
@@ -270,111 +217,115 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Age: ");
                     int age = input.nextInt();
-                    input.nextLine();  // เคลียร์ Enter ที่ค้าง
+                    input.nextLine();                         // ทิ้ง Enter ที่ค้าง
                     System.out.print("Full name: ");
-                    String name = input.nextLine();  // ตอนนี้อ่านชื่อได้ถูกต้อง
+                    String name = input.nextLine();           // ตอนนี้ได้ "JHope RM" ครบ
                     System.out.println("Hello, " + name + "!");
                     System.out.println("Age: " + age);
                 }
             }`,
-          steps: ["nextInt อ่าน 20", "nextLine แรกทิ้ง Enter", "nextLine ที่สองอ่าน \"JHope RM\" ครบพร้อมช่องว่าง"] },
-        { type: "run", title: "อีกทางเลือก: อ่านทุกอย่างเป็นบรรทัดแล้วแปลง", level: "ประยุกต์", stdin: "JHope RM\n20\n3.75",
-          concept: "อ่านทุกค่าด้วย nextLine() แล้วแปลงเป็นตัวเลขด้วย <code>Integer.parseInt</code> / <code>Double.parseDouble</code> — ไม่มีปัญหา Enter ค้างเลย",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "warn", html: `อย่าเรียก <code>nextLine()</code> ต่อจาก <code>nextInt()</code> หรือ <code>nextDouble()</code> โดยไม่ทิ้ง Enter ก่อน ส่วน <code>next()</code> ไม่มีปัญหานี้ เพราะข้ามช่องว่างและ Enter ที่อยู่ข้างหน้าเอง` },
+        { type: "more", title: "ดูตัวอย่าง: บั๊กอ่านชื่อได้ค่าว่าง", blocks: [
+          { type: "run", label: "ทดลองบั๊ก 4.3.2", title: "อ่านชื่อได้ค่าว่าง", stdin: "20\nJHope",
+            code: j`
+              import java.util.Scanner;
 
-            public class ReadAllLines {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Full name: ");
-                    String name = input.nextLine();  // อ่านทั้งบรรทัด
-                    System.out.print("Age: ");
-                    // อ่านเป็นบรรทัด แล้วแปลงเป็น int
-                    int age = Integer.parseInt(input.nextLine());
-                    System.out.print("GPA: ");
-                    // แปลงข้อความเป็น double
-                    double gpa = Double.parseDouble(input.nextLine());
-                    System.out.printf("%s, %d years, GPA %.2f%n", name, age, gpa);
-                }
-            }`,
-          steps: ["ทุกคำสั่งอ่านใช้ nextLine() จึงกิน Enter ทุกครั้ง", "<code>Integer.parseInt(\"20\")</code> แปลงข้อความเป็น int 20", "<code>Double.parseDouble(\"3.75\")</code> แปลงเป็น double"],
-          after: "วิธีนี้จะใช้มากในบทที่ 9 (String) และในโปรแกรม GUI ที่ช่องกรอกข้อมูลให้ค่าเป็นข้อความเสมอ" },
-        { type: "note", title: "จำเป็นคู่", html: `<p>ใช้ <code>next()</code> สำหรับ token เดียว เช่น รหัสที่ไม่มีช่องว่าง และใช้ <code>nextLine()</code> สำหรับชื่อเต็มหรือประโยค อย่าเรียก <code>nextLine()</code> ต่อจาก <code>nextInt()</code>/<code>nextDouble()</code> โดยไม่จัดการ Enter ที่ค้าง</p>` },
+              public class EmptyNameBug {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Age: ");
+                      int age = input.nextInt();
+                      System.out.print("Full name: ");
+                      String name = input.nextLine();       // ได้ "" เพราะอ่าน Enter ที่ค้าง
+                      System.out.println("Name is [" + name + "]");
+                  }
+              }`,
+            after: "โปรแกรมไม่รอให้พิมพ์ชื่อเลย ชื่อ JHope ไม่ถูกอ่าน" },
+        ] },
+        { type: "tip", title: "อีกทางเลือก", html: `อ่านทุกค่าด้วย <code>nextLine()</code> แล้วแปลงเป็นตัวเลขด้วย <code>Integer.parseInt(...)</code> หรือ <code>Double.parseDouble(...)</code> จะไม่มีปัญหา Enter ค้างเลย วิธีนี้ใช้มากในบทที่ 9 และในโปรแกรม GUI` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: อ่านทุกอย่างเป็นบรรทัดแล้วแปลง", blocks: [
+          { type: "run", title: "nextLine + parse", stdin: "JHope RM\n20\n3.75",
+            code: j`
+              import java.util.Scanner;
+
+              public class ReadAllLines {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Full name: ");
+                      String name = input.nextLine();
+                      System.out.print("Age: ");
+                      int age = Integer.parseInt(input.nextLine());           // "20" → 20
+                      System.out.print("GPA: ");
+                      double gpa = Double.parseDouble(input.nextLine());      // "3.75" → 3.75
+                      System.out.printf("%s, %d years, GPA %.2f%n", name, age, gpa);
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "Enter ค้าง", html: `<p>โปรแกรมเรียก <code>nextDouble()</code> แล้วตามด้วย <code>next()</code> จะเจอปัญหา Enter ค้างหรือไม่</p>`, answer: `<p><strong>ไม่</strong> เพราะ <code>next()</code> ข้ามช่องว่างและ Enter ที่อยู่ข้างหน้าก่อนอ่าน token ปัญหาเกิดกับ <code>nextLine()</code> เท่านั้น</p>` },
       ],
     },
     {
       num: "4.4", toc: "จัดการบรรทัดข้อมูล", title: "รวมทุกอย่าง: ออกแบบโปรแกรมโต้ตอบที่สมบูรณ์",
       blocks: [
-        { type: "steps", title: "ขั้นตอนเขียนโปรแกรมรับ-คำนวณ-แสดงผล", items: [
-          "เขียน IPO: ต้องถามอะไรบ้าง ชนิดอะไร ต้องแสดงอะไร",
-          "ตัดสินใจลำดับการถาม — ถ้ามีทั้งข้อความยาวและตัวเลข ให้ระวัง Enter ค้าง",
-          "เขียน prompt ที่บอกหน่วย เช่น <code>Weight (kg): </code>",
-          "คำนวณโดยระวังการหารจำนวนเต็ม",
-          "แสดงผลด้วย printf พร้อมหน่วยและจำนวนทศนิยมที่เหมาะสม",
-          "ทดสอบด้วยข้อมูลอย่างน้อย 2 ชุดที่คำนวณคำตอบด้วยมือไว้แล้ว",
-        ] },
-        { type: "run", title: "ใบเสร็จร้านกาแฟ", level: "ประยุกต์", stdin: "Iced Latte\n2\n65",
-          concept: "รับชื่อสินค้า (มีช่องว่าง) จำนวน และราคา แล้วคิด VAT 7% แสดงเป็นตาราง",
+        { type: "p", html: `โปรแกรมรับ-คำนวณ-แสดงผลที่ดี: เขียน IPO ก่อน, ถามข้อความยาวก่อนตัวเลข (หรือทิ้ง Enter ให้ถูก), บอกหน่วยใน prompt, ระวังการหารจำนวนเต็ม และแสดงผลด้วย printf` },
+        { type: "run", title: "ใบเสร็จร้านกาแฟ", stdin: "Iced Latte\n2\n65",
           code: j`
             import java.util.Scanner;
 
             public class CafeReceipt {
                 public static void main(String[] args) {
-                    final double VAT = 0.07;  // ค่าคงที่ VAT 7%
+                    final double VAT = 0.07;
                     Scanner input = new Scanner(System.in);
                     System.out.print("Menu name: ");
-                    // อ่านชื่อเมนูก่อนตัวเลข จึงไม่มี Enter ค้าง
-                    String menu = input.nextLine();
+                    String menu = input.nextLine();                 // ข้อความก่อนตัวเลข → ไม่มี Enter ค้าง
                     System.out.print("Quantity: ");
                     int qty = input.nextInt();
                     System.out.print("Price per cup: ");
                     double price = input.nextDouble();
 
-                    double subtotal = qty * price;
-                    double vat = subtotal * VAT;
-                    double total = subtotal + vat;
+                    double subtotal = qty * price;                  // 2 × 65 = 130
+                    double vat = subtotal * VAT;                    // 9.10
+                    double total = subtotal + vat;                  // 139.10
 
                     System.out.println("=".repeat(28));
-                    // %-14s ชื่อชิดซ้าย กว้าง 14 ช่อง
                     System.out.printf("%-14s x%d%n", menu, qty);
-                    // %10.2f ตัวเลขชิดขวา กว้าง 10 ช่อง
                     System.out.printf("%-14s %10.2f%n", "Subtotal", subtotal);
-                    System.out.printf("%-14s %10.2f%n", "VAT 7%", vat);
+                    System.out.printf("%-14s %10.2f%n", "VAT 7%", vat);       // "VAT 7%" เป็นค่า ไม่ต้อง %%
                     System.out.printf("%-14s %10.2f%n", "Total", total);
                     System.out.println("=".repeat(28));
                 }
             }`,
-          steps: ["อ่านชื่อเมนูก่อนด้วย nextLine() — ยังไม่มีตัวเลขมาก่อน จึงไม่มี Enter ค้าง", "อ่านจำนวนและราคาด้วย nextInt/nextDouble", "คำนวณ 2 × 65 = 130, VAT 9.10, รวม 139.10", "จัดคอลัมน์ด้วย %-14s และ %10.2f"],
-          after: "สังเกต <code>\"VAT 7%\"</code> ถูกส่งเป็น<em>ค่า</em>ให้ %s จึงไม่ต้องเขียน %% — ต้องใช้ %% เฉพาะเมื่อ % อยู่ใน format string" },
-        { type: "run", title: "แปลงสกุลเงินพร้อมค่าธรรมเนียม", level: "ท้าทาย", stdin: "RM\n5000\n35.42",
-          concept: "โจทย์หลายขั้น: คำนวณค่าธรรมเนียม 1.5% ก่อน แล้วจึงแปลงเงินที่เหลือ แสดงผลทั้งจำนวนเต็มคั่นหลักพันและทศนิยม",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "try", html: `ทดสอบด้วยข้อมูลอย่างน้อย 2 ชุดที่คำนวณคำตอบด้วยมือไว้แล้ว เช่น 3 แก้ว แก้วละ 45 บาท` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: แปลงสกุลเงินพร้อมค่าธรรมเนียม", blocks: [
+          { type: "run", title: "แลกเงินบาทเป็นดอลลาร์", stdin: "RM\n5000\n35.42",
+            code: j`
+              import java.util.Scanner;
 
-            public class CurrencyExchange {
-                public static void main(String[] args) {
-                    final double FEE_RATE = 0.015;  // ค่าธรรมเนียม 1.5%
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Customer: ");
-                    String customer = input.nextLine();
-                    System.out.print("Thai baht: ");
-                    double baht = input.nextDouble();
-                    System.out.print("Rate (THB per USD): ");
-                    double rate = input.nextDouble();
+              public class CurrencyExchange {
+                  public static void main(String[] args) {
+                      final double FEE_RATE = 0.015;                  // ค่าธรรมเนียม 1.5%
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Customer: ");
+                      String customer = input.nextLine();
+                      System.out.print("Thai baht: ");
+                      double baht = input.nextDouble();
+                      System.out.print("Rate (THB per USD): ");
+                      double rate = input.nextDouble();
 
-                    double fee = baht * FEE_RATE;
-                    // หักค่าธรรมเนียมก่อนแลก
-                    double usd = (baht - fee) / rate;
+                      double fee = baht * FEE_RATE;                   // 75
+                      double usd = (baht - fee) / rate;               // 4925 ÷ 35.42
 
-                    System.out.printf("Hello %s%n", customer);
-                    // %,10.2f มีตัวคั่นหลักพัน
-                    System.out.printf("Amount : %,10.2f THB%n", baht);
-                    System.out.printf("Fee    : %,10.2f THB%n", fee);
-                    System.out.printf("You get: %,10.2f USD%n", usd);
-                }
-            }`,
-          steps: ["fee = 5000 × 0.015 = 75", "เหลือ 4925 บาท ÷ 35.42 ≈ 139.05 USD", "<code>%,10.2f</code> = มีจุลภาค กว้าง 10 ทศนิยม 2"] },
+                      System.out.printf("Hello %s%n", customer);
+                      System.out.printf("Amount : %,10.2f THB%n", baht);
+                      System.out.printf("Fee    : %,10.2f THB%n", fee);
+                      System.out.printf("You get: %,10.2f USD%n", usd);
+                  }
+              }`,
+            },
+        ] },
       ],
     },
   ],
