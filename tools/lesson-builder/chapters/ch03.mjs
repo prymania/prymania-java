@@ -16,76 +16,84 @@ export default {
     {
       num: "3.1", toc: "ตัวแปรและการกำหนดค่า", title: "ตัวแปรและการกำหนดค่า",
       blocks: [
-        { type: "p", html: `การ<strong>ประกาศตัวแปร</strong>ระบุชนิดและชื่อ เช่น <code>int bookCount;</code> จากนั้นใช้เครื่องหมาย <code>=</code> <strong>กำหนดค่า</strong> หรือทำทั้งสองอย่างในบรรทัดเดียว <code>int bookCount = 3;</code>` },
-        { type: "concept", title: "รูปแบบการประกาศตัวแปร", html: jpre(`
-          ชนิด ชื่อ;              // ประกาศอย่างเดียว      int age;
-          ชื่อ = ค่า;             // กำหนดค่าภายหลัง        age = 19;
-          ชนิด ชื่อ = ค่า;        // ประกาศพร้อมกำหนดค่า    int age = 19;`) + `<p><code>=</code> ใน Java แปลว่า <strong>“นำค่าด้านขวามาเก็บในตัวแปรด้านซ้าย”</strong> ไม่ใช่ “เท่ากับ” แบบคณิตศาสตร์ ดังนั้น <code>x = x + 1</code> จึงถูกต้อง: คำนวณ x + 1 ก่อน แล้วเก็บกลับลงใน x</p>` },
-        { type: "run", title: "ประกาศ กำหนดค่า และพิมพ์", level: "พื้นฐาน",
-          concept: "ตัวแปรใช้แทนค่าได้ทุกที่ เมื่อพิมพ์ตัวแปร Java พิมพ์<em>ค่า</em>ที่อยู่ข้างใน ไม่ใช่ชื่อ",
+        { type: "p", html: `ตัวแปรคือกล่องที่มี<strong>ชื่อ</strong>และ<strong>ชนิด</strong> ประกาศโดยบอกชนิดและชื่อ แล้วใช้ <code>=</code> ใส่ค่าลงไป` },
+        { type: "table", head: ["รูปแบบ", "ตัวอย่าง", "ความหมาย"], rows: [
+          ["<code>ชนิด ชื่อ;</code>", "<code>int age;</code>", "ประกาศอย่างเดียว ยังไม่มีค่า"],
+          ["<code>ชื่อ = ค่า;</code>", "<code>age = 19;</code>", "ใส่ค่าภายหลัง"],
+          ["<code>ชนิด ชื่อ = ค่า;</code>", "<code>int age = 19;</code>", "ประกาศพร้อมใส่ค่า (ใช้บ่อยที่สุด)"],
+        ] },
+        { type: "run", title: "ประกาศ ใส่ค่า และพิมพ์",
           code: j`
             public class FirstVariables {
                 public static void main(String[] args) {
-                    // ประกาศตัวแปรชนิด int พร้อมค่าเริ่มต้น
                     int age = 19;
-                    String name = "JHope";      // ข้อความต้องอยู่ใน "..."
-                    System.out.println(name);  // ไม่มี "" → แสดงค่าในตัวแปร
-                    System.out.println(age);
-                    // มี "" → แสดงคำว่า name ตรงตัว
-                    System.out.println("name");
-                    // + ต่อข้อความกับค่าตัวแปร
-                    System.out.println("Name: " + name + ", age " + age);
+                    String name = "JHope";                    // ข้อความอยู่ใน "..."
+
+                    System.out.println(name);                 // JHope   ไม่มี "" → พิมพ์ค่าในตัวแปร
+                    System.out.println(age);                  // 19
+                    System.out.println("name");               // name    มี "" → พิมพ์คำนี้ตรงตัว
+                    System.out.println("Name: " + name + ", age " + age);   // + ต่อข้อความกับค่า
                 }
             }`,
-          steps: ["<code>println(name)</code> พิมพ์ค่า JHope", "<code>println(\"name\")</code> มีเครื่องหมายคำพูด จึงพิมพ์คำว่า name ตรงตัว", "<code>+</code> ระหว่างข้อความกับค่า คือการ<strong>ต่อข้อความ</strong>"] },
-        { type: "run", title: "ค่าเปลี่ยนได้ตามลำดับคำสั่ง", level: "ต่อยอด",
-          concept: "ตัวแปรเก็บได้ทีละค่า ค่าใหม่จะเขียนทับค่าเก่า ต้องไล่ค่าตามลำดับบรรทัด",
+          },
+
+        { type: "h", text: "= คือการใส่ค่า ไม่ใช่ “เท่ากับ”" },
+        { type: "p", html: `<code>=</code> แปลว่า <strong>“คำนวณด้านขวาให้เสร็จ แล้วเก็บลงตัวแปรด้านซ้าย”</strong> ดังนั้น <code>x = x + 1</code> จึงถูกต้อง ตัวแปรเก็บได้ทีละค่า ค่าใหม่จะเขียนทับค่าเก่า` },
+        { type: "run", title: "ค่าเปลี่ยนตามลำดับคำสั่ง",
           code: j`
             public class ChangingValues {
                 public static void main(String[] args) {
-                    int bookCount = 3;  // ค่าเริ่มต้น 3
+                    int bookCount = 3;                        // 3
                     System.out.println("Start: " + bookCount);
-                    // อ่านค่าเดิม (3) + 2 แล้วเก็บกลับ
-                    bookCount = bookCount + 2;
+                    bookCount = bookCount + 2;                // 3 + 2 → 5
                     System.out.println("After +2: " + bookCount);
-                    bookCount = 10;  // เขียนทับค่าเดิม
+                    bookCount = 10;                           // เขียนทับ → 10 (ค่า 5 หายไป)
                     System.out.println("Reset: " + bookCount);
-                    bookCount = bookCount * 2 - 1;  // 10 * 2 - 1 = 19
+                    bookCount = bookCount * 2 - 1;            // 10 × 2 - 1 → 19
                     System.out.println("Final: " + bookCount);
                 }
             }`,
-          steps: ["เริ่มที่ 3", "<code>bookCount + 2</code> = 5 แล้วเก็บกลับ → 5", "กำหนดใหม่เป็น 10 (ค่า 5 หายไป)", "10 × 2 − 1 = 19"] },
-        { type: "table", cls: "trace-table", title: "Trace table ของตัวอย่างด้านบน", head: ["บรรทัด", "คำสั่ง", "bookCount"], rows: [["3", "int bookCount = 3;", "3"], ["5", "bookCount = bookCount + 2;", "5"], ["7", "bookCount = 10;", "10"], ["9", "bookCount = bookCount * 2 - 1;", "19"]] },
-        { type: "run", title: "สลับค่าตัวแปรสองตัว", level: "ประยุกต์",
-          concept: "ถ้าเขียน <code>a = b; b = a;</code> ค่าเดิมของ a จะหายก่อน จึงต้องใช้ตัวแปรชั่วคราว (temp) เก็บไว้ก่อน",
-          code: j`
-            public class SwapValues {
-                public static void main(String[] args) {
-                    int a = 5;  // ค่าเริ่มต้นก่อนสลับ
-                    int b = 8;
-                    System.out.println("Before: a=" + a + ", b=" + b);
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: สลับค่าตัวแปรสองตัว", blocks: [
+          { type: "p", html: `ถ้าเขียน <code>a = b; b = a;</code> ค่าเดิมของ a จะหายก่อน จึงต้องฝากค่าไว้ในตัวแปรชั่วคราว (temp) ก่อน` },
+          { type: "run", title: "สลับค่าด้วย temp",
+            code: j`
+              public class SwapValues {
+                  public static void main(String[] args) {
+                      int a = 5;
+                      int b = 8;
+                      System.out.println("Before: a=" + a + ", b=" + b);
 
-                    int temp = a;  // เก็บค่า a ไว้ก่อน
-                    a = b;         // a ได้ 8
-                    b = temp;      // b ได้ค่าเดิมของ a คือ 5
+                      int temp = a;     // ฝาก 5 ไว้
+                      a = b;            // a = 8
+                      b = temp;         // b = 5
 
-                    System.out.println("After:  a=" + a + ", b=" + b);
-                }
-            }`,
-          steps: ["temp = 5", "a = 8 (ค่า 5 ของ a ถูกทับ แต่ยังอยู่ใน temp)", "b = temp = 5", "สลับสำเร็จ"],
-          tryIt: "ลบบรรทัด temp ออกแล้วเขียน a = b; b = a; — ทั้งสองตัวจะกลายเป็น 8" },
-        { type: "run", label: "ทดลอง error 3.1.4", title: "ใช้ตัวแปรที่ยังไม่มีค่า", level: "ประยุกต์", expect: "compile-error",
-          concept: "Java ไม่ยอมให้อ่านค่าตัวแปรที่ประกาศแล้วแต่ยังไม่ได้กำหนดค่า",
-          code: j`
-            public class VariableErrors {
-                public static void main(String[] args) {
-                    int score;
-                    int bonus = 5;
-                    System.out.println(score + bonus);
-                }
-            }`,
-          steps: ["<code>variable score might not have been initialized</code> — score ประกาศแล้วแต่ยังไม่มีค่า", "แก้: กำหนดค่าเริ่มต้น เช่น <code>int score = 0;</code>"], after: "ถ้าใช้ตัวแปรที่<strong>ไม่เคยประกาศ</strong>เลย เช่น <code>total = 10;</code> จะได้ error อีกแบบคือ <code>cannot find symbol ... variable total</code>" },
-        { type: "note", title: "กฎการตั้งชื่อตัวแปร", html: `<ul><li>ประกอบด้วยตัวอักษร ตัวเลข <code>_</code> หรือ <code>$</code> แต่<strong>ห้ามขึ้นต้นด้วยตัวเลข</strong> (<code>2score</code> ผิด)</li><li>ห้ามมีช่องว่าง และห้ามใช้คำสงวน เช่น <code>class</code>, <code>int</code>, <code>public</code></li><li>ตัวพิมพ์ใหญ่-เล็กต่างกัน: <code>score</code> กับ <code>Score</code> คนละตัว</li><li>นิยมใช้ <strong>camelCase</strong>: คำแรกตัวเล็ก คำถัดไปขึ้นต้นตัวใหญ่ เช่น <code>studentScore</code>, <code>totalPrice</code></li><li>ตั้งชื่อให้สื่อความหมาย: <code>studentScore</code> ดีกว่า <code>x</code></li></ul>` },
+                      System.out.println("After:  a=" + a + ", b=" + b);
+                  }
+              }`,
+            },
+        ] },
+
+        { type: "h", text: "กฎการตั้งชื่อ" },
+        { type: "table", head: ["กฎ", "ถูก", "ผิด"], rows: [
+          ["ห้ามขึ้นต้นด้วยตัวเลข", "<code>score2</code>", "<code>2score</code>"],
+          ["ห้ามมีช่องว่าง ใช้ camelCase แทน", "<code>studentScore</code>", "<code>student score</code>"],
+          ["ห้ามใช้คำสงวน", "<code>className</code>", "<code>class</code>, <code>int</code>"],
+          ["ตัวพิมพ์ใหญ่-เล็กต่างกัน", "<code>score</code> กับ <code>Score</code> คนละตัว", ""],
+        ] },
+        { type: "warn", title: "ใช้ตัวแปรที่ยังไม่มีค่า", html: `Java ไม่ยอมให้อ่านตัวแปรที่ประกาศแล้วแต่ยังไม่ได้ใส่ค่า จะได้ error <code>variable score might not have been initialized</code> แก้โดยใส่ค่าเริ่มต้น เช่น <code>int score = 0;</code>` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อใช้ตัวแปรที่ยังไม่มีค่า", blocks: [
+          { type: "run", label: "ทดลอง error 3.1.4", title: "ใช้ตัวแปรที่ยังไม่มีค่า", expect: "compile-error",
+            code: j`
+              public class VariableErrors {
+                  public static void main(String[] args) {
+                      int score;
+                      int bonus = 5;
+                      System.out.println(score + bonus);
+                  }
+              }`,
+            after: "ถ้าใช้ตัวแปรที่<strong>ไม่เคยประกาศ</strong>เลย เช่น <code>total = 10;</code> จะได้ error อีกแบบคือ <code>cannot find symbol ... variable total</code>" },
+        ] },
         { type: "check", title: "trace ค่า", html: jpre(`
           int x = 4;
           int y = x * 2;
@@ -96,33 +104,24 @@ export default {
     {
       num: "3.2", toc: "ชนิดข้อมูล", title: "ชนิดข้อมูลพื้นฐาน",
       blocks: [
-        { type: "p", html: `เลือกชนิดข้อมูลจากลักษณะของค่า: <code>int</code> สำหรับจำนวนเต็ม, <code>double</code> สำหรับทศนิยม, <code>char</code> สำหรับอักขระหนึ่งตัว และ <code>boolean</code> เก็บ <code>true</code> หรือ <code>false</code> ส่วน <code>String</code> ใช้เก็บข้อความและไม่ใช่ชนิด primitive (เป็นคลาส จึงขึ้นต้นด้วยตัวใหญ่)` },
-        { type: "table", head: ["ชนิด", "ตัวอย่าง", "เหมาะกับ", "ช่วงค่า/หมายเหตุ"], rows: [
-          ["<code>int</code>", "<code>int age = 19;</code>", "จำนวนเต็ม เช่น อายุ จำนวนชิ้น", "ประมาณ ±2,100 ล้าน"],
-          ["<code>long</code>", "<code>long population = 66000000L;</code>", "จำนวนเต็มขนาดใหญ่", "ลงท้ายด้วย L"],
-          ["<code>double</code>", "<code>double height = 165.5;</code>", "ตัวเลขทศนิยม เช่น ส่วนสูง ราคา", "ความละเอียดประมาณ 15 หลัก"],
-          ["<code>char</code>", "<code>char grade = 'A';</code>", "อักขระหนึ่งตัว", "ใช้ single quote <code>' '</code>"],
-          ["<code>boolean</code>", "<code>boolean isReady = true;</code>", "สถานะจริง/เท็จ", "มีแค่ true, false"],
-          ["<code>String</code>", "<code>String name = \"JHope\";</code>", "ข้อความ", "ใช้ double quote <code>\" \"</code>"],
+        { type: "p", html: `ชนิดข้อมูลบอกว่ากล่องเก็บอะไรได้และคำนวณแบบใด เลือกจากลักษณะของค่าที่จะเก็บ` },
+        { type: "table", head: ["ชนิด", "เก็บอะไร", "ตัวอย่าง"], rows: [
+          ["<code>int</code>", "จำนวนเต็ม (ประมาณ ±2,100 ล้าน)", "<code>int age = 19;</code>"],
+          ["<code>long</code>", "จำนวนเต็มขนาดใหญ่ ลงท้ายด้วย L", "<code>long population = 66000000L;</code>"],
+          ["<code>double</code>", "ทศนิยม", "<code>double height = 165.5;</code>"],
+          ["<code>char</code>", "อักขระหนึ่งตัว ใช้ <code>' '</code>", "<code>char grade = 'A';</code>"],
+          ["<code>boolean</code>", "<code>true</code> หรือ <code>false</code>", "<code>boolean isReady = true;</code>"],
+          ["<code>String</code>", "ข้อความ ใช้ <code>\" \"</code> (เป็นคลาส จึงขึ้นต้นตัวใหญ่)", "<code>String name = \"JHope\";</code>"],
         ] },
-        { type: "steps", title: "เลือกชนิดข้อมูลด้วยคำถาม 4 ข้อ", items: [
-          "เป็นข้อความหรือไม่? → <code>String</code> (ถ้าตัวอักษรเดียวและต้องการแบบอักขระ → <code>char</code>)",
-          "เป็นใช่/ไม่ใช่หรือไม่? → <code>boolean</code>",
-          "มีทศนิยมได้หรือไม่? → <code>double</code>",
-          "เป็นจำนวนนับ/จำนวนเต็มเสมอ → <code>int</code> (ถ้าใหญ่มาก → <code>long</code>)",
-        ] },
-        { type: "run", title: "ข้อมูลนักศึกษาหลายชนิด", level: "พื้นฐาน",
-          concept: "ข้อมูลแต่ละอย่างมีลักษณะต่างกัน จึงใช้ชนิดต่างกัน",
+        { type: "run", title: "ข้อมูลนักศึกษาหลายชนิด",
           code: j`
             public class StudentData {
                 public static void main(String[] args) {
-                    String name = "RM";  // String: ข้อความ
-                    int age = 20;          // int: จำนวนเต็ม
-                    double gpa = 3.25;     // double: ทศนิยม
-                    // char: อักขระเดียว ใช้ '...'
-                    char section = 'B';
-                    // boolean: true หรือ false
-                    boolean registered = true;
+                    String name = "RM";            // ข้อความ
+                    int age = 20;                  // จำนวนเต็ม
+                    double gpa = 3.25;             // ทศนิยม
+                    char section = 'B';            // อักขระเดียว
+                    boolean registered = true;     // จริง / เท็จ
 
                     System.out.println("Name: " + name);
                     System.out.println("Age: " + age);
@@ -131,36 +130,39 @@ export default {
                     System.out.println("Registered: " + registered);
                 }
             }`,
-          steps: ["ชื่อเป็นข้อความ → String", "อายุนับเป็นปีเต็ม → int", "เกรดเฉลี่ยมีทศนิยม → double", "กลุ่มเรียนเป็นตัวอักษรเดียว → char", "สถานะลงทะเบียน → boolean"] },
-        { type: "run", title: "int กับ double แสดงผลต่างกัน", level: "ต่อยอด",
-          concept: "double แสดงจุดทศนิยมเสมอ (เช่น <code>5.0</code>) และ int เก็บลง double ได้อัตโนมัติ แต่ double เก็บลง int ตรง ๆ ไม่ได้",
+          },
+        { type: "tip", title: "เลือกชนิดด้วยคำถาม", html: `เป็นข้อความ? → <code>String</code> · เป็นใช่/ไม่ใช่? → <code>boolean</code> · มีทศนิยมได้? → <code>double</code> · เป็นจำนวนเต็มเสมอ? → <code>int</code>` },
+
+        { type: "h", text: "int กับ double" },
+        { type: "run", title: "double แสดงจุดทศนิยมเสมอ",
           code: j`
             public class IntVsDouble {
                 public static void main(String[] args) {
-                    int whole = 5;         // int เก็บจำนวนเต็ม
-                    double decimal = 5;    // int 5 ถูกขยายเป็น 5.0
-                    double price = 19.99;  // double เก็บทศนิยมได้
-                    System.out.println(whole);
-                    System.out.println(decimal);
-                    System.out.println(price);
-                    // ทศนิยมฐานสองคลาดเคลื่อนเล็กน้อย
-                    System.out.println(0.1 + 0.2);
+                    int whole = 5;
+                    double decimal = 5;              // int ใส่ double ได้ → 5.0
+                    double price = 19.99;
+                    System.out.println(whole);       // 5
+                    System.out.println(decimal);     // 5.0
+                    System.out.println(price);       // 19.99
+                    System.out.println(0.1 + 0.2);   // 0.30000000000000004  double เก็บทศนิยมแบบประมาณ
                 }
             }`,
-          steps: ["<code>whole</code> แสดง 5", "<code>decimal</code> แสดง 5.0 แม้กำหนดด้วยเลข 5", "<code>0.1 + 0.2</code> ได้ 0.30000000000000004 เพราะ double เก็บทศนิยมฐานสองแบบประมาณ — ใช้ printf จัดทศนิยมเวลาแสดงผล (บทที่ 4)"] },
-        { type: "run", label: "ทดลอง error 3.2.3", title: "ชนิดไม่ตรงกัน", level: "ประยุกต์", expect: "compile-error",
-          concept: "ค่าต้องเข้ากับชนิดของตัวแปร Java ตรวจตั้งแต่ตอนคอมไพล์ (strongly typed)",
-          code: j`
-            public class TypeMismatch {
-                public static void main(String[] args) {
-                    int count = 2.5;
-                    String code = 'A';
-                    char letter = "B";
-                    boolean done = "true";
-                }
-            }`,
-          steps: ["<code>int count = 2.5</code> — double ใส่ int ไม่ได้ เพราะจะเสียทศนิยม (<code>lossy conversion</code>)", "<code>'A'</code> เป็น char ใส่ String ไม่ได้", "<code>\"B\"</code> เป็น String ใส่ char ไม่ได้", "<code>\"true\"</code> เป็นข้อความ ไม่ใช่ค่า boolean <code>true</code>"] },
-        { type: "note", title: "เครื่องหมาย quote สำคัญ", html: `<p><code>'A'</code> เป็น <code>char</code>; <code>\"A\"</code> เป็น <code>String</code>; <code>true</code> (ไม่มี quote) เป็น boolean แม้หน้าตาคล้ายกันแต่คนละชนิด</p>` },
+          },
+        { type: "tip", html: `ความคลาดเคลื่อนแบบ <code>0.30000000000000004</code> เป็นเรื่องปกติของ double บทที่ 4 จะใช้ <code>printf</code> จัดจำนวนทศนิยมตอนแสดงผล` },
+        { type: "warn", title: "เครื่องหมาย quote สำคัญ", html: `<code>'A'</code> เป็น <code>char</code>, <code>"A"</code> เป็น <code>String</code> และ <code>true</code> (ไม่มี quote) เป็น <code>boolean</code> ใส่ค่าผิดชนิด เช่น <code>int count = 2.5;</code> หรือ <code>char c = "B";</code> จะคอมไพล์ไม่ผ่าน` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อชนิดไม่ตรงกัน", blocks: [
+          { type: "run", label: "ทดลอง error 3.2.3", title: "ชนิดไม่ตรงกัน", expect: "compile-error",
+            code: j`
+              public class TypeMismatch {
+                  public static void main(String[] args) {
+                      int count = 2.5;
+                      String code = 'A';
+                      char letter = "B";
+                      boolean done = "true";
+                  }
+              }`,
+            after: "double ใส่ int ไม่ได้เพราะจะเสียทศนิยม (<code>lossy conversion</code>), char กับ String ใส่สลับกันไม่ได้ และ <code>\"true\"</code> เป็นข้อความ ไม่ใช่ค่า boolean" },
+        ] },
         { type: "check", title: "เลือกชนิด", html: `<p>เลือกชนิดข้อมูลสำหรับ: (ก) จำนวนพนักงาน (ข) อุณหภูมิ (ค) รหัสไปรษณีย์ 10330 (ง) มีส่วนลดหรือไม่</p>`, answer: `<p>(ก) <code>int</code> (ข) <code>double</code> (ค) <code>String</code> — แม้เป็นตัวเลขแต่ไม่ได้นำไปคำนวณ และอาจขึ้นต้นด้วย 0 ได้ (ง) <code>boolean</code></p>` },
       ],
     },
@@ -278,46 +280,43 @@ export default {
     {
       num: "3.4", toc: "ค่าคงที่และการแปลงชนิด", title: "ค่าคงที่และการแปลงชนิดข้อมูล",
       blocks: [
-        { type: "p", html: `ค่าที่ไม่ต้องการให้เปลี่ยนประกาศด้วย <code>final</code> เช่นอัตราภาษี นิยมตั้งชื่อด้วยตัวพิมพ์ใหญ่คั่นด้วย <code>_</code> (<code>TAX_RATE</code>) ส่วนการแปลงชนิด (type casting) ใช้เมื่อต้องการเปลี่ยน int ↔ double อย่างตั้งใจ` },
-        { type: "concept", title: "การแปลงชนิด 2 แบบ", html: `<ul><li><strong>Widening (อัตโนมัติ):</strong> ชนิดเล็กไปใหญ่ เช่น <code>int → double</code> ไม่เสียข้อมูล Java ทำให้เอง <code>double d = 7;</code></li><li><strong>Narrowing (ต้อง cast):</strong> ชนิดใหญ่ไปเล็ก เช่น <code>double → int</code> อาจเสียทศนิยม ต้องเขียน <code>(int)</code> เพื่อยืนยัน <code>int n = (int) 7.9;</code> ได้ 7 (ตัดทิ้ง ไม่ปัด)</li></ul>` },
-        { type: "run", title: "ค่าคงที่ด้วย final", level: "พื้นฐาน",
-          concept: "ตั้งค่าที่ใช้หลายที่ไว้เป็นค่าคงที่ ถ้าอัตราเปลี่ยนก็แก้ที่เดียว และ compiler กันไม่ให้เผลอแก้",
+        { type: "p", html: `ค่าที่ไม่ควรเปลี่ยน เช่น อัตราภาษี ให้ประกาศด้วย <code>final</code> และตั้งชื่อตัวพิมพ์ใหญ่คั่นด้วย <code>_</code> เช่น <code>TAX_RATE</code> ถ้าอัตราเปลี่ยนก็แก้ที่เดียว` },
+        { type: "run", title: "ค่าคงที่ด้วย final",
           code: j`
             public class TaxConstant {
                 public static void main(String[] args) {
-                    // final = ค่าคงที่ แก้ภายหลังไม่ได้
-                    final double TAX_RATE = 0.07;
+                    final double TAX_RATE = 0.07;           // แก้ค่าภายหลังไม่ได้
                     double price = 35.50;
                     int quantity = 3;
 
-                    double subtotal = price * quantity;  // 35.50 × 3
-                    // ใช้ค่าคงที่แทนการพิมพ์ 0.07 ตรง ๆ
-                    double tax = subtotal * TAX_RATE;
-                    double total = subtotal + tax;
+                    double subtotal = price * quantity;     // 106.5
+                    double tax = subtotal * TAX_RATE;       // 7.455…
+                    double total = subtotal + tax;          // 113.955
 
                     System.out.println("Subtotal: " + subtotal);
                     System.out.println("Tax: " + tax);
                     System.out.println("Total: " + total);
                 }
             }`,
-          steps: ["subtotal = 35.50 × 3 = 106.5", "tax = 106.5 × 0.07 = 7.455 (Java แสดง 7.455000000000001 เพราะ double เก็บทศนิยมแบบประมาณ)", "total = 113.955 (บทที่ 4 จะจัดเป็นทศนิยม 2 ตำแหน่ง)"],
-          tryIt: "เพิ่มบรรทัด TAX_RATE = 0.1; แล้วดูว่า compiler แจ้งอะไร (cannot assign a value to final variable)" },
-        { type: "run", title: "กับดักการหารจำนวนเต็มเมื่อหาค่าเฉลี่ย", level: "ต่อยอด",
-          concept: "Java คำนวณด้านขวาของ <code>=</code> ให้เสร็จก่อน แล้วค่อยเก็บ ถ้าด้านขวาเป็น int หาร int ทศนิยมหายไปก่อนจะถึง double",
+          },
+        { type: "try", html: `เพิ่มบรรทัด <code>TAX_RATE = 0.1;</code> แล้วดูว่า compiler แจ้งอะไร (<code>cannot assign a value to final variable</code>)` },
+
+        { type: "h", text: "การแปลงชนิด (casting)" },
+        { type: "table", head: ["แบบ", "ทิศทาง", "ตัวอย่าง", "ผลลัพธ์"], rows: [
+          ["อัตโนมัติ (widening)", "เล็ก → ใหญ่ เช่น int → double", "<code>double d = 7;</code>", "7.0"],
+          ["ต้อง cast (narrowing)", "ใหญ่ → เล็ก เช่น double → int", "<code>int n = (int) 7.9;</code>", "7 (ตัดทิ้ง ไม่ปัด)"],
+        ] },
+        { type: "run", title: "หาค่าเฉลี่ยให้ได้ทศนิยม",
           code: j`
             public class AverageTrap {
                 public static void main(String[] args) {
                     int total = 7;
                     int count = 2;
 
-                    // int / int = 3 แล้วจึงแปลงเป็น 3.0
-                    double wrong = total / count;
-                    // หารด้วย 2.0 → ได้ทศนิยม
-                    double right1 = total / 2.0;
-                    // แปลง total เป็น double ก่อนหาร
-                    double right2 = (double) total / count;
-                    // หารเสร็จ (3) แล้วค่อยแปลง → ยังผิด
-                    double stillWrong = (double) (total / count);
+                    double wrong = total / count;                  // 3.0  int / int = 3 แล้วจึงเป็น 3.0
+                    double right1 = total / 2.0;                   // 3.5  หารด้วย 2.0
+                    double right2 = (double) total / count;        // 3.5  แปลง total ก่อนหาร
+                    double stillWrong = (double) (total / count);  // 3.0  หารเสร็จแล้วค่อยแปลง
 
                     System.out.println("wrong      = " + wrong);
                     System.out.println("right1     = " + right1);
@@ -325,53 +324,50 @@ export default {
                     System.out.println("stillWrong = " + stillWrong);
                 }
             }`,
-          steps: ["<code>7 / 2</code> = 3 (int) → เก็บใน double เป็น 3.0 ❌", "<code>7 / 2.0</code> = 3.5 ✔", "<code>(double) total / count</code> → cast total เป็น 7.0 ก่อน แล้วหาร → 3.5 ✔", "<code>(double)(total / count)</code> → หารในวงเล็บได้ 3 ก่อน แล้วค่อย cast → 3.0 ❌"] },
-        { type: "run", title: "cast ทศนิยมเป็นจำนวนเต็ม และปัดเศษ", level: "ประยุกต์",
-          concept: "<code>(int)</code> ตัดทศนิยมทิ้งเสมอ ถ้าต้องการปัดเศษให้ใช้ <code>Math.round</code>",
+          },
+        { type: "warn", html: `Java คำนวณด้านขวาของ <code>=</code> ให้เสร็จก่อน ถ้าด้านขวาเป็น int หาร int ทศนิยมจะหายไปก่อนถึงตัวแปร double ต้อง cast <strong>ก่อน</strong>หาร: <code>(double) total / count</code>` },
+
+        { type: "h", text: "ปัดเศษ และคลาส Math" },
+        { type: "run", title: "ตัดทิ้งกับปัดเศษต่างกัน",
           code: j`
             public class CastAndRound {
                 public static void main(String[] args) {
                     double price = 49.75;
-                    // (int) ตัดทศนิยมทิ้ง ไม่ปัดเศษ
-                    int cut = (int) price;
-                    // ปัดเป็นจำนวนเต็มที่ใกล้ที่สุด
-                    long rounded = Math.round(price);
-                    // เทคนิคปัดทศนิยม 2 ตำแหน่ง
-                    double twoDecimals = Math.round(3.14159 * 100) / 100.0;
-
-                    System.out.println("cast  : " + cut);
-                    System.out.println("round : " + rounded);
-                    System.out.println("2 dp  : " + twoDecimals);
-                    // รหัส 'A' + 1 แล้วแปลงกลับเป็น char
-                    System.out.println("char 'A' + 1 = " + (char) ('A' + 1));
-                    // ดูรหัสตัวเลขของ 'A'
-                    System.out.println("(int) 'A' = " + (int) 'A');
+                    System.out.println((int) price);                        // 49    ตัดทศนิยมทิ้ง
+                    System.out.println(Math.round(price));                  // 50    ปัดเศษ
+                    System.out.println(Math.round(3.14159 * 100) / 100.0);  // 3.14  ปัด 2 ตำแหน่ง
+                    System.out.println((char) ('A' + 1));                   // B     รหัส 65 + 1 = 66
+                    System.out.println((int) 'A');                          // 65    รหัสของ 'A'
                 }
             }`,
-          steps: ["<code>(int) 49.75</code> → 49 (ตัดทิ้ง)", "<code>Math.round(49.75)</code> → 50", "ปัด 2 ตำแหน่ง: 3.14159 × 100 = 314.159 → round 314 → ÷ 100.0 = 3.14", "char เก็บเป็นรหัสตัวเลข: 'A' คือ 65, 'A' + 1 = 66 → cast กลับเป็น 'B'"] },
-        { type: "run", title: "ใช้เมธอดใน Math ช่วยคำนวณ", level: "ท้าทาย",
-          concept: "คลาส <code>Math</code> มีเมธอดสำเร็จรูป เช่น <code>Math.sqrt</code> (รากที่สอง), <code>Math.pow</code> (ยกกำลัง), <code>Math.PI</code>, <code>Math.abs</code>, <code>Math.max</code>",
-          code: j`
-            public class MathTools {
-                public static void main(String[] args) {
-                    double radius = 3;
-                    // πr² ด้วย Math.pow
-                    double area = Math.PI * Math.pow(radius, 2);
-                    System.out.println("Circle area: " + area);
+          },
+        { type: "table", head: ["เมธอดใน Math", "ทำอะไร", "ตัวอย่าง"], rows: [
+          ["<code>Math.pow(a, b)</code>", "a ยกกำลัง b", "<code>Math.pow(3, 2)</code> → 9.0"],
+          ["<code>Math.sqrt(x)</code>", "รากที่สอง", "<code>Math.sqrt(100)</code> → 10.0"],
+          ["<code>Math.abs(x)</code>", "ค่าสัมบูรณ์", "<code>Math.abs(-12)</code> → 12"],
+          ["<code>Math.max(a, b)</code>, <code>Math.min(a, b)</code>", "ค่าที่มากกว่า / น้อยกว่า", "<code>Math.max(7, 3)</code> → 7"],
+          ["<code>Math.PI</code>", "ค่า π", "3.141592653589793"],
+        ] },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: ใช้ Math คำนวณพื้นที่และด้านตรงข้ามมุมฉาก", blocks: [
+          { type: "run", title: "Math ช่วยคำนวณ",
+            code: j`
+              public class MathTools {
+                  public static void main(String[] args) {
+                      double radius = 3;
+                      double area = Math.PI * Math.pow(radius, 2);      // πr²
+                      System.out.println("Circle area: " + area);
 
-                    double a = 6, b = 8;
-                    // รากที่สองของ a² + b²
-                    double hyp = Math.sqrt(a * a + b * b);
-                    System.out.println("Hypotenuse: " + hyp);
+                      double a = 6, b = 8;
+                      double hyp = Math.sqrt(a * a + b * b);            // √(36 + 64) = 10.0
+                      System.out.println("Hypotenuse: " + hyp);
 
-                    // ค่าสัมบูรณ์
-                    System.out.println("abs(-12) = " + Math.abs(-12));
-                    // ค่าที่มากกว่า
-                    System.out.println("max(7, 3) = " + Math.max(7, 3));
-                    System.out.println("min(7, 3) = " + Math.min(7, 3));
-                }
-            }`,
-          steps: ["<code>Math.pow(3, 2)</code> = 9.0 → π × 9 ≈ 28.27", "ทฤษฎีบทพีทาโกรัส √(36 + 64) = √100 = 10.0", "abs คืนค่าสัมบูรณ์, max/min คืนค่าที่มาก/น้อยกว่า"] },
+                      System.out.println("abs(-12) = " + Math.abs(-12));
+                      System.out.println("max(7, 3) = " + Math.max(7, 3));
+                      System.out.println("min(7, 3) = " + Math.min(7, 3));
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "cast", html: `<p><code>int x = (int) 9.99;</code> และ <code>double y = 9 / 4;</code> ได้ค่าเท่าไร</p>`, answer: `<p>x = <strong>9</strong> (ตัดทิ้ง), y = <strong>2.0</strong> (9/4 เป็น int = 2 ก่อน แล้วขยายเป็น double)</p>` },
       ],
     },
