@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { buildChapter, allExerciseIds, allPracticeIds } from "./lib.mjs";
+import { randomInt } from "node:crypto";
+import { buildChapter, setPasswordProvider } from "./lib.mjs";
 import { syncCourseNav } from "./nav.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -19,6 +20,20 @@ if (!files.length) {
 const chapters = {};
 for (const f of allFiles) chapters[f] = (await import(pathToFileURL(path.join(CHAPTER_DATA, f)).href + `?t=${Date.now()}`)).default;
 
+// answer passwords: random and unguessable, created once per exercise and then reused
+const SECRET_DIR = path.join(HERE, "secrets");
+const SECRET_FILE = path.join(SECRET_DIR, "passwords.json");
+const passwords = fs.existsSync(SECRET_FILE) ? JSON.parse(fs.readFileSync(SECRET_FILE, "utf8")) : {};
+const ALPHABET = "abcdefghjkmnpqrstuvwxyz23456789";   // no look-alikes (i l o 0 1)
+let newPasswords = 0;
+setPasswordProvider((id) => {
+  if (!passwords[id]) {
+    passwords[id] = Array.from({ length: 8 }, () => ALPHABET[randomInt(ALPHABET.length)]).join("");
+    newPasswords++;
+  }
+  return passwords[id];
+});
+
 for (const f of files) {
   const r = buildChapter(chapters[f], path.join(ROOT, "chapters"));
   console.log(`${r.file}: ${r.exercises} exercises, ${(r.bytes / 1024).toFixed(1)} KB`);
@@ -27,22 +42,17 @@ for (const f of files) {
 // sidebar menu: rewrite on every page (incl. index.html) so all pages stay in sync
 syncCourseNav(ROOT, Object.values(chapters));
 
-// merge passwords: keep existing entries, add/overwrite built ones (same pattern as before)
-const pwFile = path.join(ROOT, "assets", "password.js");
-const src = fs.readFileSync(pwFile, "utf8");
-const pw = only.length ? JSON.parse(src.slice(src.indexOf("{"), src.lastIndexOf("}") + 1)) : {};
-for (const [id, prefix] of allExerciseIds) pw[id] = prefix + id.replace(/[^0-9]/g, "");
-const sortKey = (k) => { const m = k.match(/^(S?)(\d+)\.(\d+)$/); return m ? [m[1] ? 1 : 0, +m[2], +m[3]] : [2, 0, 0]; };
-const keys = Object.keys(pw).sort((a, b) => { const x = sortKey(a), y = sortKey(b); return x[0] - y[0] || x[1] - y[1] || x[2] - y[2]; });
-fs.writeFileSync(pwFile, "window.EXERCISE_PASSWORDS = {\n" + keys.map((k) => `  "${k}": "${pw[k]}"`).join(",\n") + "\n};");
-
-// merge practice passwords (in-topic "practice" blocks) into their own file, kept apart from end-of-chapter exercises
-const ppwFile = path.join(ROOT, "assets", "password_practice.js");
-const psrc = fs.existsSync(ppwFile) ? fs.readFileSync(ppwFile, "utf8") : "window.PRACTICE_EXERCISE_PASSWORDS = {};";
-const ppw = only.length ? JSON.parse(psrc.slice(psrc.indexOf("{"), psrc.lastIndexOf("}") + 1)) : {};
-for (const [id, prefix] of allPracticeIds) ppw[id] = prefix + id.replace(/[^0-9]/g, "");
-const pkeys = Object.keys(ppw).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-fs.writeFileSync(ppwFile, "window.PRACTICE_EXERCISE_PASSWORDS = {\n" + pkeys.map((k) => `  "${k}": "${ppw[k]}"`).join(",\n") + "\n};");
+// teacher's password list (kept out of git): written after every build, never pruned
+fs.mkdirSync(SECRET_DIR, { recursive: true });
+fs.writeFileSync(SECRET_FILE, JSON.stringify(passwords, null, 2) + "\n");
+const byId = (a, b) => a.localeCompare(b, undefined, { numeric: true });
+const listOf = (ids) => ids.sort(byId).map((id) => `${id.padEnd(10)} ${passwords[id]}`).join("\n");
+const practiceIds = Object.keys(passwords).filter((id) => id.includes("-P"));
+const exerciseIds = Object.keys(passwords).filter((id) => !id.includes("-P"));
+fs.writeFileSync(path.join(SECRET_DIR, "passwords.txt"),
+  "รหัสเปิดเฉลย (สร้างโดย build.mjs — อย่าเผยแพร่ไฟล์นี้)\n\n== แบบฝึกหัดท้ายบท ==\n" + listOf(exerciseIds)
+  + "\n\n== โจทย์ฝึกกลางเนื้อหา ==\n" + listOf(practiceIds) + "\n");
+if (newPasswords) console.log(`passwords: ${newPasswords} new (see tools/lesson-builder/secrets/passwords.txt)`);
 
 // full build: remove screenshots no longer referenced by any page
 if (!only.length) {

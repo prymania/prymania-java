@@ -12,23 +12,44 @@ document.addEventListener("DOMContentLoaded", () => {
       input.focus();
     });
 
-    form.addEventListener("submit", (event) => {
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const answerId = gate.dataset.answerId;
-      const expectedPassword = window.EXERCISE_PASSWORDS?.[answerId] ?? window.PRACTICE_EXERCISE_PASSWORDS?.[answerId];
-
-      if (expectedPassword && input.value === expectedPassword) {
-        answer.hidden = false;
-        form.hidden = true;
-        answer.querySelector("h4")?.focus();
+      if (!window.crypto?.subtle) {
+        message.textContent = "เบราว์เซอร์นี้เปิดเฉลยไม่ได้ (ต้องเปิดผ่าน https หรือไฟล์ในเครื่อง)";
         return;
       }
-
-      message.textContent = "รหัสผ่านไม่ถูกต้อง ลองอีกครั้ง";
-      input.select();
+      message.textContent = "กำลังตรวจรหัส...";
+      try {
+        answer.innerHTML = await decryptAnswer(answer.dataset.enc, input.value.trim());
+      } catch {
+        message.textContent = "รหัสผ่านไม่ถูกต้อง ลองอีกครั้ง";
+        input.select();
+        return;
+      }
+      message.textContent = "";
+      answer.hidden = false;
+      form.hidden = true;
+      addCopyButtons();
+      answer.querySelector("h4")?.focus();
     });
   });
 });
+
+// Answers are AES-256-GCM encrypted at build time (tools/lesson-builder/lib.mjs: encryptAnswer).
+// Payload = base64(salt[16] | iv[12] | ciphertext+tag); key = PBKDF2-SHA256(password, salt).
+// A wrong password fails the GCM tag check, so decrypt() throws.
+const PBKDF2_ITERATIONS = 100000;
+async function decryptAnswer(payload, password) {
+  const bytes = Uint8Array.from(atob(payload), (ch) => ch.charCodeAt(0));
+  const salt = bytes.slice(0, 16);
+  const iv = bytes.slice(16, 28);
+  const base = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey(
+    { name: "PBKDF2", salt, iterations: PBKDF2_ITERATIONS, hash: "SHA-256" },
+    base, { name: "AES-GCM", length: 256 }, false, ["decrypt"]);
+  const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv }, key, bytes.slice(28));
+  return new TextDecoder().decode(plain);
+}
 function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {
     return navigator.clipboard.writeText(text);

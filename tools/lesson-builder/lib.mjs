@@ -1,6 +1,6 @@
 // Chapter page generator: compiles/runs every Java example so outputs are real.
 import { spawnSync } from "node:child_process";
-import { createHash } from "node:crypto";
+import { createCipheriv, createHash, pbkdf2Sync } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -299,6 +299,22 @@ function renderBlocks(blocks, ctx) {
   }).join("\n");
 }
 
+// Answers are encrypted with the exercise password (AES-256-GCM, key from PBKDF2-SHA256),
+// so the page source holds no readable solution. lesson.js decrypts with the same parameters.
+export const PBKDF2_ITERATIONS = 100000;
+let passwordFor = () => { throw new Error("setPasswordProvider() was not called"); };
+export function setPasswordProvider(fn) { passwordFor = fn; }
+function encryptAnswer(id, html) {
+  const password = passwordFor(id);
+  const salt = createHash("sha256").update("javacst-answer:" + id).digest().subarray(0, 16);
+  const key = pbkdf2Sync(password, salt, PBKDF2_ITERATIONS, 32, "sha256");
+  // deterministic IV (from id, password, content): rebuilding unchanged content gives identical HTML
+  const iv = createHash("sha256").update(id + "|" + password + "|" + html).digest().subarray(0, 12);
+  const cipher = createCipheriv("aes-256-gcm", key, iv);
+  const data = Buffer.concat([cipher.update(html, "utf8"), cipher.final(), cipher.getAuthTag()]);
+  return Buffer.concat([salt, iv, data]).toString("base64");
+}
+
 function renderExerciseCard(ex, id, { idLabel = "Exercise", extraClass = "" } = {}) {
   let samples = "";
   if (ex.solution) {
@@ -321,7 +337,8 @@ function renderExerciseCard(ex, id, { idLabel = "Exercise", extraClass = "" } = 
   const spec = ex.spec ? `<div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol>${ex.spec.map((s) => `<li>${s}</li>`).join("")}</ol></div>` : "";
   const hint = ex.hint ? `<p class="ex-hint">${ex.hint}</p>` : "";
   const answerCode = ex.solution && !ex.hideCode ? codeBlock(dedent(ex.solution), "answer-code") : "";
-  const answer = `<div class="answer-gate" data-answer-id="${id}"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ ${id}<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4>${ex.answerHtml && ex.answerFirst ? ex.answerHtml : ""}${answerCode}${ex.answerHtml && !ex.answerFirst ? ex.answerHtml : ""}${ex.explain ? `<p>${ex.explain}</p>` : ""}</div></div>`;
+  const answerBody = `<h4 tabindex="-1">ตัวอย่างคำตอบ</h4>${ex.answerHtml && ex.answerFirst ? ex.answerHtml : ""}${answerCode}${ex.answerHtml && !ex.answerFirst ? ex.answerHtml : ""}${ex.explain ? `<p>${ex.explain}</p>` : ""}`;
+  const answer = `<div class="answer-gate" data-answer-id="${id}"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ ${id}<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden data-enc="${encryptAnswer(id, answerBody)}"></div></div>`;
   return `<article class="end-exercise${extraClass ? " " + extraClass : ""}" data-level="${ex.level}"><h3><span class="exercise-id">${idLabel} ${id}</span>${ex.title}<span class="level level-${ex.level}">${LEVEL[ex.level]}</span></h3><div class="ex-body">${ex.html}</div>${spec}${samples}${hint}${answer}</article>`;
 }
 
@@ -394,7 +411,7 @@ ${ch.exercises.map((e) => renderExercise(e, ch.num)).join("\n")}
       <footer class="lesson-footer">Java programming by Prymania · ${ch.footer}</footer>
     </main>
   </div>
-  <script src="../assets/password.js"></script><script src="../assets/password_practice.js"></script><script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
+  <script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
 </body>
 </html>
 `;
