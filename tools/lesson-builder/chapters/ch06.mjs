@@ -17,60 +17,50 @@ export default {
     {
       num: "6.1", toc: "while และการอัปเดตค่า", title: "while: ทำซ้ำขณะเงื่อนไขเป็นจริง",
       blocks: [
-        { type: "p", html: `<code>while</code> เหมาะเมื่อยังไม่รู้จำนวนรอบแน่นอน แต่รู้เงื่อนไขที่ต้องทำต่อ เช่น “ทำต่อขณะที่ยังมีข้อมูล” ก่อนเข้ารอบทุกครั้ง Java ตรวจนิพจน์ในวงเล็บ ซึ่งต้องได้ค่า <code>boolean</code>` },
-        { type: "steps", title: "ลำดับการทำงานของ while", intro: jpre(`
+        { type: "p", html: `<code>while</code> ตรวจเงื่อนไข<strong>ก่อน</strong>เข้าทุกรอบ ถ้าจริงทำ body แล้วกลับไปตรวจใหม่ ถ้าเท็จออกจากลูป เหมาะเมื่อยังไม่รู้จำนวนรอบแน่นอน` },
+        { type: "html", html: jpre(`
           while (condition) {
               // คำสั่งที่ทำซ้ำ
               // เปลี่ยนค่าที่มีผลต่อ condition
-          }`), items: ["ตรวจ <code>condition</code> ก่อนเข้ารอบ", "ถ้าเป็น <code>true</code> ทำคำสั่งในวงเล็บปีกกา", "จบรอบแล้วกลับไปตรวจ condition ใหม่", "ถ้าเป็น <code>false</code> ข้าม body ไปทำคำสั่งถัดจากลูป"], after: "ถ้า condition เป็น false ตั้งแต่ครั้งแรก body จะไม่ทำงานเลย (zero iterations)" },
-        { type: "run", title: "นับ 1 ถึง 5", level: "พื้นฐาน",
-          concept: "ตัวนับเริ่มที่ 1 เพิ่มทีละ 1 และหยุดเมื่อเกิน 5",
+          }`) },
+        { type: "run", title: "นับ 1 ถึง 5",
           code: j`
             public class CountUp {
                 public static void main(String[] args) {
-                    int number = 1;        // ค่าเริ่มต้นของตัวนับ
-                    while (number <= 5) {  // ตรวจเงื่อนไขก่อนเข้าทุกรอบ
+                    int number = 1;                    // ค่าเริ่มต้น
+                    while (number <= 5) {              // ตรวจก่อนเข้าทุกรอบ
                         System.out.println(number);
-                        number++;  // อัปเดต: ขาดบรรทัดนี้จะวนไม่รู้จบ
+                        number++;                      // อัปเดต: ขาดบรรทัดนี้จะวนไม่รู้จบ
                     }
-                    // หลังออกจากลูป number = 6
-                    System.out.println("After loop: number = " + number);
+                    System.out.println("After loop: number = " + number);   // 6 ไม่ใช่ 5
                 }
             }`,
-          steps: ["ตรวจ 1 ≤ 5 → พิมพ์ 1, number = 2", "ทำต่อจนพิมพ์ 5 แล้ว number = 6", "ตรวจ 6 ≤ 5 → false ออกจากลูป", "หลังลูป number มีค่า 6 (ไม่ใช่ 5)"] },
-        { type: "run", title: "นับถอยหลังด้วย while (i > 0)", level: "พื้นฐาน",
-          concept: "เงื่อนไขต้องสอดคล้องกับทิศทางการอัปเดต: ลดค่า → ใช้ &gt; หรือ &gt;=",
-          code: j`
-            public class WhilePositive {
-                public static void main(String[] args) {
-                    int i = 3;
-                    while (i > 0) {  // ลดค่าลงจึงใช้ > 0
-                        System.out.println(i);
-                        i--;  // ลดทีละ 1 จนเงื่อนไขเป็นเท็จ
-                    }
-                    System.out.println("Done");
-                }
-            }`,
-          steps: ["3 > 0 → พิมพ์ 3, i = 2", "2 > 0 → พิมพ์ 2, i = 1", "1 > 0 → พิมพ์ 1, i = 0", "0 > 0 false → ออก พิมพ์ Done"] },
-        { type: "run", title: "สะสมผลรวม (accumulator)", level: "ต่อยอด",
-          concept: "รูปแบบสำคัญที่สุดของลูป: ตัวแปรผลรวมเริ่มที่ 0 แล้วบวกค่าของแต่ละรอบเข้าไป",
+          },
+        { type: "tip", title: "ลูปที่ดีมี 4 ส่วน", html: `ค่าเริ่มต้น → เงื่อนไข → งานที่ทำซ้ำ → การอัปเดตที่ทำให้เงื่อนไขเข้าใกล้ false ถ้าเงื่อนไขเป็น false ตั้งแต่แรก body จะไม่ทำเลยสักรอบ` },
+
+        { type: "h", text: "สะสมผลรวม (accumulator)" },
+        { type: "p", html: `รูปแบบที่ใช้บ่อยที่สุด: ตัวแปรผลรวมเริ่มที่ 0 ก่อนลูป แล้วบวกค่าของแต่ละรอบเข้าไป` },
+        { type: "run", title: "1 + 2 + ... + 5",
           code: j`
             public class SumToN {
                 public static void main(String[] args) {
                     int n = 5;
                     int number = 1;
-                    int sum = 0;  // ตัวสะสมเริ่มที่ 0
+                    int sum = 0;                                       // เริ่มที่ 0
                     while (number <= n) {
-                        sum += number;  // บวกค่าของรอบนี้เข้าไป
+                        sum += number;                                 // 1, 3, 6, 10, 15
                         System.out.println("add " + number + " -> sum = " + sum);
                         number++;
                     }
                     System.out.println("1 + ... + " + n + " = " + sum);
                 }
             }`,
-          steps: ["sum เริ่ม 0 (ถ้าเริ่มค่าอื่นผลรวมจะผิด)", "แต่ละรอบ sum += number", "พิมพ์ระหว่างทางช่วยให้เห็นการเปลี่ยนแปลง (เทคนิค debug)", "ผลรวม 15 ตรงกับสูตร n(n+1)/2"] },
-        { type: "run", title: "ไม่รู้จำนวนรอบ: นับหลักของตัวเลข", level: "ประยุกต์", stdin: "907215",
-          concept: "จำนวนรอบขึ้นกับข้อมูล — หาร 10 ไปเรื่อย ๆ จนเหลือ 0 นี่คือจุดที่ while เหมาะกว่า for",
+          },
+        { type: "tip", html: `พิมพ์ค่าระหว่างทางแบบตัวอย่างนี้ช่วยให้เห็นว่าลูปทำงานถูกไหม เป็นเทคนิค debug ที่ง่ายที่สุด` },
+
+        { type: "h", text: "ไม่รู้จำนวนรอบล่วงหน้า" },
+        { type: "p", html: `หาร 10 ไปเรื่อย ๆ จนเหลือ 0 จำนวนรอบขึ้นกับจำนวนหลักของข้อมูล งานแบบนี้ while เหมาะที่สุด` },
+        { type: "run", title: "นับหลักและรวมหลักของตัวเลข", stdin: "907215",
           code: j`
             import java.util.Scanner;
 
@@ -79,60 +69,54 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Number: ");
                     int n = input.nextInt();
-                    int digits = 0;
-                    int digitSum = 0;
-                    int temp = n;  // ใช้สำเนา เพื่อไม่ให้ค่า n เปลี่ยน
+                    int digits = 0, digitSum = 0;
+                    int temp = n;                       // ใช้สำเนา เก็บ n ไว้แสดงผล
                     while (temp > 0) {
-                        digitSum += temp % 10;  // % 10 = หลักขวาสุด
-                        temp /= 10;             // ตัดหลักขวาสุดทิ้ง
-                        digits++;               // นับจำนวนหลัก
+                        digitSum += temp % 10;          // หลักขวาสุด: 5, 1, 2, 7, 0, 9
+                        temp /= 10;                     // ตัดหลักขวาสุดทิ้ง
+                        digits++;
                     }
                     System.out.println(n + " has " + digits + " digits, digit sum = " + digitSum);
                 }
             }`,
-          steps: ["temp = 907215 → หลักหน่วย 5, temp = 90721", "ทำซ้ำ: 1, 2, 7, 0, 9", "temp เป็น 0 → หยุด นับได้ 6 หลัก ผลรวม 24", "ใช้ temp แทน n เพื่อเก็บค่าเดิมไว้แสดงผล"] },
-        { type: "run", title: "while (true) กับ break", level: "ประยุกต์",
-          concept: "บางครั้งเขียนลูปที่ตั้งใจไม่หยุดเอง แล้วใช้ <code>break</code> ออกเมื่อถึงเงื่อนไข — ต้องแน่ใจว่า break ไปถึงได้จริง",
-          code: j`
-            public class WhileTrueBreak {
-                public static void main(String[] args) {
-                    int attempt = 1;
-                    while (true) {  // เงื่อนไขจริงเสมอ ต้องมี break
-                        System.out.println("Attempt " + attempt);
-                        if (attempt >= 3) {
-                            break;  // ออกจากลูปทันที
-                        }
-                        attempt++;
-                    }
-                    System.out.println("Stopped safely");
-                }
-            }`,
-          steps: ["ลูปพิมพ์ Attempt 1, 2, 3", "เมื่อ attempt = 3 เงื่อนไข if จริง → break", "ไปทำคำสั่งหลังลูป"] },
-        { type: "run", label: "ทดลอง error 6.1.6", title: "assignment ไม่ใช่เงื่อนไข", level: "ประยุกต์", expect: "compile-error",
-          concept: "<code>while (i = 3)</code> เป็นการกำหนดค่า ได้ชนิด int ไม่ใช่ boolean",
-          code: j`
-            public class WhileConditionError {
-                public static void main(String[] args) {
-                    int i = 3;
-                    while (i = 3) {
-                        System.out.println(i);
-                        i--;
-                    }
-                }
-            }`,
-          steps: ["compiler แจ้ง <code>int cannot be converted to boolean</code>", "ต้องการเปรียบเทียบใช้ <code>==</code> แต่ในกรณีนี้ควรเป็น <code>i &gt; 0</code>"] },
-        { type: "note", title: "Logic error: ลูปไม่รู้จบ (อย่ากด Run)", html: jpre(`
+          },
+        { type: "warn", title: "ลูปไม่รู้จบ", html: jpre(`
           int i = 3;
           while (i > 0) {
               System.out.println(i);
               i++;       // ผิดทิศ: 3, 4, 5, ... เงื่อนไข true ตลอด
-          }
-
-          int number = 1;
-          while (number <= 5) {
-              System.out.println(number);
-              // ลืม number++  → number = 1 ตลอดไป
-          }`) + `<p>ทั้งสองแบบคอมไพล์ผ่าน แต่ไม่จบ ถ้าเผลอรันใน IDE ให้กดปุ่ม Stop (■) วิธีป้องกันคือ trace 3 รอบแรกด้วยมือและตรวจว่าค่าเคลื่อนเข้าหาเงื่อนไขหยุด</p>` },
+          }`) + `<p>คอมไพล์ผ่านแต่ไม่จบ (ถ้าเผลอรันให้กดปุ่ม Stop ■) ป้องกันโดย trace 3 รอบแรกด้วยมือ และตรวจว่าค่าเคลื่อนเข้าหาเงื่อนไขหยุด</p>` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: while (true) กับ break และ error ที่พบบ่อย", blocks: [
+          { type: "p", html: `บางครั้งเขียนลูปที่ไม่หยุดเอง แล้วใช้ <code>break</code> ออกเมื่อถึงเงื่อนไข ต้องแน่ใจว่า break ไปถึงได้จริง` },
+          { type: "run", title: "while (true) กับ break",
+            code: j`
+              public class WhileTrueBreak {
+                  public static void main(String[] args) {
+                      int attempt = 1;
+                      while (true) {
+                          System.out.println("Attempt " + attempt);
+                          if (attempt >= 3) {
+                              break;                  // ออกจากลูปทันที
+                          }
+                          attempt++;
+                      }
+                      System.out.println("Stopped safely");
+                  }
+              }`,
+            },
+          { type: "run", label: "ทดลอง error 6.1.6", title: "assignment ไม่ใช่เงื่อนไข", expect: "compile-error",
+            code: j`
+              public class WhileConditionError {
+                  public static void main(String[] args) {
+                      int i = 3;
+                      while (i = 3) {
+                          System.out.println(i);
+                          i--;
+                      }
+                  }
+              }`,
+            after: "<code>i = 3</code> เป็นการใส่ค่า ไม่ใช่เงื่อนไข ในกรณีนี้ควรเขียน <code>i &gt; 0</code>" },
+        ] },
         { type: "check", title: "นับรอบ", html: jpre(`
           int x = 20;
           int rounds = 0;
@@ -145,71 +129,47 @@ export default {
     {
       num: "6.2", toc: "for เมื่อรู้จำนวนรอบ", title: "for: เมื่อรู้จำนวนรอบหรือตัวนับชัดเจน",
       blocks: [
-        { type: "p", html: `<code>for</code> รวมจุดเริ่ม เงื่อนไข และการอัปเดตไว้ในบรรทัดเดียว ทำให้อ่านแล้วรู้จำนวนรอบทันที` },
-        { type: "steps", title: "Syntax และ flow ของ for", intro: jpre(`
-          for (initialization; condition; update) {
+        { type: "p", html: `<code>for</code> รวมค่าเริ่ม เงื่อนไข และการอัปเดตไว้ในบรรทัดเดียว อ่านแล้วรู้จำนวนรอบทันที` },
+        { type: "html", html: jpre(`
+          for (int i = 1; i <= 3; i++) {    // ค่าเริ่ม ; เงื่อนไข ; อัปเดต
               // loop body
-          }`), items: ["ทำ <code>initialization</code> ครั้งเดียวก่อนเริ่มลูป", "ตรวจ <code>condition</code>; ถ้า false ออกจากลูป", "ถ้า true ทำ body", "ทำ <code>update</code> แล้วกลับไปข้อ 2"], after: "ตัวแปรที่ประกาศในส่วนเริ่มต้น เช่น <code>int i</code> ใช้ได้เฉพาะภายในลูปนั้น" },
-        { type: "run", title: "อ่าน header ของ for ตามลำดับ", level: "พื้นฐาน",
-          concept: "ก่อนรัน ให้ทำนายค่าเริ่มต้น จำนวนรอบ และผลรวม",
+          }`) },
+        { type: "run", title: "ทำนายรอบก่อนรัน",
           code: j`
             public class ForFlow {
                 public static void main(String[] args) {
                     int sum = 0;
-                    // ค่าเริ่ม; เงื่อนไข; อัปเดต
-                    for (int i = 1; i <= 3; i++) {
+                    for (int i = 1; i <= 3; i++) {             // i = 1, 2, 3 แล้วออกเมื่อ i = 4
                         sum += i;
                         System.out.println("i=" + i + ", sum=" + sum);
                     }
-                    System.out.println("After loop, sum=" + sum);
+                    System.out.println("After loop, sum=" + sum);   // ใช้ i ตรงนี้ไม่ได้ (ประกาศใน for)
                 }
             }`,
-          steps: ["i = 1 → ตรวจ 1 ≤ 3 → body → i++", "i = 2, 3 ทำเช่นเดียวกัน", "i = 4 → เงื่อนไข false → ออก", "<code>i</code> ใช้นอกลูปไม่ได้ เพราะประกาศใน header"] },
-        { type: "run", title: "ขยับทีละมากกว่า 1 และนับถอยหลัง", level: "พื้นฐาน",
-          concept: "ส่วน update เป็นนิพจน์ใดก็ได้ เช่น <code>i += 2</code>, <code>i--</code>, <code>i *= 2</code>",
+          },
+        { type: "table", head: ["ส่วน update", "ค่าของตัวนับ"], rows: [
+          ["<code>i++</code>", "1, 2, 3, ..."],
+          ["<code>i += 2</code>", "2, 4, 6, 8, 10"],
+          ["<code>i--</code>", "5, 4, 3, 2, 1 (นับถอยหลัง)"],
+          ["<code>p *= 2</code>", "1, 2, 4, 8, ..."],
+        ] },
+        { type: "run", title: "ขยับทีละมากกว่า 1 และนับถอยหลัง",
           code: j`
             public class ForSteps {
                 public static void main(String[] args) {
-                    System.out.print("Even: ");
-                    for (int i = 2; i <= 10; i += 2) {  // เพิ่มทีละ 2
-                        System.out.print(i + " ");
-                    }
+                    for (int i = 2; i <= 10; i += 2) System.out.print(i + " ");     // 2 4 6 8 10
                     System.out.println();
-
-                    System.out.print("Countdown: ");
-                    for (int i = 5; i >= 1; i--) {  // นับถอยหลัง
-                        System.out.print(i + " ");
-                    }
+                    for (int i = 5; i >= 1; i--) System.out.print(i + " ");         // 5 4 3 2 1
                     System.out.println("Go!");
-
-                    System.out.print("Powers of 2: ");
-                    for (int p = 1; p <= 100; p *= 2) {  // คูณ 2 ทุกรอบ
-                        System.out.print(p + " ");
-                    }
+                    for (int p = 1; p <= 100; p *= 2) System.out.print(p + " ");    // 1 2 4 ... 64
                     System.out.println();
                 }
             }`,
-          steps: ["<code>i += 2</code> → 2, 4, 6, 8, 10", "<code>i--</code> → 5, 4, 3, 2, 1", "<code>p *= 2</code> → 1, 2, 4, …, 64 (128 เกิน 100)"] },
-        { type: "run", title: "ตารางสูตรคูณจากค่าที่ผู้ใช้ป้อน", level: "ต่อยอด", stdin: "7",
-          concept: "รู้จำนวนรอบแน่นอน (12 แถว) → for เหมาะที่สุด ใช้ printf จัดคอลัมน์",
-          code: j`
-            import java.util.Scanner;
+          },
 
-            public class MultiplicationTable {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Table of: ");
-                    int n = input.nextInt();
-                    // m = 1 ถึง 12
-                    for (int m = 1; m <= 12; m++) {
-                        // %2d %3d จัดตัวเลขให้ตรงคอลัมน์
-                        System.out.printf("%d x %2d = %3d%n", n, m, n * m);
-                    }
-                }
-            }`,
-          steps: ["m เดินจาก 1 ถึง 12", "<code>%2d</code> และ <code>%3d</code> ทำให้ตัวเลขชิดขวาตรงกัน"] },
-        { type: "run", title: "หาค่ามาก/น้อยสุดและค่าเฉลี่ยจากข้อมูล n ค่า", level: "ประยุกต์", stdin: "5\n72 88 65 91 79",
-          concept: "รูปแบบ “ติดตามค่าที่ดีที่สุด”: กำหนดค่าเริ่มจากข้อมูลตัวแรก แล้วเทียบกับตัวถัดไปทีละตัว",
+        { type: "h", text: "ใช้ for กับข้อมูล n ค่า" },
+        { type: "p", html: `รู้จำนวนข้อมูลล่วงหน้า จึงวนด้วย for ได้ และใช้รูปแบบ “ติดตามค่าที่ดีที่สุด”: ตั้งค่าเริ่มจากข้อมูลตัวแรก แล้วเทียบกับตัวถัดไปทีละตัว` },
+        { type: "run", title: "ค่ามาก น้อย และค่าเฉลี่ย", stdin: "5\n72 88 65 91 79",
           code: j`
             import java.util.Scanner;
 
@@ -219,69 +179,80 @@ export default {
                     System.out.print("How many scores? ");
                     int n = input.nextInt();
                     System.out.print("Scores: ");
-                    // ค่าแรกเป็นทั้ง max, min และผลรวมเริ่มต้น
                     int first = input.nextInt();
-                    int max = first, min = first, sum = first;
-                    // เริ่มรอบที่ 2 เพราะอ่านค่าแรกไปแล้ว
-                    for (int i = 2; i <= n; i++) {
+                    int max = first, min = first, sum = first;       // ค่าแรกเป็นจุดตั้งต้น
+                    for (int i = 2; i <= n; i++) {                   // เริ่ม 2 เพราะอ่านค่าแรกแล้ว
                         int score = input.nextInt();
                         sum += score;
                         if (score > max) max = score;
                         if (score < min) min = score;
                     }
-                    // แปลงเป็น double ก่อนหาร
                     System.out.printf("Max=%d Min=%d Avg=%.2f%n", max, min, (double) sum / n);
                 }
             }`,
-          steps: ["อ่านค่าแรก (72) ก่อนลูป ตั้งเป็น max, min, sum", "ลูปเริ่ม i = 2 อ่านค่าที่เหลืออีก 4 ค่า", "แต่ละรอบปรับ max/min ถ้าเจอค่าที่ดีกว่า", "cast sum เป็น double ก่อนหาร"] },
-        { type: "run", label: "ทดลองบั๊ก 6.2.5", title: "semicolon ทำให้ body ว่าง", level: "ประยุกต์",
-          concept: "โค้ดคอมไพล์ผ่าน แต่ <code>;</code> หลัง header ทำให้ลูปไม่มี body บล็อกถัดไปทำครั้งเดียว",
-          code: j`
-            public class EmptyForBody {
-                public static void main(String[] args) {
-                    // ; ท้าย for ทำให้ลูปไม่มี body
-                    for (int i = 1; i <= 3; i++);
-                    // บล็อกนี้ไม่ได้อยู่ในลูป ทำงานครั้งเดียว
-                    {
-                        System.out.println("Hello");
-                    }
-                }
-            }`,
-          steps: ["ลูปวน 3 รอบโดยไม่ทำอะไร", "บล็อก { } เป็นบล็อกธรรมดาหลังลูป → พิมพ์ Hello ครั้งเดียว", "แก้: ลบ ; หลังวงเล็บ"] },
-        { type: "note", title: "เลือก for หรือ while", html: `<p>ใช้ <code>for</code> เมื่อรู้ช่วงหรือจำนวนรอบชัดเจน (นับ 1–100, วนตามจำนวนข้อมูล) ใช้ <code>while</code> เมื่อทำซ้ำจนกว่าเหตุการณ์หนึ่งจะเกิด (ผู้ใช้ป้อน 0, ตัวเลขหารจนเหลือ 0) ทั้งคู่ทำงานแทนกันได้ แต่รูปแบบที่ตรงโจทย์อ่านง่ายกว่า</p>` },
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: ตารางสูตรคูณ และบั๊ก ; หลัง for", blocks: [
+          { type: "run", title: "ตารางสูตรคูณ", stdin: "7",
+            code: j`
+              import java.util.Scanner;
+
+              public class MultiplicationTable {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Table of: ");
+                      int n = input.nextInt();
+                      for (int m = 1; m <= 12; m++) {
+                          System.out.printf("%d x %2d = %3d%n", n, m, n * m);    // %2d %3d จัดคอลัมน์
+                      }
+                  }
+              }`,
+            },
+          { type: "run", label: "ทดลองบั๊ก 6.2.5", title: "semicolon ทำให้ body ว่าง",
+            code: j`
+              public class EmptyForBody {
+                  public static void main(String[] args) {
+                      for (int i = 1; i <= 3; i++);
+                      {
+                          System.out.println("Hello");
+                      }
+                  }
+              }`,
+            after: "<code>;</code> หลังวงเล็บทำให้ลูปไม่มี body บล็อก <code>{ }</code> ถัดมาจึงทำครั้งเดียว แก้โดยลบ <code>;</code>" },
+        ] },
+        { type: "table", title: "เลือก for หรือ while", head: ["โจทย์", "ใช้"], rows: [
+          ["รู้จำนวนรอบ เช่น นับ 1–100, วนตามจำนวนข้อมูล", "<code>for</code>"],
+          ["ทำซ้ำจนกว่าเหตุการณ์หนึ่งจะเกิด เช่น ผู้ใช้ป้อน 0", "<code>while</code>"],
+          ["ต้องทำอย่างน้อยหนึ่งครั้ง เช่น เมนู ถามซ้ำ", "<code>do-while</code> (หัวข้อถัดไป)"],
+        ] },
         { type: "check", title: "นับรอบของ for", html: `<p><code>for (int i = 10; i &lt; 50; i += 7)</code> ทำกี่รอบ และ i ค่าสุดท้ายที่เข้า body คือเท่าไร</p>`, answer: `<p>i = 10, 17, 24, 31, 38, 45 → <strong>6 รอบ</strong> ค่าสุดท้ายคือ <strong>45</strong> (52 ไม่ผ่านเงื่อนไข)</p>` },
       ],
     },
     {
       num: "6.3", toc: "do-while และ sentinel", title: "do-while และการทำซ้ำด้วย sentinel",
       blocks: [
-        { type: "p", html: `<code>do-while</code> ตรวจเงื่อนไข<strong>หลัง</strong>ทำ body จึงทำอย่างน้อยหนึ่งครั้ง เหมาะกับการแสดงเมนูหรือถามข้อมูลก่อน แล้วค่อยตรวจว่าต้องทำต่อหรือไม่ ส่วน <strong>sentinel</strong> คือค่าพิเศษที่ใช้สั่งหยุด เช่น ป้อน 0 หรือ -1` },
-        { type: "steps", title: "Syntax และ flow ของ do-while", intro: jpre(`
-          do {
-              // คำสั่งที่ต้องทำอย่างน้อยหนึ่งครั้ง
-          } while (condition);   // ← มี ; ปิดท้าย`), items: ["เข้าทำ body ทันทีโดยยังไม่ตรวจเงื่อนไข", "ทำคำสั่งใน body และปรับค่าที่เกี่ยวข้อง", "ตรวจ condition ที่ท้ายลูป", "ถ้า true กลับไปเริ่ม body; ถ้า false ออกจากลูป"] },
-        { type: "run", title: "ทำอย่างน้อยหนึ่งครั้ง", level: "พื้นฐาน",
-          concept: "แม้เงื่อนไขเป็น false ตั้งแต่แรก body ก็ทำไปแล้วหนึ่งครั้ง — ต่างจาก while",
+        { type: "p", html: `<code>do-while</code> ทำ body ก่อนแล้ว<strong>ตรวจเงื่อนไขทีหลัง</strong> จึงทำอย่างน้อยหนึ่งครั้งเสมอ (อย่าลืม <code>;</code> หลัง <code>while (...)</code>)` },
+        { type: "run", title: "do-while กับ while เมื่อเงื่อนไขเป็นเท็จตั้งแต่แรก",
           code: j`
             public class DoWhileOnce {
                 public static void main(String[] args) {
                     int count = 10;
-                    do {  // ทำ body ก่อน แล้วค่อยตรวจเงื่อนไข
-                        System.out.println("do-while body, count = " + count);
+                    do {
+                        System.out.println("do-while body, count = " + count);   // ทำ 1 ครั้ง
                         count++;
-                    } while (count <= 3);  // มี ; ปิดท้าย do-while
+                    } while (count <= 3);                                         // ; ปิดท้าย
 
                     int k = 10;
-                    while (k <= 3) {  // while ตรวจก่อน → ไม่เข้าเลย
+                    while (k <= 3) {                                              // ตรวจก่อน → ไม่เข้าเลย
                         System.out.println("while body");
                         k++;
                     }
                     System.out.println("Finished");
                 }
             }`,
-          steps: ["do-while ทำ body ก่อน (count = 10) แล้วตรวจ 11 ≤ 3 → false จบ", "while ตรวจ 10 ≤ 3 ก่อน → false ไม่ทำเลย", "ผลจึงต่างกัน 1 รอบ"] },
-        { type: "run", title: "บังคับป้อนค่าในช่วงที่ถูกต้อง (input validation)", level: "ต่อยอด", stdin: "150\n-5\n87",
-          concept: "ต้องถามอย่างน้อยหนึ่งครั้งเสมอ แล้วถามซ้ำถ้าค่าไม่ถูกต้อง → do-while พอดี",
+          },
+        { type: "h", text: "ถามซ้ำจนได้ค่าที่ถูกต้อง" },
+        { type: "p", html: `ต้องถามอย่างน้อยหนึ่งครั้งเสมอ แล้วถามซ้ำถ้าค่าไม่ถูกต้อง งานนี้ do-while พอดี` },
+        { type: "run", title: "บังคับป้อนคะแนน 0–100", stdin: "150\n-5\n87",
           code: j`
             import java.util.Scanner;
 
@@ -289,91 +260,90 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     int score;
-                    do {  // ถามซ้ำอย่างน้อย 1 ครั้ง
+                    do {
                         System.out.print("Score (0-100): ");
                         score = input.nextInt();
                         if (score < 0 || score > 100) {
                             System.out.println("  Invalid, try again.");
                         }
-                    // ค่าผิดช่วง → วนกลับไปถามใหม่
-                    } while (score < 0 || score > 100);
+                    } while (score < 0 || score > 100);        // 150, -5 → ถามใหม่ ; 87 → ออก
                     System.out.println("Accepted: " + score);
                 }
             }`,
-          steps: ["150 นอกช่วง → แจ้งเตือนและวนใหม่", "-5 นอกช่วง → วนใหม่", "87 ในช่วง → เงื่อนไขท้าย false → ออก", "ต้องใช้ <code>||</code> ไม่ใช่ <code>&amp;&amp;</code>: ไม่มีคะแนนใดน้อยกว่า 0 และมากกว่า 100 พร้อมกัน"] },
-        { type: "run", title: "รวมค่าจนป้อน sentinel 0", level: "ประยุกต์", stdin: "12\n7\n30\n0",
-          concept: "อ่านค่าก่อนตรวจ (priming read) แล้วอ่านค่าถัดไปที่ท้าย body — sentinel จะไม่ถูกบวกเข้าไป",
+          },
+        { type: "tip", html: `เงื่อนไข “นอกช่วง” ใช้ <code>||</code> ไม่ใช่ <code>&amp;&amp;</code> เพราะไม่มีคะแนนใดน้อยกว่า 0 <em>และ</em>มากกว่า 100 พร้อมกัน` },
+
+        { type: "h", text: "ค่าหยุด (sentinel)" },
+        { type: "p", html: `อ่านค่าแรก<strong>ก่อน</strong>เข้าลูป แล้วอ่านค่าถัดไปที่<strong>ท้าย</strong>ลูป ค่าหยุด (เช่น 0) จึงไม่ถูกนำไปคำนวณ` },
+        { type: "run", title: "รวมจนกว่าจะป้อน 0", stdin: "12\n7\n30\n0",
           code: j`
             import java.util.Scanner;
 
             public class SentinelSum {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
-                    int sum = 0, count = 0;  // ตัวสะสมและตัวนับ
+                    int sum = 0, count = 0;
                     System.out.print("Number (0 to stop): ");
-                    int number = input.nextInt();  // รับค่าแรกก่อนเข้าลูป
-                    // 0 คือค่าหยุด (sentinel)
+                    int number = input.nextInt();                    // อ่านค่าแรกก่อนเข้าลูป
                     while (number != 0) {
-                        sum += number;
+                        sum += number;                               // 12, 19, 49
                         count++;
                         System.out.print("Number (0 to stop): ");
-                        // รับค่าใหม่ก่อนตรวจเงื่อนไขรอบถัดไป
-                        number = input.nextInt();
+                        number = input.nextInt();                    // อ่านค่าถัดไปท้ายลูป
                     }
                     System.out.println("Count = " + count + ", Sum = " + sum);
-                    if (count > 0) {  // ป้องกันการหารด้วย 0
+                    if (count > 0) {                                 // กันหารด้วย 0
                         System.out.printf("Average = %.2f%n", (double) sum / count);
                     }
                 }
             }`,
-          steps: ["อ่าน 12 ก่อนเข้าลูป", "บวก 12, 7, 30 ตามลำดับ", "อ่าน 0 → เงื่อนไข false ออกก่อนบวก", "ตรวจ count > 0 ก่อนหาร ป้องกันการหารด้วยศูนย์"] },
-        { type: "run", title: "เมนูวนซ้ำด้วย do-while + switch", level: "ท้าทาย", stdin: "1\n500\n2\n200\n3\n0",
-          concept: "โครงสร้างพื้นฐานของโปรแกรมเมนู: แสดงเมนู → รับตัวเลือก → ทำตามตัวเลือก → วนจนกว่าจะเลือกออก",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เมนูวนซ้ำด้วย do-while + switch", blocks: [
+          { type: "run", title: "เมนูบัญชีธนาคาร", stdin: "1\n500\n2\n200\n3\n0",
+            code: j`
+              import java.util.Scanner;
 
-            public class BankMenu {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    double balance = 1000;
-                    int choice;
-                    do {  // แสดงเมนูอย่างน้อย 1 ครั้ง
-                        System.out.println("[1] Deposit [2] Withdraw [3] Balance [0] Exit");
-                        System.out.print("Choice: ");
-                        choice = input.nextInt();
-                        switch (choice) {  // เลือกงานตามเมนู
-                            case 1 -> {
-                                System.out.print("Amount: ");
-                                balance += input.nextDouble();
-                            }
-                            case 2 -> {
-                                System.out.print("Amount: ");
-                                double amount = input.nextDouble();
-                                // ถอนได้เมื่อเงินพอ
-                                if (amount <= balance) balance -= amount;
-                                else System.out.println("Insufficient funds");
-                            }
-                            case 3 -> System.out.printf("Balance: %.2f%n", balance);
-                            case 0 -> System.out.println("Goodbye");
-                            default -> System.out.println("Invalid choice");
-                        }
-                    } while (choice != 0);  // เลือก 0 จึงออก
-                }
-            }`,
-          steps: ["เมนูแสดงอย่างน้อยหนึ่งครั้งเสมอ", "ฝาก 500 → 1500, ถอน 200 → 1300", "เลือก 3 แสดงยอด", "เลือก 0 พิมพ์ Goodbye แล้วเงื่อนไข choice != 0 เป็น false → จบ"] },
-        { type: "run", label: "ทดลอง error 6.3.5", title: "do-while ขาด semicolon", level: "ท้าทาย", expect: "compile-error",
-          concept: "รูปแบบ do-while ต้องลงท้าย <code>while (เงื่อนไข);</code> เสมอ",
-          code: j`
-            public class DoWhileSyntaxError {
-                public static void main(String[] args) {
-                    int count = 1;
-                    do {
-                        System.out.println(count);
-                        count++;
-                    } while (count <= 3)
-                }
-            }`,
-          steps: ["compiler แจ้ง <code>';' expected</code> ที่ท้ายบรรทัด while", "เติม ; แล้วโปรแกรมจะพิมพ์ 1, 2, 3"] },
+              public class BankMenu {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      double balance = 1000;
+                      int choice;
+                      do {                                                    // แสดงเมนูอย่างน้อย 1 ครั้ง
+                          System.out.println("[1] Deposit [2] Withdraw [3] Balance [0] Exit");
+                          System.out.print("Choice: ");
+                          choice = input.nextInt();
+                          switch (choice) {
+                              case 1 -> {
+                                  System.out.print("Amount: ");
+                                  balance += input.nextDouble();
+                              }
+                              case 2 -> {
+                                  System.out.print("Amount: ");
+                                  double amount = input.nextDouble();
+                                  if (amount <= balance) balance -= amount;
+                                  else System.out.println("Insufficient funds");
+                              }
+                              case 3 -> System.out.printf("Balance: %.2f%n", balance);
+                              case 0 -> System.out.println("Goodbye");
+                              default -> System.out.println("Invalid choice");
+                          }
+                      } while (choice != 0);                                  // เลือก 0 จึงออก
+                  }
+              }`,
+            },
+          { type: "run", label: "ทดลอง error 6.3.5", title: "do-while ขาด semicolon", expect: "compile-error",
+            code: j`
+              public class DoWhileSyntaxError {
+                  public static void main(String[] args) {
+                      int count = 1;
+                      do {
+                          System.out.println(count);
+                          count++;
+                      } while (count <= 3)
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "do-while", html: jpre(`
           int n = 5;
           do {
@@ -385,136 +355,117 @@ export default {
     {
       num: "6.4", toc: "ลูปซ้อนและคำสั่งควบคุม", title: "ลูปซ้อน, break และ continue",
       blocks: [
-        { type: "p", html: `ก่อนเขียน nested loop ให้เริ่มจากสิ่งที่ต้องการเห็น แล้วแบ่งงานเป็น<strong>รอบนอก</strong> (มักคุมแถว) กับ<strong>งานที่ทำซ้ำในแต่ละรอบ</strong> (มักคุมคอลัมน์) ลูปในจะทำครบทุกรอบก่อนที่ลูปนอกจะขยับหนึ่งครั้ง` },
-        { type: "run", title: "ลูปเดียว: หนึ่งรอบต่อหนึ่งตัวเลข", level: "พื้นฐาน",
-          concept: "โจทย์ตั้งต้น — แสดงเลข 1–5 บรรทัดละหนึ่งเลข ลูปเดียวพอ",
-          code: j`
-            public class OneLoop {
-                public static void main(String[] args) {
-                    // ลูปเดียว ทำงาน 5 รอบ
-                    for (int i = 1; i <= 5; i++) {
-                        System.out.println(i);
-                    }
-                }
-            }`,
-          steps: ["i เปลี่ยนจาก 1 ถึง 5", "แต่ละรอบพิมพ์ i หนึ่งครั้งแล้วขึ้นบรรทัด"] },
-        { type: "run", title: "เพิ่มความต้องการ: พิมพ์แต่ละเลขซ้ำ 10 ครั้ง", level: "ต่อยอด",
-          concept: "ตอนนี้มีสองหน้าที่: i เลือกเลข (ลูปนอก) และ j นับจำนวนครั้งที่พิมพ์เลขนั้น (ลูปใน)",
+        { type: "p", html: `ลูปซ้อน (nested loop) คือลูปอยู่ในลูป มักให้<strong>ลูปนอกคุมแถว</strong>และ<strong>ลูปในคุมคอลัมน์</strong> ลูปในทำครบทุกรอบก่อนที่ลูปนอกจะขยับหนึ่งครั้ง` },
+        { type: "run", title: "พิมพ์แต่ละเลขซ้ำ 10 ครั้ง",
           code: j`
             public class RepeatEachNumber {
                 public static void main(String[] args) {
-                    for (int i = 1; i <= 5; i++) {  // ลูปนอก: แถว
-                        // ลูปใน: วนครบ 10 รอบต่อ 1 แถว
-                        for (int j = 1; j <= 10; j++) {
+                    for (int i = 1; i <= 5; i++) {                 // ลูปนอก: เลือกเลข (แถว)
+                        for (int j = 1; j <= 10; j++) {            // ลูปใน: พิมพ์ 10 ครั้ง
                             System.out.print(i + " ");
                         }
-                        System.out.println();  // จบแถวแล้วขึ้นบรรทัดใหม่
+                        System.out.println();                      // จบแถว ขึ้นบรรทัดใหม่
                     }
                 }
             }`,
-          steps: ["i = 1: j วิ่ง 1–10 พิมพ์ 1 สิบครั้ง แล้ว println ขึ้นบรรทัด", "i = 2: j เริ่มใหม่ที่ 1 อีกครั้ง", "รวมทั้งหมด 5 × 10 = 50 ครั้ง"] },
-        { type: "run", title: "สามเหลี่ยมดาว: ลูปในขึ้นกับลูปนอก", level: "ต่อยอด",
-          concept: "จำนวนรอบของลูปในไม่จำเป็นต้องคงที่ — ใช้ค่า row ของลูปนอกเป็นขอบเขต",
-          code: j`
-            public class StarTriangle {
-                public static void main(String[] args) {
-                    int height = 5;
-                    // ลูปนอก: แถวที่ 1 ถึง height
-                    for (int row = 1; row <= height; row++) {
-                        // จำนวนดาว = เลขแถว
-                        for (int col = 1; col <= row; col++) {
-                            System.out.print("* ");
-                        }
-                        System.out.println();
-                    }
-                }
-            }`,
-          steps: ["row 1 → ดาว 1 ดวง", "row 2 → 2 ดวง … row 5 → 5 ดวง", "เคล็ดลับ: เขียนตาราง “แถว → จำนวนดาว” ก่อน แล้วหาความสัมพันธ์"] },
-        { type: "run", title: "พีระมิด: ช่องว่างลดลง ดาวเพิ่มขึ้น", level: "ประยุกต์",
-          concept: "ในแต่ละแถวมีลูปในสองชุด: ชุดแรกพิมพ์ช่องว่าง (height − row) ชุดที่สองพิมพ์ดาว (2 × row − 1)",
+          },
+        { type: "h", text: "ลูปในขึ้นกับลูปนอก: รูปทรงด้วยดาว" },
+        { type: "p", html: `จำนวนรอบของลูปในไม่ต้องคงที่ ใช้ค่าแถวของลูปนอกเป็นขอบเขตได้ เคล็ดลับคือเขียนตาราง “แถว → จำนวนที่ต้องพิมพ์” ก่อน แล้วหาความสัมพันธ์` },
+        { type: "table", cls: "trace-table", head: ["row", "ช่องว่าง = 4 − row", "ดาว = 2·row − 1"], rows: [["1", "3", "1"], ["2", "2", "3"], ["3", "1", "5"], ["4", "0", "7"]] },
+        { type: "run", title: "พีระมิดดาว",
           code: j`
             public class StarPyramid {
                 public static void main(String[] args) {
                     int height = 4;
                     for (int row = 1; row <= height; row++) {
-                        // เว้นวรรคลดลงทีละแถว
-                        for (int s = 1; s <= height - row; s++) {
+                        for (int s = 1; s <= height - row; s++) {       // ช่องว่าง 3, 2, 1, 0
                             System.out.print(" ");
                         }
-                        // ดาวแถวละ 1, 3, 5, 7
-                        for (int k = 1; k <= 2 * row - 1; k++) {
+                        for (int k = 1; k <= 2 * row - 1; k++) {        // ดาว 1, 3, 5, 7
                             System.out.print("*");
                         }
                         System.out.println();
                     }
                 }
             }`,
-          steps: ["row 1: ช่องว่าง 3, ดาว 1", "row 2: ช่องว่าง 2, ดาว 3", "row 4: ช่องว่าง 0, ดาว 7"] },
-        { type: "table", cls: "trace-table", head: ["row", "ช่องว่าง = 4 − row", "ดาว = 2·row − 1"], rows: [["1", "3", "1"], ["2", "2", "3"], ["3", "1", "5"], ["4", "0", "7"]] },
-        { type: "concept", title: "break และ continue", html: `<ul><li><code>break;</code> ออกจากลูป<strong>ชั้นในสุด</strong>ที่กำลังทำ แล้วไปคำสั่งหลังลูปนั้น</li><li><code>continue;</code> ข้ามส่วนที่เหลือของรอบนี้ แล้วเริ่มรอบใหม่ — ใน for ส่วน update ยังทำงาน แต่ใน while ถ้า update อยู่หลัง continue จะถูกข้าม (เสี่ยงลูปไม่รู้จบ)</li></ul>` },
-        { type: "run", title: "continue ข้ามเลขคู่, break ที่ 7", level: "ประยุกต์",
-          concept: "continue ทำให้ข้ามการพิมพ์เลขคู่ ส่วน break ออกจากลูปเมื่อเจอ 7",
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: สามเหลี่ยมดาว", blocks: [
+          { type: "run", title: "แถวที่ row มีดาว row ดวง",
+            code: j`
+              public class StarTriangle {
+                  public static void main(String[] args) {
+                      int height = 5;
+                      for (int row = 1; row <= height; row++) {
+                          for (int col = 1; col <= row; col++) {         // จำนวนดาว = เลขแถว
+                              System.out.print("* ");
+                          }
+                          System.out.println();
+                      }
+                  }
+              }`,
+            },
+        ] },
+
+        { type: "h", text: "break และ continue" },
+        { type: "table", head: ["คำสั่ง", "ทำอะไร"], rows: [
+          ["<code>break;</code>", "ออกจากลูป<strong>ชั้นในสุด</strong>ที่กำลังทำทันที"],
+          ["<code>continue;</code>", "ข้ามส่วนที่เหลือของรอบนี้ แล้วเริ่มรอบถัดไป"],
+        ] },
+        { type: "run", title: "ข้ามเลขคู่ และหยุดที่ 7",
           code: j`
             public class BreakContinue {
                 public static void main(String[] args) {
                     for (int number = 1; number <= 10; number++) {
-                        if (number % 2 == 0) {  // เลขคู่ → ข้ามไปรอบถัดไป
-                            continue;           // ข้ามคำสั่งที่เหลือในรอบนี้
+                        if (number % 2 == 0) {
+                            continue;                     // เลขคู่ → ข้ามไปรอบถัดไป
                         }
                         if (number == 7) {
-                            break;  // ออกจากลูปทั้งหมด
+                            break;                        // เจอ 7 → ออกจากลูป (8–10 ไม่ถูกตรวจ)
                         }
-                        System.out.println(number);
+                        System.out.println(number);       // 1 3 5
                     }
                     System.out.println("After loop");
                 }
             }`,
-          steps: ["1 พิมพ์, 2 ข้าม, 3 พิมพ์, 4 ข้าม, 5 พิมพ์, 6 ข้าม", "7 เป็นคี่ ผ่าน continue แต่ break ทำงาน → ออก", "8–10 ไม่ถูกตรวจเลย"] },
-        { type: "run", title: "หาจำนวนเฉพาะ: ลูปซ้อน + break", level: "ท้าทาย",
-          concept: "สำหรับแต่ละ n ลองหารด้วย 2 ถึง √n ถ้าเจอตัวหารลงตัวก็ break ทันที (ไม่ต้องลองต่อ)",
-          code: j`
-            public class PrimesUpTo50 {
-                public static void main(String[] args) {
-                    int count = 0;
-                    for (int n = 2; n <= 50; n++) {
-                        // สมมติว่าเป็นจำนวนเฉพาะก่อน
-                        boolean isPrime = true;
-                        // ตรวจตัวหารถึงรากที่สองของ n พอ
-                        for (int d = 2; d * d <= n; d++) {
-                            if (n % d == 0) {
-                                isPrime = false;
-                                break;  // ออกเฉพาะลูป d
-                            }
-                        }
-                        if (isPrime) {
-                            System.out.print(n + " ");
-                            count++;
-                        }
-                    }
-                    System.out.println();
-                    System.out.println("Total primes: " + count);
-                }
-            }`,
-          steps: ["ลูปนอกเลือก n ทีละค่า", "ตั้งสมมติฐาน isPrime = true แล้วพยายามหาตัวหาร (flag pattern)", "break ออกเฉพาะลูปใน ลูปนอกยังทำ n ถัดไป", "<code>d * d &lt;= n</code> เทียบเท่า d ≤ √n ลดจำนวนรอบได้มาก"] },
-        { type: "run", label: "ทดลอง error 6.4.7", title: "unreachable statement", level: "ท้าทาย", expect: "compile-error",
-          concept: "คำสั่งหลัง break ในบล็อกเดียวกันไม่มีทางทำงาน compiler จึงไม่ยอม",
-          code: j`
-            public class UnreachableAfterBreak {
-                public static void main(String[] args) {
-                    while (true) {
-                        break;
-                        System.out.println("Never reached");
-                    }
-                }
-            }`,
-          steps: ["<code>unreachable statement</code> ชี้ที่ println", "ย้าย println ไปหลังลูป หรือใส่ break ไว้ใน if"] },
-        { type: "note", title: "Logic error: continue ข้าม update ใน while", html: jpre(`
-          int i = 1;
-          while (i <= 5) {
-              if (i % 2 == 0) continue;   // i = 2 → continue ก่อน i++ → ค้างที่ 2 ตลอด
-              System.out.println(i);
-              i++;
-          }`) + `<p>แก้โดยย้าย <code>i++</code> ขึ้นไปก่อน continue หรือเปลี่ยนเป็น for loop</p>` },
+          },
+        { type: "warn", title: "continue ใน while", html: `ใน <code>for</code> ส่วน update ยังทำงานหลัง continue แต่ใน <code>while</code> ถ้า <code>i++</code> อยู่หลัง continue จะถูกข้าม เช่น <code>if (i % 2 == 0) continue;</code> ก่อน <code>i++</code> จะค้างที่ i = 2 ตลอดไป แก้โดยย้าย i++ ขึ้นไปก่อน หรือใช้ for` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: หาจำนวนเฉพาะด้วยลูปซ้อน + break", blocks: [
+          { type: "p", html: `สำหรับแต่ละ n ลองหารด้วย 2 ถึง √n ถ้าเจอตัวหารลงตัวก็ break ทันที break ออกเฉพาะลูปใน ลูปนอกยังทำ n ถัดไป` },
+          { type: "run", title: "จำนวนเฉพาะไม่เกิน 50",
+            code: j`
+              public class PrimesUpTo50 {
+                  public static void main(String[] args) {
+                      int count = 0;
+                      for (int n = 2; n <= 50; n++) {
+                          boolean isPrime = true;                  // สมมติว่าเป็นก่อน
+                          for (int d = 2; d * d <= n; d++) {       // d ≤ √n พอ
+                              if (n % d == 0) {
+                                  isPrime = false;
+                                  break;                           // ออกเฉพาะลูป d
+                              }
+                          }
+                          if (isPrime) {
+                              System.out.print(n + " ");
+                              count++;
+                          }
+                      }
+                      System.out.println();
+                      System.out.println("Total primes: " + count);
+                  }
+              }`,
+            },
+          { type: "run", label: "ทดลอง error 6.4.7", title: "unreachable statement", expect: "compile-error",
+            code: j`
+              public class UnreachableAfterBreak {
+                  public static void main(String[] args) {
+                      while (true) {
+                          break;
+                          System.out.println("Never reached");
+                      }
+                  }
+              }`,
+            after: "คำสั่งหลัง break ในบล็อกเดียวกันไม่มีทางทำงาน compiler จึงไม่ยอม ย้าย println ไปหลังลูป หรือใส่ break ไว้ใน if" },
+        ] },
         { type: "check", title: "นับรอบลูปซ้อน", html: jpre(`
           int count = 0;
           for (int a = 1; a <= 4; a++)
