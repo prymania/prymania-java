@@ -16,13 +16,13 @@ export default {
     {
       num: "15.1", toc: "Label, Button และ Panel", title: "JLabel, JButton และ JPanel",
       blocks: [
+        { type: "p", html: `สามชิ้นส่วนพื้นฐานที่แทบทุกหน้าจอมี: ป้ายข้อความ ปุ่ม และ panel ที่บรรจุทั้งสองอย่าง` },
         { type: "table", head: ["Component", "ใช้ทำอะไร", "เมธอดที่ใช้บ่อย"], rows: [
           ["<code>JLabel</code>", "แสดงข้อความ (ผู้ใช้แก้ไม่ได้)", "<code>setText</code>, <code>getText</code>, <code>setFont</code>, <code>setForeground</code>"],
           ["<code>JButton</code>", "ปุ่มให้ผู้ใช้กด", "<code>setText</code>, <code>setEnabled</code>, <code>setToolTipText</code>, <code>addActionListener</code> (บทที่ 16)"],
           ["<code>JPanel</code>", "container จัดกลุ่ม", "<code>add</code>, <code>setLayout</code>, <code>setBorder</code>, <code>setBackground</code>"],
         ] },
-        { type: "run", title: "label และปุ่มหลายสถานะ", level: "พื้นฐาน", gui: true,
-          concept: "ปุ่มที่ <code>setEnabled(false)</code> จะเป็นสีเทาและกดไม่ได้ ใช้บอกผู้ใช้ว่ายังทำขั้นนั้นไม่ได้",
+        { type: "run", title: "ปุ่มที่กดได้และกดไม่ได้", gui: true,
           code: j`
             import javax.swing.*;
 
@@ -34,10 +34,9 @@ export default {
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("Welcome to registration"));
                         JButton back = new JButton("Back");
-                        back.setEnabled(false);  // ปุ่มกดไม่ได้ (สีจาง)
+                        back.setEnabled(false);                       // สีจาง กดไม่ได้ (อยู่หน้าแรก)
                         JButton next = new JButton("Next");
-                        // ข้อความเมื่อชี้เมาส์ค้าง
-                        next.setToolTipText("Go to step 2");
+                        next.setToolTipText("Go to step 2");          // แสดงเมื่อชี้เมาส์ค้าง
                         panel.add(back);
                         panel.add(next);
                         frame.add(panel);
@@ -46,9 +45,10 @@ export default {
                     });
                 }
             }`,
-          steps: ["Back ถูกปิดเพราะอยู่หน้าแรก", "Next มี tooltip แสดงเมื่อเอาเมาส์ชี้"] },
-        { type: "run", title: "label แบบ HTML และการจัดแนว", level: "ต่อยอด", gui: true,
-          concept: "JLabel รับข้อความ HTML อย่างง่ายได้ (ขึ้นบรรทัดด้วย &lt;br&gt;, ตัวหนา, สี) และจัดแนวข้อความด้วย <code>SwingConstants</code>",
+          },
+        { type: "h", text: "label หลายบรรทัดด้วย HTML" },
+        { type: "p", html: `ข้อความใน JLabel ที่ขึ้นต้นด้วย <code>&lt;html&gt;</code> จะถูกตีความเป็น HTML อย่างง่าย: <code>&lt;br&gt;</code> ขึ้นบรรทัด, <code>&lt;b&gt;</code> ตัวหนา, <code>&lt;font color&gt;</code> สี ใช้เท่าที่จำเป็น ข้อความธรรมดาดูแลง่ายกว่า` },
+        { type: "run", title: "ป้ายประกาศกำหนดสอบ", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -58,11 +58,9 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Notice");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // JLabel ใช้ HTML จัดรูปแบบได้
                         JLabel label = new JLabel("<html><b>Exam schedule</b><br>Midterm: 12 Oct<br>"
                             + "<font color='red'>Final: 15 Dec</font></html>");
-                        // จัดข้อความกึ่งกลาง
-                        label.setHorizontalAlignment(SwingConstants.CENTER);
+                        label.setHorizontalAlignment(SwingConstants.CENTER);          // จัดกึ่งกลาง
                         label.setBorder(BorderFactory.createEmptyBorder(12, 30, 12, 30));
                         frame.add(label, BorderLayout.CENTER);
                         frame.pack();
@@ -70,16 +68,21 @@ export default {
                     });
                 }
             }`,
-          steps: ["ข้อความขึ้นต้น &lt;html&gt; จะถูกตีความเป็น HTML", "&lt;br&gt; ขึ้นบรรทัด &lt;b&gt; ตัวหนา &lt;font color&gt; สี", "ใช้เท่าที่จำเป็น: ข้อความธรรมดาอ่านและดูแลง่ายกว่า"] },
+          },
         { type: "check", title: "component", html: `<p>ต้องการแสดงผลลัพธ์การคำนวณที่ผู้ใช้<strong>ไม่ควรแก้ไข</strong> ควรใช้ JLabel หรือ JTextField</p>`, answer: `<p>JLabel เหมาะที่สุด (หรือ JTextField ที่ setEditable(false) ถ้าต้องการให้ผู้ใช้คัดลอกข้อความได้)</p>` },
       ],
     },
     {
       num: "15.2", toc: "รับและแสดงข้อความ", title: "JTextField, JTextArea และ JScrollPane",
       blocks: [
-        { type: "p", html: `<code>JTextField</code> เหมาะกับข้อความบรรทัดเดียว เช่น ชื่อหรือรหัส; <code>JPasswordField</code> สำหรับรหัสผ่าน; <code>JTextArea</code> รับข้อความหลายบรรทัด และควรใส่ใน <code>JScrollPane</code> เพื่อเลื่อนดูเมื่อข้อความยาว ค่าที่อ่านได้จากช่องเหล่านี้เป็น <strong>String เสมอ</strong> (ตัวเลขต้อง parse แบบบทที่ 9)` },
-        { type: "run", title: "ช่องกรอกบรรทัดเดียวพร้อมข้อความที่ผู้ใช้พิมพ์", level: "พื้นฐาน", gui: true, actions: "type field:0 JHope Jung\ntype field:1 6601234",
-          concept: "JTextField(คอลัมน์) กำหนดความกว้างโดยประมาณ ภาพนี้จำลองว่าผู้ใช้พิมพ์ข้อมูลลงไปแล้ว",
+        { type: "p", html: `ช่องรับข้อความมีหลายแบบตามลักษณะข้อมูล ค่าที่อ่านได้จากทุกช่องเป็น <strong>String เสมอ</strong> ถ้าเป็นตัวเลขต้อง parse แบบบทที่ 9` },
+        { type: "table", head: ["Component", "เหมาะกับ"], rows: [
+          ["<code>JTextField</code>", "ข้อความบรรทัดเดียว เช่น ชื่อ รหัส"],
+          ["<code>JPasswordField</code>", "รหัสผ่าน แสดงเป็นจุด"],
+          ["<code>JTextArea</code> ใน <code>JScrollPane</code>", "ข้อความหลายบรรทัด เลื่อนดูได้"],
+        ] },
+        { type: "p", html: `ภาพผลลัพธ์จำลองว่าผู้ใช้พิมพ์ข้อมูลลงไปแล้ว` },
+        { type: "run", title: "ช่องกรอกบรรทัดเดียว", gui: true, actions: "type field:0 JHope Jung\ntype field:1 6601234",
           code: j`
             import javax.swing.*;
 
@@ -90,8 +93,7 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("Name:"));
-                        // ช่องกรอกกว้างประมาณ 12 ตัวอักษร
-                        panel.add(new JTextField(12));
+                        panel.add(new JTextField(12));                // กว้างประมาณ 12 ตัวอักษร
                         panel.add(new JLabel("ID:"));
                         panel.add(new JTextField(7));
                         frame.add(panel);
@@ -100,9 +102,12 @@ export default {
                     });
                 }
             }`,
-          steps: ["ช่องแรกกว้าง 12 คอลัมน์ ช่องที่สองกว้าง 7", "ค่าที่พิมพ์อ่านได้ด้วย <code>getText()</code> (บทที่ 16–17)"] },
-        { type: "run", title: "JTextArea ใน JScrollPane", level: "ต่อยอด", gui: true,
-          concept: "ตั้งจำนวนแถว/คอลัมน์ เปิดการตัดคำด้วย <code>setLineWrap(true)</code> และ <code>setWrapStyleWord(true)</code> แล้วห่อด้วย JScrollPane",
+          },
+        { type: "tip", html: `ค่าที่ผู้ใช้พิมพ์อ่านได้ด้วย <code>getText()</code> ซึ่งจะใช้ในบทที่ 16–17` },
+
+        { type: "h", text: "ข้อความหลายบรรทัด" },
+        { type: "p", html: `<code>JTextArea(แถว, คอลัมน์)</code> กำหนดขนาด เปิดการตัดบรรทัดที่ช่องว่างระหว่างคำด้วย <code>setLineWrap(true)</code> และ <code>setWrapStyleWord(true)</code> แล้ว<strong>ห่อด้วย JScrollPane</strong> เสมอ ไม่เช่นนั้นข้อความยาวจะล้นหรือดันหน้าต่างให้ขยาย` },
+        { type: "run", title: "JTextArea ใน JScrollPane", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -112,21 +117,15 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Notes");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // 5 แถว 24 คอลัมน์
-                        JTextArea notes = new JTextArea(5, 24);
-                        // ตัดบรรทัดเมื่อยาวเกิน
-                        notes.setLineWrap(true);
-                        // ตัดที่ช่องว่างระหว่างคำ
-                        notes.setWrapStyleWord(true);
+                        JTextArea notes = new JTextArea(5, 24);               // เห็น 5 แถว กว้าง 24 คอลัมน์
+                        notes.setLineWrap(true);                              // ตัดบรรทัดเมื่อยาวเกิน
+                        notes.setWrapStyleWord(true);                         // ตัดที่ช่องว่างระหว่างคำ
                         StringBuilder sb = new StringBuilder();
                         for (int i = 1; i <= 8; i++) {
                             sb.append("Line ").append(i).append(": remember to practice Java every day.\n");
                         }
-                        // ใส่ข้อความทั้งหมด
-                        notes.setText(sb.toString());
-                        // เลื่อนเคอร์เซอร์ไปต้นข้อความ
-                        notes.setCaretPosition(0);
-                        // ห่อด้วย JScrollPane จึงเลื่อนดูได้
+                        notes.setText(sb.toString());                         // 8 บรรทัด เกิน 5 → มี scrollbar
+                        notes.setCaretPosition(0);                            // เลื่อนไปบนสุด
                         frame.add(new JScrollPane(notes), BorderLayout.CENTER);
                         frame.add(new JLabel("8 lines - scroll to read more"), BorderLayout.SOUTH);
                         frame.pack();
@@ -134,9 +133,15 @@ export default {
                     });
                 }
             }`,
-          steps: ["JTextArea(5, 24) แสดง 5 แถว กว้าง 24 คอลัมน์", "ข้อความ 8 บรรทัดยาวเกิน จึงมี scrollbar", "<code>setCaretPosition(0)</code> เลื่อนไปบนสุด", "ถ้าไม่ห่อด้วย JScrollPane หน้าต่างจะขยายหรือข้อความล้น"] },
-        { type: "run", title: "ช่องอ่านอย่างเดียว ช่องรหัสผ่าน และการจัดแนว", level: "ประยุกต์", gui: true, actions: "type field:1 hunter2",
-          concept: "<code>setEditable(false)</code> ใช้แสดงค่าที่คำนวณได้, JPasswordField แสดงจุดแทนตัวอักษร, <code>setHorizontalAlignment</code> จัดตัวเลขชิดขวา",
+          },
+
+        { type: "h", text: "ช่องอ่านอย่างเดียวและช่องรหัสผ่าน" },
+        { type: "table", head: ["ต้องการ", "ใช้"], rows: [
+          ["แสดงค่าที่คำนวณได้ ให้คัดลอกได้แต่แก้ไม่ได้", "<code>setEditable(false)</code>"],
+          ["ตัวเลขชิดขวา", "<code>setHorizontalAlignment(JTextField.RIGHT)</code>"],
+          ["อ่านรหัสผ่าน", "<code>getPassword()</code> คืน <code>char[]</code>"],
+        ] },
+        { type: "run", title: "ช่องสามแบบในตาราง", gui: true, actions: "type field:1 hunter2",
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -146,19 +151,15 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Field types");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // ตาราง 3 แถว 2 คอลัมน์
-                        JPanel panel = new JPanel(new GridLayout(3, 2, 6, 6));
+                        JPanel panel = new JPanel(new GridLayout(3, 2, 6, 6));   // 3 แถว: ป้าย | ช่อง
                         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                         JTextField total = new JTextField("1,250.00");
-                        // อ่านอย่างเดียว
-                        total.setEditable(false);
-                        // ตัวเลขชิดขวา
+                        total.setEditable(false);                             // พื้นเทา แก้ไม่ได้
                         total.setHorizontalAlignment(JTextField.RIGHT);
                         panel.add(new JLabel("Total (read-only):"));
                         panel.add(total);
                         panel.add(new JLabel("Password:"));
-                        // ช่องรหัสผ่าน แสดงเป็นจุด
-                        panel.add(new JPasswordField(10));
+                        panel.add(new JPasswordField(10));                    // แสดงเป็นจุด
                         JTextField qty = new JTextField("3");
                         qty.setHorizontalAlignment(JTextField.RIGHT);
                         panel.add(new JLabel("Quantity:"));
@@ -169,20 +170,20 @@ export default {
                     });
                 }
             }`,
-          steps: ["ช่อง Total พื้นเทา แก้ไม่ได้ แต่คัดลอกได้", "JPasswordField ซ่อนตัวอักษร — อ่านค่าด้วย getPassword() ซึ่งคืน char[]", "GridLayout(3, 2) จัดป้ายกับช่องเป็นคู่ ๆ"] },
+          },
         { type: "check", title: "เลือก component", html: `<p>เลือก component สำหรับ: ที่อยู่ (หลายบรรทัด), รหัสไปรษณีย์, รหัส PIN, ผลรวมที่คำนวณได้</p>`, answer: `<p>JTextArea ใน JScrollPane, JTextField, JPasswordField, JLabel หรือ JTextField ที่ setEditable(false)</p>` },
       ],
     },
     {
       num: "15.3", toc: "ComboBox", title: "ตัวเลือก: JComboBox, JCheckBox และ JRadioButton",
       blocks: [
+        { type: "p", html: `ถ้าคำตอบมีตัวเลือกจำกัด ให้ผู้ใช้<strong>เลือก</strong>แทนการพิมพ์ ข้อมูลจะไม่ผิดรูปแบบ` },
         { type: "table", head: ["Component", "เหมาะกับ", "อ่านค่า"], rows: [
           ["<code>JComboBox&lt;String&gt;</code>", "เลือก 1 จากรายการยาว (เมนูดรอปดาวน์)", "<code>getSelectedItem()</code>, <code>getSelectedIndex()</code>"],
           ["<code>JRadioButton</code> + <code>ButtonGroup</code>", "เลือก 1 จากตัวเลือกน้อย ๆ ที่อยากให้เห็นทั้งหมด", "<code>isSelected()</code>"],
           ["<code>JCheckBox</code>", "เปิด/ปิดแต่ละตัวเลือกอิสระ (เลือกได้หลายอัน)", "<code>isSelected()</code>"],
         ] },
-        { type: "run", title: "JComboBox จากอาเรย์", level: "พื้นฐาน", gui: true, actions: "select combo:0 2",
-          concept: "สร้าง combo box จากอาเรย์ String ภาพจำลองว่าผู้ใช้เลือกรายการที่ index 2",
+        { type: "run", title: "JComboBox จากอาเรย์", gui: true, actions: "select combo:0 2",
           code: j`
             import javax.swing.*;
 
@@ -191,22 +192,23 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Faculty");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // ตัวเลือกจากอาเรย์
                         String[] faculties = {"Science", "Engineering", "Education", "Arts"};
-                        // <String> = ชนิดของตัวเลือก
-                        JComboBox<String> combo = new JComboBox<>(faculties);
+                        JComboBox<String> combo = new JComboBox<>(faculties);  // generic เหมือน ArrayList
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("Faculty:"));
-                        panel.add(combo);
+                        panel.add(combo);                                     // เริ่มต้นเลือกตัวแรก
                         frame.add(panel);
                         frame.pack();
                         frame.setVisible(true);
                     });
                 }
             }`,
-          steps: ["<code>JComboBox&lt;String&gt;</code> ใช้ generic เหมือน ArrayList", "ค่าเริ่มต้นเลือกตัวแรก", "อ่านค่าด้วย <code>(String) combo.getSelectedItem()</code>"] },
-        { type: "run", title: "radio button ในกลุ่มเดียวกัน และ check box", level: "ต่อยอด", gui: true, actions: "click Large\ncheck Extra shot\ncheck Oat milk",
-          concept: "radio ใน <code>ButtonGroup</code> เดียวกันเลือกได้ทีละอัน ส่วน check box เลือกได้อิสระ",
+          },
+        { type: "tip", html: `ภาพจำลองว่าผู้ใช้เลือก index 2 อ่านค่าที่เลือกด้วย <code>(String) combo.getSelectedItem()</code>` },
+
+        { type: "h", text: "radio button และ check box" },
+        { type: "p", html: `radio button ที่อยู่ใน <code>ButtonGroup</code> เดียวกันเลือกได้ทีละอัน คลิกตัวใหม่แล้วตัวเก่าหลุดเอง ส่วน check box แต่ละตัวเป็นอิสระ ภาพจำลองการคลิก Large และติ๊ก 2 ตัวเลือก` },
+        { type: "run", title: "เลือกขนาดและท็อปปิง", gui: true, actions: "click Large\ncheck Extra shot\ncheck Oat milk",
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -216,27 +218,23 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Drink options");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // true = เลือกไว้ก่อน
-                        JRadioButton small = new JRadioButton("Small", true);
+                        JRadioButton small = new JRadioButton("Small", true);     // true = เลือกไว้ก่อน
                         JRadioButton medium = new JRadioButton("Medium");
                         JRadioButton large = new JRadioButton("Large");
-                        // ButtonGroup: เลือกได้ทีละหนึ่ง
-                        ButtonGroup sizes = new ButtonGroup();
+                        ButtonGroup sizes = new ButtonGroup();                    // กลุ่ม: เลือกได้ทีละหนึ่ง
                         sizes.add(small);
                         sizes.add(medium);
                         sizes.add(large);
 
                         JPanel sizePanel = new JPanel();
-                        // กรอบพร้อมหัวข้อ
-                        sizePanel.setBorder(BorderFactory.createTitledBorder("Size"));
+                        sizePanel.setBorder(BorderFactory.createTitledBorder("Size"));   // กรอบพร้อมหัวข้อ
                         sizePanel.add(small);
                         sizePanel.add(medium);
                         sizePanel.add(large);
 
                         JPanel extraPanel = new JPanel();
                         extraPanel.setBorder(BorderFactory.createTitledBorder("Extras"));
-                        // check box เลือกได้หลายอัน
-                        extraPanel.add(new JCheckBox("Extra shot"));
+                        extraPanel.add(new JCheckBox("Extra shot"));              // แต่ละตัวอิสระ
                         extraPanel.add(new JCheckBox("Oat milk"));
                         extraPanel.add(new JCheckBox("Less sugar"));
 
@@ -247,9 +245,12 @@ export default {
                     });
                 }
             }`,
-          steps: ["เริ่มต้นเลือก Small (parameter true)", "ภาพจำลองคลิก Large → Small ถูกยกเลิกอัตโนมัติเพราะอยู่กลุ่มเดียวกัน", "เลือก Extra shot และ Oat milk พร้อมกันได้", "<code>createTitledBorder</code> วาดกรอบพร้อมหัวข้อ ช่วยจัดกลุ่มให้อ่านง่าย"] },
-        { type: "run", title: "JSpinner และ JSlider สำหรับตัวเลขในช่วง", level: "ประยุกต์", gui: true,
-          concept: "เมื่อค่าเป็นตัวเลขในช่วงจำกัด ใช้ spinner (ปุ่มขึ้นลง) หรือ slider (แถบเลื่อน) แทนช่องพิมพ์ ช่วยลดข้อมูลผิดรูปแบบ",
+          },
+        { type: "warn", title: "ลืม ButtonGroup", html: `radio button ที่ไม่ได้ใส่ใน ButtonGroup จะทำงานเหมือน check box คือเลือกได้พร้อมกันหลายตัว` },
+
+        { type: "h", text: "ตัวเลขในช่วงจำกัด" },
+        { type: "p", html: `ถ้าค่าเป็นตัวเลขในช่วง ใช้ <code>JSpinner</code> (ปุ่มขึ้นลง) หรือ <code>JSlider</code> (แถบเลื่อน) แทนช่องพิมพ์ ผู้ใช้ใส่ค่านอกช่วงไม่ได้` },
+        { type: "run", title: "JSpinner และ JSlider", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -259,14 +260,11 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Order");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // ค่าเริ่ม 2, ต่ำสุด 1, สูงสุด 20, เพิ่มทีละ 1
-                        JSpinner qty = new JSpinner(new SpinnerNumberModel(2, 1, 20, 1));
-                        // ต่ำสุด 0, สูงสุด 100, เริ่มที่ 50
-                        JSlider sweet = new JSlider(0, 100, 50);
-                        // ขีดหลักทุก 25
-                        sweet.setMajorTickSpacing(25);
+                        JSpinner qty = new JSpinner(new SpinnerNumberModel(2, 1, 20, 1));   // เริ่ม, ต่ำสุด, สูงสุด, ขั้น
+                        JSlider sweet = new JSlider(0, 100, 50);                             // ต่ำสุด, สูงสุด, เริ่ม
+                        sweet.setMajorTickSpacing(25);                        // ขีดทุก 25
                         sweet.setPaintTicks(true);
-                        sweet.setPaintLabels(true);
+                        sweet.setPaintLabels(true);                           // แสดงตัวเลขใต้ขีด
                         JPanel panel = new JPanel(new GridLayout(2, 2, 8, 8));
                         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                         panel.add(new JLabel("Quantity (1-20):"));
@@ -279,21 +277,25 @@ export default {
                     });
                 }
             }`,
-          steps: ["SpinnerNumberModel(ค่าเริ่ม, ต่ำสุด, สูงสุด, ขั้น)", "JSlider(ต่ำสุด, สูงสุด, ค่าเริ่ม) พร้อมขีดและตัวเลขทุก 25", "อ่านค่า: <code>(int) qty.getValue()</code>, <code>sweet.getValue()</code>"] },
+          },
+        { type: "tip", html: `อ่านค่า: <code>(int) qty.getValue()</code> และ <code>sweet.getValue()</code>` },
         { type: "check", title: "เลือกตัวเลือก", html: `<p>ฟอร์มสมัครสมาชิกต้องการ: เพศ (3 ตัวเลือก), จังหวัด (77 จังหวัด), ความสนใจ (เลือกได้หลายข้อ) ควรใช้ component ใด</p>`, answer: `<p>เพศ → JRadioButton + ButtonGroup, จังหวัด → JComboBox, ความสนใจ → JCheckBox หลายตัว</p>` },
       ],
     },
     {
       num: "15.4", toc: "Layout Manager", title: "Layout Manager: Flow, Border, Grid และ Box",
       blocks: [
+        { type: "p", html: `<strong>layout manager</strong> คำนวณตำแหน่งและขนาดของ component ให้ใหม่ทุกครั้งที่หน้าต่างเปลี่ยนขนาด เลือกด้วย <code>new JPanel(layout)</code> หรือ <code>panel.setLayout(layout)</code>` },
         { type: "table", head: ["Layout", "จัดอย่างไร", "เหมาะกับ"], rows: [
           ["<code>FlowLayout</code>", "เรียงซ้าย→ขวา ตัดบรรทัดเมื่อเต็ม ขนาดตาม preferred size", "แถวปุ่ม, แถบเครื่องมือเล็ก ๆ"],
           ["<code>BorderLayout</code>", "5 พื้นที่: NORTH, SOUTH, EAST, WEST, CENTER (CENTER ยืดเต็มที่เหลือ)", "โครงหน้าจอหลัก"],
           ["<code>GridLayout(r, c)</code>", "ตารางที่ทุกช่องขนาดเท่ากัน", "ปุ่มเครื่องคิดเลข, ฟอร์มป้าย–ช่อง"],
           ["<code>BoxLayout</code>", "เรียงแนวตั้งหรือแนวนอนแถวเดียว ไม่ยืดเท่ากัน", "รายการแนวตั้ง, ฟอร์มที่ต้องการระยะห่างอิสระ"],
         ] },
-        { type: "run", title: "BorderLayout: 5 พื้นที่", level: "พื้นฐาน", gui: true,
-          concept: "ใส่ปุ่มทั้ง 5 ตำแหน่งให้เห็นว่าแต่ละพื้นที่ขยายตัวอย่างไร — CENTER ได้พื้นที่ที่เหลือทั้งหมด",
+
+        { type: "h", text: "BorderLayout: 5 พื้นที่" },
+        { type: "p", html: `NORTH/SOUTH ยืดเต็มความกว้างแต่สูงเท่าที่จำเป็น WEST/EAST ยืดเต็มความสูงที่เหลือ และ CENTER ได้พื้นที่ที่เหลือทั้งหมด` },
+        { type: "run", title: "ปุ่มครบ 5 ตำแหน่ง", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -303,25 +305,23 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("BorderLayout");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // เว้นระยะระหว่างส่วน 4 พิกเซล
-                        JPanel p = new JPanel(new BorderLayout(4, 4));
-                        // ตำแหน่งที่วาง: NORTH
+                        JPanel p = new JPanel(new BorderLayout(4, 4));        // ช่องว่างระหว่างพื้นที่ 4 พิกเซล
                         p.add(new JButton("NORTH"), BorderLayout.NORTH);
                         p.add(new JButton("SOUTH"), BorderLayout.SOUTH);
                         p.add(new JButton("WEST"), BorderLayout.WEST);
                         p.add(new JButton("EAST"), BorderLayout.EAST);
-                        // CENTER ขยายรับพื้นที่ที่เหลือ
-                        p.add(new JButton("CENTER"), BorderLayout.CENTER);
+                        p.add(new JButton("CENTER"), BorderLayout.CENTER);    // ได้พื้นที่ที่เหลือ
                         frame.setContentPane(p);
-                        // ขยายหน้าต่างแล้ว CENTER โตตาม
-                        frame.setSize(340, 200);
+                        frame.setSize(340, 200);                              // ขยายหน้าต่าง → CENTER โตตาม
                         frame.setVisible(true);
                     });
                 }
             }`,
-          steps: ["NORTH/SOUTH ยืดเต็มความกว้าง สูงเท่าที่จำเป็น", "WEST/EAST ยืดเต็มความสูงที่เหลือ กว้างเท่าที่จำเป็น", "CENTER ได้พื้นที่ที่เหลือทั้งหมด", "BorderLayout(4, 4) เว้นช่องว่างระหว่างพื้นที่"] },
-        { type: "run", title: "GridLayout: ทุกช่องเท่ากัน", level: "ต่อยอด", gui: true,
-          concept: "GridLayout(แถว, คอลัมน์) — ใส่ 0 ที่แถวเพื่อให้เพิ่มแถวอัตโนมัติตามจำนวน component",
+          },
+
+        { type: "h", text: "GridLayout: ทุกช่องเท่ากัน" },
+        { type: "p", html: `<code>GridLayout(แถว, คอลัมน์, ระยะแนวนอน, ระยะแนวตั้ง)</code> ใส่ 0 ที่แถวเพื่อให้เพิ่มแถวเองตามจำนวน component` },
+        { type: "run", title: "ปุ่มที่นั่ง 8 ที่", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -331,11 +331,9 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("GridLayout");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // 0 แถว = เพิ่มแถวตามจำนวน, 3 คอลัมน์
-                        JPanel grid = new JPanel(new GridLayout(0, 3, 5, 5));
+                        JPanel grid = new JPanel(new GridLayout(0, 3, 5, 5));     // 3 คอลัมน์ แถวเพิ่มเอง
                         grid.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-                        // ทุกช่องขนาดเท่ากัน
-                        for (int i = 1; i <= 8; i++) {
+                        for (int i = 1; i <= 8; i++) {                            // สร้างปุ่มด้วยลูป
                             grid.add(new JButton("Seat " + i));
                         }
                         frame.setContentPane(grid);
@@ -344,9 +342,11 @@ export default {
                     });
                 }
             }`,
-          steps: ["3 คอลัมน์ แถวเพิ่มเองเป็น 3 แถวสำหรับ 8 ปุ่ม", "ทุกปุ่มขนาดเท่ากัน (ตามปุ่มที่ใหญ่ที่สุด)", "สร้างปุ่มด้วยลูป — ดีกว่าเขียนทีละบรรทัด"] },
-        { type: "run", title: "BoxLayout แนวตั้งพร้อมระยะห่าง", level: "ประยุกต์", gui: true,
-          concept: "BoxLayout.Y_AXIS วางเป็นแนวตั้ง ใช้ <code>Box.createVerticalStrut(n)</code> เว้นระยะ และ <code>setAlignmentX</code> จัดชิดซ้าย",
+          },
+
+        { type: "h", text: "BoxLayout: แนวตั้งพร้อมระยะห่าง" },
+        { type: "p", html: `<code>BoxLayout.Y_AXIS</code> เรียงจากบนลงล่าง ขนาดตามธรรมชาติของแต่ละ component ใช้ <code>Box.createVerticalStrut(n)</code> เว้นระยะ` },
+        { type: "run", title: "หน้าตั้งค่าการแจ้งเตือน", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -357,23 +357,18 @@ export default {
                         JFrame frame = new JFrame("Settings");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JPanel box = new JPanel();
-                        // เรียงจากบนลงล่าง
-                        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+                        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));     // บนลงล่าง
                         box.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
                         JLabel title = new JLabel("Notifications");
-                        // ตัวหนา ขนาด 15
                         title.setFont(title.getFont().deriveFont(Font.BOLD, 15f));
                         box.add(title);
-                        // ช่องว่างแนวตั้ง 8 พิกเซล
-                        box.add(Box.createVerticalStrut(8));
+                        box.add(Box.createVerticalStrut(8));                     // ช่องว่าง 8 พิกเซล
                         box.add(new JCheckBox("Email me when grades are posted", true));
                         box.add(new JCheckBox("Remind me before deadlines", true));
                         box.add(new JCheckBox("Weekly summary"));
                         box.add(Box.createVerticalStrut(12));
                         box.add(new JButton("Save"));
-                        // จัดชิดซ้ายทุก component
-                        for (Component c : box.getComponents()) {
-                            // แปลงเป็น JComponent เพื่อเรียก setAlignmentX
+                        for (Component c : box.getComponents()) {               // ชิดซ้ายทุกตัว
                             ((JComponent) c).setAlignmentX(Component.LEFT_ALIGNMENT);
                         }
                         frame.setContentPane(box);
@@ -382,9 +377,12 @@ export default {
                     });
                 }
             }`,
-          steps: ["component เรียงลงมาทีละแถว ขนาดตามธรรมชาติ (ไม่ยืดเท่ากันแบบ Grid)", "strut เว้นระยะแนวตั้งคงที่", "ทุก component ต้อง alignment เดียวกัน ไม่เช่นนั้นจะเยื้องกัน"] },
-        { type: "run", title: "FlowLayout ชิดขวาสำหรับแถวปุ่ม", level: "ประยุกต์", gui: true,
-          concept: "<code>new FlowLayout(FlowLayout.RIGHT)</code> เหมาะกับแถวปุ่ม OK/Cancel ด้านล่างของฟอร์ม",
+          },
+        { type: "warn", html: `ใน BoxLayout ทุก component ต้องตั้ง <code>setAlignmentX</code> ค่าเดียวกัน ไม่เช่นนั้นจะเยื้องกัน` },
+
+        { type: "h", text: "FlowLayout ชิดขวาสำหรับแถวปุ่ม" },
+        { type: "p", html: `<code>new FlowLayout(FlowLayout.RIGHT)</code> ดันปุ่มไปชิดขวา วางแถวปุ่มไว้ SOUTH และข้อความไว้ CENTER เป็นรูปแบบที่ผู้ใช้คุ้นเคย` },
+        { type: "run", title: "กล่องยืนยันการบันทึก", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -394,30 +392,27 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Confirm");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // ข้อความกึ่งกลาง
                         JLabel msg = new JLabel("Save changes before closing?", SwingConstants.CENTER);
                         msg.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-                        // ปุ่มชิดขวา
-                        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+                        JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));   // ชิดขวา
                         buttons.add(new JButton("Don't save"));
                         buttons.add(new JButton("Cancel"));
                         buttons.add(new JButton("Save"));
-                        // ข้อความอยู่ตรงกลาง
                         frame.add(msg, BorderLayout.CENTER);
-                        // แถวปุ่มอยู่ล่าง
-                        frame.add(buttons, BorderLayout.SOUTH);
+                        frame.add(buttons, BorderLayout.SOUTH);                          // แถวล่าง
                         frame.pack();
                         frame.setVisible(true);
                     });
                 }
             }`,
-          steps: ["ข้อความอยู่ CENTER, แถวปุ่มอยู่ SOUTH", "FlowLayout.RIGHT ดันปุ่มไปชิดขวา", "รูปแบบนี้พบในโปรแกรมทั่วไป ผู้ใช้คุ้นเคย"] },
+          },
         { type: "check", title: "เลือก layout", html: `<p>หน้าจอแชต: รายการข้อความเต็มพื้นที่, ช่องพิมพ์และปุ่มส่งด้านล่าง ควรจัดอย่างไร</p>`, answer: `<p>panel หลักใช้ BorderLayout: JScrollPane(รายการข้อความ) ที่ CENTER และ panel ล่าง (BorderLayout อีกชั้น: ช่องพิมพ์ CENTER, ปุ่มส่ง EAST) ที่ SOUTH</p>` },
       ],
     },
     {
       num: "15.5", toc: "ประกอบหลาย Panel", title: "ประกอบหลาย panel เป็นหน้าจอเดียว",
       blocks: [
+        { type: "p", html: `หน้าจอจริงไม่ได้ใช้ layout เดียว แต่ซ้อน panel หลายชั้น แต่ละชั้นใช้ layout ที่เหมาะกับส่วนนั้น` },
         { type: "steps", title: "ขั้นตอนออกแบบหน้าจอ", items: [
           "ร่างหน้าจอบนกระดาษ แล้วตีกรอบเป็นสี่เหลี่ยมตามกลุ่มของข้อมูล",
           "แต่ละกรอบคือ panel หนึ่งตัว เลือก layout ตามลักษณะของกรอบนั้น (ฟอร์ม → Grid, แถวปุ่ม → Flow, รายการ → Box)",
@@ -425,28 +420,24 @@ export default {
           "แยกการสร้างแต่ละ panel เป็นเมธอด เช่น <code>buildForm()</code>, <code>buildButtons()</code>",
           "ทดสอบย่อ/ขยายหน้าต่าง ว่าส่วนที่ควรยืดยืดจริง",
         ] },
-        { type: "run", title: "ฟอร์มลงทะเบียนจาก 3 panel", level: "ประยุกต์", gui: true, actions: "type field:0 JHope Jung\ntype field:1 jhope@mail.com\nselect combo:0 1\ntype area:0 Interested in GUI programming.",
-          concept: "หัวเรื่อง (NORTH) + ฟอร์ม GridLayout (CENTER) + แถวปุ่ม FlowLayout (SOUTH) แต่ละส่วนสร้างในเมธอดของตัวเอง",
+        { type: "run", title: "ฟอร์มลงทะเบียนจาก 3 panel", gui: true, actions: "type field:0 JHope Jung\ntype field:1 jhope@mail.com\nselect combo:0 1\ntype area:0 Interested in GUI programming.",
           code: j`
             import javax.swing.*;
             import java.awt.*;
 
             public class RegistrationForm {
                 public static void main(String[] args) {
-                    // เรียกเมธอด show บน EDT
                     SwingUtilities.invokeLater(RegistrationForm::show);
                 }
 
                 static void show() {
                     JFrame frame = new JFrame("Registration");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    // layout หลักของหน้าต่าง
-                    JPanel root = new JPanel(new BorderLayout(8, 8));
+                    JPanel root = new JPanel(new BorderLayout(8, 8));         // โครงหลัก
                     root.setBorder(BorderFactory.createEmptyBorder(10, 12, 10, 12));
-                    // แต่ละส่วนสร้างจากเมธอดของตัวเอง
-                    root.add(buildHeader(), BorderLayout.NORTH);
-                    root.add(buildForm(), BorderLayout.CENTER);
-                    root.add(buildButtons(), BorderLayout.SOUTH);
+                    root.add(buildHeader(), BorderLayout.NORTH);              // หัวเรื่อง
+                    root.add(buildForm(), BorderLayout.CENTER);               // ฟอร์ม
+                    root.add(buildButtons(), BorderLayout.SOUTH);             // แถวปุ่ม
                     frame.setContentPane(root);
                     frame.pack();
                     frame.setVisible(true);
@@ -459,76 +450,68 @@ export default {
                 }
 
                 static JComponent buildForm() {
-                    // แผงซ้อนแผง
                     JPanel form = new JPanel(new BorderLayout(6, 6));
-                    // ป้าย + ช่องกรอก 3 คู่
-                    JPanel fields = new JPanel(new GridLayout(3, 2, 6, 6));
+                    JPanel fields = new JPanel(new GridLayout(3, 2, 6, 6));   // ป้าย | ช่อง 3 คู่
                     fields.add(new JLabel("Full name:"));
                     fields.add(new JTextField(16));
                     fields.add(new JLabel("Email:"));
                     fields.add(new JTextField(16));
                     fields.add(new JLabel("Session:"));
-                    // ตัวเลือกจากอาเรย์
                     fields.add(new JComboBox<>(new String[]{"Morning", "Afternoon", "Evening"}));
                     form.add(fields, BorderLayout.NORTH);
                     JTextArea note = new JTextArea(3, 20);
                     note.setLineWrap(true);
-                    // ห่อด้วย JScrollPane
                     JScrollPane scroll = new JScrollPane(note);
                     scroll.setBorder(BorderFactory.createTitledBorder("Note"));
-                    form.add(scroll, BorderLayout.CENTER);
+                    form.add(scroll, BorderLayout.CENTER);                    // Note ยืดตามหน้าต่าง
                     return form;
                 }
 
                 static JComponent buildButtons() {
-                    // ชิดขวา เว้นระยะ 6
                     JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
                     buttons.add(new JButton("Clear"));
                     buttons.add(new JButton("Submit"));
                     return buttons;
                 }
             }`,
-          steps: ["แต่ละเมธอดคืน component ที่ประกอบเสร็จ อ่านง่ายและแก้แยกได้", "ฟอร์มซ้อน: GridLayout สำหรับป้าย–ช่อง ภายใน BorderLayout ที่มี Note ยืดตรงกลาง", "ภาพจำลองการกรอกข้อมูลครบทุกช่อง", "บทที่ 16–17 จะทำให้ Submit อ่านค่าและตรวจสอบได้"] },
-        { type: "run", title: "หน้าจอแชตแบบ 2 ชั้นของ BorderLayout", level: "ท้าทาย", gui: true, actions: "type field:0 See you at the lab!",
-          concept: "BorderLayout ซ้อนกัน: ชั้นนอกวางรายการข้อความ (CENTER) กับแถบพิมพ์ (SOUTH), ชั้นในของแถบพิมพ์วางช่อง (CENTER) กับปุ่ม (EAST) ทำให้ช่องพิมพ์ยืดตามความกว้างหน้าต่าง",
-          code: j`
-            import javax.swing.*;
-            import java.awt.*;
+          },
+        { type: "tip", html: `แต่ละเมธอดคืน component ที่ประกอบเสร็จ อ่านง่ายและแก้แยกส่วนได้ บทที่ 16–17 จะทำให้ปุ่ม Submit อ่านค่าและตรวจสอบได้` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: หน้าจอแชตด้วย BorderLayout 2 ชั้น", blocks: [
+          { type: "p", html: `ชั้นนอกวางรายการข้อความ (CENTER) กับแถบพิมพ์ (SOUTH) ชั้นในของแถบพิมพ์วางช่อง (CENTER) กับปุ่ม (EAST) ช่องพิมพ์จึงยืดตามความกว้างหน้าต่าง <code>JList</code> + <code>DefaultListModel</code> แสดงรายการที่เพิ่มหรือลบได้คล้าย ArrayList` },
+          { type: "run", title: "Class Chat", gui: true, actions: "type field:0 See you at the lab!",
+            code: j`
+              import javax.swing.*;
+              import java.awt.*;
 
-            public class ChatLayout {
-                public static void main(String[] args) {
-                    SwingUtilities.invokeLater(() -> {
-                        JFrame frame = new JFrame("Class Chat");
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+              public class ChatLayout {
+                  public static void main(String[] args) {
+                      SwingUtilities.invokeLater(() -> {
+                          JFrame frame = new JFrame("Class Chat");
+                          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                        // รายการข้อความสำหรับ JList
-                        DefaultListModel<String> messages = new DefaultListModel<>();
-                        messages.addElement("JHope: Has anyone finished lab 15?");
-                        messages.addElement("Suga: Almost, stuck on BoxLayout");
-                        messages.addElement("RM: Remember setAlignmentX!");
-                        // JList แสดงรายการจาก model
-                        JList<String> list = new JList<>(messages);
+                          DefaultListModel<String> messages = new DefaultListModel<>();   // ข้อมูลของ JList
+                          messages.addElement("JHope: Has anyone finished lab 15?");
+                          messages.addElement("Suga: Almost, stuck on BoxLayout");
+                          messages.addElement("RM: Remember setAlignmentX!");
+                          JList<String> list = new JList<>(messages);
 
-                        // ช่องพิมพ์ + ปุ่มส่ง
-                        JPanel inputBar = new JPanel(new BorderLayout(6, 0));
-                        // ช่องพิมพ์ยืดเต็มความกว้าง
-                        inputBar.add(new JTextField(), BorderLayout.CENTER);
-                        // ปุ่มชิดขวา
-                        inputBar.add(new JButton("Send"), BorderLayout.EAST);
+                          JPanel inputBar = new JPanel(new BorderLayout(6, 0));          // ชั้นใน
+                          inputBar.add(new JTextField(), BorderLayout.CENTER);           // ยืดเต็มความกว้าง
+                          inputBar.add(new JButton("Send"), BorderLayout.EAST);          // กว้างคงที่
 
-                        JPanel root = new JPanel(new BorderLayout(0, 8));
-                        root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-                        // รายการข้อความเลื่อนดูได้
-                        root.add(new JScrollPane(list), BorderLayout.CENTER);
-                        root.add(inputBar, BorderLayout.SOUTH);
-                        frame.setContentPane(root);
-                        frame.setSize(340, 220);
-                        frame.setVisible(true);
-                    });
-                }
-            }`,
-          steps: ["<code>JList</code> + <code>DefaultListModel</code> แสดงรายการที่เพิ่ม/ลบได้ (คล้าย ArrayList)", "รายการข้อความยืดเต็มพื้นที่ CENTER", "ช่องพิมพ์ยืดตามความกว้าง ปุ่ม Send กว้างคงที่ทางขวา"] },
-        { type: "note", title: "ทำไมไม่ใช้ setBounds กำหนดพิกัดเอง", html: `<p>การใช้ <code>setLayout(null)</code> กับ <code>setBounds(x, y, w, h)</code> ดูง่ายในตอนแรก แต่หน้าจอจะพังเมื่อผู้ใช้ขยายหน้าต่าง เปลี่ยนขนาดฟอนต์ หรือรันบนระบบปฏิบัติการอื่น layout manager คำนวณใหม่ให้ทุกครั้งโดยอัตโนมัติ</p>` },
+                          JPanel root = new JPanel(new BorderLayout(0, 8));              // ชั้นนอก
+                          root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                          root.add(new JScrollPane(list), BorderLayout.CENTER);
+                          root.add(inputBar, BorderLayout.SOUTH);
+                          frame.setContentPane(root);
+                          frame.setSize(340, 220);
+                          frame.setVisible(true);
+                      });
+                  }
+              }`,
+            },
+        ] },
+        { type: "warn", title: "ทำไมไม่ใช้ setBounds กำหนดพิกัดเอง", html: `<code>setLayout(null)</code> กับ <code>setBounds(x, y, w, h)</code> ดูง่ายในตอนแรก แต่หน้าจอจะพังเมื่อผู้ใช้ขยายหน้าต่าง เปลี่ยนขนาดฟอนต์ หรือรันบนระบบปฏิบัติการอื่น layout manager คำนวณใหม่ให้ทุกครั้งโดยอัตโนมัติ` },
       ],
     },
   ],

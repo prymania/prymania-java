@@ -58,8 +58,9 @@
         <p>หน้าจอแบ่งเป็น <strong>component</strong> ที่แสดงหรือรับข้อมูล กับ <strong>container</strong> ที่บรรจุ component อีกที แต่ละ container มี <strong>layout manager</strong> คำนวณตำแหน่งให้ตามขนาดหน้าต่าง ทำให้หน้าจอยังดูดีเมื่อผู้ใช้ย่อขยายหน้าต่างหรือใช้ฟอนต์ต่างกัน บทนี้ยังไม่ทำให้ปุ่มตอบสนอง (บทที่ 16) แต่บางภาพจำลองการพิมพ์หรือเลือกค่าเพื่อให้เห็นสถานะของ component</p>
 <article class="subtopic" id="topic-15-1">
 <h3>15.1 JLabel, JButton และ JPanel</h3>
+<p>สามชิ้นส่วนพื้นฐานที่แทบทุกหน้าจอมี: ป้ายข้อความ ปุ่ม และ panel ที่บรรจุทั้งสองอย่าง</p>
 <table class="comparison-table"><thead><tr><th>Component</th><th>ใช้ทำอะไร</th><th>เมธอดที่ใช้บ่อย</th></tr></thead><tbody><tr><td><code>JLabel</code></td><td>แสดงข้อความ (ผู้ใช้แก้ไม่ได้)</td><td><code>setText</code>, <code>getText</code>, <code>setFont</code>, <code>setForeground</code></td></tr><tr><td><code>JButton</code></td><td>ปุ่มให้ผู้ใช้กด</td><td><code>setText</code>, <code>setEnabled</code>, <code>setToolTipText</code>, <code>addActionListener</code> (บทที่ 16)</td></tr><tr><td><code>JPanel</code></td><td>container จัดกลุ่ม</td><td><code>add</code>, <code>setLayout</code>, <code>setBorder</code>, <code>setBackground</code></td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.1.1</span>label และปุ่มหลายสถานะ</h4><p class="concept-line"><strong>แนวคิด:</strong> ปุ่มที่ <code>setEnabled(false)</code> จะเป็นสีเทาและกดไม่ได้ ใช้บอกผู้ใช้ว่ายังทำขั้นนั้นไม่ได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LabelButtons.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.1.1</span>ปุ่มที่กดได้และกดไม่ได้</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LabelButtons.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LabelButtons</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -69,10 +70,9 @@
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Welcome to registration"</span>));
             <span class="tok-type">JButton</span> back = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Back"</span>);
-            back.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);  <span class="tok-com">// ปุ่มกดไม่ได้ (สีจาง)</span>
+            back.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);                       <span class="tok-com">// สีจาง กดไม่ได้ (อยู่หน้าแรก)</span>
             <span class="tok-type">JButton</span> next = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Next"</span>);
-            <span class="tok-com">// ข้อความเมื่อชี้เมาส์ค้าง</span>
-            next.<span class="tok-fn">setToolTipText</span>(<span class="tok-str">"Go to step 2"</span>);
+            next.<span class="tok-fn">setToolTipText</span>(<span class="tok-str">"Go to step 2"</span>);          <span class="tok-com">// แสดงเมื่อชี้เมาส์ค้าง</span>
             panel.<span class="tok-fn">add</span>(back);
             panel.<span class="tok-fn">add</span>(next);
             frame.<span class="tok-fn">add</span>(panel);
@@ -80,8 +80,10 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Step 1 of 3</div><img src="../assets/gui/g2d069548ed-0.png" width="280" height="36" alt="ภาพหน้าต่าง Step 1 of 3" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Back ถูกปิดเพราะอยู่หน้าแรก</li><li>Next มี tooltip แสดงเมื่อเอาเมาส์ชี้</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.1.2</span>label แบบ HTML และการจัดแนว</h4><p class="concept-line"><strong>แนวคิด:</strong> JLabel รับข้อความ HTML อย่างง่ายได้ (ขึ้นบรรทัดด้วย &lt;br&gt;, ตัวหนา, สี) และจัดแนวข้อความด้วย <code>SwingConstants</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">HtmlLabel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Step 1 of 3</div><img src="../assets/gui/g793cd7e0cf-0.png" width="280" height="36" alt="ภาพหน้าต่าง Step 1 of 3" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">label หลายบรรทัดด้วย HTML</h4>
+<p>ข้อความใน JLabel ที่ขึ้นต้นด้วย <code>&lt;html&gt;</code> จะถูกตีความเป็น HTML อย่างง่าย: <code>&lt;br&gt;</code> ขึ้นบรรทัด, <code>&lt;b&gt;</code> ตัวหนา, <code>&lt;font color&gt;</code> สี ใช้เท่าที่จำเป็น ข้อความธรรมดาดูแลง่ายกว่า</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.1.2</span>ป้ายประกาศกำหนดสอบ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">HtmlLabel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">HtmlLabel</span> {
@@ -89,24 +91,24 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Notice"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// JLabel ใช้ HTML จัดรูปแบบได้</span>
             <span class="tok-type">JLabel</span> label = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"&lt;html&gt;&lt;b&gt;Exam schedule&lt;/b&gt;&lt;br&gt;Midterm: 12 Oct&lt;br&gt;"</span>
                 + <span class="tok-str">"&lt;font color='red'&gt;Final: 15 Dec&lt;/font&gt;&lt;/html&gt;"</span>);
-            <span class="tok-com">// จัดข้อความกึ่งกลาง</span>
-            label.<span class="tok-fn">setHorizontalAlignment</span>(<span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
+            label.<span class="tok-fn">setHorizontalAlignment</span>(<span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);          <span class="tok-com">// จัดกึ่งกลาง</span>
             label.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">12</span>, <span class="tok-num">30</span>, <span class="tok-num">12</span>, <span class="tok-num">30</span>));
             frame.<span class="tok-fn">add</span>(label, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
             frame.<span class="tok-fn">pack</span>();
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notice</div><img src="../assets/gui/ga75d946bed-0.png" width="150" height="72" alt="ภาพหน้าต่าง Notice" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ข้อความขึ้นต้น &lt;html&gt; จะถูกตีความเป็น HTML</li><li>&lt;br&gt; ขึ้นบรรทัด &lt;b&gt; ตัวหนา &lt;font color&gt; สี</li><li>ใช้เท่าที่จำเป็น: ข้อความธรรมดาอ่านและดูแลง่ายกว่า</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notice</div><img src="../assets/gui/g3d23ec2579-0.png" width="150" height="72" alt="ภาพหน้าต่าง Notice" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · component</strong><div><p>ต้องการแสดงผลลัพธ์การคำนวณที่ผู้ใช้<strong>ไม่ควรแก้ไข</strong> ควรใช้ JLabel หรือ JTextField</p></div><details><summary>ดูคำตอบ</summary><div><p>JLabel เหมาะที่สุด (หรือ JTextField ที่ setEditable(false) ถ้าต้องการให้ผู้ใช้คัดลอกข้อความได้)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-15-2">
 <h3>15.2 JTextField, JTextArea และ JScrollPane</h3>
-<p><code>JTextField</code> เหมาะกับข้อความบรรทัดเดียว เช่น ชื่อหรือรหัส; <code>JPasswordField</code> สำหรับรหัสผ่าน; <code>JTextArea</code> รับข้อความหลายบรรทัด และควรใส่ใน <code>JScrollPane</code> เพื่อเลื่อนดูเมื่อข้อความยาว ค่าที่อ่านได้จากช่องเหล่านี้เป็น <strong>String เสมอ</strong> (ตัวเลขต้อง parse แบบบทที่ 9)</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.1</span>ช่องกรอกบรรทัดเดียวพร้อมข้อความที่ผู้ใช้พิมพ์</h4><p class="concept-line"><strong>แนวคิด:</strong> JTextField(คอลัมน์) กำหนดความกว้างโดยประมาณ ภาพนี้จำลองว่าผู้ใช้พิมพ์ข้อมูลลงไปแล้ว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TextFields.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>ช่องรับข้อความมีหลายแบบตามลักษณะข้อมูล ค่าที่อ่านได้จากทุกช่องเป็น <strong>String เสมอ</strong> ถ้าเป็นตัวเลขต้อง parse แบบบทที่ 9</p>
+<table class="comparison-table"><thead><tr><th>Component</th><th>เหมาะกับ</th></tr></thead><tbody><tr><td><code>JTextField</code></td><td>ข้อความบรรทัดเดียว เช่น ชื่อ รหัส</td></tr><tr><td><code>JPasswordField</code></td><td>รหัสผ่าน แสดงเป็นจุด</td></tr><tr><td><code>JTextArea</code> ใน <code>JScrollPane</code></td><td>ข้อความหลายบรรทัด เลื่อนดูได้</td></tr></tbody></table>
+<p>ภาพผลลัพธ์จำลองว่าผู้ใช้พิมพ์ข้อมูลลงไปแล้ว</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.1</span>ช่องกรอกบรรทัดเดียว</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TextFields.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TextFields</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -115,8 +117,7 @@
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Name:"</span>));
-            <span class="tok-com">// ช่องกรอกกว้างประมาณ 12 ตัวอักษร</span>
-            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">12</span>));
+            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">12</span>));                <span class="tok-com">// กว้างประมาณ 12 ตัวอักษร</span>
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"ID:"</span>));
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">7</span>));
             frame.<span class="tok-fn">add</span>(panel);
@@ -124,8 +125,11 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Student</div><img src="../assets/gui/gaf7bb28627-0.png" width="292" height="30" alt="ภาพหน้าต่าง Student" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ช่องแรกกว้าง 12 คอลัมน์ ช่องที่สองกว้าง 7</li><li>ค่าที่พิมพ์อ่านได้ด้วย <code>getText()</code> (บทที่ 16–17)</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.2</span>JTextArea ใน JScrollPane</h4><p class="concept-line"><strong>แนวคิด:</strong> ตั้งจำนวนแถว/คอลัมน์ เปิดการตัดคำด้วย <code>setLineWrap(true)</code> และ <code>setWrapStyleWord(true)</code> แล้วห่อด้วย JScrollPane</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NotesArea.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Student</div><img src="../assets/gui/gdc577b8110-0.png" width="292" height="30" alt="ภาพหน้าต่าง Student" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>ค่าที่ผู้ใช้พิมพ์อ่านได้ด้วย <code>getText()</code> ซึ่งจะใช้ในบทที่ 16–17</p></div>
+<h4 class="sub">ข้อความหลายบรรทัด</h4>
+<p><code>JTextArea(แถว, คอลัมน์)</code> กำหนดขนาด เปิดการตัดบรรทัดที่ช่องว่างระหว่างคำด้วย <code>setLineWrap(true)</code> และ <code>setWrapStyleWord(true)</code> แล้ว<strong>ห่อด้วย JScrollPane</strong> เสมอ ไม่เช่นนั้นข้อความยาวจะล้นหรือดันหน้าต่างให้ขยาย</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.2</span>JTextArea ใน JScrollPane</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NotesArea.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NotesArea</span> {
@@ -133,29 +137,25 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Notes"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// 5 แถว 24 คอลัมน์</span>
-            <span class="tok-type">JTextArea</span> notes = <span class="tok-kw">new</span> <span class="tok-type">JTextArea</span>(<span class="tok-num">5</span>, <span class="tok-num">24</span>);
-            <span class="tok-com">// ตัดบรรทัดเมื่อยาวเกิน</span>
-            notes.<span class="tok-fn">setLineWrap</span>(<span class="tok-num">true</span>);
-            <span class="tok-com">// ตัดที่ช่องว่างระหว่างคำ</span>
-            notes.<span class="tok-fn">setWrapStyleWord</span>(<span class="tok-num">true</span>);
+            <span class="tok-type">JTextArea</span> notes = <span class="tok-kw">new</span> <span class="tok-type">JTextArea</span>(<span class="tok-num">5</span>, <span class="tok-num">24</span>);               <span class="tok-com">// เห็น 5 แถว กว้าง 24 คอลัมน์</span>
+            notes.<span class="tok-fn">setLineWrap</span>(<span class="tok-num">true</span>);                              <span class="tok-com">// ตัดบรรทัดเมื่อยาวเกิน</span>
+            notes.<span class="tok-fn">setWrapStyleWord</span>(<span class="tok-num">true</span>);                         <span class="tok-com">// ตัดที่ช่องว่างระหว่างคำ</span>
             <span class="tok-type">StringBuilder</span> sb = <span class="tok-kw">new</span> <span class="tok-type">StringBuilder</span>();
             <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">8</span>; i++) {
                 sb.<span class="tok-fn">append</span>(<span class="tok-str">"Line "</span>).<span class="tok-fn">append</span>(i).<span class="tok-fn">append</span>(<span class="tok-str">": remember to practice Java every day.\n"</span>);
             }
-            <span class="tok-com">// ใส่ข้อความทั้งหมด</span>
-            notes.<span class="tok-fn">setText</span>(sb.<span class="tok-fn">toString</span>());
-            <span class="tok-com">// เลื่อนเคอร์เซอร์ไปต้นข้อความ</span>
-            notes.<span class="tok-fn">setCaretPosition</span>(<span class="tok-num">0</span>);
-            <span class="tok-com">// ห่อด้วย JScrollPane จึงเลื่อนดูได้</span>
+            notes.<span class="tok-fn">setText</span>(sb.<span class="tok-fn">toString</span>());                         <span class="tok-com">// 8 บรรทัด เกิน 5 → มี scrollbar</span>
+            notes.<span class="tok-fn">setCaretPosition</span>(<span class="tok-num">0</span>);                            <span class="tok-com">// เลื่อนไปบนสุด</span>
             frame.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JScrollPane</span>(notes), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
             frame.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"8 lines - scroll to read more"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
             frame.<span class="tok-fn">pack</span>();
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notes</div><img src="../assets/gui/ge21f7ab9a5-0.png" width="282" height="99" alt="ภาพหน้าต่าง Notes" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JTextArea(5, 24) แสดง 5 แถว กว้าง 24 คอลัมน์</li><li>ข้อความ 8 บรรทัดยาวเกิน จึงมี scrollbar</li><li><code>setCaretPosition(0)</code> เลื่อนไปบนสุด</li><li>ถ้าไม่ห่อด้วย JScrollPane หน้าต่างจะขยายหรือข้อความล้น</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.3</span>ช่องอ่านอย่างเดียว ช่องรหัสผ่าน และการจัดแนว</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>setEditable(false)</code> ใช้แสดงค่าที่คำนวณได้, JPasswordField แสดงจุดแทนตัวอักษร, <code>setHorizontalAlignment</code> จัดตัวเลขชิดขวา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FieldVariants.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notes</div><img src="../assets/gui/g28408cfae2-0.png" width="282" height="99" alt="ภาพหน้าต่าง Notes" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">ช่องอ่านอย่างเดียวและช่องรหัสผ่าน</h4>
+<table class="comparison-table"><thead><tr><th>ต้องการ</th><th>ใช้</th></tr></thead><tbody><tr><td>แสดงค่าที่คำนวณได้ ให้คัดลอกได้แต่แก้ไม่ได้</td><td><code>setEditable(false)</code></td></tr><tr><td>ตัวเลขชิดขวา</td><td><code>setHorizontalAlignment(JTextField.RIGHT)</code></td></tr><tr><td>อ่านรหัสผ่าน</td><td><code>getPassword()</code> คืน <code>char[]</code></td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.3</span>ช่องสามแบบในตาราง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FieldVariants.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FieldVariants</span> {
@@ -163,19 +163,15 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Field types"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// ตาราง 3 แถว 2 คอลัมน์</span>
-            <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">3</span>, <span class="tok-num">2</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));
+            <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">3</span>, <span class="tok-num">2</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));   <span class="tok-com">// 3 แถว: ป้าย | ช่อง</span>
             panel.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>));
             <span class="tok-type">JTextField</span> total = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-str">"1,250.00"</span>);
-            <span class="tok-com">// อ่านอย่างเดียว</span>
-            total.<span class="tok-fn">setEditable</span>(<span class="tok-num">false</span>);
-            <span class="tok-com">// ตัวเลขชิดขวา</span>
+            total.<span class="tok-fn">setEditable</span>(<span class="tok-num">false</span>);                             <span class="tok-com">// พื้นเทา แก้ไม่ได้</span>
             total.<span class="tok-fn">setHorizontalAlignment</span>(<span class="tok-type">JTextField</span>.<span class="tok-const">RIGHT</span>);
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Total (read-only):"</span>));
             panel.<span class="tok-fn">add</span>(total);
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Password:"</span>));
-            <span class="tok-com">// ช่องรหัสผ่าน แสดงเป็นจุด</span>
-            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JPasswordField</span>(<span class="tok-num">10</span>));
+            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JPasswordField</span>(<span class="tok-num">10</span>));                    <span class="tok-com">// แสดงเป็นจุด</span>
             <span class="tok-type">JTextField</span> qty = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-str">"3"</span>);
             qty.<span class="tok-fn">setHorizontalAlignment</span>(<span class="tok-type">JTextField</span>.<span class="tok-const">RIGHT</span>);
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Quantity:"</span>));
@@ -185,33 +181,35 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Field types</div><img src="../assets/gui/g5846612a75-0.png" width="254" height="92" alt="ภาพหน้าต่าง Field types" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ช่อง Total พื้นเทา แก้ไม่ได้ แต่คัดลอกได้</li><li>JPasswordField ซ่อนตัวอักษร — อ่านค่าด้วย getPassword() ซึ่งคืน char[]</li><li>GridLayout(3, 2) จัดป้ายกับช่องเป็นคู่ ๆ</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Field types</div><img src="../assets/gui/g55f8e83090-0.png" width="254" height="92" alt="ภาพหน้าต่าง Field types" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · เลือก component</strong><div><p>เลือก component สำหรับ: ที่อยู่ (หลายบรรทัด), รหัสไปรษณีย์, รหัส PIN, ผลรวมที่คำนวณได้</p></div><details><summary>ดูคำตอบ</summary><div><p>JTextArea ใน JScrollPane, JTextField, JPasswordField, JLabel หรือ JTextField ที่ setEditable(false)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-15-3">
 <h3>15.3 ตัวเลือก: JComboBox, JCheckBox และ JRadioButton</h3>
+<p>ถ้าคำตอบมีตัวเลือกจำกัด ให้ผู้ใช้<strong>เลือก</strong>แทนการพิมพ์ ข้อมูลจะไม่ผิดรูปแบบ</p>
 <table class="comparison-table"><thead><tr><th>Component</th><th>เหมาะกับ</th><th>อ่านค่า</th></tr></thead><tbody><tr><td><code>JComboBox&lt;String&gt;</code></td><td>เลือก 1 จากรายการยาว (เมนูดรอปดาวน์)</td><td><code>getSelectedItem()</code>, <code>getSelectedIndex()</code></td></tr><tr><td><code>JRadioButton</code> + <code>ButtonGroup</code></td><td>เลือก 1 จากตัวเลือกน้อย ๆ ที่อยากให้เห็นทั้งหมด</td><td><code>isSelected()</code></td></tr><tr><td><code>JCheckBox</code></td><td>เปิด/ปิดแต่ละตัวเลือกอิสระ (เลือกได้หลายอัน)</td><td><code>isSelected()</code></td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.1</span>JComboBox จากอาเรย์</h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง combo box จากอาเรย์ String ภาพจำลองว่าผู้ใช้เลือกรายการที่ index 2</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FacultyCombo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.1</span>JComboBox จากอาเรย์</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FacultyCombo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FacultyCombo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Faculty"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// ตัวเลือกจากอาเรย์</span>
             <span class="tok-type">String</span>[] faculties = {<span class="tok-str">"Science"</span>, <span class="tok-str">"Engineering"</span>, <span class="tok-str">"Education"</span>, <span class="tok-str">"Arts"</span>};
-            <span class="tok-com">// &lt;String&gt; = ชนิดของตัวเลือก</span>
-            <span class="tok-type">JComboBox</span>&lt;<span class="tok-type">String</span>&gt; combo = <span class="tok-kw">new</span> <span class="tok-type">JComboBox</span>&lt;&gt;(faculties);
+            <span class="tok-type">JComboBox</span>&lt;<span class="tok-type">String</span>&gt; combo = <span class="tok-kw">new</span> <span class="tok-type">JComboBox</span>&lt;&gt;(faculties);  <span class="tok-com">// generic เหมือน ArrayList</span>
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Faculty:"</span>));
-            panel.<span class="tok-fn">add</span>(combo);
+            panel.<span class="tok-fn">add</span>(combo);                                     <span class="tok-com">// เริ่มต้นเลือกตัวแรก</span>
             frame.<span class="tok-fn">add</span>(panel);
             frame.<span class="tok-fn">pack</span>();
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Faculty</div><img src="../assets/gui/g8e99973dbd-0.png" width="153" height="35" alt="ภาพหน้าต่าง Faculty" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>JComboBox&lt;String&gt;</code> ใช้ generic เหมือน ArrayList</li><li>ค่าเริ่มต้นเลือกตัวแรก</li><li>อ่านค่าด้วย <code>(String) combo.getSelectedItem()</code></li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.2</span>radio button ในกลุ่มเดียวกัน และ check box</h4><p class="concept-line"><strong>แนวคิด:</strong> radio ใน <code>ButtonGroup</code> เดียวกันเลือกได้ทีละอัน ส่วน check box เลือกได้อิสระ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DrinkOptions.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Faculty</div><img src="../assets/gui/gb9d3414079-0.png" width="153" height="35" alt="ภาพหน้าต่าง Faculty" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>ภาพจำลองว่าผู้ใช้เลือก index 2 อ่านค่าที่เลือกด้วย <code>(String) combo.getSelectedItem()</code></p></div>
+<h4 class="sub">radio button และ check box</h4>
+<p>radio button ที่อยู่ใน <code>ButtonGroup</code> เดียวกันเลือกได้ทีละอัน คลิกตัวใหม่แล้วตัวเก่าหลุดเอง ส่วน check box แต่ละตัวเป็นอิสระ ภาพจำลองการคลิก Large และติ๊ก 2 ตัวเลือก</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.2</span>เลือกขนาดและท็อปปิง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DrinkOptions.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DrinkOptions</span> {
@@ -219,27 +217,23 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Drink options"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// true = เลือกไว้ก่อน</span>
-            <span class="tok-type">JRadioButton</span> small = <span class="tok-kw">new</span> <span class="tok-type">JRadioButton</span>(<span class="tok-str">"Small"</span>, <span class="tok-num">true</span>);
+            <span class="tok-type">JRadioButton</span> small = <span class="tok-kw">new</span> <span class="tok-type">JRadioButton</span>(<span class="tok-str">"Small"</span>, <span class="tok-num">true</span>);     <span class="tok-com">// true = เลือกไว้ก่อน</span>
             <span class="tok-type">JRadioButton</span> medium = <span class="tok-kw">new</span> <span class="tok-type">JRadioButton</span>(<span class="tok-str">"Medium"</span>);
             <span class="tok-type">JRadioButton</span> large = <span class="tok-kw">new</span> <span class="tok-type">JRadioButton</span>(<span class="tok-str">"Large"</span>);
-            <span class="tok-com">// ButtonGroup: เลือกได้ทีละหนึ่ง</span>
-            <span class="tok-type">ButtonGroup</span> sizes = <span class="tok-kw">new</span> <span class="tok-type">ButtonGroup</span>();
+            <span class="tok-type">ButtonGroup</span> sizes = <span class="tok-kw">new</span> <span class="tok-type">ButtonGroup</span>();                    <span class="tok-com">// กลุ่ม: เลือกได้ทีละหนึ่ง</span>
             sizes.<span class="tok-fn">add</span>(small);
             sizes.<span class="tok-fn">add</span>(medium);
             sizes.<span class="tok-fn">add</span>(large);
 
             <span class="tok-type">JPanel</span> sizePanel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
-            <span class="tok-com">// กรอบพร้อมหัวข้อ</span>
-            sizePanel.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createTitledBorder</span>(<span class="tok-str">"Size"</span>));
+            sizePanel.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createTitledBorder</span>(<span class="tok-str">"Size"</span>));   <span class="tok-com">// กรอบพร้อมหัวข้อ</span>
             sizePanel.<span class="tok-fn">add</span>(small);
             sizePanel.<span class="tok-fn">add</span>(medium);
             sizePanel.<span class="tok-fn">add</span>(large);
 
             <span class="tok-type">JPanel</span> extraPanel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             extraPanel.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createTitledBorder</span>(<span class="tok-str">"Extras"</span>));
-            <span class="tok-com">// check box เลือกได้หลายอัน</span>
-            extraPanel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JCheckBox</span>(<span class="tok-str">"Extra shot"</span>));
+            extraPanel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JCheckBox</span>(<span class="tok-str">"Extra shot"</span>));              <span class="tok-com">// แต่ละตัวอิสระ</span>
             extraPanel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JCheckBox</span>(<span class="tok-str">"Oat milk"</span>));
             extraPanel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JCheckBox</span>(<span class="tok-str">"Less sugar"</span>));
 
@@ -249,8 +243,11 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Drink options</div><img src="../assets/gui/g3309713035-0.png" width="274" height="114" alt="ภาพหน้าต่าง Drink options" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เริ่มต้นเลือก Small (parameter true)</li><li>ภาพจำลองคลิก Large → Small ถูกยกเลิกอัตโนมัติเพราะอยู่กลุ่มเดียวกัน</li><li>เลือก Extra shot และ Oat milk พร้อมกันได้</li><li><code>createTitledBorder</code> วาดกรอบพร้อมหัวข้อ ช่วยจัดกลุ่มให้อ่านง่าย</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.3</span>JSpinner และ JSlider สำหรับตัวเลขในช่วง</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อค่าเป็นตัวเลขในช่วงจำกัด ใช้ spinner (ปุ่มขึ้นลง) หรือ slider (แถบเลื่อน) แทนช่องพิมพ์ ช่วยลดข้อมูลผิดรูปแบบ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NumberInputs.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Drink options</div><img src="../assets/gui/g162cbc21e1-0.png" width="274" height="114" alt="ภาพหน้าต่าง Drink options" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout warn"><span class="box-title">ลืม ButtonGroup</span><p>radio button ที่ไม่ได้ใส่ใน ButtonGroup จะทำงานเหมือน check box คือเลือกได้พร้อมกันหลายตัว</p></div>
+<h4 class="sub">ตัวเลขในช่วงจำกัด</h4>
+<p>ถ้าค่าเป็นตัวเลขในช่วง ใช้ <code>JSpinner</code> (ปุ่มขึ้นลง) หรือ <code>JSlider</code> (แถบเลื่อน) แทนช่องพิมพ์ ผู้ใช้ใส่ค่านอกช่วงไม่ได้</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.3</span>JSpinner และ JSlider</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NumberInputs.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NumberInputs</span> {
@@ -258,14 +255,11 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Order"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// ค่าเริ่ม 2, ต่ำสุด 1, สูงสุด 20, เพิ่มทีละ 1</span>
-            <span class="tok-type">JSpinner</span> qty = <span class="tok-kw">new</span> <span class="tok-type">JSpinner</span>(<span class="tok-kw">new</span> <span class="tok-type">SpinnerNumberModel</span>(<span class="tok-num">2</span>, <span class="tok-num">1</span>, <span class="tok-num">20</span>, <span class="tok-num">1</span>));
-            <span class="tok-com">// ต่ำสุด 0, สูงสุด 100, เริ่มที่ 50</span>
-            <span class="tok-type">JSlider</span> sweet = <span class="tok-kw">new</span> <span class="tok-type">JSlider</span>(<span class="tok-num">0</span>, <span class="tok-num">100</span>, <span class="tok-num">50</span>);
-            <span class="tok-com">// ขีดหลักทุก 25</span>
-            sweet.<span class="tok-fn">setMajorTickSpacing</span>(<span class="tok-num">25</span>);
+            <span class="tok-type">JSpinner</span> qty = <span class="tok-kw">new</span> <span class="tok-type">JSpinner</span>(<span class="tok-kw">new</span> <span class="tok-type">SpinnerNumberModel</span>(<span class="tok-num">2</span>, <span class="tok-num">1</span>, <span class="tok-num">20</span>, <span class="tok-num">1</span>));   <span class="tok-com">// เริ่ม, ต่ำสุด, สูงสุด, ขั้น</span>
+            <span class="tok-type">JSlider</span> sweet = <span class="tok-kw">new</span> <span class="tok-type">JSlider</span>(<span class="tok-num">0</span>, <span class="tok-num">100</span>, <span class="tok-num">50</span>);                             <span class="tok-com">// ต่ำสุด, สูงสุด, เริ่ม</span>
+            sweet.<span class="tok-fn">setMajorTickSpacing</span>(<span class="tok-num">25</span>);                        <span class="tok-com">// ขีดทุก 25</span>
             sweet.<span class="tok-fn">setPaintTicks</span>(<span class="tok-num">true</span>);
-            sweet.<span class="tok-fn">setPaintLabels</span>(<span class="tok-num">true</span>);
+            sweet.<span class="tok-fn">setPaintLabels</span>(<span class="tok-num">true</span>);                           <span class="tok-com">// แสดงตัวเลขใต้ขีด</span>
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">2</span>, <span class="tok-num">2</span>, <span class="tok-num">8</span>, <span class="tok-num">8</span>));
             panel.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>));
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Quantity (1-20):"</span>));
@@ -277,13 +271,17 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Order</div><img src="../assets/gui/g2b5227b31f-0.png" width="428" height="114" alt="ภาพหน้าต่าง Order" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>SpinnerNumberModel(ค่าเริ่ม, ต่ำสุด, สูงสุด, ขั้น)</li><li>JSlider(ต่ำสุด, สูงสุด, ค่าเริ่ม) พร้อมขีดและตัวเลขทุก 25</li><li>อ่านค่า: <code>(int) qty.getValue()</code>, <code>sweet.getValue()</code></li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Order</div><img src="../assets/gui/g60f8b65e8f-0.png" width="428" height="114" alt="ภาพหน้าต่าง Order" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>อ่านค่า: <code>(int) qty.getValue()</code> และ <code>sweet.getValue()</code></p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · เลือกตัวเลือก</strong><div><p>ฟอร์มสมัครสมาชิกต้องการ: เพศ (3 ตัวเลือก), จังหวัด (77 จังหวัด), ความสนใจ (เลือกได้หลายข้อ) ควรใช้ component ใด</p></div><details><summary>ดูคำตอบ</summary><div><p>เพศ → JRadioButton + ButtonGroup, จังหวัด → JComboBox, ความสนใจ → JCheckBox หลายตัว</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-15-4">
 <h3>15.4 Layout Manager: Flow, Border, Grid และ Box</h3>
+<p><strong>layout manager</strong> คำนวณตำแหน่งและขนาดของ component ให้ใหม่ทุกครั้งที่หน้าต่างเปลี่ยนขนาด เลือกด้วย <code>new JPanel(layout)</code> หรือ <code>panel.setLayout(layout)</code></p>
 <table class="comparison-table"><thead><tr><th>Layout</th><th>จัดอย่างไร</th><th>เหมาะกับ</th></tr></thead><tbody><tr><td><code>FlowLayout</code></td><td>เรียงซ้าย→ขวา ตัดบรรทัดเมื่อเต็ม ขนาดตาม preferred size</td><td>แถวปุ่ม, แถบเครื่องมือเล็ก ๆ</td></tr><tr><td><code>BorderLayout</code></td><td>5 พื้นที่: NORTH, SOUTH, EAST, WEST, CENTER (CENTER ยืดเต็มที่เหลือ)</td><td>โครงหน้าจอหลัก</td></tr><tr><td><code>GridLayout(r, c)</code></td><td>ตารางที่ทุกช่องขนาดเท่ากัน</td><td>ปุ่มเครื่องคิดเลข, ฟอร์มป้าย–ช่อง</td></tr><tr><td><code>BoxLayout</code></td><td>เรียงแนวตั้งหรือแนวนอนแถวเดียว ไม่ยืดเท่ากัน</td><td>รายการแนวตั้ง, ฟอร์มที่ต้องการระยะห่างอิสระ</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.1</span>BorderLayout: 5 พื้นที่</h4><p class="concept-line"><strong>แนวคิด:</strong> ใส่ปุ่มทั้ง 5 ตำแหน่งให้เห็นว่าแต่ละพื้นที่ขยายตัวอย่างไร — CENTER ได้พื้นที่ที่เหลือทั้งหมด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BorderDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<h4 class="sub">BorderLayout: 5 พื้นที่</h4>
+<p>NORTH/SOUTH ยืดเต็มความกว้างแต่สูงเท่าที่จำเป็น WEST/EAST ยืดเต็มความสูงที่เหลือ และ CENTER ได้พื้นที่ที่เหลือทั้งหมด</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.1</span>ปุ่มครบ 5 ตำแหน่ง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BorderDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BorderDemo</span> {
@@ -291,23 +289,21 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"BorderLayout"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// เว้นระยะระหว่างส่วน 4 พิกเซล</span>
-            <span class="tok-type">JPanel</span> p = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">4</span>, <span class="tok-num">4</span>));
-            <span class="tok-com">// ตำแหน่งที่วาง: NORTH</span>
+            <span class="tok-type">JPanel</span> p = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">4</span>, <span class="tok-num">4</span>));        <span class="tok-com">// ช่องว่างระหว่างพื้นที่ 4 พิกเซล</span>
             p.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"NORTH"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">NORTH</span>);
             p.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"SOUTH"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
             p.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"WEST"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">WEST</span>);
             p.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"EAST"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">EAST</span>);
-            <span class="tok-com">// CENTER ขยายรับพื้นที่ที่เหลือ</span>
-            p.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"CENTER"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
+            p.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"CENTER"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);    <span class="tok-com">// ได้พื้นที่ที่เหลือ</span>
             frame.<span class="tok-fn">setContentPane</span>(p);
-            <span class="tok-com">// ขยายหน้าต่างแล้ว CENTER โตตาม</span>
-            frame.<span class="tok-fn">setSize</span>(<span class="tok-num">340</span>, <span class="tok-num">200</span>);
+            frame.<span class="tok-fn">setSize</span>(<span class="tok-num">340</span>, <span class="tok-num">200</span>);                              <span class="tok-com">// ขยายหน้าต่าง → CENTER โตตาม</span>
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">BorderLayout</div><img src="../assets/gui/g93df1d4143-0.png" width="324" height="161" alt="ภาพหน้าต่าง BorderLayout" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>NORTH/SOUTH ยืดเต็มความกว้าง สูงเท่าที่จำเป็น</li><li>WEST/EAST ยืดเต็มความสูงที่เหลือ กว้างเท่าที่จำเป็น</li><li>CENTER ได้พื้นที่ที่เหลือทั้งหมด</li><li>BorderLayout(4, 4) เว้นช่องว่างระหว่างพื้นที่</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.2</span>GridLayout: ทุกช่องเท่ากัน</h4><p class="concept-line"><strong>แนวคิด:</strong> GridLayout(แถว, คอลัมน์) — ใส่ 0 ที่แถวเพื่อให้เพิ่มแถวอัตโนมัติตามจำนวน component</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GridDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">BorderLayout</div><img src="../assets/gui/gc5c3f5fae0-0.png" width="324" height="161" alt="ภาพหน้าต่าง BorderLayout" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">GridLayout: ทุกช่องเท่ากัน</h4>
+<p><code>GridLayout(แถว, คอลัมน์, ระยะแนวนอน, ระยะแนวตั้ง)</code> ใส่ 0 ที่แถวเพื่อให้เพิ่มแถวเองตามจำนวน component</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.2</span>ปุ่มที่นั่ง 8 ที่</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GridDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GridDemo</span> {
@@ -315,11 +311,9 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"GridLayout"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// 0 แถว = เพิ่มแถวตามจำนวน, 3 คอลัมน์</span>
-            <span class="tok-type">JPanel</span> grid = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">3</span>, <span class="tok-num">5</span>, <span class="tok-num">5</span>));
+            <span class="tok-type">JPanel</span> grid = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">3</span>, <span class="tok-num">5</span>, <span class="tok-num">5</span>));     <span class="tok-com">// 3 คอลัมน์ แถวเพิ่มเอง</span>
             grid.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">8</span>, <span class="tok-num">8</span>, <span class="tok-num">8</span>, <span class="tok-num">8</span>));
-            <span class="tok-com">// ทุกช่องขนาดเท่ากัน</span>
-            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">8</span>; i++) {
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">8</span>; i++) {                            <span class="tok-com">// สร้างปุ่มด้วยลูป</span>
                 grid.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Seat "</span> + i));
             }
             frame.<span class="tok-fn">setContentPane</span>(grid);
@@ -327,8 +321,10 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">GridLayout</div><img src="../assets/gui/gd5df49cb8b-0.png" width="236" height="104" alt="ภาพหน้าต่าง GridLayout" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>3 คอลัมน์ แถวเพิ่มเองเป็น 3 แถวสำหรับ 8 ปุ่ม</li><li>ทุกปุ่มขนาดเท่ากัน (ตามปุ่มที่ใหญ่ที่สุด)</li><li>สร้างปุ่มด้วยลูป — ดีกว่าเขียนทีละบรรทัด</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.3</span>BoxLayout แนวตั้งพร้อมระยะห่าง</h4><p class="concept-line"><strong>แนวคิด:</strong> BoxLayout.Y_AXIS วางเป็นแนวตั้ง ใช้ <code>Box.createVerticalStrut(n)</code> เว้นระยะ และ <code>setAlignmentX</code> จัดชิดซ้าย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BoxDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">GridLayout</div><img src="../assets/gui/gf21ea986dc-0.png" width="236" height="104" alt="ภาพหน้าต่าง GridLayout" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">BoxLayout: แนวตั้งพร้อมระยะห่าง</h4>
+<p><code>BoxLayout.Y_AXIS</code> เรียงจากบนลงล่าง ขนาดตามธรรมชาติของแต่ละ component ใช้ <code>Box.createVerticalStrut(n)</code> เว้นระยะ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.3</span>หน้าตั้งค่าการแจ้งเตือน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BoxDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BoxDemo</span> {
@@ -337,23 +333,18 @@
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Settings"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JPanel</span> box = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
-            <span class="tok-com">// เรียงจากบนลงล่าง</span>
-            box.<span class="tok-fn">setLayout</span>(<span class="tok-kw">new</span> <span class="tok-type">BoxLayout</span>(box, <span class="tok-type">BoxLayout</span>.<span class="tok-const">Y_AXIS</span>));
+            box.<span class="tok-fn">setLayout</span>(<span class="tok-kw">new</span> <span class="tok-type">BoxLayout</span>(box, <span class="tok-type">BoxLayout</span>.<span class="tok-const">Y_AXIS</span>));     <span class="tok-com">// บนลงล่าง</span>
             box.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">12</span>, <span class="tok-num">16</span>, <span class="tok-num">12</span>, <span class="tok-num">16</span>));
             <span class="tok-type">JLabel</span> title = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Notifications"</span>);
-            <span class="tok-com">// ตัวหนา ขนาด 15</span>
             title.<span class="tok-fn">setFont</span>(title.<span class="tok-fn">getFont</span>().<span class="tok-fn">deriveFont</span>(<span class="tok-type">Font</span>.<span class="tok-const">BOLD</span>, <span class="tok-num">15f</span>));
             box.<span class="tok-fn">add</span>(title);
-            <span class="tok-com">// ช่องว่างแนวตั้ง 8 พิกเซล</span>
-            box.<span class="tok-fn">add</span>(<span class="tok-type">Box</span>.<span class="tok-fn">createVerticalStrut</span>(<span class="tok-num">8</span>));
+            box.<span class="tok-fn">add</span>(<span class="tok-type">Box</span>.<span class="tok-fn">createVerticalStrut</span>(<span class="tok-num">8</span>));                     <span class="tok-com">// ช่องว่าง 8 พิกเซล</span>
             box.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JCheckBox</span>(<span class="tok-str">"Email me when grades are posted"</span>, <span class="tok-num">true</span>));
             box.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JCheckBox</span>(<span class="tok-str">"Remind me before deadlines"</span>, <span class="tok-num">true</span>));
             box.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JCheckBox</span>(<span class="tok-str">"Weekly summary"</span>));
             box.<span class="tok-fn">add</span>(<span class="tok-type">Box</span>.<span class="tok-fn">createVerticalStrut</span>(<span class="tok-num">12</span>));
             box.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Save"</span>));
-            <span class="tok-com">// จัดชิดซ้ายทุก component</span>
-            <span class="tok-kw">for</span> (<span class="tok-type">Component</span> c : box.<span class="tok-fn">getComponents</span>()) {
-                <span class="tok-com">// แปลงเป็น JComponent เพื่อเรียก setAlignmentX</span>
+            <span class="tok-kw">for</span> (<span class="tok-type">Component</span> c : box.<span class="tok-fn">getComponents</span>()) {               <span class="tok-com">// ชิดซ้ายทุกตัว</span>
                 ((<span class="tok-type">JComponent</span>) c).<span class="tok-fn">setAlignmentX</span>(<span class="tok-type">Component</span>.<span class="tok-const">LEFT_ALIGNMENT</span>);
             }
             frame.<span class="tok-fn">setContentPane</span>(box);
@@ -361,8 +352,11 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Settings</div><img src="../assets/gui/gdcaf4a670e-0.png" width="250" height="162" alt="ภาพหน้าต่าง Settings" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>component เรียงลงมาทีละแถว ขนาดตามธรรมชาติ (ไม่ยืดเท่ากันแบบ Grid)</li><li>strut เว้นระยะแนวตั้งคงที่</li><li>ทุก component ต้อง alignment เดียวกัน ไม่เช่นนั้นจะเยื้องกัน</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.4</span>FlowLayout ชิดขวาสำหรับแถวปุ่ม</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>new FlowLayout(FlowLayout.RIGHT)</code> เหมาะกับแถวปุ่ม OK/Cancel ด้านล่างของฟอร์ม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ButtonBar.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Settings</div><img src="../assets/gui/g790080e68d-0.png" width="250" height="162" alt="ภาพหน้าต่าง Settings" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout warn"><span class="box-title">ข้อผิดพลาดที่พบบ่อย</span><p>ใน BoxLayout ทุก component ต้องตั้ง <code>setAlignmentX</code> ค่าเดียวกัน ไม่เช่นนั้นจะเยื้องกัน</p></div>
+<h4 class="sub">FlowLayout ชิดขวาสำหรับแถวปุ่ม</h4>
+<p><code>new FlowLayout(FlowLayout.RIGHT)</code> ดันปุ่มไปชิดขวา วางแถวปุ่มไว้ SOUTH และข้อความไว้ CENTER เป็นรูปแบบที่ผู้ใช้คุ้นเคย</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.4</span>กล่องยืนยันการบันทึก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ButtonBar.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ButtonBar</span> {
@@ -370,47 +364,41 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Confirm"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// ข้อความกึ่งกลาง</span>
             <span class="tok-type">JLabel</span> msg = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Save changes before closing?"</span>, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
             msg.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">20</span>, <span class="tok-num">20</span>, <span class="tok-num">20</span>, <span class="tok-num">20</span>));
-            <span class="tok-com">// ปุ่มชิดขวา</span>
-            <span class="tok-type">JPanel</span> buttons = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">FlowLayout</span>(<span class="tok-type">FlowLayout</span>.<span class="tok-const">RIGHT</span>));
+            <span class="tok-type">JPanel</span> buttons = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">FlowLayout</span>(<span class="tok-type">FlowLayout</span>.<span class="tok-const">RIGHT</span>));   <span class="tok-com">// ชิดขวา</span>
             buttons.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Don't save"</span>));
             buttons.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Cancel"</span>));
             buttons.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Save"</span>));
-            <span class="tok-com">// ข้อความอยู่ตรงกลาง</span>
             frame.<span class="tok-fn">add</span>(msg, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
-            <span class="tok-com">// แถวปุ่มอยู่ล่าง</span>
-            frame.<span class="tok-fn">add</span>(buttons, <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
+            frame.<span class="tok-fn">add</span>(buttons, <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);                          <span class="tok-com">// แถวล่าง</span>
             frame.<span class="tok-fn">pack</span>();
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Confirm</div><img src="../assets/gui/gfbf0eb46d8-0.png" width="248" height="92" alt="ภาพหน้าต่าง Confirm" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ข้อความอยู่ CENTER, แถวปุ่มอยู่ SOUTH</li><li>FlowLayout.RIGHT ดันปุ่มไปชิดขวา</li><li>รูปแบบนี้พบในโปรแกรมทั่วไป ผู้ใช้คุ้นเคย</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Confirm</div><img src="../assets/gui/g4cab01ddee-0.png" width="248" height="92" alt="ภาพหน้าต่าง Confirm" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · เลือก layout</strong><div><p>หน้าจอแชต: รายการข้อความเต็มพื้นที่, ช่องพิมพ์และปุ่มส่งด้านล่าง ควรจัดอย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><p>panel หลักใช้ BorderLayout: JScrollPane(รายการข้อความ) ที่ CENTER และ panel ล่าง (BorderLayout อีกชั้น: ช่องพิมพ์ CENTER, ปุ่มส่ง EAST) ที่ SOUTH</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-15-5">
 <h3>15.5 ประกอบหลาย panel เป็นหน้าจอเดียว</h3>
+<p>หน้าจอจริงไม่ได้ใช้ layout เดียว แต่ซ้อน panel หลายชั้น แต่ละชั้นใช้ layout ที่เหมาะกับส่วนนั้น</p>
 <div class="concept-box"><span class="box-title">ขั้นตอนออกแบบหน้าจอ</span><ol class="step-list"><li>ร่างหน้าจอบนกระดาษ แล้วตีกรอบเป็นสี่เหลี่ยมตามกลุ่มของข้อมูล</li><li>แต่ละกรอบคือ panel หนึ่งตัว เลือก layout ตามลักษณะของกรอบนั้น (ฟอร์ม → Grid, แถวปุ่ม → Flow, รายการ → Box)</li><li>panel ใหญ่ที่สุด (content pane) มักใช้ BorderLayout วางกรอบย่อยตามตำแหน่ง</li><li>แยกการสร้างแต่ละ panel เป็นเมธอด เช่น <code>buildForm()</code>, <code>buildButtons()</code></li><li>ทดสอบย่อ/ขยายหน้าต่าง ว่าส่วนที่ควรยืดยืดจริง</li></ol></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.5.1</span>ฟอร์มลงทะเบียนจาก 3 panel</h4><p class="concept-line"><strong>แนวคิด:</strong> หัวเรื่อง (NORTH) + ฟอร์ม GridLayout (CENTER) + แถวปุ่ม FlowLayout (SOUTH) แต่ละส่วนสร้างในเมธอดของตัวเอง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RegistrationForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.5.1</span>ฟอร์มลงทะเบียนจาก 3 panel</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RegistrationForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RegistrationForm</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// เรียกเมธอด show บน EDT</span>
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(<span class="tok-type">RegistrationForm</span>::show);
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">show</span>() {
         <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Registration"</span>);
         frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-        <span class="tok-com">// layout หลักของหน้าต่าง</span>
-        <span class="tok-type">JPanel</span> root = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">8</span>, <span class="tok-num">8</span>));
+        <span class="tok-type">JPanel</span> root = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">8</span>, <span class="tok-num">8</span>));         <span class="tok-com">// โครงหลัก</span>
         root.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">10</span>, <span class="tok-num">12</span>, <span class="tok-num">10</span>, <span class="tok-num">12</span>));
-        <span class="tok-com">// แต่ละส่วนสร้างจากเมธอดของตัวเอง</span>
-        root.<span class="tok-fn">add</span>(<span class="tok-fn">buildHeader</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">NORTH</span>);
-        root.<span class="tok-fn">add</span>(<span class="tok-fn">buildForm</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
-        root.<span class="tok-fn">add</span>(<span class="tok-fn">buildButtons</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
+        root.<span class="tok-fn">add</span>(<span class="tok-fn">buildHeader</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">NORTH</span>);              <span class="tok-com">// หัวเรื่อง</span>
+        root.<span class="tok-fn">add</span>(<span class="tok-fn">buildForm</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);               <span class="tok-com">// ฟอร์ม</span>
+        root.<span class="tok-fn">add</span>(<span class="tok-fn">buildButtons</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);             <span class="tok-com">// แถวปุ่ม</span>
         frame.<span class="tok-fn">setContentPane</span>(root);
         frame.<span class="tok-fn">pack</span>();
         frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
@@ -423,36 +411,33 @@
     }
 
     <span class="tok-kw">static</span> <span class="tok-type">JComponent</span> <span class="tok-fn">buildForm</span>() {
-        <span class="tok-com">// แผงซ้อนแผง</span>
         <span class="tok-type">JPanel</span> form = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">6</span>, <span class="tok-num">6</span>));
-        <span class="tok-com">// ป้าย + ช่องกรอก 3 คู่</span>
-        <span class="tok-type">JPanel</span> fields = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">3</span>, <span class="tok-num">2</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));
+        <span class="tok-type">JPanel</span> fields = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">3</span>, <span class="tok-num">2</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));   <span class="tok-com">// ป้าย | ช่อง 3 คู่</span>
         fields.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Full name:"</span>));
         fields.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">16</span>));
         fields.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Email:"</span>));
         fields.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">16</span>));
         fields.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Session:"</span>));
-        <span class="tok-com">// ตัวเลือกจากอาเรย์</span>
         fields.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JComboBox</span>&lt;&gt;(<span class="tok-kw">new</span> <span class="tok-type">String</span>[]{<span class="tok-str">"Morning"</span>, <span class="tok-str">"Afternoon"</span>, <span class="tok-str">"Evening"</span>}));
         form.<span class="tok-fn">add</span>(fields, <span class="tok-type">BorderLayout</span>.<span class="tok-const">NORTH</span>);
         <span class="tok-type">JTextArea</span> note = <span class="tok-kw">new</span> <span class="tok-type">JTextArea</span>(<span class="tok-num">3</span>, <span class="tok-num">20</span>);
         note.<span class="tok-fn">setLineWrap</span>(<span class="tok-num">true</span>);
-        <span class="tok-com">// ห่อด้วย JScrollPane</span>
         <span class="tok-type">JScrollPane</span> scroll = <span class="tok-kw">new</span> <span class="tok-type">JScrollPane</span>(note);
         scroll.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createTitledBorder</span>(<span class="tok-str">"Note"</span>));
-        form.<span class="tok-fn">add</span>(scroll, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
+        form.<span class="tok-fn">add</span>(scroll, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);                    <span class="tok-com">// Note ยืดตามหน้าต่าง</span>
         <span class="tok-kw">return</span> form;
     }
 
     <span class="tok-kw">static</span> <span class="tok-type">JComponent</span> <span class="tok-fn">buildButtons</span>() {
-        <span class="tok-com">// ชิดขวา เว้นระยะ 6</span>
         <span class="tok-type">JPanel</span> buttons = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">FlowLayout</span>(<span class="tok-type">FlowLayout</span>.<span class="tok-const">RIGHT</span>, <span class="tok-num">6</span>, <span class="tok-num">0</span>));
         buttons.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Clear"</span>));
         buttons.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Submit"</span>));
         <span class="tok-kw">return</span> buttons;
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Registration</div><img src="../assets/gui/gdd761e287d-0.png" width="390" height="247" alt="ภาพหน้าต่าง Registration" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>แต่ละเมธอดคืน component ที่ประกอบเสร็จ อ่านง่ายและแก้แยกได้</li><li>ฟอร์มซ้อน: GridLayout สำหรับป้าย–ช่อง ภายใน BorderLayout ที่มี Note ยืดตรงกลาง</li><li>ภาพจำลองการกรอกข้อมูลครบทุกช่อง</li><li>บทที่ 16–17 จะทำให้ Submit อ่านค่าและตรวจสอบได้</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.5.2</span>หน้าจอแชตแบบ 2 ชั้นของ BorderLayout</h4><p class="concept-line"><strong>แนวคิด:</strong> BorderLayout ซ้อนกัน: ชั้นนอกวางรายการข้อความ (CENTER) กับแถบพิมพ์ (SOUTH), ชั้นในของแถบพิมพ์วางช่อง (CENTER) กับปุ่ม (EAST) ทำให้ช่องพิมพ์ยืดตามความกว้างหน้าต่าง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ChatLayout.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Registration</div><img src="../assets/gui/g57df24666f-0.png" width="390" height="247" alt="ภาพหน้าต่าง Registration" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>แต่ละเมธอดคืน component ที่ประกอบเสร็จ อ่านง่ายและแก้แยกส่วนได้ บทที่ 16–17 จะทำให้ปุ่ม Submit อ่านค่าและตรวจสอบได้</p></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: หน้าจอแชตด้วย BorderLayout 2 ชั้น</summary><div class="more-body"><p>ชั้นนอกวางรายการข้อความ (CENTER) กับแถบพิมพ์ (SOUTH) ชั้นในของแถบพิมพ์วางช่อง (CENTER) กับปุ่ม (EAST) ช่องพิมพ์จึงยืดตามความกว้างหน้าต่าง <code>JList</code> + <code>DefaultListModel</code> แสดงรายการที่เพิ่มหรือลบได้คล้าย ArrayList</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.5.2</span>Class Chat</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ChatLayout.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ChatLayout</span> {
@@ -461,24 +446,18 @@
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Class Chat"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
 
-            <span class="tok-com">// รายการข้อความสำหรับ JList</span>
-            <span class="tok-type">DefaultListModel</span>&lt;<span class="tok-type">String</span>&gt; messages = <span class="tok-kw">new</span> <span class="tok-type">DefaultListModel</span>&lt;&gt;();
+            <span class="tok-type">DefaultListModel</span>&lt;<span class="tok-type">String</span>&gt; messages = <span class="tok-kw">new</span> <span class="tok-type">DefaultListModel</span>&lt;&gt;();   <span class="tok-com">// ข้อมูลของ JList</span>
             messages.<span class="tok-fn">addElement</span>(<span class="tok-str">"JHope: Has anyone finished lab 15?"</span>);
             messages.<span class="tok-fn">addElement</span>(<span class="tok-str">"Suga: Almost, stuck on BoxLayout"</span>);
             messages.<span class="tok-fn">addElement</span>(<span class="tok-str">"RM: Remember setAlignmentX!"</span>);
-            <span class="tok-com">// JList แสดงรายการจาก model</span>
             <span class="tok-type">JList</span>&lt;<span class="tok-type">String</span>&gt; list = <span class="tok-kw">new</span> <span class="tok-type">JList</span>&lt;&gt;(messages);
 
-            <span class="tok-com">// ช่องพิมพ์ + ปุ่มส่ง</span>
-            <span class="tok-type">JPanel</span> inputBar = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">6</span>, <span class="tok-num">0</span>));
-            <span class="tok-com">// ช่องพิมพ์ยืดเต็มความกว้าง</span>
-            inputBar.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
-            <span class="tok-com">// ปุ่มชิดขวา</span>
-            inputBar.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Send"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">EAST</span>);
+            <span class="tok-type">JPanel</span> inputBar = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">6</span>, <span class="tok-num">0</span>));          <span class="tok-com">// ชั้นใน</span>
+            inputBar.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);           <span class="tok-com">// ยืดเต็มความกว้าง</span>
+            inputBar.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Send"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">EAST</span>);          <span class="tok-com">// กว้างคงที่</span>
 
-            <span class="tok-type">JPanel</span> root = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">8</span>));
+            <span class="tok-type">JPanel</span> root = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">8</span>));              <span class="tok-com">// ชั้นนอก</span>
             root.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">8</span>, <span class="tok-num">8</span>, <span class="tok-num">8</span>, <span class="tok-num">8</span>));
-            <span class="tok-com">// รายการข้อความเลื่อนดูได้</span>
             root.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JScrollPane</span>(list), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
             root.<span class="tok-fn">add</span>(inputBar, <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
             frame.<span class="tok-fn">setContentPane</span>(root);
@@ -486,8 +465,8 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Class Chat</div><img src="../assets/gui/gf62bb4c129-0.png" width="324" height="181" alt="ภาพหน้าต่าง Class Chat" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>JList</code> + <code>DefaultListModel</code> แสดงรายการที่เพิ่ม/ลบได้ (คล้าย ArrayList)</li><li>รายการข้อความยืดเต็มพื้นที่ CENTER</li><li>ช่องพิมพ์ยืดตามความกว้าง ปุ่ม Send กว้างคงที่ทางขวา</li></ol></div></div>
-<div class="note-box"><span class="box-title">ทำไมไม่ใช้ setBounds กำหนดพิกัดเอง</span><p>การใช้ <code>setLayout(null)</code> กับ <code>setBounds(x, y, w, h)</code> ดูง่ายในตอนแรก แต่หน้าจอจะพังเมื่อผู้ใช้ขยายหน้าต่าง เปลี่ยนขนาดฟอนต์ หรือรันบนระบบปฏิบัติการอื่น layout manager คำนวณใหม่ให้ทุกครั้งโดยอัตโนมัติ</p></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Class Chat</div><img src="../assets/gui/gfbac644f87-0.png" width="324" height="181" alt="ภาพหน้าต่าง Class Chat" loading="lazy"></figure></div></div></div></div></div></div></details>
+<div class="callout warn"><span class="box-title">ทำไมไม่ใช้ setBounds กำหนดพิกัดเอง</span><p><code>setLayout(null)</code> กับ <code>setBounds(x, y, w, h)</code> ดูง่ายในตอนแรก แต่หน้าจอจะพังเมื่อผู้ใช้ขยายหน้าต่าง เปลี่ยนขนาดฟอนต์ หรือรันบนระบบปฏิบัติการอื่น layout manager คำนวณใหม่ให้ทุกครั้งโดยอัตโนมัติ</p></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
