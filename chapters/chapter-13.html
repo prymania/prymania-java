@@ -58,46 +58,45 @@
         <p>อาเรย์ต้องกำหนดขนาดตอนสร้างและเปลี่ยนไม่ได้ ถ้าไม่รู้ว่าผู้ใช้จะเพิ่มสินค้ากี่ชิ้น เราต้องเดาขนาดและนับจำนวนเอง (เหมือน Classroom ในบทที่ 12) <code>ArrayList</code> จากแพ็กเกจ <code>java.util</code> คือรายการที่<strong>ขยายและหดตัวเองอัตโนมัติ</strong> พร้อมเมธอดเพิ่ม ลบ ค้นหา สำเร็จรูป</p>
 <article class="subtopic" id="topic-13-1">
 <h3>13.1 Array หรือ ArrayList</h3>
-<table class="comparison-table"><thead><tr><th></th><th>Array</th><th>ArrayList</th></tr></thead><tbody><tr><td>ขนาด</td><td>คงที่ตอนสร้าง</td><td>เปลี่ยนได้ตลอด</td></tr><tr><td>ประกาศ</td><td><code>int[] a = new int[5];</code></td><td><code>ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</code></td></tr><tr><td>จำนวนสมาชิก</td><td><code>a.length</code></td><td><code>list.size()</code></td></tr><tr><td>อ่าน / เขียน</td><td><code>a[i]</code> / <code>a[i] = x</code></td><td><code>list.get(i)</code> / <code>list.set(i, x)</code></td></tr><tr><td>เพิ่ม / ลบ</td><td>ทำเองยาก</td><td><code>add</code>, <code>remove</code></td></tr><tr><td>ชนิดข้อมูล</td><td>primitive หรือออบเจ็กต์</td><td>ออบเจ็กต์เท่านั้น (ใช้ Integer แทน int)</td></tr><tr><td>เหมาะกับ</td><td>จำนวนแน่นอน ตาราง 2 มิติ ประสิทธิภาพสูง</td><td>รายการที่เพิ่ม/ลบระหว่างทำงาน</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.1.1</span>ArrayList แรก</h4><p class="concept-line"><strong>แนวคิด:</strong> สร้างรายการว่าง เพิ่มทีละตัวด้วย add แล้วพิมพ์ทั้งรายการได้ทันที (ArrayList มี toString ในตัว)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FirstList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;  <span class="tok-com">// ต้อง import ก่อนใช้</span>
+<p><code>ArrayList</code> คือรายการที่<strong>ยืดและหดได้เอง</strong> เพิ่มสมาชิกเมื่อไรก็ยาวขึ้น ลบเมื่อไรก็สั้นลง ไม่ต้องกำหนดขนาดล่วงหน้าเหมือนอาเรย์</p>
+<table class="comparison-table"><thead><tr><th></th><th>Array</th><th>ArrayList</th></tr></thead><tbody><tr><td>ขนาด</td><td>คงที่ตอนสร้าง</td><td>เปลี่ยนได้ตลอด</td></tr><tr><td>ประกาศ</td><td><code>int[] a = new int[5];</code></td><td><code>ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</code></td></tr><tr><td>จำนวนสมาชิก</td><td><code>a.length</code></td><td><code>list.size()</code></td></tr><tr><td>อ่าน / เขียน</td><td><code>a[i]</code> / <code>a[i] = x</code></td><td><code>list.get(i)</code> / <code>list.set(i, x)</code></td></tr><tr><td>เพิ่ม / ลบ</td><td>ทำเองยาก</td><td><code>add</code>, <code>remove</code></td></tr><tr><td>ชนิดข้อมูล</td><td>primitive หรือออบเจ็กต์</td><td>ออบเจ็กต์เท่านั้น (ใช้ Integer แทน int)</td></tr><tr><td>เหมาะกับ</td><td>จำนวนแน่นอน ตาราง 2 มิติ</td><td>รายการที่เพิ่ม/ลบระหว่างทำงาน</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.1.1</span>ArrayList แรก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FirstList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;                               <span class="tok-com">// ต้อง import ก่อนใช้</span>
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FirstList</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// &lt;String&gt; = เก็บได้เฉพาะ String, เริ่มต้นว่าง</span>
-        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; fruits = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Empty? "</span> + fruits.<span class="tok-fn">isEmpty</span>() + <span class="tok-str">", size = "</span> + fruits.<span class="tok-fn">size</span>());
-        fruits.<span class="tok-fn">add</span>(<span class="tok-str">"Apple"</span>);  <span class="tok-com">// add ต่อท้าย รายการยาวขึ้นเอง</span>
+        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; fruits = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();     <span class="tok-com">// &lt;String&gt; = เก็บได้เฉพาะ String</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Empty? "</span> + fruits.<span class="tok-fn">isEmpty</span>() + <span class="tok-str">", size = "</span> + fruits.<span class="tok-fn">size</span>());   <span class="tok-com">// true, 0</span>
+        fruits.<span class="tok-fn">add</span>(<span class="tok-str">"Apple"</span>);                              <span class="tok-com">// ต่อท้าย รายการยาวขึ้นเอง</span>
         fruits.<span class="tok-fn">add</span>(<span class="tok-str">"Banana"</span>);
         fruits.<span class="tok-fn">add</span>(<span class="tok-str">"Cherry"</span>);
-        <span class="tok-com">// println แสดงทั้งรายการในรูป [..]</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(fruits);
-        <span class="tok-com">// size() = จำนวนสมาชิก (อาเรย์ใช้ length)</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"size = "</span> + fruits.<span class="tok-fn">size</span>());
-        <span class="tok-com">// get(index) แทน [index]</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"first = "</span> + fruits.<span class="tok-fn">get</span>(<span class="tok-num">0</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(fruits);                       <span class="tok-com">// [Apple, Banana, Cherry]</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"size = "</span> + fruits.<span class="tok-fn">size</span>());    <span class="tok-com">// 3</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"first = "</span> + fruits.<span class="tok-fn">get</span>(<span class="tok-num">0</span>));   <span class="tok-com">// get(i) แทน [i]</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"last = "</span> + fruits.<span class="tok-fn">get</span>(fruits.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>));
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Empty? true, size = 0
 [Apple, Banana, Cherry]
 size = 3
 first = Apple
-last = Cherry</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ต้อง <code>import java.util.ArrayList;</code></li><li>เริ่มว่าง size = 0</li><li>add ต่อท้ายทีละตัว size เพิ่มเอง</li><li>println แสดง [Apple, Banana, Cherry] โดยไม่ต้องใช้ Arrays.toString</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.1.2</span>อาเรย์เทียบกับ ArrayList: รับข้อมูลจนกว่าจะพอ</h4><p class="concept-line"><strong>แนวคิด:</strong> ไม่ต้องถามจำนวนล่วงหน้า — เพิ่มลงรายการจนกว่าผู้ใช้จะป้อน sentinel</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadUntilSentinel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+last = Cherry</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>println รายการได้ทันที ไม่ต้องใช้ <code>Arrays.toString</code> เหมือนอาเรย์</p></div>
+<h4 class="sub">รับข้อมูลโดยไม่รู้จำนวนล่วงหน้า</h4>
+<p>อาเรย์ต้องถามจำนวนก่อน แต่ ArrayList เพิ่มไปเรื่อย ๆ จนผู้ใช้ป้อนค่าหยุด (sentinel) ได้เลย</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.1.2</span>อ่านคะแนนจนกว่าจะป้อน -1</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadUntilSentinel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReadUntilSentinel</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
-        <span class="tok-com">// ไม่ต้องรู้จำนวนล่วงหน้า</span>
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; scores = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         <span class="tok-kw">while</span> (<span class="tok-num">true</span>) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Score (-1 to stop): "</span>);
             <span class="tok-kw">int</span> s = input.<span class="tok-fn">nextInt</span>();
-            <span class="tok-kw">if</span> (s == -<span class="tok-num">1</span>) <span class="tok-kw">break</span>;  <span class="tok-com">// ค่าหยุด</span>
-            scores.<span class="tok-fn">add</span>(s);       <span class="tok-com">// เพิ่มทีละค่า</span>
+            <span class="tok-kw">if</span> (s == -<span class="tok-num">1</span>) <span class="tok-kw">break</span>;                       <span class="tok-com">// ค่าหยุด</span>
+            scores.<span class="tok-fn">add</span>(s);                            <span class="tok-com">// เพิ่มทีละค่า</span>
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Scores: "</span> + scores);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Count: "</span> + scores.<span class="tok-fn">size</span>());
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Count: "</span> + scores.<span class="tok-fn">size</span>());    <span class="tok-com">// จำนวนจริงที่ป้อน</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Score (-1 to stop): <b class="stdin">72</b>
 Score (-1 to stop): <b class="stdin">85</b>
@@ -105,39 +104,37 @@ Score (-1 to stop): <b class="stdin">90</b>
 Score (-1 to stop): <b class="stdin">64</b>
 Score (-1 to stop): <b class="stdin">-1</b>
 Scores: [72, 85, 90, 64]
-Count: 4</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ไม่รู้ว่าจะมีกี่คะแนน → อาเรย์ไม่สะดวก</li><li>add ทุกครั้งที่ได้ค่าใหม่</li><li>size() บอกจำนวนจริง</li></ol></div></div>
+Count: 4</pre></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · เลือกโครงสร้าง</strong><div><p>ควรใช้ Array หรือ ArrayList: (ก) อุณหภูมิ 7 วันในสัปดาห์ (ข) รายการสินค้าในตะกร้าที่ผู้ใช้เพิ่ม/ลบได้ (ค) กระดานหมากรุก 8×8</p></div><details><summary>ดูคำตอบ</summary><div><p>(ก) Array — จำนวนแน่นอน (ข) ArrayList — เปลี่ยนจำนวนตลอด (ค) Array 2 มิติ</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-13-2">
 <h3>13.2 Generic type และ wrapper class</h3>
-<p><code>&lt;String&gt;</code> ใน <code>ArrayList&lt;String&gt;</code> เรียกว่า <strong>type parameter</strong> (generic) บอกว่ารายการนี้เก็บชนิดใด compiler จะตรวจให้ว่าไม่เผลอใส่ชนิดอื่น ArrayList เก็บได้เฉพาะออบเจ็กต์ จึงใช้ <strong>wrapper class</strong> แทน primitive: <code>Integer</code> (int), <code>Double</code> (double), <code>Character</code> (char), <code>Boolean</code> (boolean) Java แปลงไปมาให้อัตโนมัติ (autoboxing / unboxing)</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.2.1</span>Integer และ Double ในรายการ</h4><p class="concept-line"><strong>แนวคิด:</strong> เขียน <code>list.add(5)</code> ได้เลย Java แปลง int เป็น Integer ให้ และแปลงกลับเมื่อนำไปคำนวณ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrapperDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<p><code>&lt;String&gt;</code> ใน <code>ArrayList&lt;String&gt;</code> เรียกว่า <strong>type parameter</strong> (generic) บอกว่ารายการนี้เก็บชนิดใด compiler จะกันไม่ให้ใส่ชนิดอื่น</p>
+<p>generic ต้องเป็น<strong>คลาส</strong> ใช้ primitive อย่าง int ไม่ได้ จึงใช้ <strong>wrapper class</strong> แทน Java แปลงไปมาให้อัตโนมัติ (autoboxing / unboxing)</p>
+<table class="comparison-table"><thead><tr><th>primitive</th><th>wrapper class</th><th>ตัวอย่าง</th></tr></thead><tbody><tr><td><code>int</code></td><td><code>Integer</code></td><td><code>ArrayList&lt;Integer&gt;</code></td></tr><tr><td><code>double</code></td><td><code>Double</code></td><td><code>ArrayList&lt;Double&gt;</code></td></tr><tr><td><code>char</code></td><td><code>Character</code></td><td><code>ArrayList&lt;Character&gt;</code></td></tr><tr><td><code>boolean</code></td><td><code>Boolean</code></td><td><code>ArrayList&lt;Boolean&gt;</code></td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.2.1</span>Integer และ Double ในรายการ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrapperDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrapperDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ใช้ Integer แทน int</span>
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; nums = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
-        <span class="tok-com">// int ถูกห่อเป็น Integer อัตโนมัติ</span>
-        nums.<span class="tok-fn">add</span>(<span class="tok-num">5</span>);
+        nums.<span class="tok-fn">add</span>(<span class="tok-num">5</span>);                                  <span class="tok-com">// int → Integer อัตโนมัติ</span>
         nums.<span class="tok-fn">add</span>(<span class="tok-num">12</span>);
         nums.<span class="tok-fn">add</span>(<span class="tok-num">8</span>);
         <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
-        <span class="tok-com">// Integer ถูกแปลงกลับเป็น int อัตโนมัติ</span>
-        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> n : nums) {
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> n : nums) {                          <span class="tok-com">// Integer → int อัตโนมัติ</span>
             sum += n;
         }
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(nums + <span class="tok-str">" sum = "</span> + sum);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(nums + <span class="tok-str">" sum = "</span> + sum);   <span class="tok-com">// [5, 12, 8] sum = 25</span>
 
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Double</span>&gt; prices = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         prices.<span class="tok-fn">add</span>(<span class="tok-num">19.5</span>);
         prices.<span class="tok-fn">add</span>(<span class="tok-num">7.25</span>);
-        <span class="tok-com">// Double → double อัตโนมัติ</span>
-        <span class="tok-kw">double</span> first = prices.<span class="tok-fn">get</span>(<span class="tok-num">0</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"first price x 2 = "</span> + first * <span class="tok-num">2</span>);
+        <span class="tok-kw">double</span> first = prices.<span class="tok-fn">get</span>(<span class="tok-num">0</span>);                 <span class="tok-com">// Double → double</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"first price x 2 = "</span> + first * <span class="tok-num">2</span>);   <span class="tok-com">// 39.0</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>[5, 12, 8] sum = 25
-first price x 2 = 39.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>add(5) → autoboxing เป็น Integer</li><li>for-each ด้วยตัวแปร int → unboxing อัตโนมัติ</li><li>get(0) คืน Double เก็บลง double ได้ตรง ๆ</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 13.2.2</span>ใช้ primitive หรือใส่ผิดชนิด</h4><p class="concept-line"><strong>แนวคิด:</strong> generic ต้องเป็นคลาส และ compiler กันไม่ให้ใส่ชนิดที่ไม่ตรง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GenericErrors.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+first price x 2 = 39.0</pre></div></div></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: error เมื่อใช้ primitive หรือใส่ผิดชนิด</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 13.2.2</span>ใช้ primitive หรือใส่ผิดชนิด</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GenericErrors.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GenericErrors</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -152,8 +149,10 @@ first price x 2 = 39.0</pre></div></div><div class="walkthrough"><strong>อธ�
   found:    int
 GenericErrors.java:7: error: incompatible types: int cannot be converted to String
         names.add(42);
-                  ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>ArrayList&lt;int&gt;</code> → <code>unexpected type ... required: reference, found: int</code> ใช้ Integer แทน</li><li><code>names.add(42)</code> → int ไม่ใช่ String</li><li>ข้อดีของ generic: ผิดตั้งแต่ตอนคอมไพล์ ไม่ต้องรอไปพังตอนรัน</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 13.2.3</span>เปรียบเทียบ Integer ด้วย ==</h4><p class="concept-line"><strong>แนวคิด:</strong> Integer เป็นออบเจ็กต์ <code>==</code> เทียบการอ้างอิง ค่าเล็ก (−128 ถึง 127) บังเอิญถูกเพราะ Java แคชไว้ แต่ค่าใหญ่จะผิด — ใช้ <code>equals</code> หรือแปลงเป็น int ก่อน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">IntegerEquality.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+                  ^</pre></div></div><p>ข้อดีของ generic: ใส่ผิดชนิดแล้วรู้ตั้งแต่ตอนคอมไพล์ ไม่ต้องรอไปพังตอนรัน</p></div></div></details>
+<h4 class="sub">เทียบ Integer ด้วย equals</h4>
+<p>Integer เป็นออบเจ็กต์ <code>==</code> จึงเทียบการอ้างอิง ไม่ใช่ค่า Java แคชค่าเล็ก (−128 ถึง 127) ไว้ใช้ร่วมกัน ค่าเล็กจึงบังเอิญถูก แต่ค่าใหญ่จะผิด</p>
+<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 13.2.3</span>เปรียบเทียบ Integer ด้วย ==</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">IntegerEquality.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">IntegerEquality</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -162,26 +161,24 @@ GenericErrors.java:7: error: incompatible types: int cannot be converted to Stri
         list.<span class="tok-fn">add</span>(<span class="tok-num">100</span>);
         list.<span class="tok-fn">add</span>(<span class="tok-num">1000</span>);
         list.<span class="tok-fn">add</span>(<span class="tok-num">1000</span>);
-        <span class="tok-com">// ค่าน้อย ๆ Java ใช้ออบเจ็กต์ร่วมกัน → true</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"100 == 100   ? "</span> + (list.<span class="tok-fn">get</span>(<span class="tok-num">0</span>) == list.<span class="tok-fn">get</span>(<span class="tok-num">1</span>)));
-        <span class="tok-com">// ค่าใหญ่เป็นคนละออบเจ็กต์ → false</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"1000 == 1000 ? "</span> + (list.<span class="tok-fn">get</span>(<span class="tok-num">2</span>) == list.<span class="tok-fn">get</span>(<span class="tok-num">3</span>)));
-        <span class="tok-com">// equals เทียบค่า ถูกต้องเสมอ</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"equals       ? "</span> + list.<span class="tok-fn">get</span>(<span class="tok-num">2</span>).<span class="tok-fn">equals</span>(list.<span class="tok-fn">get</span>(<span class="tok-num">3</span>)));
-        <span class="tok-com">// แปลงเป็น int ก่อน แล้ว == เทียบค่าได้</span>
-        <span class="tok-kw">int</span> a = list.<span class="tok-fn">get</span>(<span class="tok-num">2</span>), b = list.<span class="tok-fn">get</span>(<span class="tok-num">3</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"int a == b   ? "</span> + (a == b));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"100 == 100   ? "</span> + (list.<span class="tok-fn">get</span>(<span class="tok-num">0</span>) == list.<span class="tok-fn">get</span>(<span class="tok-num">1</span>)));   <span class="tok-com">// true  (บังเอิญ: อยู่ในแคช)</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"1000 == 1000 ? "</span> + (list.<span class="tok-fn">get</span>(<span class="tok-num">2</span>) == list.<span class="tok-fn">get</span>(<span class="tok-num">3</span>)));   <span class="tok-com">// false คนละออบเจ็กต์</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"equals       ? "</span> + list.<span class="tok-fn">get</span>(<span class="tok-num">2</span>).<span class="tok-fn">equals</span>(list.<span class="tok-fn">get</span>(<span class="tok-num">3</span>)));   <span class="tok-com">// true เทียบค่า</span>
+        <span class="tok-kw">int</span> a = list.<span class="tok-fn">get</span>(<span class="tok-num">2</span>), b = list.<span class="tok-fn">get</span>(<span class="tok-num">3</span>);                                    <span class="tok-com">// แปลงเป็น int ก่อน</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"int a == b   ? "</span> + (a == b));                        <span class="tok-com">// true</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>100 == 100   ? true
 1000 == 1000 ? false
 equals       ? true
-int a == b   ? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>100 อยู่ในช่วงแคช → == ได้ true (บังเอิญ)</li><li>1000 เป็นคนละออบเจ็กต์ → == ได้ false</li><li>equals เทียบค่า → true</li><li>unbox เป็น int แล้ว == ถูกต้อง</li></ol></div></div>
+int a == b   ? true</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ข้อผิดพลาดที่พบบ่อย</span><p>เทียบค่าของ Integer, Double หรือออบเจ็กต์ใด ๆ ใช้ <code>equals</code> หรือแปลงเป็น primitive ก่อนแล้วจึงใช้ <code>==</code></p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · wrapper</strong><div><p>ประกาศรายการสำหรับเก็บ (ก) ตัวอักษรเกรด (ข) ราคาสินค้า (ค) สถานะเปิด/ปิด ได้อย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><p>(ก) <code>ArrayList&lt;Character&gt;</code> (ข) <code>ArrayList&lt;Double&gt;</code> (ค) <code>ArrayList&lt;Boolean&gt;</code></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-13-3">
 <h3>13.3 เพิ่ม อ่าน แก้ และค้นหาข้อมูล</h3>
+<p>ArrayList มีเมธอดสำเร็จรูปสำหรับงานพื้นฐานทั้งหมด index เริ่มที่ 0 และใช้ได้ถึง <code>size() - 1</code> เหมือนอาเรย์</p>
 <table class="comparison-table"><thead><tr><th>เมธอด</th><th>ทำอะไร</th></tr></thead><tbody><tr><td><code>add(x)</code></td><td>ต่อท้าย</td></tr><tr><td><code>add(i, x)</code></td><td>แทรกที่ตำแหน่ง i (สมาชิกเดิมเลื่อนไปขวา)</td></tr><tr><td><code>get(i)</code></td><td>อ่านสมาชิกตำแหน่ง i</td></tr><tr><td><code>set(i, x)</code></td><td>แทนที่สมาชิกตำแหน่ง i (คืนค่าเดิม)</td></tr><tr><td><code>size()</code> / <code>isEmpty()</code></td><td>จำนวน / ว่างไหม</td></tr><tr><td><code>contains(x)</code></td><td>มี x ไหม (ใช้ equals)</td></tr><tr><td><code>indexOf(x)</code> / <code>lastIndexOf(x)</code></td><td>ตำแหน่งแรก/สุดท้ายของ x หรือ −1</td></tr><tr><td><code>clear()</code></td><td>ลบทั้งหมด</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.3.1</span>add, add(i, x), set และ get</h4><p class="concept-line"><strong>แนวคิด:</strong> add(i, x) แทรก (สมาชิกเดิมเลื่อน) ส่วน set(i, x) แทนที่ (จำนวนเท่าเดิม)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AddSetGet.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.3.1</span>แทรก (add) กับแทนที่ (set)</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AddSetGet.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AddSetGet</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -190,21 +187,21 @@ int a == b   ? true</pre></div></div><div class="walkthrough"><strong>อธิ�
         queue.<span class="tok-fn">add</span>(<span class="tok-str">"Suga"</span>);
         queue.<span class="tok-fn">add</span>(<span class="tok-str">"RM"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"start   "</span> + queue);
-        <span class="tok-com">// แทรกที่ index 1 ตัวที่เหลือเลื่อนไปขวา</span>
-        queue.<span class="tok-fn">add</span>(<span class="tok-num">1</span>, <span class="tok-str">"Jungkook"</span>);
+        queue.<span class="tok-fn">add</span>(<span class="tok-num">1</span>, <span class="tok-str">"Jungkook"</span>);                         <span class="tok-com">// แทรก: Suga, RM เลื่อนไปขวา</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"insert  "</span> + queue);
-        <span class="tok-com">// set แทนที่ และคืนค่าเดิม</span>
-        <span class="tok-type">String</span> old = queue.<span class="tok-fn">set</span>(<span class="tok-num">0</span>, <span class="tok-str">"Mark"</span>);
+        <span class="tok-type">String</span> old = queue.<span class="tok-fn">set</span>(<span class="tok-num">0</span>, <span class="tok-str">"Mark"</span>);                <span class="tok-com">// แทนที่ JHope และคืนค่าเดิม</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"set     "</span> + queue + <span class="tok-str">" (replaced "</span> + old + <span class="tok-str">")"</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"get(2)  "</span> + queue.<span class="tok-fn">get</span>(<span class="tok-num">2</span>));
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"size    "</span> + queue.<span class="tok-fn">size</span>());
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"get(2)  "</span> + queue.<span class="tok-fn">get</span>(<span class="tok-num">2</span>));    <span class="tok-com">// Suga</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"size    "</span> + queue.<span class="tok-fn">size</span>());    <span class="tok-com">// 4  set ไม่เพิ่มจำนวน</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>start   [JHope, Suga, RM]
 insert  [JHope, Jungkook, Suga, RM]
 set     [Mark, Jungkook, Suga, RM] (replaced JHope)
 get(2)  Suga
-size    4</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>แทรก Jungkook ที่ index 1 → Suga และ RM เลื่อนไป index 2, 3</li><li>set(0, "Mark") แทน JHope และคืนค่าเดิมกลับมา</li><li>size เพิ่มจาก add แต่ไม่เพิ่มจาก set</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.3.2</span>contains และ indexOf</h4><p class="concept-line"><strong>แนวคิด:</strong> ค้นหาด้วยเมธอดสำเร็จรูป ซึ่งใช้ equals เปรียบเทียบ (ตรงตัวพิมพ์)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SearchList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+size    4</pre></div></div></div>
+<h4 class="sub">ค้นหาในรายการ</h4>
+<p><code>contains</code>, <code>indexOf</code> และ <code>lastIndexOf</code> ใช้ equals เปรียบเทียบ (ตัวพิมพ์ต้องตรง)</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.3.2</span>contains และ indexOf</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SearchList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SearchList</span> {
@@ -218,13 +215,11 @@ size    4</pre></div></div><div class="walkthrough"><strong>อธิบาย�
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> k = <span class="tok-num">0</span>; k &lt; <span class="tok-num">2</span>; k++) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Find: "</span>);
             <span class="tok-type">String</span> item = input.<span class="tok-fn">next</span>();
-            <span class="tok-com">// มีในรายการหรือไม่</span>
             <span class="tok-kw">if</span> (stock.<span class="tok-fn">contains</span>(item)) {
-                <span class="tok-com">// indexOf: ตัวแรก, lastIndexOf: ตัวสุดท้าย</span>
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  first at "</span> + stock.<span class="tok-fn">indexOf</span>(item) + <span class="tok-str">", last at "</span> + stock.<span class="tok-fn">lastIndexOf</span>(item));
             } <span class="tok-kw">else</span> {
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  not in stock -&gt; adding"</span>);
-                stock.<span class="tok-fn">add</span>(item);  <span class="tok-com">// ไม่มี → เพิ่มต่อท้าย</span>
+                stock.<span class="tok-fn">add</span>(item);                          <span class="tok-com">// ไม่มี → เพิ่มต่อท้าย</span>
             }
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(stock);
@@ -233,8 +228,9 @@ size    4</pre></div></div><div class="walkthrough"><strong>อธิบาย�
   first at 1, last at 3
 Find: <b class="stdin">Mango</b>
   not in stock -&gt; adding
-[Apple, Banana, Cherry, Banana, Mango]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Banana มีอยู่ → indexOf 1, lastIndexOf 3</li><li>Mango ไม่มี → เพิ่มต่อท้าย</li><li>รายการสุดท้ายมี 5 ตัว</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 13.3.3</span>get เกินขอบเขต</h4><p class="concept-line"><strong>แนวคิด:</strong> index ที่ใช้ได้คือ 0 ถึง size() − 1 เหมือนอาเรย์ แต่ exception ชื่อ <code>IndexOutOfBoundsException</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ListOutOfBounds.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+[Apple, Banana, Cherry, Banana, Mango]</pre></div></div></div>
+<div class="callout warn"><span class="box-title">get เกินขอบเขต</span><p>รายการที่มี 2 ตัว ใช้ index ได้แค่ 0 และ 1 <code>get(2)</code> จะเกิด <code>IndexOutOfBoundsException</code> รายการว่างแม้แต่ <code>get(0)</code> ก็ error</p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: IndexOutOfBoundsException</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 13.3.3</span>get เกินขอบเขต</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ListOutOfBounds.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ListOutOfBounds</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -246,7 +242,7 @@ Find: <b class="stdin">Mango</b>
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>20
 Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2
-	at ListOutOfBounds.main(ListOutOfBounds.java:9)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>size = 2 → index ใช้ได้ 0, 1</li><li>get(2) → <code>Index 2 out of bounds for length 2</code></li><li>ArrayList ใหม่ที่ว่างเปล่า get(0) ก็ error เช่นกัน</li></ol></div></div>
+	at ListOutOfBounds.main(ListOutOfBounds.java:9)</pre></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · add vs set</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; a = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
 a.<span class="tok-fn">add</span>(<span class="tok-num">1</span>); a.<span class="tok-fn">add</span>(<span class="tok-num">2</span>); a.<span class="tok-fn">add</span>(<span class="tok-num">3</span>);
 a.<span class="tok-fn">add</span>(<span class="tok-num">0</span>, <span class="tok-num">9</span>);
@@ -254,32 +250,33 @@ a.<span class="tok-fn">set</span>(<span class="tok-num">2</span>, <span class="t
 </article>
 <article class="subtopic" id="topic-13-4">
 <h3>13.4 ลบสมาชิกและ index ที่เลื่อน</h3>
-<p><code>remove(int index)</code> ลบตามตำแหน่ง และ <code>remove(Object o)</code> ลบตามค่า (ตัวแรกที่พบ) หลังลบ สมาชิกทางขวา<strong>เลื่อนมาทางซ้าย</strong>หนึ่งตำแหน่ง — ต้องระวังเมื่อลบระหว่างวนลูป</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.4.1</span>remove ตามตำแหน่งและตามค่า</h4><p class="concept-line"><strong>แนวคิด:</strong> กับ ArrayList&lt;Integer&gt; ระวัง: <code>remove(2)</code> คือลบ <em>index</em> 2 ถ้าต้องการลบ<em>ค่า</em> 2 ใช้ <code>remove(Integer.valueOf(2))</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RemoveDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<p>ลบได้สองแบบ: <code>remove(int index)</code> ลบตามตำแหน่ง และ <code>remove(Object o)</code> ลบตามค่า (ตัวแรกที่พบ) หลังลบ สมาชิกทางขวา<strong>เลื่อนมาทางซ้าย</strong>หนึ่งช่อง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.4.1</span>remove ตามตำแหน่งและตามค่า</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RemoveDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RemoveDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; names = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         names.<span class="tok-fn">add</span>(<span class="tok-str">"JHope"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"Suga"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"RM"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"Suga"</span>);
-        names.<span class="tok-fn">remove</span>(<span class="tok-num">0</span>);  <span class="tok-com">// remove(int) = ลบตาม index</span>
+        names.<span class="tok-fn">remove</span>(<span class="tok-num">0</span>);                                  <span class="tok-com">// ลบ index 0 → Suga เลื่อนมาที่ 0</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"remove(0)       "</span> + names);
-        <span class="tok-com">// remove(Object) = ลบตัวแรกที่เท่ากัน</span>
-        names.<span class="tok-fn">remove</span>(<span class="tok-str">"Suga"</span>);
+        names.<span class="tok-fn">remove</span>(<span class="tok-str">"Suga"</span>);                             <span class="tok-com">// ลบ "Suga" ตัวแรกที่พบ</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"remove(\"Suga\")  "</span> + names);
 
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; nums = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         nums.<span class="tok-fn">add</span>(<span class="tok-num">5</span>); nums.<span class="tok-fn">add</span>(<span class="tok-num">2</span>); nums.<span class="tok-fn">add</span>(<span class="tok-num">9</span>); nums.<span class="tok-fn">add</span>(<span class="tok-num">2</span>);
-        nums.<span class="tok-fn">remove</span>(<span class="tok-num">2</span>);  <span class="tok-com">// 2 เป็น int → ลบ index 2</span>
+        nums.<span class="tok-fn">remove</span>(<span class="tok-num">2</span>);                                   <span class="tok-com">// 2 เป็น int → ลบ index 2 (ค่า 9)</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"remove(2)       "</span> + nums);
-        <span class="tok-com">// ห่อเป็น Integer → ลบค่า 2</span>
-        nums.<span class="tok-fn">remove</span>(<span class="tok-type">Integer</span>.<span class="tok-fn">valueOf</span>(<span class="tok-num">2</span>));
+        nums.<span class="tok-fn">remove</span>(<span class="tok-type">Integer</span>.<span class="tok-fn">valueOf</span>(<span class="tok-num">2</span>));                  <span class="tok-com">// ห่อเป็น Integer → ลบค่า 2</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"remove(value 2) "</span> + nums);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>remove(0)       [Suga, RM, Suga]
 remove("Suga")  [RM, Suga]
 remove(2)       [5, 2, 2]
-remove(value 2) [5, 2]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลบ index 0 → Suga เลื่อนมาเป็น index 0</li><li>remove("Suga") ลบตัวแรกที่พบเท่านั้น</li><li>nums.remove(2) ลบ index 2 (ค่า 9)</li><li>remove(Integer.valueOf(2)) ลบค่า 2 ตัวแรก</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 13.4.2</span>ลบในลูปแล้วข้ามสมาชิก</h4><p class="concept-line"><strong>แนวคิด:</strong> ลบที่ index i แล้วสมาชิกถัดไปเลื่อนมาอยู่ที่ i แต่ลูปเพิ่ม i ไปแล้ว → ตัวที่เลื่อนมาถูกข้าม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RemoveSkipBug.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+remove(value 2) [5, 2]</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ArrayList<Integer> กับ remove</span><p><code>remove(2)</code> คือลบ <em>index</em> 2 เสมอ ถ้าต้องการลบ<em>ค่า</em> 2 ให้เขียน <code>remove(Integer.valueOf(2))</code></p></div>
+<h4 class="sub">ลบระหว่างวนลูป</h4>
+<p>โปรแกรมนี้ต้องการลบคะแนนที่ต่ำกว่า 50 ทั้งหมด ควรเหลือ [80, 90] ดูผลลัพธ์แล้วหาว่าทำไมผิด</p>
+<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 13.4.2</span>ลบในลูปแล้วข้ามสมาชิก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RemoveSkipBug.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RemoveSkipBug</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -292,38 +289,39 @@ remove(value 2) [5, 2]</pre></div></div><div class="walkthrough"><strong>อธ�
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Expected [80, 90] but got "</span> + scores);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Expected [80, 90] but got [30, 80, 10, 90]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>i=0 ลบ 45 → 30 เลื่อนมาที่ index 0 แต่ i กลายเป็น 1 → 30 ถูกข้าม</li><li>i=1 คือ 80 ไม่ลบ, i=2 ลบ 20 → 10 เลื่อนมา แล้วถูกข้ามอีก</li><li>ผลลัพธ์ยังเหลือ 30 และ 10</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.4.3</span>สามวิธีลบอย่างถูกต้อง</h4><p class="concept-line"><strong>แนวคิด:</strong> (1) วนจากท้ายไปหน้า (2) ไม่เพิ่ม i เมื่อลบ (3) ใช้ <code>removeIf</code> กับ lambda</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RemoveCorrectly.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Expected [80, 90] but got [30, 80, 10, 90]</pre></div></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · หาบั๊กได้ไหม</strong><div><p>ทำไม 30 และ 10 ยังเหลืออยู่</p></div><details><summary>ดูคำตอบ</summary><div><p>i = 0 ลบ 45 → 30 เลื่อนมาอยู่ index 0 แต่ลูปเพิ่ม i เป็น 1 ไปแล้ว 30 จึงไม่ถูกตรวจ เช่นเดียวกับ 10 ที่เลื่อนมาแทน 20 ตัวที่เลื่อนมาแทนที่ถูกข้ามทุกครั้ง</p></div></details></div>
+<p>มีสามวิธีที่ถูกต้อง: (1) วนจากท้ายมาหน้า การเลื่อนจะเกิดกับตัวที่ตรวจไปแล้วเท่านั้น (2) เพิ่ม i เฉพาะเมื่อไม่ได้ลบ (3) ใช้ <code>removeIf</code></p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.4.3</span>สามวิธีลบอย่างถูกต้อง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RemoveCorrectly.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RemoveCorrectly</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">List</span>&lt;<span class="tok-type">Integer</span>&gt; data = <span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-num">45</span>, <span class="tok-num">30</span>, <span class="tok-num">80</span>, <span class="tok-num">20</span>, <span class="tok-num">10</span>, <span class="tok-num">90</span>);
 
-        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; a = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(data);
-        <span class="tok-com">// วนจากท้าย: ลบแล้ว index ที่เหลือไม่เลื่อน</span>
-        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = a.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>; i &gt;= <span class="tok-num">0</span>; i--) {
+        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; a = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(data);     <span class="tok-com">// คัดลอกรายการตั้งต้น</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = a.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>; i &gt;= <span class="tok-num">0</span>; i--) {         <span class="tok-com">// (1) วนจากท้าย</span>
             <span class="tok-kw">if</span> (a.<span class="tok-fn">get</span>(i) &lt; <span class="tok-num">50</span>) a.<span class="tok-fn">remove</span>(i);
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"backward : "</span> + a);
 
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; b = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(data);
         <span class="tok-kw">int</span> i = <span class="tok-num">0</span>;
-        <span class="tok-kw">while</span> (i &lt; b.<span class="tok-fn">size</span>()) {  <span class="tok-com">// เพิ่ม i เฉพาะเมื่อไม่ได้ลบ</span>
-            <span class="tok-kw">if</span> (b.<span class="tok-fn">get</span>(i) &lt; <span class="tok-num">50</span>) b.<span class="tok-fn">remove</span>(i);
-            <span class="tok-kw">else</span> i++;  <span class="tok-com">// ลบแล้วไม่เพิ่ม i เพราะตัวถัดไปเลื่อนมาแทน</span>
+        <span class="tok-kw">while</span> (i &lt; b.<span class="tok-fn">size</span>()) {
+            <span class="tok-kw">if</span> (b.<span class="tok-fn">get</span>(i) &lt; <span class="tok-num">50</span>) b.<span class="tok-fn">remove</span>(i);               <span class="tok-com">// (2) ลบแล้วไม่เพิ่ม i</span>
+            <span class="tok-kw">else</span> i++;                                     <span class="tok-com">//     เพราะตัวถัดไปเลื่อนมาแทน</span>
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"while    : "</span> + b);
 
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; c = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(data);
-        <span class="tok-com">// ลบทุกตัวที่ตรงเงื่อนไข (lambda)</span>
-        c.<span class="tok-fn">removeIf</span>(score -&gt; score &lt; <span class="tok-num">50</span>);
+        c.<span class="tok-fn">removeIf</span>(score -&gt; score &lt; <span class="tok-num">50</span>);                  <span class="tok-com">// (3) ลบทุก score ที่ score &lt; 50</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"removeIf : "</span> + c);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>backward : [80, 90]
 while    : [80, 90]
-removeIf : [80, 90]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>new ArrayList&lt;&gt;(data)</code> คัดลอกรายการตั้งต้น</li><li>วนถอยหลัง: การเลื่อนเกิดกับสมาชิกที่ตรวจไปแล้วเท่านั้น</li><li>while: เพิ่ม i เฉพาะเมื่อไม่ได้ลบ</li><li>removeIf: สั้นที่สุด อ่านว่า “ลบทุก score ที่ score &lt; 50”</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 13.4.4</span>ลบระหว่าง for-each</h4><p class="concept-line"><strong>แนวคิด:</strong> แก้โครงสร้างรายการ (add/remove) ระหว่าง for-each จะเกิด <code>ConcurrentModificationException</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForEachRemove.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+removeIf : [80, 90]</pre></div></div></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: ลบระหว่าง for-each</summary><div class="more-body"><p>แก้รายการ (add/remove) ระหว่าง for-each จะเกิด <code>ConcurrentModificationException</code> เพราะ for-each ตรวจว่ารายการถูกแก้ระหว่างวนหรือไม่ ใช้วิธีใดวิธีหนึ่งด้านบนแทน</p>
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 13.4.4</span>ลบระหว่าง for-each</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForEachRemove.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForEachRemove</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -337,30 +335,29 @@ removeIf : [80, 90]</pre></div></div><div class="walkthrough"><strong>อธิ�
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(items);
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>Exception in thread "main" java.util.ConcurrentModificationException
-	at ForEachRemove.main(ForEachRemove.java:7)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>for-each ใช้ iterator ที่ตรวจว่ารายการถูกแก้ระหว่างวนหรือไม่</li><li>เมื่อพบการแก้ → exception</li><li>แก้ด้วยวิธีใดวิธีหนึ่งในตัวอย่างก่อนหน้า</li></ol></div></div>
+	at ForEachRemove.main(ForEachRemove.java:7)</pre></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · index เลื่อน</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; s = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-str">"A"</span>, <span class="tok-str">"B"</span>, <span class="tok-str">"C"</span>, <span class="tok-str">"D"</span>, <span class="tok-str">"E"</span>));
 s.<span class="tok-fn">remove</span>(<span class="tok-num">1</span>);
 s.<span class="tok-fn">remove</span>(<span class="tok-num">2</span>);</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>remove(1) ลบ B → [A, C, D, E] แล้ว remove(2) ลบ D (ไม่ใช่ C!) → <strong>[A, C, E]</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-13-5">
 <h3>13.5 วนอ่าน ประมวลผล และเรียงรายการ</h3>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.5.1</span>for ปกติ, for-each และ forEach</h4><p class="concept-line"><strong>แนวคิด:</strong> เลือกแบบที่เหมาะ: ต้องใช้ index → for ปกติ, อ่านอย่างเดียว → for-each, สั้นที่สุด → <code>list.forEach(...)</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">IterateList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<p>วนอ่านรายการได้ 3 แบบ เลือกตามงาน</p>
+<table class="comparison-table"><thead><tr><th>แบบ</th><th>เมื่อไร</th></tr></thead><tbody><tr><td><code>for (int i = 0; i &lt; list.size(); i++)</code></td><td>ต้องใช้ index เช่น แสดงลำดับที่ หรือ set ค่า</td></tr><tr><td><code>for (String t : list)</code></td><td>อ่านทีละตัวอย่างเดียว</td></tr><tr><td><code>list.forEach(t -&gt; ...)</code></td><td>สั้นที่สุด (lambda อธิบายละเอียดในบทที่ 16)</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.5.1</span>วนสามแบบ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">IterateList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">IterateList</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// List.of สร้างรายการเริ่มต้นแบบสั้น</span>
-        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; tasks = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-str">"Read"</span>, <span class="tok-str">"Code"</span>, <span class="tok-str">"Test"</span>));
-        <span class="tok-com">// for แบบ index ใช้ get(i)</span>
+        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; tasks = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-str">"Read"</span>, <span class="tok-str">"Code"</span>, <span class="tok-str">"Test"</span>));   <span class="tok-com">// สร้างพร้อมค่าเริ่มต้น</span>
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; tasks.<span class="tok-fn">size</span>(); i++) {
-            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>((i + <span class="tok-num">1</span>) + <span class="tok-str">". "</span> + tasks.<span class="tok-fn">get</span>(i));
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>((i + <span class="tok-num">1</span>) + <span class="tok-str">". "</span> + tasks.<span class="tok-fn">get</span>(i));    <span class="tok-com">// ลำดับที่ = index + 1</span>
         }
-        <span class="tok-kw">for</span> (<span class="tok-type">String</span> t : tasks) {  <span class="tok-com">// for-each อ่านทีละตัว</span>
+        <span class="tok-kw">for</span> (<span class="tok-type">String</span> t : tasks) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(t.<span class="tok-fn">toUpperCase</span>() + <span class="tok-str">" "</span>);
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
-        <span class="tok-com">// forEach + lambda</span>
-        tasks.<span class="tok-fn">forEach</span>(t -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"- "</span> + t));
+        tasks.<span class="tok-fn">forEach</span>(t -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"- "</span> + t));         <span class="tok-com">// ทำกับทุกตัว</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>1. Read
 2. Code
@@ -368,50 +365,47 @@ s.<span class="tok-fn">remove</span>(<span class="tok-num">2</span>);</code></pr
 READ CODE TEST 
 - Read
 - Code
-- Test</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>for ปกติแสดงลำดับที่</li><li>for-each แปลงทีละตัว</li><li>forEach รับ lambda ทำกับทุกสมาชิก (บทที่ 16 อธิบาย lambda ละเอียด)</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.5.2</span>สถิติจากรายการ: รวม ค่าเฉลี่ย สูงสุด กรอง</h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบเดียวกับอาเรย์ในบทที่ 8 แต่ใช้ size() และ get() — และสร้างรายการใหม่จากการกรองได้ง่าย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ListStats.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+- Test</pre></div></div></div>
+<h4 class="sub">สถิติและการกรอง</h4>
+<p>รูปแบบเดียวกับอาเรย์ในบทที่ 8 แต่ใช้ <code>size()</code> และ <code>get()</code> ข้อดีคือสร้างรายการใหม่เก็บผลกรองได้ทันทีโดยไม่ต้องรู้ขนาด</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.5.2</span>ค่าเฉลี่ย สูงสุด และวันที่ร้อน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ListStats.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ListStats</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ArrayList&lt;Double&gt; สร้างจาก List.of</span>
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Double</span>&gt; temps = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-num">31.5</span>, <span class="tok-num">29.0</span>, <span class="tok-num">33.2</span>, <span class="tok-num">35.1</span>, <span class="tok-num">30.4</span>, <span class="tok-num">34.0</span>));
-        <span class="tok-com">// เริ่มจากตัวแรก</span>
         <span class="tok-kw">double</span> sum = <span class="tok-num">0</span>, max = temps.<span class="tok-fn">get</span>(<span class="tok-num">0</span>);
-        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Double</span>&gt; hotDays = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
+        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Double</span>&gt; hotDays = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();            <span class="tok-com">// รายการผลกรอง</span>
         <span class="tok-kw">for</span> (<span class="tok-kw">double</span> t : temps) {
             sum += t;
             <span class="tok-kw">if</span> (t &gt; max) max = t;
-            <span class="tok-com">// เก็บวันที่ร้อนลงอีกรายการ</span>
-            <span class="tok-kw">if</span> (t &gt;= <span class="tok-num">33</span>) hotDays.<span class="tok-fn">add</span>(t);
+            <span class="tok-kw">if</span> (t &gt;= <span class="tok-num">33</span>) hotDays.<span class="tok-fn">add</span>(t);                          <span class="tok-com">// เก็บเฉพาะที่ผ่านเงื่อนไข</span>
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Average %.2f, Max %.1f%n"</span>, sum / temps.<span class="tok-fn">size</span>(), max);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hot days (&gt;= 33): "</span> + hotDays + <span class="tok-str">" -&gt; "</span> + hotDays.<span class="tok-fn">size</span>() + <span class="tok-str">" days"</span>);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Average 32.20, Max 35.1
-Hot days (&gt;= 33): [33.2, 35.1, 34.0] -&gt; 3 days</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>วนครั้งเดียวคำนวณได้หลายค่า</li><li>hotDays เป็นรายการใหม่ที่เพิ่มเฉพาะค่าที่ผ่านเงื่อนไข — ไม่ต้องรู้ขนาดล่วงหน้า</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.5.3</span>Collections: sort, reverse, max, min, frequency</h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>java.util.Collections</code> มีเครื่องมือสำเร็จรูปสำหรับรายการ เทียบได้กับ Arrays ของอาเรย์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CollectionsTools.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+Hot days (&gt;= 33): [33.2, 35.1, 34.0] -&gt; 3 days</pre></div></div></div>
+<h4 class="sub">Collections: เครื่องมือสำเร็จรูป</h4>
+<table class="comparison-table"><thead><tr><th>เมธอด</th><th>ทำอะไร</th></tr></thead><tbody><tr><td><code>Collections.max(list)</code> / <code>min</code></td><td>ค่ามากสุด / น้อยสุด</td></tr><tr><td><code>Collections.frequency(list, x)</code></td><td>นับจำนวนครั้งที่พบ x</td></tr><tr><td><code>Collections.sort(list)</code></td><td>เรียงน้อยไปมาก (แก้รายการเดิม)</td></tr><tr><td><code>Collections.reverse(list)</code></td><td>กลับลำดับ</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.5.3</span>sort, reverse, max, min, frequency</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CollectionsTools.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">Collections</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CollectionsTools</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; nums = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-num">42</span>, <span class="tok-num">7</span>, <span class="tok-num">19</span>, <span class="tok-num">7</span>, <span class="tok-num">3</span>, <span class="tok-num">25</span>, <span class="tok-num">7</span>));
-        <span class="tok-com">// หาค่ามาก/น้อยสุด</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"max "</span> + <span class="tok-type">Collections</span>.<span class="tok-fn">max</span>(nums) + <span class="tok-str">", min "</span> + <span class="tok-type">Collections</span>.<span class="tok-fn">min</span>(nums));
-        <span class="tok-com">// นับจำนวนครั้งที่พบ</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"frequency of 7: "</span> + <span class="tok-type">Collections</span>.<span class="tok-fn">frequency</span>(nums, <span class="tok-num">7</span>));
-        <span class="tok-com">// เรียงจากน้อยไปมาก</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"max "</span> + <span class="tok-type">Collections</span>.<span class="tok-fn">max</span>(nums) + <span class="tok-str">", min "</span> + <span class="tok-type">Collections</span>.<span class="tok-fn">min</span>(nums));   <span class="tok-com">// 42, 3</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"frequency of 7: "</span> + <span class="tok-type">Collections</span>.<span class="tok-fn">frequency</span>(nums, <span class="tok-num">7</span>));               <span class="tok-com">// 3</span>
         <span class="tok-type">Collections</span>.<span class="tok-fn">sort</span>(nums);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"sorted   "</span> + nums);
-        <span class="tok-type">Collections</span>.<span class="tok-fn">reverse</span>(nums);  <span class="tok-com">// กลับลำดับ</span>
+        <span class="tok-type">Collections</span>.<span class="tok-fn">reverse</span>(nums);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"reversed "</span> + nums);
 
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; names = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-str">"jungkook"</span>, <span class="tok-str">"Suga"</span>, <span class="tok-str">"jhope"</span>, <span class="tok-str">"RM"</span>));
-        <span class="tok-type">Collections</span>.<span class="tok-fn">sort</span>(names);  <span class="tok-com">// ตัวใหญ่มาก่อนตัวเล็ก</span>
+        <span class="tok-type">Collections</span>.<span class="tok-fn">sort</span>(names);                                  <span class="tok-com">// ตัวใหญ่มาก่อนตัวเล็ก</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"sorted names           "</span> + names);
-        <span class="tok-com">// เรียงโดยไม่สนตัวพิมพ์</span>
-        names.<span class="tok-fn">sort</span>(<span class="tok-type">String</span>.<span class="tok-const">CASE_INSENSITIVE_ORDER</span>);
+        names.<span class="tok-fn">sort</span>(<span class="tok-type">String</span>.<span class="tok-const">CASE_INSENSITIVE_ORDER</span>);                <span class="tok-com">// ไม่สนตัวพิมพ์</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"case-insensitive order "</span> + names);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>max 42, min 3
@@ -419,7 +413,7 @@ frequency of 7: 3
 sorted   [3, 7, 7, 7, 19, 25, 42]
 reversed [42, 25, 19, 7, 7, 7, 3]
 sorted names           [RM, Suga, jhope, jungkook]
-case-insensitive order [jhope, jungkook, RM, Suga]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>max/min/frequency ไม่ต้องเขียนลูปเอง</li><li>sort เรียงในรายการเดิม</li><li>String เรียงตามรหัสอักขระ: ตัวใหญ่มาก่อนตัวเล็ก</li><li><code>String.CASE_INSENSITIVE_ORDER</code> เรียงโดยไม่สนตัวพิมพ์</li></ol></div></div>
+case-insensitive order [jhope, jungkook, RM, Suga]</pre></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · กรอง</strong><div><p>มี <code>ArrayList&lt;String&gt; words</code> จะสร้างรายการใหม่ที่มีเฉพาะคำยาวกว่า 4 ตัวอักษรได้อย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; longWords = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
 <span class="tok-kw">for</span> (<span class="tok-type">String</span> w : words) {
     <span class="tok-kw">if</span> (w.<span class="tok-fn">length</span>() &gt; <span class="tok-num">4</span>) longWords.<span class="tok-fn">add</span>(w);
@@ -427,34 +421,28 @@ case-insensitive order [jhope, jungkook, RM, Suga]</pre></div></div><div class="
 </article>
 <article class="subtopic" id="topic-13-6">
 <h3>13.6 เก็บ object ในรายการ</h3>
-<p>ArrayList ของออบเจ็กต์ (เช่น <code>ArrayList&lt;Student&gt;</code>) คือรูปแบบหลักของโปรแกรมจัดการข้อมูล: เพิ่ม ค้นหา แก้ไข ลบ รายงาน — และเป็นพื้นฐานของ model ในโปรแกรม GUI บทที่ 14–19</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.6.1</span>รายชื่อนักศึกษา: เพิ่ม ค้นหา แก้ไข</h4><p class="concept-line"><strong>แนวคิด:</strong> ค้นหาออบเจ็กต์ด้วย field (เช่น รหัส) แล้วแก้ไขผ่านเมธอดของออบเจ็กต์นั้น — การแก้มีผลกับออบเจ็กต์ในรายการจริง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StudentList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<p>ArrayList ของออบเจ็กต์ เช่น <code>ArrayList&lt;Student&gt;</code> คือรูปแบบหลักของโปรแกรมจัดการข้อมูล: เพิ่ม ค้นหา แก้ไข ลบ และรายงาน และเป็นพื้นฐานของข้อมูลในโปรแกรม GUI บทที่ 14–19</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.6.1</span>รายชื่อนักศึกษา: เพิ่ม ค้นหา แก้ไข</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StudentList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StudentList</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// รายการของออบเจ็กต์ Student</span>
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Student</span>&gt; list = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
-        <span class="tok-com">// สร้างออบเจ็กต์แล้วเพิ่มในรายการ</span>
-        list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6601"</span>, <span class="tok-str">"JHope"</span>, <span class="tok-num">78</span>));
+        list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6601"</span>, <span class="tok-str">"JHope"</span>, <span class="tok-num">78</span>));       <span class="tok-com">// สร้างแล้วเพิ่มในบรรทัดเดียว</span>
         list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6602"</span>, <span class="tok-str">"Suga"</span>, <span class="tok-num">55</span>));
         list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6603"</span>, <span class="tok-str">"RM"</span>, <span class="tok-num">91</span>));
 
-        <span class="tok-type">Student</span> s = <span class="tok-fn">findById</span>(list, <span class="tok-str">"6602"</span>);  <span class="tok-com">// ค้นด้วยรหัส</span>
-        <span class="tok-com">// ไม่พบจะได้ null จึงต้องตรวจก่อนใช้</span>
-        <span class="tok-kw">if</span> (s != <span class="tok-num">null</span>) s.<span class="tok-fn">setScore</span>(<span class="tok-num">65</span>);
+        <span class="tok-type">Student</span> s = <span class="tok-fn">findById</span>(list, <span class="tok-str">"6602"</span>);
+        <span class="tok-kw">if</span> (s != <span class="tok-num">null</span>) s.<span class="tok-fn">setScore</span>(<span class="tok-num">65</span>);                    <span class="tok-com">// s ชี้ตัวเดียวกับในรายการ → แก้จริง</span>
 
-        <span class="tok-com">// ไม่พบ → แสดง null</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">findById</span>(list, <span class="tok-str">"9999"</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">findById</span>(list, <span class="tok-str">"9999"</span>));       <span class="tok-com">// null  ไม่พบ</span>
         <span class="tok-kw">for</span> (<span class="tok-type">Student</span> st : list) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(st);
     }
 
-    <span class="tok-com">// รับรายการเป็น parameter</span>
     <span class="tok-kw">static</span> <span class="tok-type">Student</span> <span class="tok-fn">findById</span>(<span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Student</span>&gt; list, <span class="tok-type">String</span> id) {
         <span class="tok-kw">for</span> (<span class="tok-type">Student</span> s : list) {
-            <span class="tok-com">// เทียบ String ด้วย equals</span>
-            <span class="tok-kw">if</span> (s.<span class="tok-fn">getId</span>().<span class="tok-fn">equals</span>(id)) <span class="tok-kw">return</span> s;
+            <span class="tok-kw">if</span> (s.<span class="tok-fn">getId</span>().<span class="tok-fn">equals</span>(id)) <span class="tok-kw">return</span> s;           <span class="tok-com">// เจอแล้วคืนทันที</span>
         }
-        <span class="tok-kw">return</span> <span class="tok-num">null</span>;  <span class="tok-com">// วนครบแล้วไม่พบ</span>
+        <span class="tok-kw">return</span> <span class="tok-num">null</span>;                                      <span class="tok-com">// วนครบแล้วไม่พบ</span>
     }
 }
 
@@ -480,8 +468,11 @@ case-insensitive order [jhope, jungkook, RM, Suga]</pre></div></div><div class="
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>null
 6601 JHope 78
 6602 Suga 65
-6603 RM 91</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>findById คืนออบเจ็กต์ที่พบ หรือ null</li><li>s ชี้ออบเจ็กต์เดียวกับในรายการ → setScore มีผลจริง</li><li>ผู้เรียกต้องตรวจ null ก่อนใช้</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.6.2</span>เรียงออบเจ็กต์ด้วย Comparator</h4><p class="concept-line"><strong>แนวคิด:</strong> บอกวิธีเรียงด้วย <code>Comparator.comparing(...)</code> — เรียงตามคะแนน, ตามชื่อ, หรือกลับลำดับด้วย <code>.reversed()</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SortObjects.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+6603 RM 91</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ข้อผิดพลาดที่พบบ่อย</span><p>เมธอดค้นหาที่คืน <code>null</code> เมื่อไม่พบ ผู้เรียกต้องตรวจ <code>if (s != null)</code> ก่อนใช้ทุกครั้ง ไม่เช่นนั้นจะเกิด NullPointerException</p></div>
+<h4 class="sub">เรียงออบเจ็กต์ด้วย Comparator</h4>
+<p>ออบเจ็กต์ไม่รู้ว่าควรเรียงตามอะไร ต้องบอกด้วย <code>Comparator.comparing(Product::getPrice)</code> แปลว่า “ใช้ getPrice ของแต่ละตัวเป็นเกณฑ์” และต่อ <code>.reversed()</code> เพื่อเรียงมากไปน้อย</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.6.2</span>เรียงสินค้าตามราคา จำนวน และชื่อ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SortObjects.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">Comparator</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SortObjects</span> {
@@ -492,18 +483,15 @@ case-insensitive order [jhope, jungkook, RM, Suga]</pre></div></div><div class="
         items.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Product</span>(<span class="tok-str">"Cable"</span>, <span class="tok-num">120</span>, <span class="tok-num">60</span>));
         items.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Product</span>(<span class="tok-str">"Monitor"</span>, <span class="tok-num">4590</span>, <span class="tok-num">5</span>));
 
-        <span class="tok-com">// เรียงตามราคา</span>
-        items.<span class="tok-fn">sort</span>(<span class="tok-type">Comparator</span>.<span class="tok-fn">comparing</span>(<span class="tok-type">Product</span>::getPrice));
+        items.<span class="tok-fn">sort</span>(<span class="tok-type">Comparator</span>.<span class="tok-fn">comparing</span>(<span class="tok-type">Product</span>::getPrice));              <span class="tok-com">// ราคาน้อย → มาก</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"By price:       "</span> + items);
-        <span class="tok-com">// reversed() = มากไปน้อย</span>
-        items.<span class="tok-fn">sort</span>(<span class="tok-type">Comparator</span>.<span class="tok-fn">comparing</span>(<span class="tok-type">Product</span>::getStock).<span class="tok-fn">reversed</span>());
+        items.<span class="tok-fn">sort</span>(<span class="tok-type">Comparator</span>.<span class="tok-fn">comparing</span>(<span class="tok-type">Product</span>::getStock).<span class="tok-fn">reversed</span>());   <span class="tok-com">// จำนวนมาก → น้อย</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"By stock desc:  "</span> + items);
-        items.<span class="tok-fn">sort</span>(<span class="tok-type">Comparator</span>.<span class="tok-fn">comparing</span>(<span class="tok-type">Product</span>::getName));
+        items.<span class="tok-fn">sort</span>(<span class="tok-type">Comparator</span>.<span class="tok-fn">comparing</span>(<span class="tok-type">Product</span>::getName));               <span class="tok-com">// ตามตัวอักษร</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"By name:        "</span> + items);
 
         <span class="tok-kw">double</span> value = <span class="tok-num">0</span>;
-        <span class="tok-com">// มูลค่ารวม = ราคา × จำนวน</span>
-        <span class="tok-kw">for</span> (<span class="tok-type">Product</span> p : items) value += p.<span class="tok-fn">getPrice</span>() * p.<span class="tok-fn">getStock</span>();
+        <span class="tok-kw">for</span> (<span class="tok-type">Product</span> p : items) value += p.<span class="tok-fn">getPrice</span>() * p.<span class="tok-fn">getStock</span>();     <span class="tok-com">// ราคา × จำนวน</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Inventory value: %,.2f%n"</span>, value);
     }
 }
@@ -528,33 +516,30 @@ case-insensitive order [jhope, jungkook, RM, Suga]</pre></div></div><div class="
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>By price:       [Cable, Mouse, Keyboard, Monitor]
 By stock desc:  [Cable, Keyboard, Mouse, Monitor]
 By name:        [Cable, Keyboard, Monitor, Mouse]
-Inventory value: 66,600.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>Product::getPrice</code> คือ method reference: “ใช้ getPrice ของแต่ละตัวเป็นเกณฑ์”</li><li><code>.reversed()</code> กลับเป็นมากไปน้อย</li><li>มูลค่าคลังรวมราคา × จำนวนของทุกรายการ</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.6.3</span>เมนูจัดการรายการสิ่งที่ต้องทำ (To-do)</h4><p class="concept-line"><strong>แนวคิด:</strong> รวมทุกอย่าง: ArrayList + เมนู do-while + การลบด้วย index ที่ผู้ใช้เลือก (ผู้ใช้นับจาก 1 โค้ดต้องลบ 1)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TodoApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+Inventory value: 66,600.00</pre></div></div></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: เมนูจัดการรายการสิ่งที่ต้องทำ (To-do)</summary><div class="more-body"><p>รวมทุกอย่าง: ArrayList + เมนู do-while + ลบด้วยหมายเลขที่ผู้ใช้เลือก ผู้ใช้นับจาก 1 แต่ index เริ่มที่ 0 จึงต้องลบ 1</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.6.3</span>To-do app</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TodoApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TodoApp</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> in = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
-        <span class="tok-com">// รายการงาน</span>
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; todos = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         <span class="tok-kw">int</span> choice;
         <span class="tok-kw">do</span> {
             <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"[1] Add [2] Done [3] List [0] Exit: "</span>);
             choice = in.<span class="tok-fn">nextInt</span>();
-            in.<span class="tok-fn">nextLine</span>();  <span class="tok-com">// ทิ้ง Enter ที่ค้างจาก nextInt()</span>
+            in.<span class="tok-fn">nextLine</span>();                                    <span class="tok-com">// ทิ้ง Enter ที่ค้างจาก nextInt()</span>
             <span class="tok-kw">switch</span> (choice) {
                 <span class="tok-kw">case</span> <span class="tok-num">1</span> -&gt; {
                     <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"  Task: "</span>);
-                    <span class="tok-com">// อ่านชื่องานทั้งบรรทัด</span>
-                    todos.<span class="tok-fn">add</span>(in.<span class="tok-fn">nextLine</span>());
+                    todos.<span class="tok-fn">add</span>(in.<span class="tok-fn">nextLine</span>());                 <span class="tok-com">// ชื่องานทั้งบรรทัด</span>
                 }
                 <span class="tok-kw">case</span> <span class="tok-num">2</span> -&gt; {
                     <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"  Task number: "</span>);
                     <span class="tok-kw">int</span> n = in.<span class="tok-fn">nextInt</span>();
-                    <span class="tok-com">// ตรวจหมายเลขว่าอยู่ในช่วง</span>
                     <span class="tok-kw">if</span> (n &gt;= <span class="tok-num">1</span> &amp;&amp; n &lt;= todos.<span class="tok-fn">size</span>()) {
-                        <span class="tok-com">// remove คืนค่าที่ถูกลบ, n - 1 เพราะ index เริ่มที่ 0</span>
-                        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  Completed: "</span> + todos.<span class="tok-fn">remove</span>(n - <span class="tok-num">1</span>));
+                        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  Completed: "</span> + todos.<span class="tok-fn">remove</span>(n - <span class="tok-num">1</span>));   <span class="tok-com">// remove คืนค่าที่ลบ</span>
                     } <span class="tok-kw">else</span> {
                         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  No such task"</span>);
                     }
@@ -587,7 +572,7 @@ Inventory value: 66,600.00</pre></div></div><div class="walkthrough"><strong>อ
   1. Read chapter 13
   2. Test program
 [1] Add [2] Done [3] List [0] Exit: <b class="stdin">0</b>
-Bye</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เพิ่ม 3 งาน</li><li>แสดงรายการ: เลขลำดับ = index + 1</li><li>ทำงานที่ 2 เสร็จ → remove(1) คืนค่าที่ลบออกมาแสดง</li><li>แสดงอีกครั้ง: Test program เลื่อนเป็นข้อ 2</li></ol></div></div>
+Bye</pre></div></div></div></div></details>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">

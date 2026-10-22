@@ -16,6 +16,7 @@ export default {
     {
       num: "13.1", toc: "Array หรือ ArrayList", title: "Array หรือ ArrayList",
       blocks: [
+        { type: "p", html: `<code>ArrayList</code> คือรายการที่<strong>ยืดและหดได้เอง</strong> เพิ่มสมาชิกเมื่อไรก็ยาวขึ้น ลบเมื่อไรก็สั้นลง ไม่ต้องกำหนดขนาดล่วงหน้าเหมือนอาเรย์` },
         { type: "table", head: ["", "Array", "ArrayList"], rows: [
           ["ขนาด", "คงที่ตอนสร้าง", "เปลี่ยนได้ตลอด"],
           ["ประกาศ", "<code>int[] a = new int[5];</code>", "<code>ArrayList&lt;Integer&gt; list = new ArrayList&lt;&gt;();</code>"],
@@ -23,33 +24,31 @@ export default {
           ["อ่าน / เขียน", "<code>a[i]</code> / <code>a[i] = x</code>", "<code>list.get(i)</code> / <code>list.set(i, x)</code>"],
           ["เพิ่ม / ลบ", "ทำเองยาก", "<code>add</code>, <code>remove</code>"],
           ["ชนิดข้อมูล", "primitive หรือออบเจ็กต์", "ออบเจ็กต์เท่านั้น (ใช้ Integer แทน int)"],
-          ["เหมาะกับ", "จำนวนแน่นอน ตาราง 2 มิติ ประสิทธิภาพสูง", "รายการที่เพิ่ม/ลบระหว่างทำงาน"],
+          ["เหมาะกับ", "จำนวนแน่นอน ตาราง 2 มิติ", "รายการที่เพิ่ม/ลบระหว่างทำงาน"],
         ] },
-        { type: "run", title: "ArrayList แรก", level: "พื้นฐาน",
-          concept: "สร้างรายการว่าง เพิ่มทีละตัวด้วย add แล้วพิมพ์ทั้งรายการได้ทันที (ArrayList มี toString ในตัว)",
+        { type: "run", title: "ArrayList แรก",
           code: j`
-            import java.util.ArrayList;  // ต้อง import ก่อนใช้
+            import java.util.ArrayList;                               // ต้อง import ก่อนใช้
 
             public class FirstList {
                 public static void main(String[] args) {
-                    // <String> = เก็บได้เฉพาะ String, เริ่มต้นว่าง
-                    ArrayList<String> fruits = new ArrayList<>();
-                    System.out.println("Empty? " + fruits.isEmpty() + ", size = " + fruits.size());
-                    fruits.add("Apple");  // add ต่อท้าย รายการยาวขึ้นเอง
+                    ArrayList<String> fruits = new ArrayList<>();     // <String> = เก็บได้เฉพาะ String
+                    System.out.println("Empty? " + fruits.isEmpty() + ", size = " + fruits.size());   // true, 0
+                    fruits.add("Apple");                              // ต่อท้าย รายการยาวขึ้นเอง
                     fruits.add("Banana");
                     fruits.add("Cherry");
-                    // println แสดงทั้งรายการในรูป [..]
-                    System.out.println(fruits);
-                    // size() = จำนวนสมาชิก (อาเรย์ใช้ length)
-                    System.out.println("size = " + fruits.size());
-                    // get(index) แทน [index]
-                    System.out.println("first = " + fruits.get(0));
+                    System.out.println(fruits);                       // [Apple, Banana, Cherry]
+                    System.out.println("size = " + fruits.size());    // 3
+                    System.out.println("first = " + fruits.get(0));   // get(i) แทน [i]
                     System.out.println("last = " + fruits.get(fruits.size() - 1));
                 }
             }`,
-          steps: ["ต้อง <code>import java.util.ArrayList;</code>", "เริ่มว่าง size = 0", "add ต่อท้ายทีละตัว size เพิ่มเอง", "println แสดง [Apple, Banana, Cherry] โดยไม่ต้องใช้ Arrays.toString"] },
-        { type: "run", title: "อาเรย์เทียบกับ ArrayList: รับข้อมูลจนกว่าจะพอ", level: "ต่อยอด", stdin: "72\n85\n90\n64\n-1",
-          concept: "ไม่ต้องถามจำนวนล่วงหน้า — เพิ่มลงรายการจนกว่าผู้ใช้จะป้อน sentinel",
+          },
+        { type: "tip", html: `println รายการได้ทันที ไม่ต้องใช้ <code>Arrays.toString</code> เหมือนอาเรย์` },
+
+        { type: "h", text: "รับข้อมูลโดยไม่รู้จำนวนล่วงหน้า" },
+        { type: "p", html: `อาเรย์ต้องถามจำนวนก่อน แต่ ArrayList เพิ่มไปเรื่อย ๆ จนผู้ใช้ป้อนค่าหยุด (sentinel) ได้เลย` },
+        { type: "run", title: "อ่านคะแนนจนกว่าจะป้อน -1", stdin: "72\n85\n90\n64\n-1",
           code: j`
             import java.util.ArrayList;
             import java.util.Scanner;
@@ -57,70 +56,74 @@ export default {
             public class ReadUntilSentinel {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
-                    // ไม่ต้องรู้จำนวนล่วงหน้า
                     ArrayList<Integer> scores = new ArrayList<>();
                     while (true) {
                         System.out.print("Score (-1 to stop): ");
                         int s = input.nextInt();
-                        if (s == -1) break;  // ค่าหยุด
-                        scores.add(s);       // เพิ่มทีละค่า
+                        if (s == -1) break;                       // ค่าหยุด
+                        scores.add(s);                            // เพิ่มทีละค่า
                     }
                     System.out.println("Scores: " + scores);
-                    System.out.println("Count: " + scores.size());
+                    System.out.println("Count: " + scores.size());    // จำนวนจริงที่ป้อน
                 }
             }`,
-          steps: ["ไม่รู้ว่าจะมีกี่คะแนน → อาเรย์ไม่สะดวก", "add ทุกครั้งที่ได้ค่าใหม่", "size() บอกจำนวนจริง"] },
+          },
         { type: "check", title: "เลือกโครงสร้าง", html: `<p>ควรใช้ Array หรือ ArrayList: (ก) อุณหภูมิ 7 วันในสัปดาห์ (ข) รายการสินค้าในตะกร้าที่ผู้ใช้เพิ่ม/ลบได้ (ค) กระดานหมากรุก 8×8</p>`, answer: `<p>(ก) Array — จำนวนแน่นอน (ข) ArrayList — เปลี่ยนจำนวนตลอด (ค) Array 2 มิติ</p>` },
       ],
     },
     {
       num: "13.2", toc: "Generic type", title: "Generic type และ wrapper class",
       blocks: [
-        { type: "p", html: `<code>&lt;String&gt;</code> ใน <code>ArrayList&lt;String&gt;</code> เรียกว่า <strong>type parameter</strong> (generic) บอกว่ารายการนี้เก็บชนิดใด compiler จะตรวจให้ว่าไม่เผลอใส่ชนิดอื่น ArrayList เก็บได้เฉพาะออบเจ็กต์ จึงใช้ <strong>wrapper class</strong> แทน primitive: <code>Integer</code> (int), <code>Double</code> (double), <code>Character</code> (char), <code>Boolean</code> (boolean) Java แปลงไปมาให้อัตโนมัติ (autoboxing / unboxing)` },
-        { type: "run", title: "Integer และ Double ในรายการ", level: "พื้นฐาน",
-          concept: "เขียน <code>list.add(5)</code> ได้เลย Java แปลง int เป็น Integer ให้ และแปลงกลับเมื่อนำไปคำนวณ",
+        { type: "p", html: `<code>&lt;String&gt;</code> ใน <code>ArrayList&lt;String&gt;</code> เรียกว่า <strong>type parameter</strong> (generic) บอกว่ารายการนี้เก็บชนิดใด compiler จะกันไม่ให้ใส่ชนิดอื่น` },
+        { type: "p", html: `generic ต้องเป็น<strong>คลาส</strong> ใช้ primitive อย่าง int ไม่ได้ จึงใช้ <strong>wrapper class</strong> แทน Java แปลงไปมาให้อัตโนมัติ (autoboxing / unboxing)` },
+        { type: "table", head: ["primitive", "wrapper class", "ตัวอย่าง"], rows: [
+          ["<code>int</code>", "<code>Integer</code>", "<code>ArrayList&lt;Integer&gt;</code>"],
+          ["<code>double</code>", "<code>Double</code>", "<code>ArrayList&lt;Double&gt;</code>"],
+          ["<code>char</code>", "<code>Character</code>", "<code>ArrayList&lt;Character&gt;</code>"],
+          ["<code>boolean</code>", "<code>Boolean</code>", "<code>ArrayList&lt;Boolean&gt;</code>"],
+        ] },
+        { type: "run", title: "Integer และ Double ในรายการ",
           code: j`
             import java.util.ArrayList;
 
             public class WrapperDemo {
                 public static void main(String[] args) {
-                    // ใช้ Integer แทน int
                     ArrayList<Integer> nums = new ArrayList<>();
-                    // int ถูกห่อเป็น Integer อัตโนมัติ
-                    nums.add(5);
+                    nums.add(5);                                  // int → Integer อัตโนมัติ
                     nums.add(12);
                     nums.add(8);
                     int sum = 0;
-                    // Integer ถูกแปลงกลับเป็น int อัตโนมัติ
-                    for (int n : nums) {
+                    for (int n : nums) {                          // Integer → int อัตโนมัติ
                         sum += n;
                     }
-                    System.out.println(nums + " sum = " + sum);
+                    System.out.println(nums + " sum = " + sum);   // [5, 12, 8] sum = 25
 
                     ArrayList<Double> prices = new ArrayList<>();
                     prices.add(19.5);
                     prices.add(7.25);
-                    // Double → double อัตโนมัติ
-                    double first = prices.get(0);
-                    System.out.println("first price x 2 = " + first * 2);
+                    double first = prices.get(0);                 // Double → double
+                    System.out.println("first price x 2 = " + first * 2);   // 39.0
                 }
             }`,
-          steps: ["add(5) → autoboxing เป็น Integer", "for-each ด้วยตัวแปร int → unboxing อัตโนมัติ", "get(0) คืน Double เก็บลง double ได้ตรง ๆ"] },
-        { type: "run", label: "ทดลอง error 13.2.2", title: "ใช้ primitive หรือใส่ผิดชนิด", level: "ต่อยอด", expect: "compile-error",
-          concept: "generic ต้องเป็นคลาส และ compiler กันไม่ให้ใส่ชนิดที่ไม่ตรง",
-          code: j`
-            import java.util.ArrayList;
+          },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อใช้ primitive หรือใส่ผิดชนิด", blocks: [
+          { type: "run", label: "ทดลอง error 13.2.2", title: "ใช้ primitive หรือใส่ผิดชนิด", expect: "compile-error",
+            code: j`
+              import java.util.ArrayList;
 
-            public class GenericErrors {
-                public static void main(String[] args) {
-                    ArrayList<int> numbers = new ArrayList<>();
-                    ArrayList<String> names = new ArrayList<>();
-                    names.add(42);
-                }
-            }`,
-          steps: ["<code>ArrayList&lt;int&gt;</code> → <code>unexpected type ... required: reference, found: int</code> ใช้ Integer แทน", "<code>names.add(42)</code> → int ไม่ใช่ String", "ข้อดีของ generic: ผิดตั้งแต่ตอนคอมไพล์ ไม่ต้องรอไปพังตอนรัน"] },
-        { type: "run", label: "ทดลองบั๊ก 13.2.3", title: "เปรียบเทียบ Integer ด้วย ==", level: "ประยุกต์",
-          concept: "Integer เป็นออบเจ็กต์ <code>==</code> เทียบการอ้างอิง ค่าเล็ก (−128 ถึง 127) บังเอิญถูกเพราะ Java แคชไว้ แต่ค่าใหญ่จะผิด — ใช้ <code>equals</code> หรือแปลงเป็น int ก่อน",
+              public class GenericErrors {
+                  public static void main(String[] args) {
+                      ArrayList<int> numbers = new ArrayList<>();
+                      ArrayList<String> names = new ArrayList<>();
+                      names.add(42);
+                  }
+              }`,
+            after: "ข้อดีของ generic: ใส่ผิดชนิดแล้วรู้ตั้งแต่ตอนคอมไพล์ ไม่ต้องรอไปพังตอนรัน" },
+        ] },
+
+        { type: "h", text: "เทียบ Integer ด้วย equals" },
+        { type: "p", html: `Integer เป็นออบเจ็กต์ <code>==</code> จึงเทียบการอ้างอิง ไม่ใช่ค่า Java แคชค่าเล็ก (−128 ถึง 127) ไว้ใช้ร่วมกัน ค่าเล็กจึงบังเอิญถูก แต่ค่าใหญ่จะผิด` },
+        { type: "run", label: "ทดลองบั๊ก 13.2.3", title: "เปรียบเทียบ Integer ด้วย ==",
           code: j`
             import java.util.ArrayList;
 
@@ -131,32 +134,29 @@ export default {
                     list.add(100);
                     list.add(1000);
                     list.add(1000);
-                    // ค่าน้อย ๆ Java ใช้ออบเจ็กต์ร่วมกัน → true
-                    System.out.println("100 == 100   ? " + (list.get(0) == list.get(1)));
-                    // ค่าใหญ่เป็นคนละออบเจ็กต์ → false
-                    System.out.println("1000 == 1000 ? " + (list.get(2) == list.get(3)));
-                    // equals เทียบค่า ถูกต้องเสมอ
-                    System.out.println("equals       ? " + list.get(2).equals(list.get(3)));
-                    // แปลงเป็น int ก่อน แล้ว == เทียบค่าได้
-                    int a = list.get(2), b = list.get(3);
-                    System.out.println("int a == b   ? " + (a == b));
+                    System.out.println("100 == 100   ? " + (list.get(0) == list.get(1)));   // true  (บังเอิญ: อยู่ในแคช)
+                    System.out.println("1000 == 1000 ? " + (list.get(2) == list.get(3)));   // false คนละออบเจ็กต์
+                    System.out.println("equals       ? " + list.get(2).equals(list.get(3)));   // true เทียบค่า
+                    int a = list.get(2), b = list.get(3);                                    // แปลงเป็น int ก่อน
+                    System.out.println("int a == b   ? " + (a == b));                        // true
                 }
             }`,
-          steps: ["100 อยู่ในช่วงแคช → == ได้ true (บังเอิญ)", "1000 เป็นคนละออบเจ็กต์ → == ได้ false", "equals เทียบค่า → true", "unbox เป็น int แล้ว == ถูกต้อง"] },
+          },
+        { type: "warn", html: `เทียบค่าของ Integer, Double หรือออบเจ็กต์ใด ๆ ใช้ <code>equals</code> หรือแปลงเป็น primitive ก่อนแล้วจึงใช้ <code>==</code>` },
         { type: "check", title: "wrapper", html: `<p>ประกาศรายการสำหรับเก็บ (ก) ตัวอักษรเกรด (ข) ราคาสินค้า (ค) สถานะเปิด/ปิด ได้อย่างไร</p>`, answer: `<p>(ก) <code>ArrayList&lt;Character&gt;</code> (ข) <code>ArrayList&lt;Double&gt;</code> (ค) <code>ArrayList&lt;Boolean&gt;</code></p>` },
       ],
     },
     {
       num: "13.3", toc: "เพิ่ม อ่าน แก้ข้อมูล", title: "เพิ่ม อ่าน แก้ และค้นหาข้อมูล",
       blocks: [
+        { type: "p", html: `ArrayList มีเมธอดสำเร็จรูปสำหรับงานพื้นฐานทั้งหมด index เริ่มที่ 0 และใช้ได้ถึง <code>size() - 1</code> เหมือนอาเรย์` },
         { type: "table", head: ["เมธอด", "ทำอะไร"], rows: [
           ["<code>add(x)</code>", "ต่อท้าย"], ["<code>add(i, x)</code>", "แทรกที่ตำแหน่ง i (สมาชิกเดิมเลื่อนไปขวา)"],
           ["<code>get(i)</code>", "อ่านสมาชิกตำแหน่ง i"], ["<code>set(i, x)</code>", "แทนที่สมาชิกตำแหน่ง i (คืนค่าเดิม)"],
           ["<code>size()</code> / <code>isEmpty()</code>", "จำนวน / ว่างไหม"], ["<code>contains(x)</code>", "มี x ไหม (ใช้ equals)"],
           ["<code>indexOf(x)</code> / <code>lastIndexOf(x)</code>", "ตำแหน่งแรก/สุดท้ายของ x หรือ −1"], ["<code>clear()</code>", "ลบทั้งหมด"],
         ] },
-        { type: "run", title: "add, add(i, x), set และ get", level: "พื้นฐาน",
-          concept: "add(i, x) แทรก (สมาชิกเดิมเลื่อน) ส่วน set(i, x) แทนที่ (จำนวนเท่าเดิม)",
+        { type: "run", title: "แทรก (add) กับแทนที่ (set)",
           code: j`
             import java.util.ArrayList;
 
@@ -167,19 +167,19 @@ export default {
                     queue.add("Suga");
                     queue.add("RM");
                     System.out.println("start   " + queue);
-                    // แทรกที่ index 1 ตัวที่เหลือเลื่อนไปขวา
-                    queue.add(1, "Jungkook");
+                    queue.add(1, "Jungkook");                         // แทรก: Suga, RM เลื่อนไปขวา
                     System.out.println("insert  " + queue);
-                    // set แทนที่ และคืนค่าเดิม
-                    String old = queue.set(0, "Mark");
+                    String old = queue.set(0, "Mark");                // แทนที่ JHope และคืนค่าเดิม
                     System.out.println("set     " + queue + " (replaced " + old + ")");
-                    System.out.println("get(2)  " + queue.get(2));
-                    System.out.println("size    " + queue.size());
+                    System.out.println("get(2)  " + queue.get(2));    // Suga
+                    System.out.println("size    " + queue.size());    // 4  set ไม่เพิ่มจำนวน
                 }
             }`,
-          steps: ["แทรก Jungkook ที่ index 1 → Suga และ RM เลื่อนไป index 2, 3", "set(0, \"Mark\") แทน JHope และคืนค่าเดิมกลับมา", "size เพิ่มจาก add แต่ไม่เพิ่มจาก set"] },
-        { type: "run", title: "contains และ indexOf", level: "ต่อยอด", stdin: "Banana\nMango",
-          concept: "ค้นหาด้วยเมธอดสำเร็จรูป ซึ่งใช้ equals เปรียบเทียบ (ตรงตัวพิมพ์)",
+          },
+
+        { type: "h", text: "ค้นหาในรายการ" },
+        { type: "p", html: `<code>contains</code>, <code>indexOf</code> และ <code>lastIndexOf</code> ใช้ equals เปรียบเทียบ (ตัวพิมพ์ต้องตรง)` },
+        { type: "run", title: "contains และ indexOf", stdin: "Banana\nMango",
           code: j`
             import java.util.ArrayList;
             import java.util.Scanner;
@@ -195,34 +195,34 @@ export default {
                     for (int k = 0; k < 2; k++) {
                         System.out.print("Find: ");
                         String item = input.next();
-                        // มีในรายการหรือไม่
                         if (stock.contains(item)) {
-                            // indexOf: ตัวแรก, lastIndexOf: ตัวสุดท้าย
                             System.out.println("  first at " + stock.indexOf(item) + ", last at " + stock.lastIndexOf(item));
                         } else {
                             System.out.println("  not in stock -> adding");
-                            stock.add(item);  // ไม่มี → เพิ่มต่อท้าย
+                            stock.add(item);                          // ไม่มี → เพิ่มต่อท้าย
                         }
                     }
                     System.out.println(stock);
                 }
             }`,
-          steps: ["Banana มีอยู่ → indexOf 1, lastIndexOf 3", "Mango ไม่มี → เพิ่มต่อท้าย", "รายการสุดท้ายมี 5 ตัว"] },
-        { type: "run", label: "ทดลอง error 13.3.3", title: "get เกินขอบเขต", level: "ประยุกต์", expect: "runtime-error",
-          concept: "index ที่ใช้ได้คือ 0 ถึง size() − 1 เหมือนอาเรย์ แต่ exception ชื่อ <code>IndexOutOfBoundsException</code>",
-          code: j`
-            import java.util.ArrayList;
+          },
+        { type: "warn", title: "get เกินขอบเขต", html: `รายการที่มี 2 ตัว ใช้ index ได้แค่ 0 และ 1 <code>get(2)</code> จะเกิด <code>IndexOutOfBoundsException</code> รายการว่างแม้แต่ <code>get(0)</code> ก็ error` },
+        { type: "more", title: "ดูตัวอย่าง: IndexOutOfBoundsException", blocks: [
+          { type: "run", label: "ทดลอง error 13.3.3", title: "get เกินขอบเขต", expect: "runtime-error",
+            code: j`
+              import java.util.ArrayList;
 
-            public class ListOutOfBounds {
-                public static void main(String[] args) {
-                    ArrayList<Integer> list = new ArrayList<>();
-                    list.add(10);
-                    list.add(20);
-                    System.out.println(list.get(1));
-                    System.out.println(list.get(2));
-                }
-            }`,
-          steps: ["size = 2 → index ใช้ได้ 0, 1", "get(2) → <code>Index 2 out of bounds for length 2</code>", "ArrayList ใหม่ที่ว่างเปล่า get(0) ก็ error เช่นกัน"] },
+              public class ListOutOfBounds {
+                  public static void main(String[] args) {
+                      ArrayList<Integer> list = new ArrayList<>();
+                      list.add(10);
+                      list.add(20);
+                      System.out.println(list.get(1));
+                      System.out.println(list.get(2));
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "add vs set", html: jpre(`
           ArrayList<Integer> a = new ArrayList<>();
           a.add(1); a.add(2); a.add(3);
@@ -233,9 +233,8 @@ export default {
     {
       num: "13.4", toc: "ลบและ index ที่เลื่อน", title: "ลบสมาชิกและ index ที่เลื่อน",
       blocks: [
-        { type: "p", html: `<code>remove(int index)</code> ลบตามตำแหน่ง และ <code>remove(Object o)</code> ลบตามค่า (ตัวแรกที่พบ) หลังลบ สมาชิกทางขวา<strong>เลื่อนมาทางซ้าย</strong>หนึ่งตำแหน่ง — ต้องระวังเมื่อลบระหว่างวนลูป` },
-        { type: "run", title: "remove ตามตำแหน่งและตามค่า", level: "พื้นฐาน",
-          concept: "กับ ArrayList&lt;Integer&gt; ระวัง: <code>remove(2)</code> คือลบ <em>index</em> 2 ถ้าต้องการลบ<em>ค่า</em> 2 ใช้ <code>remove(Integer.valueOf(2))</code>",
+        { type: "p", html: `ลบได้สองแบบ: <code>remove(int index)</code> ลบตามตำแหน่ง และ <code>remove(Object o)</code> ลบตามค่า (ตัวแรกที่พบ) หลังลบ สมาชิกทางขวา<strong>เลื่อนมาทางซ้าย</strong>หนึ่งช่อง` },
+        { type: "run", title: "remove ตามตำแหน่งและตามค่า",
           code: j`
             import java.util.ArrayList;
 
@@ -243,24 +242,25 @@ export default {
                 public static void main(String[] args) {
                     ArrayList<String> names = new ArrayList<>();
                     names.add("JHope"); names.add("Suga"); names.add("RM"); names.add("Suga");
-                    names.remove(0);  // remove(int) = ลบตาม index
+                    names.remove(0);                                  // ลบ index 0 → Suga เลื่อนมาที่ 0
                     System.out.println("remove(0)       " + names);
-                    // remove(Object) = ลบตัวแรกที่เท่ากัน
-                    names.remove("Suga");
+                    names.remove("Suga");                             // ลบ "Suga" ตัวแรกที่พบ
                     System.out.println("remove(\"Suga\")  " + names);
 
                     ArrayList<Integer> nums = new ArrayList<>();
                     nums.add(5); nums.add(2); nums.add(9); nums.add(2);
-                    nums.remove(2);  // 2 เป็น int → ลบ index 2
+                    nums.remove(2);                                   // 2 เป็น int → ลบ index 2 (ค่า 9)
                     System.out.println("remove(2)       " + nums);
-                    // ห่อเป็น Integer → ลบค่า 2
-                    nums.remove(Integer.valueOf(2));
+                    nums.remove(Integer.valueOf(2));                  // ห่อเป็น Integer → ลบค่า 2
                     System.out.println("remove(value 2) " + nums);
                 }
             }`,
-          steps: ["ลบ index 0 → Suga เลื่อนมาเป็น index 0", "remove(\"Suga\") ลบตัวแรกที่พบเท่านั้น", "nums.remove(2) ลบ index 2 (ค่า 9)", "remove(Integer.valueOf(2)) ลบค่า 2 ตัวแรก"] },
-        { type: "run", label: "ทดลองบั๊ก 13.4.2", title: "ลบในลูปแล้วข้ามสมาชิก", level: "ต่อยอด",
-          concept: "ลบที่ index i แล้วสมาชิกถัดไปเลื่อนมาอยู่ที่ i แต่ลูปเพิ่ม i ไปแล้ว → ตัวที่เลื่อนมาถูกข้าม",
+          },
+        { type: "warn", title: "ArrayList<Integer> กับ remove", html: `<code>remove(2)</code> คือลบ <em>index</em> 2 เสมอ ถ้าต้องการลบ<em>ค่า</em> 2 ให้เขียน <code>remove(Integer.valueOf(2))</code>` },
+
+        { type: "h", text: "ลบระหว่างวนลูป" },
+        { type: "p", html: `โปรแกรมนี้ต้องการลบคะแนนที่ต่ำกว่า 50 ทั้งหมด ควรเหลือ [80, 90] ดูผลลัพธ์แล้วหาว่าทำไมผิด` },
+        { type: "run", label: "ทดลองบั๊ก 13.4.2", title: "ลบในลูปแล้วข้ามสมาชิก",
           code: j`
             import java.util.ArrayList;
 
@@ -276,9 +276,10 @@ export default {
                     System.out.println("Expected [80, 90] but got " + scores);
                 }
             }`,
-          steps: ["i=0 ลบ 45 → 30 เลื่อนมาที่ index 0 แต่ i กลายเป็น 1 → 30 ถูกข้าม", "i=1 คือ 80 ไม่ลบ, i=2 ลบ 20 → 10 เลื่อนมา แล้วถูกข้ามอีก", "ผลลัพธ์ยังเหลือ 30 และ 10"] },
-        { type: "run", title: "สามวิธีลบอย่างถูกต้อง", level: "ประยุกต์",
-          concept: "(1) วนจากท้ายไปหน้า (2) ไม่เพิ่ม i เมื่อลบ (3) ใช้ <code>removeIf</code> กับ lambda",
+          },
+        { type: "check", title: "หาบั๊กได้ไหม", html: `<p>ทำไม 30 และ 10 ยังเหลืออยู่</p>`, answer: `<p>i = 0 ลบ 45 → 30 เลื่อนมาอยู่ index 0 แต่ลูปเพิ่ม i เป็น 1 ไปแล้ว 30 จึงไม่ถูกตรวจ เช่นเดียวกับ 10 ที่เลื่อนมาแทน 20 ตัวที่เลื่อนมาแทนที่ถูกข้ามทุกครั้ง</p>` },
+        { type: "p", html: `มีสามวิธีที่ถูกต้อง: (1) วนจากท้ายมาหน้า การเลื่อนจะเกิดกับตัวที่ตรวจไปแล้วเท่านั้น (2) เพิ่ม i เฉพาะเมื่อไม่ได้ลบ (3) ใช้ <code>removeIf</code>` },
+        { type: "run", title: "สามวิธีลบอย่างถูกต้อง",
           code: j`
             import java.util.ArrayList;
             import java.util.List;
@@ -287,46 +288,46 @@ export default {
                 public static void main(String[] args) {
                     List<Integer> data = List.of(45, 30, 80, 20, 10, 90);
 
-                    ArrayList<Integer> a = new ArrayList<>(data);
-                    // วนจากท้าย: ลบแล้ว index ที่เหลือไม่เลื่อน
-                    for (int i = a.size() - 1; i >= 0; i--) {
+                    ArrayList<Integer> a = new ArrayList<>(data);     // คัดลอกรายการตั้งต้น
+                    for (int i = a.size() - 1; i >= 0; i--) {         // (1) วนจากท้าย
                         if (a.get(i) < 50) a.remove(i);
                     }
                     System.out.println("backward : " + a);
 
                     ArrayList<Integer> b = new ArrayList<>(data);
                     int i = 0;
-                    while (i < b.size()) {  // เพิ่ม i เฉพาะเมื่อไม่ได้ลบ
-                        if (b.get(i) < 50) b.remove(i);
-                        else i++;  // ลบแล้วไม่เพิ่ม i เพราะตัวถัดไปเลื่อนมาแทน
+                    while (i < b.size()) {
+                        if (b.get(i) < 50) b.remove(i);               // (2) ลบแล้วไม่เพิ่ม i
+                        else i++;                                     //     เพราะตัวถัดไปเลื่อนมาแทน
                     }
                     System.out.println("while    : " + b);
 
                     ArrayList<Integer> c = new ArrayList<>(data);
-                    // ลบทุกตัวที่ตรงเงื่อนไข (lambda)
-                    c.removeIf(score -> score < 50);
+                    c.removeIf(score -> score < 50);                  // (3) ลบทุก score ที่ score < 50
                     System.out.println("removeIf : " + c);
                 }
             }`,
-          steps: ["<code>new ArrayList&lt;&gt;(data)</code> คัดลอกรายการตั้งต้น", "วนถอยหลัง: การเลื่อนเกิดกับสมาชิกที่ตรวจไปแล้วเท่านั้น", "while: เพิ่ม i เฉพาะเมื่อไม่ได้ลบ", "removeIf: สั้นที่สุด อ่านว่า “ลบทุก score ที่ score &lt; 50”"] },
-        { type: "run", label: "ทดลอง error 13.4.4", title: "ลบระหว่าง for-each", level: "ท้าทาย", expect: "runtime-error",
-          concept: "แก้โครงสร้างรายการ (add/remove) ระหว่าง for-each จะเกิด <code>ConcurrentModificationException</code>",
-          code: j`
-            import java.util.ArrayList;
+          },
+        { type: "more", title: "ดูตัวอย่าง: ลบระหว่าง for-each", blocks: [
+          { type: "p", html: `แก้รายการ (add/remove) ระหว่าง for-each จะเกิด <code>ConcurrentModificationException</code> เพราะ for-each ตรวจว่ารายการถูกแก้ระหว่างวนหรือไม่ ใช้วิธีใดวิธีหนึ่งด้านบนแทน` },
+          { type: "run", label: "ทดลอง error 13.4.4", title: "ลบระหว่าง for-each", expect: "runtime-error",
+            code: j`
+              import java.util.ArrayList;
 
-            public class ForEachRemove {
-                public static void main(String[] args) {
-                    ArrayList<String> items = new ArrayList<>();
-                    items.add("keep"); items.add("drop"); items.add("keep"); items.add("drop");
-                    for (String s : items) {
-                        if (s.equals("drop")) {
-                            items.remove(s);
-                        }
-                    }
-                    System.out.println(items);
-                }
-            }`,
-          steps: ["for-each ใช้ iterator ที่ตรวจว่ารายการถูกแก้ระหว่างวนหรือไม่", "เมื่อพบการแก้ → exception", "แก้ด้วยวิธีใดวิธีหนึ่งในตัวอย่างก่อนหน้า"] },
+              public class ForEachRemove {
+                  public static void main(String[] args) {
+                      ArrayList<String> items = new ArrayList<>();
+                      items.add("keep"); items.add("drop"); items.add("keep"); items.add("drop");
+                      for (String s : items) {
+                          if (s.equals("drop")) {
+                              items.remove(s);
+                          }
+                      }
+                      System.out.println(items);
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "index เลื่อน", html: jpre(`
           ArrayList<String> s = new ArrayList<>(List.of("A", "B", "C", "D", "E"));
           s.remove(1);
@@ -336,55 +337,63 @@ export default {
     {
       num: "13.5", toc: "วนอ่านรายการ", title: "วนอ่าน ประมวลผล และเรียงรายการ",
       blocks: [
-        { type: "run", title: "for ปกติ, for-each และ forEach", level: "พื้นฐาน",
-          concept: "เลือกแบบที่เหมาะ: ต้องใช้ index → for ปกติ, อ่านอย่างเดียว → for-each, สั้นที่สุด → <code>list.forEach(...)</code>",
+        { type: "p", html: `วนอ่านรายการได้ 3 แบบ เลือกตามงาน` },
+        { type: "table", head: ["แบบ", "เมื่อไร"], rows: [
+          ["<code>for (int i = 0; i &lt; list.size(); i++)</code>", "ต้องใช้ index เช่น แสดงลำดับที่ หรือ set ค่า"],
+          ["<code>for (String t : list)</code>", "อ่านทีละตัวอย่างเดียว"],
+          ["<code>list.forEach(t -&gt; ...)</code>", "สั้นที่สุด (lambda อธิบายละเอียดในบทที่ 16)"],
+        ] },
+        { type: "run", title: "วนสามแบบ",
           code: j`
             import java.util.ArrayList;
             import java.util.List;
 
             public class IterateList {
                 public static void main(String[] args) {
-                    // List.of สร้างรายการเริ่มต้นแบบสั้น
-                    ArrayList<String> tasks = new ArrayList<>(List.of("Read", "Code", "Test"));
-                    // for แบบ index ใช้ get(i)
+                    ArrayList<String> tasks = new ArrayList<>(List.of("Read", "Code", "Test"));   // สร้างพร้อมค่าเริ่มต้น
                     for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println((i + 1) + ". " + tasks.get(i));
+                        System.out.println((i + 1) + ". " + tasks.get(i));    // ลำดับที่ = index + 1
                     }
-                    for (String t : tasks) {  // for-each อ่านทีละตัว
+                    for (String t : tasks) {
                         System.out.print(t.toUpperCase() + " ");
                     }
                     System.out.println();
-                    // forEach + lambda
-                    tasks.forEach(t -> System.out.println("- " + t));
+                    tasks.forEach(t -> System.out.println("- " + t));         // ทำกับทุกตัว
                 }
             }`,
-          steps: ["for ปกติแสดงลำดับที่", "for-each แปลงทีละตัว", "forEach รับ lambda ทำกับทุกสมาชิก (บทที่ 16 อธิบาย lambda ละเอียด)"] },
-        { type: "run", title: "สถิติจากรายการ: รวม ค่าเฉลี่ย สูงสุด กรอง", level: "ต่อยอด",
-          concept: "รูปแบบเดียวกับอาเรย์ในบทที่ 8 แต่ใช้ size() และ get() — และสร้างรายการใหม่จากการกรองได้ง่าย",
+          },
+
+        { type: "h", text: "สถิติและการกรอง" },
+        { type: "p", html: `รูปแบบเดียวกับอาเรย์ในบทที่ 8 แต่ใช้ <code>size()</code> และ <code>get()</code> ข้อดีคือสร้างรายการใหม่เก็บผลกรองได้ทันทีโดยไม่ต้องรู้ขนาด` },
+        { type: "run", title: "ค่าเฉลี่ย สูงสุด และวันที่ร้อน",
           code: j`
             import java.util.ArrayList;
             import java.util.List;
 
             public class ListStats {
                 public static void main(String[] args) {
-                    // ArrayList<Double> สร้างจาก List.of
                     ArrayList<Double> temps = new ArrayList<>(List.of(31.5, 29.0, 33.2, 35.1, 30.4, 34.0));
-                    // เริ่มจากตัวแรก
                     double sum = 0, max = temps.get(0);
-                    ArrayList<Double> hotDays = new ArrayList<>();
+                    ArrayList<Double> hotDays = new ArrayList<>();            // รายการผลกรอง
                     for (double t : temps) {
                         sum += t;
                         if (t > max) max = t;
-                        // เก็บวันที่ร้อนลงอีกรายการ
-                        if (t >= 33) hotDays.add(t);
+                        if (t >= 33) hotDays.add(t);                          // เก็บเฉพาะที่ผ่านเงื่อนไข
                     }
                     System.out.printf("Average %.2f, Max %.1f%n", sum / temps.size(), max);
                     System.out.println("Hot days (>= 33): " + hotDays + " -> " + hotDays.size() + " days");
                 }
             }`,
-          steps: ["วนครั้งเดียวคำนวณได้หลายค่า", "hotDays เป็นรายการใหม่ที่เพิ่มเฉพาะค่าที่ผ่านเงื่อนไข — ไม่ต้องรู้ขนาดล่วงหน้า"] },
-        { type: "run", title: "Collections: sort, reverse, max, min, frequency", level: "ประยุกต์",
-          concept: "คลาส <code>java.util.Collections</code> มีเครื่องมือสำเร็จรูปสำหรับรายการ เทียบได้กับ Arrays ของอาเรย์",
+          },
+
+        { type: "h", text: "Collections: เครื่องมือสำเร็จรูป" },
+        { type: "table", head: ["เมธอด", "ทำอะไร"], rows: [
+          ["<code>Collections.max(list)</code> / <code>min</code>", "ค่ามากสุด / น้อยสุด"],
+          ["<code>Collections.frequency(list, x)</code>", "นับจำนวนครั้งที่พบ x"],
+          ["<code>Collections.sort(list)</code>", "เรียงน้อยไปมาก (แก้รายการเดิม)"],
+          ["<code>Collections.reverse(list)</code>", "กลับลำดับ"],
+        ] },
+        { type: "run", title: "sort, reverse, max, min, frequency",
           code: j`
             import java.util.ArrayList;
             import java.util.Collections;
@@ -393,25 +402,21 @@ export default {
             public class CollectionsTools {
                 public static void main(String[] args) {
                     ArrayList<Integer> nums = new ArrayList<>(List.of(42, 7, 19, 7, 3, 25, 7));
-                    // หาค่ามาก/น้อยสุด
-                    System.out.println("max " + Collections.max(nums) + ", min " + Collections.min(nums));
-                    // นับจำนวนครั้งที่พบ
-                    System.out.println("frequency of 7: " + Collections.frequency(nums, 7));
-                    // เรียงจากน้อยไปมาก
+                    System.out.println("max " + Collections.max(nums) + ", min " + Collections.min(nums));   // 42, 3
+                    System.out.println("frequency of 7: " + Collections.frequency(nums, 7));               // 3
                     Collections.sort(nums);
                     System.out.println("sorted   " + nums);
-                    Collections.reverse(nums);  // กลับลำดับ
+                    Collections.reverse(nums);
                     System.out.println("reversed " + nums);
 
                     ArrayList<String> names = new ArrayList<>(List.of("jungkook", "Suga", "jhope", "RM"));
-                    Collections.sort(names);  // ตัวใหญ่มาก่อนตัวเล็ก
+                    Collections.sort(names);                                  // ตัวใหญ่มาก่อนตัวเล็ก
                     System.out.println("sorted names           " + names);
-                    // เรียงโดยไม่สนตัวพิมพ์
-                    names.sort(String.CASE_INSENSITIVE_ORDER);
+                    names.sort(String.CASE_INSENSITIVE_ORDER);                // ไม่สนตัวพิมพ์
                     System.out.println("case-insensitive order " + names);
                 }
             }`,
-          steps: ["max/min/frequency ไม่ต้องเขียนลูปเอง", "sort เรียงในรายการเดิม", "String เรียงตามรหัสอักขระ: ตัวใหญ่มาก่อนตัวเล็ก", "<code>String.CASE_INSENSITIVE_ORDER</code> เรียงโดยไม่สนตัวพิมพ์"] },
+          },
         { type: "check", title: "กรอง", html: `<p>มี <code>ArrayList&lt;String&gt; words</code> จะสร้างรายการใหม่ที่มีเฉพาะคำยาวกว่า 4 ตัวอักษรได้อย่างไร</p>`, answer: jpre(`
           ArrayList<String> longWords = new ArrayList<>();
           for (String w : words) {
@@ -422,37 +427,30 @@ export default {
     {
       num: "13.6", toc: "เก็บ object ในรายการ", title: "เก็บ object ในรายการ",
       blocks: [
-        { type: "p", html: `ArrayList ของออบเจ็กต์ (เช่น <code>ArrayList&lt;Student&gt;</code>) คือรูปแบบหลักของโปรแกรมจัดการข้อมูล: เพิ่ม ค้นหา แก้ไข ลบ รายงาน — และเป็นพื้นฐานของ model ในโปรแกรม GUI บทที่ 14–19` },
-        { type: "run", title: "รายชื่อนักศึกษา: เพิ่ม ค้นหา แก้ไข", level: "ประยุกต์",
-          concept: "ค้นหาออบเจ็กต์ด้วย field (เช่น รหัส) แล้วแก้ไขผ่านเมธอดของออบเจ็กต์นั้น — การแก้มีผลกับออบเจ็กต์ในรายการจริง",
+        { type: "p", html: `ArrayList ของออบเจ็กต์ เช่น <code>ArrayList&lt;Student&gt;</code> คือรูปแบบหลักของโปรแกรมจัดการข้อมูล: เพิ่ม ค้นหา แก้ไข ลบ และรายงาน และเป็นพื้นฐานของข้อมูลในโปรแกรม GUI บทที่ 14–19` },
+        { type: "run", title: "รายชื่อนักศึกษา: เพิ่ม ค้นหา แก้ไข",
           code: j`
             import java.util.ArrayList;
 
             public class StudentList {
                 public static void main(String[] args) {
-                    // รายการของออบเจ็กต์ Student
                     ArrayList<Student> list = new ArrayList<>();
-                    // สร้างออบเจ็กต์แล้วเพิ่มในรายการ
-                    list.add(new Student("6601", "JHope", 78));
+                    list.add(new Student("6601", "JHope", 78));       // สร้างแล้วเพิ่มในบรรทัดเดียว
                     list.add(new Student("6602", "Suga", 55));
                     list.add(new Student("6603", "RM", 91));
 
-                    Student s = findById(list, "6602");  // ค้นด้วยรหัส
-                    // ไม่พบจะได้ null จึงต้องตรวจก่อนใช้
-                    if (s != null) s.setScore(65);
+                    Student s = findById(list, "6602");
+                    if (s != null) s.setScore(65);                    // s ชี้ตัวเดียวกับในรายการ → แก้จริง
 
-                    // ไม่พบ → แสดง null
-                    System.out.println(findById(list, "9999"));
+                    System.out.println(findById(list, "9999"));       // null  ไม่พบ
                     for (Student st : list) System.out.println(st);
                 }
 
-                // รับรายการเป็น parameter
                 static Student findById(ArrayList<Student> list, String id) {
                     for (Student s : list) {
-                        // เทียบ String ด้วย equals
-                        if (s.getId().equals(id)) return s;
+                        if (s.getId().equals(id)) return s;           // เจอแล้วคืนทันที
                     }
-                    return null;  // วนครบแล้วไม่พบ
+                    return null;                                      // วนครบแล้วไม่พบ
                 }
             }
 
@@ -476,9 +474,12 @@ export default {
                     return id + " " + name + " " + score;
                 }
             }`,
-          steps: ["findById คืนออบเจ็กต์ที่พบ หรือ null", "s ชี้ออบเจ็กต์เดียวกับในรายการ → setScore มีผลจริง", "ผู้เรียกต้องตรวจ null ก่อนใช้"] },
-        { type: "run", title: "เรียงออบเจ็กต์ด้วย Comparator", level: "ท้าทาย",
-          concept: "บอกวิธีเรียงด้วย <code>Comparator.comparing(...)</code> — เรียงตามคะแนน, ตามชื่อ, หรือกลับลำดับด้วย <code>.reversed()</code>",
+          },
+        { type: "warn", html: `เมธอดค้นหาที่คืน <code>null</code> เมื่อไม่พบ ผู้เรียกต้องตรวจ <code>if (s != null)</code> ก่อนใช้ทุกครั้ง ไม่เช่นนั้นจะเกิด NullPointerException` },
+
+        { type: "h", text: "เรียงออบเจ็กต์ด้วย Comparator" },
+        { type: "p", html: `ออบเจ็กต์ไม่รู้ว่าควรเรียงตามอะไร ต้องบอกด้วย <code>Comparator.comparing(Product::getPrice)</code> แปลว่า “ใช้ getPrice ของแต่ละตัวเป็นเกณฑ์” และต่อ <code>.reversed()</code> เพื่อเรียงมากไปน้อย` },
+        { type: "run", title: "เรียงสินค้าตามราคา จำนวน และชื่อ",
           code: j`
             import java.util.ArrayList;
             import java.util.Comparator;
@@ -491,18 +492,15 @@ export default {
                     items.add(new Product("Cable", 120, 60));
                     items.add(new Product("Monitor", 4590, 5));
 
-                    // เรียงตามราคา
-                    items.sort(Comparator.comparing(Product::getPrice));
+                    items.sort(Comparator.comparing(Product::getPrice));              // ราคาน้อย → มาก
                     System.out.println("By price:       " + items);
-                    // reversed() = มากไปน้อย
-                    items.sort(Comparator.comparing(Product::getStock).reversed());
+                    items.sort(Comparator.comparing(Product::getStock).reversed());   // จำนวนมาก → น้อย
                     System.out.println("By stock desc:  " + items);
-                    items.sort(Comparator.comparing(Product::getName));
+                    items.sort(Comparator.comparing(Product::getName));               // ตามตัวอักษร
                     System.out.println("By name:        " + items);
 
                     double value = 0;
-                    // มูลค่ารวม = ราคา × จำนวน
-                    for (Product p : items) value += p.getPrice() * p.getStock();
+                    for (Product p : items) value += p.getPrice() * p.getStock();     // ราคา × จำนวน
                     System.out.printf("Inventory value: %,.2f%n", value);
                 }
             }
@@ -525,53 +523,51 @@ export default {
                 @Override
                 public String toString() { return name; }
             }`,
-          steps: ["<code>Product::getPrice</code> คือ method reference: “ใช้ getPrice ของแต่ละตัวเป็นเกณฑ์”", "<code>.reversed()</code> กลับเป็นมากไปน้อย", "มูลค่าคลังรวมราคา × จำนวนของทุกรายการ"] },
-        { type: "run", title: "เมนูจัดการรายการสิ่งที่ต้องทำ (To-do)", level: "ท้าทาย", stdin: "1\nRead chapter 13\n1\nWrite code\n1\nTest program\n3\n2\n2\n3\n0",
-          concept: "รวมทุกอย่าง: ArrayList + เมนู do-while + การลบด้วย index ที่ผู้ใช้เลือก (ผู้ใช้นับจาก 1 โค้ดต้องลบ 1)",
-          code: j`
-            import java.util.ArrayList;
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เมนูจัดการรายการสิ่งที่ต้องทำ (To-do)", blocks: [
+          { type: "p", html: `รวมทุกอย่าง: ArrayList + เมนู do-while + ลบด้วยหมายเลขที่ผู้ใช้เลือก ผู้ใช้นับจาก 1 แต่ index เริ่มที่ 0 จึงต้องลบ 1` },
+          { type: "run", title: "To-do app", stdin: "1\nRead chapter 13\n1\nWrite code\n1\nTest program\n3\n2\n2\n3\n0",
+            code: j`
+              import java.util.ArrayList;
+              import java.util.Scanner;
 
-            public class TodoApp {
-                public static void main(String[] args) {
-                    Scanner in = new Scanner(System.in);
-                    // รายการงาน
-                    ArrayList<String> todos = new ArrayList<>();
-                    int choice;
-                    do {
-                        System.out.print("[1] Add [2] Done [3] List [0] Exit: ");
-                        choice = in.nextInt();
-                        in.nextLine();  // ทิ้ง Enter ที่ค้างจาก nextInt()
-                        switch (choice) {
-                            case 1 -> {
-                                System.out.print("  Task: ");
-                                // อ่านชื่องานทั้งบรรทัด
-                                todos.add(in.nextLine());
-                            }
-                            case 2 -> {
-                                System.out.print("  Task number: ");
-                                int n = in.nextInt();
-                                // ตรวจหมายเลขว่าอยู่ในช่วง
-                                if (n >= 1 && n <= todos.size()) {
-                                    // remove คืนค่าที่ถูกลบ, n - 1 เพราะ index เริ่มที่ 0
-                                    System.out.println("  Completed: " + todos.remove(n - 1));
-                                } else {
-                                    System.out.println("  No such task");
-                                }
-                            }
-                            case 3 -> {
-                                if (todos.isEmpty()) System.out.println("  (empty)");
-                                for (int i = 0; i < todos.size(); i++) {
-                                    System.out.println("  " + (i + 1) + ". " + todos.get(i));
-                                }
-                            }
-                            case 0 -> System.out.println("Bye");
-                            default -> System.out.println("  Invalid");
-                        }
-                    } while (choice != 0);
-                }
-            }`,
-          steps: ["เพิ่ม 3 งาน", "แสดงรายการ: เลขลำดับ = index + 1", "ทำงานที่ 2 เสร็จ → remove(1) คืนค่าที่ลบออกมาแสดง", "แสดงอีกครั้ง: Test program เลื่อนเป็นข้อ 2"] },
+              public class TodoApp {
+                  public static void main(String[] args) {
+                      Scanner in = new Scanner(System.in);
+                      ArrayList<String> todos = new ArrayList<>();
+                      int choice;
+                      do {
+                          System.out.print("[1] Add [2] Done [3] List [0] Exit: ");
+                          choice = in.nextInt();
+                          in.nextLine();                                    // ทิ้ง Enter ที่ค้างจาก nextInt()
+                          switch (choice) {
+                              case 1 -> {
+                                  System.out.print("  Task: ");
+                                  todos.add(in.nextLine());                 // ชื่องานทั้งบรรทัด
+                              }
+                              case 2 -> {
+                                  System.out.print("  Task number: ");
+                                  int n = in.nextInt();
+                                  if (n >= 1 && n <= todos.size()) {
+                                      System.out.println("  Completed: " + todos.remove(n - 1));   // remove คืนค่าที่ลบ
+                                  } else {
+                                      System.out.println("  No such task");
+                                  }
+                              }
+                              case 3 -> {
+                                  if (todos.isEmpty()) System.out.println("  (empty)");
+                                  for (int i = 0; i < todos.size(); i++) {
+                                      System.out.println("  " + (i + 1) + ". " + todos.get(i));
+                                  }
+                              }
+                              case 0 -> System.out.println("Bye");
+                              default -> System.out.println("  Invalid");
+                          }
+                      } while (choice != 0);
+                  }
+              }`,
+            },
+        ] },
       ],
     },
   ],
