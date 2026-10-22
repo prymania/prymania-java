@@ -20,37 +20,36 @@ export default {
     {
       num: "9.1", toc: "เปรียบเทียบและต่อข้อความ", title: "เปรียบเทียบและต่อข้อความ",
       blocks: [
+        { type: "p", html: `String มีเมธอดสำเร็จรูปมากมาย เรียกด้วย <code>ข้อความ.เมธอด()</code> ส่วนที่ต้องจำคือ String <strong>เปลี่ยนไม่ได้ (immutable)</strong> เมธอดอย่าง <code>trim()</code> หรือ <code>toUpperCase()</code> คืนข้อความ<em>ใหม่</em> ต้องเก็บผลลัพธ์เอง` },
         { type: "table", head: ["เมธอด", "ทำอะไร", "ตัวอย่าง", "ผล"], rows: [
           ["<code>length()</code>", "จำนวนอักขระ", "<code>\"Hello\".length()</code>", "5"],
+          ["<code>toUpperCase()</code> / <code>toLowerCase()</code>", "แปลงตัวพิมพ์", "<code>\"Java\".toUpperCase()</code>", "JAVA"],
+          ["<code>trim()</code>", "ตัดช่องว่างหัวท้าย", "<code>\"  hi  \".trim()</code>", "hi"],
+          ["<code>isEmpty()</code> / <code>isBlank()</code>", "ว่างไหม / มีแต่ช่องว่างไหม", "<code>\"  \".isBlank()</code>", "true"],
           ["<code>equals(s)</code>", "เนื้อหาเท่ากันไหม", "<code>\"abc\".equals(\"abc\")</code>", "true"],
           ["<code>equalsIgnoreCase(s)</code>", "เท่ากันโดยไม่สนตัวพิมพ์", "<code>\"Yes\".equalsIgnoreCase(\"YES\")</code>", "true"],
-          ["<code>compareTo(s)</code>", "เทียบลำดับพจนานุกรม (&lt;0, 0, &gt;0)", "<code>\"apple\".compareTo(\"banana\")</code>", "ค่าลบ"],
-          ["<code>toUpperCase()</code> / <code>toLowerCase()</code>", "แปลงตัวพิมพ์", "<code>\"Java\".toUpperCase()</code>", "JAVA"],
-          ["<code>trim()</code> / <code>strip()</code>", "ตัดช่องว่างหัวท้าย", "<code>\"  hi  \".trim()</code>", "hi"],
-          ["<code>isEmpty()</code> / <code>isBlank()</code>", "ว่างไหม / มีแต่ช่องว่างไหม", "<code>\"  \".isBlank()</code>", "true"],
+          ["<code>compareTo(s)</code>", "ลำดับพจนานุกรม (ลบ / 0 / บวก)", "<code>\"apple\".compareTo(\"banana\")</code>", "ค่าลบ"],
         ] },
-        { type: "run", title: "เมธอดพื้นฐานและ immutability", level: "พื้นฐาน",
-          concept: "เรียกเมธอดแล้วต้อง<strong>เก็บผลลัพธ์</strong> ไม่เช่นนั้นข้อความเดิมจะไม่เปลี่ยน",
+        { type: "run", title: "เรียกเมธอดแล้วต้องเก็บผลลัพธ์",
           code: j`
             public class StringBasics {
                 public static void main(String[] args) {
                     String name = "  JHope Jung  ";
-                    // length() นับช่องว่างด้วย
-                    System.out.println("[" + name + "] length " + name.length());
-                    // String เปลี่ยนไม่ได้: ผลลัพธ์ถูกทิ้ง
-                    name.trim();
+                    System.out.println("[" + name + "] length " + name.length());   // 14   นับช่องว่างด้วย
+                    name.trim();                                                     // ไม่เก็บผล → name ไม่เปลี่ยน
                     System.out.println("after name.trim(): [" + name + "]");
-                    name = name.trim();  // ต้องเก็บผลลัพธ์กลับเข้าตัวแปร
+                    name = name.trim();                                              // เก็บผลกลับ → เปลี่ยนแล้ว
                     System.out.println("after name = name.trim(): [" + name + "]");
-                    // คืนสตริงใหม่ ตัวเดิมไม่เปลี่ยน
-                    System.out.println(name.toUpperCase());
-                    System.out.println(name.toLowerCase());
-                    System.out.println("name still: " + name);
+                    System.out.println(name.toUpperCase());                          // JHOPE JUNG
+                    System.out.println(name.toLowerCase());                          // jhope jung
+                    System.out.println("name still: " + name);                       // ตัวเดิมไม่เปลี่ยน
                 }
             }`,
-          steps: ["ความยาวนับรวมช่องว่างหัวท้าย = 15", "<code>name.trim();</code> เฉย ๆ ไม่มีผล เพราะไม่ได้เก็บค่าที่คืน", "<code>name = name.trim();</code> จึงเปลี่ยน name ให้ชี้ข้อความใหม่", "toUpperCase/toLowerCase คืนข้อความใหม่ name ยังเดิม"] },
-        { type: "run", title: "equals, equalsIgnoreCase และ compareTo", level: "ต่อยอด", stdin: "yes\nbanana",
-          concept: "ใช้ equals เทียบเนื้อหา ใช้ compareTo เมื่อต้องการรู้ว่าคำไหนมาก่อนตามลำดับตัวอักษร",
+          },
+
+        { type: "h", text: "เปรียบเทียบข้อความ" },
+        { type: "p", html: `ใช้ <code>equals</code> เทียบเนื้อหา (ห้ามใช้ <code>==</code>) และใช้ <code>compareTo</code> เมื่อต้องการรู้ว่าคำไหนมาก่อนตามลำดับตัวอักษร: ค่าลบ = มาก่อน, 0 = เท่ากัน, บวก = มาทีหลัง` },
+        { type: "run", title: "equals และ compareTo", stdin: "yes\nbanana",
           code: j`
             import java.util.Scanner;
 
@@ -59,60 +58,62 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Continue? ");
                     String answer = input.next();
-                    // ตัวพิมพ์ต้องตรงทุกตัว
-                    System.out.println("equals(\"YES\")           : " + answer.equals("YES"));
-                    // ไม่สนตัวพิมพ์เล็ก/ใหญ่
-                    System.out.println("equalsIgnoreCase(\"YES\") : " + answer.equalsIgnoreCase("YES"));
+                    System.out.println("equals(\"YES\")           : " + answer.equals("YES"));            // false
+                    System.out.println("equalsIgnoreCase(\"YES\") : " + answer.equalsIgnoreCase("YES"));  // true
 
                     System.out.print("A fruit: ");
                     String fruit = input.next();
-                    // ติดลบ = มาก่อน, 0 = เท่ากัน, บวก = มาทีหลัง
-                    int result = fruit.compareTo("cherry");
+                    int result = fruit.compareTo("cherry");                 // ลบ เพราะ 'b' มาก่อน 'c'
                     System.out.println("compareTo(\"cherry\") = " + result);
                     if (result < 0) System.out.println(fruit + " comes before cherry");
                     else if (result > 0) System.out.println(fruit + " comes after cherry");
                     else System.out.println("same word");
                 }
             }`,
-          steps: ["\"yes\".equals(\"YES\") → false เพราะตัวพิมพ์ต่าง", "equalsIgnoreCase → true", "compareTo คืนค่าลบเมื่อคำแรกมาก่อน ('b' มาก่อน 'c')", "ใช้เฉพาะเครื่องหมายของผลลัพธ์ ไม่ต้องสนใจตัวเลขจริง"] },
-        { type: "run", title: "ต่อข้อความ: + , concat และ String.format", level: "ต่อยอด",
-          concept: "<code>+</code> ต่อได้ทุกชนิด, <code>String.format</code> ทำงานเหมือน printf แต่คืนเป็น String เก็บไว้ใช้ต่อได้",
+          },
+
+        { type: "h", text: "ต่อข้อความ" },
+        { type: "table", head: ["วิธี", "ตัวอย่าง", "ผล"], rows: [
+          ["<code>+</code>", "<code>\"JHope\" + \" \" + 19</code>", "JHope 19"],
+          ["<code>String.format(...)</code>", "<code>String.format(\"%.2f\", 3.456)</code>", "\"3.46\" (เหมือน printf แต่คืนเป็น String)"],
+          ["<code>String.join(sep, ...)</code>", "<code>String.join(\", \", \"A\", \"B\")</code>", "A, B"],
+          ["<code>repeat(n)</code>", "<code>\"Ha\".repeat(3)</code>", "HaHaHa"],
+        ] },
+        { type: "run", title: "สร้างข้อความหลายแบบ",
           code: j`
             public class JoinStrings {
                 public static void main(String[] args) {
-                    String first = "JHope";
-                    String last = "Jung";
+                    String first = "JHope", last = "Jung";
                     int age = 19;
                     double gpa = 3.456;
 
-                    String full = first + " " + last;  // + ต่อข้อความ
+                    String full = first + " " + last;
                     String info = full + " (" + age + ")";
-                    // จัดรูปแบบเหมือน printf แต่ได้เป็น String
                     String card = String.format("%-12s GPA %.2f", full, gpa);
-                    // ต่อหลายคำด้วยตัวคั่น
                     String joined = String.join(", ", "Math", "Science", "English");
 
-                    System.out.println(full);
-                    System.out.println(info);
-                    System.out.println("[" + card + "]");
-                    System.out.println(joined);
-                    // ทำซ้ำข้อความ 3 ครั้ง
-                    System.out.println("Ha".repeat(3));
+                    System.out.println(full);               // JHope Jung
+                    System.out.println(info);               // JHope Jung (19)
+                    System.out.println("[" + card + "]");   // [JHope Jung   GPA 3.46]
+                    System.out.println(joined);             // Math, Science, English
+                    System.out.println("Ha".repeat(3));     // HaHaHa
                 }
             }`,
-          steps: ["+ ต่อ String กับ int ได้อัตโนมัติ", "String.format จัดรูปแบบแล้วเก็บในตัวแปร card", "String.join ต่อหลายคำด้วยตัวคั่น", "repeat ทำซ้ำข้อความ"] },
-        { type: "run", label: "ทดลองบั๊ก 9.1.4", title: "NullPointerException กับ String", level: "ประยุกต์", expect: "runtime-error",
-          concept: "ตัวแปร String ที่เป็น <code>null</code> (ไม่ได้ชี้ข้อความใด) เรียกเมธอดไม่ได้ วางค่าคงที่ไว้หน้า equals ช่วยป้องกันได้",
-          code: j`
-            public class NullString {
-                public static void main(String[] args) {
-                    String[] names = new String[2];
-                    names[0] = "Suga";
-                    System.out.println("\"Suga\".equals(names[1]) = " + "Suga".equals(names[1]));
-                    System.out.println(names[1].length());
-                }
-            }`,
-          steps: ["names[1] ยังไม่กำหนด → null", "<code>\"Suga\".equals(null)</code> ปลอดภัย ได้ false", "<code>names[1].length()</code> → NullPointerException", "ข้อความ error บอกชัดว่า <code>names[1]</code> is null"] },
+          },
+        { type: "warn", title: "null กับ String", html: `ตัวแปร String ที่เป็น <code>null</code> (ยังไม่ได้ชี้ข้อความใด) เรียกเมธอดไม่ได้ จะเกิด <code>NullPointerException</code> เขียนค่าคงที่ไว้หน้า equals จะปลอดภัย: <code>"Suga".equals(name)</code>` },
+        { type: "more", title: "ดูตัวอย่าง: NullPointerException กับ String", blocks: [
+          { type: "run", label: "ทดลองบั๊ก 9.1.4", title: "NullPointerException กับ String", expect: "runtime-error",
+            code: j`
+              public class NullString {
+                  public static void main(String[] args) {
+                      String[] names = new String[2];
+                      names[0] = "Suga";
+                      System.out.println("\"Suga\".equals(names[1]) = " + "Suga".equals(names[1]));
+                      System.out.println(names[1].length());
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "immutable", html: jpre(`
           String s = "hello";
           s.toUpperCase();
@@ -123,44 +124,39 @@ export default {
     {
       num: "9.2", toc: "ค้นหาและตัดข้อความ", title: "ค้นหาและตัดข้อความ",
       blocks: [
-        { type: "table", head: ["เมธอด", "ทำอะไร", "\"banana\" ตัวอย่าง", "ผล"], rows: [
+        { type: "p", html: `อักขระใน String มี index เริ่มที่ 0 เหมือนอาเรย์ ใช้ index ค้นหาและตัดข้อความได้` },
+        { type: "cells", name: "String s = \"banana\";", caption: "→ length() = 6", values: ["b", "a", "n", "a", "n", "a"] },
+        { type: "table", head: ["เมธอด", "ทำอะไร", "ตัวอย่างกับ \"banana\"", "ผล"], rows: [
           ["<code>charAt(i)</code>", "อักขระที่ index i", "<code>charAt(2)</code>", "'n'"],
           ["<code>indexOf(s)</code>", "ตำแหน่งแรกที่พบ (−1 ถ้าไม่พบ)", "<code>indexOf(\"an\")</code>", "1"],
           ["<code>lastIndexOf(s)</code>", "ตำแหน่งสุดท้ายที่พบ", "<code>lastIndexOf(\"an\")</code>", "3"],
-          ["<code>indexOf(s, from)</code>", "ค้นหาตั้งแต่ตำแหน่ง from", "<code>indexOf(\"a\", 2)</code>", "3"],
           ["<code>contains(s)</code>", "มีข้อความนี้ไหม", "<code>contains(\"nan\")</code>", "true"],
-          ["<code>startsWith</code> / <code>endsWith</code>", "ขึ้นต้น/ลงท้ายด้วย", "<code>endsWith(\"na\")</code>", "true"],
-          ["<code>substring(a, b)</code>", "ตัด index a ถึง <strong>b−1</strong>", "<code>substring(1, 4)</code>", "\"ana\""],
+          ["<code>substring(a, b)</code>", "ตัด index a ถึง <strong>b − 1</strong>", "<code>substring(1, 4)</code>", "\"ana\""],
           ["<code>substring(a)</code>", "ตัดตั้งแต่ a ถึงท้าย", "<code>substring(3)</code>", "\"ana\""],
           ["<code>replace(a, b)</code>", "แทนที่ทุกตำแหน่ง", "<code>replace(\"a\", \"o\")</code>", "\"bonono\""],
-          ["<code>split(sep)</code>", "แยกเป็นอาเรย์", "<code>\"a,b,c\".split(\",\")</code>", "{\"a\",\"b\",\"c\"}"],
+          ["<code>split(sep)</code>", "แยกเป็นอาเรย์", "<code>\"a,b,c\".split(\",\")</code>", "{\"a\", \"b\", \"c\"}"],
         ] },
-        { type: "run", title: "charAt, indexOf และ substring", level: "พื้นฐาน",
-          concept: "substring(a, b) รวมตำแหน่ง a แต่<strong>ไม่รวม</strong> b — ความยาวผลลัพธ์คือ b − a",
+        { type: "run", title: "charAt, indexOf และ substring",
           code: j`
             public class FindAndCut {
                 public static void main(String[] args) {
                     String s = "banana";
-                    // อักขระตัวแรก (index 0)
-                    System.out.println("charAt(0) = " + s.charAt(0));
-                    // อักขระตัวสุดท้าย
-                    System.out.println("charAt(last) = " + s.charAt(s.length() - 1));
-                    // ตำแหน่งแรกที่พบ
-                    System.out.println("indexOf(\"an\") = " + s.indexOf("an"));
-                    // ตำแหน่งสุดท้ายที่พบ
-                    System.out.println("lastIndexOf(\"an\") = " + s.lastIndexOf("an"));
-                    // ไม่พบ → -1
-                    System.out.println("indexOf(\"x\") = " + s.indexOf("x"));
-                    // ตั้งแต่ index 1 ถึงก่อน 4
-                    System.out.println("substring(1, 4) = " + s.substring(1, 4));
-                    // ตั้งแต่ index 3 ถึงท้าย
-                    System.out.println("substring(3) = " + s.substring(3));
-                    System.out.println("contains(\"nan\") = " + s.contains("nan"));
+                    System.out.println("charAt(0) = " + s.charAt(0));                       // b
+                    System.out.println("charAt(last) = " + s.charAt(s.length() - 1));       // a   ตัวสุดท้าย = length - 1
+                    System.out.println("indexOf(\"an\") = " + s.indexOf("an"));             // 1
+                    System.out.println("lastIndexOf(\"an\") = " + s.lastIndexOf("an"));     // 3
+                    System.out.println("indexOf(\"x\") = " + s.indexOf("x"));               // -1  ไม่พบ
+                    System.out.println("substring(1, 4) = " + s.substring(1, 4));           // ana (index 1, 2, 3)
+                    System.out.println("substring(3) = " + s.substring(3));                 // ana
+                    System.out.println("contains(\"nan\") = " + s.contains("nan"));         // true
                 }
             }`,
-          steps: ["ตัวสุดท้ายคือ index length − 1 = 5", "\"an\" พบครั้งแรกที่ 1 และครั้งสุดท้ายที่ 3", "ไม่พบ → −1", "substring(1, 4) = index 1, 2, 3 → \"ana\""] },
-        { type: "run", title: "แยกชื่อ-นามสกุลและอีเมล", level: "ต่อยอด", stdin: "JHope Jung\njhope.j@example.co.th",
-          concept: "ใช้ indexOf หาตำแหน่งตัวคั่น แล้วใช้ substring ตัดส่วนซ้ายและขวาของตัวคั่น",
+          },
+        { type: "tip", title: "จำ substring", html: `<code>substring(a, b)</code> รวมตำแหน่ง a แต่<strong>ไม่รวม</strong> b ความยาวผลลัพธ์คือ b − a และใช้ <code>b = length()</code> เป็นขอบปลายได้` },
+
+        { type: "h", text: "หาตัวคั่นแล้วตัดซ้าย-ขวา" },
+        { type: "p", html: `ใช้ <code>indexOf</code> หาตำแหน่งตัวคั่น (ช่องว่าง, @) แล้วใช้ <code>substring</code> ตัดส่วนซ้ายและขวา` },
+        { type: "run", title: "แยกชื่อ-นามสกุลและอีเมล", stdin: "JHope Jung\njhope.j@example.co.th",
           code: j`
             import java.util.Scanner;
 
@@ -168,28 +164,26 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Full name: ");
-                    // อ่านทั้งบรรทัดแล้วตัดช่องว่างหัวท้าย
                     String full = input.nextLine().trim();
-                    // ตำแหน่งช่องว่างระหว่างชื่อกับนามสกุล
-                    int space = full.indexOf(' ');
-                    // ก่อนช่องว่าง
-                    String first = full.substring(0, space);
-                    // หลังช่องว่าง
-                    String last = full.substring(space + 1);
+                    int space = full.indexOf(' ');                         // 5
+                    String first = full.substring(0, space);               // "JHope"
+                    String last = full.substring(space + 1);               // "Jung"
                     System.out.println("First: " + first + ", Last: " + last);
                     System.out.println("Initials: " + first.charAt(0) + "." + last.charAt(0) + ".");
 
                     System.out.print("Email: ");
                     String email = input.nextLine().trim();
-                    int at = email.indexOf('@');  // ตำแหน่งของ @
-                    System.out.println("User: " + email.substring(0, at));
-                    System.out.println("Domain: " + email.substring(at + 1));
+                    int at = email.indexOf('@');
+                    System.out.println("User: " + email.substring(0, at));         // ซ้ายของ @
+                    System.out.println("Domain: " + email.substring(at + 1));      // ขวาของ @
                     System.out.println("Ends with .th? " + email.endsWith(".th"));
                 }
             }`,
-          steps: ["ช่องว่างอยู่ที่ index 4 → first = substring(0, 4) = \"JHope\"", "last = substring(5) ตั้งแต่หลังช่องว่าง", "อีเมล: ตัดซ้ายและขวาของ @", "ถ้าชื่อไม่มีช่องว่าง indexOf คืน −1 แล้ว substring(0, −1) จะ error — ควรตรวจก่อน"] },
-        { type: "run", title: "split: แยกข้อมูลที่คั่นด้วยเครื่องหมาย", level: "ประยุกต์", stdin: "JHope,19,3.45,Science",
-          concept: "ข้อมูลแบบ CSV (คั่นด้วยจุลภาค) แยกได้ด้วย <code>split(\",\")</code> ได้อาเรย์ของ String",
+          },
+        { type: "warn", html: `ถ้าไม่พบตัวคั่น <code>indexOf</code> คืน −1 แล้ว <code>substring(0, -1)</code> จะเกิด <code>StringIndexOutOfBoundsException</code> ควรตรวจ <code>if (space &gt;= 0)</code> ก่อนตัด` },
+
+        { type: "h", text: "split: แยกข้อมูลที่คั่นด้วยเครื่องหมาย" },
+        { type: "run", title: "แยก CSV และนับคำ", stdin: "JHope,19,3.45,Science",
           code: j`
             import java.util.Scanner;
 
@@ -198,144 +192,120 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("CSV: ");
                     String line = input.nextLine();
-                    // แยกด้วย , ได้อาเรย์ของ String
-                    String[] parts = line.split(",");
+                    String[] parts = line.split(",");                      // ได้อาเรย์ 4 ช่อง (ยังเป็น String)
                     System.out.println("Fields: " + parts.length);
                     for (int i = 0; i < parts.length; i++) {
                         System.out.println("  [" + i + "] " + parts[i]);
                     }
                     String sentence = "  Java   is   really fun  ";
-                    // \\s+ = ช่องว่างตั้งแต่ 1 ตัวขึ้นไป
-                    String[] words = sentence.trim().split("\\s+");
-                    System.out.println("Word count: " + words.length);
+                    String[] words = sentence.trim().split("\\s+");        // \\s+ = ช่องว่าง 1 ตัวขึ้นไป
+                    System.out.println("Word count: " + words.length);     // 4
                 }
             }`,
-          steps: ["split(\",\") แยกได้ 4 ส่วน", "แต่ละส่วนยังเป็น String (หัวข้อ 9.3 จะแปลงเป็นตัวเลข)", "<code>\"\\\\s+\"</code> คือ regular expression แปลว่า “ช่องว่างหนึ่งตัวขึ้นไป” ใช้นับคำที่มีช่องว่างหลายตัว", "ต้อง trim ก่อน ไม่เช่นนั้นจะได้คำว่างที่ต้นอาเรย์"] },
-        { type: "run", title: "นับจำนวนครั้งที่พบคำ", level: "ท้าทาย", stdin: "the cat and the hat and the bat\nthe",
-          concept: "วนใช้ <code>indexOf(word, from)</code> โดยเลื่อน from ไปหลังตำแหน่งที่เพิ่งพบ จนกว่าจะได้ −1",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: นับคำที่พบ และ error เมื่อ index เกิน", blocks: [
+          { type: "p", html: `วนใช้ <code>indexOf(word, from)</code> โดยเลื่อน from ไปหลังตำแหน่งที่เพิ่งพบ จนกว่าจะได้ −1` },
+          { type: "run", title: "นับจำนวนครั้งที่พบคำ", stdin: "the cat and the hat and the bat\nthe",
+            code: j`
+              import java.util.Scanner;
 
-            public class CountOccurrences {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Text: ");
-                    String text = input.nextLine();
-                    System.out.print("Find: ");
-                    String word = input.nextLine();
+              public class CountOccurrences {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Text: ");
+                      String text = input.nextLine();
+                      System.out.print("Find: ");
+                      String word = input.nextLine();
 
-                    int count = 0;
-                    // ตำแหน่งแรกที่พบ (-1 = ไม่พบ)
-                    int pos = text.indexOf(word);
-                    while (pos != -1) {  // วนจนกว่าจะไม่พบอีก
-                        System.out.println("found at " + pos);
-                        count++;
-                        // ค้นต่อจากหลังคำที่เพิ่งพบ
-                        pos = text.indexOf(word, pos + word.length());
-                    }
-                    System.out.println("Total: " + count);
-                    // แทนที่ทุกตำแหน่ง
-                    System.out.println(text.replace(word, word.toUpperCase()));
-                }
-            }`,
-          steps: ["ค้นครั้งแรกจาก index 0 → 0", "ค้นต่อจาก 0 + 3 → 12", "ค้นต่อ → 24 แล้วต่อไปได้ −1 → หยุด", "replace แทนที่ทุกตำแหน่งในครั้งเดียว"] },
-        { type: "run", label: "ทดลอง error 9.2.5", title: "index ของ String เกินขอบเขต", level: "ท้าทาย", expect: "runtime-error",
-          concept: "substring และ charAt ตรวจขอบเขตเหมือนอาเรย์ ถ้าเกินจะเกิด <code>StringIndexOutOfBoundsException</code>",
-          code: j`
-            public class SubstringError {
-                public static void main(String[] args) {
-                    String code = "CS101";
-                    System.out.println(code.substring(2, 5));
-                    System.out.println(code.substring(2, 6));
-                }
-            }`,
-          steps: ["substring(2, 5) ถูกต้อง (5 = length ใช้เป็นขอบปลายได้)", "substring(2, 6) เกิน length 5 → error", "ข้อความบอก begin, end และ length ให้ตรวจ"] },
+                      int count = 0;
+                      int pos = text.indexOf(word);                          // ตำแหน่งแรก
+                      while (pos != -1) {
+                          System.out.println("found at " + pos);
+                          count++;
+                          pos = text.indexOf(word, pos + word.length());     // ค้นต่อหลังคำที่พบ
+                      }
+                      System.out.println("Total: " + count);
+                      System.out.println(text.replace(word, word.toUpperCase()));
+                  }
+              }`,
+            },
+          { type: "run", label: "ทดลอง error 9.2.5", title: "index ของ String เกินขอบเขต", expect: "runtime-error",
+            code: j`
+              public class SubstringError {
+                  public static void main(String[] args) {
+                      String code = "CS101";
+                      System.out.println(code.substring(2, 5));
+                      System.out.println(code.substring(2, 6));
+                  }
+              }`,
+            after: "substring(2, 5) ถูกต้อง (5 = length ใช้เป็นขอบปลายได้) แต่ substring(2, 6) เกิน length 5 ข้อความ error บอก begin, end และ length ให้ตรวจ" },
+        ] },
         { type: "check", title: "substring", html: `<p><code>String s = "Programming";</code> ค่าของ <code>s.substring(3, 7)</code>, <code>s.indexOf("m")</code> และ <code>s.substring(s.length() - 3)</code> คืออะไร</p>`, answer: `<p><strong>"gram"</strong> (index 3–6), <strong>6</strong>, <strong>"ing"</strong></p>` },
       ],
     },
     {
       num: "9.3", toc: "แปลงข้อความเป็นตัวเลข", title: "แปลงข้อความเป็นตัวเลขและกลับกัน",
       blocks: [
+        { type: "p", html: `ข้อมูลที่อ่านเป็นบรรทัดหรือได้จาก split ยังเป็น String เสมอ <code>"10" + "20"</code> จึงได้ <code>"1020"</code> ต้องแปลงเป็นตัวเลขก่อนคำนวณ` },
         { type: "table", head: ["ต้องการ", "ใช้", "ตัวอย่าง"], rows: [
           ["String → int", "<code>Integer.parseInt(s)</code>", "<code>Integer.parseInt(\"42\")</code> → 42"],
           ["String → double", "<code>Double.parseDouble(s)</code>", "<code>Double.parseDouble(\"3.5\")</code> → 3.5"],
           ["String → boolean", "<code>Boolean.parseBoolean(s)</code>", "<code>\"true\"</code> → true"],
           ["ตัวเลข → String", "<code>String.valueOf(x)</code> หรือ <code>\"\" + x</code>", "<code>String.valueOf(42)</code> → \"42\""],
         ] },
-        { type: "run", title: "แปลงข้อความเป็นตัวเลขแล้วคำนวณ", level: "พื้นฐาน",
-          concept: "\"10\" + \"20\" คือการต่อข้อความ ต้องแปลงเป็นตัวเลขก่อนจึงบวกได้",
+        { type: "run", title: "แปลงแล้วคำนวณ",
           code: j`
             public class ParseNumbers {
                 public static void main(String[] args) {
-                    String a = "10";
-                    String b = "20";
-                    // String + String = ต่อข้อความ
-                    System.out.println("a + b (String) = " + a + b);
-                    // แปลงข้อความเป็น int
+                    String a = "10", b = "20";
+                    System.out.println("a + b (String) = " + a + b);         // 1020   ต่อข้อความ
                     int x = Integer.parseInt(a);
                     int y = Integer.parseInt(b);
-                    // ตอนนี้บวกเป็นตัวเลข
-                    System.out.println("x + y (int) = " + (x + y));
+                    System.out.println("x + y (int) = " + (x + y));          // 30
 
-                    // แปลงข้อความเป็น double
                     double price = Double.parseDouble("49.75");
-                    System.out.println("price * 2 = " + price * 2);
+                    System.out.println("price * 2 = " + price * 2);          // 99.5
 
-                    // แปลงตัวเลขกลับเป็น String
-                    String back = String.valueOf(x + y);
-                    System.out.println("length of \"" + back + "\" = " + back.length());
+                    String back = String.valueOf(x + y);                     // "30"
+                    System.out.println("length of \"" + back + "\" = " + back.length());   // 2
                 }
             }`,
-          steps: ["ต่อข้อความ → \"1020\"", "parseInt แล้วบวก → 30", "String.valueOf แปลงกลับเป็น String เพื่อใช้เมธอดของ String เช่น length"] },
-        { type: "run", title: "แยก CSV แล้วแปลงแต่ละช่อง", level: "ต่อยอด", stdin: "JHope,19,3.45",
-          concept: "รวม split กับ parse: ช่องที่เป็นตัวเลขต้อง parse ก่อนนำไปใช้",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: แยก CSV แล้วแปลงแต่ละช่อง", blocks: [
+          { type: "run", title: "split + parse", stdin: "JHope,19,3.45",
+            code: j`
+              import java.util.Scanner;
 
-            public class CsvRecord {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("name,age,gpa: ");
-                    // แยกบรรทัดด้วย ,
-                    String[] p = input.nextLine().split(",");
-                    // trim ตัดช่องว่างรอบแต่ละส่วน
-                    String name = p[0].trim();
-                    // แปลงเป็นตัวเลขก่อนคำนวณ
-                    int age = Integer.parseInt(p[1].trim());
-                    double gpa = Double.parseDouble(p[2].trim());
-                    System.out.printf("%s will be %d next year. GPA x 25 = %.1f%n", name, age + 1, gpa * 25);
-                }
-            }`,
-          steps: ["split ได้ {\"JHope\", \"19\", \"3.45\"}", "trim แต่ละช่องเผื่อมีช่องว่าง", "parse แล้วคำนวณ age + 1 และ gpa × 25"] },
-        { type: "run", label: "ทดลอง error 9.3.3", title: "NumberFormatException", level: "ประยุกต์", expect: "runtime-error",
-          concept: "parseInt กับข้อความที่ไม่ใช่จำนวนเต็ม (เช่นมีทศนิยม ตัวอักษร หรือว่าง) จะเกิด error ระหว่างรัน",
-          code: j`
-            public class BadParse {
-                public static void main(String[] args) {
-                    System.out.println(Integer.parseInt("123"));
-                    System.out.println(Double.parseDouble("12.5"));
-                    System.out.println(Integer.parseInt("12.5"));
-                }
-            }`,
-          steps: ["\"123\" และ \"12.5\" (เป็น double) แปลงได้", "\"12.5\" กับ parseInt → <code>NumberFormatException: For input string: \"12.5\"</code>", "หัวข้อถัดไปและบทที่ 10/17 จะใช้ try-catch ดักกรณีนี้"] },
-        { type: "run", title: "ตรวจก่อนแปลงด้วย try-catch", level: "ท้าทาย", stdin: "abc\n-5\n25",
-          concept: "ล้อม parse ด้วย <code>try { } catch (NumberFormatException e) { }</code> ถ้าแปลงไม่ได้โปรแกรมจะไม่หยุด แต่ไปทำส่วน catch แทน",
+              public class CsvRecord {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("name,age,gpa: ");
+                      String[] p = input.nextLine().split(",");
+                      String name = p[0].trim();
+                      int age = Integer.parseInt(p[1].trim());               // "19" → 19
+                      double gpa = Double.parseDouble(p[2].trim());          // "3.45" → 3.45
+                      System.out.printf("%s will be %d next year. GPA x 25 = %.1f%n", name, age + 1, gpa * 25);
+                  }
+              }`,
+            },
+        ] },
+
+        { type: "h", text: "แปลงไม่ได้: NumberFormatException" },
+        { type: "p", html: `ถ้าข้อความไม่ใช่ตัวเลขที่ถูกต้อง เช่น <code>"abc"</code> หรือ <code>"12.5"</code> กับ parseInt โปรแกรมจะหยุดด้วย <code>NumberFormatException</code> ล้อมด้วย <code>try { } catch (NumberFormatException e) { }</code> เพื่อจัดการแทนการหยุด` },
+        { type: "run", title: "ถามจนกว่าจะได้ตัวเลขที่ถูกต้อง", stdin: "abc\n-5\n25",
           code: j`
             import java.util.Scanner;
 
             public class SafeParse {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
-                    int age = -1;  // -1 = ยังไม่ได้ค่าที่ถูกต้อง
+                    int age = -1;                                      // -1 = ยังไม่ได้ค่าที่ถูกต้อง
                     while (age < 0) {
                         System.out.print("Age: ");
-                        // อ่านเป็นข้อความก่อน
                         String text = input.nextLine();
-                        // ลองแปลง ถ้าผิดจะไปที่ catch
                         try {
-                            age = Integer.parseInt(text);
+                            age = Integer.parseInt(text);              // "abc" → กระโดดไป catch
                             if (age < 0) System.out.println("  Age cannot be negative");
-                        // ข้อความไม่ใช่ตัวเลข
                         } catch (NumberFormatException e) {
                             System.out.println("  '" + text + "' is not a number");
                         }
@@ -343,17 +313,28 @@ export default {
                     System.out.println("OK, age = " + age);
                 }
             }`,
-          steps: ["\"abc\" → parseInt โยน exception → ไปที่ catch แจ้งเตือน age ยัง −1", "\"-5\" แปลงได้ แต่ติดลบ → แจ้งเตือนและวนต่อ", "\"25\" ถูกต้อง → ออกจากลูป"] },
+          },
+        { type: "more", title: "ดูตัวอย่าง: NumberFormatException ที่ไม่ได้ดักจับ", blocks: [
+          { type: "run", label: "ทดลอง error 9.3.4", title: "NumberFormatException", expect: "runtime-error",
+            code: j`
+              public class BadParse {
+                  public static void main(String[] args) {
+                      System.out.println(Integer.parseInt("123"));
+                      System.out.println(Double.parseDouble("12.5"));
+                      System.out.println(Integer.parseInt("12.5"));
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "แปลงชนิด", html: `<p><code>"5" + 3</code>, <code>Integer.parseInt("5") + 3</code> และ <code>"5" + 3 + 2</code> ได้อะไร</p>`, answer: `<p><strong>"53"</strong>, <strong>8</strong>, <strong>"532"</strong></p>` },
       ],
     },
     {
       num: "9.4", toc: "char และ Character", title: "char และคลาส Character",
       blocks: [
-        { type: "p", html: `<code>char</code> เก็บอักขระหนึ่งตัวในเครื่องหมาย <code>' '</code> และเก็บเป็นรหัสตัวเลข (Unicode) จึงเปรียบเทียบด้วย <code>==</code>, <code>&lt;</code> และบวกลบได้ คลาส <code>Character</code> มีเมธอดตรวจชนิดอักขระ` },
-        { type: "table", head: ["เมธอด", "ตรวจ/ทำอะไร"], rows: [["<code>Character.isDigit(ch)</code>", "เป็นตัวเลข 0–9"], ["<code>Character.isLetter(ch)</code>", "เป็นตัวอักษร"], ["<code>Character.isUpperCase(ch)</code> / <code>isLowerCase</code>", "ตัวพิมพ์ใหญ่/เล็ก"], ["<code>Character.isWhitespace(ch)</code>", "ช่องว่าง แท็บ ขึ้นบรรทัด"], ["<code>Character.toUpperCase(ch)</code>", "แปลงเป็นตัวพิมพ์ใหญ่"], ["<code>Character.getNumericValue(ch)</code>", "'7' → 7"]] },
-        { type: "run", title: "วนอ่านทีละอักขระและนับประเภท", level: "พื้นฐาน", stdin: "Java 21 is Great!",
-          concept: "ใช้ลูป for กับ charAt(i) อ่านทีละตัว แล้วใช้ Character ตรวจประเภท",
+        { type: "p", html: `<code>char</code> เก็บอักขระหนึ่งตัวใน <code>' '</code> และเก็บเป็นรหัสตัวเลข จึงเปรียบเทียบและบวกลบได้ ส่วนคลาส <code>Character</code> มีเมธอดตรวจชนิดอักขระ` },
+        { type: "table", head: ["เมธอด", "ตรวจ / ทำอะไร"], rows: [["<code>Character.isDigit(ch)</code>", "เป็นตัวเลข 0–9"], ["<code>Character.isLetter(ch)</code>", "เป็นตัวอักษร"], ["<code>Character.isUpperCase(ch)</code> / <code>isLowerCase</code>", "ตัวพิมพ์ใหญ่ / เล็ก"], ["<code>Character.isWhitespace(ch)</code>", "ช่องว่าง แท็บ ขึ้นบรรทัด"], ["<code>Character.toUpperCase(ch)</code>", "แปลงเป็นตัวพิมพ์ใหญ่"]] },
+        { type: "run", title: "วนอ่านทีละอักขระแล้วนับประเภท", stdin: "Java 21 is Great!",
           code: j`
             import java.util.Scanner;
 
@@ -363,15 +344,13 @@ export default {
                     System.out.print("Text: ");
                     String text = input.nextLine();
                     int letters = 0, digits = 0, spaces = 0, upper = 0, others = 0;
-                    // วนทีละอักขระ
                     for (int i = 0; i < text.length(); i++) {
-                        char ch = text.charAt(i);
-                        if (Character.isLetter(ch)) {  // ตัวอักษร
+                        char ch = text.charAt(i);                      // ทีละตัว
+                        if (Character.isLetter(ch)) {
                             letters++;
-                            if (Character.isUpperCase(ch)) upper++;
-                        } else if (Character.isDigit(ch)) {  // ตัวเลข
+                            if (Character.isUpperCase(ch)) upper++;    // J และ G
+                        } else if (Character.isDigit(ch)) {
                             digits++;
-                        // ช่องว่าง
                         } else if (Character.isWhitespace(ch)) {
                             spaces++;
                         } else {
@@ -384,163 +363,157 @@ export default {
                     System.out.println("Others: " + others);
                 }
             }`,
-          steps: ["วน i = 0 ถึง length − 1", "แต่ละตัวจัดเข้ากลุ่มเดียวด้วย else-if", "ตัวพิมพ์ใหญ่ J, G นับซ้อนในกลุ่มตัวอักษร"] },
-        { type: "run", title: "คณิตศาสตร์กับ char", level: "ต่อยอด",
-          concept: "char คือตัวเลข: <code>'A'</code> = 65, <code>'a'</code> = 97, <code>'0'</code> = 48 จึงคำนวณตำแหน่งตัวอักษรหรือแปลงตัวเลขได้",
+          },
+        { type: "h", text: "char คือตัวเลข" },
+        { type: "p", html: `<code>'A'</code> = 65, <code>'a'</code> = 97, <code>'0'</code> = 48 จึงคำนวณตำแหน่งตัวอักษรหรือแปลงอักขระตัวเลขเป็นค่าได้ ผลบวกของ char กับ int เป็น int ต้อง cast กลับเป็น char` },
+        { type: "run", title: "คณิตศาสตร์กับ char",
           code: j`
             public class CharMath {
                 public static void main(String[] args) {
                     char c = 'C';
-                    // char เก็บเป็นรหัสตัวเลข
-                    System.out.println("(int) 'C' = " + (int) c);
-                    // ระยะห่างจาก 'A' + 1
-                    System.out.println("position in alphabet = " + (c - 'A' + 1));
-                    // รหัสถัดไป แล้วแปลงกลับเป็น char
-                    System.out.println("next letter = " + (char) (c + 1));
-                    // ตัวเล็กอยู่ห่างตัวใหญ่ 32 รหัสเสมอ
-                    System.out.println("lowercase = " + (char) (c + ('a' - 'A')));
+                    System.out.println("(int) 'C' = " + (int) c);                          // 67
+                    System.out.println("position in alphabet = " + (c - 'A' + 1));        // 3
+                    System.out.println("next letter = " + (char) (c + 1));                 // D
+                    System.out.println("lowercase = " + (char) (c + ('a' - 'A')));         // c   ห่างกัน 32 เสมอ
                     char digit = '7';
-                    // แปลงอักขระตัวเลขเป็นค่า int
-                    System.out.println("'7' - '0' = " + (digit - '0'));
-                    // วนตัวอักษรได้เหมือนตัวเลข
-                    for (char ch = 'a'; ch <= 'e'; ch++) {
+                    System.out.println("'7' - '0' = " + (digit - '0'));                    // 7
+                    for (char ch = 'a'; ch <= 'e'; ch++) {                                 // วนตัวอักษรได้
                         System.out.print(ch + " ");
                     }
                     System.out.println();
                 }
             }`,
-          steps: ["'C' − 'A' = 2 → ตำแหน่งที่ 3", "บวก char กับ int ได้ int ต้อง cast กลับเป็น char", "'7' − '0' = 7 แปลงอักขระตัวเลขเป็นค่า", "ลูปด้วยตัวแปร char ได้"] },
-        { type: "run", title: "รหัสซีซาร์ (Caesar cipher)", level: "ประยุกต์", stdin: "Hello, World!\n3",
-          concept: "เลื่อนตัวอักษรไป k ตำแหน่ง วนกลับเมื่อเกิน Z ด้วย <code>% 26</code> อักขระอื่นคงเดิม",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: รหัสซีซาร์ (Caesar cipher)", blocks: [
+          { type: "p", html: `เลื่อนตัวอักษรไป k ตำแหน่ง วนกลับเมื่อเกิน Z ด้วย <code>% 26</code> อักขระอื่นคงเดิม ถอดรหัสด้วยการเลื่อน 26 − k` },
+          { type: "run", title: "เข้ารหัสและถอดรหัส", stdin: "Hello, World!\n3",
+            code: j`
+              import java.util.Scanner;
 
-            public class Caesar {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Text: ");
-                    String text = input.nextLine();
-                    System.out.print("Shift: ");
-                    int k = input.nextInt();
-                    String encoded = shift(text, k);
-                    System.out.println("Encoded: " + encoded);
-                    // เลื่อนอีก 26 - k ตัว = ถอดรหัส
-                    System.out.println("Decoded: " + shift(encoded, 26 - k));
-                }
+              public class Caesar {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Text: ");
+                      String text = input.nextLine();
+                      System.out.print("Shift: ");
+                      int k = input.nextInt();
+                      String encoded = shift(text, k);
+                      System.out.println("Encoded: " + encoded);
+                      System.out.println("Decoded: " + shift(encoded, 26 - k));
+                  }
 
-                static String shift(String s, int k) {
-                    String result = "";  // ผลลัพธ์สะสมทีละอักขระ
-                    for (int i = 0; i < s.length(); i++) {
-                        char ch = s.charAt(i);
-                        if (Character.isUpperCase(ch)) {
-                            // ตำแหน่งใหม่ วนกลับด้วย % 26
-                            ch = (char) ('A' + (ch - 'A' + k) % 26);
-                        } else if (Character.isLowerCase(ch)) {
-                            ch = (char) ('a' + (ch - 'a' + k) % 26);
-                        }
-                        result += ch;  // ต่อท้ายผลลัพธ์
-                    }
-                    return result;
-                }
-            }`,
-          steps: ["'H' → ตำแหน่ง 7 + 3 = 10 → 'K'", "'o' → 14 + 3 = 17 → 'r'", "'W' → 22 + 3 = 25 → 'Z'; ถ้าเป็น 'X' จะได้ 26 % 26 = 0 → 'A'", "ถอดรหัสด้วยการเลื่อน 26 − k"] },
+                  static String shift(String s, int k) {
+                      String result = "";
+                      for (int i = 0; i < s.length(); i++) {
+                          char ch = s.charAt(i);
+                          if (Character.isUpperCase(ch)) {
+                              ch = (char) ('A' + (ch - 'A' + k) % 26);     // 'H' → 'K'
+                          } else if (Character.isLowerCase(ch)) {
+                              ch = (char) ('a' + (ch - 'a' + k) % 26);
+                          }
+                          result += ch;
+                      }
+                      return result;
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "char", html: `<p><code>char ch = 'b';</code> ค่าของ <code>ch + 1</code>, <code>(char)(ch + 1)</code> และ <code>Character.toUpperCase(ch)</code> คืออะไร</p>`, answer: `<p><strong>99</strong> (int), <strong>'c'</strong>, <strong>'B'</strong></p>` },
       ],
     },
     {
       num: "9.5", toc: "StringBuilder", title: "StringBuilder: สร้างข้อความทีละส่วน",
       blocks: [
-        { type: "p", html: `เพราะ String เปลี่ยนไม่ได้ การต่อด้วย <code>+=</code> ในลูปจะสร้างข้อความใหม่ทุกรอบ (ช้าเมื่อข้อมูลมาก) <code>StringBuilder</code> เป็นข้อความที่<strong>แก้ไขได้</strong> มีเมธอด <code>append</code>, <code>insert</code>, <code>reverse</code>, <code>deleteCharAt</code>, <code>setCharAt</code> แล้วแปลงกลับด้วย <code>toString()</code>` },
-        { type: "run", title: "append และ toString", level: "พื้นฐาน",
-          concept: "สร้าง StringBuilder ว่าง ต่อข้อความทีละส่วนในลูป แล้วแปลงเป็น String ตอนจบ",
+        { type: "p", html: `การต่อ String ด้วย <code>+=</code> ในลูปสร้างข้อความใหม่ทุกรอบ <code>StringBuilder</code> เป็นข้อความที่<strong>แก้ไขได้</strong> ต่อเสร็จแล้วแปลงกลับเป็น String ด้วย <code>toString()</code>` },
+        { type: "table", head: ["เมธอด", "ทำอะไร"], rows: [
+          ["<code>append(x)</code>", "ต่อท้าย (รับได้ทุกชนิด)"],
+          ["<code>insert(i, x)</code>", "แทรกที่ตำแหน่ง i"],
+          ["<code>reverse()</code>", "กลับลำดับ"],
+          ["<code>setCharAt(i, c)</code>", "เปลี่ยนอักขระที่ตำแหน่ง i"],
+          ["<code>deleteCharAt(i)</code>", "ลบอักขระที่ตำแหน่ง i"],
+          ["<code>toString()</code>", "แปลงเป็น String"],
+        ] },
+        { type: "run", title: "ต่อข้อความในลูป",
           code: j`
             public class BuilderBasics {
                 public static void main(String[] args) {
-                    // ข้อความที่แก้ไขได้
                     StringBuilder sb = new StringBuilder();
                     for (int i = 1; i <= 5; i++) {
-                        sb.append(i);  // ต่อท้าย ไม่สร้าง String ใหม่ทุกครั้ง
-                        if (i < 5) {   // ไม่ใส่ลูกศรหลังตัวสุดท้าย
-                            sb.append(" -> ");
+                        sb.append(i);                         // ต่อท้าย
+                        if (i < 5) {
+                            sb.append(" -> ");                // ไม่ใส่ลูกศรหลังตัวสุดท้าย
                         }
                     }
-                    // แปลงเป็น String เมื่อเสร็จ
-                    String result = sb.toString();
+                    String result = sb.toString();            // 1 -> 2 -> 3 -> 4 -> 5
                     System.out.println(result);
                     System.out.println("length = " + sb.length());
                 }
             }`,
-          steps: ["append ต่อท้ายได้ทุกชนิด (int, String, char)", "ไม่ต่อลูกศรหลังตัวสุดท้าย", "toString() ได้ String ปกติ"] },
-        { type: "run", title: "reverse, insert, setCharAt, deleteCharAt", level: "ต่อยอด",
-          concept: "เมธอดของ StringBuilder <strong>แก้ตัวมันเอง</strong> (ต่างจาก String) จึงไม่ต้องกำหนดค่ากลับ",
+          },
+        { type: "h", text: "StringBuilder แก้ตัวมันเอง" },
+        { type: "p", html: `ต่างจาก String เมธอดของ StringBuilder <strong>เปลี่ยนตัวมันเอง</strong> จึงไม่ต้องเก็บผลลัพธ์กลับ` },
+        { type: "run", title: "reverse, insert, setCharAt, deleteCharAt",
           code: j`
             public class BuilderEdit {
                 public static void main(String[] args) {
                     StringBuilder sb = new StringBuilder("Java");
-                    sb.reverse();  // กลับลำดับในตัวเดิม
-                    System.out.println("reverse     : " + sb);
                     sb.reverse();
-                    sb.insert(0, "I love ");  // แทรกที่ตำแหน่ง 0
-                    System.out.println("insert      : " + sb);
-                    sb.setCharAt(0, 'U');  // แก้อักขระตำแหน่ง 0
-                    System.out.println("setCharAt   : " + sb);
-                    sb.deleteCharAt(sb.length() - 1);  // ลบอักขระตัวสุดท้าย
-                    System.out.println("deleteCharAt: " + sb);
+                    System.out.println("reverse     : " + sb);     // avaJ
+                    sb.reverse();
+                    sb.insert(0, "I love ");
+                    System.out.println("insert      : " + sb);     // I love Java
+                    sb.setCharAt(0, 'U');
+                    System.out.println("setCharAt   : " + sb);     // U love Java
+                    sb.deleteCharAt(sb.length() - 1);
+                    System.out.println("deleteCharAt: " + sb);     // U love Jav
                     sb.append("!!!");
-                    System.out.println("append      : " + sb);
+                    System.out.println("append      : " + sb);     // U love Jav!!!
                 }
             }`,
-          steps: ["reverse กลับลำดับในตัวเอง → \"avaJ\"", "insert แทรกที่ตำแหน่ง 0", "setCharAt เปลี่ยนอักขระ index 0", "deleteCharAt ลบตัวสุดท้าย"] },
-        { type: "run", title: "ตรวจพาลินโดรมแบบไม่สนช่องว่างและเครื่องหมาย", level: "ประยุกต์", stdin: "A man, a plan, a canal: Panama",
-          concept: "ทำความสะอาดข้อความ (เก็บเฉพาะตัวอักษร/ตัวเลข ตัวพิมพ์เล็ก) ด้วย StringBuilder แล้วเทียบกับตัวกลับลำดับ",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: ตรวจพาลินโดรม และใส่จุลภาคคั่นหลัก", blocks: [
+          { type: "run", title: "ตรวจพาลินโดรมแบบไม่สนช่องว่างและเครื่องหมาย", stdin: "A man, a plan, a canal: Panama",
+            code: j`
+              import java.util.Scanner;
 
-            public class PalindromeText {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Text: ");
-                    String text = input.nextLine();
-                    StringBuilder clean = new StringBuilder();
-                    // toCharArray: วน for-each ทีละอักขระ
-                    for (char ch : text.toCharArray()) {
-                        // เก็บเฉพาะตัวอักษรและตัวเลข
-                        if (Character.isLetterOrDigit(ch)) {
-                            // ทำเป็นตัวเล็กทั้งหมด
-                            clean.append(Character.toLowerCase(ch));
-                        }
-                    }
-                    String forward = clean.toString();
-                    // reverse แก้ clean ด้วย จึงเก็บ forward ไว้ก่อน
-                    String backward = clean.reverse().toString();
-                    System.out.println("Cleaned : " + forward);
-                    System.out.println("Reversed: " + backward);
-                    System.out.println(forward.equals(backward) ? "Palindrome!" : "Not a palindrome");
-                }
-            }`,
-          steps: ["<code>toCharArray()</code> แปลง String เป็นอาเรย์ char เพื่อใช้ for-each", "เก็บเฉพาะตัวอักษร/ตัวเลขเป็นตัวพิมพ์เล็ก", "ต้องเก็บ forward <em>ก่อน</em> reverse เพราะ reverse แก้ตัวมันเอง", "เทียบด้วย equals"] },
-        { type: "run", title: "จัดรูปแบบตัวเลขด้วยจุลภาคเอง", level: "ท้าทาย", stdin: "1234567",
-          concept: "แทรกจุลภาคทุก 3 หลักนับจากขวา — insert ไล่จากท้ายมาหน้า",
-          code: j`
-            import java.util.Scanner;
+              public class PalindromeText {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Text: ");
+                      String text = input.nextLine();
+                      StringBuilder clean = new StringBuilder();
+                      for (char ch : text.toCharArray()) {                   // วน for-each ทีละอักขระ
+                          if (Character.isLetterOrDigit(ch)) {
+                              clean.append(Character.toLowerCase(ch));
+                          }
+                      }
+                      String forward = clean.toString();                    // เก็บไว้ก่อน reverse
+                      String backward = clean.reverse().toString();         // reverse แก้ clean ด้วย
+                      System.out.println("Cleaned : " + forward);
+                      System.out.println("Reversed: " + backward);
+                      System.out.println(forward.equals(backward) ? "Palindrome!" : "Not a palindrome");
+                  }
+              }`,
+            },
+          { type: "run", title: "แทรกจุลภาคทุก 3 หลัก", stdin: "1234567",
+            code: j`
+              import java.util.Scanner;
 
-            public class AddCommas {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Number: ");
-                    String digits = input.next();
-                    StringBuilder sb = new StringBuilder(digits);
-                    // เริ่มจากขวา ถอยทีละ 3 หลัก
-                    for (int i = sb.length() - 3; i > 0; i -= 3) {
-                        // แทรก , ที่ตำแหน่ง i
-                        sb.insert(i, ',');
-                    }
-                    System.out.println("Formatted: " + sb);
-                    // %,d ใส่ตัวคั่นให้อัตโนมัติ
-                    System.out.println("Check with printf: " + String.format("%,d", Long.parseLong(digits)));
-                }
-            }`,
-          steps: ["ความยาว 7 → แทรกที่ index 4 ได้ 1234,567", "แทรกที่ index 1 ได้ 1,234,567", "i ≤ 0 → หยุด", "เทียบผลกับ %,d ของ printf"] },
+              public class AddCommas {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Number: ");
+                      String digits = input.next();
+                      StringBuilder sb = new StringBuilder(digits);
+                      for (int i = sb.length() - 3; i > 0; i -= 3) {         // ไล่จากขวาทีละ 3 หลัก
+                          sb.insert(i, ',');
+                      }
+                      System.out.println("Formatted: " + sb);
+                      System.out.println("Check with printf: " + String.format("%,d", Long.parseLong(digits)));
+                  }
+              }`,
+            },
+        ] },
       ],
     },
   ],
