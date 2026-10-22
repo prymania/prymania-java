@@ -16,44 +16,44 @@ export default {
     {
       num: "5.1", toc: "ค่าจริงและการเปรียบเทียบ", title: "boolean และตัวดำเนินการเปรียบเทียบ",
       blocks: [
-        { type: "p", html: `<code>boolean</code> เก็บได้เพียง <code>true</code> หรือ <code>false</code> นิพจน์เปรียบเทียบ เช่น <code>score &gt;= 50</code> จะ<em>คำนวณ</em>ออกมาเป็นค่า boolean ที่นำไปเก็บในตัวแปรหรือใช้ใน if ได้` },
+        { type: "p", html: `<code>boolean</code> เก็บได้แค่ <code>true</code> หรือ <code>false</code> การเปรียบเทียบ เช่น <code>score &gt;= 50</code> ให้ผลเป็นค่า boolean ซึ่งเก็บในตัวแปรหรือใช้ใน if ได้` },
         { type: "table", head: ["ตัวดำเนินการ", "ความหมาย", "ตัวอย่าง (x = 7)", "ผล"], rows: [
           ["<code>==</code>", "เท่ากับ", "<code>x == 7</code>", "true"], ["<code>!=</code>", "ไม่เท่ากับ", "<code>x != 7</code>", "false"],
           ["<code>&gt;</code>", "มากกว่า", "<code>x &gt; 10</code>", "false"], ["<code>&lt;</code>", "น้อยกว่า", "<code>x &lt; 10</code>", "true"],
           ["<code>&gt;=</code>", "มากกว่าหรือเท่ากับ", "<code>x &gt;= 7</code>", "true"], ["<code>&lt;=</code>", "น้อยกว่าหรือเท่ากับ", "<code>x &lt;= 6</code>", "false"],
         ] },
-        { type: "run", title: "นิพจน์เปรียบเทียบให้ค่า boolean", level: "พื้นฐาน",
-          concept: "เปรียบเทียบได้ผลเป็นค่า true/false ที่เก็บในตัวแปรหรือพิมพ์ออกมาได้เหมือนค่าอื่น",
+        { type: "run", title: "ผลการเปรียบเทียบคือ true หรือ false",
           code: j`
             public class Comparisons {
                 public static void main(String[] args) {
                     int score = 72;
-                    // ผลการเปรียบเทียบเป็น boolean
-                    boolean passed = score >= 50;
-                    // == คือเปรียบเทียบ (= คือกำหนดค่า)
-                    boolean perfect = score == 100;
+                    boolean passed = score >= 50;                         // true
+                    boolean perfect = score == 100;                       // false
                     System.out.println("passed = " + passed);
                     System.out.println("perfect = " + perfect);
-                    System.out.println("score < 80 ? " + (score < 80));
-                    // != แปลว่า "ไม่เท่ากับ"
-                    System.out.println("score != 72 ? " + (score != 72));
+                    System.out.println("score < 80 ? " + (score < 80));   // true   ต่อข้อความต้องมีวงเล็บ
+                    System.out.println("score != 72 ? " + (score != 72)); // false
                 }
             }`,
-          steps: ["72 ≥ 50 → true", "72 == 100 → false", "ต้องมีวงเล็บรอบนิพจน์เปรียบเทียบเมื่อต่อข้อความ"] },
-        { type: "run", label: "ทดลอง error 5.1.2", title: "ใช้ = แทน ==", level: "ต่อยอด", expect: "compile-error",
-          concept: "<code>=</code> คือการกำหนดค่า ส่วน <code>==</code> คือการเปรียบเทียบ if ต้องการค่า boolean จึงคอมไพล์ไม่ผ่าน",
-          code: j`
-            public class AssignInIf {
-                public static void main(String[] args) {
-                    int score = 72;
-                    if (score = 100) {
-                        System.out.println("Perfect!");
-                    }
-                }
-            }`,
-          steps: ["<code>score = 100</code> มีชนิดเป็น int", "if ต้องการ boolean → <code>int cannot be converted to boolean</code>", "แก้เป็น <code>score == 100</code>"] },
-        { type: "run", title: "เปรียบเทียบ String ต้องใช้ equals", level: "ประยุกต์", stdin: "admin",
-          concept: "<code>==</code> กับ String เปรียบเทียบว่าเป็น<em>ออบเจ็กต์เดียวกัน</em>หรือไม่ ไม่ใช่เนื้อหา ต้องใช้ <code>.equals()</code> (หรือ <code>.equalsIgnoreCase()</code> ถ้าไม่สนตัวพิมพ์)",
+          },
+        { type: "warn", title: "= กับ ==", html: `<code>=</code> คือการ<strong>ใส่ค่า</strong> ส่วน <code>==</code> คือการ<strong>เปรียบเทียบ</strong> เขียน <code>if (score = 100)</code> จะคอมไพล์ไม่ผ่าน (<code>int cannot be converted to boolean</code>)` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อใช้ = แทน ==", blocks: [
+          { type: "run", label: "ทดลอง error 5.1.2", title: "ใช้ = แทน ==", expect: "compile-error",
+            code: j`
+              public class AssignInIf {
+                  public static void main(String[] args) {
+                      int score = 72;
+                      if (score = 100) {
+                          System.out.println("Perfect!");
+                      }
+                  }
+              }`,
+            },
+        ] },
+
+        { type: "h", text: "เปรียบเทียบ String ต้องใช้ equals" },
+        { type: "p", html: `<code>==</code> กับ String ตรวจว่าเป็น<em>ออบเจ็กต์เดียวกัน</em>หรือไม่ ไม่ได้ดูตัวอักษร ให้ใช้ <code>.equals()</code> หรือ <code>.equalsIgnoreCase()</code> ถ้าไม่สนตัวพิมพ์เล็ก-ใหญ่` },
+        { type: "run", title: "ผู้ใช้พิมพ์ admin", stdin: "admin",
           code: j`
             import java.util.Scanner;
 
@@ -62,57 +62,57 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Username: ");
                     String user = input.next();
-                    // == เทียบว่าเป็นออบเจ็กต์เดียวกัน ไม่ใช่เนื้อหา
-                    System.out.println("user == \"admin\"      -> " + (user == "admin"));
-                    // equals เทียบเนื้อหาข้อความ
-                    System.out.println("user.equals(\"admin\") -> " + user.equals("admin"));
-                    // ไม่สนตัวพิมพ์เล็ก/ใหญ่
+                    System.out.println("user == \"admin\"      -> " + (user == "admin"));        // false
+                    System.out.println("user.equals(\"admin\") -> " + user.equals("admin"));     // true
                     System.out.println("equalsIgnoreCase(\"ADMIN\") -> " + user.equalsIgnoreCase("ADMIN"));
                 }
             }`,
-          steps: ["ผู้ใช้พิมพ์ admin", "<code>==</code> ได้ false เพราะ String ที่อ่านจาก Scanner เป็นคนละออบเจ็กต์กับ \"admin\" ในโค้ด", "<code>equals</code> เปรียบเทียบตัวอักษร → true", "จำไว้: <strong>String ใช้ equals เสมอ</strong>"] },
-        { type: "run", title: "เปรียบเทียบ double อย่างปลอดภัย", level: "ท้าทาย",
-          concept: "double เก็บค่าแบบประมาณ ห้ามใช้ <code>==</code> ตรง ๆ ให้ตรวจว่า “ต่างกันน้อยมาก” ด้วย <code>Math.abs(a - b) &lt; 1e-9</code>",
-          code: j`
-            public class DoubleCompare {
-                public static void main(String[] args) {
-                    double a = 0.1 + 0.2;  // ทศนิยมฐานสองคลาดเคลื่อนเล็กน้อย
-                    double b = 0.3;
-                    System.out.println("a = " + a);
-                    // จึงไม่ควรใช้ == กับ double
-                    System.out.println("a == b ? " + (a == b));
-                    // ถือว่าเท่ากันเมื่อต่างกันน้อยมาก
-                    System.out.println("close enough ? " + (Math.abs(a - b) < 1e-9));
-                }
-            }`,
-          steps: ["0.1 + 0.2 ได้ 0.30000000000000004", "<code>==</code> จึงได้ false", "ผลต่าง 0.00000000000000004 น้อยกว่า 0.000000001 → ถือว่าเท่ากัน"] },
+          },
+        { type: "tip", html: `จำไว้: <strong>String ใช้ equals เสมอ</strong> และ double ห้ามใช้ <code>==</code> ตรง ๆ เพราะเก็บค่าแบบประมาณ ให้ตรวจว่า “ต่างกันน้อยมาก” แทน: <code>Math.abs(a - b) &lt; 1e-9</code>` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เปรียบเทียบ double อย่างปลอดภัย", blocks: [
+          { type: "run", title: "0.1 + 0.2 ไม่เท่ากับ 0.3 พอดี",
+            code: j`
+              public class DoubleCompare {
+                  public static void main(String[] args) {
+                      double a = 0.1 + 0.2;
+                      double b = 0.3;
+                      System.out.println("a = " + a);                                         // 0.30000000000000004
+                      System.out.println("a == b ? " + (a == b));                             // false
+                      System.out.println("close enough ? " + (Math.abs(a - b) < 1e-9));       // true
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "ผลของนิพจน์", html: `<p>ถ้า <code>int a = 5, b = 8;</code> ผลของ <code>a * 2 &gt; b</code>, <code>a + 3 == b</code>, <code>b % a != 3</code> คืออะไร</p>`, answer: `<p>10 &gt; 8 → <strong>true</strong>; 8 == 8 → <strong>true</strong>; 8 % 5 = 3, 3 != 3 → <strong>false</strong></p>` },
       ],
     },
     {
       num: "5.2", toc: "ตัวดำเนินการตรรกะ", title: "รวมเงื่อนไขด้วย AND, OR และ NOT",
       blocks: [
-        { type: "p", html: `<code>&amp;&amp;</code> (AND) เป็นจริงเมื่อ<strong>ทั้งสอง</strong>เงื่อนไขเป็นจริง, <code>||</code> (OR) เป็นจริงเมื่อ<strong>อย่างน้อยหนึ่ง</strong>เงื่อนไขเป็นจริง และ <code>!</code> (NOT) กลับค่าจริงเป็นเท็จ` },
-        { type: "table", head: ["A", "B", "A &amp;&amp; B", "A || B", "!A"], rows: [["true", "true", "true", "true", "false"], ["true", "false", "false", "true", "false"], ["false", "true", "false", "true", "true"], ["false", "false", "false", "false", "true"]] },
-        { type: "run", title: "ตรวจช่วงตัวเลขด้วย &&", level: "พื้นฐาน",
-          concept: "ภาษาคณิตศาสตร์เขียน 18 ≤ age ≤ 25 ได้ แต่ Java ต้องแยกเป็นสองเงื่อนไขแล้วเชื่อมด้วย <code>&amp;&amp;</code>",
+        { type: "p", html: `ใช้รวมหลายเงื่อนไขเข้าด้วยกัน` },
+        { type: "table", head: ["ตัวดำเนินการ", "ชื่อ", "เป็นจริงเมื่อ"], rows: [
+          ["<code>&amp;&amp;</code>", "AND", "ทั้งสองข้างเป็นจริง"],
+          ["<code>||</code>", "OR", "อย่างน้อยหนึ่งข้างเป็นจริง"],
+          ["<code>!</code>", "NOT", "กลับค่า จริง ↔ เท็จ"],
+        ] },
+        { type: "run", title: "ตรวจช่วงอายุ 18–25",
           code: j`
             public class RangeCheck {
                 public static void main(String[] args) {
                     int age = 19;
-                    // && ต้องจริงทั้งสองข้าง
-                    boolean inRange = age >= 18 && age <= 25;
-                    // || จริงข้างเดียวก็พอ
-                    boolean outOfRange = age < 18 || age > 25;
+                    boolean inRange = age >= 18 && age <= 25;        // true    ต้องจริงทั้งสองข้าง
+                    boolean outOfRange = age < 18 || age > 25;       // false   จริงข้างเดียวก็พอ
                     System.out.println("18-25? " + inRange);
                     System.out.println("outside? " + outOfRange);
-                    // ! กลับค่าจริงเป็นเท็จ
-                    System.out.println("not in range? " + !inRange);
+                    System.out.println("not in range? " + !inRange); // false
                 }
             }`,
-          steps: ["19 ≥ 18 true และ 19 ≤ 25 true → true", "นอกช่วงคือ “น้อยกว่า 18 <em>หรือ</em> มากกว่า 25” → false", "<code>!inRange</code> ให้ผลเท่ากับ outOfRange"] },
-        { type: "run", title: "สิทธิ์ส่วนลด: ผสม && กับ ||", level: "ต่อยอด",
-          concept: "<code>&amp;&amp;</code> ทำก่อน <code>||</code> เสมอ ใช้วงเล็บเพื่อบอกความหมายให้ชัด",
+          },
+        { type: "warn", html: `คณิตศาสตร์เขียน 18 ≤ age ≤ 25 ได้ แต่ Java ต้องแยกเป็นสองเงื่อนไขแล้วเชื่อมด้วย <code>&amp;&amp;</code> เสมอ เขียน <code>18 &lt;= age &lt;= 25</code> จะคอมไพล์ไม่ผ่าน` },
+
+        { type: "h", text: "ลำดับของ && และ ||" },
+        { type: "p", html: `<code>&amp;&amp;</code> ทำก่อน <code>||</code> เสมอ เหมือนคูณก่อนบวก ถ้าต้องการลำดับอื่นหรือให้อ่านง่าย ให้ใส่วงเล็บ` },
+        { type: "run", title: "สิทธิ์ส่วนลด: วงเล็บเปลี่ยนความหมาย",
           code: j`
             public class DiscountRule {
                 public static void main(String[] args) {
@@ -120,70 +120,62 @@ export default {
                     boolean hasPass = true;
                     int age = 16;
 
-                    // วงเล็บทำให้ || ทำก่อน
-                    boolean ruleA = (isStudent || hasPass) && age >= 18;
-                    // && ทำก่อน || (เหมือน C)
-                    boolean ruleB = isStudent || hasPass && age >= 18;
-                    // เขียนวงเล็บให้ชัดเหมือน B
-                    boolean ruleC = isStudent || (hasPass && age >= 18);
+                    boolean ruleA = (isStudent || hasPass) && age >= 18;   // (false || true) && false → false
+                    boolean ruleB = isStudent || hasPass && age >= 18;     // false || (true && false) → false
+                    boolean ruleC = isStudent || (hasPass && age >= 18);   // เหมือน B แต่อ่านง่ายกว่า
 
                     System.out.println("A = " + ruleA);
                     System.out.println("B = " + ruleB);
                     System.out.println("C = " + ruleC);
                 }
             }`,
-          steps: ["A: (false || true) = true, && (16 ≥ 18 false) → false", "B: ไม่มีวงเล็บ && ทำก่อน → false || (true && false) → false", "C: เขียนวงเล็บแบบเดียวกับ B จึงได้ผลเท่ากัน", "ลอง isStudent = true: A เป็น false (อายุไม่ถึง) แต่ B, C เป็น true — ความหมายต่างกันจริง"],
-          tryIt: "เปลี่ยน isStudent = true แล้วดูว่า A กับ B ต่างกันอย่างไร" },
-        { type: "run", title: "Short-circuit: หยุดตรวจเมื่อรู้คำตอบแล้ว", level: "ประยุกต์",
-          concept: "ถ้าด้านซ้ายของ <code>&amp;&amp;</code> เป็น false Java ไม่ตรวจด้านขวาเลย ใช้ป้องกันการหารด้วยศูนย์ได้",
+          },
+        { type: "try", html: `เปลี่ยน <code>isStudent = true</code> แล้วดูว่า A กับ B ต่างกันอย่างไร (A ยังเป็น false เพราะอายุไม่ถึง แต่ B เป็น true)` },
+
+        { type: "h", text: "Short-circuit: หยุดตรวจเมื่อรู้คำตอบแล้ว" },
+        { type: "p", html: `ถ้าด้านซ้ายของ <code>&amp;&amp;</code> เป็น false คำตอบต้องเป็น false แน่นอน Java จึงไม่ตรวจด้านขวาเลย ใช้ป้องกันการหารด้วยศูนย์ได้` },
+        { type: "run", title: "ตรวจ count ก่อนหาร",
           code: j`
             public class ShortCircuit {
                 public static void main(String[] args) {
                     int total = 100;
                     int count = 0;
-                    // ถ้า count เป็น 0 จะไม่หารเลย (short-circuit)
-                    if (count != 0 && total / count > 10) {
+                    if (count != 0 && total / count > 10) {      // count != 0 เป็น false → ไม่หารเลย
                         System.out.println("Average above 10");
                     } else {
                         System.out.println("No data or average too low");
                     }
                 }
             }`,
-          steps: ["<code>count != 0</code> เป็น false", "เนื่องจาก false && อะไรก็ได้ = false Java จึงข้าม <code>total / count</code>", "ไม่เกิด ArithmeticException", "ถ้าสลับเป็น <code>total / count &gt; 10 &amp;&amp; count != 0</code> จะ error ทันที"] },
-        { type: "run", title: "ปีอธิกสุรทิน: เงื่อนไขซับซ้อน", level: "ท้าทาย",
-          concept: "ปีอธิกสุรทิน = หารด้วย 4 ลงตัว <em>และ</em> ไม่ลงตัวด้วย 100 <em>หรือ</em> หารด้วย 400 ลงตัว",
-          code: j`
-            public class LeapYear {
-                public static void main(String[] args) {
-                    // ปีตัวอย่างหลายค่า
-                    int[] years = {2024, 2025, 1900, 2000};
-                    // วนทีละปี (เรียนในบทที่ 6)
-                    for (int year : years) {
-                        // หาร 4 ลงตัวแต่ไม่ลงตัว 100 หรือหาร 400 ลงตัว
-                        boolean leap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
-                        System.out.println(year + " leap? " + leap);
-                    }
-                }
-            }`,
-          steps: ["2024: หาร 4 ลงตัว ไม่ลงตัวด้วย 100 → true", "2025: หาร 4 ไม่ลงตัว และไม่ลงตัวด้วย 400 → false", "1900: หาร 100 ลงตัว ทำให้วงเล็บแรก false และ 1900 % 400 ≠ 0 → false", "2000: หาร 400 ลงตัว → true"],
-          after: "ตัวอย่างนี้ใช้อาเรย์และลูปวนทดสอบหลายปี (จะเรียนในบทที่ 6 และ 8) เพื่อให้เห็นทุกกรณีพร้อมกัน ตอนนี้ให้โฟกัสที่บรรทัด boolean leap" },
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เงื่อนไขปีอธิกสุรทิน", blocks: [
+          { type: "p", html: `ปีอธิกสุรทิน = หารด้วย 4 ลงตัว <em>และ</em> ไม่ลงตัวด้วย 100 <em>หรือ</em> หารด้วย 400 ลงตัว (ตัวอย่างนี้ใช้อาเรย์และลูปวนทดสอบหลายปี ซึ่งจะเรียนในบทที่ 6 และ 8 ให้โฟกัสที่บรรทัด <code>boolean leap</code>)` },
+          { type: "run", title: "ปีอธิกสุรทิน",
+            code: j`
+              public class LeapYear {
+                  public static void main(String[] args) {
+                      int[] years = {2024, 2025, 1900, 2000};
+                      for (int year : years) {
+                          boolean leap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+                          System.out.println(year + " leap? " + leap);
+                      }
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "De Morgan", html: `<p><code>!(a &gt; 0 &amp;&amp; b &gt; 0)</code> เขียนใหม่โดยไม่ใช้ ! ด้านนอกได้อย่างไร</p>`, answer: `<p><code>a &lt;= 0 || b &lt;= 0</code> — กลับ && เป็น || และกลับเงื่อนไขย่อยทุกตัว (กฎของ De Morgan)</p>` },
       ],
     },
     {
       num: "5.3", toc: "if, else if และ else", title: "if, else if และ else",
       blocks: [
-        { type: "concept", title: "รูปแบบของ if ทั้ง 3 แบบ", html: jpre(`
-          if (เงื่อนไข) {              if (เงื่อนไข) {              if (เงื่อนไข1) {
-              ทำเมื่อจริง                 ทำเมื่อจริง                  ...
-          }                           } else {                     } else if (เงื่อนไข2) {
-                                          ทำเมื่อเท็จ                  ...
-                                      }                            } else {
-          ① ทางเลือกเดียว             ② สองทาง                         ทำเมื่อไม่ตรงข้อใด
-                                                                   }
-                                                                   ③ หลายทาง`) + `<p>if-else if ตรวจ<strong>จากบนลงล่าง</strong> และทำเฉพาะกรณีแรกที่เป็นจริง กรณีที่เหลือถูกข้ามทั้งหมด</p>` },
-        { type: "run", title: "if อย่างเดียว: แจ้งเตือนเมื่อเกินกำหนด", level: "พื้นฐาน", stdin: "38.2",
-          concept: "เมื่อต้องทำอะไรเพิ่ม<em>เฉพาะบางกรณี</em> และกรณีอื่นไม่ต้องทำอะไร ใช้ if อย่างเดียว",
+        { type: "p", html: `<code>if</code> ทำคำสั่งในบล็อกเมื่อเงื่อนไขเป็นจริง มี 3 รูปแบบตามจำนวนทางเลือก` },
+        { type: "table", head: ["รูปแบบ", "ใช้เมื่อ"], rows: [
+          ["<code>if (...) { }</code>", "ทำเพิ่มเฉพาะบางกรณี กรณีอื่นไม่ต้องทำอะไร"],
+          ["<code>if (...) { } else { }</code>", "มีสองทาง ทำทางใดทางหนึ่งเสมอ"],
+          ["<code>if (...) { } else if (...) { } else { }</code>", "หลายทาง ตรวจจากบนลงล่าง ทำเฉพาะทางแรกที่จริง"],
+        ] },
+        { type: "run", title: "if อย่างเดียว: แจ้งเตือนเมื่อมีไข้", stdin: "38.2",
           code: j`
             import java.util.Scanner;
 
@@ -192,16 +184,14 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Temperature: ");
                     double temp = input.nextDouble();
-                    if (temp >= 37.5) {  // เงื่อนไขจริง → ทำในวงเล็บปีกกา
+                    if (temp >= 37.5) {                              // 38.2 ≥ 37.5 → true
                         System.out.println("Warning: fever!");
                     }
-                    // ทำเสมอ ไม่ว่าเงื่อนไขเป็นอะไร
-                    System.out.println("Recorded " + temp);
+                    System.out.println("Recorded " + temp);          // อยู่นอก if → ทำทุกครั้ง
                 }
             }`,
-          steps: ["38.2 ≥ 37.5 → true → พิมพ์ Warning", "บรรทัด Recorded อยู่นอก if จึงทำทุกครั้ง"] },
-        { type: "run", title: "if-else: คู่หรือคี่", level: "พื้นฐาน", stdin: "17",
-          concept: "สองทางที่ไม่ซ้อนทับกัน — ทำทางใดทางหนึ่งเสมอ",
+          },
+        { type: "run", title: "if-else: คู่หรือคี่", stdin: "17",
           code: j`
             import java.util.Scanner;
 
@@ -210,16 +200,18 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Number: ");
                     int n = input.nextInt();
-                    if (n % 2 == 0) {  // เศษจากหาร 2 เป็น 0 = เลขคู่
+                    if (n % 2 == 0) {                                // 17 % 2 = 1 → false
                         System.out.println(n + " is even");
-                    } else {  // มิฉะนั้นเป็นเลขคี่
-                        System.out.println(n + " is odd");
+                    } else {
+                        System.out.println(n + " is odd");           // ← มาทางนี้
                     }
                 }
             }`,
-          steps: ["17 % 2 = 1 ไม่เท่ากับ 0", "ไปทาง else → odd"] },
-        { type: "run", title: "else-if: ตัดเกรดและลำดับเงื่อนไข", level: "ต่อยอด", stdin: "85",
-          concept: "ตรวจจากคะแนนสูงลงต่ำ แต่ละขั้นจึงไม่ต้องเขียนขอบบน (เพราะกรณีที่สูงกว่าถูกดักไปแล้ว)",
+          },
+
+        { type: "h", text: "else if: ตรวจจากบนลงล่าง" },
+        { type: "p", html: `ตรวจจากช่วงสูงลงต่ำ แต่ละขั้นจึงไม่ต้องเขียนขอบบน เพราะกรณีที่สูงกว่าถูกดักไปแล้ว และ <code>else</code> สุดท้ายรับทุกกรณีที่เหลือ` },
+        { type: "run", title: "ตัดเกรด", stdin: "85",
           code: j`
             import java.util.Scanner;
 
@@ -228,43 +220,46 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Score: ");
                     int score = input.nextInt();
-                    // ประกาศไว้ก่อน แล้วกำหนดค่าในแต่ละทาง
                     String grade;
-                    if (score >= 80) {  // ตรวจจากช่วงสูงสุดลงมา
+                    if (score >= 80) {               // 85 ≥ 80 → A แล้วข้ามที่เหลือทั้งหมด
                         grade = "A";
-                    } else if (score >= 70) {  // มาถึงนี่แปลว่า score < 80
+                    } else if (score >= 70) {        // มาถึงนี่แปลว่า score < 80
                         grade = "B";
                     } else if (score >= 60) {
                         grade = "C";
                     } else if (score >= 50) {
                         grade = "D";
-                    } else {  // ไม่ตรงเงื่อนไขใดเลย
+                    } else {
                         grade = "F";
                     }
                     System.out.println("Grade: " + grade);
                 }
             }`,
-          steps: ["85 ≥ 80 → grade = A แล้วข้ามทั้งหมด", "ถ้าเรียง score ≥ 50 ไว้ก่อน คะแนน 85 จะได้ D ทันที เพราะ 85 ≥ 50 เป็นจริงก่อน", "else สุดท้ายรับทุกกรณีที่เหลือ ตัวแปร grade จึงมีค่าแน่นอน"] },
-        { type: "run", label: "ทดลองบั๊ก 5.3.4", title: "เงื่อนไขเรียงผิด: กรณีสำคัญถูกบัง", level: "ต่อยอด", stdin: "92",
-          concept: "โค้ดคอมไพล์ผ่าน แต่ให้ผลผิด (logic error) เพราะเงื่อนไขที่กว้างกว่าถูกตรวจก่อน",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "warn", title: "ลำดับเงื่อนไขสำคัญ", html: `ถ้าเอาเงื่อนไขที่กว้างกว่าไว้ก่อน เช่น <code>score &gt;= 50</code> ก่อน <code>score &gt;= 90</code> คะแนน 92 จะเข้าทางแรกเสมอ เงื่อนไข ≥ 90 ไม่มีวันถูกตรวจ โค้ดคอมไพล์ผ่านแต่ผลผิด (logic error)` },
+        { type: "more", title: "ดูตัวอย่าง: เงื่อนไขเรียงผิด", blocks: [
+          { type: "run", label: "ทดลองบั๊ก 5.3.4", title: "เงื่อนไขเรียงผิด: กรณีสำคัญถูกบัง", stdin: "92",
+            code: j`
+              import java.util.Scanner;
 
-            public class WrongOrder {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Score: ");
-                    int score = input.nextInt();
-                    if (score >= 50) {  // คะแนน ≥ 50 ทุกค่าเข้าทางนี้ก่อน
-                        System.out.println("Pass");
-                    } else if (score >= 90) {  // จึงไม่มีวันมาถึงเงื่อนไขนี้
-                        System.out.println("Excellent");
-                    }
-                }
-            }`,
-          steps: ["92 ≥ 50 เป็นจริงตั้งแต่เงื่อนไขแรก → Pass", "เงื่อนไข ≥ 90 ไม่มีทางถูกตรวจเลย", "แก้: ย้าย ≥ 90 ขึ้นก่อน"] },
-        { type: "run", title: "if ซ้อน และตัวดำเนินการ ?:", level: "ประยุกต์", stdin: "1200\ny",
-          concept: "if ซ้อน (nested) ใช้เมื่อการตัดสินใจชั้นที่สองขึ้นกับชั้นแรก ส่วน <code>เงื่อนไข ? ค่า1 : ค่า2</code> (ternary) ใช้เลือก<em>ค่า</em>สั้น ๆ",
+              public class WrongOrder {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Score: ");
+                      int score = input.nextInt();
+                      if (score >= 50) {
+                          System.out.println("Pass");
+                      } else if (score >= 90) {
+                          System.out.println("Excellent");
+                      }
+                  }
+              }`,
+            after: "แก้โดยย้ายเงื่อนไข ≥ 90 ขึ้นไปไว้ก่อน" },
+        ] },
+
+        { type: "h", text: "if ซ้อน และตัวดำเนินการ ?:" },
+        { type: "p", html: `if ซ้อนใช้เมื่อการตัดสินใจชั้นที่สองขึ้นกับชั้นแรก ส่วน <code>เงื่อนไข ? ค่า1 : ค่า2</code> (ternary) ใช้เลือก<em>ค่า</em>สั้น ๆ` },
+        { type: "run", title: "ค่าส่งตามยอดซื้อและสถานะสมาชิก", stdin: "1200\ny",
           code: j`
             import java.util.Scanner;
 
@@ -277,26 +272,23 @@ export default {
                     String member = input.next();
 
                     double shipping;
-                    if (total >= 1000) {  // ยอดถึง 1000 ส่งฟรี
+                    if (total >= 1000) {                     // ยอดถึง 1000 → ส่งฟรี ไม่ต้องดูสมาชิก
                         shipping = 0;
                     } else {
-                        // if ซ้อน: ตรวจสมาชิกเฉพาะยอดไม่ถึง 1000
-                        if (member.equals("y")) {
+                        if (member.equals("y")) {            // if ซ้อน: ตรวจสมาชิกเฉพาะยอดไม่ถึง
                             shipping = 20;
                         } else {
                             shipping = 50;
                         }
                     }
-                    // ตัวดำเนินการ ?: เลือกค่าตามเงื่อนไข
-                    String label = shipping == 0 ? "FREE" : shipping + " baht";
+                    String label = shipping == 0 ? "FREE" : shipping + " baht";   // ?: เลือกข้อความ
                     System.out.println("Shipping: " + label);
                 }
             }`,
-          steps: ["ยอด 1200 ≥ 1000 → ส่งฟรี ไม่ต้องดูสถานะสมาชิกเลย", "ถ้ายอดไม่ถึง จึงค่อยตรวจสมาชิก (if ชั้นใน)", "ternary เลือกข้อความ: 0 → \"FREE\""],
-          tryIt: "ป้อน 800 และ y → 20 baht, ป้อน 800 และ n → 50 baht" },
-        { type: "note", title: "ใส่วงเล็บปีกกาเสมอ และอย่าใส่ ; หลัง if", html: jpre(`
+          },
+        { type: "warn", title: "อย่าใส่ ; หลัง if", html: jpre(`
           if (score >= 50);              // ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป
-              System.out.println("Pass");  // ← ทำงานทุกครั้ง!`) + `<p>แม้มีคำสั่งเดียวก็ควรใส่ <code>{ }</code> เพื่อให้เห็นขอบเขตชัดและป้องกันการเพิ่มคำสั่งผิดตำแหน่ง</p>` },
+              System.out.println("Pass");  // ← ทำงานทุกครั้ง!`) + `<p>และควรใส่ <code>{ }</code> เสมอแม้มีคำสั่งเดียว เพื่อให้เห็นขอบเขตชัด</p>` },
         { type: "check", title: "trace if-else if", html: jpre(`
           int x = 15;
           if (x > 20) System.out.println("A");
@@ -308,20 +300,33 @@ export default {
     {
       num: "5.4", toc: "เลือกทางด้วย switch", title: "เลือกทางด้วย switch",
       blocks: [
-        { type: "p", html: `<code>switch</code> เหมาะเมื่อเปรียบเทียบ<strong>ค่าเดียว</strong>กับตัวเลือกที่เป็นค่าแน่นอนหลายค่า เช่น รหัสเมนู วันในสัปดาห์ ใช้กับ <code>int</code>, <code>char</code>, <code>String</code> ได้ (แต่ไม่ใช้กับช่วงค่า เช่น ≥ 80 — กรณีนั้นใช้ if)` },
-        { type: "concept", title: "switch แบบดั้งเดิม vs แบบลูกศร (Java 14+)", html: jpre(`
-          switch (day) {                       switch (day) {
-              case 1:                              case 1 -> name = "Mon";
-                  name = "Mon";                    case 2 -> name = "Tue";
-                  break;                           default -> name = "?";
-              case 2:                          }
-                  name = "Tue";
-                  break;                       // ไม่ต้องมี break ไม่มี fall-through
-              default:
-                  name = "?";
-          }`) },
-        { type: "run", title: "switch แบบดั้งเดิม: ชื่อวัน", level: "พื้นฐาน", stdin: "3",
-          concept: "Java กระโดดไปที่ case ที่ค่าตรงกัน ทำคำสั่งจนเจอ <code>break</code> ถ้าไม่มี case ใดตรงจะไป <code>default</code>",
+        { type: "p", html: `<code>switch</code> เหมาะเมื่อเปรียบเทียบ<strong>ค่าเดียว</strong>กับตัวเลือกที่เป็นค่าแน่นอนหลายค่า เช่น รหัสเมนู วันในสัปดาห์ ใช้กับ <code>int</code>, <code>char</code>, <code>String</code> ได้ แต่ใช้กับช่วงค่า (≥ 80) ไม่ได้` },
+        { type: "table", head: ["สถานการณ์", "ควรใช้"], rows: [["ตรวจช่วงค่า (≥, &lt;)", "if-else if"], ["เงื่อนไขหลายตัวแปรรวมกัน (&amp;&amp;, ||)", "if"], ["ค่าเดียวเทียบกับค่าคงที่หลายค่า", "switch"], ["เมนูตัวเลข / ตัวอักษร", "switch"]] },
+        { type: "h", text: "switch แบบลูกศร (Java 14+)" },
+        { type: "p", html: `เขียนแบบ <code>case ค่า -&gt; คำสั่ง</code> ไม่ต้องมี <code>break</code> ใส่หลายค่าใน case เดียวได้ และคืนค่าได้ (มี <code>;</code> ปิดท้าย)` },
+        { type: "run", title: "ฤดูจากเดือน", stdin: "4",
+          code: j`
+            import java.util.Scanner;
+
+            public class Season {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("Month (1-12): ");
+                    int month = input.nextInt();
+                    String season = switch (month) {          // switch คืนค่ามาเก็บในตัวแปร
+                        case 3, 4, 5 -> "Summer";             // 4 ตรง case นี้
+                        case 6, 7, 8, 9, 10 -> "Rainy";
+                        case 11, 12, 1, 2 -> "Winter";
+                        default -> "Invalid month";           // ไม่ตรง case ใดเลย
+                    };
+                    System.out.println("Season: " + season);
+                }
+            }`,
+          },
+
+        { type: "h", text: "switch แบบดั้งเดิมและ break" },
+        { type: "p", html: `แบบดั้งเดิมเขียน <code>case ค่า:</code> แล้วต้องปิดด้วย <code>break;</code> ถ้าลืม break จะ “ไหล” (fall-through) ไปทำ case ถัดไปด้วย` },
+        { type: "run", title: "ชื่อวันจากตัวเลข", stdin: "3",
           code: j`
             import java.util.Scanner;
 
@@ -331,99 +336,67 @@ export default {
                     System.out.print("Day (1-7): ");
                     int day = input.nextInt();
                     String name;
-                    // เลือกทางตามค่าของ day
                     switch (day) {
-                        // break: ออกจาก switch
                         case 1: name = "Monday"; break;
                         case 2: name = "Tuesday"; break;
-                        case 3: name = "Wednesday"; break;
+                        case 3: name = "Wednesday"; break;      // ← day = 3 แล้ว break ออก
                         case 4: name = "Thursday"; break;
                         case 5: name = "Friday"; break;
                         case 6: name = "Saturday"; break;
                         case 7: name = "Sunday"; break;
-                        // default: ไม่ตรง case ใดเลย
                         default: name = "Unknown day";
                     }
                     System.out.println(name);
                 }
             }`,
-          steps: ["day = 3 → กระโดดไป case 3", "name = \"Wednesday\" แล้ว break ออกจาก switch"] },
-        { type: "run", label: "ทดลองบั๊ก 5.4.2", title: "ลืม break: fall-through", level: "ต่อยอด",
-          concept: "ถ้าไม่มี break จะ “ไหล” ไปทำ case ถัดไปทั้งหมดจนจบหรือเจอ break",
-          code: j`
-            public class FallThrough {
-                public static void main(String[] args) {
-                    int level = 2;
-                    switch (level) {  // ไม่มี break ทุก case
-                        case 1:
-                            System.out.println("Bronze");
-                        case 2:  // เข้าที่ case 2 แล้วไหลลงต่อ
-                            System.out.println("Silver");
-                        case 3:
-                            System.out.println("Gold");
-                        default:
-                            System.out.println("End");
-                    }
-                }
-            }`,
-          steps: ["เริ่มที่ case 2 พิมพ์ Silver", "ไม่มี break ไหลไป case 3 พิมพ์ Gold", "ไหลต่อไป default พิมพ์ End"] },
-        { type: "run", title: "ใช้ fall-through อย่างตั้งใจ: จัดกลุ่ม case", level: "ประยุกต์", stdin: "4",
-          concept: "หลาย case ที่ให้ผลเหมือนกันวางเรียงกันได้ — ในแบบลูกศรเขียน <code>case 12, 1, 2 -&gt;</code>",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ดูตัวอย่าง: ลืม break แล้วไหลต่อ", blocks: [
+          { type: "run", label: "ทดลองบั๊ก 5.4.3", title: "ลืม break: fall-through",
+            code: j`
+              public class FallThrough {
+                  public static void main(String[] args) {
+                      int level = 2;
+                      switch (level) {
+                          case 1:
+                              System.out.println("Bronze");
+                          case 2:                                   // เริ่มที่นี่
+                              System.out.println("Silver");
+                          case 3:                                   // ไม่มี break → ไหลลงมา
+                              System.out.println("Gold");
+                          default:
+                              System.out.println("End");
+                      }
+                  }
+              }`,
+            },
+        ] },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เครื่องคิดเลขด้วย switch กับ char", blocks: [
+          { type: "run", title: "เครื่องคิดเลขขนาดเล็ก", stdin: "12 * 4",
+            code: j`
+              import java.util.Scanner;
 
-            public class Season {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Month (1-12): ");
-                    int month = input.nextInt();
-                    // switch แบบลูกศร คืนค่าได้
-                    String season = switch (month) {
-                        // หลายค่าใน case เดียว คั่นด้วย ,
-                        case 3, 4, 5 -> "Summer";
-                        case 6, 7, 8, 9, 10 -> "Rainy";
-                        case 11, 12, 1, 2 -> "Winter";
-                        default -> "Invalid month";
-                    };  // มี ; ปิดท้าย เพราะเป็นนิพจน์
-                    System.out.println("Season: " + season);
-                }
-            }`,
-          steps: ["เดือน 4 ตรงกับ case 3, 4, 5", "switch แบบลูกศรคืนค่าได้ (switch expression) จึงเขียน <code>String season = switch ...;</code> (มี ; ปิดท้าย)", "ไม่ต้องมี break"] },
-        { type: "run", title: "switch กับ char: เครื่องคิดเลขขนาดเล็ก", level: "ท้าทาย", stdin: "12 * 4",
-          concept: "รับนิพจน์ <code>ตัวเลข ตัวดำเนินการ ตัวเลข</code> แล้วเลือกคำนวณตามตัวดำเนินการ พร้อมดักการหารด้วยศูนย์",
-          code: j`
-            import java.util.Scanner;
+              public class MiniCalculator {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Expression (a op b): ");
+                      double a = input.nextDouble();
+                      char op = input.next().charAt(0);              // อักขระแรกของคำ
+                      double b = input.nextDouble();
 
-            public class MiniCalculator {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Expression (a op b): ");
-                    double a = input.nextDouble();
-                    // อ่านคำแล้วเอาตัวอักษรแรก
-                    char op = input.next().charAt(0);
-                    double b = input.nextDouble();
-
-                    switch (op) {
-                        // แบบลูกศรไม่ต้อง break
-                        case '+' -> System.out.println("= " + (a + b));
-                        case '-' -> System.out.println("= " + (a - b));
-                        // รองรับทั้ง * และ x
-                        case '*', 'x' -> System.out.println("= " + (a * b));
-                        // หลายคำสั่ง → ใช้ { }
-                        case '/' -> {
-                            // ป้องกันการหารด้วย 0
-                            if (b == 0) {
-                                System.out.println("Cannot divide by zero");
-                            } else {
-                                System.out.println("= " + (a / b));
-                            }
-                        }
-                        default -> System.out.println("Unknown operator: " + op);
-                    }
-                }
-            }`,
-          steps: ["อ่าน 12, \"*\" และ 4", "<code>.charAt(0)</code> ดึงอักขระแรกจาก String เป็น char", "case '*' ทำงาน → 48.0", "case '/' มีหลายคำสั่งจึงใช้ <code>{ }</code>"] },
-        { type: "table", title: "เลือก if หรือ switch", head: ["สถานการณ์", "ควรใช้"], rows: [["ตรวจช่วงค่า (≥, &lt;)", "if-else if"], ["เงื่อนไขหลายตัวแปรรวมกัน (&amp;&amp;, ||)", "if"], ["ค่าเดียวเทียบกับค่าคงที่หลายค่า", "switch"], ["เมนูตัวเลข/ตัวอักษร", "switch"]] },
+                      switch (op) {
+                          case '+' -> System.out.println("= " + (a + b));
+                          case '-' -> System.out.println("= " + (a - b));
+                          case '*', 'x' -> System.out.println("= " + (a * b));
+                          case '/' -> {                              // หลายคำสั่ง → ใช้ { }
+                              if (b == 0) System.out.println("Cannot divide by zero");
+                              else System.out.println("= " + (a / b));
+                          }
+                          default -> System.out.println("Unknown operator: " + op);
+                      }
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "switch output", html: jpre(`
           int n = 1;
           switch (n) {

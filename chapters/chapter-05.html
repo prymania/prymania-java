@@ -58,26 +58,24 @@
         <p>เงื่อนไขคือนิพจน์ที่ให้ผลเป็น <code>true</code> หรือ <code>false</code> โปรแกรมใช้ผลนี้เลือกคำสั่งที่จะทำต่อ — เหมือนข้าวหลามตัดใน Flowchart บทที่ 1 บทนี้เริ่มจากการสร้างค่า boolean ไปจนถึงการเลือกทางหลายทาง</p>
 <article class="subtopic" id="topic-5-1">
 <h3>5.1 boolean และตัวดำเนินการเปรียบเทียบ</h3>
-<p><code>boolean</code> เก็บได้เพียง <code>true</code> หรือ <code>false</code> นิพจน์เปรียบเทียบ เช่น <code>score &gt;= 50</code> จะ<em>คำนวณ</em>ออกมาเป็นค่า boolean ที่นำไปเก็บในตัวแปรหรือใช้ใน if ได้</p>
+<p><code>boolean</code> เก็บได้แค่ <code>true</code> หรือ <code>false</code> การเปรียบเทียบ เช่น <code>score &gt;= 50</code> ให้ผลเป็นค่า boolean ซึ่งเก็บในตัวแปรหรือใช้ใน if ได้</p>
 <table class="comparison-table"><thead><tr><th>ตัวดำเนินการ</th><th>ความหมาย</th><th>ตัวอย่าง (x = 7)</th><th>ผล</th></tr></thead><tbody><tr><td><code>==</code></td><td>เท่ากับ</td><td><code>x == 7</code></td><td>true</td></tr><tr><td><code>!=</code></td><td>ไม่เท่ากับ</td><td><code>x != 7</code></td><td>false</td></tr><tr><td><code>&gt;</code></td><td>มากกว่า</td><td><code>x &gt; 10</code></td><td>false</td></tr><tr><td><code>&lt;</code></td><td>น้อยกว่า</td><td><code>x &lt; 10</code></td><td>true</td></tr><tr><td><code>&gt;=</code></td><td>มากกว่าหรือเท่ากับ</td><td><code>x &gt;= 7</code></td><td>true</td></tr><tr><td><code>&lt;=</code></td><td>น้อยกว่าหรือเท่ากับ</td><td><code>x &lt;= 6</code></td><td>false</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.1.1</span>นิพจน์เปรียบเทียบให้ค่า boolean</h4><p class="concept-line"><strong>แนวคิด:</strong> เปรียบเทียบได้ผลเป็นค่า true/false ที่เก็บในตัวแปรหรือพิมพ์ออกมาได้เหมือนค่าอื่น</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Comparisons.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Comparisons</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.1.1</span>ผลการเปรียบเทียบคือ true หรือ false</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Comparisons.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Comparisons</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> score = <span class="tok-num">72</span>;
-        <span class="tok-com">// ผลการเปรียบเทียบเป็น boolean</span>
-        <span class="tok-kw">boolean</span> passed = score &gt;= <span class="tok-num">50</span>;
-        <span class="tok-com">// == คือเปรียบเทียบ (= คือกำหนดค่า)</span>
-        <span class="tok-kw">boolean</span> perfect = score == <span class="tok-num">100</span>;
+        <span class="tok-kw">boolean</span> passed = score &gt;= <span class="tok-num">50</span>;                         <span class="tok-com">// true</span>
+        <span class="tok-kw">boolean</span> perfect = score == <span class="tok-num">100</span>;                       <span class="tok-com">// false</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"passed = "</span> + passed);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"perfect = "</span> + perfect);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"score &lt; 80 ? "</span> + (score &lt; <span class="tok-num">80</span>));
-        <span class="tok-com">// != แปลว่า "ไม่เท่ากับ"</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"score != 72 ? "</span> + (score != <span class="tok-num">72</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"score &lt; 80 ? "</span> + (score &lt; <span class="tok-num">80</span>));   <span class="tok-com">// true   ต่อข้อความต้องมีวงเล็บ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"score != 72 ? "</span> + (score != <span class="tok-num">72</span>)); <span class="tok-com">// false</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>passed = true
 perfect = false
 score &lt; 80 ? true
-score != 72 ? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>72 ≥ 50 → true</li><li>72 == 100 → false</li><li>ต้องมีวงเล็บรอบนิพจน์เปรียบเทียบเมื่อต่อข้อความ</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 5.1.2</span>ใช้ = แทน ==</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>=</code> คือการกำหนดค่า ส่วน <code>==</code> คือการเปรียบเทียบ if ต้องการค่า boolean จึงคอมไพล์ไม่ผ่าน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AssignInIf.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AssignInIf</span> {
+score != 72 ? false</pre></div></div></div>
+<div class="callout warn"><span class="box-title">= กับ ==</span><p><code>=</code> คือการ<strong>ใส่ค่า</strong> ส่วน <code>==</code> คือการ<strong>เปรียบเทียบ</strong> เขียน <code>if (score = 100)</code> จะคอมไพล์ไม่ผ่าน (<code>int cannot be converted to boolean</code>)</p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: error เมื่อใช้ = แทน ==</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 5.1.2</span>ใช้ = แทน ==</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AssignInIf.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AssignInIf</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> score = <span class="tok-num">72</span>;
         <span class="tok-kw">if</span> (score = <span class="tok-num">100</span>) {
@@ -86,71 +84,66 @@ score != 72 ? false</pre></div></div><div class="walkthrough"><strong>อธิ�
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>AssignInIf.java:4: error: incompatible types: int cannot be converted to boolean
         if (score = 100) {
-                  ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>score = 100</code> มีชนิดเป็น int</li><li>if ต้องการ boolean → <code>int cannot be converted to boolean</code></li><li>แก้เป็น <code>score == 100</code></li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.1.3</span>เปรียบเทียบ String ต้องใช้ equals</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>==</code> กับ String เปรียบเทียบว่าเป็น<em>ออบเจ็กต์เดียวกัน</em>หรือไม่ ไม่ใช่เนื้อหา ต้องใช้ <code>.equals()</code> (หรือ <code>.equalsIgnoreCase()</code> ถ้าไม่สนตัวพิมพ์)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StringCompare.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+                  ^</pre></div></div></div></div></details>
+<h4 class="sub">เปรียบเทียบ String ต้องใช้ equals</h4>
+<p><code>==</code> กับ String ตรวจว่าเป็น<em>ออบเจ็กต์เดียวกัน</em>หรือไม่ ไม่ได้ดูตัวอักษร ให้ใช้ <code>.equals()</code> หรือ <code>.equalsIgnoreCase()</code> ถ้าไม่สนตัวพิมพ์เล็ก-ใหญ่</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.1.3</span>ผู้ใช้พิมพ์ admin</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StringCompare.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StringCompare</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Username: "</span>);
         <span class="tok-type">String</span> user = input.<span class="tok-fn">next</span>();
-        <span class="tok-com">// == เทียบว่าเป็นออบเจ็กต์เดียวกัน ไม่ใช่เนื้อหา</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"user == \"admin\"      -&gt; "</span> + (user == <span class="tok-str">"admin"</span>));
-        <span class="tok-com">// equals เทียบเนื้อหาข้อความ</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"user.equals(\"admin\") -&gt; "</span> + user.<span class="tok-fn">equals</span>(<span class="tok-str">"admin"</span>));
-        <span class="tok-com">// ไม่สนตัวพิมพ์เล็ก/ใหญ่</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"user == \"admin\"      -&gt; "</span> + (user == <span class="tok-str">"admin"</span>));        <span class="tok-com">// false</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"user.equals(\"admin\") -&gt; "</span> + user.<span class="tok-fn">equals</span>(<span class="tok-str">"admin"</span>));     <span class="tok-com">// true</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"equalsIgnoreCase(\"ADMIN\") -&gt; "</span> + user.<span class="tok-fn">equalsIgnoreCase</span>(<span class="tok-str">"ADMIN"</span>));
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Username: <b class="stdin">admin</b>
 user == "admin"      -&gt; false
 user.equals("admin") -&gt; true
-equalsIgnoreCase("ADMIN") -&gt; true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ผู้ใช้พิมพ์ admin</li><li><code>==</code> ได้ false เพราะ String ที่อ่านจาก Scanner เป็นคนละออบเจ็กต์กับ "admin" ในโค้ด</li><li><code>equals</code> เปรียบเทียบตัวอักษร → true</li><li>จำไว้: <strong>String ใช้ equals เสมอ</strong></li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.1.4</span>เปรียบเทียบ double อย่างปลอดภัย</h4><p class="concept-line"><strong>แนวคิด:</strong> double เก็บค่าแบบประมาณ ห้ามใช้ <code>==</code> ตรง ๆ ให้ตรวจว่า “ต่างกันน้อยมาก” ด้วย <code>Math.abs(a - b) &lt; 1e-9</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DoubleCompare.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DoubleCompare</span> {
+equalsIgnoreCase("ADMIN") -&gt; true</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>จำไว้: <strong>String ใช้ equals เสมอ</strong> และ double ห้ามใช้ <code>==</code> ตรง ๆ เพราะเก็บค่าแบบประมาณ ให้ตรวจว่า “ต่างกันน้อยมาก” แทน: <code>Math.abs(a - b) &lt; 1e-9</code></p></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: เปรียบเทียบ double อย่างปลอดภัย</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.1.4</span>0.1 + 0.2 ไม่เท่ากับ 0.3 พอดี</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DoubleCompare.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DoubleCompare</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-kw">double</span> a = <span class="tok-num">0.1</span> + <span class="tok-num">0.2</span>;  <span class="tok-com">// ทศนิยมฐานสองคลาดเคลื่อนเล็กน้อย</span>
+        <span class="tok-kw">double</span> a = <span class="tok-num">0.1</span> + <span class="tok-num">0.2</span>;
         <span class="tok-kw">double</span> b = <span class="tok-num">0.3</span>;
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a = "</span> + a);
-        <span class="tok-com">// จึงไม่ควรใช้ == กับ double</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == b ? "</span> + (a == b));
-        <span class="tok-com">// ถือว่าเท่ากันเมื่อต่างกันน้อยมาก</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"close enough ? "</span> + (<span class="tok-type">Math</span>.<span class="tok-fn">abs</span>(a - b) &lt; <span class="tok-num">1e-9</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a = "</span> + a);                                         <span class="tok-com">// 0.30000000000000004</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == b ? "</span> + (a == b));                             <span class="tok-com">// false</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"close enough ? "</span> + (<span class="tok-type">Math</span>.<span class="tok-fn">abs</span>(a - b) &lt; <span class="tok-num">1e-9</span>));       <span class="tok-com">// true</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>a = 0.30000000000000004
 a == b ? false
-close enough ? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>0.1 + 0.2 ได้ 0.30000000000000004</li><li><code>==</code> จึงได้ false</li><li>ผลต่าง 0.00000000000000004 น้อยกว่า 0.000000001 → ถือว่าเท่ากัน</li></ol></div></div>
+close enough ? true</pre></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · ผลของนิพจน์</strong><div><p>ถ้า <code>int a = 5, b = 8;</code> ผลของ <code>a * 2 &gt; b</code>, <code>a + 3 == b</code>, <code>b % a != 3</code> คืออะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>10 &gt; 8 → <strong>true</strong>; 8 == 8 → <strong>true</strong>; 8 % 5 = 3, 3 != 3 → <strong>false</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-5-2">
 <h3>5.2 รวมเงื่อนไขด้วย AND, OR และ NOT</h3>
-<p><code>&amp;&amp;</code> (AND) เป็นจริงเมื่อ<strong>ทั้งสอง</strong>เงื่อนไขเป็นจริง, <code>||</code> (OR) เป็นจริงเมื่อ<strong>อย่างน้อยหนึ่ง</strong>เงื่อนไขเป็นจริง และ <code>!</code> (NOT) กลับค่าจริงเป็นเท็จ</p>
-<table class="comparison-table"><thead><tr><th>A</th><th>B</th><th>A &amp;&amp; B</th><th>A || B</th><th>!A</th></tr></thead><tbody><tr><td>true</td><td>true</td><td>true</td><td>true</td><td>false</td></tr><tr><td>true</td><td>false</td><td>false</td><td>true</td><td>false</td></tr><tr><td>false</td><td>true</td><td>false</td><td>true</td><td>true</td></tr><tr><td>false</td><td>false</td><td>false</td><td>false</td><td>true</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.2.1</span>ตรวจช่วงตัวเลขด้วย &&</h4><p class="concept-line"><strong>แนวคิด:</strong> ภาษาคณิตศาสตร์เขียน 18 ≤ age ≤ 25 ได้ แต่ Java ต้องแยกเป็นสองเงื่อนไขแล้วเชื่อมด้วย <code>&amp;&amp;</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RangeCheck.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RangeCheck</span> {
+<p>ใช้รวมหลายเงื่อนไขเข้าด้วยกัน</p>
+<table class="comparison-table"><thead><tr><th>ตัวดำเนินการ</th><th>ชื่อ</th><th>เป็นจริงเมื่อ</th></tr></thead><tbody><tr><td><code>&amp;&amp;</code></td><td>AND</td><td>ทั้งสองข้างเป็นจริง</td></tr><tr><td><code>||</code></td><td>OR</td><td>อย่างน้อยหนึ่งข้างเป็นจริง</td></tr><tr><td><code>!</code></td><td>NOT</td><td>กลับค่า จริง ↔ เท็จ</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.2.1</span>ตรวจช่วงอายุ 18–25</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RangeCheck.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RangeCheck</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> age = <span class="tok-num">19</span>;
-        <span class="tok-com">// &amp;&amp; ต้องจริงทั้งสองข้าง</span>
-        <span class="tok-kw">boolean</span> inRange = age &gt;= <span class="tok-num">18</span> &amp;&amp; age &lt;= <span class="tok-num">25</span>;
-        <span class="tok-com">// || จริงข้างเดียวก็พอ</span>
-        <span class="tok-kw">boolean</span> outOfRange = age &lt; <span class="tok-num">18</span> || age &gt; <span class="tok-num">25</span>;
+        <span class="tok-kw">boolean</span> inRange = age &gt;= <span class="tok-num">18</span> &amp;&amp; age &lt;= <span class="tok-num">25</span>;        <span class="tok-com">// true    ต้องจริงทั้งสองข้าง</span>
+        <span class="tok-kw">boolean</span> outOfRange = age &lt; <span class="tok-num">18</span> || age &gt; <span class="tok-num">25</span>;       <span class="tok-com">// false   จริงข้างเดียวก็พอ</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"18-25? "</span> + inRange);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"outside? "</span> + outOfRange);
-        <span class="tok-com">// ! กลับค่าจริงเป็นเท็จ</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"not in range? "</span> + !inRange);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"not in range? "</span> + !inRange); <span class="tok-com">// false</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>18-25? true
 outside? false
-not in range? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>19 ≥ 18 true และ 19 ≤ 25 true → true</li><li>นอกช่วงคือ “น้อยกว่า 18 <em>หรือ</em> มากกว่า 25” → false</li><li><code>!inRange</code> ให้ผลเท่ากับ outOfRange</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.2.2</span>สิทธิ์ส่วนลด: ผสม && กับ ||</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>&amp;&amp;</code> ทำก่อน <code>||</code> เสมอ ใช้วงเล็บเพื่อบอกความหมายให้ชัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DiscountRule.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DiscountRule</span> {
+not in range? false</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ข้อผิดพลาดที่พบบ่อย</span><p>คณิตศาสตร์เขียน 18 ≤ age ≤ 25 ได้ แต่ Java ต้องแยกเป็นสองเงื่อนไขแล้วเชื่อมด้วย <code>&amp;&amp;</code> เสมอ เขียน <code>18 &lt;= age &lt;= 25</code> จะคอมไพล์ไม่ผ่าน</p></div>
+<h4 class="sub">ลำดับของ && และ ||</h4>
+<p><code>&amp;&amp;</code> ทำก่อน <code>||</code> เสมอ เหมือนคูณก่อนบวก ถ้าต้องการลำดับอื่นหรือให้อ่านง่าย ให้ใส่วงเล็บ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.2.2</span>สิทธิ์ส่วนลด: วงเล็บเปลี่ยนความหมาย</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DiscountRule.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DiscountRule</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">boolean</span> isStudent = <span class="tok-num">false</span>;
         <span class="tok-kw">boolean</span> hasPass = <span class="tok-num">true</span>;
         <span class="tok-kw">int</span> age = <span class="tok-num">16</span>;
 
-        <span class="tok-com">// วงเล็บทำให้ || ทำก่อน</span>
-        <span class="tok-kw">boolean</span> ruleA = (isStudent || hasPass) &amp;&amp; age &gt;= <span class="tok-num">18</span>;
-        <span class="tok-com">// &amp;&amp; ทำก่อน || (เหมือน C)</span>
-        <span class="tok-kw">boolean</span> ruleB = isStudent || hasPass &amp;&amp; age &gt;= <span class="tok-num">18</span>;
-        <span class="tok-com">// เขียนวงเล็บให้ชัดเหมือน B</span>
-        <span class="tok-kw">boolean</span> ruleC = isStudent || (hasPass &amp;&amp; age &gt;= <span class="tok-num">18</span>);
+        <span class="tok-kw">boolean</span> ruleA = (isStudent || hasPass) &amp;&amp; age &gt;= <span class="tok-num">18</span>;   <span class="tok-com">// (false || true) &amp;&amp; false → false</span>
+        <span class="tok-kw">boolean</span> ruleB = isStudent || hasPass &amp;&amp; age &gt;= <span class="tok-num">18</span>;     <span class="tok-com">// false || (true &amp;&amp; false) → false</span>
+        <span class="tok-kw">boolean</span> ruleC = isStudent || (hasPass &amp;&amp; age &gt;= <span class="tok-num">18</span>);   <span class="tok-com">// เหมือน B แต่อ่านง่ายกว่า</span>
 
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"A = "</span> + ruleA);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"B = "</span> + ruleB);
@@ -158,26 +151,26 @@ not in range? false</pre></div></div><div class="walkthrough"><strong>อธิ�
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>A = false
 B = false
-C = false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>A: (false || true) = true, && (16 ≥ 18 false) → false</li><li>B: ไม่มีวงเล็บ && ทำก่อน → false || (true && false) → false</li><li>C: เขียนวงเล็บแบบเดียวกับ B จึงได้ผลเท่ากัน</li><li>ลอง isStudent = true: A เป็น false (อายุไม่ถึง) แต่ B, C เป็น true — ความหมายต่างกันจริง</li></ol></div><p class="try-it">เปลี่ยน isStudent = true แล้วดูว่า A กับ B ต่างกันอย่างไร</p></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.2.3</span>Short-circuit: หยุดตรวจเมื่อรู้คำตอบแล้ว</h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าด้านซ้ายของ <code>&amp;&amp;</code> เป็น false Java ไม่ตรวจด้านขวาเลย ใช้ป้องกันการหารด้วยศูนย์ได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ShortCircuit.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ShortCircuit</span> {
+C = false</pre></div></div></div>
+<div class="callout try"><span class="box-title">ลองทำดู</span><p>เปลี่ยน <code>isStudent = true</code> แล้วดูว่า A กับ B ต่างกันอย่างไร (A ยังเป็น false เพราะอายุไม่ถึง แต่ B เป็น true)</p></div>
+<h4 class="sub">Short-circuit: หยุดตรวจเมื่อรู้คำตอบแล้ว</h4>
+<p>ถ้าด้านซ้ายของ <code>&amp;&amp;</code> เป็น false คำตอบต้องเป็น false แน่นอน Java จึงไม่ตรวจด้านขวาเลย ใช้ป้องกันการหารด้วยศูนย์ได้</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.2.3</span>ตรวจ count ก่อนหาร</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ShortCircuit.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ShortCircuit</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> total = <span class="tok-num">100</span>;
         <span class="tok-kw">int</span> count = <span class="tok-num">0</span>;
-        <span class="tok-com">// ถ้า count เป็น 0 จะไม่หารเลย (short-circuit)</span>
-        <span class="tok-kw">if</span> (count != <span class="tok-num">0</span> &amp;&amp; total / count &gt; <span class="tok-num">10</span>) {
+        <span class="tok-kw">if</span> (count != <span class="tok-num">0</span> &amp;&amp; total / count &gt; <span class="tok-num">10</span>) {      <span class="tok-com">// count != 0 เป็น false → ไม่หารเลย</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Average above 10"</span>);
         } <span class="tok-kw">else</span> {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"No data or average too low"</span>);
         }
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>No data or average too low</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>count != 0</code> เป็น false</li><li>เนื่องจาก false && อะไรก็ได้ = false Java จึงข้าม <code>total / count</code></li><li>ไม่เกิด ArithmeticException</li><li>ถ้าสลับเป็น <code>total / count &gt; 10 &amp;&amp; count != 0</code> จะ error ทันที</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.2.4</span>ปีอธิกสุรทิน: เงื่อนไขซับซ้อน</h4><p class="concept-line"><strong>แนวคิด:</strong> ปีอธิกสุรทิน = หารด้วย 4 ลงตัว <em>และ</em> ไม่ลงตัวด้วย 100 <em>หรือ</em> หารด้วย 400 ลงตัว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LeapYear.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LeapYear</span> {
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>No data or average too low</pre></div></div></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: เงื่อนไขปีอธิกสุรทิน</summary><div class="more-body"><p>ปีอธิกสุรทิน = หารด้วย 4 ลงตัว <em>และ</em> ไม่ลงตัวด้วย 100 <em>หรือ</em> หารด้วย 400 ลงตัว (ตัวอย่างนี้ใช้อาเรย์และลูปวนทดสอบหลายปี ซึ่งจะเรียนในบทที่ 6 และ 8 ให้โฟกัสที่บรรทัด <code>boolean leap</code>)</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.2.4</span>ปีอธิกสุรทิน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LeapYear.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LeapYear</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ปีตัวอย่างหลายค่า</span>
         <span class="tok-kw">int</span>[] years = {<span class="tok-num">2024</span>, <span class="tok-num">2025</span>, <span class="tok-num">1900</span>, <span class="tok-num">2000</span>};
-        <span class="tok-com">// วนทีละปี (เรียนในบทที่ 6)</span>
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> year : years) {
-            <span class="tok-com">// หาร 4 ลงตัวแต่ไม่ลงตัว 100 หรือหาร 400 ลงตัว</span>
             <span class="tok-kw">boolean</span> leap = (year % <span class="tok-num">4</span> == <span class="tok-num">0</span> &amp;&amp; year % <span class="tok-num">100</span> != <span class="tok-num">0</span>) || year % <span class="tok-num">400</span> == <span class="tok-num">0</span>;
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(year + <span class="tok-str">" leap? "</span> + leap);
         }
@@ -185,90 +178,87 @@ C = false</pre></div></div><div class="walkthrough"><strong>อธิบาย�
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>2024 leap? true
 2025 leap? false
 1900 leap? false
-2000 leap? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>2024: หาร 4 ลงตัว ไม่ลงตัวด้วย 100 → true</li><li>2025: หาร 4 ไม่ลงตัว และไม่ลงตัวด้วย 400 → false</li><li>1900: หาร 100 ลงตัว ทำให้วงเล็บแรก false และ 1900 % 400 ≠ 0 → false</li><li>2000: หาร 400 ลงตัว → true</li></ol></div><p>ตัวอย่างนี้ใช้อาเรย์และลูปวนทดสอบหลายปี (จะเรียนในบทที่ 6 และ 8) เพื่อให้เห็นทุกกรณีพร้อมกัน ตอนนี้ให้โฟกัสที่บรรทัด boolean leap</p></div>
+2000 leap? true</pre></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · De Morgan</strong><div><p><code>!(a &gt; 0 &amp;&amp; b &gt; 0)</code> เขียนใหม่โดยไม่ใช้ ! ด้านนอกได้อย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><p><code>a &lt;= 0 || b &lt;= 0</code> — กลับ && เป็น || และกลับเงื่อนไขย่อยทุกตัว (กฎของ De Morgan)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-5-3">
 <h3>5.3 if, else if และ else</h3>
-<div class="concept-box"><span class="box-title">รูปแบบของ if ทั้ง 3 แบบ</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">if</span> (เงื่อนไข) {              <span class="tok-kw">if</span> (เงื่อนไข) {              <span class="tok-kw">if</span> (เงื่อนไข<span class="tok-num">1</span>) {
-    ทำเมื่อจริง                 ทำเมื่อจริง                  ...
-}                           } <span class="tok-kw">else</span> {                     } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (เงื่อนไข<span class="tok-num">2</span>) {
-                                ทำเมื่อเท็จ                  ...
-                            }                            } <span class="tok-kw">else</span> {
-① ทางเลือกเดียว             ② สองทาง                         ทำเมื่อไม่ตรงข้อใด
-                                                         }
-                                                         ③ หลายทาง</code></pre></div><p>if-else if ตรวจ<strong>จากบนลงล่าง</strong> และทำเฉพาะกรณีแรกที่เป็นจริง กรณีที่เหลือถูกข้ามทั้งหมด</p></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.3.1</span>if อย่างเดียว: แจ้งเตือนเมื่อเกินกำหนด</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อต้องทำอะไรเพิ่ม<em>เฉพาะบางกรณี</em> และกรณีอื่นไม่ต้องทำอะไร ใช้ if อย่างเดียว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FeverAlert.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<p><code>if</code> ทำคำสั่งในบล็อกเมื่อเงื่อนไขเป็นจริง มี 3 รูปแบบตามจำนวนทางเลือก</p>
+<table class="comparison-table"><thead><tr><th>รูปแบบ</th><th>ใช้เมื่อ</th></tr></thead><tbody><tr><td><code>if (...) { }</code></td><td>ทำเพิ่มเฉพาะบางกรณี กรณีอื่นไม่ต้องทำอะไร</td></tr><tr><td><code>if (...) { } else { }</code></td><td>มีสองทาง ทำทางใดทางหนึ่งเสมอ</td></tr><tr><td><code>if (...) { } else if (...) { } else { }</code></td><td>หลายทาง ตรวจจากบนลงล่าง ทำเฉพาะทางแรกที่จริง</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.3.1</span>if อย่างเดียว: แจ้งเตือนเมื่อมีไข้</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FeverAlert.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FeverAlert</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Temperature: "</span>);
         <span class="tok-kw">double</span> temp = input.<span class="tok-fn">nextDouble</span>();
-        <span class="tok-kw">if</span> (temp &gt;= <span class="tok-num">37.5</span>) {  <span class="tok-com">// เงื่อนไขจริง → ทำในวงเล็บปีกกา</span>
+        <span class="tok-kw">if</span> (temp &gt;= <span class="tok-num">37.5</span>) {                              <span class="tok-com">// 38.2 ≥ 37.5 → true</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Warning: fever!"</span>);
         }
-        <span class="tok-com">// ทำเสมอ ไม่ว่าเงื่อนไขเป็นอะไร</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Recorded "</span> + temp);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Recorded "</span> + temp);          <span class="tok-com">// อยู่นอก if → ทำทุกครั้ง</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Temperature: <b class="stdin">38.2</b>
 Warning: fever!
-Recorded 38.2</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>38.2 ≥ 37.5 → true → พิมพ์ Warning</li><li>บรรทัด Recorded อยู่นอก if จึงทำทุกครั้ง</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.3.2</span>if-else: คู่หรือคี่</h4><p class="concept-line"><strong>แนวคิด:</strong> สองทางที่ไม่ซ้อนทับกัน — ทำทางใดทางหนึ่งเสมอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">EvenOdd.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+Recorded 38.2</pre></div></div></div>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.3.2</span>if-else: คู่หรือคี่</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">EvenOdd.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">EvenOdd</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Number: "</span>);
         <span class="tok-kw">int</span> n = input.<span class="tok-fn">nextInt</span>();
-        <span class="tok-kw">if</span> (n % <span class="tok-num">2</span> == <span class="tok-num">0</span>) {  <span class="tok-com">// เศษจากหาร 2 เป็น 0 = เลขคู่</span>
+        <span class="tok-kw">if</span> (n % <span class="tok-num">2</span> == <span class="tok-num">0</span>) {                                <span class="tok-com">// 17 % 2 = 1 → false</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">" is even"</span>);
-        } <span class="tok-kw">else</span> {  <span class="tok-com">// มิฉะนั้นเป็นเลขคี่</span>
-            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">" is odd"</span>);
+        } <span class="tok-kw">else</span> {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">" is odd"</span>);           <span class="tok-com">// ← มาทางนี้</span>
         }
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Number: <b class="stdin">17</b>
-17 is odd</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>17 % 2 = 1 ไม่เท่ากับ 0</li><li>ไปทาง else → odd</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.3.3</span>else-if: ตัดเกรดและลำดับเงื่อนไข</h4><p class="concept-line"><strong>แนวคิด:</strong> ตรวจจากคะแนนสูงลงต่ำ แต่ละขั้นจึงไม่ต้องเขียนขอบบน (เพราะกรณีที่สูงกว่าถูกดักไปแล้ว)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GradeIf.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+17 is odd</pre></div></div></div>
+<h4 class="sub">else if: ตรวจจากบนลงล่าง</h4>
+<p>ตรวจจากช่วงสูงลงต่ำ แต่ละขั้นจึงไม่ต้องเขียนขอบบน เพราะกรณีที่สูงกว่าถูกดักไปแล้ว และ <code>else</code> สุดท้ายรับทุกกรณีที่เหลือ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.3.3</span>ตัดเกรด</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GradeIf.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GradeIf</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Score: "</span>);
         <span class="tok-kw">int</span> score = input.<span class="tok-fn">nextInt</span>();
-        <span class="tok-com">// ประกาศไว้ก่อน แล้วกำหนดค่าในแต่ละทาง</span>
         <span class="tok-type">String</span> grade;
-        <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">80</span>) {  <span class="tok-com">// ตรวจจากช่วงสูงสุดลงมา</span>
+        <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">80</span>) {               <span class="tok-com">// 85 ≥ 80 → A แล้วข้ามที่เหลือทั้งหมด</span>
             grade = <span class="tok-str">"A"</span>;
-        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">70</span>) {  <span class="tok-com">// มาถึงนี่แปลว่า score &lt; 80</span>
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">70</span>) {        <span class="tok-com">// มาถึงนี่แปลว่า score &lt; 80</span>
             grade = <span class="tok-str">"B"</span>;
         } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">60</span>) {
             grade = <span class="tok-str">"C"</span>;
         } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">50</span>) {
             grade = <span class="tok-str">"D"</span>;
-        } <span class="tok-kw">else</span> {  <span class="tok-com">// ไม่ตรงเงื่อนไขใดเลย</span>
+        } <span class="tok-kw">else</span> {
             grade = <span class="tok-str">"F"</span>;
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Grade: "</span> + grade);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Score: <b class="stdin">85</b>
-Grade: A</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>85 ≥ 80 → grade = A แล้วข้ามทั้งหมด</li><li>ถ้าเรียง score ≥ 50 ไว้ก่อน คะแนน 85 จะได้ D ทันที เพราะ 85 ≥ 50 เป็นจริงก่อน</li><li>else สุดท้ายรับทุกกรณีที่เหลือ ตัวแปร grade จึงมีค่าแน่นอน</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 5.3.4</span>เงื่อนไขเรียงผิด: กรณีสำคัญถูกบัง</h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่ให้ผลผิด (logic error) เพราะเงื่อนไขที่กว้างกว่าถูกตรวจก่อน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongOrder.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+Grade: A</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ลำดับเงื่อนไขสำคัญ</span><p>ถ้าเอาเงื่อนไขที่กว้างกว่าไว้ก่อน เช่น <code>score &gt;= 50</code> ก่อน <code>score &gt;= 90</code> คะแนน 92 จะเข้าทางแรกเสมอ เงื่อนไข ≥ 90 ไม่มีวันถูกตรวจ โค้ดคอมไพล์ผ่านแต่ผลผิด (logic error)</p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: เงื่อนไขเรียงผิด</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 5.3.4</span>เงื่อนไขเรียงผิด: กรณีสำคัญถูกบัง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongOrder.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongOrder</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Score: "</span>);
         <span class="tok-kw">int</span> score = input.<span class="tok-fn">nextInt</span>();
-        <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">50</span>) {  <span class="tok-com">// คะแนน ≥ 50 ทุกค่าเข้าทางนี้ก่อน</span>
+        <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">50</span>) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Pass"</span>);
-        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">90</span>) {  <span class="tok-com">// จึงไม่มีวันมาถึงเงื่อนไขนี้</span>
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">90</span>) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Excellent"</span>);
         }
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Score: <b class="stdin">92</b>
-Pass</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>92 ≥ 50 เป็นจริงตั้งแต่เงื่อนไขแรก → Pass</li><li>เงื่อนไข ≥ 90 ไม่มีทางถูกตรวจเลย</li><li>แก้: ย้าย ≥ 90 ขึ้นก่อน</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.3.5</span>if ซ้อน และตัวดำเนินการ ?:</h4><p class="concept-line"><strong>แนวคิด:</strong> if ซ้อน (nested) ใช้เมื่อการตัดสินใจชั้นที่สองขึ้นกับชั้นแรก ส่วน <code>เงื่อนไข ? ค่า1 : ค่า2</code> (ternary) ใช้เลือก<em>ค่า</em>สั้น ๆ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ShippingFee.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+Pass</pre></div></div><p>แก้โดยย้ายเงื่อนไข ≥ 90 ขึ้นไปไว้ก่อน</p></div></div></details>
+<h4 class="sub">if ซ้อน และตัวดำเนินการ ?:</h4>
+<p>if ซ้อนใช้เมื่อการตัดสินใจชั้นที่สองขึ้นกับชั้นแรก ส่วน <code>เงื่อนไข ? ค่า1 : ค่า2</code> (ternary) ใช้เลือก<em>ค่า</em>สั้น ๆ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.3.5</span>ค่าส่งตามยอดซื้อและสถานะสมาชิก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ShippingFee.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ShippingFee</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -279,25 +269,23 @@ Pass</pre></div></div><div class="walkthrough"><strong>อธิบายที�
         <span class="tok-type">String</span> member = input.<span class="tok-fn">next</span>();
 
         <span class="tok-kw">double</span> shipping;
-        <span class="tok-kw">if</span> (total &gt;= <span class="tok-num">1000</span>) {  <span class="tok-com">// ยอดถึง 1000 ส่งฟรี</span>
+        <span class="tok-kw">if</span> (total &gt;= <span class="tok-num">1000</span>) {                     <span class="tok-com">// ยอดถึง 1000 → ส่งฟรี ไม่ต้องดูสมาชิก</span>
             shipping = <span class="tok-num">0</span>;
         } <span class="tok-kw">else</span> {
-            <span class="tok-com">// if ซ้อน: ตรวจสมาชิกเฉพาะยอดไม่ถึง 1000</span>
-            <span class="tok-kw">if</span> (member.<span class="tok-fn">equals</span>(<span class="tok-str">"y"</span>)) {
+            <span class="tok-kw">if</span> (member.<span class="tok-fn">equals</span>(<span class="tok-str">"y"</span>)) {            <span class="tok-com">// if ซ้อน: ตรวจสมาชิกเฉพาะยอดไม่ถึง</span>
                 shipping = <span class="tok-num">20</span>;
             } <span class="tok-kw">else</span> {
                 shipping = <span class="tok-num">50</span>;
             }
         }
-        <span class="tok-com">// ตัวดำเนินการ ?: เลือกค่าตามเงื่อนไข</span>
-        <span class="tok-type">String</span> label = shipping == <span class="tok-num">0</span> ? <span class="tok-str">"FREE"</span> : shipping + <span class="tok-str">" baht"</span>;
+        <span class="tok-type">String</span> label = shipping == <span class="tok-num">0</span> ? <span class="tok-str">"FREE"</span> : shipping + <span class="tok-str">" baht"</span>;   <span class="tok-com">// ?: เลือกข้อความ</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Shipping: "</span> + label);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Order total: <b class="stdin">1200</b>
 Member (y/n): <b class="stdin">y</b>
-Shipping: FREE</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ยอด 1200 ≥ 1000 → ส่งฟรี ไม่ต้องดูสถานะสมาชิกเลย</li><li>ถ้ายอดไม่ถึง จึงค่อยตรวจสมาชิก (if ชั้นใน)</li><li>ternary เลือกข้อความ: 0 → "FREE"</li></ol></div><p class="try-it">ป้อน 800 และ y → 20 baht, ป้อน 800 และ n → 50 baht</p></div>
-<div class="note-box"><span class="box-title">ใส่วงเล็บปีกกาเสมอ และอย่าใส่ ; หลัง if</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">if</span> (score &gt;= <span class="tok-num">50</span>);              <span class="tok-com">// ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป</span>
-    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Pass"</span>);  <span class="tok-com">// ← ทำงานทุกครั้ง!</span></code></pre></div><p>แม้มีคำสั่งเดียวก็ควรใส่ <code>{ }</code> เพื่อให้เห็นขอบเขตชัดและป้องกันการเพิ่มคำสั่งผิดตำแหน่ง</p></div>
+Shipping: FREE</pre></div></div></div>
+<div class="callout warn"><span class="box-title">อย่าใส่ ; หลัง if</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">if</span> (score &gt;= <span class="tok-num">50</span>);              <span class="tok-com">// ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป</span>
+    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Pass"</span>);  <span class="tok-com">// ← ทำงานทุกครั้ง!</span></code></pre></div><p>และควรใส่ <code>{ }</code> เสมอแม้มีคำสั่งเดียว เพื่อให้เห็นขอบเขตชัด</p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · trace if-else if</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> x = <span class="tok-num">15</span>;
 <span class="tok-kw">if</span> (x &gt; <span class="tok-num">20</span>) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"A"</span>);
 <span class="tok-kw">else</span> <span class="tok-kw">if</span> (x &gt; <span class="tok-num">10</span>) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"B"</span>);
@@ -306,18 +294,30 @@ Shipping: FREE</pre></div></div><div class="walkthrough"><strong>อธิบา
 </article>
 <article class="subtopic" id="topic-5-4">
 <h3>5.4 เลือกทางด้วย switch</h3>
-<p><code>switch</code> เหมาะเมื่อเปรียบเทียบ<strong>ค่าเดียว</strong>กับตัวเลือกที่เป็นค่าแน่นอนหลายค่า เช่น รหัสเมนู วันในสัปดาห์ ใช้กับ <code>int</code>, <code>char</code>, <code>String</code> ได้ (แต่ไม่ใช้กับช่วงค่า เช่น ≥ 80 — กรณีนั้นใช้ if)</p>
-<div class="concept-box"><span class="box-title">switch แบบดั้งเดิม vs แบบลูกศร (Java 14+)</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">switch</span> (day) {                       <span class="tok-kw">switch</span> (day) {
-    <span class="tok-kw">case</span> <span class="tok-num">1</span>:                              <span class="tok-kw">case</span> <span class="tok-num">1</span> -&gt; name = <span class="tok-str">"Mon"</span>;
-        name = <span class="tok-str">"Mon"</span>;                    <span class="tok-kw">case</span> <span class="tok-num">2</span> -&gt; name = <span class="tok-str">"Tue"</span>;
-        <span class="tok-kw">break</span>;                           <span class="tok-kw">default</span> -&gt; name = <span class="tok-str">"?"</span>;
-    <span class="tok-kw">case</span> <span class="tok-num">2</span>:                          }
-        name = <span class="tok-str">"Tue"</span>;
-        <span class="tok-kw">break</span>;                       <span class="tok-com">// ไม่ต้องมี break ไม่มี fall-through</span>
-    <span class="tok-kw">default</span>:
-        name = <span class="tok-str">"?"</span>;
-}</code></pre></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.4.1</span>switch แบบดั้งเดิม: ชื่อวัน</h4><p class="concept-line"><strong>แนวคิด:</strong> Java กระโดดไปที่ case ที่ค่าตรงกัน ทำคำสั่งจนเจอ <code>break</code> ถ้าไม่มี case ใดตรงจะไป <code>default</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DayName.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<p><code>switch</code> เหมาะเมื่อเปรียบเทียบ<strong>ค่าเดียว</strong>กับตัวเลือกที่เป็นค่าแน่นอนหลายค่า เช่น รหัสเมนู วันในสัปดาห์ ใช้กับ <code>int</code>, <code>char</code>, <code>String</code> ได้ แต่ใช้กับช่วงค่า (≥ 80) ไม่ได้</p>
+<table class="comparison-table"><thead><tr><th>สถานการณ์</th><th>ควรใช้</th></tr></thead><tbody><tr><td>ตรวจช่วงค่า (≥, &lt;)</td><td>if-else if</td></tr><tr><td>เงื่อนไขหลายตัวแปรรวมกัน (&amp;&amp;, ||)</td><td>if</td></tr><tr><td>ค่าเดียวเทียบกับค่าคงที่หลายค่า</td><td>switch</td></tr><tr><td>เมนูตัวเลข / ตัวอักษร</td><td>switch</td></tr></tbody></table>
+<h4 class="sub">switch แบบลูกศร (Java 14+)</h4>
+<p>เขียนแบบ <code>case ค่า -&gt; คำสั่ง</code> ไม่ต้องมี <code>break</code> ใส่หลายค่าใน case เดียวได้ และคืนค่าได้ (มี <code>;</code> ปิดท้าย)</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.4.1</span>ฤดูจากเดือน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Season.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Season</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Month (1-12): "</span>);
+        <span class="tok-kw">int</span> month = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-type">String</span> season = <span class="tok-kw">switch</span> (month) {          <span class="tok-com">// switch คืนค่ามาเก็บในตัวแปร</span>
+            <span class="tok-kw">case</span> <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span> -&gt; <span class="tok-str">"Summer"</span>;             <span class="tok-com">// 4 ตรง case นี้</span>
+            <span class="tok-kw">case</span> <span class="tok-num">6</span>, <span class="tok-num">7</span>, <span class="tok-num">8</span>, <span class="tok-num">9</span>, <span class="tok-num">10</span> -&gt; <span class="tok-str">"Rainy"</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">11</span>, <span class="tok-num">12</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span> -&gt; <span class="tok-str">"Winter"</span>;
+            <span class="tok-kw">default</span> -&gt; <span class="tok-str">"Invalid month"</span>;           <span class="tok-com">// ไม่ตรง case ใดเลย</span>
+        };
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Season: "</span> + season);
+    }
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Month (1-12): <b class="stdin">4</b>
+Season: Summer</pre></div></div></div>
+<h4 class="sub">switch แบบดั้งเดิมและ break</h4>
+<p>แบบดั้งเดิมเขียน <code>case ค่า:</code> แล้วต้องปิดด้วย <code>break;</code> ถ้าลืม break จะ “ไหล” (fall-through) ไปทำ case ถัดไปด้วย</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.4.2</span>ชื่อวันจากตัวเลข</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DayName.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DayName</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -325,32 +325,29 @@ Shipping: FREE</pre></div></div><div class="walkthrough"><strong>อธิบา
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Day (1-7): "</span>);
         <span class="tok-kw">int</span> day = input.<span class="tok-fn">nextInt</span>();
         <span class="tok-type">String</span> name;
-        <span class="tok-com">// เลือกทางตามค่าของ day</span>
         <span class="tok-kw">switch</span> (day) {
-            <span class="tok-com">// break: ออกจาก switch</span>
             <span class="tok-kw">case</span> <span class="tok-num">1</span>: name = <span class="tok-str">"Monday"</span>; <span class="tok-kw">break</span>;
             <span class="tok-kw">case</span> <span class="tok-num">2</span>: name = <span class="tok-str">"Tuesday"</span>; <span class="tok-kw">break</span>;
-            <span class="tok-kw">case</span> <span class="tok-num">3</span>: name = <span class="tok-str">"Wednesday"</span>; <span class="tok-kw">break</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">3</span>: name = <span class="tok-str">"Wednesday"</span>; <span class="tok-kw">break</span>;      <span class="tok-com">// ← day = 3 แล้ว break ออก</span>
             <span class="tok-kw">case</span> <span class="tok-num">4</span>: name = <span class="tok-str">"Thursday"</span>; <span class="tok-kw">break</span>;
             <span class="tok-kw">case</span> <span class="tok-num">5</span>: name = <span class="tok-str">"Friday"</span>; <span class="tok-kw">break</span>;
             <span class="tok-kw">case</span> <span class="tok-num">6</span>: name = <span class="tok-str">"Saturday"</span>; <span class="tok-kw">break</span>;
             <span class="tok-kw">case</span> <span class="tok-num">7</span>: name = <span class="tok-str">"Sunday"</span>; <span class="tok-kw">break</span>;
-            <span class="tok-com">// default: ไม่ตรง case ใดเลย</span>
             <span class="tok-kw">default</span>: name = <span class="tok-str">"Unknown day"</span>;
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Day (1-7): <b class="stdin">3</b>
-Wednesday</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>day = 3 → กระโดดไป case 3</li><li>name = "Wednesday" แล้ว break ออกจาก switch</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 5.4.2</span>ลืม break: fall-through</h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าไม่มี break จะ “ไหล” ไปทำ case ถัดไปทั้งหมดจนจบหรือเจอ break</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FallThrough.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FallThrough</span> {
+Wednesday</pre></div></div></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: ลืม break แล้วไหลต่อ</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 5.4.3</span>ลืม break: fall-through</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FallThrough.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FallThrough</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> level = <span class="tok-num">2</span>;
-        <span class="tok-kw">switch</span> (level) {  <span class="tok-com">// ไม่มี break ทุก case</span>
+        <span class="tok-kw">switch</span> (level) {
             <span class="tok-kw">case</span> <span class="tok-num">1</span>:
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Bronze"</span>);
-            <span class="tok-kw">case</span> <span class="tok-num">2</span>:  <span class="tok-com">// เข้าที่ case 2 แล้วไหลลงต่อ</span>
+            <span class="tok-kw">case</span> <span class="tok-num">2</span>:                                   <span class="tok-com">// เริ่มที่นี่</span>
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Silver"</span>);
-            <span class="tok-kw">case</span> <span class="tok-num">3</span>:
+            <span class="tok-kw">case</span> <span class="tok-num">3</span>:                                   <span class="tok-com">// ไม่มี break → ไหลลงมา</span>
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Gold"</span>);
             <span class="tok-kw">default</span>:
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"End"</span>);
@@ -358,58 +355,30 @@ Wednesday</pre></div></div><div class="walkthrough"><strong>อธิบาย�
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Silver
 Gold
-End</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เริ่มที่ case 2 พิมพ์ Silver</li><li>ไม่มี break ไหลไป case 3 พิมพ์ Gold</li><li>ไหลต่อไป default พิมพ์ End</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.4.3</span>ใช้ fall-through อย่างตั้งใจ: จัดกลุ่ม case</h4><p class="concept-line"><strong>แนวคิด:</strong> หลาย case ที่ให้ผลเหมือนกันวางเรียงกันได้ — ในแบบลูกศรเขียน <code>case 12, 1, 2 -&gt;</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Season.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
-
-<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Season</span> {
-    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Month (1-12): "</span>);
-        <span class="tok-kw">int</span> month = input.<span class="tok-fn">nextInt</span>();
-        <span class="tok-com">// switch แบบลูกศร คืนค่าได้</span>
-        <span class="tok-type">String</span> season = <span class="tok-kw">switch</span> (month) {
-            <span class="tok-com">// หลายค่าใน case เดียว คั่นด้วย ,</span>
-            <span class="tok-kw">case</span> <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span> -&gt; <span class="tok-str">"Summer"</span>;
-            <span class="tok-kw">case</span> <span class="tok-num">6</span>, <span class="tok-num">7</span>, <span class="tok-num">8</span>, <span class="tok-num">9</span>, <span class="tok-num">10</span> -&gt; <span class="tok-str">"Rainy"</span>;
-            <span class="tok-kw">case</span> <span class="tok-num">11</span>, <span class="tok-num">12</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span> -&gt; <span class="tok-str">"Winter"</span>;
-            <span class="tok-kw">default</span> -&gt; <span class="tok-str">"Invalid month"</span>;
-        };  <span class="tok-com">// มี ; ปิดท้าย เพราะเป็นนิพจน์</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Season: "</span> + season);
-    }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Month (1-12): <b class="stdin">4</b>
-Season: Summer</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เดือน 4 ตรงกับ case 3, 4, 5</li><li>switch แบบลูกศรคืนค่าได้ (switch expression) จึงเขียน <code>String season = switch ...;</code> (มี ; ปิดท้าย)</li><li>ไม่ต้องมี break</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.4.4</span>switch กับ char: เครื่องคิดเลขขนาดเล็ก</h4><p class="concept-line"><strong>แนวคิด:</strong> รับนิพจน์ <code>ตัวเลข ตัวดำเนินการ ตัวเลข</code> แล้วเลือกคำนวณตามตัวดำเนินการ พร้อมดักการหารด้วยศูนย์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MiniCalculator.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+End</pre></div></div></div></div></details>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: เครื่องคิดเลขด้วย switch กับ char</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ตัวอย่าง 5.4.4</span>เครื่องคิดเลขขนาดเล็ก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MiniCalculator.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MiniCalculator</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Expression (a op b): "</span>);
         <span class="tok-kw">double</span> a = input.<span class="tok-fn">nextDouble</span>();
-        <span class="tok-com">// อ่านคำแล้วเอาตัวอักษรแรก</span>
-        <span class="tok-kw">char</span> op = input.<span class="tok-fn">next</span>().<span class="tok-fn">charAt</span>(<span class="tok-num">0</span>);
+        <span class="tok-kw">char</span> op = input.<span class="tok-fn">next</span>().<span class="tok-fn">charAt</span>(<span class="tok-num">0</span>);              <span class="tok-com">// อักขระแรกของคำ</span>
         <span class="tok-kw">double</span> b = input.<span class="tok-fn">nextDouble</span>();
 
         <span class="tok-kw">switch</span> (op) {
-            <span class="tok-com">// แบบลูกศรไม่ต้อง break</span>
             <span class="tok-kw">case</span> <span class="tok-str">'+'</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a + b));
             <span class="tok-kw">case</span> <span class="tok-str">'-'</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a - b));
-            <span class="tok-com">// รองรับทั้ง * และ x</span>
             <span class="tok-kw">case</span> <span class="tok-str">'*'</span>, <span class="tok-str">'x'</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a * b));
-            <span class="tok-com">// หลายคำสั่ง → ใช้ { }</span>
-            <span class="tok-kw">case</span> <span class="tok-str">'/'</span> -&gt; {
-                <span class="tok-com">// ป้องกันการหารด้วย 0</span>
-                <span class="tok-kw">if</span> (b == <span class="tok-num">0</span>) {
-                    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Cannot divide by zero"</span>);
-                } <span class="tok-kw">else</span> {
-                    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a / b));
-                }
+            <span class="tok-kw">case</span> <span class="tok-str">'/'</span> -&gt; {                              <span class="tok-com">// หลายคำสั่ง → ใช้ { }</span>
+                <span class="tok-kw">if</span> (b == <span class="tok-num">0</span>) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Cannot divide by zero"</span>);
+                <span class="tok-kw">else</span> <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a / b));
             }
             <span class="tok-kw">default</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Unknown operator: "</span> + op);
         }
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Expression (a op b): <b class="stdin">12 * 4</b>
-= 48.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่าน 12, "*" และ 4</li><li><code>.charAt(0)</code> ดึงอักขระแรกจาก String เป็น char</li><li>case '*' ทำงาน → 48.0</li><li>case '/' มีหลายคำสั่งจึงใช้ <code>{ }</code></li></ol></div></div>
-<h4>เลือก if หรือ switch</h4><table class="comparison-table"><thead><tr><th>สถานการณ์</th><th>ควรใช้</th></tr></thead><tbody><tr><td>ตรวจช่วงค่า (≥, &lt;)</td><td>if-else if</td></tr><tr><td>เงื่อนไขหลายตัวแปรรวมกัน (&amp;&amp;, ||)</td><td>if</td></tr><tr><td>ค่าเดียวเทียบกับค่าคงที่หลายค่า</td><td>switch</td></tr><tr><td>เมนูตัวเลข/ตัวอักษร</td><td>switch</td></tr></tbody></table>
+= 48.0</pre></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · switch output</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> n = <span class="tok-num">1</span>;
 <span class="tok-kw">switch</span> (n) {
     <span class="tok-kw">case</span> <span class="tok-num">1</span>: <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"one "</span>);
