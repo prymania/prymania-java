@@ -117,6 +117,36 @@ export default {
               }`,
             after: "<code>i = 3</code> เป็นการใส่ค่า ไม่ใช่เงื่อนไข ในกรณีนี้ควรเขียน <code>i &gt; 0</code>" },
         ] },
+        { type: "practice", level: 2, title: "ลำดับ Collatz",
+          html: `<p>รับจำนวนเต็มบวก n แล้วทำซ้ำจนกว่า n จะเป็น 1: ถ้า n เป็นเลขคู่ให้ n = n / 2 ถ้าเป็นเลขคี่ให้ n = 3n + 1 แสดงทุกค่าในบรรทัดเดียว และบอกว่าใช้กี่ขั้น ไม่มีใครรู้ล่วงหน้าว่าจะวนกี่รอบ</p>`,
+          spec: ["ใช้ while ที่มีเงื่อนไข <code>n != 1</code>", "พิมพ์ค่าเริ่มต้นก่อนเข้าลูป แล้วพิมพ์ค่าใหม่ทุกครั้งที่เปลี่ยน", "นับจำนวนขั้นด้วยตัวแปรสะสม"],
+          runs: ["6", "7", "1"],
+          hint: "คำใบ้: ใช้ n % 2 == 0 ตรวจเลขคู่ และถ้าป้อน 1 ลูปจะไม่ทำงานเลย ได้ Steps: 0",
+          solution: j`
+            import java.util.Scanner;
+
+            public class Collatz {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("n = ");
+                    int n = input.nextInt();
+                    int steps = 0;
+
+                    System.out.print(n);                      // ค่าเริ่มต้น
+                    while (n != 1) {
+                        if (n % 2 == 0) {
+                            n = n / 2;
+                        } else {
+                            n = 3 * n + 1;
+                        }
+                        System.out.print(" " + n);
+                        steps++;
+                    }
+                    System.out.println();
+                    System.out.println("Steps: " + steps);
+                }
+            }`,
+          explain: "นี่คือกรณีที่ while เหมาะกว่า for เพราะจำนวนรอบขึ้นกับค่าที่เปลี่ยนในลูป ตัวแปรในเงื่อนไข (n) ต้องถูกแก้ทุกรอบ ลูปจึงมีโอกาสจบ" },
         { type: "check", title: "นับรอบ", html: jpre(`
           int x = 20;
           int rounds = 0;
@@ -344,6 +374,35 @@ export default {
               }`,
             },
         ] },
+        { type: "practice", level: 2, title: "ตู้กดน้ำหยอดเหรียญ",
+          html: `<p>น้ำราคา 25 บาท ตู้รับเหรียญ 1, 2, 5 และ 10 บาท ให้วนรับเหรียญจนยอดรวมถึง 25 บาท เหรียญอื่นให้ปฏิเสธโดยไม่นับยอด เมื่อครบแล้วแสดงเงินทอน</p>`,
+          spec: ["ใช้ do-while เพราะต้องรับเหรียญอย่างน้อย 1 ครั้งเสมอ", "เหรียญที่รับได้ แสดง <code>Total: …</code> เหรียญที่ไม่รับ แสดง <code>Rejected: …</code>", "ประกาศราคาเป็นค่าคงที่ <code>final int PRICE = 25;</code>"],
+          runs: ["10\n3\n5\n10", "10\n10\n20\n10"],
+          hint: "คำใบ้: เหรียญใช้ได้เมื่อ coin == 1 || coin == 2 || coin == 5 || coin == 10 และเงื่อนไขของ do-while คือยอดยังไม่ถึงราคา",
+          solution: j`
+            import java.util.Scanner;
+
+            public class VendingMachine {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    final int PRICE = 25;
+                    int total = 0;
+
+                    do {
+                        System.out.print("Insert coin (1, 2, 5, 10): ");
+                        int coin = input.nextInt();
+                        if (coin == 1 || coin == 2 || coin == 5 || coin == 10) {
+                            total += coin;
+                            System.out.println("  Total: " + total);
+                        } else {
+                            System.out.println("  Rejected: " + coin);   // ไม่นับยอด
+                        }
+                    } while (total < PRICE);
+
+                    System.out.println("Dispensing drink. Change: " + (total - PRICE) + " baht");
+                }
+            }`,
+          explain: "do-while ทำ body ก่อนแล้วจึงตรวจเงื่อนไข เหมาะกับงานที่ต้องเกิดอย่างน้อยหนึ่งครั้ง ครั้งที่สองหยอด 10 + 10 + 10 = 30 จึงทอน 5 บาท ส่วนเหรียญ 20 ถูกปฏิเสธ" },
         { type: "check", title: "do-while", html: jpre(`
           int n = 5;
           do {
@@ -466,6 +525,33 @@ export default {
               }`,
             after: "คำสั่งหลัง break ในบล็อกเดียวกันไม่มีทางทำงาน compiler จึงไม่ยอม ย้าย println ไปหลังลูป หรือใส่ break ไว้ใน if" },
         ] },
+        { type: "practice", level: 2, title: "กระดานหมากรุก",
+          html: `<p>รับขนาด n แล้วพิมพ์กระดาน n × n ที่สลับ <code>#</code> กับ <code>.</code> ทุกช่อง โดยมุมซ้ายบนเป็น <code>#</code> และแถวถัดไปเริ่มด้วยสัญลักษณ์ตรงข้ามกับแถวก่อน</p>`,
+          spec: ["ใช้ for ซ้อน 2 ชั้น: ชั้นนอกคือแถว ชั้นในคือคอลัมน์", "เลือกสัญลักษณ์จากผลรวมของเลขแถวและเลขคอลัมน์ (ไม่ต้องจำว่าช่องก่อนหน้าเป็นอะไร)"],
+          runs: ["5", "4"],
+          hint: "คำใบ้: ช่อง (row, col) เป็น # เมื่อ (row + col) เป็นเลขคู่",
+          solution: j`
+            import java.util.Scanner;
+
+            public class Checkerboard {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("Size: ");
+                    int n = input.nextInt();
+
+                    for (int row = 0; row < n; row++) {
+                        for (int col = 0; col < n; col++) {
+                            if ((row + col) % 2 == 0) {       // ผลรวมคู่ = #
+                                System.out.print("#");
+                            } else {
+                                System.out.print(".");
+                            }
+                        }
+                        System.out.println();                 // จบแถว
+                    }
+                }
+            }`,
+          explain: "row + col เพิ่มขึ้น 1 ทุกครั้งที่ขยับไปทางขวาหรือลงล่างหนึ่งช่อง ความเป็นคู่/คี่จึงสลับกันเอง การคำนวณจากตำแหน่งแบบนี้ง่ายกว่าการใช้ตัวแปรจำสัญลักษณ์ล่าสุด เพราะต้นแถวใหม่จะถูกต้องโดยอัตโนมัติ" },
         { type: "check", title: "นับรอบลูปซ้อน", html: jpre(`
           int count = 0;
           for (int a = 1; a <= 4; a++)

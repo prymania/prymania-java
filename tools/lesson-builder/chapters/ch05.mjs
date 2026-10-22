@@ -163,6 +163,33 @@ export default {
               }`,
             },
         ] },
+        { type: "practice", level: 1, title: "ร้านเปิดอยู่ไหม",
+          html: `<p>ร้านหนังสือเปิด<strong>จันทร์–ศุกร์ 9:00–17:59</strong> และ<strong>เสาร์ 10:00–14:59</strong> วันอาทิตย์ปิด รับวัน (1 = จันทร์ … 7 = อาทิตย์) และชั่วโมง (0–23) แล้วแสดงว่าร้าน <code>OPEN</code> หรือ <code>CLOSED</code></p>`,
+          spec: ["ใช้ if-else เพียงชุดเดียว เงื่อนไขเปิดร้านเขียนเป็นนิพจน์เดียวที่รวม <code>&amp;&amp;</code> และ <code>||</code>", "ใส่วงเล็บแยกกลุ่ม “วันธรรมดา” กับ “วันเสาร์” ให้ชัด", "แสดงผลรูปแบบ <code>Day 3, 10:00 -&gt; OPEN</code>"],
+          runs: ["3\n10", "3\n18", "6\n12", "7\n12"],
+          hint: "คำใบ้: (วันธรรมดา และ อยู่ในช่วงเวลาวันธรรมดา) || (วันเสาร์ และ อยู่ในช่วงเวลาวันเสาร์)",
+          solution: j`
+            import java.util.Scanner;
+
+            public class StoreHours {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("Day (1=Mon ... 7=Sun): ");
+                    int day = input.nextInt();
+                    System.out.print("Hour (0-23): ");
+                    int hour = input.nextInt();
+
+                    boolean open = (day >= 1 && day <= 5 && hour >= 9 && hour < 18)   // จันทร์-ศุกร์
+                                || (day == 6 && hour >= 10 && hour < 15);             // เสาร์
+
+                    if (open) {
+                        System.out.println("Day " + day + ", " + hour + ":00 -> OPEN");
+                    } else {
+                        System.out.println("Day " + day + ", " + hour + ":00 -> CLOSED");
+                    }
+                }
+            }`,
+          explain: "เก็บเงื่อนไขไว้ในตัวแปร boolean ชื่อ open ทำให้ if อ่านง่าย วงเล็บสองกลุ่มจำเป็นเพราะ && ทำก่อน || ถ้าไม่ใส่ก็ยังได้ผลเดียวกันในข้อนี้ แต่ผู้อ่านจะต้องจำลำดับเอง วันอาทิตย์ไม่ต้องเขียนเงื่อนไขเพราะไม่เข้ากลุ่มใดเลยจึงได้ false" },
         { type: "check", title: "De Morgan", html: `<p><code>!(a &gt; 0 &amp;&amp; b &gt; 0)</code> เขียนใหม่โดยไม่ใช้ ! ด้านนอกได้อย่างไร</p>`, answer: `<p><code>a &lt;= 0 || b &lt;= 0</code> — กลับ && เป็น || และกลับเงื่อนไขย่อยทุกตัว (กฎของ De Morgan)</p>` },
       ],
     },
@@ -289,6 +316,36 @@ export default {
         { type: "warn", title: "อย่าใส่ ; หลัง if", html: jpre(`
           if (score >= 50);              // ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป
               System.out.println("Pass");  // ← ทำงานทุกครั้ง!`) + `<p>และควรใส่ <code>{ }</code> เสมอแม้มีคำสั่งเดียว เพื่อให้เห็นขอบเขตชัด</p>` },
+        { type: "practice", level: 1, title: "คำทักทายตามเวลา",
+          html: `<p>รับชั่วโมง (0–23) แล้วแสดงคำทักทาย: 5–11 <code>Good morning</code>, 12–16 <code>Good afternoon</code>, 17–20 <code>Good evening</code>, 21–23 และ 0–4 <code>Good night</code> ถ้านอกช่วง 0–23 แสดง <code>Invalid hour</code></p>`,
+          spec: ["ใช้ if / else if / else ชุดเดียว และตรวจค่าที่ใช้ไม่ได้ก่อน", "เรียงเงื่อนไขจากชั่วโมงน้อยไปมาก ให้แต่ละเงื่อนไขมีแค่ <code>&lt;</code> ตัวเดียว"],
+          runs: ["7", "13", "19", "23", "3", "25"],
+          hint: "คำใบ้: หลังตรวจค่าใช้ไม่ได้แล้ว hour อยู่ใน 0–23 แน่นอน ถ้าเริ่มจาก hour &lt; 5 ก่อน กลุ่ม night ช่วงดึกจะไปตกที่ else สุดท้ายเอง",
+          solution: j`
+            import java.util.Scanner;
+
+            public class Greeting {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("Hour (0-23): ");
+                    int hour = input.nextInt();
+
+                    if (hour < 0 || hour > 23) {
+                        System.out.println("Invalid hour");
+                    } else if (hour < 5) {                    // 0-4
+                        System.out.println("Good night");
+                    } else if (hour < 12) {                   // 5-11
+                        System.out.println("Good morning");
+                    } else if (hour < 17) {                   // 12-16
+                        System.out.println("Good afternoon");
+                    } else if (hour < 21) {                   // 17-20
+                        System.out.println("Good evening");
+                    } else {                                  // 21-23
+                        System.out.println("Good night");
+                    }
+                }
+            }`,
+          explain: "แต่ละ else if ทำงานได้ก็ต่อเมื่อเงื่อนไขก่อนหน้าเป็นเท็จทั้งหมด จึงไม่ต้องเขียนขอบล่างซ้ำ (เช่น hour >= 5 && hour < 12) Good night ปรากฏสองที่เพราะช่วงเวลากลางคืนข้ามเที่ยงคืน" },
         { type: "check", title: "trace if-else if", html: jpre(`
           int x = 15;
           if (x > 20) System.out.println("A");
@@ -397,6 +454,44 @@ export default {
               }`,
             },
         ] },
+        { type: "practice", level: 2, title: "จำนวนวันในเดือน",
+          html: `<p>รับเดือน (1–12) และปี ค.ศ. แล้วแสดงจำนวนวันของเดือนนั้น เดือนกุมภาพันธ์มี 29 วันในปีอธิกสุรทิน (หารด้วย 4 ลงตัวแต่หารด้วย 100 ไม่ลงตัว หรือหารด้วย 400 ลงตัว) ถ้าเดือนไม่อยู่ใน 1–12 แสดง <code>Invalid month</code></p>`,
+          spec: ["ใช้ switch แบบลูกศร โดยรวมเดือนที่มีจำนวนวันเท่ากันไว้ใน case เดียว เช่น <code>case 4, 6, 9, 11 -&gt;</code>", "กรณีกุมภาพันธ์ใช้ if-else ตรวจปีอธิกสุรทิน", "แสดงผลรูปแบบ <code>2/2024 has 29 days</code>"],
+          runs: ["2 2024", "2 1900", "4 2025", "13 2025"],
+          hint: "คำใบ้: ตั้ง int days = 0 ไว้ก่อน switch แล้วให้แต่ละ case กำหนดค่า ส่วน default ใช้ค่าพิเศษ เช่น -1 เพื่อบอกว่าเดือนใช้ไม่ได้",
+          solution: j`
+            import java.util.Scanner;
+
+            public class DaysInMonth {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("Month Year: ");
+                    int month = input.nextInt();
+                    int year = input.nextInt();
+
+                    int days = 0;
+                    switch (month) {
+                        case 1, 3, 5, 7, 8, 10, 12 -> days = 31;
+                        case 4, 6, 9, 11 -> days = 30;
+                        case 2 -> {
+                            boolean leap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+                            if (leap) {
+                                days = 29;
+                            } else {
+                                days = 28;
+                            }
+                        }
+                        default -> days = -1;                 // เดือนใช้ไม่ได้
+                    }
+
+                    if (days == -1) {
+                        System.out.println("Invalid month");
+                    } else {
+                        System.out.println(month + "/" + year + " has " + days + " days");
+                    }
+                }
+            }`,
+          explain: "การรวมหลายค่าใน case เดียวทำให้ไม่ต้องเขียน 12 กรณี ปี 1900 หารด้วย 4 ลงตัวแต่หารด้วย 100 ลงตัวด้วยและหาร 400 ไม่ลงตัว จึงไม่ใช่ปีอธิกสุรทิน เป็นค่าขอบที่ควรทดสอบ" },
         { type: "check", title: "switch output", html: jpre(`
           int n = 1;
           switch (n) {

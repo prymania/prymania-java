@@ -103,6 +103,40 @@ export default {
               }`,
             after: "พิมพ์ 80, 75, 92 ได้ปกติ แต่เงื่อนไข <code>&lt;=</code> ทำให้ i = 3 เข้าลูปด้วย ข้อความ <code>Index 3 out of bounds for length 3</code> บอกทั้ง index ที่ผิดและขนาดจริงของอาเรย์" },
         ] },
+        { type: "practice", level: 1, title: "สลับตัวแรกกับตัวสุดท้าย",
+          html: `<p>รับจำนวน n แล้วรับตัวเลข n ตัวใส่อาเรย์ แสดงอาเรย์ก่อนสลับ สลับค่าตัวแรกกับตัวสุดท้าย แล้วแสดงอีกครั้ง</p>`,
+          spec: ["อ้างตัวสุดท้ายด้วย <code>arr.length - 1</code> ไม่ใช้เลขตายตัว", "สลับค่าโดยใช้ตัวแปรชั่วคราว (temp)", "แสดงอาเรย์ด้วยลูป รูปแบบ <code>Before: 3 8 1 9 4</code>"],
+          runs: ["5\n3 8 1 9 4", "1\n7"],
+          hint: "คำใบ้: temp = arr[0]; arr[0] = arr[last]; arr[last] = temp; — ถ้าเขียน arr[0] = arr[last] ก่อนโดยไม่มี temp ค่าเดิมของ arr[0] จะหายไป",
+          solution: j`
+            import java.util.Scanner;
+
+            public class SwapEnds {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("n = ");
+                    int n = input.nextInt();
+                    int[] arr = new int[n];
+                    System.out.print("Values: ");
+                    for (int i = 0; i < arr.length; i++) {
+                        arr[i] = input.nextInt();
+                    }
+
+                    System.out.print("Before:");
+                    for (int i = 0; i < arr.length; i++) System.out.print(" " + arr[i]);
+                    System.out.println();
+
+                    int last = arr.length - 1;
+                    int temp = arr[0];                        // เก็บค่าเดิมไว้ก่อน
+                    arr[0] = arr[last];
+                    arr[last] = temp;
+
+                    System.out.print("After: ");
+                    for (int i = 0; i < arr.length; i++) System.out.print(" " + arr[i]);
+                    System.out.println();
+                }
+            }`,
+          explain: "เมื่อมีสมาชิกตัวเดียว ตัวแรกกับตัวสุดท้ายคือช่องเดียวกัน (index 0) การสลับจึงไม่เปลี่ยนอะไรและไม่เกิด error เพราะใช้ arr.length - 1 แทนเลขตายตัว" },
         { type: "check", title: "trace อาเรย์", html: jpre(`
           int[] a = {5, 10, 15, 20};
           a[0] = a[3] - a[1];
@@ -210,6 +244,39 @@ export default {
             }`,
           },
         { type: "warn", html: `ถ้าต้องการสำเนาจริงให้ใช้ <code>a.clone()</code> หรือ <code>Arrays.copyOf(a, a.length)</code> และถ้าพิมพ์ <code>println(a)</code> ตรง ๆ จะได้ข้อความแปลก ๆ เช่น <code>[I@1b6d3586</code> ให้ใช้ <code>Arrays.toString(a)</code>` },
+        { type: "practice", level: 2, title: "ค่าที่ใกล้ค่าเฉลี่ยที่สุด",
+          html: `<p>รับจำนวน n และตัวเลข n ตัว หาค่าเฉลี่ย แล้วหาว่าตัวเลขตัวใดอยู่<strong>ใกล้ค่าเฉลี่ยที่สุด</strong> แสดงค่านั้นพร้อม index ถ้าใกล้เท่ากันให้เลือกตัวที่อยู่ก่อน</p>`,
+          spec: ["วนรอบแรกหาผลรวมเพื่อคำนวณค่าเฉลี่ย (double)", "วนรอบที่สองหา index ที่ระยะห่าง <code>Math.abs(arr[i] - avg)</code> น้อยที่สุด", "แสดงค่าเฉลี่ยทศนิยม 2 ตำแหน่ง"],
+          runs: ["5\n2 9 6 1 9", "4\n10 20 30 40"],
+          hint: "คำใบ้: เก็บ index ที่ดีที่สุดไว้ เริ่มที่ 0 แล้วเปลี่ยนเมื่อพบตัวที่ห่างน้อยกว่า (ใช้ &lt; ไม่ใช่ &lt;= จึงได้ตัวที่อยู่ก่อนเมื่อเสมอ)",
+          solution: j`
+            import java.util.Scanner;
+
+            public class ClosestToAverage {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("n = ");
+                    int n = input.nextInt();
+                    int[] arr = new int[n];
+                    System.out.print("Values: ");
+                    int sum = 0;
+                    for (int i = 0; i < n; i++) {
+                        arr[i] = input.nextInt();
+                        sum += arr[i];
+                    }
+                    double avg = (double) sum / n;
+
+                    int best = 0;                                     // index ที่ใกล้ที่สุดจนถึงตอนนี้
+                    for (int i = 1; i < n; i++) {
+                        if (Math.abs(arr[i] - avg) < Math.abs(arr[best] - avg)) {
+                            best = i;
+                        }
+                    }
+                    System.out.printf("Average = %.2f%n", avg);
+                    System.out.println("Closest to average: " + arr[best] + " at index " + best);
+                }
+            }`,
+          explain: "ต้องรู้ค่าเฉลี่ยก่อนจึงจะวัดระยะห่างได้ จึงต้องวนสองรอบ ชุดที่สองค่าเฉลี่ย 25 ห่างจาก 20 และ 30 เท่ากัน (5) เงื่อนไข < ทำให้ได้ 20 ซึ่งอยู่ก่อน" },
         { type: "check", title: "นับ", html: jpre(`
           int[] v = {3, 8, 2, 8, 5, 8};
           int count = 0, last = -1;
@@ -311,6 +378,44 @@ export default {
               }`,
             after: "จอง (1,2) และ (0,0) สำเร็จ พอจอง (1,2) ซ้ำจะพบว่าช่องนั้นเป็น <code>true</code> แล้ว" },
         ] },
+        { type: "practice", level: 2, title: "ผลรวมแนวทแยง",
+          html: `<p>รับขนาด n แล้วรับตาราง n × n แสดงตาราง ผลรวมของ<strong>แนวทแยงหลัก</strong> (ซ้ายบนไปขวาล่าง) และ<strong>แนวทแยงรอง</strong> (ขวาบนไปซ้ายล่าง) และบอกว่าสองค่านี้เท่ากันหรือไม่</p>`,
+          spec: ["ใช้อาเรย์ 2 มิติ <code>int[][] m = new int[n][n];</code>", "แนวทแยงทั้งสองใช้ลูปชั้นเดียว ไม่ต้องวนทุกช่อง", "แสดงตารางโดยจัดคอลัมน์ด้วย <code>%4d</code>"],
+          runs: ["3\n2 7 6\n9 5 1\n4 3 8", "3\n1 2 3\n4 5 6\n7 8 10"],
+          hint: "คำใบ้: แนวทแยงหลักคือ m[i][i] แนวทแยงรองคือ m[i][n - 1 - i]",
+          solution: j`
+            import java.util.Scanner;
+
+            public class Diagonals {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    System.out.print("n = ");
+                    int n = input.nextInt();
+                    int[][] m = new int[n][n];
+                    for (int r = 0; r < n; r++) {
+                        for (int c = 0; c < n; c++) {
+                            m[r][c] = input.nextInt();
+                        }
+                    }
+
+                    for (int r = 0; r < n; r++) {
+                        for (int c = 0; c < n; c++) {
+                            System.out.printf("%4d", m[r][c]);
+                        }
+                        System.out.println();
+                    }
+
+                    int mainSum = 0, antiSum = 0;
+                    for (int i = 0; i < n; i++) {
+                        mainSum += m[i][i];                    // (0,0) (1,1) (2,2)
+                        antiSum += m[i][n - 1 - i];            // (0,2) (1,1) (2,0)
+                    }
+                    System.out.println("Main diagonal: " + mainSum);
+                    System.out.println("Anti diagonal: " + antiSum);
+                    System.out.println("Equal? " + (mainSum == antiSum));
+                }
+            }`,
+          explain: "บนแนวทแยงหลักเลขแถวเท่ากับเลขคอลัมน์ ส่วนแนวทแยงรองผลรวมของเลขแถวกับคอลัมน์เท่ากับ n - 1 เสมอ จึงไม่ต้องใช้ลูปซ้อนเพื่อหาช่องเหล่านี้" },
         { type: "check", title: "index 2 มิติ", html: jpre(`
           int[][] m = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
           int sum = 0;

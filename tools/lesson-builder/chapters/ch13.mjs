@@ -223,6 +223,34 @@ export default {
               }`,
             },
         ] },
+        { type: "practice", level: 1, title: "รายการซื้อของไม่ซ้ำ",
+          html: `<p>รับชื่อของที่ต้องซื้อทีละคำจนกว่าจะพิมพ์ <code>done</code> ถ้าของนั้นมีในรายการแล้วให้แจ้งและไม่เพิ่มซ้ำ สุดท้ายแสดงรายการและจำนวนรายการ</p>`,
+          spec: ["เก็บใน <code>ArrayList&lt;String&gt;</code> และอ่านด้วย <code>input.next()</code>", "ใช้ <code>contains</code> ตรวจก่อน add", "ไม่ต้องรู้จำนวนล่วงหน้า วนจนได้คำว่า done"],
+          stdin: "milk\neggs\nmilk\nbread\neggs\ndone",
+          hint: "คำใบ้: ใช้ while (true) อ่านคำ ถ้าเป็น done ให้ break ระวังเทียบ String ด้วย equals ไม่ใช่ ==",
+          solution: j`
+            import java.util.ArrayList;
+            import java.util.Scanner;
+
+            public class ShoppingList {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    ArrayList<String> list = new ArrayList<>();
+                    while (true) {
+                        System.out.print("Item (done to finish): ");
+                        String item = input.next();
+                        if (item.equals("done")) break;
+                        if (list.contains(item)) {
+                            System.out.println("  " + item + " is already in the list");
+                        } else {
+                            list.add(item);
+                        }
+                    }
+                    System.out.println("Shopping list: " + list);
+                    System.out.println("Items: " + list.size());
+                }
+            }`,
+          explain: "contains ใช้ equals เปรียบเทียบ จึงหาของซ้ำได้ถูกต้อง แต่ตรงตัวพิมพ์ ถ้าอยากให้ Milk กับ milk นับเป็นของเดียวกัน ให้แปลงเป็นตัวพิมพ์เล็กด้วย toLowerCase() ก่อนตรวจและก่อนเพิ่ม" },
         { type: "check", title: "add vs set", html: jpre(`
           ArrayList<Integer> a = new ArrayList<>();
           a.add(1); a.add(2); a.add(3);
@@ -277,6 +305,36 @@ export default {
                 }
             }`,
           },
+        { type: "practice", level: 2, title: "ลบชื่อที่ขึ้นต้นด้วยตัวอักษรที่กำหนด",
+          html: `<p>เริ่มจากรายชื่อ JHope, Suga, RM, Jungkook, Mark, JayB รับตัวอักษรหนึ่งตัวจากผู้ใช้ แล้วลบทุกชื่อที่ขึ้นต้นด้วยตัวอักษรนั้น (ไม่สนตัวพิมพ์เล็ก/ใหญ่) แสดงจำนวนที่ลบและรายชื่อที่เหลือ</p>`,
+          spec: ["ลบด้วยลูป for ที่<strong>วนจากท้ายมาหน้า</strong> (ห้ามใช้ removeIf ในข้อนี้)", "เทียบตัวอักษรแรกด้วย <code>Character.toUpperCase</code> ทั้งสองฝั่ง"],
+          stdin: "j",
+          hint: "คำใบ้: ตัวอักษรที่ผู้ใช้พิมพ์คือ input.next().charAt(0) และตัวแรกของชื่อคือ names.get(i).charAt(0)",
+          solution: j`
+            import java.util.ArrayList;
+            import java.util.List;
+            import java.util.Scanner;
+
+            public class RemoveByLetter {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    ArrayList<String> names = new ArrayList<>(List.of("JHope", "Suga", "RM", "Jungkook", "Mark", "JayB"));
+                    System.out.println("Names: " + names);
+                    System.out.print("Remove names starting with: ");
+                    char letter = Character.toUpperCase(input.next().charAt(0));
+
+                    int removed = 0;
+                    for (int i = names.size() - 1; i >= 0; i--) {             // วนถอยหลัง: index ที่ยังไม่ตรวจไม่เลื่อน
+                        if (Character.toUpperCase(names.get(i).charAt(0)) == letter) {
+                            names.remove(i);
+                            removed++;
+                        }
+                    }
+                    System.out.println("Removed " + removed + " name(s)");
+                    System.out.println("Left: " + names);
+                }
+            }`,
+          explain: "JHope, Jungkook และ JayB ขึ้นต้นด้วย J ถ้าวนจากหน้าไปหลัง เมื่อลบ JHope ที่ index 0 แล้ว Suga จะเลื่อนมาแทน และถ้ามีชื่อขึ้นต้นด้วย J สองชื่อติดกัน ชื่อที่สองจะถูกข้าม การวนถอยหลังไม่มีปัญหานี้" },
         { type: "check", title: "หาบั๊กได้ไหม", html: `<p>ทำไม 30 และ 10 ยังเหลืออยู่</p>`, answer: `<p>i = 0 ลบ 45 → 30 เลื่อนมาอยู่ index 0 แต่ลูปเพิ่ม i เป็น 1 ไปแล้ว 30 จึงไม่ถูกตรวจ เช่นเดียวกับ 10 ที่เลื่อนมาแทน 20 ตัวที่เลื่อนมาแทนที่ถูกข้ามทุกครั้ง</p>` },
         { type: "p", html: `มีสามวิธีที่ถูกต้อง: (1) วนจากท้ายมาหน้า การเลื่อนจะเกิดกับตัวที่ตรวจไปแล้วเท่านั้น (2) เพิ่ม i เฉพาะเมื่อไม่ได้ลบ (3) ใช้ <code>removeIf</code>` },
         { type: "run", title: "สามวิธีลบอย่างถูกต้อง",
@@ -568,6 +626,81 @@ export default {
               }`,
             },
         ] },
+        { type: "practice", level: 3, title: "สต็อกสินค้าและการเติมของ",
+          html: `<p>สร้างคลาส <code>Item</code> (ชื่อ ราคา จำนวน) แล้วเก็บสินค้า 4 รายการใน ArrayList: Pen 12.00 × 40, Notebook 35.00 × 0, Eraser 8.00 × 25, Ruler 15.00 × 0 แสดงรายการ มูลค่าสต็อกรวม และรายชื่อสินค้าที่หมด จากนั้นรับชื่อสินค้าและจำนวนที่จะเติม เติมของแล้วแสดงมูลค่ารวมใหม่</p>`,
+          spec: ["คลาส Item มี field เป็น private พร้อม getter และเมธอด <code>void addStock(int qty)</code>", "เมธอด <code>static double stockValue(ArrayList&lt;Item&gt; items)</code> คืนผลรวมของราคา × จำนวน", "เมธอด <code>static Item findByName(ArrayList&lt;Item&gt; items, String name)</code> คืน null ถ้าไม่พบ และ main ต้องตรวจ null ก่อนเติมของ"],
+          stdin: "Ruler 10",
+          hint: "คำใบ้: สินค้าที่หมดคือ getQty() == 0 และการเติมของทำผ่านออบเจ็กต์ที่ findByName คืนมา ซึ่งเป็นตัวเดียวกับที่อยู่ในรายการ",
+          solution: j`
+            import java.util.ArrayList;
+            import java.util.Scanner;
+
+            public class StockRoom {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    ArrayList<Item> items = new ArrayList<>();
+                    items.add(new Item("Pen", 12.00, 40));
+                    items.add(new Item("Notebook", 35.00, 0));
+                    items.add(new Item("Eraser", 8.00, 25));
+                    items.add(new Item("Ruler", 15.00, 0));
+
+                    for (Item it : items) System.out.println(it);
+                    System.out.printf("Stock value: %.2f%n", stockValue(items));
+                    System.out.print("Out of stock:");
+                    for (Item it : items) {
+                        if (it.getQty() == 0) System.out.print(" " + it.getName());
+                    }
+                    System.out.println();
+
+                    System.out.print("Restock item and quantity: ");
+                    String name = input.next();
+                    int qty = input.nextInt();
+                    Item found = findByName(items, name);
+                    if (found == null) {
+                        System.out.println("No item named " + name);
+                    } else {
+                        found.addStock(qty);                  // แก้ออบเจ็กต์ตัวจริงในรายการ
+                        System.out.println("Updated: " + found);
+                        System.out.printf("Stock value: %.2f%n", stockValue(items));
+                    }
+                }
+
+                static double stockValue(ArrayList<Item> items) {
+                    double total = 0;
+                    for (Item it : items) total += it.getPrice() * it.getQty();
+                    return total;
+                }
+
+                static Item findByName(ArrayList<Item> items, String name) {
+                    for (Item it : items) {
+                        if (it.getName().equals(name)) return it;
+                    }
+                    return null;
+                }
+            }
+
+            class Item {
+                private final String name;
+                private final double price;
+                private int qty;
+
+                Item(String name, double price, int qty) {
+                    this.name = name;
+                    this.price = price;
+                    this.qty = qty;
+                }
+
+                String getName() { return name; }
+                double getPrice() { return price; }
+                int getQty() { return qty; }
+                void addStock(int qty) { this.qty += qty; }
+
+                @Override
+                public String toString() {
+                    return String.format("%-9s %6.2f x %d", name, price, qty);
+                }
+            }`,
+          explain: "มูลค่าเริ่มต้นคือ 12 × 40 + 8 × 25 = 680 เติม Ruler 10 อันเพิ่ม 150 เป็น 830 สังเกตว่า findByName คืนการอ้างอิงไปยังออบเจ็กต์ในรายการ การเรียก addStock จึงเปลี่ยนข้อมูลในรายการจริงโดยไม่ต้อง set กลับ" },
       ],
     },
   ],
