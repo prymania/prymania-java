@@ -59,6 +59,8 @@
 <div class="concept-box"><span class="box-title">คำศัพท์หลัก</span><ul><li><strong>class</strong> — พิมพ์เขียว บอกว่าวัตถุชนิดนี้มีข้อมูล (field) และพฤติกรรม (method) อะไร</li><li><strong>object / instance</strong> — ของจริงที่สร้างจากพิมพ์เขียว แต่ละตัวมีค่า field ของตัวเอง</li><li><strong>field</strong> (attribute) — ตัวแปรที่อยู่ในออบเจ็กต์ เช่น name, balance</li><li><strong>method</strong> — สิ่งที่ออบเจ็กต์ทำได้ เช่น deposit(), describe()</li><li><strong>state</strong> — ค่าของ field ทั้งหมด ณ ขณะหนึ่ง</li></ul></div>
 <article class="subtopic" id="topic-11-1">
 <h3>11.1 class เป็นพิมพ์เขียว</h3>
+<p><strong>class</strong> เป็นพิมพ์เขียวที่บอกว่าของชนิดหนึ่งมีข้อมูลอะไร (<strong>field</strong>) และทำอะไรได้ (<strong>method</strong>) ส่วน <strong>object</strong> คือของจริงที่สร้างจากพิมพ์เขียวนั้น สร้างได้หลายตัว แต่ละตัวมีค่า field ของตัวเอง</p>
+<table class="comparison-table"><thead><tr><th>คลาส (พิมพ์เขียว)</th><th>field (มีอะไร)</th><th>method (ทำอะไร)</th><th>object (ของจริง)</th></tr></thead><tbody><tr><td><code>Book</code></td><td>title, author, pages</td><td>describe(), isThick()</td><td>หนังสือ “Java Basics” 320 หน้า</td></tr><tr><td><code>BankAccount</code></td><td>owner, balance</td><td>deposit(), withdraw()</td><td>บัญชีของ JHope ยอด 1000</td></tr><tr><td><code>Student</code></td><td>name, score</td><td>isPassed()</td><td>Suga คะแนน 72</td></tr></tbody></table>
 <div class="concept-box"><span class="box-title">โครงสร้างของคลาส</span><div class="code-block"><div class="code-head"><span class="code-file">Student.java</span></div><pre class="copyable"><code><span class="tok-kw">class</span> <span class="tok-type">Student</span> {               <span class="tok-com">// ชื่อคลาส: PascalCase</span>
     <span class="tok-type">String</span> name;              <span class="tok-com">// field (ข้อมูล)</span>
     <span class="tok-kw">int</span> score;
@@ -66,31 +68,33 @@
     <span class="tok-kw">void</span> <span class="tok-fn">describe</span>() {         <span class="tok-com">// method (พฤติกรรม) — ไม่มี static</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name + <span class="tok-str">": "</span> + score);
     }
-}</code></pre></div><p>เมธอดในคลาสไม่ใส่ <code>static</code> เพราะเป็นของ<strong>แต่ละออบเจ็กต์</strong> และใช้ field ของออบเจ็กต์ที่ถูกเรียกได้โดยตรง ในตัวอย่างบทนี้วางคลาสหลายคลาสไว้ในไฟล์เดียว (มีเพียงคลาสที่มี main เป็น public) — ในโปรเจกต์จริงนิยมแยกคลาสละไฟล์</p></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.1.1</span>คลาสแรก: Book</h4><p class="concept-line"><strong>แนวคิด:</strong> ประกาศคลาส Book มี field 3 ตัว แล้วสร้างออบเจ็กต์ใน main กำหนดค่า field และพิมพ์ออกมา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookDemo</span> {
+}</code></pre></div></div>
+<p>ตัวอย่างในบทนี้วางหลายคลาสไว้ในไฟล์เดียว คลาสที่มี main เป็น <code>public</code> และคลาสอื่นไม่ใส่ public ส่วนในโปรเจกต์จริงนิยมแยกไฟล์ละคลาส</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.1.1</span>คลาสแรก: Book</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// new สร้างออบเจ็กต์จากคลาส Book</span>
-        <span class="tok-type">Book</span> b = <span class="tok-kw">new</span> <span class="tok-type">Book</span>();
-        b.title = <span class="tok-str">"Java Basics"</span>;  <span class="tok-com">// กำหนดค่า field ผ่านจุด (.)</span>
+        <span class="tok-type">Book</span> b = <span class="tok-kw">new</span> <span class="tok-type">Book</span>();                  <span class="tok-com">// สร้างออบเจ็กต์จากคลาส Book</span>
+        b.title = <span class="tok-str">"Java Basics"</span>;              <span class="tok-com">// เข้าถึง field ด้วยจุด (.)</span>
         b.author = <span class="tok-str">"JHope"</span>;
         b.pages = <span class="tok-num">320</span>;
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(b.title + <span class="tok-str">" by "</span> + b.author + <span class="tok-str">", "</span> + b.pages + <span class="tok-str">" pages"</span>);
     }
 }
 
-<span class="tok-kw">class</span> <span class="tok-type">Book</span> {       <span class="tok-com">// คลาส = แม่แบบของออบเจ็กต์</span>
-    <span class="tok-type">String</span> title;  <span class="tok-com">// field: ข้อมูลที่ทุก Book มี</span>
+<span class="tok-kw">class</span> <span class="tok-type">Book</span> {                                  <span class="tok-com">// พิมพ์เขียว: ทุก Book มี 3 field นี้</span>
+    <span class="tok-type">String</span> title;
     <span class="tok-type">String</span> author;
     <span class="tok-kw">int</span> pages;
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Java Basics by JHope, 320 pages</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>class Book</code> บอกว่าหนังสือมี title, author, pages</li><li><code>new Book()</code> สร้างออบเจ็กต์ใหม่ในหน่วยความจำ</li><li><code>b.title = ...</code> ใช้จุด (.) เข้าถึง field ของออบเจ็กต์ b</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.1.2</span>เพิ่มพฤติกรรมด้วย method</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดในคลาสใช้ field ได้ทันทีโดยไม่ต้องส่งเป็น parameter เพราะรู้อยู่แล้วว่าเป็นของออบเจ็กต์ไหน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookMethods.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookMethods</span> {
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Java Basics by JHope, 320 pages</pre></div></div></div>
+<h4 class="sub">เพิ่มพฤติกรรมด้วย method</h4>
+<p>เมธอดในคลาส<strong>ไม่มี static</strong> เพราะเป็นของแต่ละออบเจ็กต์ และใช้ field ของออบเจ็กต์ที่ถูกเรียกได้ทันที ไม่ต้องส่งเป็น parameter</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.1.2</span>เมธอดใช้ field ของตัวเอง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookMethods.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookMethods</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Book</span> b = <span class="tok-kw">new</span> <span class="tok-type">Book</span>();
         b.title = <span class="tok-str">"Java Basics"</span>;
         b.pages = <span class="tok-num">320</span>;
-        b.<span class="tok-fn">describe</span>();  <span class="tok-com">// เรียกเมธอดของออบเจ็กต์ b</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Reading time: "</span> + b.<span class="tok-fn">readingHours</span>(<span class="tok-num">40</span>) + <span class="tok-str">" hours"</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Thick book? "</span> + b.<span class="tok-fn">isThick</span>());
+        b.<span class="tok-fn">describe</span>();                                                    <span class="tok-com">// Book: Java Basics (320 pages)</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Reading time: "</span> + b.<span class="tok-fn">readingHours</span>(<span class="tok-num">40</span>) + <span class="tok-str">" hours"</span>);  <span class="tok-com">// 320 / 40 = 8.0</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Thick book? "</span> + b.<span class="tok-fn">isThick</span>());                <span class="tok-com">// true</span>
     }
 }
 
@@ -98,13 +102,11 @@
     <span class="tok-type">String</span> title;
     <span class="tok-kw">int</span> pages;
 
-    <span class="tok-com">// เมธอดใช้ field ของออบเจ็กต์ตัวเองได้ตรง ๆ</span>
-    <span class="tok-kw">void</span> <span class="tok-fn">describe</span>() {
+    <span class="tok-kw">void</span> <span class="tok-fn">describe</span>() {                         <span class="tok-com">// ใช้ title และ pages ของ b</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Book: "</span> + title + <span class="tok-str">" ("</span> + pages + <span class="tok-str">" pages)"</span>);
     }
 
-    <span class="tok-com">// รับ parameter และคืนค่าได้เหมือนเมธอด static</span>
-    <span class="tok-kw">double</span> <span class="tok-fn">readingHours</span>(<span class="tok-kw">int</span> pagesPerHour) {
+    <span class="tok-kw">double</span> <span class="tok-fn">readingHours</span>(<span class="tok-kw">int</span> pagesPerHour) {   <span class="tok-com">// รับ parameter และคืนค่าได้ตามปกติ</span>
         <span class="tok-kw">return</span> (<span class="tok-kw">double</span>) pages / pagesPerHour;
     }
 
@@ -113,8 +115,9 @@
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Book: Java Basics (320 pages)
 Reading time: 8.0 hours
-Thick book? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>b.describe()</code> — เรียกเมธอดของออบเจ็กต์ b ข้างในใช้ title และ pages ของ b</li><li>readingHours รับ parameter เพิ่มได้ตามปกติ และคืนค่า</li><li>isThick คืน boolean จากข้อมูลของตัวเอง</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 11.1.3</span>เรียก instance method จาก static context</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดที่ไม่มี static ต้องเรียกผ่านออบเจ็กต์ เรียกจากชื่อคลาสตรง ๆ ไม่ได้ เพราะไม่รู้ว่าจะใช้ field ของออบเจ็กต์ไหน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StaticContext.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StaticContext</span> {
+Thick book? true</pre></div></div></div>
+<div class="callout warn"><span class="box-title">เรียกเมธอดที่ไม่มี static ผ่านชื่อคลาส</span><p><code>Counter.increase()</code> คอมไพล์ไม่ผ่าน (<code>non-static method … cannot be referenced from a static context</code>) เพราะไม่รู้ว่าจะใช้ field ของออบเจ็กต์ไหน ต้องสร้างออบเจ็กต์ก่อน: <code>Counter c = new Counter(); c.increase();</code></p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: error เมื่อเรียกผ่านชื่อคลาส</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 11.1.3</span>เรียก instance method จาก static context</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StaticContext.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StaticContext</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Counter</span>.<span class="tok-fn">increase</span>();
     }
@@ -128,50 +131,50 @@ Thick book? true</pre></div></div><div class="walkthrough"><strong>อธิบ�
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>StaticContext.java:3: error: non-static method increase() cannot be referenced from a static context
         Counter.increase();
-               ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>non-static method increase() cannot be referenced from a static context</code></li><li>แก้: สร้างออบเจ็กต์ก่อน <code>Counter c = new Counter(); c.increase();</code></li></ol></div></div>
+               ^</pre></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · class vs object</strong><div><p>ในประโยค “แมวชื่อส้มของฉัน อายุ 3 ปี” อะไรคือ class อะไรคือ object และอะไรคือ field</p></div><details><summary>ดูคำตอบ</summary><div><p>class = <strong>Cat</strong> (แมวทั่วไป), object = <strong>แมวตัวที่ชื่อส้ม</strong>, field = <strong>name ("ส้ม") และ age (3)</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-11-2">
 <h3>11.2 สร้าง object ด้วย new และตัวแปรอ้างอิง</h3>
-<p>ตัวแปรชนิดคลาส (เช่น <code>Book b</code>) ไม่ได้เก็บออบเจ็กต์ไว้ข้างใน แต่เก็บ<strong>การอ้างอิง (reference)</strong> ที่ชี้ไปยังออบเจ็กต์ในหน่วยความจำ — เหมือนอาเรย์ในบทที่ 8 field ที่ยังไม่กำหนดค่าจะได้ค่าเริ่มต้น (0, 0.0, false, null)</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.2.1</span>ค่าเริ่มต้นของ field</h4><p class="concept-line"><strong>แนวคิด:</strong> ต่างจากตัวแปร local ใน main ซึ่งต้องกำหนดค่าก่อนใช้ field ได้ค่าเริ่มต้นอัตโนมัติ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DefaultFields.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DefaultFields</span> {
+<p><code>new Product()</code> สร้างออบเจ็กต์ในหน่วยความจำ ตัวแปร <code>Product p</code> ไม่ได้เก็บออบเจ็กต์ไว้ข้างใน แต่เก็บ<strong>การอ้างอิง (reference)</strong> ที่ชี้ไปหาออบเจ็กต์ เหมือนอาเรย์ในบทที่ 8</p>
+<p>field ที่ยังไม่กำหนดค่าได้<strong>ค่าเริ่มต้น</strong>อัตโนมัติ ต่างจากตัวแปร local ในเมธอดที่ต้องกำหนดค่าก่อนใช้</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.2.1</span>ค่าเริ่มต้นของ field</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DefaultFields.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DefaultFields</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ยังไม่ได้กำหนดค่า field ใด ๆ</span>
-        <span class="tok-type">Product</span> p = <span class="tok-kw">new</span> <span class="tok-type">Product</span>();
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"name = "</span> + p.name);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"price = "</span> + p.price);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"stock = "</span> + p.stock);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"onSale = "</span> + p.onSale);
+        <span class="tok-type">Product</span> p = <span class="tok-kw">new</span> <span class="tok-type">Product</span>();                    <span class="tok-com">// ยังไม่ได้กำหนด field ใดเลย</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"name = "</span> + p.name);       <span class="tok-com">// null</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"price = "</span> + p.price);     <span class="tok-com">// 0.0</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"stock = "</span> + p.stock);     <span class="tok-com">// 0</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"onSale = "</span> + p.onSale);   <span class="tok-com">// false</span>
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Product</span> {
-    <span class="tok-type">String</span> name;   <span class="tok-com">// String เริ่มต้นเป็น null</span>
-    <span class="tok-kw">double</span> price;  <span class="tok-com">// ตัวเลขเริ่มต้นเป็น 0</span>
+    <span class="tok-type">String</span> name;
+    <span class="tok-kw">double</span> price;
     <span class="tok-kw">int</span> stock;
-    <span class="tok-kw">boolean</span> onSale;  <span class="tok-com">// boolean เริ่มต้นเป็น false</span>
+    <span class="tok-kw">boolean</span> onSale;
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>name = null
 price = 0.0
 stock = 0
-onSale = false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>String → null</li><li>double → 0.0, int → 0</li><li>boolean → false</li><li>constructor ในหัวข้อถัดไปช่วยกำหนดค่าเริ่มต้นที่มีความหมาย</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.2.2</span>สองตัวแปรชี้ออบเจ็กต์เดียวกัน</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>b = a</code> คัดลอก<em>การอ้างอิง</em> ไม่ได้สร้างออบเจ็กต์ใหม่ แก้ผ่าน b ก็เห็นผ่าน a</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SharedReference.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SharedReference</span> {
+onSale = false</pre></div></div></div>
+<h4 class="sub">สองตัวแปรชี้ออบเจ็กต์เดียวกัน</h4>
+<p><code>b = a</code> คัดลอก<em>การอ้างอิง</em> ไม่ได้สร้างออบเจ็กต์ใหม่ แก้ผ่าน b ก็เห็นผ่าน a ด้วย ต้องใช้ <code>new</code> เท่านั้นจึงได้ออบเจ็กต์ใหม่</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.2.2</span>คัดลอกการอ้างอิง vs สร้างใหม่</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SharedReference.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SharedReference</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Product</span> a = <span class="tok-kw">new</span> <span class="tok-type">Product</span>();
         a.name = <span class="tok-str">"Pen"</span>;
         a.stock = <span class="tok-num">10</span>;
 
-        <span class="tok-type">Product</span> b = a;  <span class="tok-com">// ไม่ได้สร้างใหม่: b ชี้ออบเจ็กต์เดียวกับ a</span>
-        b.stock = <span class="tok-num">3</span>;    <span class="tok-com">// แก้ผ่าน b → a เห็นค่าใหม่ด้วย</span>
+        <span class="tok-type">Product</span> b = a;                                <span class="tok-com">// b ชี้ออบเจ็กต์เดียวกับ a</span>
+        b.stock = <span class="tok-num">3</span>;                                  <span class="tok-com">// แก้ผ่าน b</span>
 
-        <span class="tok-type">Product</span> c = <span class="tok-kw">new</span> <span class="tok-type">Product</span>();  <span class="tok-com">// new = ออบเจ็กต์ใหม่อีกตัว</span>
+        <span class="tok-type">Product</span> c = <span class="tok-kw">new</span> <span class="tok-type">Product</span>();                    <span class="tok-com">// ออบเจ็กต์ใหม่อีกตัว</span>
         c.name = <span class="tok-str">"Pen"</span>;
         c.stock = <span class="tok-num">3</span>;
 
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a.stock = "</span> + a.stock);
-        <span class="tok-com">// ชี้ตัวเดียวกัน</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == b ? "</span> + (a == b));
-        <span class="tok-com">// ค่าเหมือนกันแต่คนละออบเจ็กต์</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == c ? "</span> + (a == c));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a.stock = "</span> + a.stock);   <span class="tok-com">// 3   a เห็นค่าที่แก้ผ่าน b</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == b ? "</span> + (a == b));   <span class="tok-com">// true   ชี้ตัวเดียวกัน</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == c ? "</span> + (a == c));   <span class="tok-com">// false  ค่าเหมือนแต่คนละตัว</span>
     }
 }
 
@@ -180,27 +183,30 @@ onSale = false</pre></div></div><div class="walkthrough"><strong>อธิบา
     <span class="tok-kw">int</span> stock;
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>a.stock = 3
 a == b ? true
-a == c ? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>a และ b ชี้ออบเจ็กต์เดียว แก้ b.stock → a.stock เป็น 3 ด้วย</li><li>c เป็นออบเจ็กต์ใหม่แม้ค่าเหมือนกัน</li><li><code>==</code> เทียบว่าชี้ตัวเดียวกันหรือไม่ (เหมือน String ในบทที่ 9)</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.2.3</span>ส่งออบเจ็กต์ให้เมธอด</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดที่รับออบเจ็กต์ได้รับสำเนาของการอ้างอิง จึงแก้ field ของออบเจ็กต์ตัวจริงได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PassObject.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PassObject</span> {
+a == c ? false</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p><code>==</code> กับออบเจ็กต์เทียบว่า<strong>ชี้ตัวเดียวกัน</strong>หรือไม่ ไม่ได้เทียบค่าใน field เหมือนที่ต้องใช้ equals กับ String ในบทที่ 9</p></div>
+<h4 class="sub">ส่งออบเจ็กต์ให้เมธอด</h4>
+<p>เมธอดที่รับออบเจ็กต์ได้สำเนาของ<em>การอ้างอิง</em> จึงชี้ออบเจ็กต์ตัวจริงและแก้ field ได้ ต่างจากการส่ง int ในบทที่ 7 ที่แก้ค่าเดิมไม่ได้</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.2.3</span>เมธอดแก้ field ของออบเจ็กต์ตัวจริง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PassObject.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PassObject</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Product</span> p = <span class="tok-kw">new</span> <span class="tok-type">Product</span>();
         p.name = <span class="tok-str">"Notebook"</span>;
         p.price = <span class="tok-num">40</span>;
-        <span class="tok-fn">applyDiscount</span>(p, <span class="tok-num">25</span>);  <span class="tok-com">// ส่งการอ้างอิงของออบเจ็กต์เข้าไป</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(p.name + <span class="tok-str">" now costs "</span> + p.price);
+        <span class="tok-fn">applyDiscount</span>(p, <span class="tok-num">25</span>);                         <span class="tok-com">// item กับ p ชี้ตัวเดียวกัน</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(p.name + <span class="tok-str">" now costs "</span> + p.price);   <span class="tok-com">// 30.0</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">applyDiscount</span>(<span class="tok-type">Product</span> item, <span class="tok-kw">double</span> percent) {
-        <span class="tok-com">// แก้ field ของออบเจ็กต์ตัวจริง</span>
-        item.price = item.price * (<span class="tok-num">100</span> - percent) / <span class="tok-num">100</span>;
+        item.price = item.price * (<span class="tok-num">100</span> - percent) / <span class="tok-num">100</span>;   <span class="tok-com">// 40 × 75 / 100</span>
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Product</span> {
     <span class="tok-type">String</span> name;
     <span class="tok-kw">double</span> price;
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Notebook now costs 30.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main ส่ง p ไปยัง applyDiscount</li><li>item ชี้ออบเจ็กต์เดียวกับ p</li><li>แก้ item.price → p.price เปลี่ยนจริงเป็น 30.0</li><li>ต่างจากการส่ง int ในบทที่ 7 ซึ่งแก้ค่าเดิมไม่ได้</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 11.2.4</span>NullPointerException: ลืม new</h4><p class="concept-line"><strong>แนวคิด:</strong> ประกาศตัวแปรคลาสแล้วยังไม่สร้างออบเจ็กต์ ค่าเป็น null — เข้าถึง field หรือเมธอดไม่ได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForgotNew.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForgotNew</span> {
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Notebook now costs 30.0</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ลืม new → NullPointerException</span><p><code>new Product[2]</code> สร้างแค่อาเรย์ 2 ช่องที่เป็น <code>null</code> ยังไม่มี Product สักตัว ต้อง <code>new Product()</code> ใส่ทีละช่องก่อนใช้</p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: NullPointerException เมื่อลืม new</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 11.2.4</span>NullPointerException: ลืม new</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForgotNew.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForgotNew</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Product</span>[] shelf = <span class="tok-kw">new</span> <span class="tok-type">Product</span>[<span class="tok-num">2</span>];
         shelf[<span class="tok-num">0</span>] = <span class="tok-kw">new</span> <span class="tok-type">Product</span>();
@@ -214,7 +220,7 @@ a == c ? false</pre></div></div><div class="walkthrough"><strong>อธิบา
     <span class="tok-type">String</span> name;
 }</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>Pen
 Exception in thread "main" java.lang.NullPointerException: Cannot assign field "name" because "shelf[1]" is null
-	at ForgotNew.main(ForgotNew.java:7)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>new Product[2]</code> สร้างอาเรย์ 2 ช่องที่เป็น null — ยังไม่มี Product สักตัว</li><li>shelf[0] ถูก new แล้ว ใช้ได้</li><li>shelf[1] ยังเป็น null → NullPointerException</li></ol></div></div>
+	at ForgotNew.main(ForgotNew.java:7)</pre></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · reference</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">Product</span> x = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(); x.stock = <span class="tok-num">5</span>;
 <span class="tok-type">Product</span> y = x;
 y.stock += <span class="tok-num">2</span>;
@@ -223,22 +229,11 @@ x = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(); x.s
 </article>
 <article class="subtopic" id="topic-11-3">
 <h3>11.3 constructor และ this</h3>
-<p><strong>constructor</strong> คือเมธอดพิเศษที่ทำงานอัตโนมัติตอน <code>new</code> ใช้กำหนดค่าเริ่มต้นให้ field มีชื่อเดียวกับคลาส และ<strong>ไม่มีชนิดผลลัพธ์</strong> (ไม่มี void) คำว่า <code>this</code> หมายถึง “ออบเจ็กต์ตัวนี้” ใช้แยก field ออกจาก parameter ที่ชื่อเหมือนกัน</p>
-<div class="concept-box"><span class="box-title">รูปแบบ constructor</span><div class="code-block"><div class="code-head"><span class="code-file">Student.java</span></div><pre class="copyable"><code><span class="tok-kw">class</span> <span class="tok-type">Student</span> {
-    <span class="tok-type">String</span> name;
-    <span class="tok-kw">int</span> score;
-
-    <span class="tok-type">Student</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> score) {   <span class="tok-com">// ชื่อเดียวกับคลาส ไม่มี return type</span>
-        <span class="tok-kw">this</span>.name = name;               <span class="tok-com">// this.name = field, name = parameter</span>
-        <span class="tok-kw">this</span>.score = score;
-    }
-}
-
-<span class="tok-type">Student</span> s = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>);    <span class="tok-com">// argument ส่งไปยัง constructor</span></code></pre></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.3.1</span>constructor กำหนดค่าตั้งแต่สร้าง</h4><p class="concept-line"><strong>แนวคิด:</strong> สร้างและกำหนดค่าในบรรทัดเดียว ออบเจ็กต์ไม่มีช่วงที่ field เป็นค่าว่าง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConstructorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConstructorDemo</span> {
+<p>การกำหนด field ทีละบรรทัดหลัง new ยาวและลืมง่าย <strong>constructor</strong> คือเมธอดพิเศษที่ทำงานอัตโนมัติตอน <code>new</code> ใช้กำหนดค่าเริ่มต้นให้ field</p>
+<table class="comparison-table"><thead><tr><th>กฎของ constructor</th><th></th></tr></thead><tbody><tr><td>ชื่อ</td><td>เหมือนชื่อคลาสทุกตัวอักษร</td></tr><tr><td>ชนิดผลลัพธ์</td><td>ไม่มี (ไม่ใส่แม้แต่ void)</td></tr><tr><td>เรียกเมื่อไร</td><td>อัตโนมัติตอน <code>new</code> พร้อม argument ในวงเล็บ</td></tr><tr><td><code>this</code></td><td>หมายถึง “ออบเจ็กต์ตัวนี้” ใช้แยก field กับ parameter ที่ชื่อซ้ำกัน</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.3.1</span>constructor กำหนดค่าตั้งแต่สร้าง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConstructorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConstructorDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// constructor กำหนดค่าตอนสร้างเลย</span>
-        <span class="tok-type">Student</span> a = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>);
+        <span class="tok-type">Student</span> a = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>);     <span class="tok-com">// ส่ง argument ให้ constructor</span>
         <span class="tok-type">Student</span> b = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">72</span>);
         a.<span class="tok-fn">describe</span>();
         b.<span class="tok-fn">describe</span>();
@@ -249,10 +244,8 @@ x = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(); x.s
     <span class="tok-type">String</span> name;
     <span class="tok-kw">int</span> score;
 
-    <span class="tok-com">// constructor: ชื่อเดียวกับคลาส ไม่มีชนิดคืนค่า</span>
-    <span class="tok-type">Student</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> score) {
-        <span class="tok-com">// this.name = field, name = parameter</span>
-        <span class="tok-kw">this</span>.name = name;
+    <span class="tok-type">Student</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> score) {         <span class="tok-com">// ชื่อเดียวกับคลาส ไม่มีชนิดผลลัพธ์</span>
+        <span class="tok-kw">this</span>.name = name;                     <span class="tok-com">// this.name = field, name = parameter</span>
         <span class="tok-kw">this</span>.score = score;
     }
 
@@ -260,8 +253,9 @@ x = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(); x.s
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name + <span class="tok-str">" scored "</span> + score);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>JHope scored 85
-Suga scored 72</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>new Student("JHope", 85) เรียก constructor</li><li>this.name = name เก็บ parameter ลง field</li><li>describe ใช้ field ได้ทันที</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 11.3.2</span>ลืม this: field ไม่ถูกกำหนดค่า</h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าเขียน <code>name = name;</code> ทั้งสองฝั่งคือ parameter (ตัวที่ใกล้ที่สุด) field จึงยังเป็นค่าเริ่มต้น</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForgotThis.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForgotThis</span> {
+Suga scored 72</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ลืม this</span><p>ถ้าเขียน <code>name = name;</code> ทั้งสองฝั่งคือ parameter (ตัวที่ใกล้ที่สุดบัง field ที่ชื่อเดียวกัน) field จึงยังเป็น null และ 0 คอมไพล์ผ่านแต่ผลผิด</p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: ลืม this</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 11.3.2</span>ลืม this: field ไม่ถูกกำหนดค่า</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForgotThis.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForgotThis</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Student</span> s = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(s.name + <span class="tok-str">" "</span> + s.score);
@@ -273,17 +267,17 @@ Suga scored 72</pre></div></div><div class="walkthrough"><strong>อธิบา
     <span class="tok-kw">int</span> score;
 
     <span class="tok-type">Student</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> score) {
-        <span class="tok-com">// กำหนด parameter ให้ตัวเอง field ไม่เปลี่ยน</span>
         name = name;
         score = score;
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>null 0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>คอมไพล์ผ่าน แต่ได้ null 0</li><li>parameter <em>บัง</em> (shadow) field ที่ชื่อเดียวกัน</li><li>แก้: ใช้ this.name = name</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.3.3</span>หลาย constructor (overloading) และ this(...)</h4><p class="concept-line"><strong>แนวคิด:</strong> มีหลาย constructor ได้ตามจำนวน/ชนิด parameter ใช้ <code>this(...)</code> เรียก constructor อีกตัวเพื่อไม่เขียนโค้ดซ้ำ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OverloadedConstructors.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OverloadedConstructors</span> {
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>null 0</pre></div></div></div></div></details>
+<h4 class="sub">หลาย constructor และ this(...)</h4>
+<p>คลาสมี constructor หลายตัวได้ ถ้าจำนวนหรือชนิดของ parameter ต่างกัน (overloading) ตัวที่สั้นกว่าเรียกตัวหลักด้วย <code>this(...)</code> เพื่อไม่ต้องเขียนโค้ดซ้ำ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.3.3</span>สี่เหลี่ยมสร้างได้ 3 แบบ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OverloadedConstructors.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OverloadedConstructors</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// เลือก constructor ตามจำนวน argument</span>
-        <span class="tok-type">Rectangle</span> a = <span class="tok-kw">new</span> <span class="tok-type">Rectangle</span>(<span class="tok-num">4</span>, <span class="tok-num">3</span>);
-        <span class="tok-type">Rectangle</span> b = <span class="tok-kw">new</span> <span class="tok-type">Rectangle</span>(<span class="tok-num">5</span>);
-        <span class="tok-type">Rectangle</span> c = <span class="tok-kw">new</span> <span class="tok-type">Rectangle</span>();
+        <span class="tok-type">Rectangle</span> a = <span class="tok-kw">new</span> <span class="tok-type">Rectangle</span>(<span class="tok-num">4</span>, <span class="tok-num">3</span>);        <span class="tok-com">// ใช้ constructor 2 ค่า</span>
+        <span class="tok-type">Rectangle</span> b = <span class="tok-kw">new</span> <span class="tok-type">Rectangle</span>(<span class="tok-num">5</span>);           <span class="tok-com">// จัตุรัส 5 x 5</span>
+        <span class="tok-type">Rectangle</span> c = <span class="tok-kw">new</span> <span class="tok-type">Rectangle</span>();            <span class="tok-com">// ค่าเริ่มต้น 1 x 1</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(a.<span class="tok-fn">info</span>());
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(b.<span class="tok-fn">info</span>());
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(c.<span class="tok-fn">info</span>());
@@ -294,19 +288,17 @@ Suga scored 72</pre></div></div><div class="walkthrough"><strong>อธิบา
     <span class="tok-kw">double</span> width;
     <span class="tok-kw">double</span> height;
 
-    <span class="tok-com">// constructor หลัก</span>
-    <span class="tok-type">Rectangle</span>(<span class="tok-kw">double</span> width, <span class="tok-kw">double</span> height) {
+    <span class="tok-type">Rectangle</span>(<span class="tok-kw">double</span> width, <span class="tok-kw">double</span> height) {  <span class="tok-com">// constructor หลัก</span>
         <span class="tok-kw">this</span>.width = width;
         <span class="tok-kw">this</span>.height = height;
     }
 
-    <span class="tok-type">Rectangle</span>(<span class="tok-kw">double</span> side) {  <span class="tok-com">// สี่เหลี่ยมจัตุรัส</span>
-        <span class="tok-com">// this(...) เรียก constructor ตัวอื่น</span>
-        <span class="tok-kw">this</span>(side, side);
+    <span class="tok-type">Rectangle</span>(<span class="tok-kw">double</span> side) {
+        <span class="tok-kw">this</span>(side, side);                     <span class="tok-com">// เรียก constructor หลัก</span>
     }
 
     <span class="tok-type">Rectangle</span>() {
-        <span class="tok-kw">this</span>(<span class="tok-num">1</span>);  <span class="tok-com">// ค่าเริ่มต้น 1 x 1</span>
+        <span class="tok-kw">this</span>(<span class="tok-num">1</span>);                              <span class="tok-com">// → this(1, 1)</span>
     }
 
     <span class="tok-kw">double</span> <span class="tok-fn">area</span>() {
@@ -314,20 +306,19 @@ Suga scored 72</pre></div></div><div class="walkthrough"><strong>อธิบา
     }
 
     <span class="tok-type">String</span> <span class="tok-fn">info</span>() {
-        <span class="tok-com">// เรียกเมธอดอื่นในคลาสเดียวกันได้</span>
-        <span class="tok-kw">return</span> width + <span class="tok-str">" x "</span> + height + <span class="tok-str">" = "</span> + <span class="tok-fn">area</span>();
+        <span class="tok-kw">return</span> width + <span class="tok-str">" x "</span> + height + <span class="tok-str">" = "</span> + <span class="tok-fn">area</span>();   <span class="tok-com">// เรียกเมธอดในคลาสเดียวกันได้ตรง ๆ</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>4.0 x 3.0 = 12.0
 5.0 x 5.0 = 25.0
-1.0 x 1.0 = 1.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Rectangle(4, 3) ใช้ constructor หลัก</li><li>Rectangle(5) เรียก this(5, 5) → จัตุรัส</li><li>Rectangle() เรียก this(1) → this(1, 1)</li><li>info() เรียก area() ของออบเจ็กต์เดียวกันได้ตรง ๆ</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.3.4</span>toString: ให้ออบเจ็กต์อธิบายตัวเอง</h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าคลาสมีเมธอด <code>public String toString()</code> การพิมพ์ออบเจ็กต์ด้วย println หรือต่อกับ String จะเรียกเมธอดนี้อัตโนมัติ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ToStringDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ToStringDemo</span> {
+1.0 x 1.0 = 1.0</pre></div></div></div>
+<h4 class="sub">toString: ให้ออบเจ็กต์อธิบายตัวเอง</h4>
+<p>ถ้าคลาสมีเมธอด <code>public String toString()</code> การ println ออบเจ็กต์หรือต่อกับ String จะเรียกเมธอดนี้ให้อัตโนมัติ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.3.4</span>Point ที่พิมพ์ออกมาอ่านง่าย</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ToStringDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ToStringDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Point</span> p = <span class="tok-kw">new</span> <span class="tok-type">Point</span>(<span class="tok-num">3</span>, <span class="tok-num">4</span>);
         <span class="tok-type">Point</span> q = <span class="tok-kw">new</span> <span class="tok-type">Point</span>(-<span class="tok-num">1</span>, <span class="tok-num">2</span>);
-        <span class="tok-com">// println เรียก toString() ให้อัตโนมัติ</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(p);
-        <span class="tok-com">// ต่อข้อความก็เรียก toString() เช่นกัน</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"q is "</span> + q);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(p);                        <span class="tok-com">// เรียก p.toString() → (3, 4)</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"q is "</span> + q);              <span class="tok-com">// ต่อ String ก็เรียก toString()</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"distance = %.2f%n"</span>, p.<span class="tok-fn">distanceTo</span>(q));
     }
 }
@@ -341,34 +332,32 @@ Suga scored 72</pre></div></div><div class="walkthrough"><strong>อธิบา
         <span class="tok-kw">this</span>.y = y;
     }
 
-    <span class="tok-com">// รับออบเจ็กต์อีกตัวเป็น parameter</span>
-    <span class="tok-kw">double</span> <span class="tok-fn">distanceTo</span>(<span class="tok-type">Point</span> other) {
-        <span class="tok-com">// x ของตัวเอง - x ของ other</span>
-        <span class="tok-kw">int</span> dx = x - other.x;
-        <span class="tok-kw">int</span> dy = y - other.y;
-        <span class="tok-kw">return</span> <span class="tok-type">Math</span>.<span class="tok-fn">sqrt</span>(dx * dx + dy * dy);
+    <span class="tok-kw">double</span> <span class="tok-fn">distanceTo</span>(<span class="tok-type">Point</span> other) {              <span class="tok-com">// รับออบเจ็กต์ชนิดเดียวกัน</span>
+        <span class="tok-kw">int</span> dx = x - other.x;                     <span class="tok-com">// x ของตัวเอง − x ของ other = 4</span>
+        <span class="tok-kw">int</span> dy = y - other.y;                     <span class="tok-com">// 2</span>
+        <span class="tok-kw">return</span> <span class="tok-type">Math</span>.<span class="tok-fn">sqrt</span>(dx * dx + dy * dy);      <span class="tok-com">// √20</span>
     }
 
-    <span class="tok-ann">@Override</span>  <span class="tok-com">// เขียนทับเมธอด toString ของ Object</span>
+    <span class="tok-ann">@Override</span>                                     <span class="tok-com">// ตั้งใจเขียนทับ toString ที่มีอยู่แล้ว (บทที่ 12)</span>
     <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">toString</span>() {
         <span class="tok-kw">return</span> <span class="tok-str">"("</span> + x + <span class="tok-str">", "</span> + y + <span class="tok-str">")"</span>;
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>(3, 4)
 q is (-1, 2)
-distance = 4.47</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>println(p) เรียก p.toString() → (3, 4)</li><li>ต่อ String ก็เรียก toString อัตโนมัติ</li><li>distanceTo รับออบเจ็กต์ชนิดเดียวกัน เข้าถึง other.x ได้</li><li><code>@Override</code> บอก compiler ว่าตั้งใจเขียนทับเมธอด toString ที่มีอยู่แล้ว (บทที่ 12)</li></ol></div><p class="try-it">ลบเมธอด toString ออก แล้วดูว่า println(p) พิมพ์อะไร (เช่น Point@1b6d3586)</p></div>
+distance = 4.47</pre></div></div></div>
+<div class="callout try"><span class="box-title">ลองทำดู</span><p>ลบเมธอด toString ออก แล้วดูว่า <code>println(p)</code> พิมพ์อะไร (จะได้ประมาณ <code>Point@1b6d3586</code>)</p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · constructor</strong><div><p>ถ้าคลาสมีเฉพาะ constructor <code>Car(String model)</code> คำสั่ง <code>new Car()</code> จะคอมไพล์ผ่านหรือไม่</p></div><details><summary>ดูคำตอบ</summary><div><p><strong>ไม่ผ่าน</strong> — Java สร้าง constructor ไม่มี parameter ให้อัตโนมัติก็ต่อเมื่อคลาส<em>ไม่มี constructor เลย</em> เมื่อเราเขียนเองแล้ว ต้องเขียน Car() เพิ่มเองถ้าต้องการ</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-11-4">
 <h3>11.4 หลาย object หลาย state</h3>
-<p>ออบเจ็กต์แต่ละตัวมี field ของตัวเอง การเรียกเมธอดบนออบเจ็กต์หนึ่งเปลี่ยนเฉพาะ state ของตัวนั้น ส่วน field ที่ประกาศเป็น <code>static</code> เป็นของ<strong>คลาส</strong> ใช้ร่วมกันทุกออบเจ็กต์ (เช่น ตัวนับจำนวนออบเจ็กต์ที่ถูกสร้าง)</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.1</span>บัญชีธนาคารสองบัญชี</h4><p class="concept-line"><strong>แนวคิด:</strong> deposit/withdraw บนบัญชีหนึ่งไม่กระทบอีกบัญชี เพราะ balance เป็นของแต่ละออบเจ็กต์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TwoAccounts.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TwoAccounts</span> {
+<p>ค่าของ field ทั้งหมดในออบเจ็กต์ ณ ขณะหนึ่งเรียกว่า <strong>state</strong> ออบเจ็กต์แต่ละตัวมี state ของตัวเอง เรียกเมธอดบนตัวหนึ่งจะเปลี่ยนเฉพาะตัวนั้น</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.1</span>บัญชีธนาคารสองบัญชี</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TwoAccounts.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TwoAccounts</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ออบเจ็กต์ 2 ตัว ข้อมูลแยกกัน</span>
         <span class="tok-type">BankAccount</span> jhope = <span class="tok-kw">new</span> <span class="tok-type">BankAccount</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">1000</span>);
         <span class="tok-type">BankAccount</span> suga = <span class="tok-kw">new</span> <span class="tok-type">BankAccount</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">500</span>);
-        jhope.<span class="tok-fn">deposit</span>(<span class="tok-num">250</span>);
-        suga.<span class="tok-fn">withdraw</span>(<span class="tok-num">200</span>);
-        suga.<span class="tok-fn">withdraw</span>(<span class="tok-num">1000</span>);  <span class="tok-com">// ถอนเกินยอด</span>
+        jhope.<span class="tok-fn">deposit</span>(<span class="tok-num">250</span>);                       <span class="tok-com">// jhope: 1250</span>
+        suga.<span class="tok-fn">withdraw</span>(<span class="tok-num">200</span>);                       <span class="tok-com">// suga: 300   jhope ไม่เปลี่ยน</span>
+        suga.<span class="tok-fn">withdraw</span>(<span class="tok-num">1000</span>);                      <span class="tok-com">// เกินยอด → ปฏิเสธ</span>
         jhope.<span class="tok-fn">printBalance</span>();
         suga.<span class="tok-fn">printBalance</span>();
     }
@@ -378,7 +367,6 @@ distance = 4.47</pre></div></div><div class="walkthrough"><strong>อธิบ�
     <span class="tok-type">String</span> owner;
     <span class="tok-kw">double</span> balance;
 
-    <span class="tok-com">// กำหนดเจ้าของและยอดเริ่มต้น</span>
     <span class="tok-type">BankAccount</span>(<span class="tok-type">String</span> owner, <span class="tok-kw">double</span> balance) {
         <span class="tok-kw">this</span>.owner = owner;
         <span class="tok-kw">this</span>.balance = balance;
@@ -389,7 +377,7 @@ distance = 4.47</pre></div></div><div class="walkthrough"><strong>อธิบ�
     }
 
     <span class="tok-kw">void</span> <span class="tok-fn">withdraw</span>(<span class="tok-kw">double</span> amount) {
-        <span class="tok-kw">if</span> (amount &gt; balance) {  <span class="tok-com">// ตรวจยอดเงินก่อนถอน</span>
+        <span class="tok-kw">if</span> (amount &gt; balance) {                   <span class="tok-com">// กฎอยู่ในคลาส main ไม่ต้องตรวจเอง</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(owner + <span class="tok-str">": insufficient funds for "</span> + amount);
         } <span class="tok-kw">else</span> {
             balance -= amount;
@@ -401,26 +389,26 @@ distance = 4.47</pre></div></div><div class="walkthrough"><strong>อธิบ�
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Suga: insufficient funds for 1000.0
 JHope: 1250.00
-Suga: 300.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>jhope ฝาก 250 → 1250</li><li>suga ถอน 200 → 300</li><li>suga ถอน 1000 เกินยอด → ปฏิเสธ (กฎอยู่ในคลาส ไม่ต้องเขียนซ้ำใน main)</li><li>ยอดของแต่ละคนแยกกัน</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.2</span>อาเรย์ของออบเจ็กต์</h4><p class="concept-line"><strong>แนวคิด:</strong> แทนอาเรย์คู่ขนานหลายชุด ใช้อาเรย์ของออบเจ็กต์ชุดเดียว — ข้อมูลของแต่ละคนอยู่ด้วยกันเสมอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StudentArray.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StudentArray</span> {
+Suga: 300.00</pre></div></div></div>
+<h4 class="sub">อาเรย์ของออบเจ็กต์</h4>
+<p>แทนอาเรย์คู่ขนานหลายชุด (ชื่อชุดหนึ่ง คะแนนอีกชุด) ใช้อาเรย์ของออบเจ็กต์ชุดเดียว ข้อมูลของแต่ละคนอยู่ด้วยกันเสมอ ไม่ต้องระวังให้ index ตรงกัน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.2</span>หาคนคะแนนสูงสุดและนับคนผ่าน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StudentArray.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StudentArray</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">Student</span>[] list = {  <span class="tok-com">// อาเรย์ของออบเจ็กต์</span>
+        <span class="tok-type">Student</span>[] list = {                        <span class="tok-com">// อาเรย์ 4 ช่อง แต่ละช่องชี้ Student หนึ่งคน</span>
             <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>),
             <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">62</span>),
             <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"RM"</span>, <span class="tok-num">91</span>),
             <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Jungkook"</span>, <span class="tok-num">48</span>)
         };
-        <span class="tok-type">Student</span> best = list[<span class="tok-num">0</span>];  <span class="tok-com">// เริ่มจากคนแรก</span>
+        <span class="tok-type">Student</span> best = list[<span class="tok-num">0</span>];                   <span class="tok-com">// เริ่มจากคนแรก</span>
         <span class="tok-kw">int</span> passed = <span class="tok-num">0</span>;
-        <span class="tok-kw">for</span> (<span class="tok-type">Student</span> s : list) {  <span class="tok-com">// for-each กับอาเรย์ออบเจ็กต์</span>
-            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(s);
-            <span class="tok-com">// คะแนนสูงกว่า → จำคนนี้</span>
-            <span class="tok-kw">if</span> (s.score &gt; best.score) best = s;
-            <span class="tok-com">// เรียกเมธอดของแต่ละคน</span>
+        <span class="tok-kw">for</span> (<span class="tok-type">Student</span> s : list) {                  <span class="tok-com">// s = ทีละคน</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(s);                <span class="tok-com">// เรียก toString()</span>
+            <span class="tok-kw">if</span> (s.score &gt; best.score) best = s;   <span class="tok-com">// จำคนที่คะแนนสูงกว่า</span>
             <span class="tok-kw">if</span> (s.<span class="tok-fn">isPassed</span>()) passed++;
         }
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Top: "</span> + best.name);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Passed: "</span> + passed + <span class="tok-str">"/"</span> + list.length);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Top: "</span> + best.name);  <span class="tok-com">// RM</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Passed: "</span> + passed + <span class="tok-str">"/"</span> + list.length);   <span class="tok-com">// 3/4</span>
     }
 }
 
@@ -437,7 +425,7 @@ Suga: 300.00</pre></div></div><div class="walkthrough"><strong>อธิบา�
         <span class="tok-kw">return</span> score &gt;= <span class="tok-num">50</span>;
     }
 
-    <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">toString</span>() {  <span class="tok-com">// กำหนดรูปแบบตอนแสดงผล</span>
+    <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">toString</span>() {
         <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%-8s %3d %s"</span>, name, score, <span class="tok-fn">isPassed</span>() ? <span class="tok-str">"PASS"</span> : <span class="tok-str">"FAIL"</span>);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>JHope     85 PASS
@@ -445,29 +433,29 @@ Suga      62 PASS
 RM        91 PASS
 Jungkook  48 FAIL
 Top: RM
-Passed: 3/4</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สร้าง 4 ออบเจ็กต์ในอาเรย์ด้วย initializer</li><li>for-each ได้ทีละออบเจ็กต์ println เรียก toString</li><li>best เก็บการอ้างอิงไปยังนักศึกษาที่คะแนนสูงสุด</li><li>isPassed เป็นกฎของคลาส ใช้ซ้ำได้ทั้งใน toString และ main</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.3</span>static field: ข้อมูลที่ใช้ร่วมกันทั้งคลาส</h4><p class="concept-line"><strong>แนวคิด:</strong> field ที่เป็น static มีชุดเดียวสำหรับทั้งคลาส ใช้สร้างรหัสอัตโนมัติหรือนับจำนวนออบเจ็กต์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StaticCounter.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StaticCounter</span> {
+Passed: 3/4</pre></div></div></div>
+<h4 class="sub">static field: ข้อมูลของทั้งคลาส</h4>
+<p>field ที่ใส่ <code>static</code> มี<strong>ชุดเดียว</strong>สำหรับทั้งคลาส ทุกออบเจ็กต์ใช้ร่วมกัน เรียกผ่านชื่อคลาส เช่น <code>Ticket.issued</code> เหมาะกับตัวนับหรือการออกเลขอัตโนมัติ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.3</span>ออกเลขตั๋วอัตโนมัติ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StaticCounter.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StaticCounter</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Ticket</span> t1 = <span class="tok-kw">new</span> <span class="tok-type">Ticket</span>(<span class="tok-str">"Concert"</span>);
         <span class="tok-type">Ticket</span> t2 = <span class="tok-kw">new</span> <span class="tok-type">Ticket</span>(<span class="tok-str">"Concert"</span>);
         <span class="tok-type">Ticket</span> t3 = <span class="tok-kw">new</span> <span class="tok-type">Ticket</span>(<span class="tok-str">"Movie"</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(t1);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(t1);                                   <span class="tok-com">// Ticket #1 for Concert</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(t2);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(t3);
-        <span class="tok-com">// ตัวแปร static เรียกผ่านชื่อคลาส</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Tickets issued: "</span> + <span class="tok-type">Ticket</span>.issued);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Tickets issued: "</span> + <span class="tok-type">Ticket</span>.issued);   <span class="tok-com">// 3</span>
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Ticket</span> {
-    <span class="tok-com">// static: ทุกออบเจ็กต์ใช้ร่วมกันตัวเดียว</span>
-    <span class="tok-kw">static</span> <span class="tok-kw">int</span> issued = <span class="tok-num">0</span>;
-    <span class="tok-kw">int</span> number;  <span class="tok-com">// ของแต่ละออบเจ็กต์</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">int</span> issued = <span class="tok-num">0</span>;                    <span class="tok-com">// ของคลาส: มีตัวเดียว ใช้ร่วมกัน</span>
+    <span class="tok-kw">int</span> number;                               <span class="tok-com">// ของแต่ละใบ</span>
     <span class="tok-type">String</span> event;
 
     <span class="tok-type">Ticket</span>(<span class="tok-type">String</span> event) {
-        issued++;              <span class="tok-com">// นับเพิ่มทุกครั้งที่สร้างตั๋ว</span>
-        <span class="tok-kw">this</span>.number = issued;  <span class="tok-com">// เลขตั๋วคือจำนวนที่ออกไปแล้ว</span>
+        issued++;                             <span class="tok-com">// นับเพิ่มทุกครั้งที่ new</span>
+        <span class="tok-kw">this</span>.number = issued;                 <span class="tok-com">// ใช้เป็นเลขของใบนี้</span>
         <span class="tok-kw">this</span>.event = event;
     }
 
@@ -477,7 +465,7 @@ Passed: 3/4</pre></div></div><div class="walkthrough"><strong>อธิบาย
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Ticket #1 for Concert
 Ticket #2 for Concert
 Ticket #3 for Movie
-Tickets issued: 3</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>issued เป็น static: มีตัวเดียว ทุก Ticket เห็นค่าเดียวกัน</li><li>ทุกครั้งที่ new → issued เพิ่ม แล้วใช้เป็นหมายเลขของตั๋วใบนั้น</li><li>number เป็น field ปกติ แต่ละใบมีค่าของตัวเอง</li><li>เรียก static field ผ่านชื่อคลาส <code>Ticket.issued</code></li></ol></div></div>
+Tickets issued: 3</pre></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · state</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Counter.java</span></div><pre class="copyable"><code><span class="tok-type">Counter</span> a = <span class="tok-kw">new</span> <span class="tok-type">Counter</span>();   <span class="tok-com">// class Counter { int n; void inc() { n++; } }</span>
 <span class="tok-type">Counter</span> b = <span class="tok-kw">new</span> <span class="tok-type">Counter</span>();
 a.<span class="tok-fn">inc</span>(); a.<span class="tok-fn">inc</span>(); b.<span class="tok-fn">inc</span>();

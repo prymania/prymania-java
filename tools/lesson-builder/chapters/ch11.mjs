@@ -17,6 +17,12 @@ export default {
     {
       num: "11.1", toc: "class เป็นพิมพ์เขียว", title: "class เป็นพิมพ์เขียว",
       blocks: [
+        { type: "p", html: `<strong>class</strong> เป็นพิมพ์เขียวที่บอกว่าของชนิดหนึ่งมีข้อมูลอะไร (<strong>field</strong>) และทำอะไรได้ (<strong>method</strong>) ส่วน <strong>object</strong> คือของจริงที่สร้างจากพิมพ์เขียวนั้น สร้างได้หลายตัว แต่ละตัวมีค่า field ของตัวเอง` },
+        { type: "table", head: ["คลาส (พิมพ์เขียว)", "field (มีอะไร)", "method (ทำอะไร)", "object (ของจริง)"], rows: [
+          ["<code>Book</code>", "title, author, pages", "describe(), isThick()", "หนังสือ “Java Basics” 320 หน้า"],
+          ["<code>BankAccount</code>", "owner, balance", "deposit(), withdraw()", "บัญชีของ JHope ยอด 1000"],
+          ["<code>Student</code>", "name, score", "isPassed()", "Suga คะแนน 72"],
+        ] },
         { type: "concept", title: "โครงสร้างของคลาส", html: jpre(`
           class Student {               // ชื่อคลาส: PascalCase
               String name;              // field (ข้อมูล)
@@ -25,38 +31,39 @@ export default {
               void describe() {         // method (พฤติกรรม) — ไม่มี static
                   System.out.println(name + ": " + score);
               }
-          }`) + `<p>เมธอดในคลาสไม่ใส่ <code>static</code> เพราะเป็นของ<strong>แต่ละออบเจ็กต์</strong> และใช้ field ของออบเจ็กต์ที่ถูกเรียกได้โดยตรง ในตัวอย่างบทนี้วางคลาสหลายคลาสไว้ในไฟล์เดียว (มีเพียงคลาสที่มี main เป็น public) — ในโปรเจกต์จริงนิยมแยกคลาสละไฟล์</p>` },
-        { type: "run", title: "คลาสแรก: Book", level: "พื้นฐาน",
-          concept: "ประกาศคลาส Book มี field 3 ตัว แล้วสร้างออบเจ็กต์ใน main กำหนดค่า field และพิมพ์ออกมา",
+          }`) },
+        { type: "p", html: `ตัวอย่างในบทนี้วางหลายคลาสไว้ในไฟล์เดียว คลาสที่มี main เป็น <code>public</code> และคลาสอื่นไม่ใส่ public ส่วนในโปรเจกต์จริงนิยมแยกไฟล์ละคลาส` },
+        { type: "run", title: "คลาสแรก: Book",
           code: j`
             public class BookDemo {
                 public static void main(String[] args) {
-                    // new สร้างออบเจ็กต์จากคลาส Book
-                    Book b = new Book();
-                    b.title = "Java Basics";  // กำหนดค่า field ผ่านจุด (.)
+                    Book b = new Book();                  // สร้างออบเจ็กต์จากคลาส Book
+                    b.title = "Java Basics";              // เข้าถึง field ด้วยจุด (.)
                     b.author = "JHope";
                     b.pages = 320;
                     System.out.println(b.title + " by " + b.author + ", " + b.pages + " pages");
                 }
             }
 
-            class Book {       // คลาส = แม่แบบของออบเจ็กต์
-                String title;  // field: ข้อมูลที่ทุก Book มี
+            class Book {                                  // พิมพ์เขียว: ทุก Book มี 3 field นี้
+                String title;
                 String author;
                 int pages;
             }`,
-          steps: ["<code>class Book</code> บอกว่าหนังสือมี title, author, pages", "<code>new Book()</code> สร้างออบเจ็กต์ใหม่ในหน่วยความจำ", "<code>b.title = ...</code> ใช้จุด (.) เข้าถึง field ของออบเจ็กต์ b"] },
-        { type: "run", title: "เพิ่มพฤติกรรมด้วย method", level: "ต่อยอด",
-          concept: "เมธอดในคลาสใช้ field ได้ทันทีโดยไม่ต้องส่งเป็น parameter เพราะรู้อยู่แล้วว่าเป็นของออบเจ็กต์ไหน",
+          },
+
+        { type: "h", text: "เพิ่มพฤติกรรมด้วย method" },
+        { type: "p", html: `เมธอดในคลาส<strong>ไม่มี static</strong> เพราะเป็นของแต่ละออบเจ็กต์ และใช้ field ของออบเจ็กต์ที่ถูกเรียกได้ทันที ไม่ต้องส่งเป็น parameter` },
+        { type: "run", title: "เมธอดใช้ field ของตัวเอง",
           code: j`
             public class BookMethods {
                 public static void main(String[] args) {
                     Book b = new Book();
                     b.title = "Java Basics";
                     b.pages = 320;
-                    b.describe();  // เรียกเมธอดของออบเจ็กต์ b
-                    System.out.println("Reading time: " + b.readingHours(40) + " hours");
-                    System.out.println("Thick book? " + b.isThick());
+                    b.describe();                                                    // Book: Java Basics (320 pages)
+                    System.out.println("Reading time: " + b.readingHours(40) + " hours");  // 320 / 40 = 8.0
+                    System.out.println("Thick book? " + b.isThick());                // true
                 }
             }
 
@@ -64,13 +71,11 @@ export default {
                 String title;
                 int pages;
 
-                // เมธอดใช้ field ของออบเจ็กต์ตัวเองได้ตรง ๆ
-                void describe() {
+                void describe() {                         // ใช้ title และ pages ของ b
                     System.out.println("Book: " + title + " (" + pages + " pages)");
                 }
 
-                // รับ parameter และคืนค่าได้เหมือนเมธอด static
-                double readingHours(int pagesPerHour) {
+                double readingHours(int pagesPerHour) {   // รับ parameter และคืนค่าได้ตามปกติ
                     return (double) pages / pagesPerHour;
                 }
 
@@ -78,54 +83,57 @@ export default {
                     return pages > 300;
                 }
             }`,
-          steps: ["<code>b.describe()</code> — เรียกเมธอดของออบเจ็กต์ b ข้างในใช้ title และ pages ของ b", "readingHours รับ parameter เพิ่มได้ตามปกติ และคืนค่า", "isThick คืน boolean จากข้อมูลของตัวเอง"] },
-        { type: "run", label: "ทดลอง error 11.1.3", title: "เรียก instance method จาก static context", level: "ประยุกต์", expect: "compile-error",
-          concept: "เมธอดที่ไม่มี static ต้องเรียกผ่านออบเจ็กต์ เรียกจากชื่อคลาสตรง ๆ ไม่ได้ เพราะไม่รู้ว่าจะใช้ field ของออบเจ็กต์ไหน",
-          code: j`
-            public class StaticContext {
-                public static void main(String[] args) {
-                    Counter.increase();
-                }
-            }
+          },
+        { type: "warn", title: "เรียกเมธอดที่ไม่มี static ผ่านชื่อคลาส", html: `<code>Counter.increase()</code> คอมไพล์ไม่ผ่าน (<code>non-static method … cannot be referenced from a static context</code>) เพราะไม่รู้ว่าจะใช้ field ของออบเจ็กต์ไหน ต้องสร้างออบเจ็กต์ก่อน: <code>Counter c = new Counter(); c.increase();</code>` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อเรียกผ่านชื่อคลาส", blocks: [
+          { type: "run", label: "ทดลอง error 11.1.3", title: "เรียก instance method จาก static context", expect: "compile-error",
+            code: j`
+              public class StaticContext {
+                  public static void main(String[] args) {
+                      Counter.increase();
+                  }
+              }
 
-            class Counter {
-                int value;
+              class Counter {
+                  int value;
 
-                void increase() {
-                    value++;
-                }
-            }`,
-          steps: ["<code>non-static method increase() cannot be referenced from a static context</code>", "แก้: สร้างออบเจ็กต์ก่อน <code>Counter c = new Counter(); c.increase();</code>"] },
+                  void increase() {
+                      value++;
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "class vs object", html: `<p>ในประโยค “แมวชื่อส้มของฉัน อายุ 3 ปี” อะไรคือ class อะไรคือ object และอะไรคือ field</p>`, answer: `<p>class = <strong>Cat</strong> (แมวทั่วไป), object = <strong>แมวตัวที่ชื่อส้ม</strong>, field = <strong>name ("ส้ม") และ age (3)</strong></p>` },
       ],
     },
     {
       num: "11.2", toc: "สร้าง object ด้วย new", title: "สร้าง object ด้วย new และตัวแปรอ้างอิง",
       blocks: [
-        { type: "p", html: `ตัวแปรชนิดคลาส (เช่น <code>Book b</code>) ไม่ได้เก็บออบเจ็กต์ไว้ข้างใน แต่เก็บ<strong>การอ้างอิง (reference)</strong> ที่ชี้ไปยังออบเจ็กต์ในหน่วยความจำ — เหมือนอาเรย์ในบทที่ 8 field ที่ยังไม่กำหนดค่าจะได้ค่าเริ่มต้น (0, 0.0, false, null)` },
-        { type: "run", title: "ค่าเริ่มต้นของ field", level: "พื้นฐาน",
-          concept: "ต่างจากตัวแปร local ใน main ซึ่งต้องกำหนดค่าก่อนใช้ field ได้ค่าเริ่มต้นอัตโนมัติ",
+        { type: "p", html: `<code>new Product()</code> สร้างออบเจ็กต์ในหน่วยความจำ ตัวแปร <code>Product p</code> ไม่ได้เก็บออบเจ็กต์ไว้ข้างใน แต่เก็บ<strong>การอ้างอิง (reference)</strong> ที่ชี้ไปหาออบเจ็กต์ เหมือนอาเรย์ในบทที่ 8` },
+        { type: "p", html: `field ที่ยังไม่กำหนดค่าได้<strong>ค่าเริ่มต้น</strong>อัตโนมัติ ต่างจากตัวแปร local ในเมธอดที่ต้องกำหนดค่าก่อนใช้` },
+        { type: "run", title: "ค่าเริ่มต้นของ field",
           code: j`
             public class DefaultFields {
                 public static void main(String[] args) {
-                    // ยังไม่ได้กำหนดค่า field ใด ๆ
-                    Product p = new Product();
-                    System.out.println("name = " + p.name);
-                    System.out.println("price = " + p.price);
-                    System.out.println("stock = " + p.stock);
-                    System.out.println("onSale = " + p.onSale);
+                    Product p = new Product();                    // ยังไม่ได้กำหนด field ใดเลย
+                    System.out.println("name = " + p.name);       // null
+                    System.out.println("price = " + p.price);     // 0.0
+                    System.out.println("stock = " + p.stock);     // 0
+                    System.out.println("onSale = " + p.onSale);   // false
                 }
             }
 
             class Product {
-                String name;   // String เริ่มต้นเป็น null
-                double price;  // ตัวเลขเริ่มต้นเป็น 0
+                String name;
+                double price;
                 int stock;
-                boolean onSale;  // boolean เริ่มต้นเป็น false
+                boolean onSale;
             }`,
-          steps: ["String → null", "double → 0.0, int → 0", "boolean → false", "constructor ในหัวข้อถัดไปช่วยกำหนดค่าเริ่มต้นที่มีความหมาย"] },
-        { type: "run", title: "สองตัวแปรชี้ออบเจ็กต์เดียวกัน", level: "ต่อยอด",
-          concept: "<code>b = a</code> คัดลอก<em>การอ้างอิง</em> ไม่ได้สร้างออบเจ็กต์ใหม่ แก้ผ่าน b ก็เห็นผ่าน a",
+          },
+
+        { type: "h", text: "สองตัวแปรชี้ออบเจ็กต์เดียวกัน" },
+        { type: "p", html: `<code>b = a</code> คัดลอก<em>การอ้างอิง</em> ไม่ได้สร้างออบเจ็กต์ใหม่ แก้ผ่าน b ก็เห็นผ่าน a ด้วย ต้องใช้ <code>new</code> เท่านั้นจึงได้ออบเจ็กต์ใหม่` },
+        { type: "run", title: "คัดลอกการอ้างอิง vs สร้างใหม่",
           code: j`
             public class SharedReference {
                 public static void main(String[] args) {
@@ -133,18 +141,16 @@ export default {
                     a.name = "Pen";
                     a.stock = 10;
 
-                    Product b = a;  // ไม่ได้สร้างใหม่: b ชี้ออบเจ็กต์เดียวกับ a
-                    b.stock = 3;    // แก้ผ่าน b → a เห็นค่าใหม่ด้วย
+                    Product b = a;                                // b ชี้ออบเจ็กต์เดียวกับ a
+                    b.stock = 3;                                  // แก้ผ่าน b
 
-                    Product c = new Product();  // new = ออบเจ็กต์ใหม่อีกตัว
+                    Product c = new Product();                    // ออบเจ็กต์ใหม่อีกตัว
                     c.name = "Pen";
                     c.stock = 3;
 
-                    System.out.println("a.stock = " + a.stock);
-                    // ชี้ตัวเดียวกัน
-                    System.out.println("a == b ? " + (a == b));
-                    // ค่าเหมือนกันแต่คนละออบเจ็กต์
-                    System.out.println("a == c ? " + (a == c));
+                    System.out.println("a.stock = " + a.stock);   // 3   a เห็นค่าที่แก้ผ่าน b
+                    System.out.println("a == b ? " + (a == b));   // true   ชี้ตัวเดียวกัน
+                    System.out.println("a == c ? " + (a == c));   // false  ค่าเหมือนแต่คนละตัว
                 }
             }
 
@@ -152,22 +158,24 @@ export default {
                 String name;
                 int stock;
             }`,
-          steps: ["a และ b ชี้ออบเจ็กต์เดียว แก้ b.stock → a.stock เป็น 3 ด้วย", "c เป็นออบเจ็กต์ใหม่แม้ค่าเหมือนกัน", "<code>==</code> เทียบว่าชี้ตัวเดียวกันหรือไม่ (เหมือน String ในบทที่ 9)"] },
-        { type: "run", title: "ส่งออบเจ็กต์ให้เมธอด", level: "ประยุกต์",
-          concept: "เมธอดที่รับออบเจ็กต์ได้รับสำเนาของการอ้างอิง จึงแก้ field ของออบเจ็กต์ตัวจริงได้",
+          },
+        { type: "tip", html: `<code>==</code> กับออบเจ็กต์เทียบว่า<strong>ชี้ตัวเดียวกัน</strong>หรือไม่ ไม่ได้เทียบค่าใน field เหมือนที่ต้องใช้ equals กับ String ในบทที่ 9` },
+
+        { type: "h", text: "ส่งออบเจ็กต์ให้เมธอด" },
+        { type: "p", html: `เมธอดที่รับออบเจ็กต์ได้สำเนาของ<em>การอ้างอิง</em> จึงชี้ออบเจ็กต์ตัวจริงและแก้ field ได้ ต่างจากการส่ง int ในบทที่ 7 ที่แก้ค่าเดิมไม่ได้` },
+        { type: "run", title: "เมธอดแก้ field ของออบเจ็กต์ตัวจริง",
           code: j`
             public class PassObject {
                 public static void main(String[] args) {
                     Product p = new Product();
                     p.name = "Notebook";
                     p.price = 40;
-                    applyDiscount(p, 25);  // ส่งการอ้างอิงของออบเจ็กต์เข้าไป
-                    System.out.println(p.name + " now costs " + p.price);
+                    applyDiscount(p, 25);                         // item กับ p ชี้ตัวเดียวกัน
+                    System.out.println(p.name + " now costs " + p.price);   // 30.0
                 }
 
                 static void applyDiscount(Product item, double percent) {
-                    // แก้ field ของออบเจ็กต์ตัวจริง
-                    item.price = item.price * (100 - percent) / 100;
+                    item.price = item.price * (100 - percent) / 100;   // 40 × 75 / 100
                 }
             }
 
@@ -175,24 +183,26 @@ export default {
                 String name;
                 double price;
             }`,
-          steps: ["main ส่ง p ไปยัง applyDiscount", "item ชี้ออบเจ็กต์เดียวกับ p", "แก้ item.price → p.price เปลี่ยนจริงเป็น 30.0", "ต่างจากการส่ง int ในบทที่ 7 ซึ่งแก้ค่าเดิมไม่ได้"] },
-        { type: "run", label: "ทดลอง error 11.2.4", title: "NullPointerException: ลืม new", level: "ประยุกต์", expect: "runtime-error",
-          concept: "ประกาศตัวแปรคลาสแล้วยังไม่สร้างออบเจ็กต์ ค่าเป็น null — เข้าถึง field หรือเมธอดไม่ได้",
-          code: j`
-            public class ForgotNew {
-                public static void main(String[] args) {
-                    Product[] shelf = new Product[2];
-                    shelf[0] = new Product();
-                    shelf[0].name = "Pen";
-                    System.out.println(shelf[0].name);
-                    shelf[1].name = "Ruler";
-                }
-            }
+          },
+        { type: "warn", title: "ลืม new → NullPointerException", html: `<code>new Product[2]</code> สร้างแค่อาเรย์ 2 ช่องที่เป็น <code>null</code> ยังไม่มี Product สักตัว ต้อง <code>new Product()</code> ใส่ทีละช่องก่อนใช้` },
+        { type: "more", title: "ดูตัวอย่าง: NullPointerException เมื่อลืม new", blocks: [
+          { type: "run", label: "ทดลอง error 11.2.4", title: "NullPointerException: ลืม new", expect: "runtime-error",
+            code: j`
+              public class ForgotNew {
+                  public static void main(String[] args) {
+                      Product[] shelf = new Product[2];
+                      shelf[0] = new Product();
+                      shelf[0].name = "Pen";
+                      System.out.println(shelf[0].name);
+                      shelf[1].name = "Ruler";
+                  }
+              }
 
-            class Product {
-                String name;
-            }`,
-          steps: ["<code>new Product[2]</code> สร้างอาเรย์ 2 ช่องที่เป็น null — ยังไม่มี Product สักตัว", "shelf[0] ถูก new แล้ว ใช้ได้", "shelf[1] ยังเป็น null → NullPointerException"] },
+              class Product {
+                  String name;
+              }`,
+            },
+        ] },
         { type: "check", title: "reference", html: jpre(`
           Product x = new Product(); x.stock = 5;
           Product y = x;
@@ -204,26 +214,18 @@ export default {
     {
       num: "11.3", toc: "constructor และ this", title: "constructor และ this",
       blocks: [
-        { type: "p", html: `<strong>constructor</strong> คือเมธอดพิเศษที่ทำงานอัตโนมัติตอน <code>new</code> ใช้กำหนดค่าเริ่มต้นให้ field มีชื่อเดียวกับคลาส และ<strong>ไม่มีชนิดผลลัพธ์</strong> (ไม่มี void) คำว่า <code>this</code> หมายถึง “ออบเจ็กต์ตัวนี้” ใช้แยก field ออกจาก parameter ที่ชื่อเหมือนกัน` },
-        { type: "concept", title: "รูปแบบ constructor", html: jpre(`
-          class Student {
-              String name;
-              int score;
-
-              Student(String name, int score) {   // ชื่อเดียวกับคลาส ไม่มี return type
-                  this.name = name;               // this.name = field, name = parameter
-                  this.score = score;
-              }
-          }
-
-          Student s = new Student("JHope", 85);    // argument ส่งไปยัง constructor`) },
-        { type: "run", title: "constructor กำหนดค่าตั้งแต่สร้าง", level: "พื้นฐาน",
-          concept: "สร้างและกำหนดค่าในบรรทัดเดียว ออบเจ็กต์ไม่มีช่วงที่ field เป็นค่าว่าง",
+        { type: "p", html: `การกำหนด field ทีละบรรทัดหลัง new ยาวและลืมง่าย <strong>constructor</strong> คือเมธอดพิเศษที่ทำงานอัตโนมัติตอน <code>new</code> ใช้กำหนดค่าเริ่มต้นให้ field` },
+        { type: "table", head: ["กฎของ constructor", ""], rows: [
+          ["ชื่อ", "เหมือนชื่อคลาสทุกตัวอักษร"],
+          ["ชนิดผลลัพธ์", "ไม่มี (ไม่ใส่แม้แต่ void)"],
+          ["เรียกเมื่อไร", "อัตโนมัติตอน <code>new</code> พร้อม argument ในวงเล็บ"],
+          ["<code>this</code>", "หมายถึง “ออบเจ็กต์ตัวนี้” ใช้แยก field กับ parameter ที่ชื่อซ้ำกัน"],
+        ] },
+        { type: "run", title: "constructor กำหนดค่าตั้งแต่สร้าง",
           code: j`
             public class ConstructorDemo {
                 public static void main(String[] args) {
-                    // constructor กำหนดค่าตอนสร้างเลย
-                    Student a = new Student("JHope", 85);
+                    Student a = new Student("JHope", 85);     // ส่ง argument ให้ constructor
                     Student b = new Student("Suga", 72);
                     a.describe();
                     b.describe();
@@ -234,10 +236,8 @@ export default {
                 String name;
                 int score;
 
-                // constructor: ชื่อเดียวกับคลาส ไม่มีชนิดคืนค่า
-                Student(String name, int score) {
-                    // this.name = field, name = parameter
-                    this.name = name;
+                Student(String name, int score) {         // ชื่อเดียวกับคลาส ไม่มีชนิดผลลัพธ์
+                    this.name = name;                     // this.name = field, name = parameter
                     this.score = score;
                 }
 
@@ -245,37 +245,39 @@ export default {
                     System.out.println(name + " scored " + score);
                 }
             }`,
-          steps: ["new Student(\"JHope\", 85) เรียก constructor", "this.name = name เก็บ parameter ลง field", "describe ใช้ field ได้ทันที"] },
-        { type: "run", label: "ทดลองบั๊ก 11.3.2", title: "ลืม this: field ไม่ถูกกำหนดค่า", level: "ต่อยอด",
-          concept: "ถ้าเขียน <code>name = name;</code> ทั้งสองฝั่งคือ parameter (ตัวที่ใกล้ที่สุด) field จึงยังเป็นค่าเริ่มต้น",
-          code: j`
-            public class ForgotThis {
-                public static void main(String[] args) {
-                    Student s = new Student("JHope", 85);
-                    System.out.println(s.name + " " + s.score);
-                }
-            }
+          },
+        { type: "warn", title: "ลืม this", html: `ถ้าเขียน <code>name = name;</code> ทั้งสองฝั่งคือ parameter (ตัวที่ใกล้ที่สุดบัง field ที่ชื่อเดียวกัน) field จึงยังเป็น null และ 0 คอมไพล์ผ่านแต่ผลผิด` },
+        { type: "more", title: "ดูตัวอย่าง: ลืม this", blocks: [
+          { type: "run", label: "ทดลองบั๊ก 11.3.2", title: "ลืม this: field ไม่ถูกกำหนดค่า",
+            code: j`
+              public class ForgotThis {
+                  public static void main(String[] args) {
+                      Student s = new Student("JHope", 85);
+                      System.out.println(s.name + " " + s.score);
+                  }
+              }
 
-            class Student {
-                String name;
-                int score;
+              class Student {
+                  String name;
+                  int score;
 
-                Student(String name, int score) {
-                    // กำหนด parameter ให้ตัวเอง field ไม่เปลี่ยน
-                    name = name;
-                    score = score;
-                }
-            }`,
-          steps: ["คอมไพล์ผ่าน แต่ได้ null 0", "parameter <em>บัง</em> (shadow) field ที่ชื่อเดียวกัน", "แก้: ใช้ this.name = name"] },
-        { type: "run", title: "หลาย constructor (overloading) และ this(...)", level: "ประยุกต์",
-          concept: "มีหลาย constructor ได้ตามจำนวน/ชนิด parameter ใช้ <code>this(...)</code> เรียก constructor อีกตัวเพื่อไม่เขียนโค้ดซ้ำ",
+                  Student(String name, int score) {
+                      name = name;
+                      score = score;
+                  }
+              }`,
+            },
+        ] },
+
+        { type: "h", text: "หลาย constructor และ this(...)" },
+        { type: "p", html: `คลาสมี constructor หลายตัวได้ ถ้าจำนวนหรือชนิดของ parameter ต่างกัน (overloading) ตัวที่สั้นกว่าเรียกตัวหลักด้วย <code>this(...)</code> เพื่อไม่ต้องเขียนโค้ดซ้ำ` },
+        { type: "run", title: "สี่เหลี่ยมสร้างได้ 3 แบบ",
           code: j`
             public class OverloadedConstructors {
                 public static void main(String[] args) {
-                    // เลือก constructor ตามจำนวน argument
-                    Rectangle a = new Rectangle(4, 3);
-                    Rectangle b = new Rectangle(5);
-                    Rectangle c = new Rectangle();
+                    Rectangle a = new Rectangle(4, 3);        // ใช้ constructor 2 ค่า
+                    Rectangle b = new Rectangle(5);           // จัตุรัส 5 x 5
+                    Rectangle c = new Rectangle();            // ค่าเริ่มต้น 1 x 1
                     System.out.println(a.info());
                     System.out.println(b.info());
                     System.out.println(c.info());
@@ -286,19 +288,17 @@ export default {
                 double width;
                 double height;
 
-                // constructor หลัก
-                Rectangle(double width, double height) {
+                Rectangle(double width, double height) {  // constructor หลัก
                     this.width = width;
                     this.height = height;
                 }
 
-                Rectangle(double side) {  // สี่เหลี่ยมจัตุรัส
-                    // this(...) เรียก constructor ตัวอื่น
-                    this(side, side);
+                Rectangle(double side) {
+                    this(side, side);                     // เรียก constructor หลัก
                 }
 
                 Rectangle() {
-                    this(1);  // ค่าเริ่มต้น 1 x 1
+                    this(1);                              // → this(1, 1)
                 }
 
                 double area() {
@@ -306,22 +306,21 @@ export default {
                 }
 
                 String info() {
-                    // เรียกเมธอดอื่นในคลาสเดียวกันได้
-                    return width + " x " + height + " = " + area();
+                    return width + " x " + height + " = " + area();   // เรียกเมธอดในคลาสเดียวกันได้ตรง ๆ
                 }
             }`,
-          steps: ["Rectangle(4, 3) ใช้ constructor หลัก", "Rectangle(5) เรียก this(5, 5) → จัตุรัส", "Rectangle() เรียก this(1) → this(1, 1)", "info() เรียก area() ของออบเจ็กต์เดียวกันได้ตรง ๆ"] },
-        { type: "run", title: "toString: ให้ออบเจ็กต์อธิบายตัวเอง", level: "ท้าทาย",
-          concept: "ถ้าคลาสมีเมธอด <code>public String toString()</code> การพิมพ์ออบเจ็กต์ด้วย println หรือต่อกับ String จะเรียกเมธอดนี้อัตโนมัติ",
+          },
+
+        { type: "h", text: "toString: ให้ออบเจ็กต์อธิบายตัวเอง" },
+        { type: "p", html: `ถ้าคลาสมีเมธอด <code>public String toString()</code> การ println ออบเจ็กต์หรือต่อกับ String จะเรียกเมธอดนี้ให้อัตโนมัติ` },
+        { type: "run", title: "Point ที่พิมพ์ออกมาอ่านง่าย",
           code: j`
             public class ToStringDemo {
                 public static void main(String[] args) {
                     Point p = new Point(3, 4);
                     Point q = new Point(-1, 2);
-                    // println เรียก toString() ให้อัตโนมัติ
-                    System.out.println(p);
-                    // ต่อข้อความก็เรียก toString() เช่นกัน
-                    System.out.println("q is " + q);
+                    System.out.println(p);                        // เรียก p.toString() → (3, 4)
+                    System.out.println("q is " + q);              // ต่อ String ก็เรียก toString()
                     System.out.printf("distance = %.2f%n", p.distanceTo(q));
                 }
             }
@@ -335,39 +334,35 @@ export default {
                     this.y = y;
                 }
 
-                // รับออบเจ็กต์อีกตัวเป็น parameter
-                double distanceTo(Point other) {
-                    // x ของตัวเอง - x ของ other
-                    int dx = x - other.x;
-                    int dy = y - other.y;
-                    return Math.sqrt(dx * dx + dy * dy);
+                double distanceTo(Point other) {              // รับออบเจ็กต์ชนิดเดียวกัน
+                    int dx = x - other.x;                     // x ของตัวเอง − x ของ other = 4
+                    int dy = y - other.y;                     // 2
+                    return Math.sqrt(dx * dx + dy * dy);      // √20
                 }
 
-                @Override  // เขียนทับเมธอด toString ของ Object
+                @Override                                     // ตั้งใจเขียนทับ toString ที่มีอยู่แล้ว (บทที่ 12)
                 public String toString() {
                     return "(" + x + ", " + y + ")";
                 }
             }`,
-          steps: ["println(p) เรียก p.toString() → (3, 4)", "ต่อ String ก็เรียก toString อัตโนมัติ", "distanceTo รับออบเจ็กต์ชนิดเดียวกัน เข้าถึง other.x ได้", "<code>@Override</code> บอก compiler ว่าตั้งใจเขียนทับเมธอด toString ที่มีอยู่แล้ว (บทที่ 12)"],
-          tryIt: "ลบเมธอด toString ออก แล้วดูว่า println(p) พิมพ์อะไร (เช่น Point@1b6d3586)" },
+          },
+        { type: "try", html: `ลบเมธอด toString ออก แล้วดูว่า <code>println(p)</code> พิมพ์อะไร (จะได้ประมาณ <code>Point@1b6d3586</code>)` },
         { type: "check", title: "constructor", html: `<p>ถ้าคลาสมีเฉพาะ constructor <code>Car(String model)</code> คำสั่ง <code>new Car()</code> จะคอมไพล์ผ่านหรือไม่</p>`, answer: `<p><strong>ไม่ผ่าน</strong> — Java สร้าง constructor ไม่มี parameter ให้อัตโนมัติก็ต่อเมื่อคลาส<em>ไม่มี constructor เลย</em> เมื่อเราเขียนเองแล้ว ต้องเขียน Car() เพิ่มเองถ้าต้องการ</p>` },
       ],
     },
     {
       num: "11.4", toc: "หลาย object หลาย state", title: "หลาย object หลาย state",
       blocks: [
-        { type: "p", html: `ออบเจ็กต์แต่ละตัวมี field ของตัวเอง การเรียกเมธอดบนออบเจ็กต์หนึ่งเปลี่ยนเฉพาะ state ของตัวนั้น ส่วน field ที่ประกาศเป็น <code>static</code> เป็นของ<strong>คลาส</strong> ใช้ร่วมกันทุกออบเจ็กต์ (เช่น ตัวนับจำนวนออบเจ็กต์ที่ถูกสร้าง)` },
-        { type: "run", title: "บัญชีธนาคารสองบัญชี", level: "ต่อยอด",
-          concept: "deposit/withdraw บนบัญชีหนึ่งไม่กระทบอีกบัญชี เพราะ balance เป็นของแต่ละออบเจ็กต์",
+        { type: "p", html: `ค่าของ field ทั้งหมดในออบเจ็กต์ ณ ขณะหนึ่งเรียกว่า <strong>state</strong> ออบเจ็กต์แต่ละตัวมี state ของตัวเอง เรียกเมธอดบนตัวหนึ่งจะเปลี่ยนเฉพาะตัวนั้น` },
+        { type: "run", title: "บัญชีธนาคารสองบัญชี",
           code: j`
             public class TwoAccounts {
                 public static void main(String[] args) {
-                    // ออบเจ็กต์ 2 ตัว ข้อมูลแยกกัน
                     BankAccount jhope = new BankAccount("JHope", 1000);
                     BankAccount suga = new BankAccount("Suga", 500);
-                    jhope.deposit(250);
-                    suga.withdraw(200);
-                    suga.withdraw(1000);  // ถอนเกินยอด
+                    jhope.deposit(250);                       // jhope: 1250
+                    suga.withdraw(200);                       // suga: 300   jhope ไม่เปลี่ยน
+                    suga.withdraw(1000);                      // เกินยอด → ปฏิเสธ
                     jhope.printBalance();
                     suga.printBalance();
                 }
@@ -377,7 +372,6 @@ export default {
                 String owner;
                 double balance;
 
-                // กำหนดเจ้าของและยอดเริ่มต้น
                 BankAccount(String owner, double balance) {
                     this.owner = owner;
                     this.balance = balance;
@@ -388,7 +382,7 @@ export default {
                 }
 
                 void withdraw(double amount) {
-                    if (amount > balance) {  // ตรวจยอดเงินก่อนถอน
+                    if (amount > balance) {                   // กฎอยู่ในคลาส main ไม่ต้องตรวจเอง
                         System.out.println(owner + ": insufficient funds for " + amount);
                     } else {
                         balance -= amount;
@@ -399,29 +393,29 @@ export default {
                     System.out.printf("%s: %.2f%n", owner, balance);
                 }
             }`,
-          steps: ["jhope ฝาก 250 → 1250", "suga ถอน 200 → 300", "suga ถอน 1000 เกินยอด → ปฏิเสธ (กฎอยู่ในคลาส ไม่ต้องเขียนซ้ำใน main)", "ยอดของแต่ละคนแยกกัน"] },
-        { type: "run", title: "อาเรย์ของออบเจ็กต์", level: "ประยุกต์",
-          concept: "แทนอาเรย์คู่ขนานหลายชุด ใช้อาเรย์ของออบเจ็กต์ชุดเดียว — ข้อมูลของแต่ละคนอยู่ด้วยกันเสมอ",
+          },
+
+        { type: "h", text: "อาเรย์ของออบเจ็กต์" },
+        { type: "p", html: `แทนอาเรย์คู่ขนานหลายชุด (ชื่อชุดหนึ่ง คะแนนอีกชุด) ใช้อาเรย์ของออบเจ็กต์ชุดเดียว ข้อมูลของแต่ละคนอยู่ด้วยกันเสมอ ไม่ต้องระวังให้ index ตรงกัน` },
+        { type: "run", title: "หาคนคะแนนสูงสุดและนับคนผ่าน",
           code: j`
             public class StudentArray {
                 public static void main(String[] args) {
-                    Student[] list = {  // อาเรย์ของออบเจ็กต์
+                    Student[] list = {                        // อาเรย์ 4 ช่อง แต่ละช่องชี้ Student หนึ่งคน
                         new Student("JHope", 85),
                         new Student("Suga", 62),
                         new Student("RM", 91),
                         new Student("Jungkook", 48)
                     };
-                    Student best = list[0];  // เริ่มจากคนแรก
+                    Student best = list[0];                   // เริ่มจากคนแรก
                     int passed = 0;
-                    for (Student s : list) {  // for-each กับอาเรย์ออบเจ็กต์
-                        System.out.println(s);
-                        // คะแนนสูงกว่า → จำคนนี้
-                        if (s.score > best.score) best = s;
-                        // เรียกเมธอดของแต่ละคน
+                    for (Student s : list) {                  // s = ทีละคน
+                        System.out.println(s);                // เรียก toString()
+                        if (s.score > best.score) best = s;   // จำคนที่คะแนนสูงกว่า
                         if (s.isPassed()) passed++;
                     }
-                    System.out.println("Top: " + best.name);
-                    System.out.println("Passed: " + passed + "/" + list.length);
+                    System.out.println("Top: " + best.name);  // RM
+                    System.out.println("Passed: " + passed + "/" + list.length);   // 3/4
                 }
             }
 
@@ -438,36 +432,36 @@ export default {
                     return score >= 50;
                 }
 
-                public String toString() {  // กำหนดรูปแบบตอนแสดงผล
+                public String toString() {
                     return String.format("%-8s %3d %s", name, score, isPassed() ? "PASS" : "FAIL");
                 }
             }`,
-          steps: ["สร้าง 4 ออบเจ็กต์ในอาเรย์ด้วย initializer", "for-each ได้ทีละออบเจ็กต์ println เรียก toString", "best เก็บการอ้างอิงไปยังนักศึกษาที่คะแนนสูงสุด", "isPassed เป็นกฎของคลาส ใช้ซ้ำได้ทั้งใน toString และ main"] },
-        { type: "run", title: "static field: ข้อมูลที่ใช้ร่วมกันทั้งคลาส", level: "ท้าทาย",
-          concept: "field ที่เป็น static มีชุดเดียวสำหรับทั้งคลาส ใช้สร้างรหัสอัตโนมัติหรือนับจำนวนออบเจ็กต์",
+          },
+
+        { type: "h", text: "static field: ข้อมูลของทั้งคลาส" },
+        { type: "p", html: `field ที่ใส่ <code>static</code> มี<strong>ชุดเดียว</strong>สำหรับทั้งคลาส ทุกออบเจ็กต์ใช้ร่วมกัน เรียกผ่านชื่อคลาส เช่น <code>Ticket.issued</code> เหมาะกับตัวนับหรือการออกเลขอัตโนมัติ` },
+        { type: "run", title: "ออกเลขตั๋วอัตโนมัติ",
           code: j`
             public class StaticCounter {
                 public static void main(String[] args) {
                     Ticket t1 = new Ticket("Concert");
                     Ticket t2 = new Ticket("Concert");
                     Ticket t3 = new Ticket("Movie");
-                    System.out.println(t1);
+                    System.out.println(t1);                                   // Ticket #1 for Concert
                     System.out.println(t2);
                     System.out.println(t3);
-                    // ตัวแปร static เรียกผ่านชื่อคลาส
-                    System.out.println("Tickets issued: " + Ticket.issued);
+                    System.out.println("Tickets issued: " + Ticket.issued);   // 3
                 }
             }
 
             class Ticket {
-                // static: ทุกออบเจ็กต์ใช้ร่วมกันตัวเดียว
-                static int issued = 0;
-                int number;  // ของแต่ละออบเจ็กต์
+                static int issued = 0;                    // ของคลาส: มีตัวเดียว ใช้ร่วมกัน
+                int number;                               // ของแต่ละใบ
                 String event;
 
                 Ticket(String event) {
-                    issued++;              // นับเพิ่มทุกครั้งที่สร้างตั๋ว
-                    this.number = issued;  // เลขตั๋วคือจำนวนที่ออกไปแล้ว
+                    issued++;                             // นับเพิ่มทุกครั้งที่ new
+                    this.number = issued;                 // ใช้เป็นเลขของใบนี้
                     this.event = event;
                 }
 
@@ -475,7 +469,7 @@ export default {
                     return "Ticket #" + number + " for " + event;
                 }
             }`,
-          steps: ["issued เป็น static: มีตัวเดียว ทุก Ticket เห็นค่าเดียวกัน", "ทุกครั้งที่ new → issued เพิ่ม แล้วใช้เป็นหมายเลขของตั๋วใบนั้น", "number เป็น field ปกติ แต่ละใบมีค่าของตัวเอง", "เรียก static field ผ่านชื่อคลาส <code>Ticket.issued</code>"] },
+          },
         { type: "check", title: "state", html: jpre(`
           Counter a = new Counter();   // class Counter { int n; void inc() { n++; } }
           Counter b = new Counter();
