@@ -58,13 +58,16 @@
         <p>เมื่อโปรแกรมทำได้หลายอย่าง (ลงทะเบียน, ดูรายการ, ตั้งค่า) การยัดทุกอย่างไว้หน้าจอเดียวทำให้ใช้ยาก แนวทางที่นิยมใน Swing คือ <strong>หน้าต่างหลักเดียว</strong>ที่สลับ “การ์ด” (panel) ด้วย <code>CardLayout</code> และใช้ <code>JDialog</code> สำหรับงานสั้น ๆ ที่ต้องรอคำตอบ ภาพในบทนี้มีหลายภาพต่อหนึ่งตัวอย่าง แสดงหน้าจอที่เปลี่ยนไปหลังการกดปุ่มนำทาง</p>
 <article class="subtopic" id="topic-18-1">
 <h3>18.1 ออกแบบหน้าจอแยกกัน</h3>
+<p>ก่อนเขียนโค้ดแอปหลายหน้า ให้วางแผนว่ามีหน้าอะไร ไปหน้าไหนด้วยปุ่มอะไร และข้อมูลอะไรต้องส่งต่อ</p>
 <div class="concept-box"><span class="box-title">วางแผนหน้าจอก่อนเขียนโค้ด</span><ol class="step-list"><li>เขียนรายการหน้าจอและหน้าที่ของแต่ละหน้า เช่น Home, Form, Summary</li><li>วาดแผนผังการนำทาง (ลูกศร: จากหน้าไหนไปหน้าไหนด้วยปุ่มอะไร)</li><li>กำหนดข้อมูลที่ต้องส่งต่อระหว่างหน้า (state ร่วม)</li><li>สร้างแต่ละหน้าเป็นเมธอดที่คืน JPanel หรือเป็นคลาสที่ extends JPanel</li><li>เขียนตัวควบคุมการนำทาง (controller) ที่รู้จักทุกหน้า</li></ol></div>
 <div class="example-box"><span class="box-title">แผนผังการนำทางของแอปตัวอย่าง</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code><span class="tok-arrow">┌────────┐</span>  <span class="tok-type">Start</span>   <span class="tok-arrow">┌────────┐</span>  <span class="tok-type">Next</span>   <span class="tok-arrow">┌──────────┐</span>
 <span class="tok-arrow">│</span>  <span class="tok-type">Home</span>  <span class="tok-arrow">│</span> <span class="tok-arrow">───────▶</span> <span class="tok-arrow">│</span>  <span class="tok-type">Form</span>  <span class="tok-arrow">│</span> <span class="tok-arrow">──────▶</span> <span class="tok-arrow">│</span> <span class="tok-type">Summary</span>  <span class="tok-arrow">│</span>
 <span class="tok-arrow">└────────┘</span>          <span class="tok-arrow">└────────┘</span>         <span class="tok-arrow">└──────────┘</span>
      <span class="tok-arrow">▲</span>    <span class="tok-arrow">◀──</span> <span class="tok-type">Back</span> <span class="tok-arrow">──┘</span>    <span class="tok-arrow">◀────</span> <span class="tok-type">Back</span> <span class="tok-arrow">────┘</span>  <span class="tok-arrow">│</span>
      <span class="tok-arrow">└────────────────</span> <span class="tok-type">Home</span> <span class="tok-arrow">─────────────────┘</span></code></pre></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.1.1</span>หน้าจอเป็นคลาสที่ extends JPanel</h4><p class="concept-line"><strong>แนวคิด:</strong> แต่ละหน้าจอเป็นคลาสของตัวเอง มี component และเมธอดของหน้านั้น — ตัวอย่างนี้แสดงสองหน้าพร้อมกันในหน้าต่างทดสอบ เพื่อเห็นว่าแยกกันได้จริง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ScreenClasses.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<h4 class="sub">หน้าจอเป็นคลาสที่ extends JPanel</h4>
+<p>แต่ละหน้าเป็นคลาสของตัวเอง ประกอบหน้าตาใน constructor แล้วนำไปวางที่ไหนก็ได้เหมือน component ทั่วไป ตัวอย่างนี้วางสองหน้าคู่กันเพื่อทดสอบ หัวข้อถัดไปจะซ้อนไว้ใน CardLayout แทน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.1.1</span>HomeScreen และ ProfileScreen</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ScreenClasses.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ScreenClasses</span> {
@@ -72,9 +75,7 @@
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Two screens side by side (test)"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// วาง 2 หน้าจอคู่กันเพื่อทดสอบ</span>
-            <span class="tok-type">JPanel</span> both = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">10</span>, <span class="tok-num">0</span>));
-            <span class="tok-com">// แต่ละหน้าจอเป็นออบเจ็กต์ของคลาสตัวเอง</span>
+            <span class="tok-type">JPanel</span> both = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">10</span>, <span class="tok-num">0</span>));    <span class="tok-com">// วางคู่กันเพื่อทดสอบ</span>
             both.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">HomeScreen</span>());
             both.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">ProfileScreen</span>(<span class="tok-str">"JHope"</span>, <span class="tok-str">"Science"</span>));
             frame.<span class="tok-fn">setContentPane</span>(both);
@@ -84,41 +85,39 @@
     }
 }
 
-<span class="tok-com">// หน้าจอ = คลาสลูกของ JPanel</span>
-<span class="tok-kw">class</span> <span class="tok-type">HomeScreen</span> <span class="tok-kw">extends</span> <span class="tok-type">JPanel</span> {
+<span class="tok-kw">class</span> <span class="tok-type">HomeScreen</span> <span class="tok-kw">extends</span> <span class="tok-type">JPanel</span> {                         <span class="tok-com">// หน้าจอ = คลาสลูกของ JPanel</span>
     <span class="tok-type">HomeScreen</span>() {
-        <span class="tok-com">// กำหนด layout ผ่าน constructor ของ JPanel</span>
-        <span class="tok-kw">super</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">8</span>));
+        <span class="tok-kw">super</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">8</span>));                    <span class="tok-com">// กำหนด layout ผ่าน constructor ของ JPanel</span>
         <span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createTitledBorder</span>(<span class="tok-str">"HomeScreen"</span>));
         <span class="tok-type">JLabel</span> title = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Welcome!"</span>, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
         title.<span class="tok-fn">setFont</span>(title.<span class="tok-fn">getFont</span>().<span class="tok-fn">deriveFont</span>(<span class="tok-type">Font</span>.<span class="tok-const">BOLD</span>, <span class="tok-num">20f</span>));
-        <span class="tok-com">// add ของตัวเอง (JPanel)</span>
-        <span class="tok-fn">add</span>(title, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
+        <span class="tok-fn">add</span>(title, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);                  <span class="tok-com">// add ของตัวเอง</span>
         <span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Start"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">ProfileScreen</span> <span class="tok-kw">extends</span> <span class="tok-type">JPanel</span> {
-    <span class="tok-com">// รับข้อมูลที่ต้องแสดงผ่าน constructor</span>
-    <span class="tok-type">ProfileScreen</span>(<span class="tok-type">String</span> name, <span class="tok-type">String</span> faculty) {
+    <span class="tok-type">ProfileScreen</span>(<span class="tok-type">String</span> name, <span class="tok-type">String</span> faculty) {          <span class="tok-com">// รับข้อมูลที่ต้องแสดง</span>
         <span class="tok-kw">super</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">4</span>));
         <span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createTitledBorder</span>(<span class="tok-str">"ProfileScreen"</span>));
         <span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Name: "</span> + name));
         <span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Faculty: "</span> + faculty));
         <span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Back"</span>));
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Two screens side by side (test)</div><img src="../assets/gui/g0505664286-0.png" width="216" height="109" alt="ภาพหน้าต่าง Two screens side by side (test)" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>HomeScreen และ ProfileScreen เป็น JPanel ที่ประกอบหน้าตาของตัวเองใน constructor</li><li>นำไปวางในหน้าต่างใดก็ได้เหมือน component ทั่วไป</li><li>หัวข้อถัดไปจะวางสองหน้านี้ซ้อนกันใน CardLayout แทนการวางคู่กัน</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Two screens side by side (test)</div><img src="../assets/gui/g59f62d6a52-0.png" width="216" height="109" alt="ภาพหน้าต่าง Two screens side by side (test)" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · แบ่งหน้าจอ</strong><div><p>แอปห้องสมุดมีฟังก์ชัน: ค้นหาหนังสือ, ดูรายละเอียดหนังสือ, ยืม, ดูรายการที่ยืมอยู่ ควรแบ่งเป็นหน้าจออะไรบ้าง และการยืมควรเป็นหน้าจอหรือ dialog</p></div><details><summary>ดูคำตอบ</summary><div><p>หน้าจอ: Search, Book detail, My loans (+ Home) — การยืมเป็นงานสั้นที่ต้องยืนยัน จึงเหมาะกับ dialog (confirm) ที่เปิดจากหน้า Book detail</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-18-2">
 <h3>18.2 CardLayout: สลับหน้าจอในหน้าต่างเดียว</h3>
+<p><code>CardLayout</code> ซ้อน panel หลายใบ (การ์ด) ไว้ที่ตำแหน่งเดียวกันและแสดงทีละใบ แต่ละการ์ดมีชื่อ สั่งให้แสดงด้วยชื่อหรือเลื่อนไปใบถัดไปก็ได้</p>
 <div class="concept-box"><span class="box-title">วิธีใช้ CardLayout</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">CardLayout</span> cards = <span class="tok-kw">new</span> <span class="tok-type">CardLayout</span>();
 <span class="tok-type">JPanel</span> container = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(cards);       <span class="tok-com">// container ที่ซ้อนการ์ด</span>
 container.<span class="tok-fn">add</span>(homePanel, <span class="tok-str">"home"</span>);           <span class="tok-com">// เพิ่มการ์ดพร้อมชื่อ</span>
 container.<span class="tok-fn">add</span>(formPanel, <span class="tok-str">"form"</span>);
 cards.<span class="tok-fn">show</span>(container, <span class="tok-str">"form"</span>);              <span class="tok-com">// แสดงการ์ดตามชื่อ</span>
-cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">previous</span>(container); cards.<span class="tok-fn">first</span>(container);</code></pre></div><p>การ์ดทุกใบซ้อนอยู่ที่ตำแหน่งเดียวกัน มองเห็นทีละใบ ขนาดของ container เท่ากับการ์ดที่ใหญ่ที่สุด</p></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.2.1</span>สลับระหว่าง 3 การ์ดด้วย show(name)</h4><p class="concept-line"><strong>แนวคิด:</strong> แถบปุ่มด้านบนเรียก <code>cards.show(container, ชื่อ)</code> — ส่วนเนื้อหาด้านล่างเปลี่ยนไปตามปุ่มที่กด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CardTabs.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">previous</span>(container); cards.<span class="tok-fn">first</span>(container);</code></pre></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>การ์ดใบแรกที่ add จะแสดงก่อน และขนาดของ container เท่ากับการ์ดที่ใหญ่ที่สุด</p></div>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.2.1</span>สลับ 3 การ์ดด้วย show(name)</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CardTabs.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CardTabs</span> {
@@ -126,19 +125,16 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Card demo"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// CardLayout: ซ้อนหลายหน้า แสดงทีละหน้า</span>
             <span class="tok-type">CardLayout</span> cards = <span class="tok-kw">new</span> <span class="tok-type">CardLayout</span>();
             <span class="tok-type">JPanel</span> content = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(cards);
-            <span class="tok-com">// แต่ละหน้ามีชื่อเรียก "home"</span>
-            content.<span class="tok-fn">add</span>(<span class="tok-fn">page</span>(<span class="tok-str">"Home"</span>, <span class="tok-str">"Today: 2 classes, 1 deadline"</span>, <span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">229</span>, <span class="tok-num">244</span>, <span class="tok-num">207</span>)), <span class="tok-str">"home"</span>);
+            content.<span class="tok-fn">add</span>(<span class="tok-fn">page</span>(<span class="tok-str">"Home"</span>, <span class="tok-str">"Today: 2 classes, 1 deadline"</span>, <span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">229</span>, <span class="tok-num">244</span>, <span class="tok-num">207</span>)), <span class="tok-str">"home"</span>);   <span class="tok-com">// ชื่อการ์ด</span>
             content.<span class="tok-fn">add</span>(<span class="tok-fn">page</span>(<span class="tok-str">"Settings"</span>, <span class="tok-str">"Theme: Light   Language: TH"</span>, <span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">217</span>, <span class="tok-num">243</span>, <span class="tok-num">243</span>)), <span class="tok-str">"settings"</span>);
             content.<span class="tok-fn">add</span>(<span class="tok-fn">page</span>(<span class="tok-str">"Help"</span>, <span class="tok-str">"Email: help@uni.ac.th"</span>, <span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">253</span>, <span class="tok-num">229</span>, <span class="tok-num">220</span>)), <span class="tok-str">"help"</span>);
 
-            <span class="tok-type">JPanel</span> nav = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">FlowLayout</span>(<span class="tok-type">FlowLayout</span>.<span class="tok-const">LEFT</span>));
+            <span class="tok-type">JPanel</span> nav = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">FlowLayout</span>(<span class="tok-type">FlowLayout</span>.<span class="tok-const">LEFT</span>));    <span class="tok-com">// อยู่นอก CardLayout → เห็นตลอด</span>
             <span class="tok-kw">for</span> (<span class="tok-type">String</span> name : <span class="tok-kw">new</span> <span class="tok-type">String</span>[]{<span class="tok-str">"Home"</span>, <span class="tok-str">"Settings"</span>, <span class="tok-str">"Help"</span>}) {
                 <span class="tok-type">JButton</span> b = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(name);
-                <span class="tok-com">// แสดงหน้าตามชื่อ</span>
-                b.<span class="tok-fn">addActionListener</span>(e -&gt; cards.<span class="tok-fn">show</span>(content, name.<span class="tok-fn">toLowerCase</span>()));
+                b.<span class="tok-fn">addActionListener</span>(e -&gt; cards.<span class="tok-fn">show</span>(content, name.<span class="tok-fn">toLowerCase</span>()));   <span class="tok-com">// "Settings" → "settings"</span>
                 nav.<span class="tok-fn">add</span>(b);
             }
             frame.<span class="tok-fn">add</span>(nav, <span class="tok-type">BorderLayout</span>.<span class="tok-const">NORTH</span>);
@@ -148,8 +144,7 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         });
     }
 
-    <span class="tok-com">// เมธอดสร้างหน้าแบบเดียวกัน</span>
-    <span class="tok-kw">static</span> <span class="tok-type">JPanel</span> <span class="tok-fn">page</span>(<span class="tok-type">String</span> title, <span class="tok-type">String</span> text, <span class="tok-type">Color</span> bg) {
+    <span class="tok-kw">static</span> <span class="tok-type">JPanel</span> <span class="tok-fn">page</span>(<span class="tok-type">String</span> title, <span class="tok-type">String</span> text, <span class="tok-type">Color</span> bg) {       <span class="tok-com">// สร้างการ์ดแบบเดียวกัน</span>
         <span class="tok-type">JPanel</span> p = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">2</span>, <span class="tok-num">1</span>));
         p.<span class="tok-fn">setBackground</span>(bg);
         p.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">10</span>, <span class="tok-num">14</span>, <span class="tok-num">10</span>, <span class="tok-num">14</span>));
@@ -159,12 +154,14 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         p.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(text));
         <span class="tok-kw">return</span> p;
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">เริ่มต้น (home)</p><figure class="gui-shot"><div class="gui-titlebar">Card demo</div><img src="../assets/gui/gfd7385c262-0.png" width="304" height="131" alt="ภาพหน้าต่าง Card demo" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก Settings</p><figure class="gui-shot"><div class="gui-titlebar">Card demo</div><img src="../assets/gui/gfd7385c262-1.png" width="304" height="131" alt="ภาพหน้าต่าง Card demo" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก Help</p><figure class="gui-shot"><div class="gui-titlebar">Card demo</div><img src="../assets/gui/gfd7385c262-2.png" width="304" height="131" alt="ภาพหน้าต่าง Card demo" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>การ์ดแรกที่ add จะแสดงก่อน</li><li>แต่ละปุ่มแสดงการ์ดตามชื่อ (ตัวพิมพ์เล็ก)</li><li>แถบปุ่ม (NORTH) อยู่นอก CardLayout จึงเห็นตลอด</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.2.2</span>next / previous: วิซาร์ดแบบเรียงลำดับ</h4><p class="concept-line"><strong>แนวคิด:</strong> สำหรับขั้นตอนที่ต้องทำตามลำดับ ใช้ <code>cards.next</code>/<code>previous</code> และเก็บหมายเลขขั้นเพื่อเปิด/ปิดปุ่มให้ถูก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StepWizard.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">เริ่มต้น (home)</p><figure class="gui-shot"><div class="gui-titlebar">Card demo</div><img src="../assets/gui/g57676933c6-0.png" width="304" height="131" alt="ภาพหน้าต่าง Card demo" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก Settings</p><figure class="gui-shot"><div class="gui-titlebar">Card demo</div><img src="../assets/gui/g57676933c6-1.png" width="304" height="131" alt="ภาพหน้าต่าง Card demo" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก Help</p><figure class="gui-shot"><div class="gui-titlebar">Card demo</div><img src="../assets/gui/g57676933c6-2.png" width="304" height="131" alt="ภาพหน้าต่าง Card demo" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">next / previous: วิซาร์ดตามลำดับ</h4>
+<p>ขั้นตอนที่ต้องทำเรียงกันใช้ <code>cards.next</code> และ <code>cards.previous</code> แต่ CardLayout ไม่มีเมธอดบอกว่าแสดงการ์ดใบไหนอยู่ จึงต้องเก็บหมายเลขขั้นเองเพื่อเปิด/ปิดปุ่มให้ถูก</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.2.2</span>วิซาร์ดลงทะเบียน 3 ขั้น</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StepWizard.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StepWizard</span> {
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">int</span> step = <span class="tok-num">0</span>;  <span class="tok-com">// ขั้นตอนปัจจุบัน</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">int</span> step = <span class="tok-num">0</span>;                              <span class="tok-com">// ขั้นปัจจุบัน (เก็บเอง)</span>
     <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span>[] <span class="tok-const">STEPS</span> = {<span class="tok-str">"1. Choose course"</span>, <span class="tok-str">"2. Pick a section"</span>, <span class="tok-str">"3. Confirm"</span>};
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -176,25 +173,20 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
             <span class="tok-kw">for</span> (<span class="tok-type">String</span> s : <span class="tok-const">STEPS</span>) {
                 <span class="tok-type">JLabel</span> l = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(s, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
                 l.<span class="tok-fn">setFont</span>(l.<span class="tok-fn">getFont</span>().<span class="tok-fn">deriveFont</span>(<span class="tok-type">Font</span>.<span class="tok-const">BOLD</span>, <span class="tok-num">16f</span>));
-                content.<span class="tok-fn">add</span>(l, s);  <span class="tok-com">// ใช้ข้อความเป็นชื่อการ์ด</span>
+                content.<span class="tok-fn">add</span>(l, s);                            <span class="tok-com">// ใช้ข้อความเป็นชื่อการ์ด</span>
             }
             <span class="tok-type">JLabel</span> progress = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>();
             <span class="tok-type">JButton</span> back = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"&lt; Back"</span>);
             <span class="tok-type">JButton</span> next = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Next &gt;"</span>);
-            <span class="tok-com">// อัปเดตปุ่มและข้อความตามขั้นตอน</span>
-            <span class="tok-type">Runnable</span> refresh = () -&gt; {
+            <span class="tok-type">Runnable</span> refresh = () -&gt; {                        <span class="tok-com">// จุดเดียวที่อัปเดตปุ่มและข้อความ</span>
                 progress.<span class="tok-fn">setText</span>(<span class="tok-str">"Step "</span> + (step + <span class="tok-num">1</span>) + <span class="tok-str">" of "</span> + <span class="tok-const">STEPS</span>.length);
-                <span class="tok-com">// ขั้นแรกย้อนกลับไม่ได้</span>
-                back.<span class="tok-fn">setEnabled</span>(step &gt; <span class="tok-num">0</span>);
-                <span class="tok-com">// ขั้นสุดท้ายเปลี่ยนเป็น Finish</span>
+                back.<span class="tok-fn">setEnabled</span>(step &gt; <span class="tok-num">0</span>);                    <span class="tok-com">// ขั้นแรกย้อนไม่ได้</span>
                 next.<span class="tok-fn">setText</span>(step == <span class="tok-const">STEPS</span>.length - <span class="tok-num">1</span> ? <span class="tok-str">"Finish"</span> : <span class="tok-str">"Next &gt;"</span>);
             };
-            <span class="tok-com">// previous: ไปการ์ดก่อนหน้า</span>
             back.<span class="tok-fn">addActionListener</span>(e -&gt; { step--; cards.<span class="tok-fn">previous</span>(content); refresh.<span class="tok-fn">run</span>(); });
             next.<span class="tok-fn">addActionListener</span>(e -&gt; {
                 <span class="tok-kw">if</span> (step &lt; <span class="tok-const">STEPS</span>.length - <span class="tok-num">1</span>) {
                     step++;
-                    <span class="tok-com">// next: ไปการ์ดถัดไป</span>
                     cards.<span class="tok-fn">next</span>(content);
                     refresh.<span class="tok-fn">run</span>();
                 } <span class="tok-kw">else</span> {
@@ -208,20 +200,20 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
             buttons.<span class="tok-fn">add</span>(next);
             bottom.<span class="tok-fn">add</span>(buttons, <span class="tok-type">BorderLayout</span>.<span class="tok-const">EAST</span>);
             bottom.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">0</span>, <span class="tok-num">8</span>, <span class="tok-num">0</span>, <span class="tok-num">0</span>));
-            refresh.<span class="tok-fn">run</span>();  <span class="tok-com">// ตั้งค่าเริ่มต้น</span>
+            refresh.<span class="tok-fn">run</span>();                                    <span class="tok-com">// ตั้งค่าเริ่มต้น</span>
             frame.<span class="tok-fn">add</span>(content, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
             frame.<span class="tok-fn">add</span>(bottom, <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
             frame.<span class="tok-fn">setSize</span>(<span class="tok-num">340</span>, <span class="tok-num">170</span>);
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังคลิก Next ครั้งที่ 1</p><figure class="gui-shot"><div class="gui-titlebar">Enrollment wizard</div><img src="../assets/gui/ga558278a6d-0.png" width="324" height="131" alt="ภาพหน้าต่าง Enrollment wizard" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก Next ครั้งที่ 2 (ขั้นสุดท้าย)</p><figure class="gui-shot"><div class="gui-titlebar">Enrollment wizard</div><img src="../assets/gui/ga558278a6d-1.png" width="324" height="131" alt="ภาพหน้าต่าง Enrollment wizard" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>step เก็บว่าอยู่ขั้นไหน — CardLayout ไม่มีเมธอดบอกการ์ดปัจจุบัน</li><li>ปุ่ม Back ปิดเมื่ออยู่ขั้นแรก</li><li>ขั้นสุดท้ายเปลี่ยนข้อความ Next เป็น Finish</li><li>refresh() เป็นจุดเดียวที่อัปเดตปุ่มและข้อความความคืบหน้า</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังคลิก Next ครั้งที่ 1</p><figure class="gui-shot"><div class="gui-titlebar">Enrollment wizard</div><img src="../assets/gui/g1cb6a09cbf-0.png" width="324" height="131" alt="ภาพหน้าต่าง Enrollment wizard" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก Next ครั้งที่ 2 (ขั้นสุดท้าย)</p><figure class="gui-shot"><div class="gui-titlebar">Enrollment wizard</div><img src="../assets/gui/g1cb6a09cbf-1.png" width="324" height="131" alt="ภาพหน้าต่าง Enrollment wizard" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · CardLayout</strong><div><p>ถ้าลืมตั้งชื่อการ์ดตอน add แล้วเรียก <code>cards.show(content, "form")</code> จะเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>ไม่มีอะไรเกิดขึ้น (ไม่ error) เพราะไม่มีการ์ดชื่อนั้น — บั๊กลักษณะนี้หายาก จึงควรเก็บชื่อการ์ดเป็นค่าคงที่ (static final String) แทนการพิมพ์ซ้ำหลายที่</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-18-3">
 <h3>18.3 ปุ่มนำทางและตัวควบคุมการนำทาง</h3>
-<p>เมื่อหน้าจอแยกเป็นคลาส หน้าจอหนึ่งต้องสั่ง “ไปหน้าอื่น” ได้โดยไม่ต้องรู้จัก CardLayout โดยตรง วิธีที่ดีคือสร้างคลาสตัวควบคุม (เช่น <code>Navigator</code> หรือตัวหน้าต่างหลัก) ที่มีเมธอด <code>goTo(name)</code> แล้วส่งตัวควบคุมนี้ให้แต่ละหน้าผ่าน constructor</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.3.1</span>Navigator ที่ทุกหน้าใช้ร่วมกัน</h4><p class="concept-line"><strong>แนวคิด:</strong> แต่ละหน้ารับ Navigator ใน constructor แล้วเรียก <code>nav.goTo(...)</code> ในปุ่ม — ชื่อหน้าเก็บเป็นค่าคงที่ป้องกันพิมพ์ผิด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NavigatorApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>เมื่อหน้าจอแยกเป็นคลาส หน้าหนึ่งต้องสั่ง “ไปหน้าอื่น” ได้โดยไม่ต้องรู้จัก CardLayout โดยตรง สร้างคลาสตัวควบคุม เช่น <code>Navigator</code> ที่มีเมธอด <code>goTo(name)</code> แล้วส่งให้แต่ละหน้าผ่าน constructor</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.3.1</span>Navigator ที่ทุกหน้าใช้ร่วมกัน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NavigatorApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NavigatorApp</span> {
@@ -229,10 +221,8 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Navigator"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// ตัวกลางจัดการการเปลี่ยนหน้า</span>
             <span class="tok-type">Navigator</span> nav = <span class="tok-kw">new</span> <span class="tok-type">Navigator</span>();
-            <span class="tok-com">// หน้าแต่ละหน้ารู้จัก Navigator</span>
-            nav.<span class="tok-fn">add</span>(<span class="tok-type">Navigator</span>.<span class="tok-const">HOME</span>, <span class="tok-kw">new</span> <span class="tok-type">SimplePage</span>(<span class="tok-str">"Home"</span>, nav, <span class="tok-str">"Start"</span>, <span class="tok-type">Navigator</span>.<span class="tok-const">MENU</span>));
+            nav.<span class="tok-fn">add</span>(<span class="tok-type">Navigator</span>.<span class="tok-const">HOME</span>, <span class="tok-kw">new</span> <span class="tok-type">SimplePage</span>(<span class="tok-str">"Home"</span>, nav, <span class="tok-str">"Start"</span>, <span class="tok-type">Navigator</span>.<span class="tok-const">MENU</span>));   <span class="tok-com">// ปุ่ม Start → menu</span>
             nav.<span class="tok-fn">add</span>(<span class="tok-type">Navigator</span>.<span class="tok-const">MENU</span>, <span class="tok-kw">new</span> <span class="tok-type">SimplePage</span>(<span class="tok-str">"Menu"</span>, nav, <span class="tok-str">"About"</span>, <span class="tok-type">Navigator</span>.<span class="tok-const">ABOUT</span>));
             nav.<span class="tok-fn">add</span>(<span class="tok-type">Navigator</span>.<span class="tok-const">ABOUT</span>, <span class="tok-kw">new</span> <span class="tok-type">SimplePage</span>(<span class="tok-str">"About: v1.0 by JHope"</span>, nav, <span class="tok-str">"Home"</span>, <span class="tok-type">Navigator</span>.<span class="tok-const">HOME</span>));
             frame.<span class="tok-fn">add</span>(nav.<span class="tok-fn">getContainer</span>(), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
@@ -244,19 +234,16 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Navigator</span> {
-    <span class="tok-com">// ชื่อหน้าเป็นค่าคงที่ ป้องกันพิมพ์ผิด</span>
-    <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">HOME</span> = <span class="tok-str">"home"</span>, <span class="tok-const">MENU</span> = <span class="tok-str">"menu"</span>, <span class="tok-const">ABOUT</span> = <span class="tok-str">"about"</span>;
-    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">CardLayout</span> cards = <span class="tok-kw">new</span> <span class="tok-type">CardLayout</span>();
+    <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">HOME</span> = <span class="tok-str">"home"</span>, <span class="tok-const">MENU</span> = <span class="tok-str">"menu"</span>, <span class="tok-const">ABOUT</span> = <span class="tok-str">"about"</span>;   <span class="tok-com">// ค่าคงที่ ป้องกันพิมพ์ผิด</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">CardLayout</span> cards = <span class="tok-kw">new</span> <span class="tok-type">CardLayout</span>();                    <span class="tok-com">// ซ่อนไว้ข้างใน</span>
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JPanel</span> container = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(cards);
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JLabel</span> status = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">" page: "</span> + <span class="tok-const">HOME</span>);
 
-    <span class="tok-com">// ลงทะเบียนหน้าพร้อมชื่อ</span>
     <span class="tok-kw">void</span> <span class="tok-fn">add</span>(<span class="tok-type">String</span> name, <span class="tok-type">JPanel</span> page) { container.<span class="tok-fn">add</span>(page, name); }
 
-    <span class="tok-kw">void</span> <span class="tok-fn">goTo</span>(<span class="tok-type">String</span> name) {  <span class="tok-com">// ทุกการเปลี่ยนหน้าผ่านเมธอดนี้</span>
+    <span class="tok-kw">void</span> <span class="tok-fn">goTo</span>(<span class="tok-type">String</span> name) {                                  <span class="tok-com">// ทุกการเปลี่ยนหน้าผ่านที่นี่</span>
         cards.<span class="tok-fn">show</span>(container, name);
-        <span class="tok-com">// อัปเดตแถบสถานะไปพร้อมกัน</span>
-        status.<span class="tok-fn">setText</span>(<span class="tok-str">" page: "</span> + name);
+        status.<span class="tok-fn">setText</span>(<span class="tok-str">" page: "</span> + name);                     <span class="tok-com">// อัปเดตแถบสถานะไปพร้อมกัน</span>
     }
 
     <span class="tok-type">JPanel</span> <span class="tok-fn">getContainer</span>() { <span class="tok-kw">return</span> container; }
@@ -270,19 +257,19 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         <span class="tok-type">JLabel</span> t = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(title, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
         t.<span class="tok-fn">setFont</span>(t.<span class="tok-fn">getFont</span>().<span class="tok-fn">deriveFont</span>(<span class="tok-type">Font</span>.<span class="tok-const">BOLD</span>, <span class="tok-num">16f</span>));
         <span class="tok-type">JButton</span> go = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(buttonText);
-        <span class="tok-com">// ปุ่มบอก Navigator ว่าจะไปหน้าไหน</span>
-        go.<span class="tok-fn">addActionListener</span>(e -&gt; nav.<span class="tok-fn">goTo</span>(target));
+        go.<span class="tok-fn">addActionListener</span>(e -&gt; nav.<span class="tok-fn">goTo</span>(target));          <span class="tok-com">// บอก Navigator ว่าจะไปไหน</span>
         <span class="tok-fn">add</span>(t, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
         <span class="tok-fn">add</span>(go, <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">Home → Start</p><figure class="gui-shot"><div class="gui-titlebar">Navigator</div><img src="../assets/gui/g47a8e61f52-0.png" width="284" height="111" alt="ภาพหน้าต่าง Navigator" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">Menu → About</p><figure class="gui-shot"><div class="gui-titlebar">Navigator</div><img src="../assets/gui/g47a8e61f52-1.png" width="284" height="111" alt="ภาพหน้าต่าง Navigator" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">About → Home</p><figure class="gui-shot"><div class="gui-titlebar">Navigator</div><img src="../assets/gui/g47a8e61f52-2.png" width="284" height="111" alt="ภาพหน้าต่าง Navigator" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Navigator ห่อ CardLayout ไว้ หน้าอื่นไม่ต้องรู้รายละเอียด</li><li>SimplePage รับ nav และชื่อหน้าปลายทาง</li><li>status bar แสดงหน้าปัจจุบัน — อัปเดตใน goTo ที่เดียว</li><li>เพิ่มหน้าใหม่ได้โดยไม่แก้หน้าเดิม</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.3.2</span>ประวัติการนำทางและปุ่ม Back</h4><p class="concept-line"><strong>แนวคิด:</strong> เก็บประวัติหน้าที่เคยไปใน <code>ArrayList</code> แบบ stack: ไปหน้าใหม่ = เพิ่มท้าย, Back = ลบท้ายแล้วแสดงหน้าก่อนหน้า</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BackHistory.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">Home → Start</p><figure class="gui-shot"><div class="gui-titlebar">Navigator</div><img src="../assets/gui/gc066dca836-0.png" width="284" height="111" alt="ภาพหน้าต่าง Navigator" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">Menu → About</p><figure class="gui-shot"><div class="gui-titlebar">Navigator</div><img src="../assets/gui/gc066dca836-1.png" width="284" height="111" alt="ภาพหน้าต่าง Navigator" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">About → Home</p><figure class="gui-shot"><div class="gui-titlebar">Navigator</div><img src="../assets/gui/gc066dca836-2.png" width="284" height="111" alt="ภาพหน้าต่าง Navigator" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>เพิ่มหน้าใหม่ได้โดยไม่ต้องแก้หน้าเดิม แค่ add เข้า Navigator</p></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: ประวัติการนำทางและปุ่ม Back</summary><div class="more-body"><p>เก็บชื่อหน้าที่เคยไปใน <code>ArrayList</code> แบบ stack: ไปหน้าใหม่ = เพิ่มท้าย, Back = ลบท้ายแล้วแสดงหน้าที่อยู่ท้ายสุดตอนนี้</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.3.2</span>Back ย้อนตามประวัติ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BackHistory.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BackHistory</span> {
-    <span class="tok-com">// ประวัติหน้าที่เคยไป</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; history = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; history = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();   <span class="tok-com">// หน้าที่เคยไป</span>
     <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">CardLayout</span> cards = <span class="tok-kw">new</span> <span class="tok-type">CardLayout</span>();
     <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">JPanel</span> content = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(cards);
     <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">JButton</span> back = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Back"</span>);
@@ -292,7 +279,6 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"History"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// สร้างการ์ดแต่ละหน้า</span>
             <span class="tok-kw">for</span> (<span class="tok-type">String</span> name : <span class="tok-kw">new</span> <span class="tok-type">String</span>[]{<span class="tok-str">"Home"</span>, <span class="tok-str">"Courses"</span>, <span class="tok-str">"Grades"</span>}) {
                 <span class="tok-type">JLabel</span> l = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(name + <span class="tok-str">" screen"</span>, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
                 l.<span class="tok-fn">setFont</span>(l.<span class="tok-fn">getFont</span>().<span class="tok-fn">deriveFont</span>(<span class="tok-type">Font</span>.<span class="tok-const">BOLD</span>, <span class="tok-num">18f</span>));
@@ -302,7 +288,6 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
             nav.<span class="tok-fn">add</span>(back);
             <span class="tok-kw">for</span> (<span class="tok-type">String</span> name : <span class="tok-kw">new</span> <span class="tok-type">String</span>[]{<span class="tok-str">"Home"</span>, <span class="tok-str">"Courses"</span>, <span class="tok-str">"Grades"</span>}) {
                 <span class="tok-type">JButton</span> b = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(name);
-                <span class="tok-com">// ทุกปุ่มเรียก goTo</span>
                 b.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">goTo</span>(name));
                 nav.<span class="tok-fn">add</span>(b);
             }
@@ -317,35 +302,32 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">goTo</span>(<span class="tok-type">String</span> name) {
-        <span class="tok-com">// ไม่บันทึกซ้ำถ้าอยู่หน้าเดิม</span>
-        <span class="tok-kw">if</span> (history.<span class="tok-fn">isEmpty</span>() || !history.<span class="tok-fn">get</span>(history.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>).<span class="tok-fn">equals</span>(name)) {
+        <span class="tok-kw">if</span> (history.<span class="tok-fn">isEmpty</span>() || !history.<span class="tok-fn">get</span>(history.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>).<span class="tok-fn">equals</span>(name)) {   <span class="tok-com">// ไม่เพิ่มซ้ำหน้าเดิม</span>
             history.<span class="tok-fn">add</span>(name);
         }
         <span class="tok-fn">show</span>();
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">goBack</span>() {
-        <span class="tok-com">// มีหน้าก่อนหน้าให้ย้อน</span>
         <span class="tok-kw">if</span> (history.<span class="tok-fn">size</span>() &gt; <span class="tok-num">1</span>) {
-            <span class="tok-com">// ลบหน้าปัจจุบันออกจากประวัติ</span>
-            history.<span class="tok-fn">remove</span>(history.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>);
+            history.<span class="tok-fn">remove</span>(history.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>);             <span class="tok-com">// ลบหน้าปัจจุบัน</span>
             <span class="tok-fn">show</span>();
         }
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">show</span>() {
-        <span class="tok-com">// แสดงหน้าสุดท้ายในประวัติ</span>
-        cards.<span class="tok-fn">show</span>(content, history.<span class="tok-fn">get</span>(history.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>));
-        back.<span class="tok-fn">setEnabled</span>(history.<span class="tok-fn">size</span>() &gt; <span class="tok-num">1</span>);
-        <span class="tok-com">// แสดงเส้นทาง Home &gt; Courses &gt; ...</span>
-        path.<span class="tok-fn">setText</span>(<span class="tok-str">" "</span> + <span class="tok-type">String</span>.<span class="tok-fn">join</span>(<span class="tok-str">" &gt; "</span>, history));
+        cards.<span class="tok-fn">show</span>(content, history.<span class="tok-fn">get</span>(history.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>));   <span class="tok-com">// แสดงหน้าท้ายสุด</span>
+        back.<span class="tok-fn">setEnabled</span>(history.<span class="tok-fn">size</span>() &gt; <span class="tok-num">1</span>);                    <span class="tok-com">// เหลือหน้าเดียว → ปิด Back</span>
+        path.<span class="tok-fn">setText</span>(<span class="tok-str">" "</span> + <span class="tok-type">String</span>.<span class="tok-fn">join</span>(<span class="tok-str">" &gt; "</span>, history));        <span class="tok-com">// Home &gt; Courses &gt; ...</span>
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">Home → Courses → Grades</p><figure class="gui-shot"><div class="gui-titlebar">History</div><img src="../assets/gui/g8c014d85f5-0.png" width="344" height="131" alt="ภาพหน้าต่าง History" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">Back ครั้งที่ 1</p><figure class="gui-shot"><div class="gui-titlebar">History</div><img src="../assets/gui/g8c014d85f5-1.png" width="344" height="131" alt="ภาพหน้าต่าง History" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">Back ครั้งที่ 2</p><figure class="gui-shot"><div class="gui-titlebar">History</div><img src="../assets/gui/g8c014d85f5-2.png" width="344" height="131" alt="ภาพหน้าต่าง History" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>goTo เพิ่มชื่อหน้าลงท้าย history (ไม่เพิ่มซ้ำถ้ากดหน้าเดิม)</li><li>goBack ลบหน้าล่าสุดออก แล้วแสดงหน้าที่อยู่ท้ายสุดตอนนี้</li><li>path แสดงเส้นทาง เช่น Home > Courses > Grades</li><li>Back ถูกปิดเมื่อเหลือหน้าเดียว</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">Home → Courses → Grades</p><figure class="gui-shot"><div class="gui-titlebar">History</div><img src="../assets/gui/g18038915ea-0.png" width="344" height="131" alt="ภาพหน้าต่าง History" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">Back ครั้งที่ 1</p><figure class="gui-shot"><div class="gui-titlebar">History</div><img src="../assets/gui/g18038915ea-1.png" width="344" height="131" alt="ภาพหน้าต่าง History" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">Back ครั้งที่ 2</p><figure class="gui-shot"><div class="gui-titlebar">History</div><img src="../assets/gui/g18038915ea-2.png" width="344" height="131" alt="ภาพหน้าต่าง History" loading="lazy"></figure></div></div></div></div></div></div></details>
 </article>
 <article class="subtopic" id="topic-18-4">
 <h3>18.4 แชร์ state ระหว่างหน้า</h3>
-<p>ข้อมูลที่ผู้ใช้กรอกในหน้าหนึ่งมักต้องใช้ในอีกหน้า เช่น ฟอร์ม → สรุป วิธีที่ปลอดภัยคือมี <strong>model ออบเจ็กต์เดียว</strong>ที่ทุกหน้าอ้างถึง: หน้าฟอร์มเขียนลง model ก่อนเปลี่ยนหน้า และหน้าสรุปอ่านจาก model ทุกครั้งที่ถูกแสดง (ไม่ใช่ตอนสร้างครั้งแรกเท่านั้น)</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.4.1</span>ฟอร์ม → สรุป ผ่าน model เดียวกัน</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>Registration</code> คือ model — FormPage เขียนลง model, SummaryPage มีเมธอด <code>refresh()</code> ที่อ่าน model ใหม่ทุกครั้งก่อนแสดง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SharedStateApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>ข้อมูลที่กรอกในหน้าหนึ่งมักต้องใช้ในอีกหน้า เช่น ฟอร์ม → สรุป วิธีที่ปลอดภัยคือมี <strong>model ออบเจ็กต์เดียว</strong>ที่ทุกหน้าอ้างถึง</p>
+<table class="comparison-table"><thead><tr><th>หน้า</th><th>ทำอะไรกับ model</th></tr></thead><tbody><tr><td>FormPage</td><td>เขียนค่าลง model <em>ก่อน</em>เปลี่ยนหน้า</td></tr><tr><td>SummaryPage</td><td>อ่าน model ใน <code>refresh()</code> ทุกครั้งก่อนแสดง (ไม่ใช่แค่ตอนสร้าง)</td></tr></tbody></table>
+<p>หน้าไม่อ้างถึงกันโดยตรง แต่บอกว่า “กด Next แล้วให้ทำอะไร” ผ่าน callback ชนิด <code>Runnable</code></p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.4.1</span>ฟอร์ม → สรุป ผ่าน model เดียวกัน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SharedStateApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SharedStateApp</span> {
@@ -353,16 +335,13 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Registration"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// ข้อมูลกลางที่ทุกหน้าใช้ร่วมกัน</span>
-            <span class="tok-type">Registration</span> model = <span class="tok-kw">new</span> <span class="tok-type">Registration</span>();
+            <span class="tok-type">Registration</span> model = <span class="tok-kw">new</span> <span class="tok-type">Registration</span>();          <span class="tok-com">// สร้างครั้งเดียว</span>
             <span class="tok-type">CardLayout</span> cards = <span class="tok-kw">new</span> <span class="tok-type">CardLayout</span>();
             <span class="tok-type">JPanel</span> content = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(cards);
-            <span class="tok-com">// ส่ง model เดียวกันให้ทั้งสองหน้า</span>
-            <span class="tok-type">SummaryPage</span> summary = <span class="tok-kw">new</span> <span class="tok-type">SummaryPage</span>(model);
+            <span class="tok-type">SummaryPage</span> summary = <span class="tok-kw">new</span> <span class="tok-type">SummaryPage</span>(model);     <span class="tok-com">// ส่งตัวเดียวกันให้ทั้งสองหน้า</span>
             <span class="tok-type">FormPage</span> form = <span class="tok-kw">new</span> <span class="tok-type">FormPage</span>(model);
-            <span class="tok-com">// บอกฟอร์มว่ากด Next แล้วให้ทำอะไร</span>
             form.<span class="tok-fn">onNext</span>(() -&gt; {
-                summary.<span class="tok-fn">refresh</span>();  <span class="tok-com">// ดึงข้อมูลล่าสุดก่อนแสดง</span>
+                summary.<span class="tok-fn">refresh</span>();                            <span class="tok-com">// อ่านค่าล่าสุดก่อนแสดง</span>
                 cards.<span class="tok-fn">show</span>(content, <span class="tok-str">"summary"</span>);
             });
             summary.<span class="tok-fn">onEdit</span>(() -&gt; cards.<span class="tok-fn">show</span>(content, <span class="tok-str">"form"</span>));
@@ -375,7 +354,7 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
     }
 }
 
-<span class="tok-kw">class</span> <span class="tok-type">Registration</span> {  <span class="tok-com">// เก็บข้อมูลอย่างเดียว ไม่มีโค้ด GUI</span>
+<span class="tok-kw">class</span> <span class="tok-type">Registration</span> {                                          <span class="tok-com">// ข้อมูลอย่างเดียว ไม่มี GUI</span>
     <span class="tok-type">String</span> name = <span class="tok-str">""</span>;
     <span class="tok-type">String</span> track = <span class="tok-str">""</span>;
 }
@@ -384,8 +363,7 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JTextField</span> name = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">12</span>);
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JComboBox</span>&lt;<span class="tok-type">String</span>&gt; track = <span class="tok-kw">new</span> <span class="tok-type">JComboBox</span>&lt;&gt;(<span class="tok-kw">new</span> <span class="tok-type">String</span>[]{<span class="tok-str">"Software"</span>, <span class="tok-str">"Data"</span>, <span class="tok-str">"Network"</span>, <span class="tok-str">"Game"</span>});
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JButton</span> next = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Next"</span>);
-    <span class="tok-com">// ค่าเริ่มต้น: งานว่าง ไม่ทำอะไร</span>
-    <span class="tok-kw">private</span> <span class="tok-type">Runnable</span> onNext = () -&gt; { };
+    <span class="tok-kw">private</span> <span class="tok-type">Runnable</span> onNext = () -&gt; { };                      <span class="tok-com">// ค่าเริ่มต้น: ไม่ทำอะไร</span>
 
     <span class="tok-type">FormPage</span>(<span class="tok-type">Registration</span> model) {
         <span class="tok-kw">super</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">2</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));
@@ -394,15 +372,13 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         <span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Track:"</span>)); <span class="tok-fn">add</span>(track);
         <span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>()); <span class="tok-fn">add</span>(next);
         next.<span class="tok-fn">addActionListener</span>(e -&gt; {
-            <span class="tok-com">// เขียนข้อมูลลง model</span>
-            model.name = name.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>();
+            model.name = name.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>();               <span class="tok-com">// 1. เขียนลง model</span>
             model.track = (<span class="tok-type">String</span>) track.<span class="tok-fn">getSelectedItem</span>();
-            onNext.<span class="tok-fn">run</span>();  <span class="tok-com">// แจ้งผู้ที่ลงทะเบียนไว้</span>
+            onNext.<span class="tok-fn">run</span>();                                     <span class="tok-com">// 2. แล้วจึงเปลี่ยนหน้า</span>
         });
     }
 
-    <span class="tok-com">// รับงานจากภายนอก</span>
-    <span class="tok-kw">void</span> <span class="tok-fn">onNext</span>(<span class="tok-type">Runnable</span> action) { <span class="tok-kw">this</span>.onNext = action; }
+    <span class="tok-kw">void</span> <span class="tok-fn">onNext</span>(<span class="tok-type">Runnable</span> action) { <span class="tok-kw">this</span>.onNext = action; }    <span class="tok-com">// รับงานจากภายนอก</span>
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">SummaryPage</span> <span class="tok-kw">extends</span> <span class="tok-type">JPanel</span> {
@@ -419,18 +395,21 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         <span class="tok-fn">add</span>(edit, <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
     }
 
-    <span class="tok-kw">void</span> <span class="tok-fn">refresh</span>() {  <span class="tok-com">// อ่านข้อมูลจาก model มาแสดง</span>
+    <span class="tok-kw">void</span> <span class="tok-fn">refresh</span>() {                                          <span class="tok-com">// อ่าน model ทุกครั้งก่อนแสดง</span>
         text.<span class="tok-fn">setText</span>(model.name + <span class="tok-str">" - "</span> + model.track + <span class="tok-str">" track"</span>);
     }
 
     <span class="tok-kw">void</span> <span class="tok-fn">onEdit</span>(<span class="tok-type">Runnable</span> action) { edit.<span class="tok-fn">addActionListener</span>(e -&gt; action.<span class="tok-fn">run</span>()); }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอก JHope แล้ว Next → หน้าสรุป</p><figure class="gui-shot"><div class="gui-titlebar">Registration</div><img src="../assets/gui/g867f507563-0.png" width="304" height="121" alt="ภาพหน้าต่าง Registration" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">กลับไปแก้เป็น Suga แล้ว Next อีกครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Registration</div><img src="../assets/gui/g867f507563-1.png" width="304" height="121" alt="ภาพหน้าต่าง Registration" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>model ถูกสร้างครั้งเดียวและส่งให้ทั้งสองหน้า</li><li>listener ของปุ่ม Next บันทึกลง model <em>ก่อน</em> แล้วจึงเรียก callback onNext ที่เปลี่ยนหน้า — ลำดับถูกกำหนดชัดในโค้ดเดียว (อย่าแยกเป็น listener 2 ตัว เพราะ Swing เรียก listener หลายตัวในลำดับย้อนกลับจากที่เพิ่ม หน้าสรุปจะได้ค่าเก่า)</li><li>summary.refresh() อ่าน model ก่อนแสดงทุกครั้ง — แก้แล้วกลับมาจึงเห็นค่าใหม่</li><li>หน้าต่าง ๆ ไม่อ้างถึงกันโดยตรง สื่อสารผ่าน model และ callback (Runnable)</li></ol></div></div>
-<div class="note-box"><span class="box-title">บั๊กที่พบบ่อย: หน้าสรุปแสดงค่าเก่า</span><p>ถ้า SummaryPage อ่านข้อมูลใน constructor ครั้งเดียว ข้อความจะไม่เปลี่ยนเมื่อผู้ใช้กลับไปแก้ ต้องมีเมธอด refresh() ที่ถูกเรียกทุกครั้งก่อนแสดงหน้า</p></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอก JHope แล้ว Next → หน้าสรุป</p><figure class="gui-shot"><div class="gui-titlebar">Registration</div><img src="../assets/gui/g0e85be7515-0.png" width="304" height="121" alt="ภาพหน้าต่าง Registration" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">กลับไปแก้เป็น Suga แล้ว Next อีกครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Registration</div><img src="../assets/gui/g0e85be7515-1.png" width="304" height="121" alt="ภาพหน้าต่าง Registration" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout warn"><span class="box-title">ลำดับ: บันทึกก่อน แล้วจึงเปลี่ยนหน้า</span><p>เขียนทั้งสองขั้นใน listener ตัวเดียวตามลำดับ อย่าแยกเป็น listener 2 ตัว เพราะ Swing เรียก listener หลายตัวในลำดับย้อนกลับจากที่เพิ่ม หน้าสรุปจะได้ค่าเก่า</p></div>
+<div class="callout warn"><span class="box-title">หน้าสรุปแสดงค่าเก่า</span><p>ถ้า SummaryPage อ่านข้อมูลใน constructor ครั้งเดียว ข้อความจะไม่เปลี่ยนเมื่อผู้ใช้กลับไปแก้ ต้องมี refresh() ที่ถูกเรียกทุกครั้งก่อนแสดงหน้า</p></div>
 </article>
 <article class="subtopic" id="topic-18-5">
 <h3>18.5 CardLayout หรือหลายหน้าต่าง (JDialog / JFrame)</h3>
+<p>ไม่ใช่ทุกหน้าจอต้องเป็นการ์ด งานสั้น ๆ ที่ต้องได้คำตอบก่อนทำต่อเหมาะกับหน้าต่างรอง</p>
 <table class="comparison-table"><thead><tr><th>ใช้</th><th>เมื่อ</th><th>ตัวอย่าง</th></tr></thead><tbody><tr><td>CardLayout</td><td>หน้าจอหลักที่ผู้ใช้สลับไปมา อยู่ในหน้าต่างเดียว</td><td>Home / Courses / Grades</td></tr><tr><td>JDialog (modal)</td><td>งานสั้นที่ต้องได้คำตอบก่อนทำต่อ</td><td>เพิ่ม/แก้ไขรายการ, ตั้งค่า, ล็อกอิน</td></tr><tr><td>JOptionPane</td><td>ข้อความหรือคำถามง่าย ๆ</td><td>ยืนยันลบ, แจ้ง error</td></tr><tr><td>JFrame ใหม่</td><td>หน้าต่างอิสระที่เปิดค้างคู่กันได้ (พบไม่บ่อย)</td><td>หน้าต่างแสดงกราฟแยก</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.5.1</span>JDialog แบบ modal สำหรับเพิ่มรายการ</h4><p class="concept-line"><strong>แนวคิด:</strong> JDialog modal บล็อกหน้าต่างหลักจนกว่าจะปิด — โค้ดหลัง <code>setVisible(true)</code> จะรอจนผู้ใช้กด OK/Cancel จึงอ่านผลลัพธ์ได้ทันที ภาพแสดงหน้าต่างหลักพร้อม dialog ที่เปิดอยู่</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DialogDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>JDialog แบบ <strong>modal</strong> บล็อกหน้าต่างหลักจนกว่าจะปิด โค้ดหลัง <code>dialog.setVisible(true)</code> จะรอจนผู้ใช้กด OK หรือ Cancel จึงอ่านผลลัพธ์ได้ทันที ภาพแสดงหน้าต่างหลักพร้อม dialog ที่เปิดอยู่</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 18.5.1</span>JDialog สำหรับเพิ่มรายวิชา</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DialogDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DialogDemo</span> {
@@ -442,12 +421,9 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
             courses.<span class="tok-fn">addElement</span>(<span class="tok-str">"CS101 Programming (3)"</span>);
             <span class="tok-type">JButton</span> add = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Add course..."</span>);
             add.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// สร้าง dialog โดยมี frame เป็นเจ้าของ</span>
-                <span class="tok-type">CourseDialog</span> dialog = <span class="tok-kw">new</span> <span class="tok-type">CourseDialog</span>(frame);
-                <span class="tok-com">// modal: รอจนกว่า dialog จะปิด</span>
-                dialog.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
-                <span class="tok-com">// ปิดแล้วจึงอ่านผลลัพธ์</span>
-                <span class="tok-kw">if</span> (dialog.<span class="tok-fn">getResult</span>() != <span class="tok-num">null</span>) courses.<span class="tok-fn">addElement</span>(dialog.<span class="tok-fn">getResult</span>());
+                <span class="tok-type">CourseDialog</span> dialog = <span class="tok-kw">new</span> <span class="tok-type">CourseDialog</span>(frame);    <span class="tok-com">// frame เป็นเจ้าของ</span>
+                dialog.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);                          <span class="tok-com">// modal: หยุดรอจนกว่าจะปิด</span>
+                <span class="tok-kw">if</span> (dialog.<span class="tok-fn">getResult</span>() != <span class="tok-num">null</span>) courses.<span class="tok-fn">addElement</span>(dialog.<span class="tok-fn">getResult</span>());   <span class="tok-com">// ปิดแล้วจึงอ่านผล</span>
             });
             frame.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JScrollPane</span>(<span class="tok-kw">new</span> <span class="tok-type">JList</span>&lt;&gt;(courses)), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
             frame.<span class="tok-fn">add</span>(add, <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
@@ -458,27 +434,22 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
     }
 }
 
-<span class="tok-com">// JDialog: หน้าต่างย่อยของหน้าต่างหลัก</span>
 <span class="tok-kw">class</span> <span class="tok-type">CourseDialog</span> <span class="tok-kw">extends</span> <span class="tok-type">JDialog</span> {
-    <span class="tok-kw">private</span> <span class="tok-type">String</span> result = <span class="tok-num">null</span>;  <span class="tok-com">// null = ผู้ใช้กดยกเลิก</span>
+    <span class="tok-kw">private</span> <span class="tok-type">String</span> result = <span class="tok-num">null</span>;                             <span class="tok-com">// null = กดยกเลิก</span>
 
     <span class="tok-type">CourseDialog</span>(<span class="tok-type">JFrame</span> owner) {
-        <span class="tok-com">// true = modal (บล็อกหน้าต่างหลัก)</span>
-        <span class="tok-kw">super</span>(owner, <span class="tok-str">"Add course"</span>, <span class="tok-num">true</span>);
+        <span class="tok-kw">super</span>(owner, <span class="tok-str">"Add course"</span>, <span class="tok-num">true</span>);                     <span class="tok-com">// true = modal</span>
         <span class="tok-type">JTextField</span> code = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">8</span>);
         <span class="tok-type">JSpinner</span> credits = <span class="tok-kw">new</span> <span class="tok-type">JSpinner</span>(<span class="tok-kw">new</span> <span class="tok-type">SpinnerNumberModel</span>(<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">6</span>, <span class="tok-num">1</span>));
         <span class="tok-type">JButton</span> ok = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"OK"</span>);
         <span class="tok-type">JButton</span> cancel = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Cancel"</span>);
         ok.<span class="tok-fn">addActionListener</span>(e -&gt; {
             <span class="tok-kw">if</span> (code.<span class="tok-fn">getText</span>().<span class="tok-fn">isBlank</span>()) {
-                <span class="tok-com">// this = dialog เป็นเจ้าของกล่องข้อความ</span>
                 <span class="tok-type">JOptionPane</span>.<span class="tok-fn">showMessageDialog</span>(<span class="tok-kw">this</span>, <span class="tok-str">"Course code is required"</span>);
                 <span class="tok-kw">return</span>;
             }
-            <span class="tok-com">// เก็บผลก่อนปิด</span>
-            result = code.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>() + <span class="tok-str">" ("</span> + credits.<span class="tok-fn">getValue</span>() + <span class="tok-str">")"</span>;
-            <span class="tok-com">// ปิด dialog → setVisible(true) คืนค่ากลับ</span>
-            <span class="tok-fn">dispose</span>();
+            result = code.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>() + <span class="tok-str">" ("</span> + credits.<span class="tok-fn">getValue</span>() + <span class="tok-str">")"</span>;   <span class="tok-com">// เก็บผลก่อนปิด</span>
+            <span class="tok-fn">dispose</span>();                                        <span class="tok-com">// ปิด → setVisible(true) คืนกลับ</span>
         });
         cancel.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">dispose</span>());
         <span class="tok-type">JPanel</span> form = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">2</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));
@@ -488,12 +459,12 @@ cards.<span class="tok-fn">next</span>(container); cards.<span class="tok-fn">pr
         form.<span class="tok-fn">add</span>(ok); form.<span class="tok-fn">add</span>(cancel);
         <span class="tok-fn">setContentPane</span>(form);
         <span class="tok-fn">pack</span>();
-        <span class="tok-fn">setLocationRelativeTo</span>(owner);  <span class="tok-com">// แสดงกลางหน้าต่างหลัก</span>
+        <span class="tok-fn">setLocationRelativeTo</span>(owner);                         <span class="tok-com">// กลางหน้าต่างหลัก</span>
     }
 
     <span class="tok-type">String</span> <span class="tok-fn">getResult</span>() { <span class="tok-kw">return</span> result; }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">My courses</div><img src="../assets/gui/gfb15dde458-0.png" width="284" height="141" alt="ภาพหน้าต่าง My courses" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Add course</div><img src="../assets/gui/gfb15dde458-1.png" width="210" height="110" alt="ภาพหน้าต่าง Add course" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>super(owner, "Add course", true)</code> — true คือ modal</li><li>setVisible(true) หยุดรอจนกว่า dialog จะ dispose()</li><li>ผลลัพธ์เก็บใน field result (null = ยกเลิก)</li><li>หน้าต่างหลักอ่าน getResult() แล้วเพิ่มลงรายการ</li></ol></div></div>
-<div class="note-box"><span class="box-title">ทำไมไม่ควรเปิด JFrame ใหม่ทุกครั้งที่เปลี่ยนหน้า</span><ul><li>ผู้ใช้เห็นหลายหน้าต่างใน taskbar สับสนว่าอันไหนคืออันหลัก</li><li>ต้องจัดการปิด/ซ่อนหน้าต่างเก่าเอง ถ้าใช้ EXIT_ON_CLOSE กับทุกบาน ปิดบานเดียวโปรแกรมจบทั้งหมด</li><li>การส่งข้อมูลระหว่างหน้าต่างยุ่งยากกว่า CardLayout + model</li></ul></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">My courses</div><img src="../assets/gui/g1679d6cdde-0.png" width="284" height="141" alt="ภาพหน้าต่าง My courses" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Add course</div><img src="../assets/gui/g1679d6cdde-1.png" width="210" height="110" alt="ภาพหน้าต่าง Add course" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout warn"><span class="box-title">ทำไมไม่ควรเปิด JFrame ใหม่ทุกครั้งที่เปลี่ยนหน้า</span><ul><li>ผู้ใช้เห็นหลายหน้าต่างใน taskbar สับสนว่าอันไหนคืออันหลัก</li><li>ต้องจัดการปิด/ซ่อนหน้าต่างเก่าเอง ถ้าใช้ EXIT_ON_CLOSE กับทุกบาน ปิดบานเดียวโปรแกรมจบทั้งหมด</li><li>การส่งข้อมูลระหว่างหน้าต่างยุ่งยากกว่า CardLayout + model</li></ul></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">

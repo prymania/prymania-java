@@ -16,6 +16,7 @@ export default {
     {
       num: "18.1", toc: "ออกแบบหน้าจอแยกกัน", title: "ออกแบบหน้าจอแยกกัน",
       blocks: [
+        { type: "p", html: `ก่อนเขียนโค้ดแอปหลายหน้า ให้วางแผนว่ามีหน้าอะไร ไปหน้าไหนด้วยปุ่มอะไร และข้อมูลอะไรต้องส่งต่อ` },
         { type: "steps", title: "วางแผนหน้าจอก่อนเขียนโค้ด", items: [
           "เขียนรายการหน้าจอและหน้าที่ของแต่ละหน้า เช่น Home, Form, Summary",
           "วาดแผนผังการนำทาง (ลูกศร: จากหน้าไหนไปหน้าไหนด้วยปุ่มอะไร)",
@@ -29,8 +30,9 @@ export default {
           └────────┘          └────────┘         └──────────┘
                ▲    ◀── Back ──┘    ◀──── Back ────┘  │
                └──────────────── Home ─────────────────┘`) },
-        { type: "run", title: "หน้าจอเป็นคลาสที่ extends JPanel", level: "ต่อยอด", gui: true,
-          concept: "แต่ละหน้าจอเป็นคลาสของตัวเอง มี component และเมธอดของหน้านั้น — ตัวอย่างนี้แสดงสองหน้าพร้อมกันในหน้าต่างทดสอบ เพื่อเห็นว่าแยกกันได้จริง",
+        { type: "h", text: "หน้าจอเป็นคลาสที่ extends JPanel" },
+        { type: "p", html: `แต่ละหน้าเป็นคลาสของตัวเอง ประกอบหน้าตาใน constructor แล้วนำไปวางที่ไหนก็ได้เหมือน component ทั่วไป ตัวอย่างนี้วางสองหน้าคู่กันเพื่อทดสอบ หัวข้อถัดไปจะซ้อนไว้ใน CardLayout แทน` },
+        { type: "run", title: "HomeScreen และ ProfileScreen", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -40,9 +42,7 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Two screens side by side (test)");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // วาง 2 หน้าจอคู่กันเพื่อทดสอบ
-                        JPanel both = new JPanel(new GridLayout(1, 2, 10, 0));
-                        // แต่ละหน้าจอเป็นออบเจ็กต์ของคลาสตัวเอง
+                        JPanel both = new JPanel(new GridLayout(1, 2, 10, 0));    // วางคู่กันเพื่อทดสอบ
                         both.add(new HomeScreen());
                         both.add(new ProfileScreen("JHope", "Science"));
                         frame.setContentPane(both);
@@ -52,23 +52,19 @@ export default {
                 }
             }
 
-            // หน้าจอ = คลาสลูกของ JPanel
-            class HomeScreen extends JPanel {
+            class HomeScreen extends JPanel {                         // หน้าจอ = คลาสลูกของ JPanel
                 HomeScreen() {
-                    // กำหนด layout ผ่าน constructor ของ JPanel
-                    super(new BorderLayout(0, 8));
+                    super(new BorderLayout(0, 8));                    // กำหนด layout ผ่าน constructor ของ JPanel
                     setBorder(BorderFactory.createTitledBorder("HomeScreen"));
                     JLabel title = new JLabel("Welcome!", SwingConstants.CENTER);
                     title.setFont(title.getFont().deriveFont(Font.BOLD, 20f));
-                    // add ของตัวเอง (JPanel)
-                    add(title, BorderLayout.CENTER);
+                    add(title, BorderLayout.CENTER);                  // add ของตัวเอง
                     add(new JButton("Start"), BorderLayout.SOUTH);
                 }
             }
 
             class ProfileScreen extends JPanel {
-                // รับข้อมูลที่ต้องแสดงผ่าน constructor
-                ProfileScreen(String name, String faculty) {
+                ProfileScreen(String name, String faculty) {          // รับข้อมูลที่ต้องแสดง
                     super(new GridLayout(0, 1, 4, 4));
                     setBorder(BorderFactory.createTitledBorder("ProfileScreen"));
                     add(new JLabel("Name: " + name));
@@ -76,22 +72,23 @@ export default {
                     add(new JButton("Back"));
                 }
             }`,
-          steps: ["HomeScreen และ ProfileScreen เป็น JPanel ที่ประกอบหน้าตาของตัวเองใน constructor", "นำไปวางในหน้าต่างใดก็ได้เหมือน component ทั่วไป", "หัวข้อถัดไปจะวางสองหน้านี้ซ้อนกันใน CardLayout แทนการวางคู่กัน"] },
+          },
         { type: "check", title: "แบ่งหน้าจอ", html: `<p>แอปห้องสมุดมีฟังก์ชัน: ค้นหาหนังสือ, ดูรายละเอียดหนังสือ, ยืม, ดูรายการที่ยืมอยู่ ควรแบ่งเป็นหน้าจออะไรบ้าง และการยืมควรเป็นหน้าจอหรือ dialog</p>`, answer: `<p>หน้าจอ: Search, Book detail, My loans (+ Home) — การยืมเป็นงานสั้นที่ต้องยืนยัน จึงเหมาะกับ dialog (confirm) ที่เปิดจากหน้า Book detail</p>` },
       ],
     },
     {
       num: "18.2", toc: "CardLayout", title: "CardLayout: สลับหน้าจอในหน้าต่างเดียว",
       blocks: [
+        { type: "p", html: `<code>CardLayout</code> ซ้อน panel หลายใบ (การ์ด) ไว้ที่ตำแหน่งเดียวกันและแสดงทีละใบ แต่ละการ์ดมีชื่อ สั่งให้แสดงด้วยชื่อหรือเลื่อนไปใบถัดไปก็ได้` },
         { type: "concept", title: "วิธีใช้ CardLayout", html: jpre(`
           CardLayout cards = new CardLayout();
           JPanel container = new JPanel(cards);       // container ที่ซ้อนการ์ด
           container.add(homePanel, "home");           // เพิ่มการ์ดพร้อมชื่อ
           container.add(formPanel, "form");
           cards.show(container, "form");              // แสดงการ์ดตามชื่อ
-          cards.next(container); cards.previous(container); cards.first(container);`) + `<p>การ์ดทุกใบซ้อนอยู่ที่ตำแหน่งเดียวกัน มองเห็นทีละใบ ขนาดของ container เท่ากับการ์ดที่ใหญ่ที่สุด</p>` },
-        { type: "run", title: "สลับระหว่าง 3 การ์ดด้วย show(name)", level: "พื้นฐาน", gui: true, actions: "shot\nclick Settings\nshot\nclick Help\nshot", captions: ["เริ่มต้น (home)", "หลังคลิก Settings", "หลังคลิก Help"],
-          concept: "แถบปุ่มด้านบนเรียก <code>cards.show(container, ชื่อ)</code> — ส่วนเนื้อหาด้านล่างเปลี่ยนไปตามปุ่มที่กด",
+          cards.next(container); cards.previous(container); cards.first(container);`) },
+        { type: "tip", html: `การ์ดใบแรกที่ add จะแสดงก่อน และขนาดของ container เท่ากับการ์ดที่ใหญ่ที่สุด` },
+        { type: "run", title: "สลับ 3 การ์ดด้วย show(name)", gui: true, actions: "shot\nclick Settings\nshot\nclick Help\nshot", captions: ["เริ่มต้น (home)", "หลังคลิก Settings", "หลังคลิก Help"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -101,19 +98,16 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Card demo");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // CardLayout: ซ้อนหลายหน้า แสดงทีละหน้า
                         CardLayout cards = new CardLayout();
                         JPanel content = new JPanel(cards);
-                        // แต่ละหน้ามีชื่อเรียก "home"
-                        content.add(page("Home", "Today: 2 classes, 1 deadline", new Color(229, 244, 207)), "home");
+                        content.add(page("Home", "Today: 2 classes, 1 deadline", new Color(229, 244, 207)), "home");   // ชื่อการ์ด
                         content.add(page("Settings", "Theme: Light   Language: TH", new Color(217, 243, 243)), "settings");
                         content.add(page("Help", "Email: help@uni.ac.th", new Color(253, 229, 220)), "help");
 
-                        JPanel nav = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                        JPanel nav = new JPanel(new FlowLayout(FlowLayout.LEFT));    // อยู่นอก CardLayout → เห็นตลอด
                         for (String name : new String[]{"Home", "Settings", "Help"}) {
                             JButton b = new JButton(name);
-                            // แสดงหน้าตามชื่อ
-                            b.addActionListener(e -> cards.show(content, name.toLowerCase()));
+                            b.addActionListener(e -> cards.show(content, name.toLowerCase()));   // "Settings" → "settings"
                             nav.add(b);
                         }
                         frame.add(nav, BorderLayout.NORTH);
@@ -123,8 +117,7 @@ export default {
                     });
                 }
 
-                // เมธอดสร้างหน้าแบบเดียวกัน
-                static JPanel page(String title, String text, Color bg) {
+                static JPanel page(String title, String text, Color bg) {       // สร้างการ์ดแบบเดียวกัน
                     JPanel p = new JPanel(new GridLayout(2, 1));
                     p.setBackground(bg);
                     p.setBorder(BorderFactory.createEmptyBorder(10, 14, 10, 14));
@@ -135,15 +128,17 @@ export default {
                     return p;
                 }
             }`,
-          steps: ["การ์ดแรกที่ add จะแสดงก่อน", "แต่ละปุ่มแสดงการ์ดตามชื่อ (ตัวพิมพ์เล็ก)", "แถบปุ่ม (NORTH) อยู่นอก CardLayout จึงเห็นตลอด"] },
-        { type: "run", title: "next / previous: วิซาร์ดแบบเรียงลำดับ", level: "ต่อยอด", gui: true, actions: "click Next >\nshot\nclick Next >\nshot", captions: ["หลังคลิก Next ครั้งที่ 1", "หลังคลิก Next ครั้งที่ 2 (ขั้นสุดท้าย)"],
-          concept: "สำหรับขั้นตอนที่ต้องทำตามลำดับ ใช้ <code>cards.next</code>/<code>previous</code> และเก็บหมายเลขขั้นเพื่อเปิด/ปิดปุ่มให้ถูก",
+          },
+
+        { type: "h", text: "next / previous: วิซาร์ดตามลำดับ" },
+        { type: "p", html: `ขั้นตอนที่ต้องทำเรียงกันใช้ <code>cards.next</code> และ <code>cards.previous</code> แต่ CardLayout ไม่มีเมธอดบอกว่าแสดงการ์ดใบไหนอยู่ จึงต้องเก็บหมายเลขขั้นเองเพื่อเปิด/ปิดปุ่มให้ถูก` },
+        { type: "run", title: "วิซาร์ดลงทะเบียน 3 ขั้น", gui: true, actions: "click Next >\nshot\nclick Next >\nshot", captions: ["หลังคลิก Next ครั้งที่ 1", "หลังคลิก Next ครั้งที่ 2 (ขั้นสุดท้าย)"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
 
             public class StepWizard {
-                private static int step = 0;  // ขั้นตอนปัจจุบัน
+                private static int step = 0;                              // ขั้นปัจจุบัน (เก็บเอง)
                 private static final String[] STEPS = {"1. Choose course", "2. Pick a section", "3. Confirm"};
 
                 public static void main(String[] args) {
@@ -155,25 +150,20 @@ export default {
                         for (String s : STEPS) {
                             JLabel l = new JLabel(s, SwingConstants.CENTER);
                             l.setFont(l.getFont().deriveFont(Font.BOLD, 16f));
-                            content.add(l, s);  // ใช้ข้อความเป็นชื่อการ์ด
+                            content.add(l, s);                            // ใช้ข้อความเป็นชื่อการ์ด
                         }
                         JLabel progress = new JLabel();
                         JButton back = new JButton("< Back");
                         JButton next = new JButton("Next >");
-                        // อัปเดตปุ่มและข้อความตามขั้นตอน
-                        Runnable refresh = () -> {
+                        Runnable refresh = () -> {                        // จุดเดียวที่อัปเดตปุ่มและข้อความ
                             progress.setText("Step " + (step + 1) + " of " + STEPS.length);
-                            // ขั้นแรกย้อนกลับไม่ได้
-                            back.setEnabled(step > 0);
-                            // ขั้นสุดท้ายเปลี่ยนเป็น Finish
+                            back.setEnabled(step > 0);                    // ขั้นแรกย้อนไม่ได้
                             next.setText(step == STEPS.length - 1 ? "Finish" : "Next >");
                         };
-                        // previous: ไปการ์ดก่อนหน้า
                         back.addActionListener(e -> { step--; cards.previous(content); refresh.run(); });
                         next.addActionListener(e -> {
                             if (step < STEPS.length - 1) {
                                 step++;
-                                // next: ไปการ์ดถัดไป
                                 cards.next(content);
                                 refresh.run();
                             } else {
@@ -187,7 +177,7 @@ export default {
                         buttons.add(next);
                         bottom.add(buttons, BorderLayout.EAST);
                         bottom.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 0));
-                        refresh.run();  // ตั้งค่าเริ่มต้น
+                        refresh.run();                                    // ตั้งค่าเริ่มต้น
                         frame.add(content, BorderLayout.CENTER);
                         frame.add(bottom, BorderLayout.SOUTH);
                         frame.setSize(340, 170);
@@ -195,16 +185,15 @@ export default {
                     });
                 }
             }`,
-          steps: ["step เก็บว่าอยู่ขั้นไหน — CardLayout ไม่มีเมธอดบอกการ์ดปัจจุบัน", "ปุ่ม Back ปิดเมื่ออยู่ขั้นแรก", "ขั้นสุดท้ายเปลี่ยนข้อความ Next เป็น Finish", "refresh() เป็นจุดเดียวที่อัปเดตปุ่มและข้อความความคืบหน้า"] },
+          },
         { type: "check", title: "CardLayout", html: `<p>ถ้าลืมตั้งชื่อการ์ดตอน add แล้วเรียก <code>cards.show(content, "form")</code> จะเกิดอะไรขึ้น</p>`, answer: `<p>ไม่มีอะไรเกิดขึ้น (ไม่ error) เพราะไม่มีการ์ดชื่อนั้น — บั๊กลักษณะนี้หายาก จึงควรเก็บชื่อการ์ดเป็นค่าคงที่ (static final String) แทนการพิมพ์ซ้ำหลายที่</p>` },
       ],
     },
     {
       num: "18.3", toc: "ปุ่มนำทาง", title: "ปุ่มนำทางและตัวควบคุมการนำทาง",
       blocks: [
-        { type: "p", html: `เมื่อหน้าจอแยกเป็นคลาส หน้าจอหนึ่งต้องสั่ง “ไปหน้าอื่น” ได้โดยไม่ต้องรู้จัก CardLayout โดยตรง วิธีที่ดีคือสร้างคลาสตัวควบคุม (เช่น <code>Navigator</code> หรือตัวหน้าต่างหลัก) ที่มีเมธอด <code>goTo(name)</code> แล้วส่งตัวควบคุมนี้ให้แต่ละหน้าผ่าน constructor` },
-        { type: "run", title: "Navigator ที่ทุกหน้าใช้ร่วมกัน", level: "ประยุกต์", gui: true, actions: "click Start\nshot\nclick About\nshot\nclick Home\nshot", captions: ["Home → Start", "Menu → About", "About → Home"],
-          concept: "แต่ละหน้ารับ Navigator ใน constructor แล้วเรียก <code>nav.goTo(...)</code> ในปุ่ม — ชื่อหน้าเก็บเป็นค่าคงที่ป้องกันพิมพ์ผิด",
+        { type: "p", html: `เมื่อหน้าจอแยกเป็นคลาส หน้าหนึ่งต้องสั่ง “ไปหน้าอื่น” ได้โดยไม่ต้องรู้จัก CardLayout โดยตรง สร้างคลาสตัวควบคุม เช่น <code>Navigator</code> ที่มีเมธอด <code>goTo(name)</code> แล้วส่งให้แต่ละหน้าผ่าน constructor` },
+        { type: "run", title: "Navigator ที่ทุกหน้าใช้ร่วมกัน", gui: true, actions: "click Start\nshot\nclick About\nshot\nclick Home\nshot", captions: ["Home → Start", "Menu → About", "About → Home"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -214,10 +203,8 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Navigator");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // ตัวกลางจัดการการเปลี่ยนหน้า
                         Navigator nav = new Navigator();
-                        // หน้าแต่ละหน้ารู้จัก Navigator
-                        nav.add(Navigator.HOME, new SimplePage("Home", nav, "Start", Navigator.MENU));
+                        nav.add(Navigator.HOME, new SimplePage("Home", nav, "Start", Navigator.MENU));   // ปุ่ม Start → menu
                         nav.add(Navigator.MENU, new SimplePage("Menu", nav, "About", Navigator.ABOUT));
                         nav.add(Navigator.ABOUT, new SimplePage("About: v1.0 by JHope", nav, "Home", Navigator.HOME));
                         frame.add(nav.getContainer(), BorderLayout.CENTER);
@@ -229,19 +216,16 @@ export default {
             }
 
             class Navigator {
-                // ชื่อหน้าเป็นค่าคงที่ ป้องกันพิมพ์ผิด
-                static final String HOME = "home", MENU = "menu", ABOUT = "about";
-                private final CardLayout cards = new CardLayout();
+                static final String HOME = "home", MENU = "menu", ABOUT = "about";   // ค่าคงที่ ป้องกันพิมพ์ผิด
+                private final CardLayout cards = new CardLayout();                    // ซ่อนไว้ข้างใน
                 private final JPanel container = new JPanel(cards);
                 private final JLabel status = new JLabel(" page: " + HOME);
 
-                // ลงทะเบียนหน้าพร้อมชื่อ
                 void add(String name, JPanel page) { container.add(page, name); }
 
-                void goTo(String name) {  // ทุกการเปลี่ยนหน้าผ่านเมธอดนี้
+                void goTo(String name) {                                  // ทุกการเปลี่ยนหน้าผ่านที่นี่
                     cards.show(container, name);
-                    // อัปเดตแถบสถานะไปพร้อมกัน
-                    status.setText(" page: " + name);
+                    status.setText(" page: " + name);                     // อัปเดตแถบสถานะไปพร้อมกัน
                 }
 
                 JPanel getContainer() { return container; }
@@ -255,90 +239,88 @@ export default {
                     JLabel t = new JLabel(title, SwingConstants.CENTER);
                     t.setFont(t.getFont().deriveFont(Font.BOLD, 16f));
                     JButton go = new JButton(buttonText);
-                    // ปุ่มบอก Navigator ว่าจะไปหน้าไหน
-                    go.addActionListener(e -> nav.goTo(target));
+                    go.addActionListener(e -> nav.goTo(target));          // บอก Navigator ว่าจะไปไหน
                     add(t, BorderLayout.CENTER);
                     add(go, BorderLayout.SOUTH);
                 }
             }`,
-          steps: ["Navigator ห่อ CardLayout ไว้ หน้าอื่นไม่ต้องรู้รายละเอียด", "SimplePage รับ nav และชื่อหน้าปลายทาง", "status bar แสดงหน้าปัจจุบัน — อัปเดตใน goTo ที่เดียว", "เพิ่มหน้าใหม่ได้โดยไม่แก้หน้าเดิม"] },
-        { type: "run", title: "ประวัติการนำทางและปุ่ม Back", level: "ท้าทาย", gui: true, actions: "click Courses\nclick Grades\nshot\nclick Back\nshot\nclick Back\nshot", captions: ["Home → Courses → Grades", "Back ครั้งที่ 1", "Back ครั้งที่ 2"],
-          concept: "เก็บประวัติหน้าที่เคยไปใน <code>ArrayList</code> แบบ stack: ไปหน้าใหม่ = เพิ่มท้าย, Back = ลบท้ายแล้วแสดงหน้าก่อนหน้า",
-          code: j`
-            import javax.swing.*;
-            import java.awt.*;
-            import java.util.ArrayList;
+          },
+        { type: "tip", html: `เพิ่มหน้าใหม่ได้โดยไม่ต้องแก้หน้าเดิม แค่ add เข้า Navigator` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: ประวัติการนำทางและปุ่ม Back", blocks: [
+          { type: "p", html: `เก็บชื่อหน้าที่เคยไปใน <code>ArrayList</code> แบบ stack: ไปหน้าใหม่ = เพิ่มท้าย, Back = ลบท้ายแล้วแสดงหน้าที่อยู่ท้ายสุดตอนนี้` },
+          { type: "run", title: "Back ย้อนตามประวัติ", gui: true, actions: "click Courses\nclick Grades\nshot\nclick Back\nshot\nclick Back\nshot", captions: ["Home → Courses → Grades", "Back ครั้งที่ 1", "Back ครั้งที่ 2"],
+            code: j`
+              import javax.swing.*;
+              import java.awt.*;
+              import java.util.ArrayList;
 
-            public class BackHistory {
-                // ประวัติหน้าที่เคยไป
-                private static final ArrayList<String> history = new ArrayList<>();
-                private static final CardLayout cards = new CardLayout();
-                private static final JPanel content = new JPanel(cards);
-                private static final JButton back = new JButton("Back");
-                private static final JLabel path = new JLabel();
+              public class BackHistory {
+                  private static final ArrayList<String> history = new ArrayList<>();   // หน้าที่เคยไป
+                  private static final CardLayout cards = new CardLayout();
+                  private static final JPanel content = new JPanel(cards);
+                  private static final JButton back = new JButton("Back");
+                  private static final JLabel path = new JLabel();
 
-                public static void main(String[] args) {
-                    SwingUtilities.invokeLater(() -> {
-                        JFrame frame = new JFrame("History");
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // สร้างการ์ดแต่ละหน้า
-                        for (String name : new String[]{"Home", "Courses", "Grades"}) {
-                            JLabel l = new JLabel(name + " screen", SwingConstants.CENTER);
-                            l.setFont(l.getFont().deriveFont(Font.BOLD, 18f));
-                            content.add(l, name);
-                        }
-                        JPanel nav = new JPanel();
-                        nav.add(back);
-                        for (String name : new String[]{"Home", "Courses", "Grades"}) {
-                            JButton b = new JButton(name);
-                            // ทุกปุ่มเรียก goTo
-                            b.addActionListener(e -> goTo(name));
-                            nav.add(b);
-                        }
-                        back.addActionListener(e -> goBack());
-                        goTo("Home");
-                        frame.add(nav, BorderLayout.NORTH);
-                        frame.add(content, BorderLayout.CENTER);
-                        frame.add(path, BorderLayout.SOUTH);
-                        frame.setSize(360, 170);
-                        frame.setVisible(true);
-                    });
-                }
+                  public static void main(String[] args) {
+                      SwingUtilities.invokeLater(() -> {
+                          JFrame frame = new JFrame("History");
+                          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                          for (String name : new String[]{"Home", "Courses", "Grades"}) {
+                              JLabel l = new JLabel(name + " screen", SwingConstants.CENTER);
+                              l.setFont(l.getFont().deriveFont(Font.BOLD, 18f));
+                              content.add(l, name);
+                          }
+                          JPanel nav = new JPanel();
+                          nav.add(back);
+                          for (String name : new String[]{"Home", "Courses", "Grades"}) {
+                              JButton b = new JButton(name);
+                              b.addActionListener(e -> goTo(name));
+                              nav.add(b);
+                          }
+                          back.addActionListener(e -> goBack());
+                          goTo("Home");
+                          frame.add(nav, BorderLayout.NORTH);
+                          frame.add(content, BorderLayout.CENTER);
+                          frame.add(path, BorderLayout.SOUTH);
+                          frame.setSize(360, 170);
+                          frame.setVisible(true);
+                      });
+                  }
 
-                static void goTo(String name) {
-                    // ไม่บันทึกซ้ำถ้าอยู่หน้าเดิม
-                    if (history.isEmpty() || !history.get(history.size() - 1).equals(name)) {
-                        history.add(name);
-                    }
-                    show();
-                }
+                  static void goTo(String name) {
+                      if (history.isEmpty() || !history.get(history.size() - 1).equals(name)) {   // ไม่เพิ่มซ้ำหน้าเดิม
+                          history.add(name);
+                      }
+                      show();
+                  }
 
-                static void goBack() {
-                    // มีหน้าก่อนหน้าให้ย้อน
-                    if (history.size() > 1) {
-                        // ลบหน้าปัจจุบันออกจากประวัติ
-                        history.remove(history.size() - 1);
-                        show();
-                    }
-                }
+                  static void goBack() {
+                      if (history.size() > 1) {
+                          history.remove(history.size() - 1);             // ลบหน้าปัจจุบัน
+                          show();
+                      }
+                  }
 
-                static void show() {
-                    // แสดงหน้าสุดท้ายในประวัติ
-                    cards.show(content, history.get(history.size() - 1));
-                    back.setEnabled(history.size() > 1);
-                    // แสดงเส้นทาง Home > Courses > ...
-                    path.setText(" " + String.join(" > ", history));
-                }
-            }`,
-          steps: ["goTo เพิ่มชื่อหน้าลงท้าย history (ไม่เพิ่มซ้ำถ้ากดหน้าเดิม)", "goBack ลบหน้าล่าสุดออก แล้วแสดงหน้าที่อยู่ท้ายสุดตอนนี้", "path แสดงเส้นทาง เช่น Home > Courses > Grades", "Back ถูกปิดเมื่อเหลือหน้าเดียว"] },
+                  static void show() {
+                      cards.show(content, history.get(history.size() - 1));   // แสดงหน้าท้ายสุด
+                      back.setEnabled(history.size() > 1);                    // เหลือหน้าเดียว → ปิด Back
+                      path.setText(" " + String.join(" > ", history));        // Home > Courses > ...
+                  }
+              }`,
+            },
+        ] },
       ],
     },
     {
       num: "18.4", toc: "แชร์ state ระหว่างหน้า", title: "แชร์ state ระหว่างหน้า",
       blocks: [
-        { type: "p", html: `ข้อมูลที่ผู้ใช้กรอกในหน้าหนึ่งมักต้องใช้ในอีกหน้า เช่น ฟอร์ม → สรุป วิธีที่ปลอดภัยคือมี <strong>model ออบเจ็กต์เดียว</strong>ที่ทุกหน้าอ้างถึง: หน้าฟอร์มเขียนลง model ก่อนเปลี่ยนหน้า และหน้าสรุปอ่านจาก model ทุกครั้งที่ถูกแสดง (ไม่ใช่ตอนสร้างครั้งแรกเท่านั้น)` },
-        { type: "run", title: "ฟอร์ม → สรุป ผ่าน model เดียวกัน", level: "ประยุกต์", gui: true, actions: "type field:0 JHope Jung\nselect combo:0 2\nclick Next\nshot\nclick Edit\ntype field:0 Suga\nclick Next\nshot", captions: ["กรอก JHope แล้ว Next → หน้าสรุป", "กลับไปแก้เป็น Suga แล้ว Next อีกครั้ง"],
-          concept: "<code>Registration</code> คือ model — FormPage เขียนลง model, SummaryPage มีเมธอด <code>refresh()</code> ที่อ่าน model ใหม่ทุกครั้งก่อนแสดง",
+        { type: "p", html: `ข้อมูลที่กรอกในหน้าหนึ่งมักต้องใช้ในอีกหน้า เช่น ฟอร์ม → สรุป วิธีที่ปลอดภัยคือมี <strong>model ออบเจ็กต์เดียว</strong>ที่ทุกหน้าอ้างถึง` },
+        { type: "table", head: ["หน้า", "ทำอะไรกับ model"], rows: [
+          ["FormPage", "เขียนค่าลง model <em>ก่อน</em>เปลี่ยนหน้า"],
+          ["SummaryPage", "อ่าน model ใน <code>refresh()</code> ทุกครั้งก่อนแสดง (ไม่ใช่แค่ตอนสร้าง)"],
+        ] },
+        { type: "p", html: `หน้าไม่อ้างถึงกันโดยตรง แต่บอกว่า “กด Next แล้วให้ทำอะไร” ผ่าน callback ชนิด <code>Runnable</code>` },
+        { type: "run", title: "ฟอร์ม → สรุป ผ่าน model เดียวกัน", gui: true, actions: "type field:0 JHope Jung\nselect combo:0 2\nclick Next\nshot\nclick Edit\ntype field:0 Suga\nclick Next\nshot", captions: ["กรอก JHope แล้ว Next → หน้าสรุป", "กลับไปแก้เป็น Suga แล้ว Next อีกครั้ง"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -348,16 +330,13 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Registration");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // ข้อมูลกลางที่ทุกหน้าใช้ร่วมกัน
-                        Registration model = new Registration();
+                        Registration model = new Registration();          // สร้างครั้งเดียว
                         CardLayout cards = new CardLayout();
                         JPanel content = new JPanel(cards);
-                        // ส่ง model เดียวกันให้ทั้งสองหน้า
-                        SummaryPage summary = new SummaryPage(model);
+                        SummaryPage summary = new SummaryPage(model);     // ส่งตัวเดียวกันให้ทั้งสองหน้า
                         FormPage form = new FormPage(model);
-                        // บอกฟอร์มว่ากด Next แล้วให้ทำอะไร
                         form.onNext(() -> {
-                            summary.refresh();  // ดึงข้อมูลล่าสุดก่อนแสดง
+                            summary.refresh();                            // อ่านค่าล่าสุดก่อนแสดง
                             cards.show(content, "summary");
                         });
                         summary.onEdit(() -> cards.show(content, "form"));
@@ -370,7 +349,7 @@ export default {
                 }
             }
 
-            class Registration {  // เก็บข้อมูลอย่างเดียว ไม่มีโค้ด GUI
+            class Registration {                                          // ข้อมูลอย่างเดียว ไม่มี GUI
                 String name = "";
                 String track = "";
             }
@@ -379,8 +358,7 @@ export default {
                 private final JTextField name = new JTextField(12);
                 private final JComboBox<String> track = new JComboBox<>(new String[]{"Software", "Data", "Network", "Game"});
                 private final JButton next = new JButton("Next");
-                // ค่าเริ่มต้น: งานว่าง ไม่ทำอะไร
-                private Runnable onNext = () -> { };
+                private Runnable onNext = () -> { };                      // ค่าเริ่มต้น: ไม่ทำอะไร
 
                 FormPage(Registration model) {
                     super(new GridLayout(0, 2, 6, 6));
@@ -389,15 +367,13 @@ export default {
                     add(new JLabel("Track:")); add(track);
                     add(new JLabel()); add(next);
                     next.addActionListener(e -> {
-                        // เขียนข้อมูลลง model
-                        model.name = name.getText().trim();
+                        model.name = name.getText().trim();               // 1. เขียนลง model
                         model.track = (String) track.getSelectedItem();
-                        onNext.run();  // แจ้งผู้ที่ลงทะเบียนไว้
+                        onNext.run();                                     // 2. แล้วจึงเปลี่ยนหน้า
                     });
                 }
 
-                // รับงานจากภายนอก
-                void onNext(Runnable action) { this.onNext = action; }
+                void onNext(Runnable action) { this.onNext = action; }    // รับงานจากภายนอก
             }
 
             class SummaryPage extends JPanel {
@@ -414,27 +390,29 @@ export default {
                     add(edit, BorderLayout.SOUTH);
                 }
 
-                void refresh() {  // อ่านข้อมูลจาก model มาแสดง
+                void refresh() {                                          // อ่าน model ทุกครั้งก่อนแสดง
                     text.setText(model.name + " - " + model.track + " track");
                 }
 
                 void onEdit(Runnable action) { edit.addActionListener(e -> action.run()); }
             }`,
-          steps: ["model ถูกสร้างครั้งเดียวและส่งให้ทั้งสองหน้า", "listener ของปุ่ม Next บันทึกลง model <em>ก่อน</em> แล้วจึงเรียก callback onNext ที่เปลี่ยนหน้า — ลำดับถูกกำหนดชัดในโค้ดเดียว (อย่าแยกเป็น listener 2 ตัว เพราะ Swing เรียก listener หลายตัวในลำดับย้อนกลับจากที่เพิ่ม หน้าสรุปจะได้ค่าเก่า)", "summary.refresh() อ่าน model ก่อนแสดงทุกครั้ง — แก้แล้วกลับมาจึงเห็นค่าใหม่", "หน้าต่าง ๆ ไม่อ้างถึงกันโดยตรง สื่อสารผ่าน model และ callback (Runnable)"] },
-        { type: "note", title: "บั๊กที่พบบ่อย: หน้าสรุปแสดงค่าเก่า", html: `<p>ถ้า SummaryPage อ่านข้อมูลใน constructor ครั้งเดียว ข้อความจะไม่เปลี่ยนเมื่อผู้ใช้กลับไปแก้ ต้องมีเมธอด refresh() ที่ถูกเรียกทุกครั้งก่อนแสดงหน้า</p>` },
+          },
+        { type: "warn", title: "ลำดับ: บันทึกก่อน แล้วจึงเปลี่ยนหน้า", html: `เขียนทั้งสองขั้นใน listener ตัวเดียวตามลำดับ อย่าแยกเป็น listener 2 ตัว เพราะ Swing เรียก listener หลายตัวในลำดับย้อนกลับจากที่เพิ่ม หน้าสรุปจะได้ค่าเก่า` },
+        { type: "warn", title: "หน้าสรุปแสดงค่าเก่า", html: `ถ้า SummaryPage อ่านข้อมูลใน constructor ครั้งเดียว ข้อความจะไม่เปลี่ยนเมื่อผู้ใช้กลับไปแก้ ต้องมี refresh() ที่ถูกเรียกทุกครั้งก่อนแสดงหน้า` },
       ],
     },
     {
       num: "18.5", toc: "CardLayout หรือหลาย JFrame", title: "CardLayout หรือหลายหน้าต่าง (JDialog / JFrame)",
       blocks: [
+        { type: "p", html: `ไม่ใช่ทุกหน้าจอต้องเป็นการ์ด งานสั้น ๆ ที่ต้องได้คำตอบก่อนทำต่อเหมาะกับหน้าต่างรอง` },
         { type: "table", head: ["ใช้", "เมื่อ", "ตัวอย่าง"], rows: [
           ["CardLayout", "หน้าจอหลักที่ผู้ใช้สลับไปมา อยู่ในหน้าต่างเดียว", "Home / Courses / Grades"],
           ["JDialog (modal)", "งานสั้นที่ต้องได้คำตอบก่อนทำต่อ", "เพิ่ม/แก้ไขรายการ, ตั้งค่า, ล็อกอิน"],
           ["JOptionPane", "ข้อความหรือคำถามง่าย ๆ", "ยืนยันลบ, แจ้ง error"],
           ["JFrame ใหม่", "หน้าต่างอิสระที่เปิดค้างคู่กันได้ (พบไม่บ่อย)", "หน้าต่างแสดงกราฟแยก"],
         ] },
-        { type: "run", title: "JDialog แบบ modal สำหรับเพิ่มรายการ", level: "ท้าทาย", gui: true, actions: "click Add course...",
-          concept: "JDialog modal บล็อกหน้าต่างหลักจนกว่าจะปิด — โค้ดหลัง <code>setVisible(true)</code> จะรอจนผู้ใช้กด OK/Cancel จึงอ่านผลลัพธ์ได้ทันที ภาพแสดงหน้าต่างหลักพร้อม dialog ที่เปิดอยู่",
+        { type: "p", html: `JDialog แบบ <strong>modal</strong> บล็อกหน้าต่างหลักจนกว่าจะปิด โค้ดหลัง <code>dialog.setVisible(true)</code> จะรอจนผู้ใช้กด OK หรือ Cancel จึงอ่านผลลัพธ์ได้ทันที ภาพแสดงหน้าต่างหลักพร้อม dialog ที่เปิดอยู่` },
+        { type: "run", title: "JDialog สำหรับเพิ่มรายวิชา", gui: true, actions: "click Add course...",
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -448,12 +426,9 @@ export default {
                         courses.addElement("CS101 Programming (3)");
                         JButton add = new JButton("Add course...");
                         add.addActionListener(e -> {
-                            // สร้าง dialog โดยมี frame เป็นเจ้าของ
-                            CourseDialog dialog = new CourseDialog(frame);
-                            // modal: รอจนกว่า dialog จะปิด
-                            dialog.setVisible(true);
-                            // ปิดแล้วจึงอ่านผลลัพธ์
-                            if (dialog.getResult() != null) courses.addElement(dialog.getResult());
+                            CourseDialog dialog = new CourseDialog(frame);    // frame เป็นเจ้าของ
+                            dialog.setVisible(true);                          // modal: หยุดรอจนกว่าจะปิด
+                            if (dialog.getResult() != null) courses.addElement(dialog.getResult());   // ปิดแล้วจึงอ่านผล
                         });
                         frame.add(new JScrollPane(new JList<>(courses)), BorderLayout.CENTER);
                         frame.add(add, BorderLayout.SOUTH);
@@ -464,27 +439,22 @@ export default {
                 }
             }
 
-            // JDialog: หน้าต่างย่อยของหน้าต่างหลัก
             class CourseDialog extends JDialog {
-                private String result = null;  // null = ผู้ใช้กดยกเลิก
+                private String result = null;                             // null = กดยกเลิก
 
                 CourseDialog(JFrame owner) {
-                    // true = modal (บล็อกหน้าต่างหลัก)
-                    super(owner, "Add course", true);
+                    super(owner, "Add course", true);                     // true = modal
                     JTextField code = new JTextField(8);
                     JSpinner credits = new JSpinner(new SpinnerNumberModel(3, 1, 6, 1));
                     JButton ok = new JButton("OK");
                     JButton cancel = new JButton("Cancel");
                     ok.addActionListener(e -> {
                         if (code.getText().isBlank()) {
-                            // this = dialog เป็นเจ้าของกล่องข้อความ
                             JOptionPane.showMessageDialog(this, "Course code is required");
                             return;
                         }
-                        // เก็บผลก่อนปิด
-                        result = code.getText().trim() + " (" + credits.getValue() + ")";
-                        // ปิด dialog → setVisible(true) คืนค่ากลับ
-                        dispose();
+                        result = code.getText().trim() + " (" + credits.getValue() + ")";   // เก็บผลก่อนปิด
+                        dispose();                                        // ปิด → setVisible(true) คืนกลับ
                     });
                     cancel.addActionListener(e -> dispose());
                     JPanel form = new JPanel(new GridLayout(0, 2, 6, 6));
@@ -494,13 +464,13 @@ export default {
                     form.add(ok); form.add(cancel);
                     setContentPane(form);
                     pack();
-                    setLocationRelativeTo(owner);  // แสดงกลางหน้าต่างหลัก
+                    setLocationRelativeTo(owner);                         // กลางหน้าต่างหลัก
                 }
 
                 String getResult() { return result; }
             }`,
-          steps: ["<code>super(owner, \"Add course\", true)</code> — true คือ modal", "setVisible(true) หยุดรอจนกว่า dialog จะ dispose()", "ผลลัพธ์เก็บใน field result (null = ยกเลิก)", "หน้าต่างหลักอ่าน getResult() แล้วเพิ่มลงรายการ"] },
-        { type: "note", title: "ทำไมไม่ควรเปิด JFrame ใหม่ทุกครั้งที่เปลี่ยนหน้า", html: `<ul><li>ผู้ใช้เห็นหลายหน้าต่างใน taskbar สับสนว่าอันไหนคืออันหลัก</li><li>ต้องจัดการปิด/ซ่อนหน้าต่างเก่าเอง ถ้าใช้ EXIT_ON_CLOSE กับทุกบาน ปิดบานเดียวโปรแกรมจบทั้งหมด</li><li>การส่งข้อมูลระหว่างหน้าต่างยุ่งยากกว่า CardLayout + model</li></ul>` },
+          },
+        { type: "warn", title: "ทำไมไม่ควรเปิด JFrame ใหม่ทุกครั้งที่เปลี่ยนหน้า", html: `<ul><li>ผู้ใช้เห็นหลายหน้าต่างใน taskbar สับสนว่าอันไหนคืออันหลัก</li><li>ต้องจัดการปิด/ซ่อนหน้าต่างเก่าเอง ถ้าใช้ EXIT_ON_CLOSE กับทุกบาน ปิดบานเดียวโปรแกรมจบทั้งหมด</li><li>การส่งข้อมูลระหว่างหน้าต่างยุ่งยากกว่า CardLayout + model</li></ul>` },
       ],
     },
   ],
