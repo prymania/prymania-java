@@ -16,14 +16,15 @@ export default {
     {
       num: "12.1", toc: "access modifier", title: "access modifier: กำหนดว่าใครเข้าถึงได้",
       blocks: [
+        { type: "p", html: `คำที่ใส่หน้า field หรือเมธอด เช่น <code>private</code> และ <code>public</code> เรียกว่า <strong>access modifier</strong> บอกว่าโค้ดส่วนไหนเข้าถึงได้บ้าง` },
         { type: "table", head: ["modifier", "เข้าถึงได้จาก", "ใช้กับ"], rows: [
           ["<code>private</code>", "ภายในคลาสเดียวกันเท่านั้น", "field เกือบทั้งหมด, เมธอดช่วยภายใน"],
           ["(ไม่ระบุ) package-private", "คลาสใน package เดียวกัน", "ตัวอย่างในบทก่อน ๆ"],
           ["<code>protected</code>", "package เดียวกัน + subclass", "สมาชิกที่ subclass ต้องใช้"],
           ["<code>public</code>", "ทุกที่", "constructor และเมธอดที่เป็น “บริการ” ของคลาส"],
         ] },
-        { type: "run", label: "ทดลอง error 12.1.1", title: "เข้าถึง private field จากภายนอก", level: "พื้นฐาน", expect: "compile-error",
-          concept: "เมื่อ field เป็น private compiler จะไม่ยอมให้คลาสอื่นอ่านหรือเขียนตรง ๆ",
+        { type: "p", html: `เมื่อ field เป็น private คลาสอื่นจะอ่านหรือเขียนตรง ๆ ไม่ได้เลย compiler ไม่ยอม` },
+        { type: "run", label: "ทดลอง error 12.1.1", title: "เข้าถึง private field จากภายนอก", expect: "compile-error",
           code: j`
             public class PrivateAccess {
                 public static void main(String[] args) {
@@ -36,36 +37,35 @@ export default {
             class Account {
                 private double balance;
             }`,
-          steps: ["<code>balance has private access in Account</code> ทั้งการเขียนและการอ่าน", "นี่คือสิ่งที่ต้องการ: บังคับให้คนนอกต้องผ่านเมธอดที่เราควบคุม"] },
-        { type: "run", title: "private field + public method", level: "ต่อยอด",
-          concept: "เปิดเฉพาะเมธอดที่มีกฎตรวจสอบ ส่วนข้อมูลภายในแก้ได้จากภายในคลาสเท่านั้น",
+          },
+        { type: "p", html: `นี่คือสิ่งที่ต้องการ: คนนอกต้องแก้ข้อมูลผ่าน<strong>เมธอด public ที่เราควบคุม</strong> ซึ่งตรวจกฎก่อนเปลี่ยนค่า` },
+
+        { type: "h", text: "private field + public method" },
+        { type: "run", title: "บัญชีที่ยอดเงินติดลบไม่ได้",
           code: j`
             public class PublicMethods {
                 public static void main(String[] args) {
                     Account acc = new Account("JHope");
-                    acc.deposit(500);
-                    acc.deposit(-100);  // ค่าติดลบถูกปฏิเสธ
-                    acc.withdraw(800);  // ถอนเกินยอด ถูกปฏิเสธ
-                    acc.withdraw(200);
-                    // อ่าน field private ผ่าน getter
+                    acc.deposit(500);                         // 500
+                    acc.deposit(-100);                        // ปฏิเสธ: ค่าติดลบ
+                    acc.withdraw(800);                        // ปฏิเสธ: เกินยอด
+                    acc.withdraw(200);                        // 300
                     System.out.println(acc.getOwner() + " balance: " + acc.getBalance());
                 }
             }
 
             class Account {
-                private String owner;  // private: ภายนอกคลาสเข้าถึงไม่ได้
+                private String owner;                     // ภายนอกคลาสเข้าถึงไม่ได้
                 private double balance;
 
                 public Account(String owner) {
                     this.owner = owner;
                 }
 
-                // public: ทางเดียวที่ภายนอกใช้แก้ยอดเงิน
-                public void deposit(double amount) {
-                    // ตรวจข้อมูลก่อนแก้ field
+                public void deposit(double amount) {      // ทางเดียวที่ภายนอกเพิ่มยอดได้
                     if (amount <= 0) {
                         System.out.println("Deposit must be positive");
-                        return;  // ออกจากเมธอด ไม่แก้ balance
+                        return;                           // ออกจากเมธอด ไม่แก้ balance
                     }
                     balance += amount;
                 }
@@ -78,36 +78,37 @@ export default {
                     balance -= amount;
                 }
 
-                // getter แบบบรรทัดเดียว
-                public String getOwner() { return owner; }
+                public String getOwner() { return owner; }       // อ่านค่าผ่านเมธอด
                 public double getBalance() { return balance; }
             }`,
-          steps: ["ฝาก −100 ถูกปฏิเสธในเมธอด", "ถอน 800 เกินยอด 500 → ปฏิเสธ", "ถอน 200 สำเร็จ → 300", "ไม่มีทางทำให้ balance ติดลบจากภายนอก"] },
+          },
         { type: "check", title: "ใครเข้าถึงได้", html: `<p>field <code>private int score;</code> ในคลาส Student — เมธอด <code>Student.compare(Student other)</code> อ่าน <code>other.score</code> ได้หรือไม่</p>`, answer: `<p><strong>ได้</strong> — private จำกัดที่<em>คลาส</em> ไม่ใช่ที่ออบเจ็กต์ เมธอดในคลาส Student อ่าน private field ของ Student ตัวอื่นได้</p>` },
       ],
     },
     {
       num: "12.2", toc: "encapsulation", title: "encapsulation: getter และ setter",
       blocks: [
-        { type: "p", html: `<strong>Encapsulation</strong> คือการห่อข้อมูลไว้ภายในและเปิดช่องทางที่ควบคุมได้ นิยมใช้ <strong>getter</strong> (<code>getX()</code> / <code>isX()</code> สำหรับ boolean) เพื่ออ่าน และ <strong>setter</strong> (<code>setX(value)</code>) เพื่อเขียนพร้อมตรวจสอบ ไม่จำเป็นต้องมี setter ทุก field — field ที่ไม่ควรเปลี่ยนหลังสร้าง (เช่น รหัส) ให้มีแค่ getter` },
-        { type: "run", title: "getter/setter พร้อมตรวจสอบ", level: "พื้นฐาน",
-          concept: "setter เป็นจุดเดียวที่ค่าเปลี่ยนได้ จึงใส่กฎไว้ที่นี่ที่เดียว",
+        { type: "p", html: `<strong>Encapsulation</strong> คือห่อข้อมูลไว้ข้างใน (private) แล้วเปิดช่องทางที่ควบคุมได้ ช่องทางมาตรฐานมีสองแบบ` },
+        { type: "table", head: ["ชนิด", "ชื่อ", "หน้าที่"], rows: [
+          ["getter", "<code>getName()</code>, <code>isMember()</code> (boolean)", "คืนค่า field ให้อ่าน"],
+          ["setter", "<code>setName(value)</code>", "ตรวจค่าก่อน แล้วจึงเขียนลง field"],
+        ] },
+        { type: "p", html: `ไม่จำเป็นต้องมี setter ทุก field field ที่ไม่ควรเปลี่ยนหลังสร้าง เช่น รหัส ให้ใส่ <code>final</code> และมีแค่ getter` },
+        { type: "run", title: "getter/setter พร้อมตรวจสอบ",
           code: j`
             public class GetterSetter {
                 public static void main(String[] args) {
-                    // ใช้ constructor กำหนดรหัสและชื่อ
                     Student s = new Student("6601", "JHope");
                     s.setScore(85);
-                    System.out.println(s.getId() + " " + s.getName() + " " + s.getScore());
-                    s.setScore(150);  // setter ปฏิเสธค่าที่ผิด
-                    s.setName("  ");
+                    System.out.println(s.getId() + " " + s.getName() + " " + s.getScore());   // 6601 JHope 85
+                    s.setScore(150);                          // ปฏิเสธ คะแนนยังเป็น 85
+                    s.setName("  ");                          // ปฏิเสธ ชื่อยังเป็น JHope
                     System.out.println(s.getId() + " " + s.getName() + " " + s.getScore());
                 }
             }
 
             class Student {
-                // final: กำหนดได้ครั้งเดียวใน constructor
-                private final String id;
+                private final String id;                  // final: กำหนดได้ครั้งเดียวใน constructor
                 private String name;
                 private int score;
 
@@ -116,95 +117,87 @@ export default {
                     this.name = name;
                 }
 
-                // มีแต่ getter ไม่มี setter → แก้ id ไม่ได้
-                public String getId() { return id; }
+                public String getId() { return id; }      // มี getter แต่ไม่มี setter
                 public String getName() { return name; }
                 public int getScore() { return score; }
 
                 public void setName(String name) {
-                    // isBlank: ว่างหรือมีแต่ช่องว่าง
-                    if (name == null || name.isBlank()) {
+                    if (name == null || name.isBlank()) {   // ว่างหรือมีแต่ช่องว่าง
                         System.out.println("Name cannot be blank");
                         return;
                     }
-                    // เก็บค่าที่ผ่านการตรวจแล้วเท่านั้น
                     this.name = name.trim();
                 }
 
                 public void setScore(int score) {
-                    if (score < 0 || score > 100) {  // อนุญาตเฉพาะ 0-100
+                    if (score < 0 || score > 100) {
                         System.out.println("Score must be 0-100");
                         return;
                     }
                     this.score = score;
                 }
             }`,
-          steps: ["id เป็น <code>final</code> — กำหนดได้ครั้งเดียวใน constructor และไม่มี setter", "setScore(150) ถูกปฏิเสธ ค่าเดิม 85 ยังอยู่", "setName ช่องว่างถูกปฏิเสธ"] },
-        { type: "run", title: "ซ่อนรายละเอียดภายใน: เปลี่ยนการเก็บข้อมูลได้โดยไม่กระทบผู้ใช้", level: "ประยุกต์",
-          concept: "ผู้ใช้คลาสเห็นแค่เมธอด จะเก็บข้อมูลแบบไหนข้างในก็ได้ — คลาสนี้เก็บเวลาเป็น “นาทีทั้งหมด” แต่ให้บริการเป็นชั่วโมง/นาที",
+          },
+
+        { type: "h", text: "ซ่อนวิธีเก็บข้อมูลไว้ข้างใน" },
+        { type: "p", html: `ผู้ใช้คลาสเห็นแค่เมธอด ข้างในจะเก็บข้อมูลแบบไหนก็ได้ คลาสนี้เก็บเวลาเป็น “นาทีทั้งหมด” ค่าเดียว แต่ให้บริการเป็นชั่วโมงและนาที ถ้าวันหนึ่งเปลี่ยนไปเก็บเป็นวินาที โค้ดใน main ไม่ต้องแก้เลย` },
+        { type: "run", title: "Duration เก็บเป็นนาทีรวม",
           code: j`
             public class HiddenRepresentation {
                 public static void main(String[] args) {
-                    Duration d = new Duration(1, 50);
-                    d.addMinutes(25);  // ภายนอกไม่รู้ว่าข้างในเก็บเป็นนาทีรวม
-                    System.out.println(d.getHours() + " h " + d.getMinutes() + " min");
+                    Duration d = new Duration(1, 50);         // เก็บเป็น 110 นาที
+                    d.addMinutes(25);                         // 135 นาที
+                    System.out.println(d.getHours() + " h " + d.getMinutes() + " min");   // 2 h 15 min
                     System.out.println("Total minutes: " + d.getTotalMinutes());
-                    System.out.println(d);
+                    System.out.println(d);                    // 2:15
                 }
             }
 
             class Duration {
-                private int totalMinutes;  // เก็บค่าเดียว: นาทีทั้งหมด
+                private int totalMinutes;                 // field เดียว
 
                 public Duration(int hours, int minutes) {
-                    // แปลงชั่วโมง + นาทีเป็นนาทีรวม
                     totalMinutes = hours * 60 + minutes;
                 }
 
                 public void addMinutes(int m) { totalMinutes += m; }
-                // คำนวณจากนาทีรวมทุกครั้งที่ถาม
-                public int getHours() { return totalMinutes / 60; }
+                public int getHours() { return totalMinutes / 60; }       // คำนวณเมื่อถูกถาม
                 public int getMinutes() { return totalMinutes % 60; }
                 public int getTotalMinutes() { return totalMinutes; }
 
                 @Override
                 public String toString() {
-                    // %02d เติม 0 ให้ครบ 2 หลัก
-                    return String.format("%d:%02d", getHours(), getMinutes());
+                    return String.format("%d:%02d", getHours(), getMinutes());   // %02d เติม 0 ให้ครบ 2 หลัก
                 }
             }`,
-          steps: ["ภายในมี field เดียว totalMinutes", "getHours/getMinutes คำนวณเมื่อถูกเรียก", "ถ้าวันหนึ่งเปลี่ยนไปเก็บเป็นวินาที โค้ดใน main ไม่ต้องแก้เลย"] },
+          },
         { type: "check", title: "setter", html: `<p>คลาส Product มี field <code>price</code> ควรมี setter ที่ยอมให้ตั้งราคาติดลบได้หรือไม่ ถ้าไม่ควรจัดการอย่างไร</p>`, answer: `<p>ไม่ควร — setter ควรปฏิเสธค่าติดลบ (แจ้งเตือนหรือโยน exception) เพื่อให้ออบเจ็กต์อยู่ในสถานะที่ถูกต้องเสมอ</p>` },
       ],
     },
     {
       num: "12.3", toc: "validation และ invariant", title: "validation และ invariant",
       blocks: [
-        { type: "p", html: `<strong>Invariant</strong> คือกฎที่ต้องเป็นจริงตลอดอายุของออบเจ็กต์ เช่น “ยอดเงินไม่ติดลบ” หรือ “จำนวนสินค้าในคลัง 0–999” ทุก constructor และทุกเมธอดที่เปลี่ยน state ต้องรักษากฎนี้ วิธีที่นิยมใน Java คือ<strong>โยน exception</strong> เมื่อได้รับค่าผิด ด้วย <code>throw new IllegalArgumentException("ข้อความ")</code> ให้ผู้เรียกตัดสินใจจัดการด้วย try-catch` },
-        { type: "run", title: "โยน IllegalArgumentException", level: "ต่อยอด",
-          concept: "แทนการพิมพ์ข้อความเอง ให้คลาสโยน exception — ผู้เรียกจะรู้แน่ว่าการทำงานล้มเหลว",
+        { type: "p", html: `<strong>Invariant</strong> คือกฎที่ต้องเป็นจริงตลอดอายุของออบเจ็กต์ เช่น “ยอดเงินไม่ติดลบ” ทุก constructor และทุกเมธอดที่เปลี่ยน state ต้องรักษากฎนี้` },
+        { type: "p", html: `แทนการพิมพ์ข้อความเตือนเอง วิธีที่นิยมใน Java คือ<strong>โยน exception</strong>: <code>throw new IllegalArgumentException("ข้อความ")</code> เมธอดหยุดทันที และผู้เรียกรู้แน่ว่าล้มเหลว จะจัดการด้วย try-catch ก็ได้` },
+        { type: "run", title: "โยน IllegalArgumentException",
           code: j`
             public class ThrowValidation {
                 public static void main(String[] args) {
                     Product p = new Product("Pen", 12, 50);
                     try {
-                        p.sell(20);  // ขายได้ตามปกติ
+                        p.sell(20);                                       // สำเร็จ เหลือ 30
                         System.out.println("Sold 20, stock = " + p.getStock());
-                        // ขายเกินสต็อก → โยน exception
-                        p.sell(40);
-                        // ถูกข้าม เพราะกระโดดไป catch
-                        System.out.println("This line is skipped");
-                    // จับ exception ที่ถูกโยนมา
+                        p.sell(40);                                       // เกินสต็อก → โยน exception
+                        System.out.println("This line is skipped");       // ถูกข้าม กระโดดไป catch
                     } catch (IllegalArgumentException e) {
-                        System.out.println("Error: " + e.getMessage());
+                        System.out.println("Error: " + e.getMessage());   // ข้อความที่ส่งตอน throw
                     }
                     try {
-                        // ข้อมูลผิดตั้งแต่ตอนสร้าง
-                        Product bad = new Product("", -5, 10);
+                        Product bad = new Product("", -5, 10);            // ผิดตั้งแต่ตอนสร้าง
                     } catch (IllegalArgumentException e) {
                         System.out.println("Error: " + e.getMessage());
                     }
-                    System.out.println("Final stock = " + p.getStock());
+                    System.out.println("Final stock = " + p.getStock());  // 30  state ไม่เสีย
                 }
             }
 
@@ -214,37 +207,37 @@ export default {
                 private int stock;
 
                 public Product(String name, double price, int stock) {
-                    // throw: หยุดเมธอดและแจ้งข้อผิดพลาดทันที
                     if (name.isBlank()) throw new IllegalArgumentException("name is required");
                     if (price < 0) throw new IllegalArgumentException("price must not be negative");
                     if (stock < 0) throw new IllegalArgumentException("stock must not be negative");
-                    this.name = name;
+                    this.name = name;                     // ถึงตรงนี้ได้ = ทุกค่าถูกต้อง
                     this.price = price;
                     this.stock = stock;
                 }
 
                 public void sell(int qty) {
                     if (qty <= 0) throw new IllegalArgumentException("qty must be positive");
-                    // getMessage() จะได้ข้อความนี้
                     if (qty > stock) throw new IllegalArgumentException("only " + stock + " left");
-                    // ผ่านทุกเงื่อนไขแล้วจึงแก้ค่า
-                    stock -= qty;
+                    stock -= qty;                         // ผ่านทุกเงื่อนไขแล้วจึงแก้ค่า
                 }
 
                 public int getStock() { return stock; }
             }`,
-          steps: ["sell(20) สำเร็จ เหลือ 30", "sell(40) โยน exception → ข้ามไปที่ catch บรรทัดถัดไปใน try ไม่ทำ", "constructor ตรวจทุกค่าก่อนกำหนด → ไม่มีออบเจ็กต์ที่ผิดกฎเกิดขึ้นได้", "stock ยังเป็น 30 — การล้มเหลวไม่ทำให้ state เสีย"] },
-        { type: "run", title: "invariant ที่เกี่ยวพันหลาย field", level: "ประยุกต์",
-          concept: "บางกฎเกี่ยวกับหลาย field พร้อมกัน เช่น วันเริ่มต้องไม่หลังวันสิ้นสุด — ต้องตรวจทุกครั้งที่ field ใด field หนึ่งเปลี่ยน",
+          },
+        { type: "tip", title: "ตรวจก่อน แล้วค่อยเปลี่ยน", html: `ถ้าเปลี่ยน field ก่อนแล้วจึงตรวจ เมื่อ exception ถูกโยน field ก็ถูกแก้เป็นค่าผิดไปแล้ว ให้ตรวจทุกเงื่อนไขก่อนบรรทัดที่กำหนดค่าเสมอ` },
+
+        { type: "h", text: "กฎที่เกี่ยวกับหลาย field" },
+        { type: "p", html: `บางกฎเกี่ยวกับหลาย field พร้อมกัน เช่น min ต้องไม่เกิน max ต้องตรวจทุกครั้งที่ field ใด field หนึ่งเปลี่ยน รวมการตรวจไว้ในเมธอด private ตัวเดียวแล้วเรียกซ้ำ` },
+        { type: "run", title: "ช่วงคะแนน min ≤ max",
           code: j`
             public class RangeInvariant {
                 public static void main(String[] args) {
                     ScoreRange r = new ScoreRange(40, 80);
-                    System.out.println(r);
+                    System.out.println(r);                    // [40, 80]
                     r.setMax(90);
-                    System.out.println(r);
+                    System.out.println(r);                    // [40, 90]
                     try {
-                        r.setMin(95);  // ทำให้ min > max → ถูกปฏิเสธ
+                        r.setMin(95);                         // 95 > 90 → ปฏิเสธ
                     } catch (IllegalArgumentException e) {
                         System.out.println("Rejected: " + e.getMessage());
                     }
@@ -257,26 +250,23 @@ export default {
                 private int max;
 
                 public ScoreRange(int min, int max) {
-                    check(min, max);  // ตรวจก่อนกำหนดค่า
+                    check(min, max);
                     this.min = min;
                     this.max = max;
                 }
 
-                // private static: ใช้ภายในคลาสเท่านั้น
-                private static void check(int min, int max) {
-                    // เงื่อนไขที่ต้องจริงเสมอ: min ≤ max
+                private static void check(int min, int max) {     // ใช้ภายในคลาสเท่านั้น
                     if (min > max) throw new IllegalArgumentException("min " + min + " > max " + max);
                 }
 
-                // ตรวจกับ max ปัจจุบันก่อนแก้
-                public void setMin(int min) { check(min, max); this.min = min; }
+                public void setMin(int min) { check(min, max); this.min = min; }   // ตรวจกับ max ปัจจุบัน
                 public void setMax(int max) { check(min, max); this.max = max; }
                 public boolean contains(int x) { return x >= min && x <= max; }
 
                 @Override
                 public String toString() { return "[" + min + ", " + max + "]"; }
             }`,
-          steps: ["เมธอด private check ใช้ซ้ำทั้งใน constructor และ setter", "setMin(95) ทำให้ min > max → ถูกปฏิเสธก่อนเปลี่ยนค่า", "ลำดับสำคัญ: <strong>ตรวจก่อน แล้วค่อยเปลี่ยน</strong>"] },
+          },
         { type: "check", title: "ลำดับการตรวจ", html: jpre(`
           public void setAge(int age) {
               this.age = age;
@@ -287,20 +277,23 @@ export default {
     {
       num: "12.4", toc: "composition", title: "composition: คลาสประกอบด้วยคลาสอื่น",
       blocks: [
-        { type: "p", html: `<strong>Composition</strong> (ความสัมพันธ์แบบ “มี” / has-a) คือคลาสหนึ่งมีออบเจ็กต์ของอีกคลาสเป็น field เช่น <em>รถยนต์มีเครื่องยนต์</em>, <em>ใบสั่งซื้อมีรายการสินค้า</em> แต่ละคลาสดูแลงานของตัวเอง แล้วร่วมมือกันผ่านเมธอด` },
-        { type: "run", title: "Order มี Customer และอาเรย์ของ OrderLine", level: "ประยุกต์",
-          concept: "Order ไม่ต้องรู้วิธีคิดราคาของแต่ละบรรทัด — ถาม OrderLine ผ่าน subtotal() แทน",
+        { type: "p", html: `<strong>Composition</strong> คือความสัมพันธ์แบบ “<strong>มี</strong>” (has-a): คลาสหนึ่งมีออบเจ็กต์ของอีกคลาสเป็น field เช่น <em>รถยนต์มีเครื่องยนต์</em> หรือ<em>ใบสั่งซื้อมีรายการสินค้า</em> แต่ละคลาสดูแลงานของตัวเอง แล้วร่วมมือกันผ่านเมธอด` },
+        { type: "table", head: ["คลาส", "มีอะไร", "รับผิดชอบ"], rows: [
+          ["<code>Customer</code>", "name, member", "บอกว่าเป็นสมาชิกไหม"],
+          ["<code>OrderLine</code>", "item, price, qty", "คิดยอดของบรรทัดตัวเอง <code>subtotal()</code>"],
+          ["<code>Order</code>", "Customer 1 คน + OrderLine หลายบรรทัด", "รวมยอด ลดราคาสมาชิก พิมพ์ใบเสร็จ"],
+        ] },
+        { type: "run", title: "Order มี Customer และ OrderLine",
           code: j`
             public class CompositionDemo {
                 public static void main(String[] args) {
                     Customer c = new Customer("JHope", true);
-                    OrderLine[] lines = {  // อาเรย์ของออบเจ็กต์ OrderLine
+                    OrderLine[] lines = {
                         new OrderLine("Latte", 55, 2),
                         new OrderLine("Croissant", 45, 1),
                         new OrderLine("Water", 15, 3)
                     };
-                    // Order ประกอบด้วย Customer และ OrderLine
-                    Order order = new Order(c, lines);
+                    Order order = new Order(c, lines);            // ประกอบจากออบเจ็กต์อื่น
                     order.printReceipt();
                 }
             }
@@ -329,20 +322,17 @@ export default {
                     this.qty = qty;
                 }
 
-                // ยอดของรายการนี้
                 public double subtotal() { return price * qty; }
 
                 @Override
                 public String toString() {
-                    // String.format จัดรูปแบบเหมือน printf
                     return String.format("%-10s %3d x %6.2f = %7.2f", item, qty, price, subtotal());
                 }
             }
 
             class Order {
-                // field เป็นออบเจ็กต์ของคลาสอื่น (has-a)
-                private final Customer customer;
-                private final OrderLine[] lines;
+                private final Customer customer;              // has-a Customer
+                private final OrderLine[] lines;              // has-a OrderLine หลายตัว
 
                 public Order(Customer customer, OrderLine[] lines) {
                     this.customer = customer;
@@ -351,56 +341,47 @@ export default {
 
                 public double total() {
                     double sum = 0;
-                    // ให้แต่ละรายการคำนวณยอดของตัวเอง
-                    for (OrderLine line : lines) sum += line.subtotal();
-                    // สมาชิกลด 10%
-                    return customer.isMember() ? sum * 0.9 : sum;
+                    for (OrderLine line : lines) sum += line.subtotal();   // 110 + 45 + 45 = 200
+                    return customer.isMember() ? sum * 0.9 : sum;          // สมาชิกลด 10% → 180
                 }
 
                 public void printReceipt() {
                     System.out.println("Customer: " + customer.getName() + (customer.isMember() ? " (member -10%)" : ""));
-                    // println เรียก toString() ของ line
                     for (OrderLine line : lines) System.out.println("  " + line);
                     System.out.printf("Total: %.2f%n", total());
                 }
             }`,
-          steps: ["Order <em>มี</em> Customer หนึ่งคน และ OrderLine หลายบรรทัด", "total() ถาม subtotal() จากแต่ละบรรทัด และถาม isMember() จากลูกค้า", "รวม 110 + 45 + 45 = 200 ลด 10% → 180.00", "แต่ละคลาสเล็กและทดสอบแยกกันได้"] },
+          },
+        { type: "tip", html: `Order ไม่ต้องรู้วิธีคิดราคาแต่ละบรรทัด แค่ถาม <code>subtotal()</code> คลาสเล็กที่มีหน้าที่เดียวเข้าใจง่ายและทดสอบแยกกันได้` },
         { type: "check", title: "has-a", html: `<p>ความสัมพันธ์ใดเป็น composition: (ก) ห้องเรียน–นักศึกษา (ข) รถยนต์–ยานพาหนะ (ค) บ้าน–ห้อง</p>`, answer: `<p>(ก) และ (ค) เป็น “มี” (has-a) ส่วน (ข) รถยนต์ “เป็น” ยานพาหนะ (is-a) ซึ่งเหมาะกับ inheritance ในหัวข้อถัดไป</p>` },
       ],
     },
     {
       num: "12.5", toc: "inheritance และ override", title: "inheritance และ method override",
       blocks: [
-        { type: "p", html: `<strong>Inheritance</strong> (ความสัมพันธ์แบบ “เป็น” / is-a) ให้คลาสลูก (subclass) รับ field และเมธอดจากคลาสแม่ (superclass) ด้วยคำว่า <code>extends</code> แล้วเพิ่มหรือ<strong>override</strong> (เขียนทับ) พฤติกรรมได้ ใช้ <code>super(...)</code> เรียก constructor ของคลาสแม่ และ <code>super.method()</code> เรียกเมธอดเวอร์ชันของคลาสแม่` },
-        { type: "concept", title: "โครงสร้าง", html: jpre(`
-          class Employee {                       // superclass
-              protected String name;
-              protected double baseSalary;
-              double monthlyPay() { return baseSalary; }
-          }
-
-          class Manager extends Employee {       // subclass: Manager "เป็น" Employee
-              private double bonus;
-              @Override
-              double monthlyPay() { return super.monthlyPay() + bonus; }
-          }`) },
-        { type: "run", title: "extends, super และ @Override", level: "ต่อยอด",
-          concept: "Manager ได้ name และ baseSalary จาก Employee โดยไม่ต้องประกาศซ้ำ และ override การคำนวณเงินเดือน",
+        { type: "p", html: `<strong>Inheritance</strong> คือความสัมพันธ์แบบ “<strong>เป็น</strong>” (is-a): คลาสลูก (subclass) <code>extends</code> คลาสแม่ (superclass) แล้วได้ field และเมธอดของแม่มาทั้งหมดโดยไม่ต้องเขียนซ้ำ จากนั้นเพิ่มของใหม่ หรือ<strong>override</strong> (เขียนทับ) เมธอดเดิมได้` },
+        { type: "table", head: ["คำ", "ความหมาย"], rows: [
+          ["<code>class Manager extends Employee</code>", "Manager เป็น Employee ชนิดหนึ่ง"],
+          ["<code>super(name, salary)</code>", "เรียก constructor ของคลาสแม่ ต้องเป็นบรรทัดแรกของ constructor ลูก"],
+          ["<code>@Override</code>", "บอก compiler ว่าตั้งใจเขียนทับเมธอดของแม่ (ถ้าสะกดชื่อผิด compiler จะเตือน)"],
+          ["<code>super.monthlyPay()</code>", "เรียกเวอร์ชันของคลาสแม่"],
+          ["<code>protected</code>", "คลาสลูกเข้าถึง field นี้ได้"],
+        ] },
+        { type: "run", title: "Manager เป็น Employee ที่มีโบนัส",
           code: j`
             public class InheritanceDemo {
                 public static void main(String[] args) {
                     Employee e = new Employee("Suga", 25000);
-                    // Manager เป็น Employee ชนิดหนึ่ง
                     Manager m = new Manager("JHope", 40000, 8000);
                     System.out.println(e.describe());
-                    System.out.println(m.describe());
-                    m.raise(10);  // raise สืบทอดมาจาก Employee
-                    System.out.println(m.describe());
+                    System.out.println(m.describe());             // 40,000 + 8,000
+                    m.raise(10);                                  // raise ได้มาจาก Employee
+                    System.out.println(m.describe());             // 44,000 + 8,000
                 }
             }
 
             class Employee {
-                protected String name;  // protected: คลาสลูกเข้าถึงได้
+                protected String name;                        // คลาสลูกเข้าถึงได้
                 protected double baseSalary;
 
                 public Employee(String name, double baseSalary) {
@@ -416,96 +397,87 @@ export default {
                     baseSalary *= 1 + percent / 100;
                 }
 
-                public String describe() {
-                    // getClass().getSimpleName() = ชื่อคลาสจริง
+                public String describe() {                    // monthlyPay() จะได้เวอร์ชันของคลาสจริง
                     return String.format("%-6s %-8s %,10.2f", name, getClass().getSimpleName(), monthlyPay());
                 }
             }
 
-            // extends: สืบทอด field และเมธอดทั้งหมด
             class Manager extends Employee {
-                // field เพิ่มเติมเฉพาะ Manager
-                private double bonus;
+                private double bonus;                         // field เพิ่มเฉพาะ Manager
 
                 public Manager(String name, double baseSalary, double bonus) {
-                    // super(...) เรียก constructor ของคลาสแม่ ต้องอยู่บรรทัดแรก
-                    super(name, baseSalary);
+                    super(name, baseSalary);                  // ให้คลาสแม่กำหนด name และ baseSalary
                     this.bonus = bonus;
                 }
 
-                @Override  // เขียนทับเมธอดของคลาสแม่
+                @Override
                 public double monthlyPay() {
-                    // เรียกเวอร์ชันของคลาสแม่แล้วบวกโบนัส
-                    return super.monthlyPay() + bonus;
+                    return super.monthlyPay() + bonus;        // เวอร์ชันของแม่ + โบนัส
                 }
             }`,
-          steps: ["<code>super(name, baseSalary)</code> ต้องเป็นบรรทัดแรกของ constructor ลูก", "Manager ไม่ได้เขียน raise และ describe แต่ใช้ได้เพราะสืบทอดมา", "describe เรียก monthlyPay() — สำหรับ Manager จะได้เวอร์ชันที่ override (48,000)", "raise 10% เพิ่มเฉพาะ baseSalary → 44,000 + 8,000 = 52,000"] },
-        { type: "run", label: "ทดลอง error 12.5.2", title: "ลืมเรียก super(...)", level: "ประยุกต์", expect: "compile-error",
-          concept: "ถ้าคลาสแม่ไม่มี constructor ไม่มี parameter คลาสลูกต้องเรียก super(...) ให้ถูกต้องเสมอ",
-          code: j`
-            public class MissingSuper {
-                public static void main(String[] args) {
-                    Dog d = new Dog("Lucky");
-                }
-            }
+          },
+        { type: "warn", title: "ลืมเรียก super(...)", html: `ถ้าไม่เขียน <code>super(...)</code> Java จะเรียก <code>super()</code> แบบไม่มี parameter ให้เอง ถ้าคลาสแม่ไม่มี constructor แบบนั้น จะคอมไพล์ไม่ผ่าน` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อลืม super(...)", blocks: [
+          { type: "run", label: "ทดลอง error 12.5.2", title: "ลืมเรียก super(...)", expect: "compile-error",
+            code: j`
+              public class MissingSuper {
+                  public static void main(String[] args) {
+                      Dog d = new Dog("Lucky");
+                  }
+              }
 
-            class Animal {
-                protected String name;
+              class Animal {
+                  protected String name;
 
-                public Animal(String name) {
-                    this.name = name;
-                }
-            }
+                  public Animal(String name) {
+                      this.name = name;
+                  }
+              }
 
-            class Dog extends Animal {
-                public Dog(String name) {
-                    this.name = name;
-                }
-            }`,
-          steps: ["Java พยายามเรียก <code>super()</code> (ไม่มี parameter) ให้อัตโนมัติ", "แต่ Animal มีแค่ Animal(String) → <code>constructor Animal in class Animal cannot be applied to given types</code>", "แก้: <code>super(name);</code>"] },
+              class Dog extends Animal {
+                  public Dog(String name) {
+                      this.name = name;
+                  }
+              }`,
+            after: "Animal มีแค่ Animal(String) แก้โดยเขียน super(name); เป็นบรรทัดแรกของ constructor ของ Dog" },
+        ] },
         { type: "check", title: "override", html: `<p>ถ้า Manager ไม่ override monthlyPay() แล้วเรียก <code>m.monthlyPay()</code> จะได้ค่าอะไร</p>`, answer: `<p>ได้ <strong>baseSalary</strong> จากเวอร์ชันของ Employee (ไม่รวม bonus)</p>` },
       ],
     },
     {
       num: "12.6", toc: "polymorphism", title: "polymorphism: ชนิดเดียว หลายพฤติกรรม",
       blocks: [
-        { type: "p", html: `ตัวแปรชนิดคลาสแม่ชี้ไปยังออบเจ็กต์ของคลาสลูกได้ (<code>Shape s = new Circle(2);</code>) เมื่อเรียกเมธอด Java จะเลือกเวอร์ชันตาม<strong>ชนิดจริงของออบเจ็กต์</strong>ขณะรัน ทำให้เขียนโค้ดเดียวจัดการได้หลายชนิด คลาสแม่ที่ไม่ควรถูกสร้างตรง ๆ ประกาศเป็น <code>abstract</code> และบังคับให้คลาสลูกเขียนเมธอดที่เป็น abstract` },
-        { type: "run", title: "abstract class และอาเรย์ของ Shape", level: "ประยุกต์",
-          concept: "ลูปเดียวเรียก area() กับทุกรูปทรง แต่ละชนิดคำนวณด้วยสูตรของตัวเอง",
+        { type: "p", html: `ตัวแปรชนิดคลาสแม่ชี้ไปยังออบเจ็กต์ของคลาสลูกได้ เช่น <code>Shape s = new Circle(2);</code> เมื่อเรียก <code>s.area()</code> Java เลือกเวอร์ชันตาม<strong>ชนิดจริงของออบเจ็กต์</strong>ขณะรัน โค้ดชุดเดียวจึงจัดการได้หลายชนิด` },
+        { type: "p", html: `คลาสแม่ที่ไม่ควรถูกสร้างตรง ๆ (รูปทรงทั่วไปคำนวณพื้นที่ไม่ได้) ประกาศเป็น <code>abstract</code> และประกาศเมธอด abstract ที่ไม่มี body เพื่อบังคับให้คลาสลูกทุกตัวเขียนเอง` },
+        { type: "run", title: "ลูปเดียวคำนวณพื้นที่ทุกรูปทรง",
           code: j`
             public class PolymorphismDemo {
                 public static void main(String[] args) {
-                    // ชนิดตัวแปรเป็น Shape แต่เก็บคลาสลูกต่าง ๆ ได้
-                    Shape[] shapes = {
+                    Shape[] shapes = {                            // ชนิด Shape เก็บคลาสลูกได้ทุกตัว
                         new Circle(1.5),
                         new Rectangle(4, 2.5),
                         new Triangle(3, 4, 5)
                     };
                     double total = 0;
                     for (Shape s : shapes) {
-                        // เรียก area() ของคลาสจริงแต่ละตัว
-                        System.out.printf("%-10s area = %6.2f%n", s.getName(), s.area());
+                        System.out.printf("%-10s area = %6.2f%n", s.getName(), s.area());   // area() ของคลาสจริง
                         total += s.area();
                     }
                     System.out.printf("Total area = %.2f%n", total);
                 }
             }
 
-            // abstract class: สร้างออบเจ็กต์ตรง ๆ ไม่ได้
-            abstract class Shape {
-                // abstract method: คลาสลูกต้องเขียนเอง
-                public abstract double area();
+            abstract class Shape {                            // new Shape() ไม่ได้
+                public abstract double area();                // ไม่มี body: ลูกต้องเขียนเอง
 
                 public String getName() {
-                    // ชื่อคลาสจริงของออบเจ็กต์
-                    return getClass().getSimpleName();
+                    return getClass().getSimpleName();        // ชื่อคลาสจริง
                 }
             }
 
             class Circle extends Shape {
                 private final double r;
                 public Circle(double r) { this.r = r; }
-                // ทุกคลาสลูกต้อง override area()
                 @Override public double area() { return Math.PI * r * r; }
             }
 
@@ -519,42 +491,41 @@ export default {
                 private final double a, b, c;
                 public Triangle(double a, double b, double c) { this.a = a; this.b = b; this.c = c; }
                 @Override public double area() {
-                    double s = (a + b + c) / 2;  // สูตรเฮรอน
+                    double s = (a + b + c) / 2;                   // สูตรเฮรอน
                     return Math.sqrt(s * (s - a) * (s - b) * (s - c));
                 }
             }`,
-          steps: ["<code>abstract double area();</code> ไม่มี body — บังคับทุกคลาสลูกต้องเขียน", "<code>new Shape()</code> ไม่ได้ เพราะเป็น abstract", "ตัวแปร s เป็นชนิด Shape แต่เรียก area() ของ Circle/Rectangle/Triangle ตามชนิดจริง", "เพิ่มรูปทรงใหม่ได้โดยไม่ต้องแก้ลูปใน main"] },
-        { type: "run", title: "instanceof และ interface", level: "ท้าทาย",
-          concept: "<code>interface</code> กำหนด “ความสามารถ” ที่หลายคลาสซึ่งไม่ได้สืบทอดกันมีร่วมกันได้ ส่วน <code>instanceof</code> ตรวจชนิดจริงขณะรัน",
+          },
+        { type: "tip", html: `เพิ่มรูปทรงใหม่ เช่น Square ได้โดยเขียนคลาสใหม่คลาสเดียว ลูปใน main ไม่ต้องแก้` },
+
+        { type: "h", text: "interface และ instanceof" },
+        { type: "p", html: `<code>interface</code> คือรายการเมธอดที่คลาสต้องมี ใช้กับคลาสที่<em>ไม่ได้</em>สืบทอดกันแต่มีความสามารถร่วมกัน คลาสประกาศ <code>implements</code> เพื่อสัญญาว่าจะเขียนทุกเมธอด ส่วน <code>instanceof</code> ตรวจชนิดจริงขณะรัน` },
+        { type: "run", title: "Invoice และ Salary เป็น Payable ทั้งคู่",
           code: j`
             public class InterfaceDemo {
                 public static void main(String[] args) {
-                    Payable[] bills = {  // ตัวแปรชนิด interface
+                    Payable[] bills = {                           // ชนิด interface เก็บได้ทุกคลาสที่ implements
                         new Invoice("Internet", 599),
                         new Salary("Suga", 25000),
                         new Invoice("Electricity", 1240.5)
                     };
                     double sum = 0;
                     for (Payable p : bills) {
-                        // เรียกผ่าน interface ได้ทุกคลาส
                         System.out.printf("%-24s %,10.2f%n", p.describe(), p.amountDue());
                         sum += p.amountDue();
-                        // ตรวจชนิด และแปลงเป็นตัวแปร s ในคราวเดียว
-                        if (p instanceof Salary s) {
-                            // tax() มีเฉพาะ Salary
-                            System.out.println("   (tax withheld: " + s.tax() + ")");
+                        if (p instanceof Salary s) {              // ถ้าเป็น Salary ได้ตัวแปร s มาใช้เลย
+                            System.out.println("   (tax withheld: " + s.tax() + ")");   // tax() มีเฉพาะ Salary
                         }
                     }
                     System.out.printf("%-24s %,10.2f%n", "TOTAL", sum);
                 }
             }
 
-            interface Payable {  // interface: รายการเมธอดที่ต้องมี
+            interface Payable {
                 double amountDue();
                 String describe();
             }
 
-            // implements: สัญญาว่าจะเขียนทุกเมธอด
             class Invoice implements Payable {
                 private final String service;
                 private final double amount;
@@ -568,11 +539,10 @@ export default {
                 private final double gross;
                 Salary(String employee, double gross) { this.employee = employee; this.gross = gross; }
                 public double tax() { return gross * 0.05; }
-                // หักภาษี 5%
-                public double amountDue() { return gross - tax(); }
+                public double amountDue() { return gross - tax(); }   // หักภาษี 5%
                 public String describe() { return "Salary: " + employee; }
             }`,
-          steps: ["Invoice และ Salary ไม่ได้เป็นแม่ลูกกัน แต่ทั้งคู่ implements Payable", "อาเรย์ Payable[] เก็บได้ทั้งสองชนิด", "<code>p instanceof Salary s</code> ตรวจชนิดและได้ตัวแปร s ชนิด Salary มาใช้เมธอด tax() (Java 16+)"] },
+          },
         { type: "table", title: "สรุป: เลือกใช้อะไรเมื่อไร", head: ["ต้องการ", "ใช้"], rows: [["ซ่อนข้อมูล บังคับกฎ", "private field + public method"], ["คลาสหนึ่ง “มี” อีกคลาส", "composition (field เป็นออบเจ็กต์)"], ["คลาสหนึ่ง “เป็น” อีกคลาส และใช้โค้ดร่วม", "inheritance (extends)"], ["คลาสแม่ที่ไม่ควรสร้างตรง ๆ", "abstract class"], ["ความสามารถร่วมของคลาสที่ไม่เกี่ยวกัน", "interface (implements)"]] },
         { type: "check", title: "polymorphism", html: `<p><code>Shape s = new Circle(2);</code> เรียก <code>s.area()</code> ได้เวอร์ชันของใคร และเรียกเมธอดที่มีเฉพาะใน Circle (เช่น getRadius) ผ่าน s ได้หรือไม่</p>`, answer: `<p>ได้ area() ของ <strong>Circle</strong> (ตามชนิดจริง) แต่เรียก getRadius() ผ่าน s <strong>ไม่ได้</strong> เพราะ compiler มองตามชนิดตัวแปร (Shape) — ต้องใช้ instanceof/cast ก่อน</p>` },
       ],

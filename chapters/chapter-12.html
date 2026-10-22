@@ -58,8 +58,10 @@
         <p>ในบทที่ 11 โค้ดภายนอกแก้ field ได้โดยตรง เช่น <code>account.balance = -5000;</code> ซึ่งทำให้ออบเจ็กต์อยู่ในสถานะที่ผิดกฎ บทนี้จะเรียนวิธีให้ออบเจ็กต์<strong>ควบคุม state ของตัวเอง</strong> และวิธีจัดความสัมพันธ์ระหว่างคลาสเพื่อนำโค้ดกลับมาใช้</p>
 <article class="subtopic" id="topic-12-1">
 <h3>12.1 access modifier: กำหนดว่าใครเข้าถึงได้</h3>
+<p>คำที่ใส่หน้า field หรือเมธอด เช่น <code>private</code> และ <code>public</code> เรียกว่า <strong>access modifier</strong> บอกว่าโค้ดส่วนไหนเข้าถึงได้บ้าง</p>
 <table class="comparison-table"><thead><tr><th>modifier</th><th>เข้าถึงได้จาก</th><th>ใช้กับ</th></tr></thead><tbody><tr><td><code>private</code></td><td>ภายในคลาสเดียวกันเท่านั้น</td><td>field เกือบทั้งหมด, เมธอดช่วยภายใน</td></tr><tr><td>(ไม่ระบุ) package-private</td><td>คลาสใน package เดียวกัน</td><td>ตัวอย่างในบทก่อน ๆ</td></tr><tr><td><code>protected</code></td><td>package เดียวกัน + subclass</td><td>สมาชิกที่ subclass ต้องใช้</td></tr><tr><td><code>public</code></td><td>ทุกที่</td><td>constructor และเมธอดที่เป็น “บริการ” ของคลาส</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 12.1.1</span>เข้าถึง private field จากภายนอก</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อ field เป็น private compiler จะไม่ยอมให้คลาสอื่นอ่านหรือเขียนตรง ๆ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrivateAccess.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrivateAccess</span> {
+<p>เมื่อ field เป็น private คลาสอื่นจะอ่านหรือเขียนตรง ๆ ไม่ได้เลย compiler ไม่ยอม</p>
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 12.1.1</span>เข้าถึง private field จากภายนอก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrivateAccess.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrivateAccess</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Account</span> acc = <span class="tok-kw">new</span> <span class="tok-type">Account</span>();
         acc.balance = -<span class="tok-num">5000</span>;
@@ -74,33 +76,32 @@
            ^
 PrivateAccess.java:5: error: balance has private access in Account
         System.out.println(acc.balance);
-                              ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>balance has private access in Account</code> ทั้งการเขียนและการอ่าน</li><li>นี่คือสิ่งที่ต้องการ: บังคับให้คนนอกต้องผ่านเมธอดที่เราควบคุม</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.1.2</span>private field + public method</h4><p class="concept-line"><strong>แนวคิด:</strong> เปิดเฉพาะเมธอดที่มีกฎตรวจสอบ ส่วนข้อมูลภายในแก้ได้จากภายในคลาสเท่านั้น</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PublicMethods.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PublicMethods</span> {
+                              ^</pre></div></div></div>
+<p>นี่คือสิ่งที่ต้องการ: คนนอกต้องแก้ข้อมูลผ่าน<strong>เมธอด public ที่เราควบคุม</strong> ซึ่งตรวจกฎก่อนเปลี่ยนค่า</p>
+<h4 class="sub">private field + public method</h4>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.1.2</span>บัญชีที่ยอดเงินติดลบไม่ได้</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PublicMethods.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PublicMethods</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Account</span> acc = <span class="tok-kw">new</span> <span class="tok-type">Account</span>(<span class="tok-str">"JHope"</span>);
-        acc.<span class="tok-fn">deposit</span>(<span class="tok-num">500</span>);
-        acc.<span class="tok-fn">deposit</span>(-<span class="tok-num">100</span>);  <span class="tok-com">// ค่าติดลบถูกปฏิเสธ</span>
-        acc.<span class="tok-fn">withdraw</span>(<span class="tok-num">800</span>);  <span class="tok-com">// ถอนเกินยอด ถูกปฏิเสธ</span>
-        acc.<span class="tok-fn">withdraw</span>(<span class="tok-num">200</span>);
-        <span class="tok-com">// อ่าน field private ผ่าน getter</span>
+        acc.<span class="tok-fn">deposit</span>(<span class="tok-num">500</span>);                         <span class="tok-com">// 500</span>
+        acc.<span class="tok-fn">deposit</span>(-<span class="tok-num">100</span>);                        <span class="tok-com">// ปฏิเสธ: ค่าติดลบ</span>
+        acc.<span class="tok-fn">withdraw</span>(<span class="tok-num">800</span>);                        <span class="tok-com">// ปฏิเสธ: เกินยอด</span>
+        acc.<span class="tok-fn">withdraw</span>(<span class="tok-num">200</span>);                        <span class="tok-com">// 300</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(acc.<span class="tok-fn">getOwner</span>() + <span class="tok-str">" balance: "</span> + acc.<span class="tok-fn">getBalance</span>());
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Account</span> {
-    <span class="tok-kw">private</span> <span class="tok-type">String</span> owner;  <span class="tok-com">// private: ภายนอกคลาสเข้าถึงไม่ได้</span>
+    <span class="tok-kw">private</span> <span class="tok-type">String</span> owner;                     <span class="tok-com">// ภายนอกคลาสเข้าถึงไม่ได้</span>
     <span class="tok-kw">private</span> <span class="tok-kw">double</span> balance;
 
     <span class="tok-kw">public</span> <span class="tok-type">Account</span>(<span class="tok-type">String</span> owner) {
         <span class="tok-kw">this</span>.owner = owner;
     }
 
-    <span class="tok-com">// public: ทางเดียวที่ภายนอกใช้แก้ยอดเงิน</span>
-    <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">deposit</span>(<span class="tok-kw">double</span> amount) {
-        <span class="tok-com">// ตรวจข้อมูลก่อนแก้ field</span>
+    <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">deposit</span>(<span class="tok-kw">double</span> amount) {      <span class="tok-com">// ทางเดียวที่ภายนอกเพิ่มยอดได้</span>
         <span class="tok-kw">if</span> (amount &lt;= <span class="tok-num">0</span>) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Deposit must be positive"</span>);
-            <span class="tok-kw">return</span>;  <span class="tok-com">// ออกจากเมธอด ไม่แก้ balance</span>
+            <span class="tok-kw">return</span>;                           <span class="tok-com">// ออกจากเมธอด ไม่แก้ balance</span>
         }
         balance += amount;
     }
@@ -113,32 +114,31 @@ PrivateAccess.java:5: error: balance has private access in Account
         balance -= amount;
     }
 
-    <span class="tok-com">// getter แบบบรรทัดเดียว</span>
-    <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">getOwner</span>() { <span class="tok-kw">return</span> owner; }
+    <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">getOwner</span>() { <span class="tok-kw">return</span> owner; }       <span class="tok-com">// อ่านค่าผ่านเมธอด</span>
     <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">getBalance</span>() { <span class="tok-kw">return</span> balance; }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Deposit must be positive
 Insufficient funds
-JHope balance: 300.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ฝาก −100 ถูกปฏิเสธในเมธอด</li><li>ถอน 800 เกินยอด 500 → ปฏิเสธ</li><li>ถอน 200 สำเร็จ → 300</li><li>ไม่มีทางทำให้ balance ติดลบจากภายนอก</li></ol></div></div>
+JHope balance: 300.0</pre></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · ใครเข้าถึงได้</strong><div><p>field <code>private int score;</code> ในคลาส Student — เมธอด <code>Student.compare(Student other)</code> อ่าน <code>other.score</code> ได้หรือไม่</p></div><details><summary>ดูคำตอบ</summary><div><p><strong>ได้</strong> — private จำกัดที่<em>คลาส</em> ไม่ใช่ที่ออบเจ็กต์ เมธอดในคลาส Student อ่าน private field ของ Student ตัวอื่นได้</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-12-2">
 <h3>12.2 encapsulation: getter และ setter</h3>
-<p><strong>Encapsulation</strong> คือการห่อข้อมูลไว้ภายในและเปิดช่องทางที่ควบคุมได้ นิยมใช้ <strong>getter</strong> (<code>getX()</code> / <code>isX()</code> สำหรับ boolean) เพื่ออ่าน และ <strong>setter</strong> (<code>setX(value)</code>) เพื่อเขียนพร้อมตรวจสอบ ไม่จำเป็นต้องมี setter ทุก field — field ที่ไม่ควรเปลี่ยนหลังสร้าง (เช่น รหัส) ให้มีแค่ getter</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.2.1</span>getter/setter พร้อมตรวจสอบ</h4><p class="concept-line"><strong>แนวคิด:</strong> setter เป็นจุดเดียวที่ค่าเปลี่ยนได้ จึงใส่กฎไว้ที่นี่ที่เดียว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GetterSetter.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GetterSetter</span> {
+<p><strong>Encapsulation</strong> คือห่อข้อมูลไว้ข้างใน (private) แล้วเปิดช่องทางที่ควบคุมได้ ช่องทางมาตรฐานมีสองแบบ</p>
+<table class="comparison-table"><thead><tr><th>ชนิด</th><th>ชื่อ</th><th>หน้าที่</th></tr></thead><tbody><tr><td>getter</td><td><code>getName()</code>, <code>isMember()</code> (boolean)</td><td>คืนค่า field ให้อ่าน</td></tr><tr><td>setter</td><td><code>setName(value)</code></td><td>ตรวจค่าก่อน แล้วจึงเขียนลง field</td></tr></tbody></table>
+<p>ไม่จำเป็นต้องมี setter ทุก field field ที่ไม่ควรเปลี่ยนหลังสร้าง เช่น รหัส ให้ใส่ <code>final</code> และมีแค่ getter</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.2.1</span>getter/setter พร้อมตรวจสอบ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GetterSetter.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GetterSetter</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ใช้ constructor กำหนดรหัสและชื่อ</span>
         <span class="tok-type">Student</span> s = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6601"</span>, <span class="tok-str">"JHope"</span>);
         s.<span class="tok-fn">setScore</span>(<span class="tok-num">85</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(s.<span class="tok-fn">getId</span>() + <span class="tok-str">" "</span> + s.<span class="tok-fn">getName</span>() + <span class="tok-str">" "</span> + s.<span class="tok-fn">getScore</span>());
-        s.<span class="tok-fn">setScore</span>(<span class="tok-num">150</span>);  <span class="tok-com">// setter ปฏิเสธค่าที่ผิด</span>
-        s.<span class="tok-fn">setName</span>(<span class="tok-str">"  "</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(s.<span class="tok-fn">getId</span>() + <span class="tok-str">" "</span> + s.<span class="tok-fn">getName</span>() + <span class="tok-str">" "</span> + s.<span class="tok-fn">getScore</span>());   <span class="tok-com">// 6601 JHope 85</span>
+        s.<span class="tok-fn">setScore</span>(<span class="tok-num">150</span>);                          <span class="tok-com">// ปฏิเสธ คะแนนยังเป็น 85</span>
+        s.<span class="tok-fn">setName</span>(<span class="tok-str">"  "</span>);                          <span class="tok-com">// ปฏิเสธ ชื่อยังเป็น JHope</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(s.<span class="tok-fn">getId</span>() + <span class="tok-str">" "</span> + s.<span class="tok-fn">getName</span>() + <span class="tok-str">" "</span> + s.<span class="tok-fn">getScore</span>());
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Student</span> {
-    <span class="tok-com">// final: กำหนดได้ครั้งเดียวใน constructor</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> id;
+    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> id;                  <span class="tok-com">// final: กำหนดได้ครั้งเดียวใน constructor</span>
     <span class="tok-kw">private</span> <span class="tok-type">String</span> name;
     <span class="tok-kw">private</span> <span class="tok-kw">int</span> score;
 
@@ -147,23 +147,20 @@ JHope balance: 300.0</pre></div></div><div class="walkthrough"><strong>อธิ
         <span class="tok-kw">this</span>.name = name;
     }
 
-    <span class="tok-com">// มีแต่ getter ไม่มี setter → แก้ id ไม่ได้</span>
-    <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">getId</span>() { <span class="tok-kw">return</span> id; }
+    <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">getId</span>() { <span class="tok-kw">return</span> id; }      <span class="tok-com">// มี getter แต่ไม่มี setter</span>
     <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">getName</span>() { <span class="tok-kw">return</span> name; }
     <span class="tok-kw">public</span> <span class="tok-kw">int</span> <span class="tok-fn">getScore</span>() { <span class="tok-kw">return</span> score; }
 
     <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">setName</span>(<span class="tok-type">String</span> name) {
-        <span class="tok-com">// isBlank: ว่างหรือมีแต่ช่องว่าง</span>
-        <span class="tok-kw">if</span> (name == <span class="tok-num">null</span> || name.<span class="tok-fn">isBlank</span>()) {
+        <span class="tok-kw">if</span> (name == <span class="tok-num">null</span> || name.<span class="tok-fn">isBlank</span>()) {   <span class="tok-com">// ว่างหรือมีแต่ช่องว่าง</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name cannot be blank"</span>);
             <span class="tok-kw">return</span>;
         }
-        <span class="tok-com">// เก็บค่าที่ผ่านการตรวจแล้วเท่านั้น</span>
         <span class="tok-kw">this</span>.name = name.<span class="tok-fn">trim</span>();
     }
 
     <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">setScore</span>(<span class="tok-kw">int</span> score) {
-        <span class="tok-kw">if</span> (score &lt; <span class="tok-num">0</span> || score &gt; <span class="tok-num">100</span>) {  <span class="tok-com">// อนุญาตเฉพาะ 0-100</span>
+        <span class="tok-kw">if</span> (score &lt; <span class="tok-num">0</span> || score &gt; <span class="tok-num">100</span>) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Score must be 0-100"</span>);
             <span class="tok-kw">return</span>;
         }
@@ -172,65 +169,61 @@ JHope balance: 300.0</pre></div></div><div class="walkthrough"><strong>อธิ
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>6601 JHope 85
 Score must be 0-100
 Name cannot be blank
-6601 JHope 85</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>id เป็น <code>final</code> — กำหนดได้ครั้งเดียวใน constructor และไม่มี setter</li><li>setScore(150) ถูกปฏิเสธ ค่าเดิม 85 ยังอยู่</li><li>setName ช่องว่างถูกปฏิเสธ</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.2.2</span>ซ่อนรายละเอียดภายใน: เปลี่ยนการเก็บข้อมูลได้โดยไม่กระทบผู้ใช้</h4><p class="concept-line"><strong>แนวคิด:</strong> ผู้ใช้คลาสเห็นแค่เมธอด จะเก็บข้อมูลแบบไหนข้างในก็ได้ — คลาสนี้เก็บเวลาเป็น “นาทีทั้งหมด” แต่ให้บริการเป็นชั่วโมง/นาที</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">HiddenRepresentation.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">HiddenRepresentation</span> {
+6601 JHope 85</pre></div></div></div>
+<h4 class="sub">ซ่อนวิธีเก็บข้อมูลไว้ข้างใน</h4>
+<p>ผู้ใช้คลาสเห็นแค่เมธอด ข้างในจะเก็บข้อมูลแบบไหนก็ได้ คลาสนี้เก็บเวลาเป็น “นาทีทั้งหมด” ค่าเดียว แต่ให้บริการเป็นชั่วโมงและนาที ถ้าวันหนึ่งเปลี่ยนไปเก็บเป็นวินาที โค้ดใน main ไม่ต้องแก้เลย</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.2.2</span>Duration เก็บเป็นนาทีรวม</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">HiddenRepresentation.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">HiddenRepresentation</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">Duration</span> d = <span class="tok-kw">new</span> <span class="tok-type">Duration</span>(<span class="tok-num">1</span>, <span class="tok-num">50</span>);
-        d.<span class="tok-fn">addMinutes</span>(<span class="tok-num">25</span>);  <span class="tok-com">// ภายนอกไม่รู้ว่าข้างในเก็บเป็นนาทีรวม</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(d.<span class="tok-fn">getHours</span>() + <span class="tok-str">" h "</span> + d.<span class="tok-fn">getMinutes</span>() + <span class="tok-str">" min"</span>);
+        <span class="tok-type">Duration</span> d = <span class="tok-kw">new</span> <span class="tok-type">Duration</span>(<span class="tok-num">1</span>, <span class="tok-num">50</span>);         <span class="tok-com">// เก็บเป็น 110 นาที</span>
+        d.<span class="tok-fn">addMinutes</span>(<span class="tok-num">25</span>);                         <span class="tok-com">// 135 นาที</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(d.<span class="tok-fn">getHours</span>() + <span class="tok-str">" h "</span> + d.<span class="tok-fn">getMinutes</span>() + <span class="tok-str">" min"</span>);   <span class="tok-com">// 2 h 15 min</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total minutes: "</span> + d.<span class="tok-fn">getTotalMinutes</span>());
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(d);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(d);                    <span class="tok-com">// 2:15</span>
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Duration</span> {
-    <span class="tok-kw">private</span> <span class="tok-kw">int</span> totalMinutes;  <span class="tok-com">// เก็บค่าเดียว: นาทีทั้งหมด</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">int</span> totalMinutes;                 <span class="tok-com">// field เดียว</span>
 
     <span class="tok-kw">public</span> <span class="tok-type">Duration</span>(<span class="tok-kw">int</span> hours, <span class="tok-kw">int</span> minutes) {
-        <span class="tok-com">// แปลงชั่วโมง + นาทีเป็นนาทีรวม</span>
         totalMinutes = hours * <span class="tok-num">60</span> + minutes;
     }
 
     <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">addMinutes</span>(<span class="tok-kw">int</span> m) { totalMinutes += m; }
-    <span class="tok-com">// คำนวณจากนาทีรวมทุกครั้งที่ถาม</span>
-    <span class="tok-kw">public</span> <span class="tok-kw">int</span> <span class="tok-fn">getHours</span>() { <span class="tok-kw">return</span> totalMinutes / <span class="tok-num">60</span>; }
+    <span class="tok-kw">public</span> <span class="tok-kw">int</span> <span class="tok-fn">getHours</span>() { <span class="tok-kw">return</span> totalMinutes / <span class="tok-num">60</span>; }       <span class="tok-com">// คำนวณเมื่อถูกถาม</span>
     <span class="tok-kw">public</span> <span class="tok-kw">int</span> <span class="tok-fn">getMinutes</span>() { <span class="tok-kw">return</span> totalMinutes % <span class="tok-num">60</span>; }
     <span class="tok-kw">public</span> <span class="tok-kw">int</span> <span class="tok-fn">getTotalMinutes</span>() { <span class="tok-kw">return</span> totalMinutes; }
 
     <span class="tok-ann">@Override</span>
     <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">toString</span>() {
-        <span class="tok-com">// %02d เติม 0 ให้ครบ 2 หลัก</span>
-        <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%d:%02d"</span>, <span class="tok-fn">getHours</span>(), <span class="tok-fn">getMinutes</span>());
+        <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%d:%02d"</span>, <span class="tok-fn">getHours</span>(), <span class="tok-fn">getMinutes</span>());   <span class="tok-com">// %02d เติม 0 ให้ครบ 2 หลัก</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>2 h 15 min
 Total minutes: 135
-2:15</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ภายในมี field เดียว totalMinutes</li><li>getHours/getMinutes คำนวณเมื่อถูกเรียก</li><li>ถ้าวันหนึ่งเปลี่ยนไปเก็บเป็นวินาที โค้ดใน main ไม่ต้องแก้เลย</li></ol></div></div>
+2:15</pre></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · setter</strong><div><p>คลาส Product มี field <code>price</code> ควรมี setter ที่ยอมให้ตั้งราคาติดลบได้หรือไม่ ถ้าไม่ควรจัดการอย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><p>ไม่ควร — setter ควรปฏิเสธค่าติดลบ (แจ้งเตือนหรือโยน exception) เพื่อให้ออบเจ็กต์อยู่ในสถานะที่ถูกต้องเสมอ</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-12-3">
 <h3>12.3 validation และ invariant</h3>
-<p><strong>Invariant</strong> คือกฎที่ต้องเป็นจริงตลอดอายุของออบเจ็กต์ เช่น “ยอดเงินไม่ติดลบ” หรือ “จำนวนสินค้าในคลัง 0–999” ทุก constructor และทุกเมธอดที่เปลี่ยน state ต้องรักษากฎนี้ วิธีที่นิยมใน Java คือ<strong>โยน exception</strong> เมื่อได้รับค่าผิด ด้วย <code>throw new IllegalArgumentException("ข้อความ")</code> ให้ผู้เรียกตัดสินใจจัดการด้วย try-catch</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.3.1</span>โยน IllegalArgumentException</h4><p class="concept-line"><strong>แนวคิด:</strong> แทนการพิมพ์ข้อความเอง ให้คลาสโยน exception — ผู้เรียกจะรู้แน่ว่าการทำงานล้มเหลว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ThrowValidation.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ThrowValidation</span> {
+<p><strong>Invariant</strong> คือกฎที่ต้องเป็นจริงตลอดอายุของออบเจ็กต์ เช่น “ยอดเงินไม่ติดลบ” ทุก constructor และทุกเมธอดที่เปลี่ยน state ต้องรักษากฎนี้</p>
+<p>แทนการพิมพ์ข้อความเตือนเอง วิธีที่นิยมใน Java คือ<strong>โยน exception</strong>: <code>throw new IllegalArgumentException("ข้อความ")</code> เมธอดหยุดทันที และผู้เรียกรู้แน่ว่าล้มเหลว จะจัดการด้วย try-catch ก็ได้</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.3.1</span>โยน IllegalArgumentException</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ThrowValidation.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ThrowValidation</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Product</span> p = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(<span class="tok-str">"Pen"</span>, <span class="tok-num">12</span>, <span class="tok-num">50</span>);
         <span class="tok-kw">try</span> {
-            p.<span class="tok-fn">sell</span>(<span class="tok-num">20</span>);  <span class="tok-com">// ขายได้ตามปกติ</span>
+            p.<span class="tok-fn">sell</span>(<span class="tok-num">20</span>);                                       <span class="tok-com">// สำเร็จ เหลือ 30</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Sold 20, stock = "</span> + p.<span class="tok-fn">getStock</span>());
-            <span class="tok-com">// ขายเกินสต็อก → โยน exception</span>
-            p.<span class="tok-fn">sell</span>(<span class="tok-num">40</span>);
-            <span class="tok-com">// ถูกข้าม เพราะกระโดดไป catch</span>
-            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"This line is skipped"</span>);
-        <span class="tok-com">// จับ exception ที่ถูกโยนมา</span>
+            p.<span class="tok-fn">sell</span>(<span class="tok-num">40</span>);                                       <span class="tok-com">// เกินสต็อก → โยน exception</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"This line is skipped"</span>);       <span class="tok-com">// ถูกข้าม กระโดดไป catch</span>
         } <span class="tok-kw">catch</span> (<span class="tok-type">IllegalArgumentException</span> e) {
-            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Error: "</span> + e.<span class="tok-fn">getMessage</span>());
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Error: "</span> + e.<span class="tok-fn">getMessage</span>());   <span class="tok-com">// ข้อความที่ส่งตอน throw</span>
         }
         <span class="tok-kw">try</span> {
-            <span class="tok-com">// ข้อมูลผิดตั้งแต่ตอนสร้าง</span>
-            <span class="tok-type">Product</span> bad = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(<span class="tok-str">""</span>, -<span class="tok-num">5</span>, <span class="tok-num">10</span>);
+            <span class="tok-type">Product</span> bad = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(<span class="tok-str">""</span>, -<span class="tok-num">5</span>, <span class="tok-num">10</span>);            <span class="tok-com">// ผิดตั้งแต่ตอนสร้าง</span>
         } <span class="tok-kw">catch</span> (<span class="tok-type">IllegalArgumentException</span> e) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Error: "</span> + e.<span class="tok-fn">getMessage</span>());
         }
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Final stock = "</span> + p.<span class="tok-fn">getStock</span>());
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Final stock = "</span> + p.<span class="tok-fn">getStock</span>());  <span class="tok-com">// 30  state ไม่เสีย</span>
     }
 }
 
@@ -240,36 +233,36 @@ Total minutes: 135
     <span class="tok-kw">private</span> <span class="tok-kw">int</span> stock;
 
     <span class="tok-kw">public</span> <span class="tok-type">Product</span>(<span class="tok-type">String</span> name, <span class="tok-kw">double</span> price, <span class="tok-kw">int</span> stock) {
-        <span class="tok-com">// throw: หยุดเมธอดและแจ้งข้อผิดพลาดทันที</span>
         <span class="tok-kw">if</span> (name.<span class="tok-fn">isBlank</span>()) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"name is required"</span>);
         <span class="tok-kw">if</span> (price &lt; <span class="tok-num">0</span>) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"price must not be negative"</span>);
         <span class="tok-kw">if</span> (stock &lt; <span class="tok-num">0</span>) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"stock must not be negative"</span>);
-        <span class="tok-kw">this</span>.name = name;
+        <span class="tok-kw">this</span>.name = name;                     <span class="tok-com">// ถึงตรงนี้ได้ = ทุกค่าถูกต้อง</span>
         <span class="tok-kw">this</span>.price = price;
         <span class="tok-kw">this</span>.stock = stock;
     }
 
     <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">sell</span>(<span class="tok-kw">int</span> qty) {
         <span class="tok-kw">if</span> (qty &lt;= <span class="tok-num">0</span>) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"qty must be positive"</span>);
-        <span class="tok-com">// getMessage() จะได้ข้อความนี้</span>
         <span class="tok-kw">if</span> (qty &gt; stock) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"only "</span> + stock + <span class="tok-str">" left"</span>);
-        <span class="tok-com">// ผ่านทุกเงื่อนไขแล้วจึงแก้ค่า</span>
-        stock -= qty;
+        stock -= qty;                         <span class="tok-com">// ผ่านทุกเงื่อนไขแล้วจึงแก้ค่า</span>
     }
 
     <span class="tok-kw">public</span> <span class="tok-kw">int</span> <span class="tok-fn">getStock</span>() { <span class="tok-kw">return</span> stock; }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Sold 20, stock = 30
 Error: only 30 left
 Error: name is required
-Final stock = 30</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>sell(20) สำเร็จ เหลือ 30</li><li>sell(40) โยน exception → ข้ามไปที่ catch บรรทัดถัดไปใน try ไม่ทำ</li><li>constructor ตรวจทุกค่าก่อนกำหนด → ไม่มีออบเจ็กต์ที่ผิดกฎเกิดขึ้นได้</li><li>stock ยังเป็น 30 — การล้มเหลวไม่ทำให้ state เสีย</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.3.2</span>invariant ที่เกี่ยวพันหลาย field</h4><p class="concept-line"><strong>แนวคิด:</strong> บางกฎเกี่ยวกับหลาย field พร้อมกัน เช่น วันเริ่มต้องไม่หลังวันสิ้นสุด — ต้องตรวจทุกครั้งที่ field ใด field หนึ่งเปลี่ยน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RangeInvariant.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RangeInvariant</span> {
+Final stock = 30</pre></div></div></div>
+<div class="callout tip"><span class="box-title">ตรวจก่อน แล้วค่อยเปลี่ยน</span><p>ถ้าเปลี่ยน field ก่อนแล้วจึงตรวจ เมื่อ exception ถูกโยน field ก็ถูกแก้เป็นค่าผิดไปแล้ว ให้ตรวจทุกเงื่อนไขก่อนบรรทัดที่กำหนดค่าเสมอ</p></div>
+<h4 class="sub">กฎที่เกี่ยวกับหลาย field</h4>
+<p>บางกฎเกี่ยวกับหลาย field พร้อมกัน เช่น min ต้องไม่เกิน max ต้องตรวจทุกครั้งที่ field ใด field หนึ่งเปลี่ยน รวมการตรวจไว้ในเมธอด private ตัวเดียวแล้วเรียกซ้ำ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.3.2</span>ช่วงคะแนน min ≤ max</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RangeInvariant.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RangeInvariant</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">ScoreRange</span> r = <span class="tok-kw">new</span> <span class="tok-type">ScoreRange</span>(<span class="tok-num">40</span>, <span class="tok-num">80</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(r);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(r);                    <span class="tok-com">// [40, 80]</span>
         r.<span class="tok-fn">setMax</span>(<span class="tok-num">90</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(r);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(r);                    <span class="tok-com">// [40, 90]</span>
         <span class="tok-kw">try</span> {
-            r.<span class="tok-fn">setMin</span>(<span class="tok-num">95</span>);  <span class="tok-com">// ทำให้ min &gt; max → ถูกปฏิเสธ</span>
+            r.<span class="tok-fn">setMin</span>(<span class="tok-num">95</span>);                         <span class="tok-com">// 95 &gt; 90 → ปฏิเสธ</span>
         } <span class="tok-kw">catch</span> (<span class="tok-type">IllegalArgumentException</span> e) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Rejected: "</span> + e.<span class="tok-fn">getMessage</span>());
         }
@@ -282,19 +275,16 @@ Final stock = 30</pre></div></div><div class="walkthrough"><strong>อธิบ�
     <span class="tok-kw">private</span> <span class="tok-kw">int</span> max;
 
     <span class="tok-kw">public</span> <span class="tok-type">ScoreRange</span>(<span class="tok-kw">int</span> min, <span class="tok-kw">int</span> max) {
-        <span class="tok-fn">check</span>(min, max);  <span class="tok-com">// ตรวจก่อนกำหนดค่า</span>
+        <span class="tok-fn">check</span>(min, max);
         <span class="tok-kw">this</span>.min = min;
         <span class="tok-kw">this</span>.max = max;
     }
 
-    <span class="tok-com">// private static: ใช้ภายในคลาสเท่านั้น</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">check</span>(<span class="tok-kw">int</span> min, <span class="tok-kw">int</span> max) {
-        <span class="tok-com">// เงื่อนไขที่ต้องจริงเสมอ: min ≤ max</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">check</span>(<span class="tok-kw">int</span> min, <span class="tok-kw">int</span> max) {     <span class="tok-com">// ใช้ภายในคลาสเท่านั้น</span>
         <span class="tok-kw">if</span> (min &gt; max) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"min "</span> + min + <span class="tok-str">" &gt; max "</span> + max);
     }
 
-    <span class="tok-com">// ตรวจกับ max ปัจจุบันก่อนแก้</span>
-    <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">setMin</span>(<span class="tok-kw">int</span> min) { <span class="tok-fn">check</span>(min, max); <span class="tok-kw">this</span>.min = min; }
+    <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">setMin</span>(<span class="tok-kw">int</span> min) { <span class="tok-fn">check</span>(min, max); <span class="tok-kw">this</span>.min = min; }   <span class="tok-com">// ตรวจกับ max ปัจจุบัน</span>
     <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">setMax</span>(<span class="tok-kw">int</span> max) { <span class="tok-fn">check</span>(min, max); <span class="tok-kw">this</span>.max = max; }
     <span class="tok-kw">public</span> <span class="tok-kw">boolean</span> <span class="tok-fn">contains</span>(<span class="tok-kw">int</span> x) { <span class="tok-kw">return</span> x &gt;= min &amp;&amp; x &lt;= max; }
 
@@ -303,7 +293,7 @@ Final stock = 30</pre></div></div><div class="walkthrough"><strong>อธิบ�
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>[40, 80]
 [40, 90]
 Rejected: min 95 &gt; max 90
-[40, 90] contains 85? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เมธอด private check ใช้ซ้ำทั้งใน constructor และ setter</li><li>setMin(95) ทำให้ min > max → ถูกปฏิเสธก่อนเปลี่ยนค่า</li><li>ลำดับสำคัญ: <strong>ตรวจก่อน แล้วค่อยเปลี่ยน</strong></li></ol></div></div>
+[40, 90] contains 85? true</pre></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · ลำดับการตรวจ</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">setAge</span>(<span class="tok-kw">int</span> age) {
     <span class="tok-kw">this</span>.age = age;
     <span class="tok-kw">if</span> (age &lt; <span class="tok-num">0</span>) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"negative"</span>);
@@ -311,17 +301,17 @@ Rejected: min 95 &gt; max 90
 </article>
 <article class="subtopic" id="topic-12-4">
 <h3>12.4 composition: คลาสประกอบด้วยคลาสอื่น</h3>
-<p><strong>Composition</strong> (ความสัมพันธ์แบบ “มี” / has-a) คือคลาสหนึ่งมีออบเจ็กต์ของอีกคลาสเป็น field เช่น <em>รถยนต์มีเครื่องยนต์</em>, <em>ใบสั่งซื้อมีรายการสินค้า</em> แต่ละคลาสดูแลงานของตัวเอง แล้วร่วมมือกันผ่านเมธอด</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.4.1</span>Order มี Customer และอาเรย์ของ OrderLine</h4><p class="concept-line"><strong>แนวคิด:</strong> Order ไม่ต้องรู้วิธีคิดราคาของแต่ละบรรทัด — ถาม OrderLine ผ่าน subtotal() แทน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CompositionDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CompositionDemo</span> {
+<p><strong>Composition</strong> คือความสัมพันธ์แบบ “<strong>มี</strong>” (has-a): คลาสหนึ่งมีออบเจ็กต์ของอีกคลาสเป็น field เช่น <em>รถยนต์มีเครื่องยนต์</em> หรือ<em>ใบสั่งซื้อมีรายการสินค้า</em> แต่ละคลาสดูแลงานของตัวเอง แล้วร่วมมือกันผ่านเมธอด</p>
+<table class="comparison-table"><thead><tr><th>คลาส</th><th>มีอะไร</th><th>รับผิดชอบ</th></tr></thead><tbody><tr><td><code>Customer</code></td><td>name, member</td><td>บอกว่าเป็นสมาชิกไหม</td></tr><tr><td><code>OrderLine</code></td><td>item, price, qty</td><td>คิดยอดของบรรทัดตัวเอง <code>subtotal()</code></td></tr><tr><td><code>Order</code></td><td>Customer 1 คน + OrderLine หลายบรรทัด</td><td>รวมยอด ลดราคาสมาชิก พิมพ์ใบเสร็จ</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.4.1</span>Order มี Customer และ OrderLine</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CompositionDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CompositionDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Customer</span> c = <span class="tok-kw">new</span> <span class="tok-type">Customer</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">true</span>);
-        <span class="tok-type">OrderLine</span>[] lines = {  <span class="tok-com">// อาเรย์ของออบเจ็กต์ OrderLine</span>
+        <span class="tok-type">OrderLine</span>[] lines = {
             <span class="tok-kw">new</span> <span class="tok-type">OrderLine</span>(<span class="tok-str">"Latte"</span>, <span class="tok-num">55</span>, <span class="tok-num">2</span>),
             <span class="tok-kw">new</span> <span class="tok-type">OrderLine</span>(<span class="tok-str">"Croissant"</span>, <span class="tok-num">45</span>, <span class="tok-num">1</span>),
             <span class="tok-kw">new</span> <span class="tok-type">OrderLine</span>(<span class="tok-str">"Water"</span>, <span class="tok-num">15</span>, <span class="tok-num">3</span>)
         };
-        <span class="tok-com">// Order ประกอบด้วย Customer และ OrderLine</span>
-        <span class="tok-type">Order</span> order = <span class="tok-kw">new</span> <span class="tok-type">Order</span>(c, lines);
+        <span class="tok-type">Order</span> order = <span class="tok-kw">new</span> <span class="tok-type">Order</span>(c, lines);            <span class="tok-com">// ประกอบจากออบเจ็กต์อื่น</span>
         order.<span class="tok-fn">printReceipt</span>();
     }
 }
@@ -350,20 +340,17 @@ Rejected: min 95 &gt; max 90
         <span class="tok-kw">this</span>.qty = qty;
     }
 
-    <span class="tok-com">// ยอดของรายการนี้</span>
     <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">subtotal</span>() { <span class="tok-kw">return</span> price * qty; }
 
     <span class="tok-ann">@Override</span>
     <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">toString</span>() {
-        <span class="tok-com">// String.format จัดรูปแบบเหมือน printf</span>
         <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%-10s %3d x %6.2f = %7.2f"</span>, item, qty, price, <span class="tok-fn">subtotal</span>());
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Order</span> {
-    <span class="tok-com">// field เป็นออบเจ็กต์ของคลาสอื่น (has-a)</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">Customer</span> customer;
-    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">OrderLine</span>[] lines;
+    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">Customer</span> customer;              <span class="tok-com">// has-a Customer</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">OrderLine</span>[] lines;              <span class="tok-com">// has-a OrderLine หลายตัว</span>
 
     <span class="tok-kw">public</span> <span class="tok-type">Order</span>(<span class="tok-type">Customer</span> customer, <span class="tok-type">OrderLine</span>[] lines) {
         <span class="tok-kw">this</span>.customer = customer;
@@ -372,15 +359,12 @@ Rejected: min 95 &gt; max 90
 
     <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">total</span>() {
         <span class="tok-kw">double</span> sum = <span class="tok-num">0</span>;
-        <span class="tok-com">// ให้แต่ละรายการคำนวณยอดของตัวเอง</span>
-        <span class="tok-kw">for</span> (<span class="tok-type">OrderLine</span> line : lines) sum += line.<span class="tok-fn">subtotal</span>();
-        <span class="tok-com">// สมาชิกลด 10%</span>
-        <span class="tok-kw">return</span> customer.<span class="tok-fn">isMember</span>() ? sum * <span class="tok-num">0.9</span> : sum;
+        <span class="tok-kw">for</span> (<span class="tok-type">OrderLine</span> line : lines) sum += line.<span class="tok-fn">subtotal</span>();   <span class="tok-com">// 110 + 45 + 45 = 200</span>
+        <span class="tok-kw">return</span> customer.<span class="tok-fn">isMember</span>() ? sum * <span class="tok-num">0.9</span> : sum;          <span class="tok-com">// สมาชิกลด 10% → 180</span>
     }
 
     <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">printReceipt</span>() {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Customer: "</span> + customer.<span class="tok-fn">getName</span>() + (customer.<span class="tok-fn">isMember</span>() ? <span class="tok-str">" (member -10%)"</span> : <span class="tok-str">""</span>));
-        <span class="tok-com">// println เรียก toString() ของ line</span>
         <span class="tok-kw">for</span> (<span class="tok-type">OrderLine</span> line : lines) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  "</span> + line);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Total: %.2f%n"</span>, <span class="tok-fn">total</span>());
     }
@@ -388,37 +372,27 @@ Rejected: min 95 &gt; max 90
   Latte        2 x  55.00 =  110.00
   Croissant    1 x  45.00 =   45.00
   Water        3 x  15.00 =   45.00
-Total: 180.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Order <em>มี</em> Customer หนึ่งคน และ OrderLine หลายบรรทัด</li><li>total() ถาม subtotal() จากแต่ละบรรทัด และถาม isMember() จากลูกค้า</li><li>รวม 110 + 45 + 45 = 200 ลด 10% → 180.00</li><li>แต่ละคลาสเล็กและทดสอบแยกกันได้</li></ol></div></div>
+Total: 180.00</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>Order ไม่ต้องรู้วิธีคิดราคาแต่ละบรรทัด แค่ถาม <code>subtotal()</code> คลาสเล็กที่มีหน้าที่เดียวเข้าใจง่ายและทดสอบแยกกันได้</p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · has-a</strong><div><p>ความสัมพันธ์ใดเป็น composition: (ก) ห้องเรียน–นักศึกษา (ข) รถยนต์–ยานพาหนะ (ค) บ้าน–ห้อง</p></div><details><summary>ดูคำตอบ</summary><div><p>(ก) และ (ค) เป็น “มี” (has-a) ส่วน (ข) รถยนต์ “เป็น” ยานพาหนะ (is-a) ซึ่งเหมาะกับ inheritance ในหัวข้อถัดไป</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-12-5">
 <h3>12.5 inheritance และ method override</h3>
-<p><strong>Inheritance</strong> (ความสัมพันธ์แบบ “เป็น” / is-a) ให้คลาสลูก (subclass) รับ field และเมธอดจากคลาสแม่ (superclass) ด้วยคำว่า <code>extends</code> แล้วเพิ่มหรือ<strong>override</strong> (เขียนทับ) พฤติกรรมได้ ใช้ <code>super(...)</code> เรียก constructor ของคลาสแม่ และ <code>super.method()</code> เรียกเมธอดเวอร์ชันของคลาสแม่</p>
-<div class="concept-box"><span class="box-title">โครงสร้าง</span><div class="code-block"><div class="code-head"><span class="code-file">Employee.java</span></div><pre class="copyable"><code><span class="tok-kw">class</span> <span class="tok-type">Employee</span> {                       <span class="tok-com">// superclass</span>
-    <span class="tok-kw">protected</span> <span class="tok-type">String</span> name;
-    <span class="tok-kw">protected</span> <span class="tok-kw">double</span> baseSalary;
-    <span class="tok-kw">double</span> <span class="tok-fn">monthlyPay</span>() { <span class="tok-kw">return</span> baseSalary; }
-}
-
-<span class="tok-kw">class</span> <span class="tok-type">Manager</span> <span class="tok-kw">extends</span> <span class="tok-type">Employee</span> {       <span class="tok-com">// subclass: Manager "เป็น" Employee</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">double</span> bonus;
-    <span class="tok-ann">@Override</span>
-    <span class="tok-kw">double</span> <span class="tok-fn">monthlyPay</span>() { <span class="tok-kw">return</span> <span class="tok-kw">super</span>.<span class="tok-fn">monthlyPay</span>() + bonus; }
-}</code></pre></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.5.1</span>extends, super และ @Override</h4><p class="concept-line"><strong>แนวคิด:</strong> Manager ได้ name และ baseSalary จาก Employee โดยไม่ต้องประกาศซ้ำ และ override การคำนวณเงินเดือน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InheritanceDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">InheritanceDemo</span> {
+<p><strong>Inheritance</strong> คือความสัมพันธ์แบบ “<strong>เป็น</strong>” (is-a): คลาสลูก (subclass) <code>extends</code> คลาสแม่ (superclass) แล้วได้ field และเมธอดของแม่มาทั้งหมดโดยไม่ต้องเขียนซ้ำ จากนั้นเพิ่มของใหม่ หรือ<strong>override</strong> (เขียนทับ) เมธอดเดิมได้</p>
+<table class="comparison-table"><thead><tr><th>คำ</th><th>ความหมาย</th></tr></thead><tbody><tr><td><code>class Manager extends Employee</code></td><td>Manager เป็น Employee ชนิดหนึ่ง</td></tr><tr><td><code>super(name, salary)</code></td><td>เรียก constructor ของคลาสแม่ ต้องเป็นบรรทัดแรกของ constructor ลูก</td></tr><tr><td><code>@Override</code></td><td>บอก compiler ว่าตั้งใจเขียนทับเมธอดของแม่ (ถ้าสะกดชื่อผิด compiler จะเตือน)</td></tr><tr><td><code>super.monthlyPay()</code></td><td>เรียกเวอร์ชันของคลาสแม่</td></tr><tr><td><code>protected</code></td><td>คลาสลูกเข้าถึง field นี้ได้</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.5.1</span>Manager เป็น Employee ที่มีโบนัส</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InheritanceDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">InheritanceDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Employee</span> e = <span class="tok-kw">new</span> <span class="tok-type">Employee</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">25000</span>);
-        <span class="tok-com">// Manager เป็น Employee ชนิดหนึ่ง</span>
         <span class="tok-type">Manager</span> m = <span class="tok-kw">new</span> <span class="tok-type">Manager</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">40000</span>, <span class="tok-num">8000</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(e.<span class="tok-fn">describe</span>());
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(m.<span class="tok-fn">describe</span>());
-        m.<span class="tok-fn">raise</span>(<span class="tok-num">10</span>);  <span class="tok-com">// raise สืบทอดมาจาก Employee</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(m.<span class="tok-fn">describe</span>());
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(m.<span class="tok-fn">describe</span>());             <span class="tok-com">// 40,000 + 8,000</span>
+        m.<span class="tok-fn">raise</span>(<span class="tok-num">10</span>);                                  <span class="tok-com">// raise ได้มาจาก Employee</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(m.<span class="tok-fn">describe</span>());             <span class="tok-com">// 44,000 + 8,000</span>
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Employee</span> {
-    <span class="tok-kw">protected</span> <span class="tok-type">String</span> name;  <span class="tok-com">// protected: คลาสลูกเข้าถึงได้</span>
+    <span class="tok-kw">protected</span> <span class="tok-type">String</span> name;                        <span class="tok-com">// คลาสลูกเข้าถึงได้</span>
     <span class="tok-kw">protected</span> <span class="tok-kw">double</span> baseSalary;
 
     <span class="tok-kw">public</span> <span class="tok-type">Employee</span>(<span class="tok-type">String</span> name, <span class="tok-kw">double</span> baseSalary) {
@@ -434,32 +408,28 @@ Total: 180.00</pre></div></div><div class="walkthrough"><strong>อธิบา�
         baseSalary *= <span class="tok-num">1</span> + percent / <span class="tok-num">100</span>;
     }
 
-    <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">describe</span>() {
-        <span class="tok-com">// getClass().getSimpleName() = ชื่อคลาสจริง</span>
+    <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">describe</span>() {                    <span class="tok-com">// monthlyPay() จะได้เวอร์ชันของคลาสจริง</span>
         <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%-6s %-8s %,10.2f"</span>, name, <span class="tok-fn">getClass</span>().<span class="tok-fn">getSimpleName</span>(), <span class="tok-fn">monthlyPay</span>());
     }
 }
 
-<span class="tok-com">// extends: สืบทอด field และเมธอดทั้งหมด</span>
 <span class="tok-kw">class</span> <span class="tok-type">Manager</span> <span class="tok-kw">extends</span> <span class="tok-type">Employee</span> {
-    <span class="tok-com">// field เพิ่มเติมเฉพาะ Manager</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">double</span> bonus;
+    <span class="tok-kw">private</span> <span class="tok-kw">double</span> bonus;                         <span class="tok-com">// field เพิ่มเฉพาะ Manager</span>
 
     <span class="tok-kw">public</span> <span class="tok-type">Manager</span>(<span class="tok-type">String</span> name, <span class="tok-kw">double</span> baseSalary, <span class="tok-kw">double</span> bonus) {
-        <span class="tok-com">// super(...) เรียก constructor ของคลาสแม่ ต้องอยู่บรรทัดแรก</span>
-        <span class="tok-kw">super</span>(name, baseSalary);
+        <span class="tok-kw">super</span>(name, baseSalary);                  <span class="tok-com">// ให้คลาสแม่กำหนด name และ baseSalary</span>
         <span class="tok-kw">this</span>.bonus = bonus;
     }
 
-    <span class="tok-ann">@Override</span>  <span class="tok-com">// เขียนทับเมธอดของคลาสแม่</span>
+    <span class="tok-ann">@Override</span>
     <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">monthlyPay</span>() {
-        <span class="tok-com">// เรียกเวอร์ชันของคลาสแม่แล้วบวกโบนัส</span>
-        <span class="tok-kw">return</span> <span class="tok-kw">super</span>.<span class="tok-fn">monthlyPay</span>() + bonus;
+        <span class="tok-kw">return</span> <span class="tok-kw">super</span>.<span class="tok-fn">monthlyPay</span>() + bonus;        <span class="tok-com">// เวอร์ชันของแม่ + โบนัส</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Suga   Employee  25,000.00
 JHope  Manager   48,000.00
-JHope  Manager   52,000.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>super(name, baseSalary)</code> ต้องเป็นบรรทัดแรกของ constructor ลูก</li><li>Manager ไม่ได้เขียน raise และ describe แต่ใช้ได้เพราะสืบทอดมา</li><li>describe เรียก monthlyPay() — สำหรับ Manager จะได้เวอร์ชันที่ override (48,000)</li><li>raise 10% เพิ่มเฉพาะ baseSalary → 44,000 + 8,000 = 52,000</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 12.5.2</span>ลืมเรียก super(...)</h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าคลาสแม่ไม่มี constructor ไม่มี parameter คลาสลูกต้องเรียก super(...) ให้ถูกต้องเสมอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingSuper.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingSuper</span> {
+JHope  Manager   52,000.00</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ลืมเรียก super(...)</span><p>ถ้าไม่เขียน <code>super(...)</code> Java จะเรียก <code>super()</code> แบบไม่มี parameter ให้เอง ถ้าคลาสแม่ไม่มี constructor แบบนั้น จะคอมไพล์ไม่ผ่าน</p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: error เมื่อลืม super(...)</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 12.5.2</span>ลืมเรียก super(...)</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingSuper.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingSuper</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Dog</span> d = <span class="tok-kw">new</span> <span class="tok-type">Dog</span>(<span class="tok-str">"Lucky"</span>);
     }
@@ -482,45 +452,40 @@ JHope  Manager   52,000.00</pre></div></div><div class="walkthrough"><strong>อ
                             ^
   required: String
   found:    no arguments
-  reason: actual and formal argument lists differ in length</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Java พยายามเรียก <code>super()</code> (ไม่มี parameter) ให้อัตโนมัติ</li><li>แต่ Animal มีแค่ Animal(String) → <code>constructor Animal in class Animal cannot be applied to given types</code></li><li>แก้: <code>super(name);</code></li></ol></div></div>
+  reason: actual and formal argument lists differ in length</pre></div></div><p>Animal มีแค่ Animal(String) แก้โดยเขียน super(name); เป็นบรรทัดแรกของ constructor ของ Dog</p></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · override</strong><div><p>ถ้า Manager ไม่ override monthlyPay() แล้วเรียก <code>m.monthlyPay()</code> จะได้ค่าอะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>ได้ <strong>baseSalary</strong> จากเวอร์ชันของ Employee (ไม่รวม bonus)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-12-6">
 <h3>12.6 polymorphism: ชนิดเดียว หลายพฤติกรรม</h3>
-<p>ตัวแปรชนิดคลาสแม่ชี้ไปยังออบเจ็กต์ของคลาสลูกได้ (<code>Shape s = new Circle(2);</code>) เมื่อเรียกเมธอด Java จะเลือกเวอร์ชันตาม<strong>ชนิดจริงของออบเจ็กต์</strong>ขณะรัน ทำให้เขียนโค้ดเดียวจัดการได้หลายชนิด คลาสแม่ที่ไม่ควรถูกสร้างตรง ๆ ประกาศเป็น <code>abstract</code> และบังคับให้คลาสลูกเขียนเมธอดที่เป็น abstract</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.6.1</span>abstract class และอาเรย์ของ Shape</h4><p class="concept-line"><strong>แนวคิด:</strong> ลูปเดียวเรียก area() กับทุกรูปทรง แต่ละชนิดคำนวณด้วยสูตรของตัวเอง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PolymorphismDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PolymorphismDemo</span> {
+<p>ตัวแปรชนิดคลาสแม่ชี้ไปยังออบเจ็กต์ของคลาสลูกได้ เช่น <code>Shape s = new Circle(2);</code> เมื่อเรียก <code>s.area()</code> Java เลือกเวอร์ชันตาม<strong>ชนิดจริงของออบเจ็กต์</strong>ขณะรัน โค้ดชุดเดียวจึงจัดการได้หลายชนิด</p>
+<p>คลาสแม่ที่ไม่ควรถูกสร้างตรง ๆ (รูปทรงทั่วไปคำนวณพื้นที่ไม่ได้) ประกาศเป็น <code>abstract</code> และประกาศเมธอด abstract ที่ไม่มี body เพื่อบังคับให้คลาสลูกทุกตัวเขียนเอง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.6.1</span>ลูปเดียวคำนวณพื้นที่ทุกรูปทรง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PolymorphismDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PolymorphismDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ชนิดตัวแปรเป็น Shape แต่เก็บคลาสลูกต่าง ๆ ได้</span>
-        <span class="tok-type">Shape</span>[] shapes = {
+        <span class="tok-type">Shape</span>[] shapes = {                            <span class="tok-com">// ชนิด Shape เก็บคลาสลูกได้ทุกตัว</span>
             <span class="tok-kw">new</span> <span class="tok-type">Circle</span>(<span class="tok-num">1.5</span>),
             <span class="tok-kw">new</span> <span class="tok-type">Rectangle</span>(<span class="tok-num">4</span>, <span class="tok-num">2.5</span>),
             <span class="tok-kw">new</span> <span class="tok-type">Triangle</span>(<span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>)
         };
         <span class="tok-kw">double</span> total = <span class="tok-num">0</span>;
         <span class="tok-kw">for</span> (<span class="tok-type">Shape</span> s : shapes) {
-            <span class="tok-com">// เรียก area() ของคลาสจริงแต่ละตัว</span>
-            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-10s area = %6.2f%n"</span>, s.<span class="tok-fn">getName</span>(), s.<span class="tok-fn">area</span>());
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-10s area = %6.2f%n"</span>, s.<span class="tok-fn">getName</span>(), s.<span class="tok-fn">area</span>());   <span class="tok-com">// area() ของคลาสจริง</span>
             total += s.<span class="tok-fn">area</span>();
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Total area = %.2f%n"</span>, total);
     }
 }
 
-<span class="tok-com">// abstract class: สร้างออบเจ็กต์ตรง ๆ ไม่ได้</span>
-<span class="tok-kw">abstract</span> <span class="tok-kw">class</span> <span class="tok-type">Shape</span> {
-    <span class="tok-com">// abstract method: คลาสลูกต้องเขียนเอง</span>
-    <span class="tok-kw">public</span> <span class="tok-kw">abstract</span> <span class="tok-kw">double</span> <span class="tok-fn">area</span>();
+<span class="tok-kw">abstract</span> <span class="tok-kw">class</span> <span class="tok-type">Shape</span> {                            <span class="tok-com">// new Shape() ไม่ได้</span>
+    <span class="tok-kw">public</span> <span class="tok-kw">abstract</span> <span class="tok-kw">double</span> <span class="tok-fn">area</span>();                <span class="tok-com">// ไม่มี body: ลูกต้องเขียนเอง</span>
 
     <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">getName</span>() {
-        <span class="tok-com">// ชื่อคลาสจริงของออบเจ็กต์</span>
-        <span class="tok-kw">return</span> <span class="tok-fn">getClass</span>().<span class="tok-fn">getSimpleName</span>();
+        <span class="tok-kw">return</span> <span class="tok-fn">getClass</span>().<span class="tok-fn">getSimpleName</span>();        <span class="tok-com">// ชื่อคลาสจริง</span>
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">Circle</span> <span class="tok-kw">extends</span> <span class="tok-type">Shape</span> {
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-kw">double</span> r;
     <span class="tok-kw">public</span> <span class="tok-type">Circle</span>(<span class="tok-kw">double</span> r) { <span class="tok-kw">this</span>.r = r; }
-    <span class="tok-com">// ทุกคลาสลูกต้อง override area()</span>
     <span class="tok-ann">@Override</span> <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">area</span>() { <span class="tok-kw">return</span> <span class="tok-type">Math</span>.<span class="tok-const">PI</span> * r * r; }
 }
 
@@ -534,41 +499,40 @@ JHope  Manager   52,000.00</pre></div></div><div class="walkthrough"><strong>อ
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-kw">double</span> a, b, c;
     <span class="tok-kw">public</span> <span class="tok-type">Triangle</span>(<span class="tok-kw">double</span> a, <span class="tok-kw">double</span> b, <span class="tok-kw">double</span> c) { <span class="tok-kw">this</span>.a = a; <span class="tok-kw">this</span>.b = b; <span class="tok-kw">this</span>.c = c; }
     <span class="tok-ann">@Override</span> <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">area</span>() {
-        <span class="tok-kw">double</span> s = (a + b + c) / <span class="tok-num">2</span>;  <span class="tok-com">// สูตรเฮรอน</span>
+        <span class="tok-kw">double</span> s = (a + b + c) / <span class="tok-num">2</span>;                   <span class="tok-com">// สูตรเฮรอน</span>
         <span class="tok-kw">return</span> <span class="tok-type">Math</span>.<span class="tok-fn">sqrt</span>(s * (s - a) * (s - b) * (s - c));
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Circle     area =   7.07
 Rectangle  area =  10.00
 Triangle   area =   6.00
-Total area = 23.07</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>abstract double area();</code> ไม่มี body — บังคับทุกคลาสลูกต้องเขียน</li><li><code>new Shape()</code> ไม่ได้ เพราะเป็น abstract</li><li>ตัวแปร s เป็นชนิด Shape แต่เรียก area() ของ Circle/Rectangle/Triangle ตามชนิดจริง</li><li>เพิ่มรูปทรงใหม่ได้โดยไม่ต้องแก้ลูปใน main</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.6.2</span>instanceof และ interface</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>interface</code> กำหนด “ความสามารถ” ที่หลายคลาสซึ่งไม่ได้สืบทอดกันมีร่วมกันได้ ส่วน <code>instanceof</code> ตรวจชนิดจริงขณะรัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InterfaceDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">InterfaceDemo</span> {
+Total area = 23.07</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>เพิ่มรูปทรงใหม่ เช่น Square ได้โดยเขียนคลาสใหม่คลาสเดียว ลูปใน main ไม่ต้องแก้</p></div>
+<h4 class="sub">interface และ instanceof</h4>
+<p><code>interface</code> คือรายการเมธอดที่คลาสต้องมี ใช้กับคลาสที่<em>ไม่ได้</em>สืบทอดกันแต่มีความสามารถร่วมกัน คลาสประกาศ <code>implements</code> เพื่อสัญญาว่าจะเขียนทุกเมธอด ส่วน <code>instanceof</code> ตรวจชนิดจริงขณะรัน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 12.6.2</span>Invoice และ Salary เป็น Payable ทั้งคู่</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InterfaceDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">InterfaceDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">Payable</span>[] bills = {  <span class="tok-com">// ตัวแปรชนิด interface</span>
+        <span class="tok-type">Payable</span>[] bills = {                           <span class="tok-com">// ชนิด interface เก็บได้ทุกคลาสที่ implements</span>
             <span class="tok-kw">new</span> <span class="tok-type">Invoice</span>(<span class="tok-str">"Internet"</span>, <span class="tok-num">599</span>),
             <span class="tok-kw">new</span> <span class="tok-type">Salary</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">25000</span>),
             <span class="tok-kw">new</span> <span class="tok-type">Invoice</span>(<span class="tok-str">"Electricity"</span>, <span class="tok-num">1240.5</span>)
         };
         <span class="tok-kw">double</span> sum = <span class="tok-num">0</span>;
         <span class="tok-kw">for</span> (<span class="tok-type">Payable</span> p : bills) {
-            <span class="tok-com">// เรียกผ่าน interface ได้ทุกคลาส</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-24s %,10.2f%n"</span>, p.<span class="tok-fn">describe</span>(), p.<span class="tok-fn">amountDue</span>());
             sum += p.<span class="tok-fn">amountDue</span>();
-            <span class="tok-com">// ตรวจชนิด และแปลงเป็นตัวแปร s ในคราวเดียว</span>
-            <span class="tok-kw">if</span> (p <span class="tok-kw">instanceof</span> <span class="tok-type">Salary</span> s) {
-                <span class="tok-com">// tax() มีเฉพาะ Salary</span>
-                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"   (tax withheld: "</span> + s.<span class="tok-fn">tax</span>() + <span class="tok-str">")"</span>);
+            <span class="tok-kw">if</span> (p <span class="tok-kw">instanceof</span> <span class="tok-type">Salary</span> s) {              <span class="tok-com">// ถ้าเป็น Salary ได้ตัวแปร s มาใช้เลย</span>
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"   (tax withheld: "</span> + s.<span class="tok-fn">tax</span>() + <span class="tok-str">")"</span>);   <span class="tok-com">// tax() มีเฉพาะ Salary</span>
             }
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-24s %,10.2f%n"</span>, <span class="tok-str">"TOTAL"</span>, sum);
     }
 }
 
-<span class="tok-kw">interface</span> <span class="tok-type">Payable</span> {  <span class="tok-com">// interface: รายการเมธอดที่ต้องมี</span>
+<span class="tok-kw">interface</span> <span class="tok-type">Payable</span> {
     <span class="tok-kw">double</span> <span class="tok-fn">amountDue</span>();
     <span class="tok-type">String</span> <span class="tok-fn">describe</span>();
 }
 
-<span class="tok-com">// implements: สัญญาว่าจะเขียนทุกเมธอด</span>
 <span class="tok-kw">class</span> <span class="tok-type">Invoice</span> <span class="tok-kw">implements</span> <span class="tok-type">Payable</span> {
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> service;
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-kw">double</span> amount;
@@ -582,14 +546,13 @@ Total area = 23.07</pre></div></div><div class="walkthrough"><strong>อธิ�
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-kw">double</span> gross;
     <span class="tok-type">Salary</span>(<span class="tok-type">String</span> employee, <span class="tok-kw">double</span> gross) { <span class="tok-kw">this</span>.employee = employee; <span class="tok-kw">this</span>.gross = gross; }
     <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">tax</span>() { <span class="tok-kw">return</span> gross * <span class="tok-num">0.05</span>; }
-    <span class="tok-com">// หักภาษี 5%</span>
-    <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">amountDue</span>() { <span class="tok-kw">return</span> gross - <span class="tok-fn">tax</span>(); }
+    <span class="tok-kw">public</span> <span class="tok-kw">double</span> <span class="tok-fn">amountDue</span>() { <span class="tok-kw">return</span> gross - <span class="tok-fn">tax</span>(); }   <span class="tok-com">// หักภาษี 5%</span>
     <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">describe</span>() { <span class="tok-kw">return</span> <span class="tok-str">"Salary: "</span> + employee; }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Invoice: Internet            599.00
 Salary: Suga              23,750.00
    (tax withheld: 1250.0)
 Invoice: Electricity       1,240.50
-TOTAL                     25,589.50</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Invoice และ Salary ไม่ได้เป็นแม่ลูกกัน แต่ทั้งคู่ implements Payable</li><li>อาเรย์ Payable[] เก็บได้ทั้งสองชนิด</li><li><code>p instanceof Salary s</code> ตรวจชนิดและได้ตัวแปร s ชนิด Salary มาใช้เมธอด tax() (Java 16+)</li></ol></div></div>
+TOTAL                     25,589.50</pre></div></div></div>
 <h4>สรุป: เลือกใช้อะไรเมื่อไร</h4><table class="comparison-table"><thead><tr><th>ต้องการ</th><th>ใช้</th></tr></thead><tbody><tr><td>ซ่อนข้อมูล บังคับกฎ</td><td>private field + public method</td></tr><tr><td>คลาสหนึ่ง “มี” อีกคลาส</td><td>composition (field เป็นออบเจ็กต์)</td></tr><tr><td>คลาสหนึ่ง “เป็น” อีกคลาส และใช้โค้ดร่วม</td><td>inheritance (extends)</td></tr><tr><td>คลาสแม่ที่ไม่ควรสร้างตรง ๆ</td><td>abstract class</td></tr><tr><td>ความสามารถร่วมของคลาสที่ไม่เกี่ยวกัน</td><td>interface (implements)</td></tr></tbody></table>
 <div class="quick-check"><strong>ลองคิดก่อน · polymorphism</strong><div><p><code>Shape s = new Circle(2);</code> เรียก <code>s.area()</code> ได้เวอร์ชันของใคร และเรียกเมธอดที่มีเฉพาะใน Circle (เช่น getRadius) ผ่าน s ได้หรือไม่</p></div><details><summary>ดูคำตอบ</summary><div><p>ได้ area() ของ <strong>Circle</strong> (ตามชนิดจริง) แต่เรียก getRadius() ผ่าน s <strong>ไม่ได้</strong> เพราะ compiler มองตามชนิดตัวแปร (Shape) — ต้องใช้ instanceof/cast ก่อน</p></div></details></div>
 </article>
