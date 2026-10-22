@@ -59,6 +59,7 @@
 <div class="concept-box"><span class="box-title">3 ส่วนของระบบเหตุการณ์</span><ol class="step-list"><li><strong>Event source</strong> — component ที่เกิดเหตุการณ์ เช่น JButton</li><li><strong>Event object</strong> — ข้อมูลของเหตุการณ์ เช่น ActionEvent (ใครเป็นต้นเหตุ เมื่อไร)</li><li><strong>Listener</strong> — โค้ดของเราที่ “ลงทะเบียน” ไว้กับ source และถูกเรียกเมื่อเกิดเหตุการณ์</li></ol></div>
 <article class="subtopic" id="topic-16-1">
 <h3>16.1 Event source และ listener</h3>
+<p>โปรแกรม GUI ไม่ได้ทำงานจากบนลงล่างจนจบ main แค่สร้างหน้าต่างแล้ว<strong>รอ</strong> เมื่อผู้ใช้คลิกหรือพิมพ์ จึงเกิด <strong>event</strong> และโค้ดที่เราลงทะเบียนไว้ (listener) จะถูกเรียก</p>
 <div class="concept-box"><span class="box-title">ลำดับเหตุการณ์เมื่อผู้ใช้คลิกปุ่ม</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code>ผู้ใช้คลิกปุ่ม
     <span class="tok-arrow">│</span>
     <span class="tok-arrow">▼</span>
@@ -72,11 +73,11 @@
     <span class="tok-arrow">│</span>
     <span class="tok-arrow">▼</span>
 เราเปลี่ยนข้อความ label <span class="tok-arrow">→</span> <span class="tok-type">Swing</span> วาดหน้าจอใหม่</code></pre></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.1.1</span>ปุ่มแรกที่ทำงาน: นับจำนวนคลิก</h4><p class="concept-line"><strong>แนวคิด:</strong> เรียก <code>addActionListener</code> กับปุ่ม และส่งโค้ดที่ต้องทำเมื่อคลิก (ในรูป lambda) — ตัวนับเก็บใน field เพราะต้องจำค่าข้ามการคลิก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ClickCounter.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>ลงทะเบียนด้วย <code>button.addActionListener(e -&gt; { ... })</code> โค้ดในวงเล็บปีกกา<strong>ยังไม่ทำงานตอนนี้</strong> จะทำงานทุกครั้งที่ผู้ใช้คลิก</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.1.1</span>ปุ่มแรกที่ทำงาน: นับจำนวนคลิก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ClickCounter.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ClickCounter</span> {
-    <span class="tok-com">// static: lambda แก้ค่าตัวแปรนี้ได้</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">int</span> count = <span class="tok-num">0</span>;
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">int</span> count = <span class="tok-num">0</span>;                     <span class="tok-com">// field: ค่าคงอยู่ระหว่างการคลิก</span>
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
@@ -84,32 +85,30 @@
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JLabel</span> label = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Clicks: 0"</span>);
             <span class="tok-type">JButton</span> button = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Click me"</span>);
-            <span class="tok-com">// ลงทะเบียนงานที่ทำเมื่อคลิกปุ่ม</span>
-            button.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// โค้ดใน lambda ทำงานทุกครั้งที่คลิก</span>
+            button.<span class="tok-fn">addActionListener</span>(e -&gt; {           <span class="tok-com">// ลงทะเบียน: ทำเมื่อคลิก</span>
                 count++;
-                <span class="tok-com">// อัปเดตข้อความบนหน้าจอ</span>
-                label.<span class="tok-fn">setText</span>(<span class="tok-str">"Clicks: "</span> + count);
+                label.<span class="tok-fn">setText</span>(<span class="tok-str">"Clicks: "</span> + count);    <span class="tok-com">// อัปเดตหน้าจอ</span>
             });
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             panel.<span class="tok-fn">add</span>(button);
             panel.<span class="tok-fn">add</span>(label);
             frame.<span class="tok-fn">add</span>(panel);
             frame.<span class="tok-fn">pack</span>();
-            frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
+            frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);                   <span class="tok-com">// main จบ หน้าต่างรอเหตุการณ์</span>
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">เริ่มต้น</p><figure class="gui-shot"><div class="gui-titlebar">Counter</div><img src="../assets/gui/g5cdf1562a2-0.png" width="146" height="36" alt="ภาพหน้าต่าง Counter" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก 3 ครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Counter</div><img src="../assets/gui/g5cdf1562a2-1.png" width="146" height="36" alt="ภาพหน้าต่าง Counter" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>addActionListener(e -&gt; { ... })</code> ลงทะเบียนโค้ดไว้กับปุ่ม — <em>ยังไม่ทำงานตอนนี้</em></li><li>main จบ หน้าต่างรอเหตุการณ์</li><li>ทุกครั้งที่คลิก โค้ดใน lambda ทำงาน: เพิ่ม count แล้วเปลี่ยนข้อความ label</li><li>count ต้องเป็น field (ไม่ใช่ตัวแปร local) เพราะ lambda แก้ตัวแปร local ไม่ได้ และค่าต้องคงอยู่ระหว่างการคลิก</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.1.2</span>หลายปุ่ม หลาย listener</h4><p class="concept-line"><strong>แนวคิด:</strong> แต่ละปุ่มมี listener ของตัวเอง ทุก listener แก้ state ชุดเดียวกัน (value) แล้วเรียกเมธอดอัปเดตหน้าจอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StepperApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">เริ่มต้น</p><figure class="gui-shot"><div class="gui-titlebar">Counter</div><img src="../assets/gui/g5752742d6e-0.png" width="146" height="36" alt="ภาพหน้าต่าง Counter" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก 3 ครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Counter</div><img src="../assets/gui/g5752742d6e-1.png" width="146" height="36" alt="ภาพหน้าต่าง Counter" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout warn"><span class="box-title">ตัวนับต้องเป็น field</span><p>lambda แก้ค่าตัวแปร local ไม่ได้ (คอมไพล์ไม่ผ่าน) และตัวแปร local หายไปเมื่อเมธอดจบ ค่าที่ต้องจำข้ามการคลิกจึงต้องเก็บใน field</p></div>
+<h4 class="sub">หลายปุ่ม แก้ state ชุดเดียวกัน</h4>
+<p>แต่ละปุ่มมี listener ของตัวเอง ทุก listener แก้ค่า <code>value</code> แล้วเรียก <code>refresh()</code> ซึ่งเป็นจุดเดียวที่วาดหน้าจอจากค่าปัจจุบัน หน้าจอจึงตรงกับข้อมูลเสมอ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.1.2</span>ปุ่ม + − Reset</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StepperApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StepperApp</span> {
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">int</span> value = <span class="tok-num">0</span>;  <span class="tok-com">// ค่าที่ปุ่มทุกปุ่มใช้ร่วมกัน</span>
-    <span class="tok-com">// เก็บเป็น field เพื่อให้ refresh() เข้าถึงได้</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-type">JLabel</span> display;
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">int</span> value = <span class="tok-num">0</span>;                     <span class="tok-com">// state ที่ทุกปุ่มใช้ร่วมกัน</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-type">JLabel</span> display;                    <span class="tok-com">// field: refresh() เข้าถึงได้</span>
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ส่งเมธอด createGui ให้ EDT</span>
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(<span class="tok-type">StepperApp</span>::createGui);
     }
 
@@ -121,8 +120,7 @@
         <span class="tok-type">JButton</span> minus = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"-"</span>);
         <span class="tok-type">JButton</span> plus = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"+"</span>);
         <span class="tok-type">JButton</span> reset = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Reset"</span>);
-        <span class="tok-com">// หลายคำสั่งใน lambda บรรทัดเดียว</span>
-        minus.<span class="tok-fn">addActionListener</span>(e -&gt; { value--; <span class="tok-fn">refresh</span>(); });
+        minus.<span class="tok-fn">addActionListener</span>(e -&gt; { value--; <span class="tok-fn">refresh</span>(); });   <span class="tok-com">// แก้ state แล้ววาดใหม่</span>
         plus.<span class="tok-fn">addActionListener</span>(e -&gt; { value++; <span class="tok-fn">refresh</span>(); });
         reset.<span class="tok-fn">addActionListener</span>(e -&gt; { value = <span class="tok-num">0</span>; <span class="tok-fn">refresh</span>(); });
         <span class="tok-type">JPanel</span> buttons = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
@@ -135,19 +133,18 @@
         frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
     }
 
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">refresh</span>() {  <span class="tok-com">// อัปเดตหน้าจอจากค่าปัจจุบัน</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">refresh</span>() {                   <span class="tok-com">// วาดหน้าจอจาก state</span>
         display.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">valueOf</span>(value));
-        <span class="tok-com">// ติดลบแสดงสีแดง</span>
-        display.<span class="tok-fn">setForeground</span>(value &lt; <span class="tok-num">0</span> ? <span class="tok-type">Color</span>.<span class="tok-const">RED</span> : <span class="tok-type">Color</span>.<span class="tok-const">BLACK</span>);
+        display.<span class="tok-fn">setForeground</span>(value &lt; <span class="tok-num">0</span> ? <span class="tok-type">Color</span>.<span class="tok-const">RED</span> : <span class="tok-type">Color</span>.<span class="tok-const">BLACK</span>);   <span class="tok-com">// ติดลบเป็นสีแดง</span>
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลัง + สามครั้ง และ − หนึ่งครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Stepper</div><img src="../assets/gui/ga8fa35f83b-0.png" width="204" height="101" alt="ภาพหน้าต่าง Stepper" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังกด Reset</p><figure class="gui-shot"><div class="gui-titlebar">Stepper</div><img src="../assets/gui/ga8fa35f83b-1.png" width="204" height="101" alt="ภาพหน้าต่าง Stepper" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>state ของโปรแกรมคือ value ตัวเดียว</li><li>ทุก listener เปลี่ยน state แล้วเรียก refresh()</li><li>refresh() เป็นจุดเดียวที่อัปเดต UI จาก state — ทำให้หน้าจอตรงกับข้อมูลเสมอ</li><li>ค่าลบแสดงเป็นสีแดง</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลัง + สามครั้ง และ − หนึ่งครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Stepper</div><img src="../assets/gui/g072d90eedc-0.png" width="204" height="101" alt="ภาพหน้าต่าง Stepper" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังกด Reset</p><figure class="gui-shot"><div class="gui-titlebar">Stepper</div><img src="../assets/gui/g072d90eedc-1.png" width="204" height="101" alt="ภาพหน้าต่าง Stepper" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · เมื่อไรโค้ดทำงาน</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">JButton</span> b = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Go"</span>);
 b.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"clicked"</span>));
 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"listener added"</span>);</code></pre></div><p>ข้อความใดถูกพิมพ์ก่อน และ “clicked” ถูกพิมพ์เมื่อไร</p></div><details><summary>ดูคำตอบ</summary><div><p>“listener added” พิมพ์ทันที ส่วน “clicked” พิมพ์ <strong>ทุกครั้งที่ผู้ใช้คลิก</strong>ปุ่ม (อาจไม่พิมพ์เลยถ้าไม่มีใครคลิก)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-16-2">
 <h3>16.2 ActionListener: สามวิธีเขียน</h3>
-<p><code>ActionListener</code> เป็น interface ที่มีเมธอดเดียว <code>actionPerformed(ActionEvent e)</code> เขียนได้ 3 แบบ ผลลัพธ์เหมือนกัน: (1) คลาสแยกที่ implements, (2) anonymous class, (3) lambda (สั้นที่สุด นิยมที่สุด)</p>
+<p><code>ActionListener</code> เป็น interface ที่มีเมธอดเดียว <code>actionPerformed(ActionEvent e)</code> เขียนได้ 3 แบบ ผลเหมือนกัน แบบ lambda สั้นที่สุดและนิยมที่สุด</p>
 <div class="concept-box"><span class="box-title">เปรียบเทียบ 3 แบบ</span><div class="code-block"><div class="code-head"><span class="code-file">GreetHandler.java</span></div><pre class="copyable"><code><span class="tok-com">// (1) คลาสที่ implements ActionListener</span>
 <span class="tok-kw">class</span> <span class="tok-type">GreetHandler</span> <span class="tok-kw">implements</span> <span class="tok-type">ActionListener</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">actionPerformed</span>(<span class="tok-type">ActionEvent</span> e) { label.<span class="tok-fn">setText</span>(<span class="tok-str">"Hi"</span>); }
@@ -162,7 +159,9 @@ button.<span class="tok-fn">addActionListener</span>(<span class="tok-kw">new</s
 
 <span class="tok-com">// (3) lambda — เขียนเฉพาะ parameter และ body</span>
 button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="tok-fn">setText</span>(<span class="tok-str">"Hi"</span>));</code></pre></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.2.1</span>อ่านค่าจากช่องกรอกแล้วแสดงผล</h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบพื้นฐานที่สุดของ GUI: เมื่อคลิก → <code>getText()</code> จากช่อง → ประมวลผล → <code>setText()</code> ให้ label</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GreetApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<h4 class="sub">อ่านค่า → ประมวลผล → แสดงผล</h4>
+<p>รูปแบบพื้นฐานที่สุดของ GUI: เมื่อคลิก อ่านข้อความจากช่องด้วย <code>getText()</code> ประมวลผล แล้ว <code>setText()</code> ให้ label ตัวอย่างนี้เขียนแบบ anonymous class ให้เห็นเมธอด actionPerformed ชัด ๆ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.2.1</span>ทักทายตามชื่อที่พิมพ์</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GreetApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.event.<span class="tok-type">ActionEvent</span>;
 <span class="tok-kw">import</span> java.awt.event.<span class="tok-type">ActionListener</span>;
 
@@ -174,14 +173,11 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             <span class="tok-type">JTextField</span> nameField = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">10</span>);
             <span class="tok-type">JButton</span> greet = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Greet"</span>);
             <span class="tok-type">JLabel</span> result = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Type your name"</span>);
-            <span class="tok-com">// anonymous class: วิธีเขียนแบบเต็มก่อนมี lambda</span>
-            greet.<span class="tok-fn">addActionListener</span>(<span class="tok-kw">new</span> <span class="tok-type">ActionListener</span>() {
+            greet.<span class="tok-fn">addActionListener</span>(<span class="tok-kw">new</span> <span class="tok-type">ActionListener</span>() {        <span class="tok-com">// anonymous class</span>
                 <span class="tok-ann">@Override</span>
-                <span class="tok-com">// เมธอดที่ถูกเรียกเมื่อคลิก</span>
-                <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">actionPerformed</span>(<span class="tok-type">ActionEvent</span> e) {
-                    <span class="tok-com">// อ่านข้อความจากช่องกรอก</span>
-                    <span class="tok-type">String</span> name = nameField.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>();
-                    result.<span class="tok-fn">setText</span>(<span class="tok-str">"Hello, "</span> + name + <span class="tok-str">"!"</span>);
+                <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">actionPerformed</span>(<span class="tok-type">ActionEvent</span> e) {      <span class="tok-com">// ถูกเรียกเมื่อคลิก</span>
+                    <span class="tok-type">String</span> name = nameField.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>();     <span class="tok-com">// อ่าน</span>
+                    result.<span class="tok-fn">setText</span>(<span class="tok-str">"Hello, "</span> + name + <span class="tok-str">"!"</span>);       <span class="tok-com">// แสดง</span>
                 }
             });
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
@@ -193,8 +189,10 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ก่อนคลิก</p><figure class="gui-shot"><div class="gui-titlebar">Greeter</div><img src="../assets/gui/gb343f54ae3-0.png" width="364" height="41" alt="ภาพหน้าต่าง Greeter" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก</p><figure class="gui-shot"><div class="gui-titlebar">Greeter</div><img src="../assets/gui/gb343f54ae3-1.png" width="364" height="41" alt="ภาพหน้าต่าง Greeter" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ตัวอย่างนี้เขียนแบบ anonymous class เพื่อให้เห็นเมธอด actionPerformed ชัด ๆ</li><li>getText() คืน String ที่ผู้ใช้พิมพ์</li><li>trim() ตัดช่องว่างหัวท้าย</li><li>setText เปลี่ยนข้อความ label ทันที</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.2.2</span>แปลงอุณหภูมิ: parse ตัวเลขจากช่องกรอก</h4><p class="concept-line"><strong>แนวคิด:</strong> ค่าจาก JTextField เป็น String เสมอ ต้อง <code>Double.parseDouble</code> ก่อนคำนวณ (บทที่ 9) แล้ว <code>String.format</code> ก่อนแสดง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TempConverter.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ก่อนคลิก</p><figure class="gui-shot"><div class="gui-titlebar">Greeter</div><img src="../assets/gui/g27aea8698e-0.png" width="364" height="41" alt="ภาพหน้าต่าง Greeter" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังคลิก</p><figure class="gui-shot"><div class="gui-titlebar">Greeter</div><img src="../assets/gui/g27aea8698e-1.png" width="364" height="41" alt="ภาพหน้าต่าง Greeter" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">แปลงข้อความเป็นตัวเลขก่อนคำนวณ</h4>
+<p>ค่าจาก JTextField เป็น String เสมอ ต้อง <code>Double.parseDouble</code> ก่อนคำนวณ (บทที่ 9) และจัดรูปแบบด้วย <code>String.format</code> ก่อนแสดง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.2.2</span>แปลงอุณหภูมิ °C เป็น °F</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TempConverter.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TempConverter</span> {
@@ -206,10 +204,8 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             <span class="tok-type">JButton</span> convert = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Convert"</span>);
             <span class="tok-type">JLabel</span> output = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"? °F"</span>);
             convert.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// แปลงข้อความเป็นตัวเลขก่อนคำนวณ</span>
-                <span class="tok-kw">double</span> c = <span class="tok-type">Double</span>.<span class="tok-fn">parseDouble</span>(celsius.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());
-                <span class="tok-kw">double</span> f = c * <span class="tok-num">9</span> / <span class="tok-num">5</span> + <span class="tok-num">32</span>;
-                <span class="tok-com">// จัดรูปแบบทศนิยม 1 ตำแหน่ง</span>
+                <span class="tok-kw">double</span> c = <span class="tok-type">Double</span>.<span class="tok-fn">parseDouble</span>(celsius.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());   <span class="tok-com">// "37.5" → 37.5</span>
+                <span class="tok-kw">double</span> f = c * <span class="tok-num">9</span> / <span class="tok-num">5</span> + <span class="tok-num">32</span>;                                 <span class="tok-com">// 99.5</span>
                 output.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%.1f °F"</span>, f));
             });
             <span class="tok-type">JPanel</span> p = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">FlowLayout</span>());
@@ -222,8 +218,11 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังพิมพ์ 37.5 แล้วคลิก Convert</p><figure class="gui-shot"><div class="gui-titlebar">C to F</div><img src="../assets/gui/g716496f944-0.png" width="210" height="36" alt="ภาพหน้าต่าง C to F" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>parseDouble("37.5") → 37.5</li><li>คำนวณ 99.5</li><li>แสดงด้วย String.format ทศนิยม 1 ตำแหน่ง</li><li>ถ้าผู้ใช้พิมพ์ "abc" จะเกิด NumberFormatException — บทที่ 17 จะตรวจข้อมูลก่อน</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.2.3</span>listener เดียวหลายปุ่ม: getSource / getActionCommand</h4><p class="concept-line"><strong>แนวคิด:</strong> ปุ่มหลายปุ่มใช้ listener ตัวเดียวได้ แล้วแยกว่าใครกดด้วย <code>e.getActionCommand()</code> (ข้อความบนปุ่ม) หรือ <code>e.getSource()</code> (ออบเจ็กต์ปุ่ม)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">QuizButtons.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังพิมพ์ 37.5 แล้วคลิก Convert</p><figure class="gui-shot"><div class="gui-titlebar">C to F</div><img src="../assets/gui/gc9a6dabca6-0.png" width="210" height="36" alt="ภาพหน้าต่าง C to F" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout warn"><span class="box-title">ข้อผิดพลาดที่พบบ่อย</span><p>ถ้าผู้ใช้พิมพ์ <code>abc</code> จะเกิด NumberFormatException บทที่ 17 จะตรวจข้อมูลก่อนแปลง</p></div>
+<h4 class="sub">listener เดียว หลายปุ่ม</h4>
+<p>เก็บ listener ไว้ในตัวแปรแล้วลงทะเบียนกับหลายปุ่ม แยกว่าใครกดด้วย <code>e.getActionCommand()</code> (ข้อความบนปุ่ม) หรือ <code>e.getSource()</code> (ออบเจ็กต์ปุ่ม)</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.2.3</span>แบบทดสอบ 3 ตัวเลือก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">QuizButtons.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.awt.event.<span class="tok-type">ActionListener</span>;
 
@@ -234,10 +233,8 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JLabel</span> question = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Which keyword creates an object?  A) class  B) new  C) void"</span>);
             <span class="tok-type">JLabel</span> feedback = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">" "</span>);
-            <span class="tok-com">// listener ตัวเดียว ใช้กับหลายปุ่ม</span>
-            <span class="tok-type">ActionListener</span> answer = e -&gt; {
-                <span class="tok-com">// ข้อความบนปุ่มที่ถูกคลิก</span>
-                <span class="tok-type">String</span> choice = e.<span class="tok-fn">getActionCommand</span>();
+            <span class="tok-type">ActionListener</span> answer = e -&gt; {                        <span class="tok-com">// listener เดียว</span>
+                <span class="tok-type">String</span> choice = e.<span class="tok-fn">getActionCommand</span>();             <span class="tok-com">// "A", "B" หรือ "C"</span>
                 <span class="tok-kw">if</span> (choice.<span class="tok-fn">equals</span>(<span class="tok-str">"B"</span>)) {
                     feedback.<span class="tok-fn">setText</span>(<span class="tok-str">"Correct! 'new' creates an object."</span>);
                     feedback.<span class="tok-fn">setForeground</span>(<span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">0</span>, <span class="tok-num">128</span>, <span class="tok-num">0</span>));
@@ -245,14 +242,12 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
                     feedback.<span class="tok-fn">setText</span>(choice + <span class="tok-str">" is wrong, try again."</span>);
                     feedback.<span class="tok-fn">setForeground</span>(<span class="tok-type">Color</span>.<span class="tok-const">RED</span>);
                 }
-                <span class="tok-com">// getSource() = ปุ่มที่ถูกคลิก</span>
-                ((<span class="tok-type">JButton</span>) e.<span class="tok-fn">getSource</span>()).<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);
+                ((<span class="tok-type">JButton</span>) e.<span class="tok-fn">getSource</span>()).<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);      <span class="tok-com">// ปิดปุ่มที่ถูกคลิก</span>
             };
             <span class="tok-type">JPanel</span> buttons = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             <span class="tok-kw">for</span> (<span class="tok-type">String</span> opt : <span class="tok-kw">new</span> <span class="tok-type">String</span>[]{<span class="tok-str">"A"</span>, <span class="tok-str">"B"</span>, <span class="tok-str">"C"</span>}) {
                 <span class="tok-type">JButton</span> b = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(opt);
-                <span class="tok-com">// ทุกปุ่มใช้ listener เดียวกัน</span>
-                b.<span class="tok-fn">addActionListener</span>(answer);
+                b.<span class="tok-fn">addActionListener</span>(answer);                      <span class="tok-com">// ทุกปุ่มใช้ตัวเดียวกัน</span>
                 buttons.<span class="tok-fn">add</span>(b);
             }
             <span class="tok-type">JPanel</span> root = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">4</span>));
@@ -265,7 +260,7 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังคลิกปุ่ม B</p><figure class="gui-shot"><div class="gui-titlebar">Quiz</div><img src="../assets/gui/g15f44f8b87-0.png" width="354" height="132" alt="ภาพหน้าต่าง Quiz" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>listener ชื่อ answer เก็บในตัวแปรชนิด ActionListener แล้วใช้กับทั้ง 3 ปุ่ม</li><li>getActionCommand() คืนข้อความของปุ่มที่ถูกกด</li><li>getSource() คืนออบเจ็กต์ที่เป็นต้นเหตุ — cast เป็น JButton แล้วปิดปุ่มนั้น</li><li>ภาพแสดงหลังคลิก B: ปุ่ม B ถูกปิด ข้อความสีเขียว</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังคลิกปุ่ม B</p><figure class="gui-shot"><div class="gui-titlebar">Quiz</div><img src="../assets/gui/g34d75b0094-0.png" width="354" height="132" alt="ภาพหน้าต่าง Quiz" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · lambda</strong><div><p>เขียน listener แบบ lambda สำหรับปุ่ม <code>clear</code> ที่ล้างช่อง <code>input</code> และเปลี่ยน label <code>status</code> เป็น “Cleared”</p></div><details><summary>ดูคำตอบ</summary><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code>clear.<span class="tok-fn">addActionListener</span>(e -&gt; {
     input.<span class="tok-fn">setText</span>(<span class="tok-str">""</span>);
     status.<span class="tok-fn">setText</span>(<span class="tok-str">"Cleared"</span>);
@@ -273,9 +268,12 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
 </article>
 <article class="subtopic" id="topic-16-3">
 <h3>16.3 Lambda, callback และ event ชนิดอื่น</h3>
-<p><strong>Lambda</strong> คือการเขียนเมธอดสั้น ๆ ที่ไม่มีชื่อ ใช้ได้กับ interface ที่มีเมธอด abstract เดียว (functional interface) เช่น ActionListener, Runnable รูปแบบ <code>(parameter) -&gt; นิพจน์</code> หรือ <code>(parameter) -&gt; { คำสั่ง; }</code> โค้ดที่ส่งไปให้คนอื่น “เรียกกลับ” ภายหลังแบบนี้เรียกว่า <strong>callback</strong></p>
+<p><strong>Lambda</strong> คือเมธอดสั้น ๆ ที่ไม่มีชื่อ ใช้กับ interface ที่มีเมธอด abstract เดียว (functional interface) เช่น ActionListener และ Runnable เขียนเป็น <code>(parameter) -&gt; นิพจน์</code> หรือ <code>(parameter) -&gt; { คำสั่ง; }</code></p>
+<p>โค้ดที่ส่งให้คนอื่น “เรียกกลับ” ภายหลังแบบนี้เรียกว่า <strong>callback</strong> การสร้าง lambda ไม่ได้ทำงานทันที ทำเมื่อถูกเรียกเท่านั้น</p>
 <table class="comparison-table"><thead><tr><th>Listener</th><th>event</th><th>เกิดเมื่อ</th></tr></thead><tbody><tr><td><code>ActionListener</code></td><td>ActionEvent</td><td>คลิกปุ่ม, กด Enter ใน JTextField, เลือก JComboBox, คลิก check/radio</td></tr><tr><td><code>ItemListener</code></td><td>ItemEvent</td><td>check box / radio / combo เปลี่ยนสถานะ</td></tr><tr><td><code>ChangeListener</code></td><td>ChangeEvent</td><td>JSlider, JSpinner เปลี่ยนค่า</td></tr><tr><td><code>DocumentListener</code></td><td>DocumentEvent</td><td>ข้อความในช่องเปลี่ยนทุกตัวอักษร</td></tr><tr><td><code>MouseListener</code> / <code>KeyListener</code></td><td>MouseEvent / KeyEvent</td><td>คลิก/เลื่อนเมาส์, กดแป้นพิมพ์</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.3.1</span>Enter ในช่องกรอก = คลิกปุ่ม</h4><p class="concept-line"><strong>แนวคิด:</strong> listener เดียวกันลงทะเบียนกับทั้งปุ่มและช่องกรอก (JTextField ส่ง ActionEvent เมื่อกด Enter) — ผู้ใช้เลือกวิธีที่สะดวก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">QuickList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<h4 class="sub">Enter ในช่องกรอกทำงานเหมือนคลิกปุ่ม</h4>
+<p>JTextField ส่ง ActionEvent เมื่อกด Enter ลงทะเบียน listener ตัวเดียวกับทั้งปุ่มและช่องกรอก ผู้ใช้เลือกวิธีที่สะดวกได้ รายการแสดงด้วย <code>JList</code> ซึ่งวาดใหม่เองเมื่อ <code>DefaultListModel</code> เปลี่ยน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.3.1</span>รายการด่วน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">QuickList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.awt.event.<span class="tok-type">ActionListener</span>;
 
@@ -286,26 +284,19 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JTextField</span> input = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">14</span>);
             <span class="tok-type">JButton</span> add = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Add"</span>);
-            <span class="tok-com">// model เก็บข้อมูลของ JList</span>
-            <span class="tok-type">DefaultListModel</span>&lt;<span class="tok-type">String</span>&gt; model = <span class="tok-kw">new</span> <span class="tok-type">DefaultListModel</span>&lt;&gt;();
-            <span class="tok-com">// JList แสดงข้อมูลจาก model</span>
+            <span class="tok-type">DefaultListModel</span>&lt;<span class="tok-type">String</span>&gt; model = <span class="tok-kw">new</span> <span class="tok-type">DefaultListModel</span>&lt;&gt;();   <span class="tok-com">// ข้อมูลของ JList</span>
             <span class="tok-type">JList</span>&lt;<span class="tok-type">String</span>&gt; list = <span class="tok-kw">new</span> <span class="tok-type">JList</span>&lt;&gt;(model);
 
-            <span class="tok-com">// เก็บ listener ไว้ในตัวแปร เพื่อใช้ซ้ำ</span>
             <span class="tok-type">ActionListener</span> addItem = e -&gt; {
                 <span class="tok-type">String</span> text = input.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>();
-                <span class="tok-com">// ไม่เพิ่มข้อความว่าง</span>
-                <span class="tok-kw">if</span> (!text.<span class="tok-fn">isEmpty</span>()) {
-                    <span class="tok-com">// เพิ่มใน model แล้ว JList อัปเดตเอง</span>
-                    model.<span class="tok-fn">addElement</span>((model.<span class="tok-fn">size</span>() + <span class="tok-num">1</span>) + <span class="tok-str">". "</span> + text);
+                <span class="tok-kw">if</span> (!text.<span class="tok-fn">isEmpty</span>()) {                                    <span class="tok-com">// ไม่เพิ่มข้อความว่าง</span>
+                    model.<span class="tok-fn">addElement</span>((model.<span class="tok-fn">size</span>() + <span class="tok-num">1</span>) + <span class="tok-str">". "</span> + text);   <span class="tok-com">// JList อัปเดตเอง</span>
                     input.<span class="tok-fn">setText</span>(<span class="tok-str">""</span>);
                 }
-                <span class="tok-com">// ให้เคอร์เซอร์กลับไปที่ช่องกรอก</span>
-                input.<span class="tok-fn">requestFocusInWindow</span>();
+                input.<span class="tok-fn">requestFocusInWindow</span>();                             <span class="tok-com">// พิมพ์รายการถัดไปได้ทันที</span>
             };
-            add.<span class="tok-fn">addActionListener</span>(addItem);  <span class="tok-com">// คลิกปุ่ม Add</span>
-            <span class="tok-com">// กด Enter ในช่องกรอก ทำงานเดียวกัน</span>
-            input.<span class="tok-fn">addActionListener</span>(addItem);
+            add.<span class="tok-fn">addActionListener</span>(addItem);                               <span class="tok-com">// คลิกปุ่ม</span>
+            input.<span class="tok-fn">addActionListener</span>(addItem);                             <span class="tok-com">// กด Enter</span>
 
             <span class="tok-type">JPanel</span> top = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">4</span>, <span class="tok-num">0</span>));
             top.<span class="tok-fn">add</span>(input, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
@@ -319,8 +310,10 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังเพิ่ม 3 รายการ</p><figure class="gui-shot"><div class="gui-titlebar">Quick list</div><img src="../assets/gui/gbec24bed85-0.png" width="264" height="161" alt="ภาพหน้าต่าง Quick list" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>DefaultListModel คือข้อมูลของ JList — addElement แล้ว JList วาดใหม่เอง</li><li>ไม่เพิ่มข้อความว่าง</li><li>ล้างช่องและคืนโฟกัสให้พิมพ์รายการถัดไปได้ทันที</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.3.2</span>ChangeListener: slider อัปเดตทันทีที่เลื่อน</h4><p class="concept-line"><strong>แนวคิด:</strong> ไม่ต้องมีปุ่ม — คำนวณใหม่ทุกครั้งที่ค่า slider เปลี่ยน ใช้ <code>addChangeListener</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TipCalculator.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังเพิ่ม 3 รายการ</p><figure class="gui-shot"><div class="gui-titlebar">Quick list</div><img src="../assets/gui/g7a1d64165b-0.png" width="264" height="161" alt="ภาพหน้าต่าง Quick list" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">ChangeListener: คำนวณใหม่ทันทีที่เลื่อน</h4>
+<p>ไม่ต้องมีปุ่มคำนวณ ใช้ <code>addChangeListener</code> กับ slider คำนวณใหม่ทุกครั้งที่ค่าเปลี่ยน งานคำนวณเก็บไว้ใน <code>Runnable</code> เพื่อเรียกซ้ำด้วย <code>run()</code></p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.3.2</span>คำนวณทิป</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TipCalculator.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TipCalculator</span> {
@@ -329,23 +322,18 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Tip"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-kw">double</span> bill = <span class="tok-num">840.0</span>;
-            <span class="tok-com">// ต่ำสุด 0, สูงสุด 25, เริ่มที่ 10</span>
-            <span class="tok-type">JSlider</span> tip = <span class="tok-kw">new</span> <span class="tok-type">JSlider</span>(<span class="tok-num">0</span>, <span class="tok-num">25</span>, <span class="tok-num">10</span>);
+            <span class="tok-type">JSlider</span> tip = <span class="tok-kw">new</span> <span class="tok-type">JSlider</span>(<span class="tok-num">0</span>, <span class="tok-num">25</span>, <span class="tok-num">10</span>);                 <span class="tok-com">// 0–25% เริ่มที่ 10</span>
             tip.<span class="tok-fn">setMajorTickSpacing</span>(<span class="tok-num">5</span>);
             tip.<span class="tok-fn">setPaintTicks</span>(<span class="tok-num">true</span>);
             tip.<span class="tok-fn">setPaintLabels</span>(<span class="tok-num">true</span>);
             <span class="tok-type">JLabel</span> result = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>();
-            <span class="tok-com">// Runnable: งานที่สั่ง run() ได้</span>
-            <span class="tok-type">Runnable</span> update = () -&gt; {
-                <span class="tok-com">// อ่านค่าปัจจุบันของ slider</span>
+            <span class="tok-type">Runnable</span> update = () -&gt; {                             <span class="tok-com">// งานที่เรียกซ้ำได้</span>
                 <span class="tok-kw">int</span> percent = tip.<span class="tok-fn">getValue</span>();
                 <span class="tok-kw">double</span> t = bill * percent / <span class="tok-num">100</span>;
                 result.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"Bill 840.00 + tip %d%% = %.2f baht"</span>, percent, bill + t));
             };
-            <span class="tok-com">// ChangeListener ทำงานทุกครั้งที่เลื่อน</span>
-            tip.<span class="tok-fn">addChangeListener</span>(e -&gt; update.<span class="tok-fn">run</span>());
-            <span class="tok-com">// เปลี่ยนค่า → listener ทำงานทันที</span>
-            tip.<span class="tok-fn">setValue</span>(<span class="tok-num">15</span>);
+            tip.<span class="tok-fn">addChangeListener</span>(e -&gt; update.<span class="tok-fn">run</span>());             <span class="tok-com">// ทุกครั้งที่ค่าเปลี่ยน</span>
+            tip.<span class="tok-fn">setValue</span>(<span class="tok-num">15</span>);                                     <span class="tok-com">// เปลี่ยนในโค้ดก็เรียก listener</span>
             <span class="tok-type">JPanel</span> root = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">8</span>));
             root.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>));
             root.<span class="tok-fn">add</span>(tip, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
@@ -355,14 +343,14 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Tip</div><img src="../assets/gui/g9dd98b0789-0.png" width="220" height="87" alt="ภาพหน้าต่าง Tip" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>Runnable update</code> เก็บ lambda ไว้เรียกซ้ำ</li><li>ทุกครั้งที่ slider เปลี่ยนค่า listener เรียก update</li><li><code>tip.setValue(15)</code> ในโค้ดก็กระตุ้น listener เช่นกัน label จึงมีข้อความตั้งแต่แรก</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.3.3</span>เลือกจาก combo box แล้วเปลี่ยนรายละเอียด</h4><p class="concept-line"><strong>แนวคิด:</strong> JComboBox ส่ง ActionEvent เมื่อผู้ใช้เลือกรายการใหม่ ใช้ index ที่เลือกไปดึงข้อมูลจากอาเรย์คู่ขนาน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CourseInfo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Tip</div><img src="../assets/gui/g64241e6214-0.png" width="220" height="87" alt="ภาพหน้าต่าง Tip" loading="lazy"></figure></div></div></div></div></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: เลือกจาก combo box แล้วแสดงรายละเอียด</summary><div class="more-body"><p>JComboBox ส่ง ActionEvent เมื่อเลือกรายการใหม่ ใช้ index ที่เลือกไปดึงข้อมูลจากอาเรย์คู่ขนาน และเรียก <code>setSelectedIndex(0)</code> ตอนเริ่มเพื่อให้ label มีข้อความตั้งแต่แรก</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.3.3</span>ข้อมูลรายวิชา</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CourseInfo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CourseInfo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ข้อมูลอาเรย์คู่ขนาน</span>
-        <span class="tok-type">String</span>[] names = {<span class="tok-str">"Programming"</span>, <span class="tok-str">"Physics"</span>, <span class="tok-str">"Calculus"</span>, <span class="tok-str">"English"</span>};
+        <span class="tok-type">String</span>[] names = {<span class="tok-str">"Programming"</span>, <span class="tok-str">"Physics"</span>, <span class="tok-str">"Calculus"</span>, <span class="tok-str">"English"</span>};   <span class="tok-com">// อาเรย์คู่ขนาน</span>
         <span class="tok-kw">int</span>[] credits = {<span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">3</span>, <span class="tok-num">2</span>};
         <span class="tok-type">String</span>[] rooms = {<span class="tok-str">"Lab 2"</span>, <span class="tok-str">"SC-101"</span>, <span class="tok-str">"SC-204"</span>, <span class="tok-str">"LA-310"</span>};
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
@@ -370,14 +358,11 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JComboBox</span>&lt;<span class="tok-type">String</span>&gt; combo = <span class="tok-kw">new</span> <span class="tok-type">JComboBox</span>&lt;&gt;(names);
             <span class="tok-type">JLabel</span> detail = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>();
-            <span class="tok-com">// ทำงานเมื่อเลือกรายการใหม่</span>
             combo.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// ตำแหน่งที่เลือก ใช้ดึงข้อมูลจากทุกอาเรย์</span>
-                <span class="tok-kw">int</span> i = combo.<span class="tok-fn">getSelectedIndex</span>();
+                <span class="tok-kw">int</span> i = combo.<span class="tok-fn">getSelectedIndex</span>();             <span class="tok-com">// index เดียวใช้กับทุกอาเรย์</span>
                 detail.<span class="tok-fn">setText</span>(names[i] + <span class="tok-str">": "</span> + credits[i] + <span class="tok-str">" credits, room "</span> + rooms[i]);
             });
-            <span class="tok-com">// เลือกตัวแรกเพื่อให้แสดงรายละเอียดตั้งแต่เริ่ม</span>
-            combo.<span class="tok-fn">setSelectedIndex</span>(<span class="tok-num">0</span>);
+            combo.<span class="tok-fn">setSelectedIndex</span>(<span class="tok-num">0</span>);                        <span class="tok-com">// กระตุ้น listener ตอนเริ่ม</span>
             <span class="tok-type">JPanel</span> root = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">2</span>, <span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">4</span>));
             root.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">8</span>, <span class="tok-num">8</span>, <span class="tok-num">8</span>, <span class="tok-num">8</span>));
             root.<span class="tok-fn">add</span>(combo);
@@ -387,24 +372,23 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังเลือก Calculus</p><figure class="gui-shot"><div class="gui-titlebar">Course info</div><img src="../assets/gui/gc1df29143e-0.png" width="284" height="61" alt="ภาพหน้าต่าง Course info" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>getSelectedIndex() ให้ index ที่ตรงกับอาเรย์คู่ขนาน</li><li>setSelectedIndex(0) ตอนเริ่มเพื่อให้ label มีข้อความแรก</li><li>ภาพจำลองการเลือก index 2</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังเลือก Calculus</p><figure class="gui-shot"><div class="gui-titlebar">Course info</div><img src="../assets/gui/g935b1cdeac-0.png" width="284" height="61" alt="ภาพหน้าต่าง Course info" loading="lazy"></figure></div></div></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · callback</strong><div><p><code>Runnable r = () -&gt; System.out.println("A");</code> แล้วบรรทัดต่อไปคือ <code>System.out.println("B"); r.run(); r.run();</code> ผลลัพธ์คืออะไร</p></div><details><summary>ดูคำตอบ</summary><div><p><strong>B A A</strong> — การสร้าง lambda ไม่ได้ทำงานทันที ทำเมื่อเรียก run()</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-16-4">
 <h3>16.4 เก็บ state และอัปเดต UI บน EDT</h3>
-<p>listener ทุกตัวทำงานบน EDT จึงแก้ component ได้อย่างปลอดภัย แต่ต้องระวัง 2 เรื่อง: (1) <strong>อย่าทำงานนาน</strong>ใน listener เพราะหน้าจอจะค้าง (2) ถ้าโปรแกรมมีข้อมูลซับซ้อน ให้<strong>แยก state (model) ออกจาก UI</strong> — listener แก้ model แล้วเรียกเมธอดเดียวที่วาดหน้าจอจาก model</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.4.1</span>แยก model ออกจาก UI: กระปุกออมสิน</h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>PiggyBank</code> (model) มีกฎของตัวเองจากบทที่ 12 ส่วน UI ทำหน้าที่รับคำสั่งและแสดงผล — model ทดสอบได้โดยไม่ต้องมีหน้าจอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PiggyBankApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>listener ทุกตัวทำงานบน EDT จึงแก้ component ได้อย่างปลอดภัย แต่มีหลักสองข้อ</p>
+<table class="comparison-table"><thead><tr><th>หลัก</th><th>เหตุผล</th></tr></thead><tbody><tr><td><strong>แยก model ออกจาก UI</strong>: listener แก้ model แล้วเรียกเมธอดเดียวที่วาดหน้าจอจาก model</td><td>กฎของข้อมูลอยู่ที่เดียว และทดสอบ model ได้โดยไม่ต้องมีหน้าจอ</td></tr><tr><td><strong>อย่าทำงานนาน</strong>ใน listener</td><td>EDT ไม่ว่างวาดหน้าจอ โปรแกรมจะค้าง</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.4.1</span>กระปุกออมสิน: model แยกจาก UI</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PiggyBankApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PiggyBankApp</span> {
-    <span class="tok-com">// ส่วน logic แยกอยู่ในคลาส PiggyBank</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">PiggyBank</span> bank = <span class="tok-kw">new</span> <span class="tok-type">PiggyBank</span>();
-    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JTextField</span> amountField = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">8</span>);
+    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">PiggyBank</span> bank = <span class="tok-kw">new</span> <span class="tok-type">PiggyBank</span>();           <span class="tok-com">// model</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JTextField</span> amountField = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">8</span>); <span class="tok-com">// component เป็น field</span>
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JLabel</span> balanceLabel = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>();
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JLabel</span> message = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">" "</span>);
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// สร้างออบเจ็กต์ แล้วเรียก show บน EDT</span>
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; <span class="tok-kw">new</span> <span class="tok-type">PiggyBankApp</span>().<span class="tok-fn">show</span>());
     }
 
@@ -413,9 +397,7 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
         frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
         <span class="tok-type">JButton</span> deposit = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Deposit"</span>);
         <span class="tok-type">JButton</span> withdraw = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Withdraw"</span>);
-        <span class="tok-com">// true = ฝาก</span>
-        deposit.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">act</span>(<span class="tok-num">true</span>));
-        <span class="tok-com">// false = ถอน</span>
+        deposit.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">act</span>(<span class="tok-num">true</span>));            <span class="tok-com">// ทั้งสองปุ่มเรียกเมธอดเดียว</span>
         withdraw.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">act</span>(<span class="tok-num">false</span>));
         <span class="tok-type">JPanel</span> input = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
         input.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Amount:"</span>));
@@ -433,57 +415,52 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
         frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
     }
 
-    <span class="tok-com">// ทั้งสองปุ่มใช้เมธอดเดียวกัน</span>
     <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">act</span>(<span class="tok-kw">boolean</span> isDeposit) {
         <span class="tok-kw">try</span> {
-            <span class="tok-com">// ข้อความที่ไม่ใช่ตัวเลข → NumberFormatException</span>
             <span class="tok-kw">double</span> amount = <span class="tok-type">Double</span>.<span class="tok-fn">parseDouble</span>(amountField.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());
-            <span class="tok-com">// PiggyBank โยน exception เมื่อข้อมูลผิด</span>
-            <span class="tok-kw">if</span> (isDeposit) bank.<span class="tok-fn">deposit</span>(amount);
+            <span class="tok-kw">if</span> (isDeposit) bank.<span class="tok-fn">deposit</span>(amount);              <span class="tok-com">// model ตรวจกฎเอง</span>
             <span class="tok-kw">else</span> bank.<span class="tok-fn">withdraw</span>(amount);
             message.<span class="tok-fn">setText</span>((isDeposit ? <span class="tok-str">"Deposited "</span> : <span class="tok-str">"Withdrew "</span>) + amount);
             message.<span class="tok-fn">setForeground</span>(<span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">0</span>, <span class="tok-num">110</span>, <span class="tok-num">0</span>));
-        <span class="tok-com">// กรอกไม่ใช่ตัวเลข</span>
-        } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> ex) {
+        } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> ex) {                  <span class="tok-com">// พิมพ์ไม่ใช่ตัวเลข</span>
             message.<span class="tok-fn">setText</span>(<span class="tok-str">"Please enter a number"</span>);
             message.<span class="tok-fn">setForeground</span>(<span class="tok-type">Color</span>.<span class="tok-const">RED</span>);
-        <span class="tok-com">// ข้อความจาก PiggyBank</span>
-        } <span class="tok-kw">catch</span> (<span class="tok-type">IllegalArgumentException</span> ex) {
+        } <span class="tok-kw">catch</span> (<span class="tok-type">IllegalArgumentException</span> ex) {               <span class="tok-com">// model ปฏิเสธ</span>
             message.<span class="tok-fn">setText</span>(ex.<span class="tok-fn">getMessage</span>());
             message.<span class="tok-fn">setForeground</span>(<span class="tok-type">Color</span>.<span class="tok-const">RED</span>);
         }
         amountField.<span class="tok-fn">setText</span>(<span class="tok-str">""</span>);
-        <span class="tok-fn">refresh</span>();  <span class="tok-com">// อัปเดตยอดทุกครั้ง</span>
+        <span class="tok-fn">refresh</span>();
     }
 
-    <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">refresh</span>() {
+    <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">refresh</span>() {                                  <span class="tok-com">// วาดยอดจาก model เสมอ</span>
         balanceLabel.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"Balance: %,.2f baht"</span>, bank.<span class="tok-fn">getBalance</span>()));
     }
 }
 
-<span class="tok-kw">class</span> <span class="tok-type">PiggyBank</span> {  <span class="tok-com">// คลาส logic ไม่รู้จัก Swing เลย</span>
+<span class="tok-kw">class</span> <span class="tok-type">PiggyBank</span> {                                             <span class="tok-com">// ไม่รู้จัก Swing เลย</span>
     <span class="tok-kw">private</span> <span class="tok-kw">double</span> balance;
 
     <span class="tok-kw">double</span> <span class="tok-fn">getBalance</span>() { <span class="tok-kw">return</span> balance; }
 
     <span class="tok-kw">void</span> <span class="tok-fn">deposit</span>(<span class="tok-kw">double</span> amount) {
-        <span class="tok-com">// ตรวจข้อมูลแล้วโยน exception</span>
         <span class="tok-kw">if</span> (amount &lt;= <span class="tok-num">0</span>) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"Amount must be positive"</span>);
         balance += amount;
     }
 
     <span class="tok-kw">void</span> <span class="tok-fn">withdraw</span>(<span class="tok-kw">double</span> amount) {
         <span class="tok-kw">if</span> (amount &lt;= <span class="tok-num">0</span>) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"Amount must be positive"</span>);
-        <span class="tok-com">// ถอนเกินยอด</span>
         <span class="tok-kw">if</span> (amount &gt; balance) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"Not enough money (have "</span> + balance + <span class="tok-str">")"</span>);
         balance -= amount;
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ฝาก 500, ถอน 120, แล้วลองถอน 1000</p><figure class="gui-shot"><div class="gui-titlebar">Piggy Bank</div><img src="../assets/gui/ged5b1426dd-0.png" width="350" height="120" alt="ภาพหน้าต่าง Piggy Bank" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>UI เป็นออบเจ็กต์ (ไม่ใช้ static) — component เป็น field เข้าถึงได้จากทุกเมธอด</li><li>act() แปลงข้อความ เรียก model และจับ exception มาแสดงเป็นข้อความสีแดง</li><li>refresh() วาดยอดเงินจาก model เสมอ</li><li>ภาพแสดงการถอน 1000 ถูกปฏิเสธด้วยข้อความจากกฎของ PiggyBank</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.4.2</span>เกมทายตัวเลขแบบ GUI</h4><p class="concept-line"><strong>แนวคิด:</strong> รวมทุกอย่าง: state หลายตัว (คำตอบ, จำนวนครั้ง, จบเกมหรือยัง), ประวัติใน JTextArea, ปิดปุ่มเมื่อจบเกม และปุ่มเริ่มใหม่ (คำตอบกำหนดเป็น 37 เพื่อให้ทดสอบได้ — บทเสริม Random จะสุ่มแทน)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GuessGui.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ฝาก 500, ถอน 120, แล้วลองถอน 1000</p><figure class="gui-shot"><div class="gui-titlebar">Piggy Bank</div><img src="../assets/gui/g555f4571e0-0.png" width="350" height="120" alt="ภาพหน้าต่าง Piggy Bank" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>UI เป็นออบเจ็กต์ (ไม่ใช้ static) component จึงเป็น field ที่ทุกเมธอดเข้าถึงได้ ภาพแสดงการถอน 1000 ถูกปฏิเสธด้วยข้อความจากกฎของ PiggyBank</p></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: เกมทายตัวเลขแบบ GUI</summary><div class="more-body"><p>รวมทุกอย่าง: state หลายตัว (คำตอบ จำนวนครั้ง) ประวัติใน JTextArea ปิดปุ่มเมื่อจบเกม และปุ่มเริ่มใหม่ คำตอบกำหนดเป็น 37 เพื่อให้ทดสอบได้ บทเสริม Random จะสุ่มแทน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 16.4.2</span>Guess the Number</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GuessGui.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GuessGui</span> {
-    <span class="tok-kw">private</span> <span class="tok-kw">int</span> secret = <span class="tok-num">37</span>;  <span class="tok-com">// สถานะของเกมเก็บใน field</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">int</span> secret = <span class="tok-num">37</span>;                                <span class="tok-com">// state ของเกม</span>
     <span class="tok-kw">private</span> <span class="tok-kw">int</span> tries = <span class="tok-num">0</span>;
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JTextField</span> input = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">5</span>);
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JButton</span> guess = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Guess"</span>);
@@ -499,9 +476,8 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
         frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
         history.<span class="tok-fn">setEditable</span>(<span class="tok-num">false</span>);
         <span class="tok-type">JButton</span> restart = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"New game"</span>);
-        guess.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">onGuess</span>());  <span class="tok-com">// คลิกปุ่ม</span>
-        <span class="tok-com">// กด Enter ในช่องกรอก</span>
-        input.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">onGuess</span>());
+        guess.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">onGuess</span>());            <span class="tok-com">// คลิกปุ่ม</span>
+        input.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">onGuess</span>());            <span class="tok-com">// หรือกด Enter</span>
         restart.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">restart</span>());
         <span class="tok-type">JPanel</span> top = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
         top.<span class="tok-fn">add</span>(input);
@@ -519,22 +495,19 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
 
     <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">onGuess</span>() {
         <span class="tok-kw">int</span> g;
-        <span class="tok-kw">try</span> {  <span class="tok-com">// ตรวจก่อนว่ากรอกตัวเลข</span>
+        <span class="tok-kw">try</span> {
             g = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(input.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());
         } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> ex) {
             status.<span class="tok-fn">setText</span>(<span class="tok-str">"Numbers only!"</span>);
-            <span class="tok-kw">return</span>;  <span class="tok-com">// ไม่ใช่ตัวเลข → ไม่นับครั้ง</span>
+            <span class="tok-kw">return</span>;                                         <span class="tok-com">// ไม่นับครั้ง</span>
         }
         tries++;
         <span class="tok-kw">if</span> (g == secret) {
-            <span class="tok-com">// append ต่อท้ายข้อความเดิม</span>
-            history.<span class="tok-fn">append</span>(g + <span class="tok-str">" -&gt; correct!\n"</span>);
+            history.<span class="tok-fn">append</span>(g + <span class="tok-str">" -&gt; correct!\n"</span>);           <span class="tok-com">// ต่อท้ายประวัติ</span>
             status.<span class="tok-fn">setText</span>(<span class="tok-str">"You got it in "</span> + tries + <span class="tok-str">" tries"</span>);
-            <span class="tok-com">// ทายถูกแล้ว ปิดปุ่มและช่องกรอก</span>
-            guess.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);
+            guess.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);                        <span class="tok-com">// จบเกม: ปิดการทายต่อ</span>
             input.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);
         } <span class="tok-kw">else</span> {
-            <span class="tok-com">// ?: เลือกคำใบ้</span>
             <span class="tok-type">String</span> hint = g &gt; secret ? <span class="tok-str">"too high"</span> : <span class="tok-str">"too low"</span>;
             history.<span class="tok-fn">append</span>(g + <span class="tok-str">" -&gt; "</span> + hint + <span class="tok-str">"\n"</span>);
             status.<span class="tok-fn">setText</span>(<span class="tok-str">"Try #"</span> + (tries + <span class="tok-num">1</span>));
@@ -542,15 +515,15 @@ button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="
         input.<span class="tok-fn">setText</span>(<span class="tok-str">""</span>);
     }
 
-    <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">restart</span>() {
-        tries = <span class="tok-num">0</span>;  <span class="tok-com">// เริ่มเกมใหม่: ล้างสถานะทั้งหมด</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">restart</span>() {                                <span class="tok-com">// ล้าง state และ UI</span>
+        tries = <span class="tok-num">0</span>;
         history.<span class="tok-fn">setText</span>(<span class="tok-str">""</span>);
         status.<span class="tok-fn">setText</span>(<span class="tok-str">"Guess a number 1-100"</span>);
         guess.<span class="tok-fn">setEnabled</span>(<span class="tok-num">true</span>);
         input.<span class="tok-fn">setEnabled</span>(<span class="tok-num">true</span>);
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังทาย 50, 25, 37</p><figure class="gui-shot"><div class="gui-titlebar">Guess the Number</div><img src="../assets/gui/g203cc199fe-0.png" width="261" height="159" alt="ภาพหน้าต่าง Guess the Number" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>state: secret, tries — field ของออบเจ็กต์ GuessGui</li><li><code>history.append</code> ต่อท้ายประวัติ</li><li>ทายถูก → ปิดช่องและปุ่ม ป้องกันการทายต่อ</li><li>New game รีเซ็ต state และ UI ทั้งหมด</li><li>ใช้ return ออกจาก listener ก่อนเมื่อข้อมูลผิด</li></ol></div></div>
-<div class="note-box"><span class="box-title">อย่าใช้ Thread.sleep ใน listener</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code>button.<span class="tok-fn">addActionListener</span>(e -&gt; {
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังทาย 50, 25, 37</p><figure class="gui-shot"><div class="gui-titlebar">Guess the Number</div><img src="../assets/gui/g5884a39cb6-0.png" width="261" height="159" alt="ภาพหน้าต่าง Guess the Number" loading="lazy"></figure></div></div></div></div></div></div></details>
+<div class="callout warn"><span class="box-title">อย่าใช้ Thread.sleep ใน listener</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code>button.<span class="tok-fn">addActionListener</span>(e -&gt; {
     label.<span class="tok-fn">setText</span>(<span class="tok-str">"Working..."</span>);
     <span class="tok-kw">try</span> { <span class="tok-type">Thread</span>.<span class="tok-fn">sleep</span>(<span class="tok-num">3000</span>); } <span class="tok-kw">catch</span> (<span class="tok-type">InterruptedException</span> ex) { }   <span class="tok-com">// ❌ หน้าจอค้าง 3 วินาที</span>
     label.<span class="tok-fn">setText</span>(<span class="tok-str">"Done"</span>);                                          <span class="tok-com">//    และไม่เคยเห็น "Working..."</span>

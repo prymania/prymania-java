@@ -19,6 +19,7 @@ export default {
     {
       num: "16.1", toc: "Event source และ listener", title: "Event source และ listener",
       blocks: [
+        { type: "p", html: `โปรแกรม GUI ไม่ได้ทำงานจากบนลงล่างจนจบ main แค่สร้างหน้าต่างแล้ว<strong>รอ</strong> เมื่อผู้ใช้คลิกหรือพิมพ์ จึงเกิด <strong>event</strong> และโค้ดที่เราลงทะเบียนไว้ (listener) จะถูกเรียก` },
         { type: "concept", title: "ลำดับเหตุการณ์เมื่อผู้ใช้คลิกปุ่ม", html: fpre(`
           ผู้ใช้คลิกปุ่ม
               │
@@ -33,14 +34,13 @@ export default {
               │
               ▼
           เราเปลี่ยนข้อความ label → Swing วาดหน้าจอใหม่`) },
-        { type: "run", title: "ปุ่มแรกที่ทำงาน: นับจำนวนคลิก", level: "พื้นฐาน", gui: true, actions: "shot\nclick Click me\nclick Click me\nclick Click me\nshot", captions: ["เริ่มต้น", "หลังคลิก 3 ครั้ง"],
-          concept: "เรียก <code>addActionListener</code> กับปุ่ม และส่งโค้ดที่ต้องทำเมื่อคลิก (ในรูป lambda) — ตัวนับเก็บใน field เพราะต้องจำค่าข้ามการคลิก",
+        { type: "p", html: `ลงทะเบียนด้วย <code>button.addActionListener(e -&gt; { ... })</code> โค้ดในวงเล็บปีกกา<strong>ยังไม่ทำงานตอนนี้</strong> จะทำงานทุกครั้งที่ผู้ใช้คลิก` },
+        { type: "run", title: "ปุ่มแรกที่ทำงาน: นับจำนวนคลิก", gui: true, actions: "shot\nclick Click me\nclick Click me\nclick Click me\nshot", captions: ["เริ่มต้น", "หลังคลิก 3 ครั้ง"],
           code: j`
             import javax.swing.*;
 
             public class ClickCounter {
-                // static: lambda แก้ค่าตัวแปรนี้ได้
-                private static int count = 0;
+                private static int count = 0;                     // field: ค่าคงอยู่ระหว่างการคลิก
 
                 public static void main(String[] args) {
                     SwingUtilities.invokeLater(() -> {
@@ -48,36 +48,34 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JLabel label = new JLabel("Clicks: 0");
                         JButton button = new JButton("Click me");
-                        // ลงทะเบียนงานที่ทำเมื่อคลิกปุ่ม
-                        button.addActionListener(e -> {
-                            // โค้ดใน lambda ทำงานทุกครั้งที่คลิก
+                        button.addActionListener(e -> {           // ลงทะเบียน: ทำเมื่อคลิก
                             count++;
-                            // อัปเดตข้อความบนหน้าจอ
-                            label.setText("Clicks: " + count);
+                            label.setText("Clicks: " + count);    // อัปเดตหน้าจอ
                         });
                         JPanel panel = new JPanel();
                         panel.add(button);
                         panel.add(label);
                         frame.add(panel);
                         frame.pack();
-                        frame.setVisible(true);
+                        frame.setVisible(true);                   // main จบ หน้าต่างรอเหตุการณ์
                     });
                 }
             }`,
-          steps: ["<code>addActionListener(e -&gt; { ... })</code> ลงทะเบียนโค้ดไว้กับปุ่ม — <em>ยังไม่ทำงานตอนนี้</em>", "main จบ หน้าต่างรอเหตุการณ์", "ทุกครั้งที่คลิก โค้ดใน lambda ทำงาน: เพิ่ม count แล้วเปลี่ยนข้อความ label", "count ต้องเป็น field (ไม่ใช่ตัวแปร local) เพราะ lambda แก้ตัวแปร local ไม่ได้ และค่าต้องคงอยู่ระหว่างการคลิก"] },
-        { type: "run", title: "หลายปุ่ม หลาย listener", level: "ต่อยอด", gui: true, actions: "click +\nclick +\nclick +\nclick -\nshot\nclick Reset\nshot", captions: ["หลัง + สามครั้ง และ − หนึ่งครั้ง", "หลังกด Reset"],
-          concept: "แต่ละปุ่มมี listener ของตัวเอง ทุก listener แก้ state ชุดเดียวกัน (value) แล้วเรียกเมธอดอัปเดตหน้าจอ",
+          },
+        { type: "warn", title: "ตัวนับต้องเป็น field", html: `lambda แก้ค่าตัวแปร local ไม่ได้ (คอมไพล์ไม่ผ่าน) และตัวแปร local หายไปเมื่อเมธอดจบ ค่าที่ต้องจำข้ามการคลิกจึงต้องเก็บใน field` },
+
+        { type: "h", text: "หลายปุ่ม แก้ state ชุดเดียวกัน" },
+        { type: "p", html: `แต่ละปุ่มมี listener ของตัวเอง ทุก listener แก้ค่า <code>value</code> แล้วเรียก <code>refresh()</code> ซึ่งเป็นจุดเดียวที่วาดหน้าจอจากค่าปัจจุบัน หน้าจอจึงตรงกับข้อมูลเสมอ` },
+        { type: "run", title: "ปุ่ม + − Reset", gui: true, actions: "click +\nclick +\nclick +\nclick -\nshot\nclick Reset\nshot", captions: ["หลัง + สามครั้ง และ − หนึ่งครั้ง", "หลังกด Reset"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
 
             public class StepperApp {
-                private static int value = 0;  // ค่าที่ปุ่มทุกปุ่มใช้ร่วมกัน
-                // เก็บเป็น field เพื่อให้ refresh() เข้าถึงได้
-                private static JLabel display;
+                private static int value = 0;                     // state ที่ทุกปุ่มใช้ร่วมกัน
+                private static JLabel display;                    // field: refresh() เข้าถึงได้
 
                 public static void main(String[] args) {
-                    // ส่งเมธอด createGui ให้ EDT
                     SwingUtilities.invokeLater(StepperApp::createGui);
                 }
 
@@ -89,8 +87,7 @@ export default {
                     JButton minus = new JButton("-");
                     JButton plus = new JButton("+");
                     JButton reset = new JButton("Reset");
-                    // หลายคำสั่งใน lambda บรรทัดเดียว
-                    minus.addActionListener(e -> { value--; refresh(); });
+                    minus.addActionListener(e -> { value--; refresh(); });   // แก้ state แล้ววาดใหม่
                     plus.addActionListener(e -> { value++; refresh(); });
                     reset.addActionListener(e -> { value = 0; refresh(); });
                     JPanel buttons = new JPanel();
@@ -103,13 +100,12 @@ export default {
                     frame.setVisible(true);
                 }
 
-                private static void refresh() {  // อัปเดตหน้าจอจากค่าปัจจุบัน
+                private static void refresh() {                   // วาดหน้าจอจาก state
                     display.setText(String.valueOf(value));
-                    // ติดลบแสดงสีแดง
-                    display.setForeground(value < 0 ? Color.RED : Color.BLACK);
+                    display.setForeground(value < 0 ? Color.RED : Color.BLACK);   // ติดลบเป็นสีแดง
                 }
             }`,
-          steps: ["state ของโปรแกรมคือ value ตัวเดียว", "ทุก listener เปลี่ยน state แล้วเรียก refresh()", "refresh() เป็นจุดเดียวที่อัปเดต UI จาก state — ทำให้หน้าจอตรงกับข้อมูลเสมอ", "ค่าลบแสดงเป็นสีแดง"] },
+          },
         { type: "check", title: "เมื่อไรโค้ดทำงาน", html: jpre(`
           JButton b = new JButton("Go");
           b.addActionListener(e -> System.out.println("clicked"));
@@ -119,7 +115,7 @@ export default {
     {
       num: "16.2", toc: "ActionListener", title: "ActionListener: สามวิธีเขียน",
       blocks: [
-        { type: "p", html: `<code>ActionListener</code> เป็น interface ที่มีเมธอดเดียว <code>actionPerformed(ActionEvent e)</code> เขียนได้ 3 แบบ ผลลัพธ์เหมือนกัน: (1) คลาสแยกที่ implements, (2) anonymous class, (3) lambda (สั้นที่สุด นิยมที่สุด)` },
+        { type: "p", html: `<code>ActionListener</code> เป็น interface ที่มีเมธอดเดียว <code>actionPerformed(ActionEvent e)</code> เขียนได้ 3 แบบ ผลเหมือนกัน แบบ lambda สั้นที่สุดและนิยมที่สุด` },
         { type: "concept", title: "เปรียบเทียบ 3 แบบ", html: jpre(`
           // (1) คลาสที่ implements ActionListener
           class GreetHandler implements ActionListener {
@@ -135,8 +131,10 @@ export default {
 
           // (3) lambda — เขียนเฉพาะ parameter และ body
           button.addActionListener(e -> label.setText("Hi"));`) },
-        { type: "run", title: "อ่านค่าจากช่องกรอกแล้วแสดงผล", level: "พื้นฐาน", gui: true, actions: "type field:0 JHope\nshot\nclick Greet\nshot", captions: BA,
-          concept: "รูปแบบพื้นฐานที่สุดของ GUI: เมื่อคลิก → <code>getText()</code> จากช่อง → ประมวลผล → <code>setText()</code> ให้ label",
+
+        { type: "h", text: "อ่านค่า → ประมวลผล → แสดงผล" },
+        { type: "p", html: `รูปแบบพื้นฐานที่สุดของ GUI: เมื่อคลิก อ่านข้อความจากช่องด้วย <code>getText()</code> ประมวลผล แล้ว <code>setText()</code> ให้ label ตัวอย่างนี้เขียนแบบ anonymous class ให้เห็นเมธอด actionPerformed ชัด ๆ` },
+        { type: "run", title: "ทักทายตามชื่อที่พิมพ์", gui: true, actions: "type field:0 JHope\nshot\nclick Greet\nshot", captions: BA,
           code: j`
             import javax.swing.*;
             import java.awt.event.ActionEvent;
@@ -150,14 +148,11 @@ export default {
                         JTextField nameField = new JTextField(10);
                         JButton greet = new JButton("Greet");
                         JLabel result = new JLabel("Type your name");
-                        // anonymous class: วิธีเขียนแบบเต็มก่อนมี lambda
-                        greet.addActionListener(new ActionListener() {
+                        greet.addActionListener(new ActionListener() {        // anonymous class
                             @Override
-                            // เมธอดที่ถูกเรียกเมื่อคลิก
-                            public void actionPerformed(ActionEvent e) {
-                                // อ่านข้อความจากช่องกรอก
-                                String name = nameField.getText().trim();
-                                result.setText("Hello, " + name + "!");
+                            public void actionPerformed(ActionEvent e) {      // ถูกเรียกเมื่อคลิก
+                                String name = nameField.getText().trim();     // อ่าน
+                                result.setText("Hello, " + name + "!");       // แสดง
                             }
                         });
                         JPanel panel = new JPanel();
@@ -170,9 +165,11 @@ export default {
                     });
                 }
             }`,
-          steps: ["ตัวอย่างนี้เขียนแบบ anonymous class เพื่อให้เห็นเมธอด actionPerformed ชัด ๆ", "getText() คืน String ที่ผู้ใช้พิมพ์", "trim() ตัดช่องว่างหัวท้าย", "setText เปลี่ยนข้อความ label ทันที"] },
-        { type: "run", title: "แปลงอุณหภูมิ: parse ตัวเลขจากช่องกรอก", level: "ต่อยอด", gui: true, actions: "type field:0 37.5\nclick Convert\nshot", captions: ["หลังพิมพ์ 37.5 แล้วคลิก Convert"],
-          concept: "ค่าจาก JTextField เป็น String เสมอ ต้อง <code>Double.parseDouble</code> ก่อนคำนวณ (บทที่ 9) แล้ว <code>String.format</code> ก่อนแสดง",
+          },
+
+        { type: "h", text: "แปลงข้อความเป็นตัวเลขก่อนคำนวณ" },
+        { type: "p", html: `ค่าจาก JTextField เป็น String เสมอ ต้อง <code>Double.parseDouble</code> ก่อนคำนวณ (บทที่ 9) และจัดรูปแบบด้วย <code>String.format</code> ก่อนแสดง` },
+        { type: "run", title: "แปลงอุณหภูมิ °C เป็น °F", gui: true, actions: "type field:0 37.5\nclick Convert\nshot", captions: ["หลังพิมพ์ 37.5 แล้วคลิก Convert"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -186,10 +183,8 @@ export default {
                         JButton convert = new JButton("Convert");
                         JLabel output = new JLabel("? °F");
                         convert.addActionListener(e -> {
-                            // แปลงข้อความเป็นตัวเลขก่อนคำนวณ
-                            double c = Double.parseDouble(celsius.getText().trim());
-                            double f = c * 9 / 5 + 32;
-                            // จัดรูปแบบทศนิยม 1 ตำแหน่ง
+                            double c = Double.parseDouble(celsius.getText().trim());   // "37.5" → 37.5
+                            double f = c * 9 / 5 + 32;                                 // 99.5
                             output.setText(String.format("%.1f °F", f));
                         });
                         JPanel p = new JPanel(new FlowLayout());
@@ -203,9 +198,12 @@ export default {
                     });
                 }
             }`,
-          steps: ["parseDouble(\"37.5\") → 37.5", "คำนวณ 99.5", "แสดงด้วย String.format ทศนิยม 1 ตำแหน่ง", "ถ้าผู้ใช้พิมพ์ \"abc\" จะเกิด NumberFormatException — บทที่ 17 จะตรวจข้อมูลก่อน"] },
-        { type: "run", title: "listener เดียวหลายปุ่ม: getSource / getActionCommand", level: "ประยุกต์", gui: true, actions: "click B\nshot", captions: ["หลังคลิกปุ่ม B"],
-          concept: "ปุ่มหลายปุ่มใช้ listener ตัวเดียวได้ แล้วแยกว่าใครกดด้วย <code>e.getActionCommand()</code> (ข้อความบนปุ่ม) หรือ <code>e.getSource()</code> (ออบเจ็กต์ปุ่ม)",
+          },
+        { type: "warn", html: `ถ้าผู้ใช้พิมพ์ <code>abc</code> จะเกิด NumberFormatException บทที่ 17 จะตรวจข้อมูลก่อนแปลง` },
+
+        { type: "h", text: "listener เดียว หลายปุ่ม" },
+        { type: "p", html: `เก็บ listener ไว้ในตัวแปรแล้วลงทะเบียนกับหลายปุ่ม แยกว่าใครกดด้วย <code>e.getActionCommand()</code> (ข้อความบนปุ่ม) หรือ <code>e.getSource()</code> (ออบเจ็กต์ปุ่ม)` },
+        { type: "run", title: "แบบทดสอบ 3 ตัวเลือก", gui: true, actions: "click B\nshot", captions: ["หลังคลิกปุ่ม B"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -218,10 +216,8 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JLabel question = new JLabel("Which keyword creates an object?  A) class  B) new  C) void");
                         JLabel feedback = new JLabel(" ");
-                        // listener ตัวเดียว ใช้กับหลายปุ่ม
-                        ActionListener answer = e -> {
-                            // ข้อความบนปุ่มที่ถูกคลิก
-                            String choice = e.getActionCommand();
+                        ActionListener answer = e -> {                        // listener เดียว
+                            String choice = e.getActionCommand();             // "A", "B" หรือ "C"
                             if (choice.equals("B")) {
                                 feedback.setText("Correct! 'new' creates an object.");
                                 feedback.setForeground(new Color(0, 128, 0));
@@ -229,14 +225,12 @@ export default {
                                 feedback.setText(choice + " is wrong, try again.");
                                 feedback.setForeground(Color.RED);
                             }
-                            // getSource() = ปุ่มที่ถูกคลิก
-                            ((JButton) e.getSource()).setEnabled(false);
+                            ((JButton) e.getSource()).setEnabled(false);      // ปิดปุ่มที่ถูกคลิก
                         };
                         JPanel buttons = new JPanel();
                         for (String opt : new String[]{"A", "B", "C"}) {
                             JButton b = new JButton(opt);
-                            // ทุกปุ่มใช้ listener เดียวกัน
-                            b.addActionListener(answer);
+                            b.addActionListener(answer);                      // ทุกปุ่มใช้ตัวเดียวกัน
                             buttons.add(b);
                         }
                         JPanel root = new JPanel(new GridLayout(3, 1, 4, 4));
@@ -250,7 +244,7 @@ export default {
                     });
                 }
             }`,
-          steps: ["listener ชื่อ answer เก็บในตัวแปรชนิด ActionListener แล้วใช้กับทั้ง 3 ปุ่ม", "getActionCommand() คืนข้อความของปุ่มที่ถูกกด", "getSource() คืนออบเจ็กต์ที่เป็นต้นเหตุ — cast เป็น JButton แล้วปิดปุ่มนั้น", "ภาพแสดงหลังคลิก B: ปุ่ม B ถูกปิด ข้อความสีเขียว"] },
+          },
         { type: "check", title: "lambda", html: `<p>เขียน listener แบบ lambda สำหรับปุ่ม <code>clear</code> ที่ล้างช่อง <code>input</code> และเปลี่ยน label <code>status</code> เป็น “Cleared”</p>`, answer: jpre(`
           clear.addActionListener(e -> {
               input.setText("");
@@ -261,7 +255,8 @@ export default {
     {
       num: "16.3", toc: "Lambda และ callback", title: "Lambda, callback และ event ชนิดอื่น",
       blocks: [
-        { type: "p", html: `<strong>Lambda</strong> คือการเขียนเมธอดสั้น ๆ ที่ไม่มีชื่อ ใช้ได้กับ interface ที่มีเมธอด abstract เดียว (functional interface) เช่น ActionListener, Runnable รูปแบบ <code>(parameter) -&gt; นิพจน์</code> หรือ <code>(parameter) -&gt; { คำสั่ง; }</code> โค้ดที่ส่งไปให้คนอื่น “เรียกกลับ” ภายหลังแบบนี้เรียกว่า <strong>callback</strong>` },
+        { type: "p", html: `<strong>Lambda</strong> คือเมธอดสั้น ๆ ที่ไม่มีชื่อ ใช้กับ interface ที่มีเมธอด abstract เดียว (functional interface) เช่น ActionListener และ Runnable เขียนเป็น <code>(parameter) -&gt; นิพจน์</code> หรือ <code>(parameter) -&gt; { คำสั่ง; }</code>` },
+        { type: "p", html: `โค้ดที่ส่งให้คนอื่น “เรียกกลับ” ภายหลังแบบนี้เรียกว่า <strong>callback</strong> การสร้าง lambda ไม่ได้ทำงานทันที ทำเมื่อถูกเรียกเท่านั้น` },
         { type: "table", head: ["Listener", "event", "เกิดเมื่อ"], rows: [
           ["<code>ActionListener</code>", "ActionEvent", "คลิกปุ่ม, กด Enter ใน JTextField, เลือก JComboBox, คลิก check/radio"],
           ["<code>ItemListener</code>", "ItemEvent", "check box / radio / combo เปลี่ยนสถานะ"],
@@ -269,8 +264,10 @@ export default {
           ["<code>DocumentListener</code>", "DocumentEvent", "ข้อความในช่องเปลี่ยนทุกตัวอักษร"],
           ["<code>MouseListener</code> / <code>KeyListener</code>", "MouseEvent / KeyEvent", "คลิก/เลื่อนเมาส์, กดแป้นพิมพ์"],
         ] },
-        { type: "run", title: "Enter ในช่องกรอก = คลิกปุ่ม", level: "ต่อยอด", gui: true, actions: "type field:0 Buy milk\nclick Add\ntype field:0 Read chapter 16\nclick Add\ntype field:0 Submit lab\nclick Add\nshot", captions: ["หลังเพิ่ม 3 รายการ"],
-          concept: "listener เดียวกันลงทะเบียนกับทั้งปุ่มและช่องกรอก (JTextField ส่ง ActionEvent เมื่อกด Enter) — ผู้ใช้เลือกวิธีที่สะดวก",
+
+        { type: "h", text: "Enter ในช่องกรอกทำงานเหมือนคลิกปุ่ม" },
+        { type: "p", html: `JTextField ส่ง ActionEvent เมื่อกด Enter ลงทะเบียน listener ตัวเดียวกับทั้งปุ่มและช่องกรอก ผู้ใช้เลือกวิธีที่สะดวกได้ รายการแสดงด้วย <code>JList</code> ซึ่งวาดใหม่เองเมื่อ <code>DefaultListModel</code> เปลี่ยน` },
+        { type: "run", title: "รายการด่วน", gui: true, actions: "type field:0 Buy milk\nclick Add\ntype field:0 Read chapter 16\nclick Add\ntype field:0 Submit lab\nclick Add\nshot", captions: ["หลังเพิ่ม 3 รายการ"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -283,26 +280,19 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JTextField input = new JTextField(14);
                         JButton add = new JButton("Add");
-                        // model เก็บข้อมูลของ JList
-                        DefaultListModel<String> model = new DefaultListModel<>();
-                        // JList แสดงข้อมูลจาก model
+                        DefaultListModel<String> model = new DefaultListModel<>();   // ข้อมูลของ JList
                         JList<String> list = new JList<>(model);
 
-                        // เก็บ listener ไว้ในตัวแปร เพื่อใช้ซ้ำ
                         ActionListener addItem = e -> {
                             String text = input.getText().trim();
-                            // ไม่เพิ่มข้อความว่าง
-                            if (!text.isEmpty()) {
-                                // เพิ่มใน model แล้ว JList อัปเดตเอง
-                                model.addElement((model.size() + 1) + ". " + text);
+                            if (!text.isEmpty()) {                                    // ไม่เพิ่มข้อความว่าง
+                                model.addElement((model.size() + 1) + ". " + text);   // JList อัปเดตเอง
                                 input.setText("");
                             }
-                            // ให้เคอร์เซอร์กลับไปที่ช่องกรอก
-                            input.requestFocusInWindow();
+                            input.requestFocusInWindow();                             // พิมพ์รายการถัดไปได้ทันที
                         };
-                        add.addActionListener(addItem);  // คลิกปุ่ม Add
-                        // กด Enter ในช่องกรอก ทำงานเดียวกัน
-                        input.addActionListener(addItem);
+                        add.addActionListener(addItem);                               // คลิกปุ่ม
+                        input.addActionListener(addItem);                             // กด Enter
 
                         JPanel top = new JPanel(new BorderLayout(4, 0));
                         top.add(input, BorderLayout.CENTER);
@@ -317,9 +307,11 @@ export default {
                     });
                 }
             }`,
-          steps: ["DefaultListModel คือข้อมูลของ JList — addElement แล้ว JList วาดใหม่เอง", "ไม่เพิ่มข้อความว่าง", "ล้างช่องและคืนโฟกัสให้พิมพ์รายการถัดไปได้ทันที"] },
-        { type: "run", title: "ChangeListener: slider อัปเดตทันทีที่เลื่อน", level: "ประยุกต์", gui: true,
-          concept: "ไม่ต้องมีปุ่ม — คำนวณใหม่ทุกครั้งที่ค่า slider เปลี่ยน ใช้ <code>addChangeListener</code>",
+          },
+
+        { type: "h", text: "ChangeListener: คำนวณใหม่ทันทีที่เลื่อน" },
+        { type: "p", html: `ไม่ต้องมีปุ่มคำนวณ ใช้ <code>addChangeListener</code> กับ slider คำนวณใหม่ทุกครั้งที่ค่าเปลี่ยน งานคำนวณเก็บไว้ใน <code>Runnable</code> เพื่อเรียกซ้ำด้วย <code>run()</code>` },
+        { type: "run", title: "คำนวณทิป", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -330,23 +322,18 @@ export default {
                         JFrame frame = new JFrame("Tip");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         double bill = 840.0;
-                        // ต่ำสุด 0, สูงสุด 25, เริ่มที่ 10
-                        JSlider tip = new JSlider(0, 25, 10);
+                        JSlider tip = new JSlider(0, 25, 10);                 // 0–25% เริ่มที่ 10
                         tip.setMajorTickSpacing(5);
                         tip.setPaintTicks(true);
                         tip.setPaintLabels(true);
                         JLabel result = new JLabel();
-                        // Runnable: งานที่สั่ง run() ได้
-                        Runnable update = () -> {
-                            // อ่านค่าปัจจุบันของ slider
+                        Runnable update = () -> {                             // งานที่เรียกซ้ำได้
                             int percent = tip.getValue();
                             double t = bill * percent / 100;
                             result.setText(String.format("Bill 840.00 + tip %d%% = %.2f baht", percent, bill + t));
                         };
-                        // ChangeListener ทำงานทุกครั้งที่เลื่อน
-                        tip.addChangeListener(e -> update.run());
-                        // เปลี่ยนค่า → listener ทำงานทันที
-                        tip.setValue(15);
+                        tip.addChangeListener(e -> update.run());             // ทุกครั้งที่ค่าเปลี่ยน
+                        tip.setValue(15);                                     // เปลี่ยนในโค้ดก็เรียก listener
                         JPanel root = new JPanel(new BorderLayout(0, 8));
                         root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                         root.add(tip, BorderLayout.CENTER);
@@ -357,65 +344,64 @@ export default {
                     });
                 }
             }`,
-          steps: ["<code>Runnable update</code> เก็บ lambda ไว้เรียกซ้ำ", "ทุกครั้งที่ slider เปลี่ยนค่า listener เรียก update", "<code>tip.setValue(15)</code> ในโค้ดก็กระตุ้น listener เช่นกัน label จึงมีข้อความตั้งแต่แรก"] },
-        { type: "run", title: "เลือกจาก combo box แล้วเปลี่ยนรายละเอียด", level: "ประยุกต์", gui: true, actions: "select combo:0 2\nshot", captions: ["หลังเลือก Calculus"],
-          concept: "JComboBox ส่ง ActionEvent เมื่อผู้ใช้เลือกรายการใหม่ ใช้ index ที่เลือกไปดึงข้อมูลจากอาเรย์คู่ขนาน",
-          code: j`
-            import javax.swing.*;
-            import java.awt.*;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เลือกจาก combo box แล้วแสดงรายละเอียด", blocks: [
+          { type: "p", html: `JComboBox ส่ง ActionEvent เมื่อเลือกรายการใหม่ ใช้ index ที่เลือกไปดึงข้อมูลจากอาเรย์คู่ขนาน และเรียก <code>setSelectedIndex(0)</code> ตอนเริ่มเพื่อให้ label มีข้อความตั้งแต่แรก` },
+          { type: "run", title: "ข้อมูลรายวิชา", gui: true, actions: "select combo:0 2\nshot", captions: ["หลังเลือก Calculus"],
+            code: j`
+              import javax.swing.*;
+              import java.awt.*;
 
-            public class CourseInfo {
-                public static void main(String[] args) {
-                    // ข้อมูลอาเรย์คู่ขนาน
-                    String[] names = {"Programming", "Physics", "Calculus", "English"};
-                    int[] credits = {3, 4, 3, 2};
-                    String[] rooms = {"Lab 2", "SC-101", "SC-204", "LA-310"};
-                    SwingUtilities.invokeLater(() -> {
-                        JFrame frame = new JFrame("Course info");
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        JComboBox<String> combo = new JComboBox<>(names);
-                        JLabel detail = new JLabel();
-                        // ทำงานเมื่อเลือกรายการใหม่
-                        combo.addActionListener(e -> {
-                            // ตำแหน่งที่เลือก ใช้ดึงข้อมูลจากทุกอาเรย์
-                            int i = combo.getSelectedIndex();
-                            detail.setText(names[i] + ": " + credits[i] + " credits, room " + rooms[i]);
-                        });
-                        // เลือกตัวแรกเพื่อให้แสดงรายละเอียดตั้งแต่เริ่ม
-                        combo.setSelectedIndex(0);
-                        JPanel root = new JPanel(new GridLayout(2, 1, 4, 4));
-                        root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-                        root.add(combo);
-                        root.add(detail);
-                        frame.setContentPane(root);
-                        frame.setSize(300, 100);
-                        frame.setVisible(true);
-                    });
-                }
-            }`,
-          steps: ["getSelectedIndex() ให้ index ที่ตรงกับอาเรย์คู่ขนาน", "setSelectedIndex(0) ตอนเริ่มเพื่อให้ label มีข้อความแรก", "ภาพจำลองการเลือก index 2"] },
+              public class CourseInfo {
+                  public static void main(String[] args) {
+                      String[] names = {"Programming", "Physics", "Calculus", "English"};   // อาเรย์คู่ขนาน
+                      int[] credits = {3, 4, 3, 2};
+                      String[] rooms = {"Lab 2", "SC-101", "SC-204", "LA-310"};
+                      SwingUtilities.invokeLater(() -> {
+                          JFrame frame = new JFrame("Course info");
+                          frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                          JComboBox<String> combo = new JComboBox<>(names);
+                          JLabel detail = new JLabel();
+                          combo.addActionListener(e -> {
+                              int i = combo.getSelectedIndex();             // index เดียวใช้กับทุกอาเรย์
+                              detail.setText(names[i] + ": " + credits[i] + " credits, room " + rooms[i]);
+                          });
+                          combo.setSelectedIndex(0);                        // กระตุ้น listener ตอนเริ่ม
+                          JPanel root = new JPanel(new GridLayout(2, 1, 4, 4));
+                          root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                          root.add(combo);
+                          root.add(detail);
+                          frame.setContentPane(root);
+                          frame.setSize(300, 100);
+                          frame.setVisible(true);
+                      });
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "callback", html: `<p><code>Runnable r = () -&gt; System.out.println("A");</code> แล้วบรรทัดต่อไปคือ <code>System.out.println("B"); r.run(); r.run();</code> ผลลัพธ์คืออะไร</p>`, answer: `<p><strong>B A A</strong> — การสร้าง lambda ไม่ได้ทำงานทันที ทำเมื่อเรียก run()</p>` },
       ],
     },
     {
       num: "16.4", toc: "อัปเดต UI บน EDT", title: "เก็บ state และอัปเดต UI บน EDT",
       blocks: [
-        { type: "p", html: `listener ทุกตัวทำงานบน EDT จึงแก้ component ได้อย่างปลอดภัย แต่ต้องระวัง 2 เรื่อง: (1) <strong>อย่าทำงานนาน</strong>ใน listener เพราะหน้าจอจะค้าง (2) ถ้าโปรแกรมมีข้อมูลซับซ้อน ให้<strong>แยก state (model) ออกจาก UI</strong> — listener แก้ model แล้วเรียกเมธอดเดียวที่วาดหน้าจอจาก model` },
-        { type: "run", title: "แยก model ออกจาก UI: กระปุกออมสิน", level: "ประยุกต์", gui: true, actions: "type field:0 500\nclick Deposit\ntype field:0 120\nclick Withdraw\ntype field:0 1000\nclick Withdraw\nshot", captions: ["ฝาก 500, ถอน 120, แล้วลองถอน 1000"],
-          concept: "คลาส <code>PiggyBank</code> (model) มีกฎของตัวเองจากบทที่ 12 ส่วน UI ทำหน้าที่รับคำสั่งและแสดงผล — model ทดสอบได้โดยไม่ต้องมีหน้าจอ",
+        { type: "p", html: `listener ทุกตัวทำงานบน EDT จึงแก้ component ได้อย่างปลอดภัย แต่มีหลักสองข้อ` },
+        { type: "table", head: ["หลัก", "เหตุผล"], rows: [
+          ["<strong>แยก model ออกจาก UI</strong>: listener แก้ model แล้วเรียกเมธอดเดียวที่วาดหน้าจอจาก model", "กฎของข้อมูลอยู่ที่เดียว และทดสอบ model ได้โดยไม่ต้องมีหน้าจอ"],
+          ["<strong>อย่าทำงานนาน</strong>ใน listener", "EDT ไม่ว่างวาดหน้าจอ โปรแกรมจะค้าง"],
+        ] },
+        { type: "run", title: "กระปุกออมสิน: model แยกจาก UI", gui: true, actions: "type field:0 500\nclick Deposit\ntype field:0 120\nclick Withdraw\ntype field:0 1000\nclick Withdraw\nshot", captions: ["ฝาก 500, ถอน 120, แล้วลองถอน 1000"],
           code: j`
             import javax.swing.*;
             import java.awt.*;
 
             public class PiggyBankApp {
-                // ส่วน logic แยกอยู่ในคลาส PiggyBank
-                private final PiggyBank bank = new PiggyBank();
-                private final JTextField amountField = new JTextField(8);
+                private final PiggyBank bank = new PiggyBank();           // model
+                private final JTextField amountField = new JTextField(8); // component เป็น field
                 private final JLabel balanceLabel = new JLabel();
                 private final JLabel message = new JLabel(" ");
 
                 public static void main(String[] args) {
-                    // สร้างออบเจ็กต์ แล้วเรียก show บน EDT
                     SwingUtilities.invokeLater(() -> new PiggyBankApp().show());
                 }
 
@@ -424,9 +410,7 @@ export default {
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JButton deposit = new JButton("Deposit");
                     JButton withdraw = new JButton("Withdraw");
-                    // true = ฝาก
-                    deposit.addActionListener(e -> act(true));
-                    // false = ถอน
+                    deposit.addActionListener(e -> act(true));            // ทั้งสองปุ่มเรียกเมธอดเดียว
                     withdraw.addActionListener(e -> act(false));
                     JPanel input = new JPanel();
                     input.add(new JLabel("Amount:"));
@@ -444,129 +428,121 @@ export default {
                     frame.setVisible(true);
                 }
 
-                // ทั้งสองปุ่มใช้เมธอดเดียวกัน
                 private void act(boolean isDeposit) {
                     try {
-                        // ข้อความที่ไม่ใช่ตัวเลข → NumberFormatException
                         double amount = Double.parseDouble(amountField.getText().trim());
-                        // PiggyBank โยน exception เมื่อข้อมูลผิด
-                        if (isDeposit) bank.deposit(amount);
+                        if (isDeposit) bank.deposit(amount);              // model ตรวจกฎเอง
                         else bank.withdraw(amount);
                         message.setText((isDeposit ? "Deposited " : "Withdrew ") + amount);
                         message.setForeground(new Color(0, 110, 0));
-                    // กรอกไม่ใช่ตัวเลข
-                    } catch (NumberFormatException ex) {
+                    } catch (NumberFormatException ex) {                  // พิมพ์ไม่ใช่ตัวเลข
                         message.setText("Please enter a number");
                         message.setForeground(Color.RED);
-                    // ข้อความจาก PiggyBank
-                    } catch (IllegalArgumentException ex) {
+                    } catch (IllegalArgumentException ex) {               // model ปฏิเสธ
                         message.setText(ex.getMessage());
                         message.setForeground(Color.RED);
                     }
                     amountField.setText("");
-                    refresh();  // อัปเดตยอดทุกครั้ง
+                    refresh();
                 }
 
-                private void refresh() {
+                private void refresh() {                                  // วาดยอดจาก model เสมอ
                     balanceLabel.setText(String.format("Balance: %,.2f baht", bank.getBalance()));
                 }
             }
 
-            class PiggyBank {  // คลาส logic ไม่รู้จัก Swing เลย
+            class PiggyBank {                                             // ไม่รู้จัก Swing เลย
                 private double balance;
 
                 double getBalance() { return balance; }
 
                 void deposit(double amount) {
-                    // ตรวจข้อมูลแล้วโยน exception
                     if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
                     balance += amount;
                 }
 
                 void withdraw(double amount) {
                     if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
-                    // ถอนเกินยอด
                     if (amount > balance) throw new IllegalArgumentException("Not enough money (have " + balance + ")");
                     balance -= amount;
                 }
             }`,
-          steps: ["UI เป็นออบเจ็กต์ (ไม่ใช้ static) — component เป็น field เข้าถึงได้จากทุกเมธอด", "act() แปลงข้อความ เรียก model และจับ exception มาแสดงเป็นข้อความสีแดง", "refresh() วาดยอดเงินจาก model เสมอ", "ภาพแสดงการถอน 1000 ถูกปฏิเสธด้วยข้อความจากกฎของ PiggyBank"] },
-        { type: "run", title: "เกมทายตัวเลขแบบ GUI", level: "ท้าทาย", gui: true, actions: "type field:0 50\nclick Guess\ntype field:0 25\nclick Guess\ntype field:0 37\nclick Guess\nshot", captions: ["หลังทาย 50, 25, 37"],
-          concept: "รวมทุกอย่าง: state หลายตัว (คำตอบ, จำนวนครั้ง, จบเกมหรือยัง), ประวัติใน JTextArea, ปิดปุ่มเมื่อจบเกม และปุ่มเริ่มใหม่ (คำตอบกำหนดเป็น 37 เพื่อให้ทดสอบได้ — บทเสริม Random จะสุ่มแทน)",
-          code: j`
-            import javax.swing.*;
-            import java.awt.*;
+          },
+        { type: "tip", html: `UI เป็นออบเจ็กต์ (ไม่ใช้ static) component จึงเป็น field ที่ทุกเมธอดเข้าถึงได้ ภาพแสดงการถอน 1000 ถูกปฏิเสธด้วยข้อความจากกฎของ PiggyBank` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เกมทายตัวเลขแบบ GUI", blocks: [
+          { type: "p", html: `รวมทุกอย่าง: state หลายตัว (คำตอบ จำนวนครั้ง) ประวัติใน JTextArea ปิดปุ่มเมื่อจบเกม และปุ่มเริ่มใหม่ คำตอบกำหนดเป็น 37 เพื่อให้ทดสอบได้ บทเสริม Random จะสุ่มแทน` },
+          { type: "run", title: "Guess the Number", gui: true, actions: "type field:0 50\nclick Guess\ntype field:0 25\nclick Guess\ntype field:0 37\nclick Guess\nshot", captions: ["หลังทาย 50, 25, 37"],
+            code: j`
+              import javax.swing.*;
+              import java.awt.*;
 
-            public class GuessGui {
-                private int secret = 37;  // สถานะของเกมเก็บใน field
-                private int tries = 0;
-                private final JTextField input = new JTextField(5);
-                private final JButton guess = new JButton("Guess");
-                private final JTextArea history = new JTextArea(5, 22);
-                private final JLabel status = new JLabel("Guess a number 1-100");
+              public class GuessGui {
+                  private int secret = 37;                                // state ของเกม
+                  private int tries = 0;
+                  private final JTextField input = new JTextField(5);
+                  private final JButton guess = new JButton("Guess");
+                  private final JTextArea history = new JTextArea(5, 22);
+                  private final JLabel status = new JLabel("Guess a number 1-100");
 
-                public static void main(String[] args) {
-                    SwingUtilities.invokeLater(() -> new GuessGui().show());
-                }
+                  public static void main(String[] args) {
+                      SwingUtilities.invokeLater(() -> new GuessGui().show());
+                  }
 
-                private void show() {
-                    JFrame frame = new JFrame("Guess the Number");
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    history.setEditable(false);
-                    JButton restart = new JButton("New game");
-                    guess.addActionListener(e -> onGuess());  // คลิกปุ่ม
-                    // กด Enter ในช่องกรอก
-                    input.addActionListener(e -> onGuess());
-                    restart.addActionListener(e -> restart());
-                    JPanel top = new JPanel();
-                    top.add(input);
-                    top.add(guess);
-                    top.add(restart);
-                    JPanel root = new JPanel(new BorderLayout(4, 4));
-                    root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-                    root.add(top, BorderLayout.NORTH);
-                    root.add(new JScrollPane(history), BorderLayout.CENTER);
-                    root.add(status, BorderLayout.SOUTH);
-                    frame.setContentPane(root);
-                    frame.pack();
-                    frame.setVisible(true);
-                }
+                  private void show() {
+                      JFrame frame = new JFrame("Guess the Number");
+                      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                      history.setEditable(false);
+                      JButton restart = new JButton("New game");
+                      guess.addActionListener(e -> onGuess());            // คลิกปุ่ม
+                      input.addActionListener(e -> onGuess());            // หรือกด Enter
+                      restart.addActionListener(e -> restart());
+                      JPanel top = new JPanel();
+                      top.add(input);
+                      top.add(guess);
+                      top.add(restart);
+                      JPanel root = new JPanel(new BorderLayout(4, 4));
+                      root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                      root.add(top, BorderLayout.NORTH);
+                      root.add(new JScrollPane(history), BorderLayout.CENTER);
+                      root.add(status, BorderLayout.SOUTH);
+                      frame.setContentPane(root);
+                      frame.pack();
+                      frame.setVisible(true);
+                  }
 
-                private void onGuess() {
-                    int g;
-                    try {  // ตรวจก่อนว่ากรอกตัวเลข
-                        g = Integer.parseInt(input.getText().trim());
-                    } catch (NumberFormatException ex) {
-                        status.setText("Numbers only!");
-                        return;  // ไม่ใช่ตัวเลข → ไม่นับครั้ง
-                    }
-                    tries++;
-                    if (g == secret) {
-                        // append ต่อท้ายข้อความเดิม
-                        history.append(g + " -> correct!\n");
-                        status.setText("You got it in " + tries + " tries");
-                        // ทายถูกแล้ว ปิดปุ่มและช่องกรอก
-                        guess.setEnabled(false);
-                        input.setEnabled(false);
-                    } else {
-                        // ?: เลือกคำใบ้
-                        String hint = g > secret ? "too high" : "too low";
-                        history.append(g + " -> " + hint + "\n");
-                        status.setText("Try #" + (tries + 1));
-                    }
-                    input.setText("");
-                }
+                  private void onGuess() {
+                      int g;
+                      try {
+                          g = Integer.parseInt(input.getText().trim());
+                      } catch (NumberFormatException ex) {
+                          status.setText("Numbers only!");
+                          return;                                         // ไม่นับครั้ง
+                      }
+                      tries++;
+                      if (g == secret) {
+                          history.append(g + " -> correct!\n");           // ต่อท้ายประวัติ
+                          status.setText("You got it in " + tries + " tries");
+                          guess.setEnabled(false);                        // จบเกม: ปิดการทายต่อ
+                          input.setEnabled(false);
+                      } else {
+                          String hint = g > secret ? "too high" : "too low";
+                          history.append(g + " -> " + hint + "\n");
+                          status.setText("Try #" + (tries + 1));
+                      }
+                      input.setText("");
+                  }
 
-                private void restart() {
-                    tries = 0;  // เริ่มเกมใหม่: ล้างสถานะทั้งหมด
-                    history.setText("");
-                    status.setText("Guess a number 1-100");
-                    guess.setEnabled(true);
-                    input.setEnabled(true);
-                }
-            }`,
-          steps: ["state: secret, tries — field ของออบเจ็กต์ GuessGui", "<code>history.append</code> ต่อท้ายประวัติ", "ทายถูก → ปิดช่องและปุ่ม ป้องกันการทายต่อ", "New game รีเซ็ต state และ UI ทั้งหมด", "ใช้ return ออกจาก listener ก่อนเมื่อข้อมูลผิด"] },
-        { type: "note", title: "อย่าใช้ Thread.sleep ใน listener", html: jpre(`
+                  private void restart() {                                // ล้าง state และ UI
+                      tries = 0;
+                      history.setText("");
+                      status.setText("Guess a number 1-100");
+                      guess.setEnabled(true);
+                      input.setEnabled(true);
+                  }
+              }`,
+            },
+        ] },
+        { type: "warn", title: "อย่าใช้ Thread.sleep ใน listener", html: jpre(`
           button.addActionListener(e -> {
               label.setText("Working...");
               try { Thread.sleep(3000); } catch (InterruptedException ex) { }   // ❌ หน้าจอค้าง 3 วินาที
