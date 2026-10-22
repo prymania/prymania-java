@@ -17,57 +17,56 @@ export default {
     {
       num: "S1.1", toc: "สุ่มค่าด้วย Math.random", title: "Math.random และช่วง [0, 1)",
       blocks: [
-        { type: "p", html: `<code>Math.random()</code> คืนค่า double ตั้งแต่ 0.0 <strong>รวม</strong> แต่ต่ำกว่า 1.0 (<strong>ไม่รวม</strong>) — เขียนแบบคณิตศาสตร์ว่า [0, 1)` },
-        { type: "steps", title: "สร้างสูตรสุ่มจำนวนเต็ม min ถึง max (รวมทั้งสองขอบ)", items: [
-          "นับจำนวนค่าที่เป็นไปได้: <code>count = max - min + 1</code> (1–6 มี 6 ค่า)",
-          "คูณ: <code>Math.random() * count</code> ได้ช่วง [0, count)",
-          "cast เป็น int ตัดเศษ: ได้ 0, 1, …, count − 1",
-          "บวก min: ได้ min, …, max",
-          "สูตร: <code>int v = min + (int) (Math.random() * (max - min + 1));</code>",
+        { type: "p", html: `<code>Math.random()</code> คืนค่า double ตั้งแต่ 0.0 (<strong>รวม</strong>) แต่ต่ำกว่า 1.0 (<strong>ไม่รวม</strong>) เขียนแบบคณิตศาสตร์ว่า [0, 1) ทุกครั้งที่รันจะได้ค่าต่างกัน` },
+        { type: "p", html: `ต้องการจำนวนเต็ม min ถึง max (รวมทั้งสองขอบ) ให้แปลงทีละขั้น ตัวอย่างลูกเต๋า 1–6:` },
+        { type: "table", head: ["ขั้น", "นิพจน์", "ช่วงที่ได้"], rows: [
+          ["1. ค่าดิบ", "<code>Math.random()</code>", "[0, 1)"],
+          ["2. คูณจำนวนค่า (max − min + 1 = 6)", "<code>Math.random() * 6</code>", "[0, 6)"],
+          ["3. cast ตัดเศษ", "<code>(int) (Math.random() * 6)</code>", "0, 1, …, 5"],
+          ["4. บวก min", "<code>(int) (Math.random() * 6) + 1</code>", "1, 2, …, 6"],
         ] },
-        { type: "run", title: "ค่าดิบจาก Math.random", level: "พื้นฐาน",
-          concept: "ดูหน้าตาค่าที่ได้ — ทุกค่าอยู่ระหว่าง 0 ถึงน้อยกว่า 1",
+        { type: "tip", title: "สูตรทั่วไป", html: `<code>int v = min + (int) (Math.random() * (max - min + 1));</code>` },
+        { type: "run", title: "ค่าดิบจาก Math.random",
           code: j`
             public class RawRandom {
                 public static void main(String[] args) {
                     for (int i = 1; i <= 5; i++) {
-                        // ค่าในช่วง [0, 1)
-                        double r = Math.random();
-                        // ×6 ได้ [0, 6) → (int) ได้ 0-5 → +1 ได้ 1-6
+                        double r = Math.random();                         // [0, 1)
                         System.out.printf("r = %.4f   r*6 = %.4f   (int)(r*6)+1 = %d%n", r, r * 6, (int) (r * 6) + 1);
                     }
                 }
             }`,
-          steps: ["r อยู่ใน [0, 1)", "r × 6 อยู่ใน [0, 6)", "(int) ตัดเศษ → 0–5 แล้ว + 1 → 1–6", "รันซ้ำจะได้ตัวเลขต่างจากนี้"] },
-        { type: "run", title: "ทอยลูกเต๋า 6000 ครั้ง ตรวจว่ากระจายเท่ากัน", level: "ต่อยอด",
-          concept: "ใช้อาเรย์นับความถี่ (บทที่ 8) แต่ละหน้าควรออกใกล้ 1000 ครั้ง ถ้าหน้า 6 ไม่เคยออกแปลว่าสูตรผิด",
+          },
+        { type: "p", html: `ผลด้านบนเป็นเพียงการรันครั้งหนึ่ง รันซ้ำจะได้ตัวเลขต่างจากนี้` },
+
+        { type: "h", text: "ตรวจว่ากระจายเท่ากัน" },
+        { type: "p", html: `ทอย 6,000 ครั้งแล้วนับความถี่ด้วยอาเรย์ (บทที่ 8) แต่ละหน้าควรออกใกล้ 1,000 ครั้ง ถ้าหน้าใดไม่เคยออกเลยแปลว่าสูตรผิด` },
+        { type: "run", title: "ทอยลูกเต๋า 6000 ครั้ง",
           code: j`
             public class DiceFrequency {
                 public static void main(String[] args) {
-                    int[] count = new int[7];  // ใช้ช่อง 1-6 (ช่อง 0 ไม่ใช้)
+                    int[] count = new int[7];                         // ใช้ช่อง 1-6 (ช่อง 0 ไม่ใช้)
                     for (int i = 0; i < 6000; i++) {
-                        // สุ่มลูกเต๋า 1-6
-                        int roll = (int) (Math.random() * 6) + 1;
-                        // นับจำนวนครั้งของแต่ละหน้า
-                        count[roll]++;
+                        int roll = (int) (Math.random() * 6) + 1;     // 1-6
+                        count[roll]++;                                // ใช้ค่าที่สุ่มเป็น index
                     }
                     for (int face = 1; face <= 6; face++) {
-                        // # หนึ่งตัวแทน 50 ครั้ง
-                        System.out.printf("%d: %4d %s%n", face, count[face], "#".repeat(count[face] / 50));
+                        System.out.printf("%d: %4d %s%n", face, count[face], "#".repeat(count[face] / 50));   // # ละ 50 ครั้ง
                     }
                 }
             }`,
-          steps: ["count[roll]++ ใช้ค่าที่สุ่มเป็น index", "index 0 ไม่ใช้ จึงสร้างขนาด 7", "ความถี่ใกล้ 1000 แต่ไม่เท่ากันพอดี — นั่นคือธรรมชาติของการสุ่ม"] },
-        { type: "run", label: "ทดลองบั๊ก S1.1.3", title: "ลืม +1 หรือวาง cast ผิดที่", level: "ประยุกต์",
-          concept: "สองบั๊กที่พบบ่อย: ไม่บวก 1 (ได้ 0–5) และ cast ก่อนคูณ (ได้ 0 เสมอ)",
+          },
+        { type: "tip", html: `ความถี่ใกล้ 1,000 แต่ไม่เท่ากันพอดี นั่นคือธรรมชาติของการสุ่ม` },
+
+        { type: "h", text: "บั๊กที่พบบ่อย" },
+        { type: "p", html: `โปรแกรมนี้ต้องการตรวจช่วงของสองนิพจน์ ลองดูผลแล้วหาว่าแต่ละแบบผิดอย่างไร` },
+        { type: "run", label: "ทดลองบั๊ก S1.1.3", title: "ลืม +1 หรือวาง cast ผิดที่",
           code: j`
             public class RandomBugs {
                 public static void main(String[] args) {
                     int min1 = 99, max1 = -1, min2 = 99, max2 = -1;
                     for (int i = 0; i < 10000; i++) {
-                        // วงเล็บ: คูณก่อนแล้วจึง cast
                         int a = (int) (Math.random() * 6);
-                        // cast ทำก่อน: (int) ของ [0,1) ได้ 0 เสมอ
                         int b = (int) Math.random() * 6;
                         min1 = Math.min(min1, a); max1 = Math.max(max1, a);
                         min2 = Math.min(min2, b); max2 = Math.max(max2, b);
@@ -76,56 +75,57 @@ export default {
                     System.out.println("(int) Math.random() * 6 range: " + min2 + " to " + max2);
                 }
             }`,
-          steps: ["แบบแรกได้ 0–5 (ลืม +1)", "แบบที่สอง: cast ทำก่อนคูณ (int) 0.xx = 0 → 0 × 6 = 0 ทุกครั้ง", "เทคนิคตรวจสูตร: สุ่มหลายพันครั้งแล้วดูค่าต่ำสุดและสูงสุดที่ได้"] },
+          },
+        { type: "check", title: "หาบั๊กได้ไหม", html: `<p>ทำไมแบบแรกได้ 0–5 และแบบที่สองได้ 0 เสมอ</p>`, answer: `<p>แบบแรกลืม <code>+ 1</code> แบบที่สอง cast ทำงานก่อนคูณ <code>(int) 0.xx</code> ได้ 0 แล้ว 0 × 6 = 0 ทุกครั้ง เทคนิคตรวจสูตร: สุ่มหลายพันครั้งแล้วดูค่าต่ำสุดและสูงสุดที่ได้</p>` },
         { type: "check", title: "สูตร", html: `<p>เขียนสูตรสุ่มจำนวนเต็มตั้งแต่ −5 ถึง 5</p>`, answer: `<p>count = 5 − (−5) + 1 = 11 → <code>int v = -5 + (int) (Math.random() * 11);</code></p>` },
       ],
     },
     {
       num: "S1.2", toc: "ใช้ java.util.Random", title: "ใช้ java.util.Random",
       blocks: [
+        { type: "p", html: `คลาส <code>Random</code> สุ่มจำนวนเต็มในช่วงได้โดยตรง ไม่ต้องคูณและ cast เอง สร้างครั้งเดียวแล้วเรียกซ้ำ` },
         { type: "table", head: ["เมธอด", "คืนค่า"], rows: [
           ["<code>nextInt(bound)</code>", "int ใน [0, bound)"], ["<code>nextInt(origin, bound)</code> (Java 17+)", "int ใน [origin, bound)"],
           ["<code>nextDouble()</code>", "double ใน [0, 1)"], ["<code>nextBoolean()</code>", "true หรือ false"],
         ] },
-        { type: "run", title: "สุ่มจำนวนเต็มในช่วงด้วย nextInt", level: "พื้นฐาน",
-          concept: "สร้าง Random หนึ่งตัวแล้วเรียกซ้ำ — <code>nextInt(11) + 20</code> ได้ 20–30",
+        { type: "run", title: "สุ่มจำนวนเต็มในช่วงด้วย nextInt",
           code: j`
             import java.util.Random;
 
             public class RandomRange {
                 public static void main(String[] args) {
-                    Random rng = new Random();  // ตัวสุ่มของ java.util
+                    Random rng = new Random();                            // สร้างครั้งเดียว
                     for (int i = 0; i < 8; i++) {
-                        // nextInt(11) ได้ 0-10 → +20 ได้ 20-30
-                        System.out.print((rng.nextInt(11) + 20) + " ");
+                        System.out.print((rng.nextInt(11) + 20) + " ");   // 0-10 → +20 → 20-30
                     }
                     System.out.println();
-                    // สุ่ม true/false
                     System.out.println("coin: " + (rng.nextBoolean() ? "heads" : "tails"));
-                    // กำหนดช่วง [1, 7) ได้ตรง ๆ
-                    System.out.println("1-6 (Java 17+): " + rng.nextInt(1, 7));
+                    System.out.println("1-6 (Java 17+): " + rng.nextInt(1, 7));   // ขอบบน 7 ไม่รวม
                 }
             }`,
-          steps: ["nextInt(11) → 0–10, + 20 → 20–30", "nextBoolean จำลองการโยนเหรียญ", "nextInt(1, 7) → ขอบบนไม่รวม จึงได้ 1–6"] },
-        { type: "run", title: "seed: สุ่มแบบทำซ้ำได้", level: "ต่อยอด",
-          concept: "<code>new Random(42)</code> ให้ลำดับตัวเลขเดิมทุกครั้งที่รัน — ใช้ทดสอบโปรแกรมที่มีการสุ่ม และ output ด้านขวาจึงเหมือนกับที่นิสิตรันได้",
+          },
+
+        { type: "h", text: "seed: สุ่มแบบทำซ้ำได้" },
+        { type: "p", html: `<code>new Random(42)</code> ให้ลำดับตัวเลขเดิมทุกครั้งที่รัน เหมาะกับการทดสอบโปรแกรมที่มีการสุ่ม และผลลัพธ์ด้านล่างจะเหมือนกับที่นิสิตรันได้` },
+        { type: "run", title: "seed เดียวกัน ลำดับเดียวกัน",
           code: j`
             import java.util.Random;
 
             public class SeededRandom {
                 public static void main(String[] args) {
-                    // seed เดียวกัน → ลำดับเลขสุ่มเหมือนกัน
                     Random a = new Random(42);
-                    Random b = new Random(42);
-                    Random c = new Random(7);  // seed ต่าง → ลำดับต่าง
+                    Random b = new Random(42);                    // seed เดียวกับ a → ลำดับเหมือน a
+                    Random c = new Random(7);                     // seed ต่าง → ลำดับต่าง
                     for (int i = 0; i < 6; i++) {
                         System.out.printf("a=%d  b=%d  c=%d%n", a.nextInt(100), b.nextInt(100), c.nextInt(100));
                     }
                 }
             }`,
-          steps: ["a และ b ใช้ seed เดียวกัน → ได้ลำดับเดียวกันทุกค่า", "c ใช้ seed ต่าง → ลำดับต่าง", "ตัวเลขเหล่านี้จะเหมือนเดิมทุกครั้งที่รัน"] },
-        { type: "run", title: "สุ่มเลือกจากอาเรย์และสับไพ่", level: "ประยุกต์",
-          concept: "สุ่ม index แทนการสุ่มค่าโดยตรง: <code>arr[rng.nextInt(arr.length)]</code> และใช้ <code>Collections.shuffle</code> สับลำดับรายการ",
+          },
+
+        { type: "h", text: "สุ่มเลือกจากอาเรย์และสับลำดับ" },
+        { type: "p", html: `สุ่ม <strong>index</strong> แทนการสุ่มค่า: <code>arr[rng.nextInt(arr.length)]</code> ถูกต้องเสมอแม้จำนวนสมาชิกเปลี่ยน ส่วน <code>Collections.shuffle(list, rng)</code> สับลำดับรายการ` },
+        { type: "run", title: "สุ่มเมนูและแบ่งทีม",
           code: j`
             import java.util.ArrayList;
             import java.util.Collections;
@@ -134,30 +134,28 @@ export default {
 
             public class PickAndShuffle {
                 public static void main(String[] args) {
-                    // ใส่ seed เพื่อให้ผลเหมือนเดิมทุกครั้ง
-                    Random rng = new Random(2026);
+                    Random rng = new Random(2026);                                    // seed → ผลเหมือนเดิมทุกครั้ง
                     String[] menu = {"Pad Thai", "Fried rice", "Som tam", "Khao man gai", "Noodle soup"};
-                    // สุ่ม index 0 ถึง length-1
-                    System.out.println("Today's lunch: " + menu[rng.nextInt(menu.length)]);
+                    System.out.println("Today's lunch: " + menu[rng.nextInt(menu.length)]);   // index 0-4
 
                     List<String> students = new ArrayList<>(List.of("JHope", "Suga", "RM", "Jungkook", "Mark", "JayB"));
-                    Collections.shuffle(students, rng);  // สลับลำดับแบบสุ่ม
+                    Collections.shuffle(students, rng);                               // สลับลำดับแบบสุ่ม
                     System.out.println("Shuffled: " + students);
-                    // subList(0, 3) = index 0-2
-                    System.out.println("Team A: " + students.subList(0, 3));
-                    System.out.println("Team B: " + students.subList(3, 6));
+                    System.out.println("Team A: " + students.subList(0, 3));          // index 0-2
+                    System.out.println("Team B: " + students.subList(3, 6));          // index 3-5
                 }
             }`,
-          steps: ["nextInt(menu.length) → index 0–4 ถูกต้องเสมอแม้เปลี่ยนจำนวนเมนู", "shuffle(list, rng) ใช้ seed ทำให้ผลทำซ้ำได้", "subList แบ่งทีมหลังสับแล้ว"] },
+          },
         { type: "check", title: "nextInt", html: `<p><code>rng.nextInt(5) * 2 + 1</code> ได้ค่าอะไรได้บ้าง</p>`, answer: `<p>nextInt(5) ได้ 0–4 → × 2 + 1 → <strong>1, 3, 5, 7, 9</strong> (เลขคี่ 1–9)</p>` },
       ],
     },
     {
       num: "S1.3", toc: "เกมทายตัวเลข", title: "เกมทายตัวเลข",
       blocks: [
+        { type: "p", html: `รวมการสุ่ม ลูป และเงื่อนไขเป็นเกม` },
         { type: "steps", title: "ออกแบบเกม", items: ["สุ่มคำตอบ 1–100 หนึ่งครั้งก่อนเริ่มลูป", "วน: รับคำทาย → นับครั้ง → เทียบกับคำตอบ → บอก Too high/Too low", "หยุดเมื่อทายถูก แล้วสรุปจำนวนครั้ง", "เพิ่มเติม: จำกัดจำนวนครั้ง, ตรวจค่านอกช่วง, เล่นใหม่"] },
-        { type: "run", title: "เกมพื้นฐาน (ใช้ seed เพื่อให้ทดสอบได้)", level: "ต่อยอด", stdin: "50\n25\n40\n35\n37",
-          concept: "while วนจนทายถูก — ใช้ seed 7 ทำให้คำตอบเหมือนเดิมทุกครั้ง จึงเขียน input ทดสอบล่วงหน้าได้ (ในเกมจริงใช้ new Random())",
+        { type: "p", html: `ตัวอย่างใช้ seed 7 คำตอบจึงเหมือนเดิมทุกครั้งและเขียน input ทดสอบล่วงหน้าได้ เกมจริงใช้ <code>new Random()</code>` },
+        { type: "run", title: "เกมพื้นฐาน", stdin: "50\n25\n40\n35\n37",
           code: j`
             import java.util.Random;
             import java.util.Scanner;
@@ -165,78 +163,78 @@ export default {
             public class GuessGame {
                 public static void main(String[] args) {
                     Random rng = new Random(7);
-                    int secret = rng.nextInt(100) + 1;  // สุ่มเลข 1-100
+                    int secret = rng.nextInt(100) + 1;                // สุ่มครั้งเดียว ก่อนลูป
                     Scanner input = new Scanner(System.in);
                     int tries = 0;
-                    int guess = 0;
-                    while (guess != secret) {  // ทายจนกว่าจะถูก
+                    int guess = 0;                                    // 0 ไม่ใช่คำตอบ → เข้าลูปแน่นอน
+                    while (guess != secret) {
                         System.out.print("Guess (1-100): ");
                         guess = input.nextInt();
                         tries++;
-                        // ใบ้ว่ามากไปหรือน้อยไป
                         if (guess > secret) System.out.println("  Too high");
                         else if (guess < secret) System.out.println("  Too low");
                     }
                     System.out.println("Correct! " + secret + " in " + tries + " tries");
                 }
             }`,
-          steps: ["สุ่มคำตอบครั้งเดียวก่อนลูป (ถ้าสุ่มในลูปคำตอบจะเปลี่ยนทุกรอบ!)", "ทายแบบแบ่งครึ่ง (binary search) ช่วยให้ได้ภายใน 7 ครั้งเสมอ", "guess เริ่มที่ 0 ซึ่งไม่ใช่คำตอบที่เป็นไปได้ จึงเข้าลูปครั้งแรกแน่นอน"] },
-        { type: "run", title: "จำกัดจำนวนครั้งและตรวจค่านอกช่วง", level: "ประยุกต์", stdin: "150\n40\n80\n60\n70\n65",
-          concept: "for นับครั้ง + break เมื่อถูก ค่านอกช่วงไม่นับเป็นครั้ง (ใช้ continue หลังลดตัวนับ) และเฉลยเมื่อหมดสิทธิ์",
+          },
+        { type: "warn", html: `ถ้าสุ่มคำตอบ<em>ในลูป</em> คำตอบจะเปลี่ยนทุกรอบ ผู้เล่นไม่มีทางใช้คำใบ้ได้` },
+        { type: "tip", html: `ทายแบบแบ่งครึ่งช่วง (binary search) จะได้คำตอบ 1–100 ภายใน 7 ครั้งเสมอ` },
+
+        { type: "h", text: "จำกัดจำนวนครั้งและตรวจค่านอกช่วง" },
+        { type: "p", html: `ใช้ for นับครั้ง และ break เมื่อทายถูก ค่านอกช่วงไม่นับเป็นครั้ง (ลด t แล้ว continue) ตัวแปร <code>won</code> เป็น flag บอกหลังลูปว่าชนะหรือหมดสิทธิ์` },
+        { type: "run", title: "ทายได้ 5 ครั้ง", stdin: "150\n40\n80\n60\n70\n65",
           code: j`
             import java.util.Random;
             import java.util.Scanner;
 
             public class LimitedGuess {
                 public static void main(String[] args) {
-                    // จำนวนครั้งสูงสุด
                     final int MAX_TRIES = 5;
-                    // สร้าง Random แล้วสุ่มในบรรทัดเดียว
-                    int secret = new Random(99).nextInt(100) + 1;
+                    int secret = new Random(99).nextInt(100) + 1;     // สร้างและสุ่มในบรรทัดเดียว
                     Scanner input = new Scanner(System.in);
                     boolean won = false;
                     for (int t = 1; t <= MAX_TRIES; t++) {
                         System.out.print("Try " + t + "/" + MAX_TRIES + ": ");
                         int g = input.nextInt();
-                        if (g < 1 || g > 100) {  // ค่านอกช่วงไม่นับ
+                        if (g < 1 || g > 100) {
                             System.out.println("  Out of range, not counted");
-                            t--;  // ลด t เพื่อชดเชย t++ ของลูป
+                            t--;                                      // ชดเชย t++ ของลูป
                             continue;
                         }
-                        if (g == secret) {  // ทายถูก → ออกจากลูป
+                        if (g == secret) {
                             won = true;
                             System.out.println("  Correct!");
                             break;
                         }
                         System.out.println(g > secret ? "  Too high" : "  Too low");
                     }
-                    // ใช้ครบทุกครั้งแล้วยังไม่ถูก
-                    if (!won) System.out.println("Out of tries. The number was " + secret);
+                    if (!won) System.out.println("Out of tries. The number was " + secret);   // หมดสิทธิ์
                 }
             }`,
-          steps: ["150 นอกช่วง → t-- แล้ว continue ไม่เสียสิทธิ์", "ทายครบ 5 ครั้งไม่ถูก → แสดงคำตอบ", "won เป็น flag แยกกรณีชนะ/แพ้หลังลูป"] },
+          },
       ],
     },
     {
       num: "S1.4", toc: "จำนวนครั้งและทดสอบ", title: "ทดสอบโปรแกรมที่มีการสุ่ม",
       blocks: [
-        { type: "p", html: "โปรแกรมที่สุ่มทดสอบยาก เพราะผลไม่เหมือนเดิม เทคนิคหลัก: (1) แยกการสุ่มออกจาก logic — ให้เมธอดรับค่าที่สุ่มแล้วเป็น parameter (2) ใช้ seed (3) ทดสอบด้วยการรันจำนวนมากแล้วตรวจคุณสมบัติ เช่น ค่าทั้งหมดอยู่ในช่วง" },
-        { type: "run", title: "แยก logic ออกจากการสุ่ม แล้วทดสอบ logic ตรง ๆ", level: "ประยุกต์",
-          concept: "เมธอด <code>hint(guess, secret)</code> ไม่สุ่มเอง จึงทดสอบทุกกรณีได้แน่นอน ส่วน <code>randomInRange</code> ทดสอบด้วยการรันหมื่นครั้งดูว่าได้ครบทุกค่าและไม่หลุดช่วง",
+        { type: "p", html: `โปรแกรมที่สุ่มทดสอบยากเพราะผลไม่เหมือนเดิม มีเทคนิคหลักสามข้อ` },
+        { type: "table", head: ["เทคนิค", "ทำอย่างไร"], rows: [
+          ["แยก logic ออกจากการสุ่ม", "ให้เมธอดรับค่าที่สุ่มแล้วเป็น parameter แล้วทดสอบด้วยค่าที่กำหนด"],
+          ["ใช้ seed", "<code>new Random(seed)</code> ได้ลำดับเดิมทุกครั้ง"],
+          ["ตรวจคุณสมบัติ", "สุ่มจำนวนมากแล้วตรวจว่าทุกค่าอยู่ในช่วงและได้ครบทุกค่า"],
+        ] },
+        { type: "run", title: "ทดสอบ logic ตรง ๆ และตรวจช่วงของการสุ่ม",
           code: j`
             import java.util.Random;
 
             public class RandomTesting {
                 public static void main(String[] args) {
-                    // ส่วนที่ไม่สุ่ม ทดสอบด้วยค่าที่กำหนด
-                    System.out.println(hint(30, 42) + " / " + hint(50, 42) + " / " + hint(42, 42));
+                    System.out.println(hint(30, 42) + " / " + hint(50, 42) + " / " + hint(42, 42));   // ไม่สุ่ม → ผลแน่นอน
 
                     Random rng = new Random();
-                    // ค่าเริ่มที่ทำให้ค่าแรกชนะเสมอ
-                    int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
-                    // จดว่าเคยสุ่มได้ค่าใดบ้าง
-                    boolean[] seen = new boolean[11];
-                    // สุ่มหลายครั้งเพื่อตรวจช่วง
+                    int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;    // ค่าแรกจะชนะเสมอ
+                    boolean[] seen = new boolean[11];                         // เคยสุ่มได้ค่าใดบ้าง
                     for (int i = 0; i < 10000; i++) {
                         int v = randomInRange(rng, 5, 10);
                         min = Math.min(min, v);
@@ -244,8 +242,7 @@ export default {
                         seen[v] = true;
                     }
                     boolean allSeen = true;
-                    // ต้องเคยเห็นครบทุกค่า 5-10
-                    for (int v = 5; v <= 10; v++) allSeen &= seen[v];
+                    for (int v = 5; v <= 10; v++) allSeen &= seen[v];        // ต้องเห็นครบ 5-10
                     System.out.println("range check: min=" + min + " max=" + max + " allValuesSeen=" + allSeen);
                 }
 
@@ -255,13 +252,12 @@ export default {
                     return "Correct";
                 }
 
-                // สุ่มช่วงปิด [min, max]
-                static int randomInRange(Random rng, int min, int max) {
-                    // max - min + 1 = จำนวนค่าที่เป็นไปได้
+                static int randomInRange(Random rng, int min, int max) {     // ช่วงปิด [min, max]
                     return min + rng.nextInt(max - min + 1);
                 }
             }`,
-          steps: ["hint ทดสอบได้ตรง ๆ ทุกกรณี", "randomInRange ถูกต้องเมื่อ min=5, max=10 และทุกค่า 5–10 ปรากฏ", "แม้ไม่ใช้ seed ผลการตรวจคุณสมบัติก็เหมือนเดิมทุกครั้ง"] },
+          },
+        { type: "tip", html: `แม้ไม่ใช้ seed ผลการตรวจคุณสมบัติ (min=5 max=10 allValuesSeen=true) ก็เหมือนเดิมทุกครั้ง` },
       ],
     },
   ],
