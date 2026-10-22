@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre, fpre } from "../lib.mjs";
 
 export default {
   num: 4, file: "chapter-04.html",
@@ -108,7 +108,7 @@ export default {
                 }
             }`,
           steps: ["บรรทัดแรกถูกต้อง พิมพ์ 19.50", "บรรทัดที่สองใช้ %d กับ double → <code>d != java.lang.Double</code>", "จำคู่: %d ↔ int, %f ↔ double, %s ↔ String"] },
-        { type: "check", title: "ทำนาย printf", html: pre(`
+        { type: "check", title: "ทำนาย printf", html: jpre(`
           System.out.printf("[%6.1f]%n", 3.14159);
           System.out.printf("[%-6s]%n", "ab");
           System.out.printf("%d + %d = %d%n", 2, 3, 2 + 3);`), answer: pre(`
@@ -215,7 +215,7 @@ export default {
       num: "4.3", toc: "ตัวเลขและข้อความ", title: "อ่านข้อความและจัดการบรรทัด",
       blocks: [
         { type: "p", html: `<code>next()</code> อ่านเพียงคำเดียว ถ้าข้อความมีช่องว่างให้ใช้ <code>nextLine()</code> ซึ่งอ่านทั้งบรรทัด หากอ่านตัวเลขด้วย <code>nextInt()</code> ก่อน ตัวกด Enter ที่ตามมาจะยังค้างอยู่และถูก <code>nextLine()</code> อ่านทันที` },
-        { type: "concept", title: "ภาพในหน่วยความจำ: เกิดอะไรขึ้นกับ Enter", html: pre(`
+        { type: "concept", title: "ภาพในหน่วยความจำ: เกิดอะไรขึ้นกับ Enter", html: fpre(`
           ผู้ใช้พิมพ์:   2 0 ⏎ M a l i ␣ N i d a ⏎
           nextInt()  →  อ่าน "20"         เหลือ:  ⏎ M a l i ␣ N i d a ⏎
           nextLine() →  อ่านถึง ⏎ แรก = ""  (ค่าว่าง!)

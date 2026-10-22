@@ -56,14 +56,14 @@
 <div class="concept-box"><span class="box-title">คำศัพท์หลัก</span><ul><li><strong>class</strong> — พิมพ์เขียว บอกว่าวัตถุชนิดนี้มีข้อมูล (field) และพฤติกรรม (method) อะไร</li><li><strong>object / instance</strong> — ของจริงที่สร้างจากพิมพ์เขียว แต่ละตัวมีค่า field ของตัวเอง</li><li><strong>field</strong> (attribute) — ตัวแปรที่อยู่ในออบเจ็กต์ เช่น name, balance</li><li><strong>method</strong> — สิ่งที่ออบเจ็กต์ทำได้ เช่น deposit(), describe()</li><li><strong>state</strong> — ค่าของ field ทั้งหมด ณ ขณะหนึ่ง</li></ul></div>
 <article class="subtopic" id="topic-11-1">
 <h3>11.1 class เป็นพิมพ์เขียว</h3>
-<div class="concept-box"><span class="box-title">โครงสร้างของคลาส</span><pre><code>class Student {               // ชื่อคลาส: PascalCase
-    String name;              // field (ข้อมูล)
-    int score;
+<div class="concept-box"><span class="box-title">โครงสร้างของคลาส</span><div class="code-block"><div class="code-head"><span class="code-file">Student.java</span></div><pre class="copyable"><code><span class="tok-kw">class</span> <span class="tok-type">Student</span> {               <span class="tok-com">// ชื่อคลาส: PascalCase</span>
+    <span class="tok-type">String</span> name;              <span class="tok-com">// field (ข้อมูล)</span>
+    <span class="tok-kw">int</span> score;
 
-    void describe() {         // method (พฤติกรรม) — ไม่มี static
-        System.out.println(name + ": " + score);
+    <span class="tok-kw">void</span> <span class="tok-fn">describe</span>() {         <span class="tok-com">// method (พฤติกรรม) — ไม่มี static</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name + <span class="tok-str">": "</span> + score);
     }
-}</code></pre><p>เมธอดในคลาสไม่ใส่ <code>static</code> เพราะเป็นของ<strong>แต่ละออบเจ็กต์</strong> และใช้ field ของออบเจ็กต์ที่ถูกเรียกได้โดยตรง ในตัวอย่างบทนี้วางคลาสหลายคลาสไว้ในไฟล์เดียว (มีเพียงคลาสที่มี main เป็น public) — ในโปรเจกต์จริงนิยมแยกคลาสละไฟล์</p></div>
+}</code></pre></div><p>เมธอดในคลาสไม่ใส่ <code>static</code> เพราะเป็นของ<strong>แต่ละออบเจ็กต์</strong> และใช้ field ของออบเจ็กต์ที่ถูกเรียกได้โดยตรง ในตัวอย่างบทนี้วางคลาสหลายคลาสไว้ในไฟล์เดียว (มีเพียงคลาสที่มี main เป็น public) — ในโปรเจกต์จริงนิยมแยกคลาสละไฟล์</p></div>
 <div class="source-example"><h4>ตัวอย่าง 11.1.1 · คลาสแรก: Book <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ประกาศคลาส Book มี field 3 ตัว แล้วสร้างออบเจ็กต์ใน main กำหนดค่า field และพิมพ์ออกมา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// new สร้างออบเจ็กต์จากคลาส Book</span>
@@ -212,26 +212,26 @@ a == c ? false</pre></div></div><div class="walkthrough"><strong>อธิบา
 }</code></pre></div></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Pen
 Exception in thread "main" java.lang.NullPointerException: Cannot assign field "name" because "shelf[1]" is null
 	at ForgotNew.main(ForgotNew.java:7)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>new Product[2]</code> สร้างอาเรย์ 2 ช่องที่เป็น null — ยังไม่มี Product สักตัว</li><li>shelf[0] ถูก new แล้ว ใช้ได้</li><li>shelf[1] ยังเป็น null → NullPointerException</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · reference</strong><div><pre><code>Product x = new Product(); x.stock = 5;
-Product y = x;
-y.stock += 2;
-x = new Product(); x.stock = 1;
-// y.stock = ?</code></pre></div><details><summary>ดูคำตอบ</summary><div><p><strong>7</strong> — y ยังชี้ออบเจ็กต์ตัวแรก (5 + 2) ส่วน x ถูกเปลี่ยนให้ชี้ออบเจ็กต์ใหม่</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · reference</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">Product</span> x = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(); x.stock = <span class="tok-num">5</span>;
+<span class="tok-type">Product</span> y = x;
+y.stock += <span class="tok-num">2</span>;
+x = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(); x.stock = <span class="tok-num">1</span>;
+<span class="tok-com">// y.stock = ?</span></code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p><strong>7</strong> — y ยังชี้ออบเจ็กต์ตัวแรก (5 + 2) ส่วน x ถูกเปลี่ยนให้ชี้ออบเจ็กต์ใหม่</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-11-3">
 <h3>11.3 constructor และ this</h3>
 <p><strong>constructor</strong> คือเมธอดพิเศษที่ทำงานอัตโนมัติตอน <code>new</code> ใช้กำหนดค่าเริ่มต้นให้ field มีชื่อเดียวกับคลาส และ<strong>ไม่มีชนิดผลลัพธ์</strong> (ไม่มี void) คำว่า <code>this</code> หมายถึง “ออบเจ็กต์ตัวนี้” ใช้แยก field ออกจาก parameter ที่ชื่อเหมือนกัน</p>
-<div class="concept-box"><span class="box-title">รูปแบบ constructor</span><pre><code>class Student {
-    String name;
-    int score;
+<div class="concept-box"><span class="box-title">รูปแบบ constructor</span><div class="code-block"><div class="code-head"><span class="code-file">Student.java</span></div><pre class="copyable"><code><span class="tok-kw">class</span> <span class="tok-type">Student</span> {
+    <span class="tok-type">String</span> name;
+    <span class="tok-kw">int</span> score;
 
-    Student(String name, int score) {   // ชื่อเดียวกับคลาส ไม่มี return type
-        this.name = name;               // this.name = field, name = parameter
-        this.score = score;
+    <span class="tok-type">Student</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> score) {   <span class="tok-com">// ชื่อเดียวกับคลาส ไม่มี return type</span>
+        <span class="tok-kw">this</span>.name = name;               <span class="tok-com">// this.name = field, name = parameter</span>
+        <span class="tok-kw">this</span>.score = score;
     }
 }
 
-Student s = new Student("Mali", 85);    // argument ส่งไปยัง constructor</code></pre></div>
+<span class="tok-type">Student</span> s = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">85</span>);    <span class="tok-com">// argument ส่งไปยัง constructor</span></code></pre></div></div>
 <div class="source-example"><h4>ตัวอย่าง 11.3.1 · constructor กำหนดค่าตั้งแต่สร้าง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สร้างและกำหนดค่าในบรรทัดเดียว ออบเจ็กต์ไม่มีช่วงที่ field เป็นค่าว่าง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConstructorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConstructorDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// constructor กำหนดค่าตอนสร้างเลย</span>
@@ -475,11 +475,11 @@ Passed: 3/4</pre></div></div><div class="walkthrough"><strong>อธิบาย
 Ticket #2 for Concert
 Ticket #3 for Movie
 Tickets issued: 3</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>issued เป็น static: มีตัวเดียว ทุก Ticket เห็นค่าเดียวกัน</li><li>ทุกครั้งที่ new → issued เพิ่ม แล้วใช้เป็นหมายเลขของตั๋วใบนั้น</li><li>number เป็น field ปกติ แต่ละใบมีค่าของตัวเอง</li><li>เรียก static field ผ่านชื่อคลาส <code>Ticket.issued</code></li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · state</strong><div><pre><code>Counter a = new Counter();   // class Counter { int n; void inc() { n++; } }
-Counter b = new Counter();
-a.inc(); a.inc(); b.inc();
-Counter c = a; c.inc();
-// a.n, b.n = ?</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>a.n = <strong>3</strong> (inc 2 ครั้ง + ผ่าน c อีก 1), b.n = <strong>1</strong></p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · state</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Counter.java</span></div><pre class="copyable"><code><span class="tok-type">Counter</span> a = <span class="tok-kw">new</span> <span class="tok-type">Counter</span>();   <span class="tok-com">// class Counter { int n; void inc() { n++; } }</span>
+<span class="tok-type">Counter</span> b = <span class="tok-kw">new</span> <span class="tok-type">Counter</span>();
+a.<span class="tok-fn">inc</span>(); a.<span class="tok-fn">inc</span>(); b.<span class="tok-fn">inc</span>();
+<span class="tok-type">Counter</span> c = a; c.<span class="tok-fn">inc</span>();
+<span class="tok-com">// a.n, b.n = ?</span></code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>a.n = <strong>3</strong> (inc 2 ครั้ง + ผ่าน c อีก 1), b.n = <strong>1</strong></p></div></details></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">

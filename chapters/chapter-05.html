@@ -187,14 +187,14 @@ C = false</pre></div></div><div class="walkthrough"><strong>อธิบาย�
 </article>
 <article class="subtopic" id="topic-5-3">
 <h3>5.3 if, else if และ else</h3>
-<div class="concept-box"><span class="box-title">รูปแบบของ if ทั้ง 3 แบบ</span><pre><code>if (เงื่อนไข) {              if (เงื่อนไข) {              if (เงื่อนไข1) {
+<div class="concept-box"><span class="box-title">รูปแบบของ if ทั้ง 3 แบบ</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">if</span> (เงื่อนไข) {              <span class="tok-kw">if</span> (เงื่อนไข) {              <span class="tok-kw">if</span> (เงื่อนไข<span class="tok-num">1</span>) {
     ทำเมื่อจริง                 ทำเมื่อจริง                  ...
-}                           } else {                     } else if (เงื่อนไข2) {
+}                           } <span class="tok-kw">else</span> {                     } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (เงื่อนไข<span class="tok-num">2</span>) {
                                 ทำเมื่อเท็จ                  ...
-                            }                            } else {
+                            }                            } <span class="tok-kw">else</span> {
 ① ทางเลือกเดียว             ② สองทาง                         ทำเมื่อไม่ตรงข้อใด
                                                          }
-                                                         ③ หลายทาง</code></pre><p>if-else if ตรวจ<strong>จากบนลงล่าง</strong> และทำเฉพาะกรณีแรกที่เป็นจริง กรณีที่เหลือถูกข้ามทั้งหมด</p></div>
+                                                         ③ หลายทาง</code></pre></div><p>if-else if ตรวจ<strong>จากบนลงล่าง</strong> และทำเฉพาะกรณีแรกที่เป็นจริง กรณีที่เหลือถูกข้ามทั้งหมด</p></div>
 <div class="source-example"><h4>ตัวอย่าง 5.3.1 · if อย่างเดียว: แจ้งเตือนเมื่อเกินกำหนด <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อต้องทำอะไรเพิ่ม<em>เฉพาะบางกรณี</em> และกรณีอื่นไม่ต้องทำอะไร ใช้ if อย่างเดียว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FeverAlert.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FeverAlert</span> {
@@ -293,27 +293,27 @@ Pass</pre></div></div><div class="walkthrough"><strong>อธิบายที�
 }</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Order total: <b class="stdin">1200</b>
 Member (y/n): <b class="stdin">y</b>
 Shipping: FREE</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ยอด 1200 ≥ 1000 → ส่งฟรี ไม่ต้องดูสถานะสมาชิกเลย</li><li>ถ้ายอดไม่ถึง จึงค่อยตรวจสมาชิก (if ชั้นใน)</li><li>ternary เลือกข้อความ: 0 → "FREE"</li></ol></div><p class="try-it">ป้อน 800 และ y → 20 baht, ป้อน 800 และ n → 50 baht</p></div>
-<div class="note-box"><span class="box-title">ใส่วงเล็บปีกกาเสมอ และอย่าใส่ ; หลัง if</span><pre><code>if (score &gt;= 50);              // ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป
-    System.out.println("Pass");  // ← ทำงานทุกครั้ง!</code></pre><p>แม้มีคำสั่งเดียวก็ควรใส่ <code>{ }</code> เพื่อให้เห็นขอบเขตชัดและป้องกันการเพิ่มคำสั่งผิดตำแหน่ง</p></div>
-<div class="quick-check"><strong>ลองคิดก่อน · trace if-else if</strong><div><pre><code>int x = 15;
-if (x &gt; 20) System.out.println("A");
-else if (x &gt; 10) System.out.println("B");
-else if (x &gt; 5) System.out.println("C");
-else System.out.println("D");</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>พิมพ์ <strong>B</strong> เท่านั้น แม้ x &gt; 5 ก็จริง แต่ถูกข้ามเพราะเจอกรณีที่จริงก่อนแล้ว</p></div></details></div>
+<div class="note-box"><span class="box-title">ใส่วงเล็บปีกกาเสมอ และอย่าใส่ ; หลัง if</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">if</span> (score &gt;= <span class="tok-num">50</span>);              <span class="tok-com">// ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป</span>
+    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Pass"</span>);  <span class="tok-com">// ← ทำงานทุกครั้ง!</span></code></pre></div><p>แม้มีคำสั่งเดียวก็ควรใส่ <code>{ }</code> เพื่อให้เห็นขอบเขตชัดและป้องกันการเพิ่มคำสั่งผิดตำแหน่ง</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · trace if-else if</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> x = <span class="tok-num">15</span>;
+<span class="tok-kw">if</span> (x &gt; <span class="tok-num">20</span>) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"A"</span>);
+<span class="tok-kw">else</span> <span class="tok-kw">if</span> (x &gt; <span class="tok-num">10</span>) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"B"</span>);
+<span class="tok-kw">else</span> <span class="tok-kw">if</span> (x &gt; <span class="tok-num">5</span>) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"C"</span>);
+<span class="tok-kw">else</span> <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"D"</span>);</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>พิมพ์ <strong>B</strong> เท่านั้น แม้ x &gt; 5 ก็จริง แต่ถูกข้ามเพราะเจอกรณีที่จริงก่อนแล้ว</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-5-4">
 <h3>5.4 เลือกทางด้วย switch</h3>
 <p><code>switch</code> เหมาะเมื่อเปรียบเทียบ<strong>ค่าเดียว</strong>กับตัวเลือกที่เป็นค่าแน่นอนหลายค่า เช่น รหัสเมนู วันในสัปดาห์ ใช้กับ <code>int</code>, <code>char</code>, <code>String</code> ได้ (แต่ไม่ใช้กับช่วงค่า เช่น ≥ 80 — กรณีนั้นใช้ if)</p>
-<div class="concept-box"><span class="box-title">switch แบบดั้งเดิม vs แบบลูกศร (Java 14+)</span><pre><code>switch (day) {                       switch (day) {
-    case 1:                              case 1 -&gt; name = "Mon";
-        name = "Mon";                    case 2 -&gt; name = "Tue";
-        break;                           default -&gt; name = "?";
-    case 2:                          }
-        name = "Tue";
-        break;                       // ไม่ต้องมี break ไม่มี fall-through
-    default:
-        name = "?";
-}</code></pre></div>
+<div class="concept-box"><span class="box-title">switch แบบดั้งเดิม vs แบบลูกศร (Java 14+)</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">switch</span> (day) {                       <span class="tok-kw">switch</span> (day) {
+    <span class="tok-kw">case</span> <span class="tok-num">1</span>:                              <span class="tok-kw">case</span> <span class="tok-num">1</span> -&gt; name = <span class="tok-str">"Mon"</span>;
+        name = <span class="tok-str">"Mon"</span>;                    <span class="tok-kw">case</span> <span class="tok-num">2</span> -&gt; name = <span class="tok-str">"Tue"</span>;
+        <span class="tok-kw">break</span>;                           <span class="tok-kw">default</span> -&gt; name = <span class="tok-str">"?"</span>;
+    <span class="tok-kw">case</span> <span class="tok-num">2</span>:                          }
+        name = <span class="tok-str">"Tue"</span>;
+        <span class="tok-kw">break</span>;                       <span class="tok-com">// ไม่ต้องมี break ไม่มี fall-through</span>
+    <span class="tok-kw">default</span>:
+        name = <span class="tok-str">"?"</span>;
+}</code></pre></div></div>
 <div class="source-example"><h4>ตัวอย่าง 5.4.1 · switch แบบดั้งเดิม: ชื่อวัน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java กระโดดไปที่ case ที่ค่าตรงกัน ทำคำสั่งจนเจอ <code>break</code> ถ้าไม่มี case ใดตรงจะไป <code>default</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DayName.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DayName</span> {
@@ -407,12 +407,12 @@ Season: Summer</pre></div></div><div class="walkthrough"><strong>อธิบา
 }</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Expression (a op b): <b class="stdin">12 * 4</b>
 = 48.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่าน 12, "*" และ 4</li><li><code>.charAt(0)</code> ดึงอักขระแรกจาก String เป็น char</li><li>case '*' ทำงาน → 48.0</li><li>case '/' มีหลายคำสั่งจึงใช้ <code>{ }</code></li></ol></div></div>
 <h4>เลือก if หรือ switch</h4><table class="comparison-table"><thead><tr><th>สถานการณ์</th><th>ควรใช้</th></tr></thead><tbody><tr><td>ตรวจช่วงค่า (≥, &lt;)</td><td>if-else if</td></tr><tr><td>เงื่อนไขหลายตัวแปรรวมกัน (&amp;&amp;, ||)</td><td>if</td></tr><tr><td>ค่าเดียวเทียบกับค่าคงที่หลายค่า</td><td>switch</td></tr><tr><td>เมนูตัวเลข/ตัวอักษร</td><td>switch</td></tr></tbody></table>
-<div class="quick-check"><strong>ลองคิดก่อน · switch output</strong><div><pre><code>int n = 1;
-switch (n) {
-    case 1: System.out.print("one ");
-    case 2: System.out.print("two "); break;
-    case 3: System.out.print("three ");
-}</code></pre></div><details><summary>ดูคำตอบ</summary><div><p><strong>one two</strong> — case 1 ไม่มี break จึงไหลไป case 2 แล้วหยุดที่ break</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · switch output</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> n = <span class="tok-num">1</span>;
+<span class="tok-kw">switch</span> (n) {
+    <span class="tok-kw">case</span> <span class="tok-num">1</span>: <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"one "</span>);
+    <span class="tok-kw">case</span> <span class="tok-num">2</span>: <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"two "</span>); <span class="tok-kw">break</span>;
+    <span class="tok-kw">case</span> <span class="tok-num">3</span>: <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"three "</span>);
+}</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p><strong>one two</strong> — case 1 ไม่มี break จึงไหลไป case 2 แล้วหยุดที่ break</p></div></details></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">

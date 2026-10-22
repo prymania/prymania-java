@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre, fpre } from "../lib.mjs";
 
 export default {
   num: 2, file: "chapter-02.html",
@@ -17,7 +17,7 @@ export default {
       num: "2.1", toc: "JDK, JVM และ IDE", title: "JDK, JVM และ IDE ทำหน้าที่อะไร",
       blocks: [
         { type: "p", html: `<strong>JDK</strong> (Java Development Kit) คือชุดเครื่องมือพัฒนา มี compiler ชื่อ <code>javac</code> และ JVM อยู่ในตัว ส่วน <strong>JVM</strong> (Java Virtual Machine) ใช้รัน bytecode ในไฟล์ <code>.class</code> ขณะที่ <strong>IDE</strong> (เช่น IntelliJ IDEA, NetBeans, VS Code) คือโปรแกรมช่วยเขียนโค้ด ไฮไลต์ error และกดปุ่มเดียวเพื่อเรียก javac และ JVM ให้` },
-        { type: "example", title: "ภาพรวมการทำงาน", html: pre(`
+        { type: "example", title: "ภาพรวมการทำงาน", html: fpre(`
           ไฟล์ Hello.java  →  javac (compiler)  →  Hello.class (bytecode)  →  JVM  →  ผลลัพธ์บนจอ
              เราเขียน            ตรวจ+แปล             ไฟล์ที่ได้               รัน`) + `<p>เราแก้เฉพาะไฟล์ <code>.java</code> เท่านั้น ไฟล์ <code>.class</code> ถูกสร้างใหม่ทุกครั้งที่คอมไพล์</p>` },
         { type: "steps", title: "ลำดับเหตุการณ์เมื่อกด Run ใน IDE", items: [
@@ -41,7 +41,7 @@ export default {
       num: "2.2", toc: "โครงสร้างโปรแกรม Java", title: "โครงสร้างของโปรแกรม Java และการแสดงผล",
       blocks: [
         { type: "p", html: `โปรแกรมเริ่มจาก<strong>คลาส</strong> ภายในคลาสมีเมธอด <code>main</code> ซึ่งเป็นจุดเริ่มทำงาน คำสั่งแต่ละคำสั่งลงท้ายด้วย <code>;</code> และบล็อกคำสั่งอยู่ระหว่างวงเล็บปีกกา <code>{ }</code>` },
-        { type: "concept", title: "แยกส่วนประกอบของโปรแกรมแรก", html: pre(`
+        { type: "concept", title: "แยกส่วนประกอบของโปรแกรมแรก", html: jpre(`
           public class Hello {                          // ① ประกาศคลาสชื่อ Hello
               public static void main(String[] args) {  // ② เมธอด main = จุดเริ่มทำงาน
                   System.out.println("Hello, Java!");   // ③ คำสั่ง: พิมพ์ข้อความแล้วขึ้นบรรทัดใหม่
@@ -131,7 +131,7 @@ export default {
             }`,
           steps: ["<code>\\\"</code> ทำให้ชื่อร้านมีเครื่องหมายคำพูดครอบ", "<code>\\t</code> ดันข้อความไปคอลัมน์ถัดไป ทำให้ Qty และ Price ตรงกัน", "<code>\\n</code> แบ่งข้อความเป็น 2 บรรทัดในคำสั่งเดียว", "<code>\\\\</code> แสดงเป็น <code>\\</code> หนึ่งตัว"] },
         { type: "note", title: "ชื่อไฟล์ต้องตรงกับคลาส public", html: `<p>ถ้าประกาศ <code>public class Hello</code> ต้องบันทึกเป็น <code>Hello.java</code> ไม่ใช่ <code>hello.java</code> หรือ <code>Hello.txt</code> และชื่อคลาสนิยมขึ้นต้นด้วยตัวพิมพ์ใหญ่ทุกคำ (PascalCase) เช่น <code>StudentReport</code></p>` },
-        { type: "check", title: "ทำนาย output", html: pre(`
+        { type: "check", title: "ทำนาย output", html: jpre(`
           System.out.print("Java");
           System.out.println(" is");
           System.out.print("fun\\n!");`), answer: pre(`
@@ -199,7 +199,7 @@ export default {
           ["<code>unclosed string literal</code>", "ไม่ปิด <code>\"</code>", "ปิดเครื่องหมายคำพูด"],
           ["<code>class X is public, should be declared in a file named X.java</code>", "ชื่อไฟล์ไม่ตรงชื่อคลาส", "เปลี่ยนชื่อไฟล์หรือชื่อคลาสให้ตรงกัน"],
         ] },
-        { type: "check", title: "หา error", html: pre(`
+        { type: "check", title: "หา error", html: jpre(`
           public class Test {
               public static void main(String[] args) {
                   System.out.println("A")
@@ -241,7 +241,7 @@ export default {
                 System.out.println("Done");
             }
         }`, explain: "<code>println()</code> เปล่า ๆ ทำหน้าที่ขึ้นบรรทัดใหม่หลังจาก print ชุดแรก" },
-    { level: 2, title: "หาข้อผิดพลาดและแก้ไข", html: `<p>โค้ดต่อไปนี้คอมไพล์ไม่ผ่าน มี<strong>ข้อผิดพลาด 3 จุด</strong> ให้ระบุว่าแต่ละจุดผิดอย่างไร javac จะแจ้งว่าอย่างไร แล้วเขียนโค้ดที่ถูกต้อง</p>` + pre(`
+    { level: 2, title: "หาข้อผิดพลาดและแก้ไข", html: `<p>โค้ดต่อไปนี้คอมไพล์ไม่ผ่าน มี<strong>ข้อผิดพลาด 3 จุด</strong> ให้ระบุว่าแต่ละจุดผิดอย่างไร javac จะแจ้งว่าอย่างไร แล้วเขียนโค้ดที่ถูกต้อง</p>` + jpre(`
         public class Start {
             public static void main(String[] args) {
                 System.out.println("Start")
@@ -328,7 +328,7 @@ export default {
                 System.out.println("+------------------------------+");
             }
         }`, explain: "บรรทัดคำคมในโค้ดมี <code>\\\"</code> 2 ที่ ดูยาวกว่าบรรทัดอื่น 2 ตัวอักษร แต่ผลลัพธ์กว้างเท่ากัน" },
-    { level: 3, title: "แก้โปรแกรมที่มีหลาย error", html: `<p>โค้ดนี้บันทึกในไฟล์ <code>Report.java</code> แต่มีข้อผิดพลาด<strong>อย่างน้อย 4 จุด</strong> ให้คอมไพล์ อ่าน error ทีละตัว แก้ทีละจุดจนรันได้ผลตามตัวอย่าง และบันทึกว่าแก้อะไรตามลำดับ</p>` + pre(`
+    { level: 3, title: "แก้โปรแกรมที่มีหลาย error", html: `<p>โค้ดนี้บันทึกในไฟล์ <code>Report.java</code> แต่มีข้อผิดพลาด<strong>อย่างน้อย 4 จุด</strong> ให้คอมไพล์ อ่าน error ทีละตัว แก้ทีละจุดจนรันได้ผลตามตัวอย่าง และบันทึกว่าแก้อะไรตามลำดับ</p>` + jpre(`
         public class report {
             public static void main(String[] args) {
                 System.out.println("Student Report")

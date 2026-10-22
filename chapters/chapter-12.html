@@ -301,10 +301,10 @@ Final stock = 30</pre></div></div><div class="walkthrough"><strong>อธิบ�
 [40, 90]
 Rejected: min 95 &gt; max 90
 [40, 90] contains 85? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เมธอด private check ใช้ซ้ำทั้งใน constructor และ setter</li><li>setMin(95) ทำให้ min > max → ถูกปฏิเสธก่อนเปลี่ยนค่า</li><li>ลำดับสำคัญ: <strong>ตรวจก่อน แล้วค่อยเปลี่ยน</strong></li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · ลำดับการตรวจ</strong><div><pre><code>public void setAge(int age) {
-    this.age = age;
-    if (age &lt; 0) throw new IllegalArgumentException("negative");
-}</code></pre><p>เมธอดนี้มีปัญหาอะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>เปลี่ยนค่า<strong>ก่อน</strong>ตรวจ ถ้า age ติดลบ exception ถูกโยนแต่ field ถูกแก้เป็นค่าผิดไปแล้ว — ต้องตรวจก่อนกำหนดค่า</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ลำดับการตรวจ</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">setAge</span>(<span class="tok-kw">int</span> age) {
+    <span class="tok-kw">this</span>.age = age;
+    <span class="tok-kw">if</span> (age &lt; <span class="tok-num">0</span>) <span class="tok-kw">throw</span> <span class="tok-kw">new</span> <span class="tok-type">IllegalArgumentException</span>(<span class="tok-str">"negative"</span>);
+}</code></pre></div><p>เมธอดนี้มีปัญหาอะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>เปลี่ยนค่า<strong>ก่อน</strong>ตรวจ ถ้า age ติดลบ exception ถูกโยนแต่ field ถูกแก้เป็นค่าผิดไปแล้ว — ต้องตรวจก่อนกำหนดค่า</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-12-4">
 <h3>12.4 composition: คลาสประกอบด้วยคลาสอื่น</h3>
@@ -391,17 +391,17 @@ Total: 180.00</pre></div></div><div class="walkthrough"><strong>อธิบา�
 <article class="subtopic" id="topic-12-5">
 <h3>12.5 inheritance และ method override</h3>
 <p><strong>Inheritance</strong> (ความสัมพันธ์แบบ “เป็น” / is-a) ให้คลาสลูก (subclass) รับ field และเมธอดจากคลาสแม่ (superclass) ด้วยคำว่า <code>extends</code> แล้วเพิ่มหรือ<strong>override</strong> (เขียนทับ) พฤติกรรมได้ ใช้ <code>super(...)</code> เรียก constructor ของคลาสแม่ และ <code>super.method()</code> เรียกเมธอดเวอร์ชันของคลาสแม่</p>
-<div class="concept-box"><span class="box-title">โครงสร้าง</span><pre><code>class Employee {                       // superclass
-    protected String name;
-    protected double baseSalary;
-    double monthlyPay() { return baseSalary; }
+<div class="concept-box"><span class="box-title">โครงสร้าง</span><div class="code-block"><div class="code-head"><span class="code-file">Employee.java</span></div><pre class="copyable"><code><span class="tok-kw">class</span> <span class="tok-type">Employee</span> {                       <span class="tok-com">// superclass</span>
+    <span class="tok-kw">protected</span> <span class="tok-type">String</span> name;
+    <span class="tok-kw">protected</span> <span class="tok-kw">double</span> baseSalary;
+    <span class="tok-kw">double</span> <span class="tok-fn">monthlyPay</span>() { <span class="tok-kw">return</span> baseSalary; }
 }
 
-class Manager extends Employee {       // subclass: Manager "เป็น" Employee
-    private double bonus;
-    @Override
-    double monthlyPay() { return super.monthlyPay() + bonus; }
-}</code></pre></div>
+<span class="tok-kw">class</span> <span class="tok-type">Manager</span> <span class="tok-kw">extends</span> <span class="tok-type">Employee</span> {       <span class="tok-com">// subclass: Manager "เป็น" Employee</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">double</span> bonus;
+    <span class="tok-ann">@Override</span>
+    <span class="tok-kw">double</span> <span class="tok-fn">monthlyPay</span>() { <span class="tok-kw">return</span> <span class="tok-kw">super</span>.<span class="tok-fn">monthlyPay</span>() + bonus; }
+}</code></pre></div></div>
 <div class="source-example"><h4>ตัวอย่าง 12.5.1 · extends, super และ @Override <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Manager ได้ name และ baseSalary จาก Employee โดยไม่ต้องประกาศซ้ำ และ override การคำนวณเงินเดือน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InheritanceDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">InheritanceDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Employee</span> e = <span class="tok-kw">new</span> <span class="tok-type">Employee</span>(<span class="tok-str">"Beam"</span>, <span class="tok-num">25000</span>);

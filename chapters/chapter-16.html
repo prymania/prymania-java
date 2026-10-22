@@ -56,19 +56,19 @@
 <div class="concept-box"><span class="box-title">3 ส่วนของระบบเหตุการณ์</span><ol class="step-list"><li><strong>Event source</strong> — component ที่เกิดเหตุการณ์ เช่น JButton</li><li><strong>Event object</strong> — ข้อมูลของเหตุการณ์ เช่น ActionEvent (ใครเป็นต้นเหตุ เมื่อไร)</li><li><strong>Listener</strong> — โค้ดของเราที่ “ลงทะเบียน” ไว้กับ source และถูกเรียกเมื่อเกิดเหตุการณ์</li></ol></div>
 <article class="subtopic" id="topic-16-1">
 <h3>16.1 Event source และ listener</h3>
-<div class="concept-box"><span class="box-title">ลำดับเหตุการณ์เมื่อผู้ใช้คลิกปุ่ม</span><pre><code>ผู้ใช้คลิกปุ่ม
-    │
-    ▼
-ระบบปฏิบัติการ → JVM → EDT สร้าง ActionEvent
-    │
-    ▼
-JButton (source) เรียก listener ทุกตัวที่ลงทะเบียนไว้
-    │
-    ▼
-actionPerformed(ActionEvent e) { ...โค้ดของเรา... }   ← ทำงานบน EDT
-    │
-    ▼
-เราเปลี่ยนข้อความ label → Swing วาดหน้าจอใหม่</code></pre></div>
+<div class="concept-box"><span class="box-title">ลำดับเหตุการณ์เมื่อผู้ใช้คลิกปุ่ม</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code>ผู้ใช้คลิกปุ่ม
+    <span class="tok-arrow">│</span>
+    <span class="tok-arrow">▼</span>
+ระบบปฏิบัติการ <span class="tok-arrow">→</span> <span class="tok-const">JVM</span> <span class="tok-arrow">→</span> <span class="tok-const">EDT</span> สร้าง <span class="tok-type">ActionEvent</span>
+    <span class="tok-arrow">│</span>
+    <span class="tok-arrow">▼</span>
+<span class="tok-type">JButton</span> (source) เรียก listener ทุกตัวที่ลงทะเบียนไว้
+    <span class="tok-arrow">│</span>
+    <span class="tok-arrow">▼</span>
+<span class="tok-fn">actionPerformed</span>(<span class="tok-type">ActionEvent</span> e) { ...โค้ดของเรา... }   <span class="tok-com">← ทำงานบน EDT</span>
+    <span class="tok-arrow">│</span>
+    <span class="tok-arrow">▼</span>
+เราเปลี่ยนข้อความ label <span class="tok-arrow">→</span> <span class="tok-type">Swing</span> วาดหน้าจอใหม่</code></pre></div></div>
 <div class="source-example"><h4>ตัวอย่าง 16.1.1 · ปุ่มแรกที่ทำงาน: นับจำนวนคลิก <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เรียก <code>addActionListener</code> กับปุ่ม และส่งโค้ดที่ต้องทำเมื่อคลิก (ในรูป lambda) — ตัวนับเก็บใน field เพราะต้องจำค่าข้ามการคลิก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ClickCounter.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ClickCounter</span> {
@@ -138,27 +138,27 @@ actionPerformed(ActionEvent e) { ...โค้ดของเรา... }   ← �
         display.<span class="tok-fn">setForeground</span>(value &lt; <span class="tok-num">0</span> ? <span class="tok-type">Color</span>.<span class="tok-const">RED</span> : <span class="tok-type">Color</span>.<span class="tok-const">BLACK</span>);
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลัง + สามครั้ง และ − หนึ่งครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Stepper</div><img src="../assets/gui/ga8fa35f83b-0.png" width="204" height="101" alt="ภาพหน้าต่าง Stepper" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">หลังกด Reset</p><figure class="gui-shot"><div class="gui-titlebar">Stepper</div><img src="../assets/gui/ga8fa35f83b-1.png" width="204" height="101" alt="ภาพหน้าต่าง Stepper" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>state ของโปรแกรมคือ value ตัวเดียว</li><li>ทุก listener เปลี่ยน state แล้วเรียก refresh()</li><li>refresh() เป็นจุดเดียวที่อัปเดต UI จาก state — ทำให้หน้าจอตรงกับข้อมูลเสมอ</li><li>ค่าลบแสดงเป็นสีแดง</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · เมื่อไรโค้ดทำงาน</strong><div><pre><code>JButton b = new JButton("Go");
-b.addActionListener(e -&gt; System.out.println("clicked"));
-System.out.println("listener added");</code></pre><p>ข้อความใดถูกพิมพ์ก่อน และ “clicked” ถูกพิมพ์เมื่อไร</p></div><details><summary>ดูคำตอบ</summary><div><p>“listener added” พิมพ์ทันที ส่วน “clicked” พิมพ์ <strong>ทุกครั้งที่ผู้ใช้คลิก</strong>ปุ่ม (อาจไม่พิมพ์เลยถ้าไม่มีใครคลิก)</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · เมื่อไรโค้ดทำงาน</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">JButton</span> b = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Go"</span>);
+b.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"clicked"</span>));
+<span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"listener added"</span>);</code></pre></div><p>ข้อความใดถูกพิมพ์ก่อน และ “clicked” ถูกพิมพ์เมื่อไร</p></div><details><summary>ดูคำตอบ</summary><div><p>“listener added” พิมพ์ทันที ส่วน “clicked” พิมพ์ <strong>ทุกครั้งที่ผู้ใช้คลิก</strong>ปุ่ม (อาจไม่พิมพ์เลยถ้าไม่มีใครคลิก)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-16-2">
 <h3>16.2 ActionListener: สามวิธีเขียน</h3>
 <p><code>ActionListener</code> เป็น interface ที่มีเมธอดเดียว <code>actionPerformed(ActionEvent e)</code> เขียนได้ 3 แบบ ผลลัพธ์เหมือนกัน: (1) คลาสแยกที่ implements, (2) anonymous class, (3) lambda (สั้นที่สุด นิยมที่สุด)</p>
-<div class="concept-box"><span class="box-title">เปรียบเทียบ 3 แบบ</span><pre><code>// (1) คลาสที่ implements ActionListener
-class GreetHandler implements ActionListener {
-    public void actionPerformed(ActionEvent e) { label.setText("Hi"); }
+<div class="concept-box"><span class="box-title">เปรียบเทียบ 3 แบบ</span><div class="code-block"><div class="code-head"><span class="code-file">GreetHandler.java</span></div><pre class="copyable"><code><span class="tok-com">// (1) คลาสที่ implements ActionListener</span>
+<span class="tok-kw">class</span> <span class="tok-type">GreetHandler</span> <span class="tok-kw">implements</span> <span class="tok-type">ActionListener</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">actionPerformed</span>(<span class="tok-type">ActionEvent</span> e) { label.<span class="tok-fn">setText</span>(<span class="tok-str">"Hi"</span>); }
 }
-button.addActionListener(new GreetHandler());
+button.<span class="tok-fn">addActionListener</span>(<span class="tok-kw">new</span> <span class="tok-type">GreetHandler</span>());
 
-// (2) anonymous class — สร้างคลาสไม่มีชื่อ ณ จุดที่ใช้
-button.addActionListener(new ActionListener() {
-    @Override
-    public void actionPerformed(ActionEvent e) { label.setText("Hi"); }
+<span class="tok-com">// (2) anonymous class — สร้างคลาสไม่มีชื่อ ณ จุดที่ใช้</span>
+button.<span class="tok-fn">addActionListener</span>(<span class="tok-kw">new</span> <span class="tok-type">ActionListener</span>() {
+    <span class="tok-ann">@Override</span>
+    <span class="tok-kw">public</span> <span class="tok-kw">void</span> <span class="tok-fn">actionPerformed</span>(<span class="tok-type">ActionEvent</span> e) { label.<span class="tok-fn">setText</span>(<span class="tok-str">"Hi"</span>); }
 });
 
-// (3) lambda — เขียนเฉพาะ parameter และ body
-button.addActionListener(e -&gt; label.setText("Hi"));</code></pre></div>
+<span class="tok-com">// (3) lambda — เขียนเฉพาะ parameter และ body</span>
+button.<span class="tok-fn">addActionListener</span>(e -&gt; label.<span class="tok-fn">setText</span>(<span class="tok-str">"Hi"</span>));</code></pre></div></div>
 <div class="source-example"><h4>ตัวอย่าง 16.2.1 · อ่านค่าจากช่องกรอกแล้วแสดงผล <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบพื้นฐานที่สุดของ GUI: เมื่อคลิก → <code>getText()</code> จากช่อง → ประมวลผล → <code>setText()</code> ให้ label</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GreetApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.event.<span class="tok-type">ActionEvent</span>;
 <span class="tok-kw">import</span> java.awt.event.<span class="tok-type">ActionListener</span>;
@@ -263,10 +263,10 @@ button.addActionListener(e -&gt; label.setText("Hi"));</code></pre></div>
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังคลิกปุ่ม B</p><figure class="gui-shot"><div class="gui-titlebar">Quiz</div><img src="../assets/gui/g15f44f8b87-0.png" width="354" height="132" alt="ภาพหน้าต่าง Quiz" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>listener ชื่อ answer เก็บในตัวแปรชนิด ActionListener แล้วใช้กับทั้ง 3 ปุ่ม</li><li>getActionCommand() คืนข้อความของปุ่มที่ถูกกด</li><li>getSource() คืนออบเจ็กต์ที่เป็นต้นเหตุ — cast เป็น JButton แล้วปิดปุ่มนั้น</li><li>ภาพแสดงหลังคลิก B: ปุ่ม B ถูกปิด ข้อความสีเขียว</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · lambda</strong><div><p>เขียน listener แบบ lambda สำหรับปุ่ม <code>clear</code> ที่ล้างช่อง <code>input</code> และเปลี่ยน label <code>status</code> เป็น “Cleared”</p></div><details><summary>ดูคำตอบ</summary><div><pre><code>clear.addActionListener(e -&gt; {
-    input.setText("");
-    status.setText("Cleared");
-});</code></pre></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · lambda</strong><div><p>เขียน listener แบบ lambda สำหรับปุ่ม <code>clear</code> ที่ล้างช่อง <code>input</code> และเปลี่ยน label <code>status</code> เป็น “Cleared”</p></div><details><summary>ดูคำตอบ</summary><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code>clear.<span class="tok-fn">addActionListener</span>(e -&gt; {
+    input.<span class="tok-fn">setText</span>(<span class="tok-str">""</span>);
+    status.<span class="tok-fn">setText</span>(<span class="tok-str">"Cleared"</span>);
+});</code></pre></div></div></details></div>
 </article>
 <article class="subtopic" id="topic-16-3">
 <h3>16.3 Lambda, callback และ event ชนิดอื่น</h3>
@@ -547,11 +547,11 @@ button.addActionListener(e -&gt; label.setText("Hi"));</code></pre></div>
         input.<span class="tok-fn">setEnabled</span>(<span class="tok-num">true</span>);
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">หลังทาย 50, 25, 37</p><figure class="gui-shot"><div class="gui-titlebar">Guess the Number</div><img src="../assets/gui/g203cc199fe-0.png" width="261" height="159" alt="ภาพหน้าต่าง Guess the Number" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>state: secret, tries — field ของออบเจ็กต์ GuessGui</li><li><code>history.append</code> ต่อท้ายประวัติ</li><li>ทายถูก → ปิดช่องและปุ่ม ป้องกันการทายต่อ</li><li>New game รีเซ็ต state และ UI ทั้งหมด</li><li>ใช้ return ออกจาก listener ก่อนเมื่อข้อมูลผิด</li></ol></div></div>
-<div class="note-box"><span class="box-title">อย่าใช้ Thread.sleep ใน listener</span><pre><code>button.addActionListener(e -&gt; {
-    label.setText("Working...");
-    try { Thread.sleep(3000); } catch (InterruptedException ex) { }   // ❌ หน้าจอค้าง 3 วินาที
-    label.setText("Done");                                          //    และไม่เคยเห็น "Working..."
-});</code></pre><p>EDT ถูกบล็อกจึงไม่มีโอกาสวาดข้อความ “Working...” ให้เห็น งานที่ต้องรอหรือทำซ้ำตามเวลาให้ใช้ <code>javax.swing.Timer</code> หรือ <code>SwingWorker</code> (บทเสริม Timer และ Thread)</p></div>
+<div class="note-box"><span class="box-title">อย่าใช้ Thread.sleep ใน listener</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code>button.<span class="tok-fn">addActionListener</span>(e -&gt; {
+    label.<span class="tok-fn">setText</span>(<span class="tok-str">"Working..."</span>);
+    <span class="tok-kw">try</span> { <span class="tok-type">Thread</span>.<span class="tok-fn">sleep</span>(<span class="tok-num">3000</span>); } <span class="tok-kw">catch</span> (<span class="tok-type">InterruptedException</span> ex) { }   <span class="tok-com">// ❌ หน้าจอค้าง 3 วินาที</span>
+    label.<span class="tok-fn">setText</span>(<span class="tok-str">"Done"</span>);                                          <span class="tok-com">//    และไม่เคยเห็น "Working..."</span>
+});</code></pre></div><p>EDT ถูกบล็อกจึงไม่มีโอกาสวาดข้อความ “Working...” ให้เห็น งานที่ต้องรอหรือทำซ้ำตามเวลาให้ใช้ <code>javax.swing.Timer</code> หรือ <code>SwingWorker</code> (บทเสริม Timer และ Thread)</p></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">

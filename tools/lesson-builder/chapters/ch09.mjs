@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 9, file: "chapter-09.html",
@@ -12,7 +12,7 @@ export default {
   footer: "บทที่ 9 · ใช้ equals เปรียบเทียบข้อความเสมอ",
   introHeading: "9. ข้อความคือชุดของอักขระที่มีตำแหน่ง",
   introHtml: `<p><code>String</code> คือลำดับของอักขระ (char) แต่ละตัวมีตำแหน่ง (index) เริ่มที่ 0 เหมือนอาเรย์ สิ่งสำคัญที่ต้องจำคือ String เป็น <strong>immutable</strong> — สร้างแล้วเปลี่ยนไม่ได้ เมธอดอย่าง <code>toUpperCase()</code> หรือ <code>replace()</code> จะ<em>คืนข้อความใหม่</em> ข้อความเดิมยังเหมือนเดิม</p>`
-    + pre(`
+    + jpre(`
       String s = "Java Code";
       index:   0 1 2 3 4 5 6 7 8
       char:    J a v a   C o d e        s.length() = 9   (ต่างจากอาเรย์: length มีวงเล็บ)`),
@@ -113,7 +113,7 @@ export default {
                 }
             }`,
           steps: ["names[1] ยังไม่กำหนด → null", "<code>\"Beam\".equals(null)</code> ปลอดภัย ได้ false", "<code>names[1].length()</code> → NullPointerException", "ข้อความ error บอกชัดว่า <code>names[1]</code> is null"] },
-        { type: "check", title: "immutable", html: pre(`
+        { type: "check", title: "immutable", html: jpre(`
           String s = "hello";
           s.toUpperCase();
           s = s + "!";

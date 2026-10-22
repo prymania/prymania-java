@@ -277,12 +277,12 @@ Row 2 total = 29</pre></div></div><div class="walkthrough"><strong>อธิบ�
 !! CHECK FAILED: stock of item 1 became -3
 Sold 5 of item 1, left -3
 Sold 8 of item 2, left 0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>กฎที่ต้องจริงเสมอ: สต็อกต้องไม่ติดลบ</li><li>ขายสินค้า 1 จำนวน 5 ทั้งที่มี 2 → check แจ้งเตือนทันที</li><li>ชี้ว่าบั๊กอยู่ที่ sell ไม่ได้ตรวจก่อนลด (ควรตรวจ qty ≤ stock ก่อน)</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · trace</strong><div><pre><code>int a = 1, b = 1;
-for (int i = 0; i &lt; 4; i++) {
-    int t = a + b;
+<div class="quick-check"><strong>ลองคิดก่อน · trace</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> a = <span class="tok-num">1</span>, b = <span class="tok-num">1</span>;
+<span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; <span class="tok-num">4</span>; i++) {
+    <span class="tok-kw">int</span> t = a + b;
     a = b;
     b = t;
-}</code></pre><p>ทำ trace table: a และ b หลังจบลูปมีค่าเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>(a, b): (1,1) → (1,2) → (2,3) → (3,5) → (5,8) ดังนั้น <strong>a = 5, b = 8</strong> (ลำดับฟีโบนัชชี)</p></div></details></div>
+}</code></pre></div><p>ทำ trace table: a และ b หลังจบลูปมีค่าเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>(a, b): (1,1) → (1,2) → (2,3) → (3,5) → (5,8) ดังนั้น <strong>a = 5, b = 8</strong> (ลำดับฟีโบนัชชี)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-10-4">
 <h3>10.4 ออกแบบ test case</h3>
@@ -362,14 +362,14 @@ OK   n=0 actual=0.0000 expected=0.0000</pre></div></div><div class="walkthrough"
         <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
         <p>แต่ละข้อมีโค้ดที่มีบั๊กหรือโจทย์ให้ออกแบบการทดสอบ ให้หาสาเหตุด้วยวิธีในบทนี้ (อ่าน error, trace, print debugging) แล้วแก้ให้ได้ผลตามตัวอย่าง</p>
         <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
-<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 10.1</span>แก้ compile error 3 จุด<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>โค้ดนี้คอมไพล์ไม่ผ่าน ให้คอมไพล์ อ่าน error ทีละตัว และแก้ให้รันได้ผลตามตัวอย่าง</p><pre><code>public class Rectangle {
-    public static void main(String[] args) {
-        double width = 4.5
-        double height = 2;
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 10.1</span>แก้ compile error 3 จุด<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>โค้ดนี้คอมไพล์ไม่ผ่าน ให้คอมไพล์ อ่าน error ทีละตัว และแก้ให้รันได้ผลตามตัวอย่าง</p><div class="code-block"><div class="code-head"><span class="code-file">Rectangle.java</span></div><pre class="copyable"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Rectangle</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">double</span> width = <span class="tok-num">4.5</span>
+        <span class="tok-kw">double</span> height = <span class="tok-num">2</span>;
         doubel area = width * height;
-        System.out.println("Area = " + Area);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Area = "</span> + <span class="tok-type">Area</span>);
     }
-}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>บันทึกข้อความ error ของแต่ละจุด</li><li>แก้ทีละจุดแล้วคอมไพล์ใหม่</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Area = 9.0</pre></div><div class="answer-gate" data-answer-id="10.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Rectangle.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Rectangle</span> {
+}</code></pre></div></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>บันทึกข้อความ error ของแต่ละจุด</li><li>แก้ทีละจุดแล้วคอมไพล์ใหม่</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Area = 9.0</pre></div><div class="answer-gate" data-answer-id="10.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Rectangle.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Rectangle</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">double</span> width = <span class="tok-num">4.5</span>;
         <span class="tok-kw">double</span> height = <span class="tok-num">2</span>;
@@ -377,10 +377,10 @@ OK   n=0 actual=0.0000 expected=0.0000</pre></div></div><div class="walkthrough"
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Area = "</span> + area);
     }
 }</code></pre></div><p>(1) <code>';' expected</code> บรรทัด 3 (2) <code>cannot find symbol: class doubel</code> (3) <code>cannot find symbol: variable Area</code> — Java แยกตัวพิมพ์ใหญ่เล็ก</p></div></div></article>
-<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 10.2</span>จำแนกและอธิบาย error<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สำหรับแต่ละโค้ดสั้น ๆ ต่อไปนี้ ให้ระบุว่าเป็น compile, runtime หรือ logic error พร้อมเหตุผลและวิธีแก้ แล้วเขียนโปรแกรมฉบับแก้ไขที่รวมทั้ง 4 ส่วนให้รันได้ผลตามตัวอย่าง</p><pre><code>(1) int count = 10.0;
-(2) String s = "abc";  int n = Integer.parseInt(s);
-(3) int celsius = 30;  double f = celsius * 9 / 5 + 32;   // คาดว่า 86.0 ✓ แต่ถ้า celsius = 31 ได้ 87.0 (ที่ถูก 87.8)
-(4) int[] a = new int[3];  a[3] = 7;</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ตอบชนิด error ของแต่ละข้อ</li><li>ฉบับแก้ไข: (1) ใช้ int 10 (2) ใช้ "123" (3) celsius = 31 ได้ 87.8 (4) กำหนดค่าที่ index 2</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>count = 10
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 10.2</span>จำแนกและอธิบาย error<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สำหรับแต่ละโค้ดสั้น ๆ ต่อไปนี้ ให้ระบุว่าเป็น compile, runtime หรือ logic error พร้อมเหตุผลและวิธีแก้ แล้วเขียนโปรแกรมฉบับแก้ไขที่รวมทั้ง 4 ส่วนให้รันได้ผลตามตัวอย่าง</p><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code>(<span class="tok-num">1</span>) <span class="tok-kw">int</span> count = <span class="tok-num">10.0</span>;
+(<span class="tok-num">2</span>) <span class="tok-type">String</span> s = <span class="tok-str">"abc"</span>;  <span class="tok-kw">int</span> n = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(s);
+(<span class="tok-num">3</span>) <span class="tok-kw">int</span> celsius = <span class="tok-num">30</span>;  <span class="tok-kw">double</span> f = celsius * <span class="tok-num">9</span> / <span class="tok-num">5</span> + <span class="tok-num">32</span>;   <span class="tok-com">// คาดว่า 86.0 ✓ แต่ถ้า celsius = 31 ได้ 87.0 (ที่ถูก 87.8)</span>
+(<span class="tok-num">4</span>) <span class="tok-kw">int</span>[] a = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[<span class="tok-num">3</span>];  a[<span class="tok-num">3</span>] = <span class="tok-num">7</span>;</code></pre></div></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ตอบชนิด error ของแต่ละข้อ</li><li>ฉบับแก้ไข: (1) ใช้ int 10 (2) ใช้ "123" (3) celsius = 31 ได้ 87.8 (4) กำหนดค่าที่ index 2</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>count = 10
 n = 123
 f = 87.8
 a[2] = 7</pre></div><div class="answer-gate" data-answer-id="10.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ClassifyFix.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ClassifyFix</span> {
@@ -424,15 +424,15 @@ OK   2400 -&gt; true
         <span class="tok-kw">return</span> (year % <span class="tok-num">4</span> == <span class="tok-num">0</span> &amp;&amp; year % <span class="tok-num">100</span> != <span class="tok-num">0</span>) || year % <span class="tok-num">400</span> == <span class="tok-num">0</span>;
     }
 }</code></pre></div></div></div></article>
-<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.4</span>ค่าเฉลี่ยที่ผิด<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>โปรแกรมนี้ควรรับคะแนน 5 ค่าแล้วแสดงค่าเฉลี่ยทศนิยม 2 ตำแหน่ง แต่ผลผิด เช่น ป้อน 70 80 90 85 76 ได้ <code>Average = 65.00</code> (ที่ถูกคือ 80.20) ให้ใช้ print debugging หาสาเหตุ แก้ให้ถูก และอธิบายว่ามีบั๊กกี่จุด</p><pre><code>Scanner input = new Scanner(System.in);
-int sum = 0;
-int score = 0;
-for (int i = 1; i &lt; 5; i++) {
-    score = input.nextInt();
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.4</span>ค่าเฉลี่ยที่ผิด<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>โปรแกรมนี้ควรรับคะแนน 5 ค่าแล้วแสดงค่าเฉลี่ยทศนิยม 2 ตำแหน่ง แต่ผลผิด เช่น ป้อน 70 80 90 85 76 ได้ <code>Average = 65.00</code> (ที่ถูกคือ 80.20) ให้ใช้ print debugging หาสาเหตุ แก้ให้ถูก และอธิบายว่ามีบั๊กกี่จุด</p><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+<span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
+<span class="tok-kw">int</span> score = <span class="tok-num">0</span>;
+<span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt; <span class="tok-num">5</span>; i++) {
+    score = input.<span class="tok-fn">nextInt</span>();
     sum += score;
 }
-double average = sum / 5;
-System.out.printf("Average = %.2f%n", average);</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เพิ่ม println แสดง i และ sum ในลูปเพื่อดูว่าวนกี่รอบ</li><li>แก้ทั้งจำนวนรอบและการหาร</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>5 scores: <b class="stdin">70 80 90 85 76</b>
+<span class="tok-kw">double</span> average = sum / <span class="tok-num">5</span>;
+<span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Average = %.2f%n"</span>, average);</code></pre></div></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เพิ่ม println แสดง i และ sum ในลูปเพื่อดูว่าวนกี่รอบ</li><li>แก้ทั้งจำนวนรอบและการหาร</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>5 scores: <b class="stdin">70 80 90 85 76</b>
 Average = 80.20</pre></div><div class="answer-gate" data-answer-id="10.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">FixAverage.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FixAverage</span> {
@@ -448,16 +448,16 @@ Average = 80.20</pre></div><div class="answer-gate" data-answer-id="10.4"><butto
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Average = %.2f%n"</span>, average);
     }
 }</code></pre></div><p>บั๊ก 2 จุด: (1) ลูป <code>i = 1; i &lt; 5</code> วนแค่ 4 รอบ อ่านแค่ 70 80 90 85 ได้ sum = 325 (2) <code>sum / 5</code> เป็นการหาร int ได้ 65 แล้วจึงกลายเป็น 65.0 ต้องใช้ 5.0</p></div></div></article>
-<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.5</span>ค้นหาที่หาไม่เจอ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เมธอด <code>indexOf</code> ด้านล่างควรคืนตำแหน่งของ target ในอาเรย์ หรือ −1 ถ้าไม่พบ แต่ทดสอบแล้วได้ผลแปลก: หา 30 ใน {10, 20, 30, 40} ได้ −1 ให้ trace หาบั๊กและแก้ไข พร้อมเขียน test 4 กรณี (ตัวแรก, ตัวกลาง, ตัวสุดท้าย, ไม่มี)</p><pre><code>static int indexOf(int[] a, int target) {
-    for (int i = 0; i &lt; a.length; i++) {
-        if (a[i] == target) {
-            return i;
-        } else {
-            return -1;
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.5</span>ค้นหาที่หาไม่เจอ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เมธอด <code>indexOf</code> ด้านล่างควรคืนตำแหน่งของ target ในอาเรย์ หรือ −1 ถ้าไม่พบ แต่ทดสอบแล้วได้ผลแปลก: หา 30 ใน {10, 20, 30, 40} ได้ −1 ให้ trace หาบั๊กและแก้ไข พร้อมเขียน test 4 กรณี (ตัวแรก, ตัวกลาง, ตัวสุดท้าย, ไม่มี)</p><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">indexOf</span>(<span class="tok-kw">int</span>[] a, <span class="tok-kw">int</span> target) {
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; a.length; i++) {
+        <span class="tok-kw">if</span> (a[i] == target) {
+            <span class="tok-kw">return</span> i;
+        } <span class="tok-kw">else</span> {
+            <span class="tok-kw">return</span> -<span class="tok-num">1</span>;
         }
     }
-    return -1;
-}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>trace: ลูปวนกี่รอบจริง ๆ</li><li>แก้ให้คืน −1 เฉพาะเมื่อวนครบแล้วไม่พบ</li><li>ทดสอบทั้ง 4 กรณี</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>OK   indexOf(10) = 0
+    <span class="tok-kw">return</span> -<span class="tok-num">1</span>;
+}</code></pre></div></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>trace: ลูปวนกี่รอบจริง ๆ</li><li>แก้ให้คืน −1 เฉพาะเมื่อวนครบแล้วไม่พบ</li><li>ทดสอบทั้ง 4 กรณี</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>OK   indexOf(10) = 0
 OK   indexOf(30) = 2
 OK   indexOf(40) = 3
 OK   indexOf(99) = -1</pre></div><div class="answer-gate" data-answer-id="10.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">FixSearch.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FixSearch</span> {
@@ -513,12 +513,12 @@ Unit price = 25.00</pre></div><div class="answer-gate" data-answer-id="10.6"><bu
         }
     }
 }</code></pre></div><p>เมื่อ parseInt โยน exception คำสั่งที่เหลือใน try (รวมถึงคำถาม Total price) จะถูกข้ามทันทีแล้วไปที่ catch</p></div></div></article>
-<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.7</span>พีระมิดที่เบี้ยว<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>โค้ดนี้ควรพิมพ์พีระมิดสูง 4 แถวตามตัวอย่าง แต่ได้รูปที่ผิด ให้ทำ trace table ของจำนวนช่องว่างและจำนวนดาวในแต่ละแถว (ที่คาด vs ที่ได้) แล้วแก้ไข</p><pre><code>int h = 4;
-for (int row = 1; row &lt;= h; row++) {
-    for (int s = 0; s &lt;= h - row; s++) System.out.print(" ");
-    for (int k = 0; k &lt;= 2 * row; k++) System.out.print("*");
-    System.out.println();
-}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แถวที่ row ควรมีช่องว่าง h − row และดาว 2·row − 1</li><li>ระบุว่าลูปทั้งสองนับเกินไปกี่รอบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>   *
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 10.7</span>พีระมิดที่เบี้ยว<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>โค้ดนี้ควรพิมพ์พีระมิดสูง 4 แถวตามตัวอย่าง แต่ได้รูปที่ผิด ให้ทำ trace table ของจำนวนช่องว่างและจำนวนดาวในแต่ละแถว (ที่คาด vs ที่ได้) แล้วแก้ไข</p><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> h = <span class="tok-num">4</span>;
+<span class="tok-kw">for</span> (<span class="tok-kw">int</span> row = <span class="tok-num">1</span>; row &lt;= h; row++) {
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> s = <span class="tok-num">0</span>; s &lt;= h - row; s++) <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">" "</span>);
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> k = <span class="tok-num">0</span>; k &lt;= <span class="tok-num">2</span> * row; k++) <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"*"</span>);
+    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
+}</code></pre></div></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แถวที่ row ควรมีช่องว่าง h − row และดาว 2·row − 1</li><li>ระบุว่าลูปทั้งสองนับเกินไปกี่รอบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>   *
   ***
  *****
 *******</pre></div><div class="answer-gate" data-answer-id="10.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 10.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">FixPyramid.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FixPyramid</span> {
@@ -533,15 +533,15 @@ for (int row = 1; row &lt;= h; row++) {
         }
     }
 }</code></pre></div><p>ลูปที่เริ่ม 0 และใช้ <= วนเกิน 1 รอบ (off-by-one) และจำนวนดาวต้องเป็น 2·row − 1 ไม่ใช่ 2·row + 1</p></div></div></article>
-<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 10.8</span>ระบบคิดค่าส่งที่มีบั๊กหลายจุด<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>กติกา: น้ำหนัก ≤ 1 กก. 40 บาท, > 1 ถึง ≤ 5 กก. 40 บาท + กิโลละ 15 บาทในส่วนที่เกิน 1 กก., > 5 กก. ค่าส่งเหมา 120 บาท + กิโลละ 10 บาทในส่วนที่เกิน 5 กก. สมาชิกลด 10% ของค่าส่ง (ปัดเศษ 2 ตำแหน่ง) น้ำหนัก ≤ 0 ให้คืน −1</p><p>โค้ดด้านล่างมีบั๊ก<strong>อย่างน้อย 3 จุด</strong> ให้เขียน test case ครอบคลุมค่าขอบ (0, 1, 1.5, 5, 5.5, 10 ทั้งสมาชิกและไม่ใช่) หาบั๊กด้วยการทดสอบ แล้วแก้ไข</p><pre><code>static double shipping(double kg, boolean member) {
-    double fee;
-    if (kg &lt; 0) return -1;
-    if (kg &lt; 1) fee = 40;
-    else if (kg &lt;= 5) fee = 40 + kg * 15;
-    else fee = 120 + (kg - 5) * 10;
-    if (member) fee = fee * 0.1;
-    return fee;
-}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เขียนตารางผลที่คาดด้วยมือก่อนรัน</li><li>โปรแกรมทดสอบแสดง OK/FAIL ทุกกรณี</li><li>หลังแก้ต้องผ่านทุกกรณี</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>OK   kg=0.0 member=false -&gt; -1.00 (expected -1.00)
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 10.8</span>ระบบคิดค่าส่งที่มีบั๊กหลายจุด<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>กติกา: น้ำหนัก ≤ 1 กก. 40 บาท, > 1 ถึง ≤ 5 กก. 40 บาท + กิโลละ 15 บาทในส่วนที่เกิน 1 กก., > 5 กก. ค่าส่งเหมา 120 บาท + กิโลละ 10 บาทในส่วนที่เกิน 5 กก. สมาชิกลด 10% ของค่าส่ง (ปัดเศษ 2 ตำแหน่ง) น้ำหนัก ≤ 0 ให้คืน −1</p><p>โค้ดด้านล่างมีบั๊ก<strong>อย่างน้อย 3 จุด</strong> ให้เขียน test case ครอบคลุมค่าขอบ (0, 1, 1.5, 5, 5.5, 10 ทั้งสมาชิกและไม่ใช่) หาบั๊กด้วยการทดสอบ แล้วแก้ไข</p><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">shipping</span>(<span class="tok-kw">double</span> kg, <span class="tok-kw">boolean</span> member) {
+    <span class="tok-kw">double</span> fee;
+    <span class="tok-kw">if</span> (kg &lt; <span class="tok-num">0</span>) <span class="tok-kw">return</span> -<span class="tok-num">1</span>;
+    <span class="tok-kw">if</span> (kg &lt; <span class="tok-num">1</span>) fee = <span class="tok-num">40</span>;
+    <span class="tok-kw">else</span> <span class="tok-kw">if</span> (kg &lt;= <span class="tok-num">5</span>) fee = <span class="tok-num">40</span> + kg * <span class="tok-num">15</span>;
+    <span class="tok-kw">else</span> fee = <span class="tok-num">120</span> + (kg - <span class="tok-num">5</span>) * <span class="tok-num">10</span>;
+    <span class="tok-kw">if</span> (member) fee = fee * <span class="tok-num">0.1</span>;
+    <span class="tok-kw">return</span> fee;
+}</code></pre></div></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เขียนตารางผลที่คาดด้วยมือก่อนรัน</li><li>โปรแกรมทดสอบแสดง OK/FAIL ทุกกรณี</li><li>หลังแก้ต้องผ่านทุกกรณี</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>OK   kg=0.0 member=false -&gt; -1.00 (expected -1.00)
 OK   kg=1.0 member=false -&gt; 40.00 (expected 40.00)
 OK   kg=1.5 member=false -&gt; 47.50 (expected 47.50)
 OK   kg=5.0 member=false -&gt; 100.00 (expected 100.00)
@@ -579,16 +579,16 @@ OK   kg=5.5 member=true  -&gt; 112.50 (expected 112.50)
         <span class="tok-kw">return</span> <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(fee * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>;
     }
 }</code></pre></div><p>บั๊กที่แก้: (1) <code>kg &lt; 0</code> → <code>kg &lt;= 0</code> (2) <code>kg &lt; 1</code> → <code>kg &lt;= 1</code> (3) ส่วนเกินต้องเป็น <code>(kg − 1) * 15</code> (4) ลด 10% คือคูณ 0.9 ไม่ใช่ 0.1 (5) ไม่ได้ปัดเศษ</p></div></div></article>
-<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 10.9</span>Bubble sort ที่เรียงไม่ครบ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>โค้ดนี้ควรเรียงอาเรย์จากน้อยไปมาก แต่บางชุดข้อมูลเรียงไม่ถูก ให้ (1) หาชุดข้อมูลที่ทำให้ผิด (2) พิมพ์อาเรย์หลังแต่ละ pass เพื่อหาสาเหตุ (3) แก้ไขและทดสอบกับ: อาเรย์เรียงแล้ว, เรียงกลับ, มีค่าซ้ำ, สมาชิกเดียว, ว่าง</p><pre><code>static void sort(int[] a) {
-    for (int pass = 0; pass &lt; a.length - 2; pass++) {
-        for (int i = 0; i &lt; a.length - 1 - pass; i++) {
-            if (a[i] &gt; a[i + 1]) {
-                a[i] = a[i + 1];
-                a[i + 1] = a[i];
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 10.9</span>Bubble sort ที่เรียงไม่ครบ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>โค้ดนี้ควรเรียงอาเรย์จากน้อยไปมาก แต่บางชุดข้อมูลเรียงไม่ถูก ให้ (1) หาชุดข้อมูลที่ทำให้ผิด (2) พิมพ์อาเรย์หลังแต่ละ pass เพื่อหาสาเหตุ (3) แก้ไขและทดสอบกับ: อาเรย์เรียงแล้ว, เรียงกลับ, มีค่าซ้ำ, สมาชิกเดียว, ว่าง</p><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">sort</span>(<span class="tok-kw">int</span>[] a) {
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> pass = <span class="tok-num">0</span>; pass &lt; a.length - <span class="tok-num">2</span>; pass++) {
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; a.length - <span class="tok-num">1</span> - pass; i++) {
+            <span class="tok-kw">if</span> (a[i] &gt; a[i + <span class="tok-num">1</span>]) {
+                a[i] = a[i + <span class="tok-num">1</span>];
+                a[i + <span class="tok-num">1</span>] = a[i];
             }
         }
     }
-}</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>มีบั๊ก 2 จุด: จำนวน pass และการสลับค่า</li><li>เขียนเมธอด <code>isSorted(int[] a)</code> ใช้ตรวจผลอัตโนมัติ</li><li>แสดงผลทุกชุดทดสอบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[1, 2, 3, 4]     -&gt; [1, 2, 3, 4]     OK
+}</code></pre></div></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>มีบั๊ก 2 จุด: จำนวน pass และการสลับค่า</li><li>เขียนเมธอด <code>isSorted(int[] a)</code> ใช้ตรวจผลอัตโนมัติ</li><li>แสดงผลทุกชุดทดสอบ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[1, 2, 3, 4]     -&gt; [1, 2, 3, 4]     OK
 [4, 3, 2, 1]     -&gt; [1, 2, 3, 4]     OK
 [3, 1, 3, 2, 1]  -&gt; [1, 1, 2, 3, 3]  OK
 [7]              -&gt; [7]              OK

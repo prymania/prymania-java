@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 8, file: "chapter-08.html",
@@ -17,7 +17,7 @@ export default {
       num: "8.1", toc: "สร้างและเข้าถึงอาเรย์", title: "สร้างและเข้าถึงอาเรย์",
       blocks: [
         { type: "p", html: `ชนิดอาเรย์เขียนเป็น <code>ชนิดข้อมูล[]</code> สมาชิกตัวแรกอยู่ที่ <strong>index 0</strong> ไม่ใช่ 1 อาเรย์ที่สร้างแล้วมี<strong>ขนาดคงที่</strong> และตรวจจำนวนสมาชิกได้ด้วย <code>ชื่ออาเรย์.length</code> (ไม่มีวงเล็บ)` },
-        { type: "concept", title: "Syntax: ประกาศ สร้าง และอ้างสมาชิก", html: pre(`
+        { type: "concept", title: "Syntax: ประกาศ สร้าง และอ้างสมาชิก", html: jpre(`
           int[] scores;                    // ① ประกาศตัวแปรอาเรย์ (ยังไม่มีช่อง)
           scores = new int[3];             // ② สร้างพื้นที่ 3 ช่อง ค่าเริ่มต้นเป็น 0
           scores[0] = 80;                  // ③ กำหนดค่าช่อง index 0
@@ -106,7 +106,7 @@ export default {
                 }
             }`,
           steps: ["พิมพ์ 80, 75, 92 ได้ปกติ", "เงื่อนไข <code>&lt;=</code> ทำให้ i = 3 เข้าลูปด้วย", "<code>Index 3 out of bounds for length 3</code> บอกทั้ง index ที่ผิดและขนาดจริง", "แก้: ใช้ <code>i &lt; scores.length</code>"] },
-        { type: "check", title: "trace อาเรย์", html: pre(`
+        { type: "check", title: "trace อาเรย์", html: jpre(`
           int[] a = {5, 10, 15, 20};
           a[0] = a[3] - a[1];
           a[2] = a[a.length - 2] / 5;`) + `<p>อาเรย์ a มีค่าอะไรบ้าง</p>`, answer: `<p>a[0] = 20 − 10 = 10, a[2] = a[2] / 5 = 15 / 5 = 3 → <strong>{10, 10, 3, 20}</strong></p>` },
@@ -226,7 +226,7 @@ export default {
                 }
             }`,
           steps: ["b = a → ชี้ข้อมูลเดียวกัน แก้ b[0] จึงเห็นใน a ด้วย", "c เป็นสำเนา ไม่ได้รับผลกระทบ", "<code>Arrays.toString</code> แสดงอาเรย์ทั้งชุด (ถ้า println(a) ตรง ๆ จะได้ข้อความแปลก ๆ เช่น [I@1b6d3586)", "<code>==</code> เทียบว่าเป็นชุดเดียวกันไหม, <code>Arrays.equals</code> เทียบเนื้อหา"] },
-        { type: "check", title: "นับ", html: pre(`
+        { type: "check", title: "นับ", html: jpre(`
           int[] v = {3, 8, 2, 8, 5, 8};
           int count = 0, last = -1;
           for (int i = 0; i < v.length; i++) {
@@ -238,7 +238,7 @@ export default {
       num: "8.3", toc: "อาเรย์สองมิติ", title: "อาเรย์สองมิติ",
       blocks: [
         { type: "p", html: `อาเรย์สองมิติเก็บข้อมูลแบบ<strong>ตาราง</strong> (แถว × คอลัมน์) เช่น คะแนนนักศึกษาหลายคน หลายวิชา อ้างสมาชิกด้วย <code>ชื่อ[แถว][คอลัมน์]</code> จริง ๆ แล้วเป็น “อาเรย์ของอาเรย์”: <code>grid.length</code> คือจำนวนแถว และ <code>grid[r].length</code> คือจำนวนคอลัมน์ของแถว r` },
-        { type: "concept", title: "ภาพของอาเรย์ 2 มิติ", html: pre(`
+        { type: "concept", title: "ภาพของอาเรย์ 2 มิติ", html: jpre(`
           int[][] scores = {
               {80, 75, 90},     // แถว 0 (นักศึกษาคนที่ 1)
               {60, 85, 70}      // แถว 1 (นักศึกษาคนที่ 2)
@@ -340,7 +340,7 @@ export default {
                 }
             }`,
           steps: ["new boolean[3][4] → 3 แถว 4 คอลัมน์ ทุกช่องเป็น false", "จอง (1,2) และ (0,0) สำเร็จ", "จอง (1,2) ซ้ำ → พบว่าเป็น true แล้ว", "แสดงผัง X = จองแล้ว"] },
-        { type: "check", title: "index 2 มิติ", html: pre(`
+        { type: "check", title: "index 2 มิติ", html: jpre(`
           int[][] m = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
           int sum = 0;
           for (int i = 0; i < m.length; i++) sum += m[i][i];`), answer: `<p>บวกเส้นทแยงมุม m[0][0] + m[1][1] + m[2][2] = 1 + 5 + 9 = <strong>15</strong></p>` },

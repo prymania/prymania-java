@@ -250,3 +250,16 @@ code:not(pre code) { overflow-wrap: anywhere; }
 .tok-ann { color: #dcbdfb; }
 .tok-com { color: #8b9a94; font-style: italic; }
 @media (max-width: 700px) { .source-field .code-block > .source-code { min-height: 150px; } }
+.concept-box > .code-block, .example-box > .code-block, .note-box > .code-block { margin: 9px 0; }
+
+/* ---------- Flowchart / pseudocode / diagram panels ---------- */
+.code-block.is-flow .code-head { background: #1f2a26; }
+.code-block.is-flow .code-file { color: #b4df39; font-weight: 700; }
+.code-block.is-flow > pre { line-height: 1.8; }
+.tok-shape { color: #b4df39; font-weight: 700; }
+.tok-start { color: #7ee787; font-weight: 700; }
+.tok-io { color: #6cb6ff; font-weight: 700; }
+.tok-ctl { color: #dcbdfb; font-weight: 700; }
+.tok-yes { color: #f2cc60; }
+.tok-dec { color: #f69d50; font-weight: 700; }
+.tok-arrow { color: #4fb3bf; }

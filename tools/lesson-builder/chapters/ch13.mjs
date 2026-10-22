@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 13, file: "chapter-13.html",
@@ -223,7 +223,7 @@ export default {
                 }
             }`,
           steps: ["size = 2 → index ใช้ได้ 0, 1", "get(2) → <code>Index 2 out of bounds for length 2</code>", "ArrayList ใหม่ที่ว่างเปล่า get(0) ก็ error เช่นกัน"] },
-        { type: "check", title: "add vs set", html: pre(`
+        { type: "check", title: "add vs set", html: jpre(`
           ArrayList<Integer> a = new ArrayList<>();
           a.add(1); a.add(2); a.add(3);
           a.add(0, 9);
@@ -327,7 +327,7 @@ export default {
                 }
             }`,
           steps: ["for-each ใช้ iterator ที่ตรวจว่ารายการถูกแก้ระหว่างวนหรือไม่", "เมื่อพบการแก้ → exception", "แก้ด้วยวิธีใดวิธีหนึ่งในตัวอย่างก่อนหน้า"] },
-        { type: "check", title: "index เลื่อน", html: pre(`
+        { type: "check", title: "index เลื่อน", html: jpre(`
           ArrayList<String> s = new ArrayList<>(List.of("A", "B", "C", "D", "E"));
           s.remove(1);
           s.remove(2);`), answer: `<p>remove(1) ลบ B → [A, C, D, E] แล้ว remove(2) ลบ D (ไม่ใช่ C!) → <strong>[A, C, E]</strong></p>` },
@@ -412,7 +412,7 @@ export default {
                 }
             }`,
           steps: ["max/min/frequency ไม่ต้องเขียนลูปเอง", "sort เรียงในรายการเดิม", "String เรียงตามรหัสอักขระ: ตัวใหญ่มาก่อนตัวเล็ก", "<code>String.CASE_INSENSITIVE_ORDER</code> เรียงโดยไม่สนตัวพิมพ์"] },
-        { type: "check", title: "กรอง", html: `<p>มี <code>ArrayList&lt;String&gt; words</code> จะสร้างรายการใหม่ที่มีเฉพาะคำยาวกว่า 4 ตัวอักษรได้อย่างไร</p>`, answer: pre(`
+        { type: "check", title: "กรอง", html: `<p>มี <code>ArrayList&lt;String&gt; words</code> จะสร้างรายการใหม่ที่มีเฉพาะคำยาวกว่า 4 ตัวอักษรได้อย่างไร</p>`, answer: jpre(`
           ArrayList<String> longWords = new ArrayList<>();
           for (String w : words) {
               if (w.length() > 4) longWords.add(w);

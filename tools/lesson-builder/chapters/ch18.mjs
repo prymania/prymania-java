@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre, fpre } from "../lib.mjs";
 
 export default {
   num: 18, file: "chapter-18.html",
@@ -23,7 +23,7 @@ export default {
           "สร้างแต่ละหน้าเป็นเมธอดที่คืน JPanel หรือเป็นคลาสที่ extends JPanel",
           "เขียนตัวควบคุมการนำทาง (controller) ที่รู้จักทุกหน้า",
         ] },
-        { type: "example", title: "แผนผังการนำทางของแอปตัวอย่าง", html: pre(`
+        { type: "example", title: "แผนผังการนำทางของแอปตัวอย่าง", html: fpre(`
           ┌────────┐  Start   ┌────────┐  Next   ┌──────────┐
           │  Home  │ ───────▶ │  Form  │ ──────▶ │ Summary  │
           └────────┘          └────────┘         └──────────┘
@@ -83,7 +83,7 @@ export default {
     {
       num: "18.2", toc: "CardLayout", title: "CardLayout: สลับหน้าจอในหน้าต่างเดียว",
       blocks: [
-        { type: "concept", title: "วิธีใช้ CardLayout", html: pre(`
+        { type: "concept", title: "วิธีใช้ CardLayout", html: jpre(`
           CardLayout cards = new CardLayout();
           JPanel container = new JPanel(cards);       // container ที่ซ้อนการ์ด
           container.add(homePanel, "home");           // เพิ่มการ์ดพร้อมชื่อ

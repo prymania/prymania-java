@@ -104,12 +104,12 @@ Average = 81.66666666666667</pre></div></div><div class="walkthrough"><strong>�
 <p><strong>ขั้นตอนวิธี (algorithm)</strong> คือวิธีแก้ปัญหาที่เรียงเป็นขั้น ทุกขั้นชัดเจน และมีจุดจบ ส่วน <strong>รหัสเทียม (pseudocode)</strong> คือการเขียนขั้นตอนด้วยภาษาคนอย่างเป็นระเบียบ โดยยังไม่ยึดไวยากรณ์ของภาษาใด ช่วยให้คิด logic ได้โดยไม่ต้องกังวลเรื่อง <code>;</code> หรือวงเล็บ</p>
 <div class="concept-box"><span class="box-title">คุณสมบัติของขั้นตอนวิธีที่ดี</span><ul><li><strong>ชัดเจน</strong> — แต่ละขั้นตีความได้แบบเดียว (“เติมเกลือนิดหน่อย” ไม่ชัด, “เติมเกลือ 1 ช้อนชา” ชัด)</li><li><strong>มีลำดับ</strong> — ทำขั้นใดก่อนหลังต้องแน่นอน</li><li><strong>มีจุดจบ</strong> — ทำครบแล้วต้องหยุดได้เสมอ</li><li><strong>ให้ผลถูกต้อง</strong> — ทุก Input ที่ถูกต้องต้องได้ Output ที่ถูกต้อง</li></ul></div>
 <div class="concept-box"><span class="box-title">วิธีเขียนรหัสเทียมทีละขั้น</span><ol class="step-list"><li>เริ่มด้วยคำว่า <code>เริ่มต้น</code> และจบด้วย <code>จบ</code></li><li>ขั้นแรกเกือบทุกครั้งคือ <code>รับ ...</code> (Input) ตั้งชื่อข้อมูลให้สื่อความหมาย เช่น <code>totalMinutes</code></li><li>ขั้นกลางคือ <code>คำนวณ ...</code> หรือ <code>ตัวแปร = สูตร</code> (Process) หนึ่งบรรทัดทำหนึ่งเรื่อง</li><li>ขั้นสุดท้ายคือ <code>แสดง ...</code> (Output)</li><li>เยื้องบรรทัดเพื่อบอกว่าคำสั่งใดอยู่ภายใต้เงื่อนไขหรือการทำซ้ำ</li><li>ทดสอบรหัสเทียมด้วยมือ (dry run) โดยสมมติค่า Input แล้วเดินทีละบรรทัด</li></ol></div>
-<div class="example-box"><span class="box-title">รหัสเทียม: แปลงนาทีเป็นชั่วโมงและนาทีที่เหลือ</span><pre><code>เริ่มต้น
-    รับ totalMinutes
-    hours = totalMinutes หารเอาส่วนจำนวนเต็มด้วย 60
-    minutes = totalMinutes เศษจากการหารด้วย 60
-    แสดง hours และ minutes
-จบ</code></pre><p>Dry run ด้วย 135 นาที: 135 ÷ 60 ได้ 2 เศษ 15 → แสดง “2 ชั่วโมง 15 นาที”</p></div>
+<div class="example-box"><span class="box-title">รหัสเทียม: แปลงนาทีเป็นชั่วโมงและนาทีที่เหลือ</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">รหัสเทียม</span></div><pre><code><span class="tok-start">เริ่มต้น</span>
+    <span class="tok-io">รับ</span> totalMinutes
+    hours = totalMinutes หารเอาส่วนจำนวนเต็มด้วย <span class="tok-num">60</span>
+    minutes = totalMinutes เศษจากการหารด้วย <span class="tok-num">60</span>
+    <span class="tok-io">แสดง</span> hours และ minutes
+<span class="tok-start">จบ</span></code></pre></div><p>Dry run ด้วย 135 นาที: 135 ÷ 60 ได้ 2 เศษ 15 → แสดง “2 ชั่วโมง 15 นาที”</p></div>
 <div class="source-example"><h4>ตัวอย่าง 1.2.1 · รหัสเทียมแปลงนาที → Java <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> แต่ละบรรทัดของรหัสเทียมกลายเป็นคำสั่ง Java หนึ่งบรรทัด “หารเอาส่วนจำนวนเต็ม” คือ <code>/</code> กับจำนวนเต็ม และ “เศษ” คือ <code>%</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MinutesToHours.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MinutesToHours</span> {
@@ -161,15 +161,15 @@ coins left: 10</pre></div></div><div class="walkthrough"><strong>อธิบา
 <p>Flowchart (ผังงาน) คือแผนภาพแสดงลำดับการทำงาน ลูกศรบอกทิศทาง และรูปทรงบอกหน้าที่ของแต่ละขั้น เหมาะสำหรับมองภาพรวมและอธิบายให้คนอื่นเข้าใจ โดยเฉพาะเมื่อมีทางแยกหรือการวนซ้ำ</p>
 <table class="comparison-table"><thead><tr><th>สัญลักษณ์</th><th>หน้าที่</th><th>ตัวอย่าง</th><th>ตรงกับ Java (จะได้เรียน)</th></tr></thead><tbody><tr><td>วงรี</td><td>เริ่มต้นหรือสิ้นสุด</td><td>เริ่มต้น, จบ</td><td><code>main</code> เริ่ม / จบ</td></tr><tr><td>สี่เหลี่ยมด้านขนาน</td><td>รับข้อมูลหรือแสดงผล</td><td>รับความกว้าง, แสดงพื้นที่</td><td><code>Scanner</code>, <code>println</code></td></tr><tr><td>สี่เหลี่ยมผืนผ้า</td><td>ประมวลผลหรือกำหนดค่า</td><td>พื้นที่ = กว้าง × ยาว</td><td><code>area = w * h;</code></td></tr><tr><td>สี่เหลี่ยมข้าวหลามตัด</td><td>ตรวจสอบเงื่อนไข (ใช่/ไม่ใช่)</td><td>คะแนน ≥ 50?</td><td><code>if</code>, <code>while</code></td></tr><tr><td>ลูกศร</td><td>เชื่อมและกำหนดทิศทาง</td><td>บนลงล่างหรือซ้ายไปขวา</td><td>ลำดับคำสั่ง</td></tr></tbody></table>
 <div class="concept-box"><span class="box-title">ขั้นตอนวาด Flowchart จากรหัสเทียม</span><ol class="step-list"><li>วาดวงรี “เริ่มต้น” ด้านบนสุด</li><li>แปลงบรรทัด <em>รับ/แสดง</em> เป็นสี่เหลี่ยมด้านขนาน</li><li>แปลงบรรทัด <em>คำนวณ/กำหนดค่า</em> เป็นสี่เหลี่ยมผืนผ้า</li><li>แปลงบรรทัด <em>ถ้า…</em> เป็นข้าวหลามตัด แล้วเขียนป้ายบนลูกศรขาออกทั้งสองเส้น (ใช่/ไม่ใช่)</li><li>เชื่อมทุกรูปด้วยลูกศร ตรวจว่าทุกเส้นทางไปถึงวงรี “จบ” ได้</li></ol></div>
-<div class="example-box"><span class="box-title">Flowchart: พื้นที่สี่เหลี่ยมผืนผ้า (ลำดับตรง ไม่มีทางแยก)</span><pre><code>(วงรี) เริ่มต้น
-    ↓
-(ด้านขนาน) รับ width, height
-    ↓
-(สี่เหลี่ยม) area = width × height
-    ↓
-(ด้านขนาน) แสดง area
-    ↓
-(วงรี) จบ</code></pre></div>
+<div class="example-box"><span class="box-title">Flowchart: พื้นที่สี่เหลี่ยมผืนผ้า (ลำดับตรง ไม่มีทางแยก)</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">Flowchart</span></div><pre><code><span class="tok-shape">(วงรี)</span> <span class="tok-start">เริ่มต้น</span>
+    <span class="tok-arrow">↓</span>
+<span class="tok-shape">(ด้านขนาน)</span> <span class="tok-io">รับ</span> width, height
+    <span class="tok-arrow">↓</span>
+<span class="tok-shape">(สี่เหลี่ยม)</span> area = width × height
+    <span class="tok-arrow">↓</span>
+<span class="tok-shape">(ด้านขนาน)</span> <span class="tok-io">แสดง</span> area
+    <span class="tok-arrow">↓</span>
+<span class="tok-shape">(วงรี)</span> <span class="tok-start">จบ</span></code></pre></div></div>
 <div class="source-example"><h4>ตัวอย่าง 1.3.1 · Flowchart พื้นที่ → Java <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแต่ละรูปในผังงานตรงกับคำสั่งหนึ่งกลุ่มในโค้ด อ่านโค้ดจากบนลงล่างเหมือนเดินตามลูกศร</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RectangleArea.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RectangleArea</span> {
@@ -209,11 +209,11 @@ Fahrenheit = 98.6</pre></div></div><div class="walkthrough"><strong>อธิบ
 <article class="subtopic" id="topic-1-4">
 <h3>1.4 ทางเลือกและการทำซ้ำในผังงาน</h3>
 <p>เมื่อมี <strong>ทางเลือก</strong> ให้ใช้รูปข้าวหลามตัดเขียนคำถามที่ตอบได้ว่า ใช่/ไม่ใช่ แล้ววาดลูกศรแยกทาง ส่วน <strong>การทำซ้ำ</strong> ใช้ลูกศรวนกลับไปยังเงื่อนไขที่ต้องตรวจใหม่ โปรแกรมเกือบทุกโปรแกรมประกอบจาก 3 โครงสร้างนี้: <em>ลำดับ (sequence)</em>, <em>ทางเลือก (selection)</em> และ <em>การทำซ้ำ (repetition)</em></p>
-<div class="example-box"><span class="box-title">ทางเลือก 2 ทาง: ตรวจสอบการสอบผ่าน</span><pre><code>(เริ่มต้น) → / รับ score / → ◇ score ≥ 50 ?
-                                  ↙ ใช่       ไม่ใช่ ↘
-                      / แสดง "ผ่าน" /   / แสดง "ไม่ผ่าน" /
-                                  ↘             ↙
-                                       (จบ)</code></pre><p>เงื่อนไขต้องมีทางออกครบทุกกรณี มิฉะนั้นบางค่าอาจไม่มีขั้นตอนรองรับ</p></div>
+<div class="example-box"><span class="box-title">ทางเลือก 2 ทาง: ตรวจสอบการสอบผ่าน</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">Flowchart</span></div><pre><code><span class="tok-shape">(เริ่มต้น)</span> <span class="tok-arrow">→</span> / <span class="tok-io">รับ</span> score / <span class="tok-arrow">→</span> <span class="tok-dec">◇</span> score ≥ <span class="tok-num">50</span> ?
+                                  <span class="tok-arrow">↙</span> <span class="tok-yes">ใช่</span>       <span class="tok-yes">ไม่ใช่</span> <span class="tok-arrow">↘</span>
+                      / <span class="tok-io">แสดง</span> <span class="tok-str">"ผ่าน"</span> /   / <span class="tok-io">แสดง</span> <span class="tok-str">"ไม่ผ่าน"</span> /
+                                  <span class="tok-arrow">↘</span>             <span class="tok-arrow">↙</span>
+                                       <span class="tok-shape">(จบ)</span></code></pre></div><p>เงื่อนไขต้องมีทางออกครบทุกกรณี มิฉะนั้นบางค่าอาจไม่มีขั้นตอนรองรับ</p></div>
 <div class="source-example"><h4>ตัวอย่าง 1.4.1 · ทางเลือก 2 ทาง → Java <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ข้าวหลามตัดกลายเป็น <code>if ... else</code> ทาง “ใช่” อยู่ใน <code>if</code> ทาง “ไม่ใช่” อยู่ใน <code>else</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PassOrFail.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PassOrFail</span> {
@@ -255,19 +255,19 @@ Fahrenheit = 98.6</pre></div></div><div class="walkthrough"><strong>อธิบ
         }
     }
 }</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score: <b class="stdin">73</b>
-Grade B</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>◇ score ≥ 80? 73 → ไม่ใช่ ไปข้าวหลามตัดถัดไป</li><li>◇ score ≥ 70? 73 → ใช่ แสดง Grade B</li><li>ไม่ตรวจเงื่อนไขที่เหลือ ไปที่จบเลย</li></ol></div><p><pre><code>◇ ≥80? ─ใช่→ / A /
-  │ไม่ใช่
-◇ ≥70? ─ใช่→ / B /
-  │ไม่ใช่
-◇ ≥60? ─ใช่→ / C /
-  │ไม่ใช่
-/ F /            (ทุกทางไปที่ จบ)</code></pre></p></div>
-<div class="example-box"><span class="box-title">การวนซ้ำ: รวมตัวเลขจนกว่าจะป้อน 0</span><p>เมื่อป้อนค่าที่ไม่ใช่ 0 ให้บวกเข้าผลรวม แล้วกลับไปรับค่าถัดไป; เมื่อป้อน 0 จึงออกจากวงซ้ำ</p><pre><code>[กำหนด total = 0] → / รับ number / → ◇ number ≠ 0 ?
-                                      ↙ ใช่          ไม่ใช่ ↘
-                         [total = total + number]   / แสดง total /
-                                      ↓                 ↓
-                                / รับ number /        (จบ)
-                                      ↖ กลับไปตรวจเงื่อนไข</code></pre><p>วงซ้ำต้องมีทางออก ในตัวอย่างนี้ค่า 0 เป็นค่าหยุด (sentinel) ถ้าไม่มีวันป้อน 0 โปรแกรมก็จะรับข้อมูลต่อไปเรื่อย ๆ</p></div>
+Grade B</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>◇ score ≥ 80? 73 → ไม่ใช่ ไปข้าวหลามตัดถัดไป</li><li>◇ score ≥ 70? 73 → ใช่ แสดง Grade B</li><li>ไม่ตรวจเงื่อนไขที่เหลือ ไปที่จบเลย</li></ol></div><div class="code-block is-flow"><div class="code-head"><span class="code-file">Flowchart</span></div><pre><code><span class="tok-dec">◇</span> ≥<span class="tok-num">80</span>? <span class="tok-arrow">─</span><span class="tok-yes">ใช่</span><span class="tok-arrow">→</span> / <span class="tok-type">A</span> /
+  <span class="tok-arrow">│</span><span class="tok-yes">ไม่ใช่</span>
+<span class="tok-dec">◇</span> ≥<span class="tok-num">70</span>? <span class="tok-arrow">─</span><span class="tok-yes">ใช่</span><span class="tok-arrow">→</span> / <span class="tok-type">B</span> /
+  <span class="tok-arrow">│</span><span class="tok-yes">ไม่ใช่</span>
+<span class="tok-dec">◇</span> ≥<span class="tok-num">60</span>? <span class="tok-arrow">─</span><span class="tok-yes">ใช่</span><span class="tok-arrow">→</span> / <span class="tok-type">C</span> /
+  <span class="tok-arrow">│</span><span class="tok-yes">ไม่ใช่</span>
+/ <span class="tok-type">F</span> /            (ทุกทางไปที่ <span class="tok-start">จบ</span>)</code></pre></div></div>
+<div class="example-box"><span class="box-title">การวนซ้ำ: รวมตัวเลขจนกว่าจะป้อน 0</span><p>เมื่อป้อนค่าที่ไม่ใช่ 0 ให้บวกเข้าผลรวม แล้วกลับไปรับค่าถัดไป; เมื่อป้อน 0 จึงออกจากวงซ้ำ</p><div class="code-block is-flow"><div class="code-head"><span class="code-file">Flowchart</span></div><pre><code>[กำหนด total = <span class="tok-num">0</span>] <span class="tok-arrow">→</span> / <span class="tok-io">รับ</span> number / <span class="tok-arrow">→</span> <span class="tok-dec">◇</span> number ≠ <span class="tok-num">0</span> ?
+                                      <span class="tok-arrow">↙</span> <span class="tok-yes">ใช่</span>          <span class="tok-yes">ไม่ใช่</span> <span class="tok-arrow">↘</span>
+                         [total = total + number]   / <span class="tok-io">แสดง</span> total /
+                                      <span class="tok-arrow">↓</span>                 <span class="tok-arrow">↓</span>
+                                / <span class="tok-io">รับ</span> number /        <span class="tok-shape">(จบ)</span>
+                                      <span class="tok-arrow">↖</span> กลับไปตรวจเงื่อนไข</code></pre></div><p>วงซ้ำต้องมีทางออก ในตัวอย่างนี้ค่า 0 เป็นค่าหยุด (sentinel) ถ้าไม่มีวันป้อน 0 โปรแกรมก็จะรับข้อมูลต่อไปเรื่อย ๆ</p></div>
 <div class="source-example"><h4>ตัวอย่าง 1.4.3 · วงซ้ำด้วย sentinel → Java <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ลูกศรวนกลับคือ <code>while</code> เงื่อนไขในข้าวหลามตัดคือ <code>number != 0</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SumUntilZero.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SumUntilZero</span> {
@@ -336,12 +336,12 @@ Circumference = 43.98226</pre></div><div class="answer-gate" data-answer-id="1.2
 }</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 1.3</span>รหัสเทียมแปลงวินาที<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>เขียนรหัสเทียมรับจำนวนวินาทีทั้งหมด แล้วแปลงเป็นจำนวนนาทีเต็มและวินาทีที่เหลือ เช่น 130 วินาทีเป็น 2 นาที 10 วินาที</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เริ่มด้วย “เริ่มต้น” จบด้วย “จบ”</li><li>ใช้คำว่า “หารเอาส่วนจำนวนเต็ม” และ “เศษจากการหาร” ให้ถูกที่</li><li>dry run รหัสเทียมของตัวเองด้วย 130 และ 59 ก่อนเปิดเฉลย</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Seconds: <b class="stdin">130</b>
 2 minutes 10 seconds</pre></div><div><small>ครั้งที่ 2</small><pre>Seconds: <b class="stdin">59</b>
-0 minutes 59 seconds</pre></div></div></div><div class="answer-gate" data-answer-id="1.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>เริ่มต้น
-    รับ totalSeconds
-    minutes = totalSeconds หารเอาส่วนจำนวนเต็มด้วย 60
-    seconds = totalSeconds เศษจากการหารด้วย 60
-    แสดง minutes และ seconds
-จบ</code></pre><div class="code-block"><div class="code-head"><span class="code-file">SecondsToMinutes.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+0 minutes 59 seconds</pre></div></div></div><div class="answer-gate" data-answer-id="1.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block is-flow"><div class="code-head"><span class="code-file">รหัสเทียม</span></div><pre><code><span class="tok-start">เริ่มต้น</span>
+    <span class="tok-io">รับ</span> totalSeconds
+    minutes = totalSeconds หารเอาส่วนจำนวนเต็มด้วย <span class="tok-num">60</span>
+    seconds = totalSeconds เศษจากการหารด้วย <span class="tok-num">60</span>
+    <span class="tok-io">แสดง</span> minutes และ seconds
+<span class="tok-start">จบ</span></code></pre></div><div class="code-block"><div class="code-head"><span class="code-file">SecondsToMinutes.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SecondsToMinutes</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -357,15 +357,15 @@ Circumference = 43.98226</pre></div><div class="answer-gate" data-answer-id="1.2
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 1.4</span>Flowchart แปลงอุณหภูมิ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>วางลำดับ Flowchart สำหรับรับอุณหภูมิเซลเซียส คำนวณฟาเรนไฮต์ด้วยสูตร <code>F = C × 9 / 5 + 32</code> แล้วแสดงผล</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เขียนชื่อสัญลักษณ์ของทุกขั้น (วงรี, ด้านขนาน, สี่เหลี่ยมผืนผ้า)</li><li>เรียงจากเริ่มต้นถึงจบด้วยลูกศร</li><li>ทดสอบด้วยค่า 0, 100 และ 37</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>C = <b class="stdin">0</b>
 F = 32.0</pre></div><div><small>ครั้งที่ 2</small><pre>C = <b class="stdin">100</b>
 F = 212.0</pre></div><div><small>ครั้งที่ 3</small><pre>C = <b class="stdin">37</b>
-F = 98.6</pre></div></div></div><div class="answer-gate" data-answer-id="1.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>(วงรี) เริ่มต้น
-  ↓
-(ด้านขนาน) รับ C
-  ↓
-(สี่เหลี่ยมผืนผ้า) F = C × 9 / 5 + 32
-  ↓
-(ด้านขนาน) แสดง F
-  ↓
-(วงรี) จบ</code></pre><div class="code-block"><div class="code-head"><span class="code-file">TempFlow.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+F = 98.6</pre></div></div></div><div class="answer-gate" data-answer-id="1.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block is-flow"><div class="code-head"><span class="code-file">Flowchart</span></div><pre><code><span class="tok-shape">(วงรี)</span> <span class="tok-start">เริ่มต้น</span>
+  <span class="tok-arrow">↓</span>
+<span class="tok-shape">(ด้านขนาน)</span> <span class="tok-io">รับ</span> <span class="tok-type">C</span>
+  <span class="tok-arrow">↓</span>
+<span class="tok-shape">(สี่เหลี่ยมผืนผ้า)</span> <span class="tok-type">F</span> = <span class="tok-type">C</span> × <span class="tok-num">9</span> / <span class="tok-num">5</span> + <span class="tok-num">32</span>
+  <span class="tok-arrow">↓</span>
+<span class="tok-shape">(ด้านขนาน)</span> <span class="tok-io">แสดง</span> <span class="tok-type">F</span>
+  <span class="tok-arrow">↓</span>
+<span class="tok-shape">(วงรี)</span> <span class="tok-start">จบ</span></code></pre></div><div class="code-block"><div class="code-head"><span class="code-file">TempFlow.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TempFlow</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -381,12 +381,12 @@ F = 98.6</pre></div></div></div><div class="answer-gate" data-answer-id="1.4"><b
 Length (m): <b class="stdin">8</b>
 Price per meter: <b class="stdin">150</b>
 Fence length = 40.0 m
-Cost = 6000.0 baht</pre></div><div class="answer-gate" data-answer-id="1.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>เริ่มต้น
-    รับ width, length, price
-    fence = 2 × (width + length)
+Cost = 6000.0 baht</pre></div><div class="answer-gate" data-answer-id="1.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block is-flow"><div class="code-head"><span class="code-file">รหัสเทียม</span></div><pre><code><span class="tok-start">เริ่มต้น</span>
+    <span class="tok-io">รับ</span> width, length, price
+    fence = <span class="tok-num">2</span> × (width + length)
     cost = fence × price
-    แสดง fence และ cost
-จบ</code></pre><p>ต้องคำนวณ fence ก่อน เพราะ cost ใช้ค่า fence — ถ้าสลับลำดับจะใช้ค่าที่ยังไม่มี</p><div class="code-block"><div class="code-head"><span class="code-file">GardenFence.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+    <span class="tok-io">แสดง</span> fence และ cost
+<span class="tok-start">จบ</span></code></pre></div><p>ต้องคำนวณ fence ก่อน เพราะ cost ใช้ค่า fence — ถ้าสลับลำดับจะใช้ค่าที่ยังไม่มี</p><div class="code-block"><div class="code-head"><span class="code-file">GardenFence.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GardenFence</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -407,14 +407,14 @@ Cost = 6000.0 baht</pre></div><div class="answer-gate" data-answer-id="1.5"><but
 }</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 1.6</span>ค่าจอดรถ (ทางเลือก 2 ทาง)<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>ลานจอดรถคิดค่าบริการดังนี้: จอด<strong>ไม่เกิน 1 ชั่วโมงฟรี</strong> ถ้าเกิน 1 ชั่วโมงคิด<strong>เหมา 20 บาท</strong> รับจำนวนชั่วโมงที่จอด (จำนวนเต็ม) แล้วแสดงค่าจอด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เขียนรหัสเทียมที่มีคำว่า “ถ้า … มิฉะนั้น …”</li><li>วาด Flowchart ที่มีข้าวหลามตัด 1 อัน พร้อมป้าย ใช่/ไม่ใช่</li><li>ทดสอบค่าขอบ 1 และ 2 ชั่วโมง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Hours: <b class="stdin">1</b>
 Fee = 0 baht</pre></div><div><small>ครั้งที่ 2</small><pre>Hours: <b class="stdin">2</b>
-Fee = 20 baht</pre></div></div></div><div class="answer-gate" data-answer-id="1.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>เริ่มต้น
-    รับ hours
-    ถ้า hours ≤ 1
-        fee = 0
-    มิฉะนั้น
-        fee = 20
-    แสดง fee
-จบ</code></pre><div class="code-block"><div class="code-head"><span class="code-file">ParkingFee.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+Fee = 20 baht</pre></div></div></div><div class="answer-gate" data-answer-id="1.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block is-flow"><div class="code-head"><span class="code-file">รหัสเทียม</span></div><pre><code><span class="tok-start">เริ่มต้น</span>
+    <span class="tok-io">รับ</span> hours
+    <span class="tok-ctl">ถ้า</span> hours ≤ <span class="tok-num">1</span>
+        fee = <span class="tok-num">0</span>
+    <span class="tok-ctl">มิฉะนั้น</span>
+        fee = <span class="tok-num">20</span>
+    <span class="tok-io">แสดง</span> fee
+<span class="tok-start">จบ</span></code></pre></div><div class="code-block"><div class="code-head"><span class="code-file">ParkingFee.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ParkingFee</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -432,14 +432,14 @@ Fee = 20 baht</pre></div></div></div><div class="answer-gate" data-answer-id="1.
 }</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 1.7</span>ค่าจ้างและค่าล่วงเวลา<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>ค่าจ้างปกติชั่วโมงละ 100 บาท สำหรับ 40 ชั่วโมงแรก ชั่วโมงที่<strong>เกิน 40</strong> ได้ชั่วโมงละ 150 บาท รับจำนวนชั่วโมงทำงานในสัปดาห์ แล้วแสดงค่าจ้างรวม</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แยกกรณี “ไม่เกิน 40” และ “เกิน 40”</li><li>กรณีเกิน: ค่าจ้าง = 40 × 100 + (ชั่วโมง − 40) × 150</li><li>dry run ด้วย 38 และ 45 ชั่วโมง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Hours worked: <b class="stdin">38</b>
 Pay = 3800 baht</pre></div><div><small>ครั้งที่ 2</small><pre>Hours worked: <b class="stdin">45</b>
-Pay = 4750 baht</pre></div></div></div><div class="answer-gate" data-answer-id="1.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>เริ่มต้น
-    รับ hours
-    ถ้า hours ≤ 40
-        pay = hours × 100
-    มิฉะนั้น
-        pay = 40 × 100 + (hours − 40) × 150
-    แสดง pay
-จบ</code></pre><p>45 ชั่วโมง: 4000 + 5 × 150 = 4750 บาท</p><div class="code-block"><div class="code-head"><span class="code-file">OvertimePay.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+Pay = 4750 baht</pre></div></div></div><div class="answer-gate" data-answer-id="1.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block is-flow"><div class="code-head"><span class="code-file">รหัสเทียม</span></div><pre><code><span class="tok-start">เริ่มต้น</span>
+    <span class="tok-io">รับ</span> hours
+    <span class="tok-ctl">ถ้า</span> hours ≤ <span class="tok-num">40</span>
+        pay = hours × <span class="tok-num">100</span>
+    <span class="tok-ctl">มิฉะนั้น</span>
+        pay = <span class="tok-num">40</span> × <span class="tok-num">100</span> + (hours − <span class="tok-num">40</span>) × <span class="tok-num">150</span>
+    <span class="tok-io">แสดง</span> pay
+<span class="tok-start">จบ</span></code></pre></div><p>45 ชั่วโมง: 4000 + 5 × 150 = 4750 บาท</p><div class="code-block"><div class="code-head"><span class="code-file">OvertimePay.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OvertimePay</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -466,17 +466,17 @@ Subject 2: <b class="stdin">55</b>
 Subject 3: <b class="stdin">50</b>
 Average = 48.33
 Grade = F
-ไม่ผ่าน</pre></div></div></div><div class="answer-gate" data-answer-id="1.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>เริ่มต้น
-    รับ s1, s2, s3
-    avg = (s1 + s2 + s3) ÷ 3
-    ถ้า avg ≥ 80 → grade = A
-    มิฉะนั้น ถ้า avg ≥ 70 → grade = B
-    มิฉะนั้น ถ้า avg ≥ 60 → grade = C
-    มิฉะนั้น ถ้า avg ≥ 50 → grade = D
-    มิฉะนั้น → grade = F
-    แสดง avg, grade
-    ถ้า grade = F แสดง "ไม่ผ่าน" มิฉะนั้น แสดง "ผ่าน"
-จบ</code></pre><p>ถ้าตรวจจากต่ำไปสูง เช่น ตรวจ ≥ 50 ก่อน คะแนน 90 ก็จะได้ D ทันที เพราะ 90 ≥ 50 เป็นจริงและไม่ตรวจต่อ</p><div class="code-block"><div class="code-head"><span class="code-file">ExamSummary.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+ไม่ผ่าน</pre></div></div></div><div class="answer-gate" data-answer-id="1.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block is-flow"><div class="code-head"><span class="code-file">รหัสเทียม</span></div><pre><code><span class="tok-start">เริ่มต้น</span>
+    <span class="tok-io">รับ</span> s1, s2, s3
+    avg = (s1 + s2 + s3) ÷ <span class="tok-num">3</span>
+    <span class="tok-ctl">ถ้า</span> avg ≥ <span class="tok-num">80</span> <span class="tok-arrow">→</span> grade = <span class="tok-type">A</span>
+    <span class="tok-ctl">มิฉะนั้น</span> <span class="tok-ctl">ถ้า</span> avg ≥ <span class="tok-num">70</span> <span class="tok-arrow">→</span> grade = <span class="tok-type">B</span>
+    <span class="tok-ctl">มิฉะนั้น</span> <span class="tok-ctl">ถ้า</span> avg ≥ <span class="tok-num">60</span> <span class="tok-arrow">→</span> grade = <span class="tok-type">C</span>
+    <span class="tok-ctl">มิฉะนั้น</span> <span class="tok-ctl">ถ้า</span> avg ≥ <span class="tok-num">50</span> <span class="tok-arrow">→</span> grade = <span class="tok-type">D</span>
+    <span class="tok-ctl">มิฉะนั้น</span> <span class="tok-arrow">→</span> grade = <span class="tok-type">F</span>
+    <span class="tok-io">แสดง</span> avg, grade
+    <span class="tok-ctl">ถ้า</span> grade = <span class="tok-type">F</span> <span class="tok-io">แสดง</span> <span class="tok-str">"ไม่ผ่าน"</span> <span class="tok-ctl">มิฉะนั้น</span> <span class="tok-io">แสดง</span> <span class="tok-str">"ผ่าน"</span>
+<span class="tok-start">จบ</span></code></pre></div><p>ถ้าตรวจจากต่ำไปสูง เช่น ตรวจ ≥ 50 ก่อน คะแนน 90 ก็จะได้ D ทันที เพราะ 90 ≥ 50 เป็นจริงและไม่ตรวจต่อ</p><div class="code-block"><div class="code-head"><span class="code-file">ExamSummary.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ExamSummary</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -508,18 +508,18 @@ Number: <b class="stdin">0</b>
 Sum = 21
 Count = 3
 Average = 7.0</pre></div><div><small>ครั้งที่ 2</small><pre>Number: <b class="stdin">0</b>
-ไม่มีข้อมูล</pre></div></div></div><div class="answer-gate" data-answer-id="1.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>เริ่มต้น
-    total = 0, count = 0
-    รับ number
-    ขณะที่ number ≠ 0
+ไม่มีข้อมูล</pre></div></div></div><div class="answer-gate" data-answer-id="1.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block is-flow"><div class="code-head"><span class="code-file">รหัสเทียม</span></div><pre><code><span class="tok-start">เริ่มต้น</span>
+    total = <span class="tok-num">0</span>, count = <span class="tok-num">0</span>
+    <span class="tok-io">รับ</span> number
+    <span class="tok-ctl">ขณะที่</span> number ≠ <span class="tok-num">0</span>
         total = total + number
-        count = count + 1
-        รับ number
-    ถ้า count = 0
-        แสดง "ไม่มีข้อมูล"
-    มิฉะนั้น
-        แสดง total, count, total ÷ count
-จบ</code></pre><div class="code-block"><div class="code-head"><span class="code-file">SumCountAverage.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+        count = count + <span class="tok-num">1</span>
+        <span class="tok-io">รับ</span> number
+    <span class="tok-ctl">ถ้า</span> count = <span class="tok-num">0</span>
+        <span class="tok-io">แสดง</span> <span class="tok-str">"ไม่มีข้อมูล"</span>
+    <span class="tok-ctl">มิฉะนั้น</span>
+        <span class="tok-io">แสดง</span> total, count, total ÷ count
+<span class="tok-start">จบ</span></code></pre></div><div class="code-block"><div class="code-head"><span class="code-file">SumCountAverage.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SumCountAverage</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -551,17 +551,17 @@ Change = 37
 5 baht x 1
 1 baht x 2</pre></div><div><small>ครั้งที่ 2</small><pre>Price: <b class="stdin">25</b>
 Paid: <b class="stdin">20</b>
-เงินไม่พอ ขาดอีก 5 บาท</pre></div></div></div><div class="answer-gate" data-answer-id="1.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>เริ่มต้น
-    รับ price, paid
-    ถ้า paid &lt; price
-        แสดง "เงินไม่พอ ขาดอีก" (price − paid)
-    มิฉะนั้น
+เงินไม่พอ ขาดอีก 5 บาท</pre></div></div></div><div class="answer-gate" data-answer-id="1.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 1.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block is-flow"><div class="code-head"><span class="code-file">รหัสเทียม</span></div><pre><code><span class="tok-start">เริ่มต้น</span>
+    <span class="tok-io">รับ</span> price, paid
+    <span class="tok-ctl">ถ้า</span> paid &lt; price
+        <span class="tok-io">แสดง</span> <span class="tok-str">"เงินไม่พอ ขาดอีก"</span> (price − paid)
+    <span class="tok-ctl">มิฉะนั้น</span>
         change = paid − price
-        ten = change ÷ 10 (ส่วนจำนวนเต็ม);  change = เศษ
-        five = change ÷ 5;  change = เศษ
+        ten = change ÷ <span class="tok-num">10</span> (ส่วนจำนวนเต็ม);  change = เศษ
+        five = change ÷ <span class="tok-num">5</span>;  change = เศษ
         one = change
-        แสดง ten, five, one
-จบ</code></pre><p>เงินทอน 37: 10 × 3 (เหลือ 7) → 5 × 1 (เหลือ 2) → 1 × 2</p><div class="code-block"><div class="code-head"><span class="code-file">VendingChange.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+        <span class="tok-io">แสดง</span> ten, five, one
+<span class="tok-start">จบ</span></code></pre></div><p>เงินทอน 37: 10 × 3 (เหลือ 7) → 5 × 1 (เหลือ 2) → 1 × 2</p><div class="code-block"><div class="code-head"><span class="code-file">VendingChange.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">VendingChange</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {

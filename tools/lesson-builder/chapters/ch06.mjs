@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 6, file: "chapter-06.html",
@@ -18,7 +18,7 @@ export default {
       num: "6.1", toc: "while และการอัปเดตค่า", title: "while: ทำซ้ำขณะเงื่อนไขเป็นจริง",
       blocks: [
         { type: "p", html: `<code>while</code> เหมาะเมื่อยังไม่รู้จำนวนรอบแน่นอน แต่รู้เงื่อนไขที่ต้องทำต่อ เช่น “ทำต่อขณะที่ยังมีข้อมูล” ก่อนเข้ารอบทุกครั้ง Java ตรวจนิพจน์ในวงเล็บ ซึ่งต้องได้ค่า <code>boolean</code>` },
-        { type: "steps", title: "ลำดับการทำงานของ while", intro: pre(`
+        { type: "steps", title: "ลำดับการทำงานของ while", intro: jpre(`
           while (condition) {
               // คำสั่งที่ทำซ้ำ
               // เปลี่ยนค่าที่มีผลต่อ condition
@@ -121,7 +121,7 @@ export default {
                 }
             }`,
           steps: ["compiler แจ้ง <code>int cannot be converted to boolean</code>", "ต้องการเปรียบเทียบใช้ <code>==</code> แต่ในกรณีนี้ควรเป็น <code>i &gt; 0</code>"] },
-        { type: "note", title: "Logic error: ลูปไม่รู้จบ (อย่ากด Run)", html: pre(`
+        { type: "note", title: "Logic error: ลูปไม่รู้จบ (อย่ากด Run)", html: jpre(`
           int i = 3;
           while (i > 0) {
               System.out.println(i);
@@ -133,7 +133,7 @@ export default {
               System.out.println(number);
               // ลืม number++  → number = 1 ตลอดไป
           }`) + `<p>ทั้งสองแบบคอมไพล์ผ่าน แต่ไม่จบ ถ้าเผลอรันใน IDE ให้กดปุ่ม Stop (■) วิธีป้องกันคือ trace 3 รอบแรกด้วยมือและตรวจว่าค่าเคลื่อนเข้าหาเงื่อนไขหยุด</p>` },
-        { type: "check", title: "นับรอบ", html: pre(`
+        { type: "check", title: "นับรอบ", html: jpre(`
           int x = 20;
           int rounds = 0;
           while (x > 1) {
@@ -146,7 +146,7 @@ export default {
       num: "6.2", toc: "for เมื่อรู้จำนวนรอบ", title: "for: เมื่อรู้จำนวนรอบหรือตัวนับชัดเจน",
       blocks: [
         { type: "p", html: `<code>for</code> รวมจุดเริ่ม เงื่อนไข และการอัปเดตไว้ในบรรทัดเดียว ทำให้อ่านแล้วรู้จำนวนรอบทันที` },
-        { type: "steps", title: "Syntax และ flow ของ for", intro: pre(`
+        { type: "steps", title: "Syntax และ flow ของ for", intro: jpre(`
           for (initialization; condition; update) {
               // loop body
           }`), items: ["ทำ <code>initialization</code> ครั้งเดียวก่อนเริ่มลูป", "ตรวจ <code>condition</code>; ถ้า false ออกจากลูป", "ถ้า true ทำ body", "ทำ <code>update</code> แล้วกลับไปข้อ 2"], after: "ตัวแปรที่ประกาศในส่วนเริ่มต้น เช่น <code>int i</code> ใช้ได้เฉพาะภายในลูปนั้น" },
@@ -256,7 +256,7 @@ export default {
       num: "6.3", toc: "do-while และ sentinel", title: "do-while และการทำซ้ำด้วย sentinel",
       blocks: [
         { type: "p", html: `<code>do-while</code> ตรวจเงื่อนไข<strong>หลัง</strong>ทำ body จึงทำอย่างน้อยหนึ่งครั้ง เหมาะกับการแสดงเมนูหรือถามข้อมูลก่อน แล้วค่อยตรวจว่าต้องทำต่อหรือไม่ ส่วน <strong>sentinel</strong> คือค่าพิเศษที่ใช้สั่งหยุด เช่น ป้อน 0 หรือ -1` },
-        { type: "steps", title: "Syntax และ flow ของ do-while", intro: pre(`
+        { type: "steps", title: "Syntax และ flow ของ do-while", intro: jpre(`
           do {
               // คำสั่งที่ต้องทำอย่างน้อยหนึ่งครั้ง
           } while (condition);   // ← มี ; ปิดท้าย`), items: ["เข้าทำ body ทันทีโดยยังไม่ตรวจเงื่อนไข", "ทำคำสั่งใน body และปรับค่าที่เกี่ยวข้อง", "ตรวจ condition ที่ท้ายลูป", "ถ้า true กลับไปเริ่ม body; ถ้า false ออกจากลูป"] },
@@ -374,7 +374,7 @@ export default {
                 }
             }`,
           steps: ["compiler แจ้ง <code>';' expected</code> ที่ท้ายบรรทัด while", "เติม ; แล้วโปรแกรมจะพิมพ์ 1, 2, 3"] },
-        { type: "check", title: "do-while", html: pre(`
+        { type: "check", title: "do-while", html: jpre(`
           int n = 5;
           do {
               System.out.print(n + " ");
@@ -508,14 +508,14 @@ export default {
                 }
             }`,
           steps: ["<code>unreachable statement</code> ชี้ที่ println", "ย้าย println ไปหลังลูป หรือใส่ break ไว้ใน if"] },
-        { type: "note", title: "Logic error: continue ข้าม update ใน while", html: pre(`
+        { type: "note", title: "Logic error: continue ข้าม update ใน while", html: jpre(`
           int i = 1;
           while (i <= 5) {
               if (i % 2 == 0) continue;   // i = 2 → continue ก่อน i++ → ค้างที่ 2 ตลอด
               System.out.println(i);
               i++;
           }`) + `<p>แก้โดยย้าย <code>i++</code> ขึ้นไปก่อน continue หรือเปลี่ยนเป็น for loop</p>` },
-        { type: "check", title: "นับรอบลูปซ้อน", html: pre(`
+        { type: "check", title: "นับรอบลูปซ้อน", html: jpre(`
           int count = 0;
           for (int a = 1; a <= 4; a++)
               for (int b = a; b <= 4; b++)

@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 3, file: "chapter-03.html",
@@ -17,7 +17,7 @@ export default {
       num: "3.1", toc: "ตัวแปรและการกำหนดค่า", title: "ตัวแปรและการกำหนดค่า",
       blocks: [
         { type: "p", html: `การ<strong>ประกาศตัวแปร</strong>ระบุชนิดและชื่อ เช่น <code>int bookCount;</code> จากนั้นใช้เครื่องหมาย <code>=</code> <strong>กำหนดค่า</strong> หรือทำทั้งสองอย่างในบรรทัดเดียว <code>int bookCount = 3;</code>` },
-        { type: "concept", title: "รูปแบบการประกาศตัวแปร", html: pre(`
+        { type: "concept", title: "รูปแบบการประกาศตัวแปร", html: jpre(`
           ชนิด ชื่อ;              // ประกาศอย่างเดียว      int age;
           ชื่อ = ค่า;             // กำหนดค่าภายหลัง        age = 19;
           ชนิด ชื่อ = ค่า;        // ประกาศพร้อมกำหนดค่า    int age = 19;`) + `<p><code>=</code> ใน Java แปลว่า <strong>“นำค่าด้านขวามาเก็บในตัวแปรด้านซ้าย”</strong> ไม่ใช่ “เท่ากับ” แบบคณิตศาสตร์ ดังนั้น <code>x = x + 1</code> จึงถูกต้อง: คำนวณ x + 1 ก่อน แล้วเก็บกลับลงใน x</p>` },
@@ -86,7 +86,7 @@ export default {
             }`,
           steps: ["<code>variable score might not have been initialized</code> — score ประกาศแล้วแต่ยังไม่มีค่า", "แก้: กำหนดค่าเริ่มต้น เช่น <code>int score = 0;</code>"], after: "ถ้าใช้ตัวแปรที่<strong>ไม่เคยประกาศ</strong>เลย เช่น <code>total = 10;</code> จะได้ error อีกแบบคือ <code>cannot find symbol ... variable total</code>" },
         { type: "note", title: "กฎการตั้งชื่อตัวแปร", html: `<ul><li>ประกอบด้วยตัวอักษร ตัวเลข <code>_</code> หรือ <code>$</code> แต่<strong>ห้ามขึ้นต้นด้วยตัวเลข</strong> (<code>2score</code> ผิด)</li><li>ห้ามมีช่องว่าง และห้ามใช้คำสงวน เช่น <code>class</code>, <code>int</code>, <code>public</code></li><li>ตัวพิมพ์ใหญ่-เล็กต่างกัน: <code>score</code> กับ <code>Score</code> คนละตัว</li><li>นิยมใช้ <strong>camelCase</strong>: คำแรกตัวเล็ก คำถัดไปขึ้นต้นตัวใหญ่ เช่น <code>studentScore</code>, <code>totalPrice</code></li><li>ตั้งชื่อให้สื่อความหมาย: <code>studentScore</code> ดีกว่า <code>x</code></li></ul>` },
-        { type: "check", title: "trace ค่า", html: pre(`
+        { type: "check", title: "trace ค่า", html: jpre(`
           int x = 4;
           int y = x * 2;
           x = y + x;
@@ -260,7 +260,7 @@ export default {
             }`,
           steps: ["บรรทัดแรกพิมพ์ได้ตามปกติ", "<code>100 / 0</code> กับจำนวนเต็ม → เกิด runtime error", "ข้อความ <code>/ by zero</code> และ <code>DivideByZero.java:6</code> บอกสาเหตุและบรรทัด", "บรรทัด Share ไม่ถูกทำเลย"],
           after: "หมายเหตุ: ถ้าเป็น double เช่น <code>100.0 / 0</code> จะไม่ error แต่ได้ค่า <code>Infinity</code> ซึ่งก็ยังไม่ใช่คำตอบที่ต้องการ ในบทที่ 5 จะใช้ if ตรวจก่อนหาร" },
-        { type: "check", title: "คำนวณในใจ", html: pre(`
+        { type: "check", title: "คำนวณในใจ", html: jpre(`
           System.out.println(7 + 8 / 3 * 2);
           System.out.println(25 % 7 + 1);
           System.out.println("A" + 1 + 2);

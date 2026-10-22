@@ -56,9 +56,9 @@
 <article class="subtopic" id="topic-3-1">
 <h3>3.1 ตัวแปรและการกำหนดค่า</h3>
 <p>การ<strong>ประกาศตัวแปร</strong>ระบุชนิดและชื่อ เช่น <code>int bookCount;</code> จากนั้นใช้เครื่องหมาย <code>=</code> <strong>กำหนดค่า</strong> หรือทำทั้งสองอย่างในบรรทัดเดียว <code>int bookCount = 3;</code></p>
-<div class="concept-box"><span class="box-title">รูปแบบการประกาศตัวแปร</span><pre><code>ชนิด ชื่อ;              // ประกาศอย่างเดียว      int age;
-ชื่อ = ค่า;             // กำหนดค่าภายหลัง        age = 19;
-ชนิด ชื่อ = ค่า;        // ประกาศพร้อมกำหนดค่า    int age = 19;</code></pre><p><code>=</code> ใน Java แปลว่า <strong>“นำค่าด้านขวามาเก็บในตัวแปรด้านซ้าย”</strong> ไม่ใช่ “เท่ากับ” แบบคณิตศาสตร์ ดังนั้น <code>x = x + 1</code> จึงถูกต้อง: คำนวณ x + 1 ก่อน แล้วเก็บกลับลงใน x</p></div>
+<div class="concept-box"><span class="box-title">รูปแบบการประกาศตัวแปร</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code>ชนิด ชื่อ;              <span class="tok-com">// ประกาศอย่างเดียว      int age;</span>
+ชื่อ = ค่า;             <span class="tok-com">// กำหนดค่าภายหลัง        age = 19;</span>
+ชนิด ชื่อ = ค่า;        <span class="tok-com">// ประกาศพร้อมกำหนดค่า    int age = 19;</span></code></pre></div><p><code>=</code> ใน Java แปลว่า <strong>“นำค่าด้านขวามาเก็บในตัวแปรด้านซ้าย”</strong> ไม่ใช่ “เท่ากับ” แบบคณิตศาสตร์ ดังนั้น <code>x = x + 1</code> จึงถูกต้อง: คำนวณ x + 1 ก่อน แล้วเก็บกลับลงใน x</p></div>
 <div class="source-example"><h4>ตัวอย่าง 3.1.1 · ประกาศ กำหนดค่า และพิมพ์ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรใช้แทนค่าได้ทุกที่ เมื่อพิมพ์ตัวแปร Java พิมพ์<em>ค่า</em>ที่อยู่ข้างใน ไม่ใช่ชื่อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FirstVariables.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FirstVariables</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ประกาศตัวแปรชนิด int พร้อมค่าเริ่มต้น</span>
@@ -116,10 +116,10 @@ After:  a=8, b=5</pre></div></div><div class="walkthrough"><strong>อธิบ�
         System.out.println(score + bonus);
                            ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>variable score might not have been initialized</code> — score ประกาศแล้วแต่ยังไม่มีค่า</li><li>แก้: กำหนดค่าเริ่มต้น เช่น <code>int score = 0;</code></li></ol></div><p>ถ้าใช้ตัวแปรที่<strong>ไม่เคยประกาศ</strong>เลย เช่น <code>total = 10;</code> จะได้ error อีกแบบคือ <code>cannot find symbol ... variable total</code></p></div>
 <div class="note-box"><span class="box-title">กฎการตั้งชื่อตัวแปร</span><ul><li>ประกอบด้วยตัวอักษร ตัวเลข <code>_</code> หรือ <code>$</code> แต่<strong>ห้ามขึ้นต้นด้วยตัวเลข</strong> (<code>2score</code> ผิด)</li><li>ห้ามมีช่องว่าง และห้ามใช้คำสงวน เช่น <code>class</code>, <code>int</code>, <code>public</code></li><li>ตัวพิมพ์ใหญ่-เล็กต่างกัน: <code>score</code> กับ <code>Score</code> คนละตัว</li><li>นิยมใช้ <strong>camelCase</strong>: คำแรกตัวเล็ก คำถัดไปขึ้นต้นตัวใหญ่ เช่น <code>studentScore</code>, <code>totalPrice</code></li><li>ตั้งชื่อให้สื่อความหมาย: <code>studentScore</code> ดีกว่า <code>x</code></li></ul></div>
-<div class="quick-check"><strong>ลองคิดก่อน · trace ค่า</strong><div><pre><code>int x = 4;
-int y = x * 2;
+<div class="quick-check"><strong>ลองคิดก่อน · trace ค่า</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> x = <span class="tok-num">4</span>;
+<span class="tok-kw">int</span> y = x * <span class="tok-num">2</span>;
 x = y + x;
-y = y - 1;</code></pre><p>สุดท้าย x และ y มีค่าเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>y = 8 → x = 8 + 4 = 12 → y = 7 ดังนั้น <strong>x = 12, y = 7</strong></p></div></details></div>
+y = y - <span class="tok-num">1</span>;</code></pre></div><p>สุดท้าย x และ y มีค่าเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>y = 8 → x = 8 + 4 = 12 → y = 7 ดังนั้น <strong>x = 12, y = 7</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-3-2">
 <h3>3.2 ชนิดข้อมูลพื้นฐาน</h3>
@@ -276,10 +276,10 @@ count = 1</pre></div></div><div class="walkthrough"><strong>อธิบาย�
 }</code></pre></div></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Before division
 Exception in thread "main" java.lang.ArithmeticException: / by zero
 	at DivideByZero.main(DivideByZero.java:6)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัดแรกพิมพ์ได้ตามปกติ</li><li><code>100 / 0</code> กับจำนวนเต็ม → เกิด runtime error</li><li>ข้อความ <code>/ by zero</code> และ <code>DivideByZero.java:6</code> บอกสาเหตุและบรรทัด</li><li>บรรทัด Share ไม่ถูกทำเลย</li></ol></div><p>หมายเหตุ: ถ้าเป็น double เช่น <code>100.0 / 0</code> จะไม่ error แต่ได้ค่า <code>Infinity</code> ซึ่งก็ยังไม่ใช่คำตอบที่ต้องการ ในบทที่ 5 จะใช้ if ตรวจก่อนหาร</p></div>
-<div class="quick-check"><strong>ลองคิดก่อน · คำนวณในใจ</strong><div><pre><code>System.out.println(7 + 8 / 3 * 2);
-System.out.println(25 % 7 + 1);
-System.out.println("A" + 1 + 2);
-System.out.println(1 + 2 + "A");</code></pre></div><details><summary>ดูคำตอบ</summary><div><p><code>8 / 3</code> = 2 → × 2 = 4 → 7 + 4 = <strong>11</strong>; 25 % 7 = 4 → <strong>5</strong>; <strong>A12</strong> (ต่อข้อความตั้งแต่ต้น); <strong>3A</strong> (บวกเลขก่อนแล้วจึงต่อข้อความ)</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · คำนวณในใจ</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-num">7</span> + <span class="tok-num">8</span> / <span class="tok-num">3</span> * <span class="tok-num">2</span>);
+<span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-num">25</span> % <span class="tok-num">7</span> + <span class="tok-num">1</span>);
+<span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"A"</span> + <span class="tok-num">1</span> + <span class="tok-num">2</span>);
+<span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-num">1</span> + <span class="tok-num">2</span> + <span class="tok-str">"A"</span>);</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p><code>8 / 3</code> = 2 → × 2 = 4 → 7 + 4 = <strong>11</strong>; 25 % 7 = 4 → <strong>5</strong>; <strong>A12</strong> (ต่อข้อความตั้งแต่ต้น); <strong>3A</strong> (บวกเลขก่อนแล้วจึงต่อข้อความ)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-3-4">
 <h3>3.4 ค่าคงที่และการแปลงชนิดข้อมูล</h3>

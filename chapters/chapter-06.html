@@ -57,10 +57,10 @@
 <article class="subtopic" id="topic-6-1">
 <h3>6.1 while: ทำซ้ำขณะเงื่อนไขเป็นจริง</h3>
 <p><code>while</code> เหมาะเมื่อยังไม่รู้จำนวนรอบแน่นอน แต่รู้เงื่อนไขที่ต้องทำต่อ เช่น “ทำต่อขณะที่ยังมีข้อมูล” ก่อนเข้ารอบทุกครั้ง Java ตรวจนิพจน์ในวงเล็บ ซึ่งต้องได้ค่า <code>boolean</code></p>
-<div class="concept-box"><span class="box-title">ลำดับการทำงานของ while</span><p><pre><code>while (condition) {
-    // คำสั่งที่ทำซ้ำ
-    // เปลี่ยนค่าที่มีผลต่อ condition
-}</code></pre></p><ol class="step-list"><li>ตรวจ <code>condition</code> ก่อนเข้ารอบ</li><li>ถ้าเป็น <code>true</code> ทำคำสั่งในวงเล็บปีกกา</li><li>จบรอบแล้วกลับไปตรวจ condition ใหม่</li><li>ถ้าเป็น <code>false</code> ข้าม body ไปทำคำสั่งถัดจากลูป</li></ol><p>ถ้า condition เป็น false ตั้งแต่ครั้งแรก body จะไม่ทำงานเลย (zero iterations)</p></div>
+<div class="concept-box"><span class="box-title">ลำดับการทำงานของ while</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">while</span> (condition) {
+    <span class="tok-com">// คำสั่งที่ทำซ้ำ</span>
+    <span class="tok-com">// เปลี่ยนค่าที่มีผลต่อ condition</span>
+}</code></pre></div><ol class="step-list"><li>ตรวจ <code>condition</code> ก่อนเข้ารอบ</li><li>ถ้าเป็น <code>true</code> ทำคำสั่งในวงเล็บปีกกา</li><li>จบรอบแล้วกลับไปตรวจ condition ใหม่</li><li>ถ้าเป็น <code>false</code> ข้าม body ไปทำคำสั่งถัดจากลูป</li></ol><p>ถ้า condition เป็น false ตั้งแต่ครั้งแรก body จะไม่ทำงานเลย (zero iterations)</p></div>
 <div class="source-example"><h4>ตัวอย่าง 6.1.1 · นับ 1 ถึง 5 <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวนับเริ่มที่ 1 เพิ่มทีละ 1 และหยุดเมื่อเกิน 5</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CountUp.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CountUp</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> number = <span class="tok-num">1</span>;        <span class="tok-com">// ค่าเริ่มต้นของตัวนับ</span>
@@ -154,30 +154,30 @@ Stopped safely</pre></div></div><div class="walkthrough"><strong>อธิบา
 }</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WhileConditionError.java:4: error: incompatible types: int cannot be converted to boolean
         while (i = 3) {
                  ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>compiler แจ้ง <code>int cannot be converted to boolean</code></li><li>ต้องการเปรียบเทียบใช้ <code>==</code> แต่ในกรณีนี้ควรเป็น <code>i &gt; 0</code></li></ol></div></div>
-<div class="note-box"><span class="box-title">Logic error: ลูปไม่รู้จบ (อย่ากด Run)</span><pre><code>int i = 3;
-while (i &gt; 0) {
-    System.out.println(i);
-    i++;       // ผิดทิศ: 3, 4, 5, ... เงื่อนไข true ตลอด
+<div class="note-box"><span class="box-title">Logic error: ลูปไม่รู้จบ (อย่ากด Run)</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> i = <span class="tok-num">3</span>;
+<span class="tok-kw">while</span> (i &gt; <span class="tok-num">0</span>) {
+    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(i);
+    i++;       <span class="tok-com">// ผิดทิศ: 3, 4, 5, ... เงื่อนไข true ตลอด</span>
 }
 
-int number = 1;
-while (number &lt;= 5) {
-    System.out.println(number);
-    // ลืม number++  → number = 1 ตลอดไป
-}</code></pre><p>ทั้งสองแบบคอมไพล์ผ่าน แต่ไม่จบ ถ้าเผลอรันใน IDE ให้กดปุ่ม Stop (■) วิธีป้องกันคือ trace 3 รอบแรกด้วยมือและตรวจว่าค่าเคลื่อนเข้าหาเงื่อนไขหยุด</p></div>
-<div class="quick-check"><strong>ลองคิดก่อน · นับรอบ</strong><div><pre><code>int x = 20;
-int rounds = 0;
-while (x &gt; 1) {
-    x = x / 2;
+<span class="tok-kw">int</span> number = <span class="tok-num">1</span>;
+<span class="tok-kw">while</span> (number &lt;= <span class="tok-num">5</span>) {
+    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(number);
+    <span class="tok-com">// ลืม number++  → number = 1 ตลอดไป</span>
+}</code></pre></div><p>ทั้งสองแบบคอมไพล์ผ่าน แต่ไม่จบ ถ้าเผลอรันใน IDE ให้กดปุ่ม Stop (■) วิธีป้องกันคือ trace 3 รอบแรกด้วยมือและตรวจว่าค่าเคลื่อนเข้าหาเงื่อนไขหยุด</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · นับรอบ</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> x = <span class="tok-num">20</span>;
+<span class="tok-kw">int</span> rounds = <span class="tok-num">0</span>;
+<span class="tok-kw">while</span> (x &gt; <span class="tok-num">1</span>) {
+    x = x / <span class="tok-num">2</span>;
     rounds++;
-}</code></pre><p>เมื่อจบลูป x และ rounds มีค่าเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>x: 20 → 10 → 5 → 2 → 1 → หยุด ดังนั้น <strong>x = 1, rounds = 4</strong></p></div></details></div>
+}</code></pre></div><p>เมื่อจบลูป x และ rounds มีค่าเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>x: 20 → 10 → 5 → 2 → 1 → หยุด ดังนั้น <strong>x = 1, rounds = 4</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-6-2">
 <h3>6.2 for: เมื่อรู้จำนวนรอบหรือตัวนับชัดเจน</h3>
 <p><code>for</code> รวมจุดเริ่ม เงื่อนไข และการอัปเดตไว้ในบรรทัดเดียว ทำให้อ่านแล้วรู้จำนวนรอบทันที</p>
-<div class="concept-box"><span class="box-title">Syntax และ flow ของ for</span><p><pre><code>for (initialization; condition; update) {
-    // loop body
-}</code></pre></p><ol class="step-list"><li>ทำ <code>initialization</code> ครั้งเดียวก่อนเริ่มลูป</li><li>ตรวจ <code>condition</code>; ถ้า false ออกจากลูป</li><li>ถ้า true ทำ body</li><li>ทำ <code>update</code> แล้วกลับไปข้อ 2</li></ol><p>ตัวแปรที่ประกาศในส่วนเริ่มต้น เช่น <code>int i</code> ใช้ได้เฉพาะภายในลูปนั้น</p></div>
+<div class="concept-box"><span class="box-title">Syntax และ flow ของ for</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">for</span> (initialization; condition; update) {
+    <span class="tok-com">// loop body</span>
+}</code></pre></div><ol class="step-list"><li>ทำ <code>initialization</code> ครั้งเดียวก่อนเริ่มลูป</li><li>ตรวจ <code>condition</code>; ถ้า false ออกจากลูป</li><li>ถ้า true ทำ body</li><li>ทำ <code>update</code> แล้วกลับไปข้อ 2</li></ol><p>ตัวแปรที่ประกาศในส่วนเริ่มต้น เช่น <code>int i</code> ใช้ได้เฉพาะภายในลูปนั้น</p></div>
 <div class="source-example"><h4>ตัวอย่าง 6.2.1 · อ่าน header ของ for ตามลำดับ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ก่อนรัน ให้ทำนายค่าเริ่มต้น จำนวนรอบ และผลรวม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForFlow.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForFlow</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
@@ -281,9 +281,9 @@ Max=91 Min=65 Avg=79.00</pre></div></div><div class="walkthrough"><strong>อธ
 <article class="subtopic" id="topic-6-3">
 <h3>6.3 do-while และการทำซ้ำด้วย sentinel</h3>
 <p><code>do-while</code> ตรวจเงื่อนไข<strong>หลัง</strong>ทำ body จึงทำอย่างน้อยหนึ่งครั้ง เหมาะกับการแสดงเมนูหรือถามข้อมูลก่อน แล้วค่อยตรวจว่าต้องทำต่อหรือไม่ ส่วน <strong>sentinel</strong> คือค่าพิเศษที่ใช้สั่งหยุด เช่น ป้อน 0 หรือ -1</p>
-<div class="concept-box"><span class="box-title">Syntax และ flow ของ do-while</span><p><pre><code>do {
-    // คำสั่งที่ต้องทำอย่างน้อยหนึ่งครั้ง
-} while (condition);   // ← มี ; ปิดท้าย</code></pre></p><ol class="step-list"><li>เข้าทำ body ทันทีโดยยังไม่ตรวจเงื่อนไข</li><li>ทำคำสั่งใน body และปรับค่าที่เกี่ยวข้อง</li><li>ตรวจ condition ที่ท้ายลูป</li><li>ถ้า true กลับไปเริ่ม body; ถ้า false ออกจากลูป</li></ol></div>
+<div class="concept-box"><span class="box-title">Syntax และ flow ของ do-while</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">do</span> {
+    <span class="tok-com">// คำสั่งที่ต้องทำอย่างน้อยหนึ่งครั้ง</span>
+} <span class="tok-kw">while</span> (condition);   <span class="tok-com">// ← มี ; ปิดท้าย</span></code></pre></div><ol class="step-list"><li>เข้าทำ body ทันทีโดยยังไม่ตรวจเงื่อนไข</li><li>ทำคำสั่งใน body และปรับค่าที่เกี่ยวข้อง</li><li>ตรวจ condition ที่ท้ายลูป</li><li>ถ้า true กลับไปเริ่ม body; ถ้า false ออกจากลูป</li></ol></div>
 <div class="source-example"><h4>ตัวอย่าง 6.3.1 · ทำอย่างน้อยหนึ่งครั้ง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> แม้เงื่อนไขเป็น false ตั้งแต่แรก body ก็ทำไปแล้วหนึ่งครั้ง — ต่างจาก while</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DoWhileOnce.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DoWhileOnce</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> count = <span class="tok-num">10</span>;
@@ -402,11 +402,11 @@ Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายท�
 }</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>DoWhileSyntaxError.java:7: error: ';' expected
         } while (count &lt;= 3)
                             ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>compiler แจ้ง <code>';' expected</code> ที่ท้ายบรรทัด while</li><li>เติม ; แล้วโปรแกรมจะพิมพ์ 1, 2, 3</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · do-while</strong><div><pre><code>int n = 5;
-do {
-    System.out.print(n + " ");
-    n -= 2;
-} while (n &gt; 0);</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>พิมพ์ <strong>5 3 1</strong> แล้ว n = -1 ทำให้เงื่อนไขเท็จ</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · do-while</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> n = <span class="tok-num">5</span>;
+<span class="tok-kw">do</span> {
+    <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(n + <span class="tok-str">" "</span>);
+    n -= <span class="tok-num">2</span>;
+} <span class="tok-kw">while</span> (n &gt; <span class="tok-num">0</span>);</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>พิมพ์ <strong>5 3 1</strong> แล้ว n = -1 ทำให้เงื่อนไขเท็จ</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-6-4">
 <h3>6.4 ลูปซ้อน, break และ continue</h3>
@@ -526,16 +526,16 @@ Total primes: 15</pre></div></div><div class="walkthrough"><strong>อธิบ�
 }</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>UnreachableAfterBreak.java:5: error: unreachable statement
             System.out.println("Never reached");
             ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>unreachable statement</code> ชี้ที่ println</li><li>ย้าย println ไปหลังลูป หรือใส่ break ไว้ใน if</li></ol></div></div>
-<div class="note-box"><span class="box-title">Logic error: continue ข้าม update ใน while</span><pre><code>int i = 1;
-while (i &lt;= 5) {
-    if (i % 2 == 0) continue;   // i = 2 → continue ก่อน i++ → ค้างที่ 2 ตลอด
-    System.out.println(i);
+<div class="note-box"><span class="box-title">Logic error: continue ข้าม update ใน while</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> i = <span class="tok-num">1</span>;
+<span class="tok-kw">while</span> (i &lt;= <span class="tok-num">5</span>) {
+    <span class="tok-kw">if</span> (i % <span class="tok-num">2</span> == <span class="tok-num">0</span>) <span class="tok-kw">continue</span>;   <span class="tok-com">// i = 2 → continue ก่อน i++ → ค้างที่ 2 ตลอด</span>
+    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(i);
     i++;
-}</code></pre><p>แก้โดยย้าย <code>i++</code> ขึ้นไปก่อน continue หรือเปลี่ยนเป็น for loop</p></div>
-<div class="quick-check"><strong>ลองคิดก่อน · นับรอบลูปซ้อน</strong><div><pre><code>int count = 0;
-for (int a = 1; a &lt;= 4; a++)
-    for (int b = a; b &lt;= 4; b++)
-        count++;</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>a = 1 → 4 รอบ, a = 2 → 3, a = 3 → 2, a = 4 → 1 รวม <strong>10</strong></p></div></details></div>
+}</code></pre></div><p>แก้โดยย้าย <code>i++</code> ขึ้นไปก่อน continue หรือเปลี่ยนเป็น for loop</p></div>
+<div class="quick-check"><strong>ลองคิดก่อน · นับรอบลูปซ้อน</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> count = <span class="tok-num">0</span>;
+<span class="tok-kw">for</span> (<span class="tok-kw">int</span> a = <span class="tok-num">1</span>; a &lt;= <span class="tok-num">4</span>; a++)
+    <span class="tok-kw">for</span> (<span class="tok-kw">int</span> b = a; b &lt;= <span class="tok-num">4</span>; b++)
+        count++;</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>a = 1 → 4 รอบ, a = 2 → 3, a = 3 → 2, a = 4 → 1 รวม <strong>10</strong></p></div></details></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">

@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, fpre } from "../lib.mjs";
 
 export default {
   num: 14, file: "chapter-14.html",
@@ -18,7 +18,7 @@ export default {
       num: "14.1", toc: "Console กับ GUI", title: "หน้าต่าง, container และ component",
       blocks: [
         { type: "p", html: `<strong>JFrame</strong> เป็นหน้าต่างหลัก; <strong>container</strong> (เช่น JPanel) ใช้บรรจุและจัดกลุ่ม component; <strong>component</strong> คือสิ่งที่มองเห็นหรือโต้ตอบได้ เช่น label, button และ text field` },
-        { type: "example", title: "แผนผังส่วนประกอบ (component tree)", html: pre(`
+        { type: "example", title: "แผนผังส่วนประกอบ (component tree)", html: fpre(`
           JFrame (หน้าต่าง)
           └── content pane / JPanel (พื้นที่จัดกลุ่ม)
               ├── JLabel     (ข้อความ)
@@ -249,7 +249,7 @@ export default {
       num: "14.4", toc: "Event Dispatch Thread", title: "Event Dispatch Thread (EDT)",
       blocks: [
         { type: "p", html: `Swing ไม่ปลอดภัยต่อการใช้งานจากหลาย thread พร้อมกัน ทุกการสร้างและแก้ไข component ต้องทำบน <strong>Event Dispatch Thread (EDT)</strong> ซึ่งเป็น thread เดียวที่วาดหน้าจอและประมวลผลเหตุการณ์ วิธีมาตรฐานคือห่อโค้ดสร้าง GUI ด้วย <code>SwingUtilities.invokeLater(() -&gt; { ... });</code>` },
-        { type: "concept", title: "invokeLater ทำอะไร", html: pre(`
+        { type: "concept", title: "invokeLater ทำอะไร", html: fpre(`
           main thread                      Event Dispatch Thread
           ───────────                      ─────────────────────
           main() เริ่ม

@@ -55,9 +55,9 @@
         <p><strong>เมธอด (method)</strong> คือชุดคำสั่งที่ตั้งชื่อไว้เพื่อทำงานหนึ่งอย่าง เช่น คำนวณราคา หรือพิมพ์ใบเสร็จ เมื่อโปรแกรมยาวขึ้น เราแยกงานเป็นเมธอดเล็ก ๆ เพื่อให้อ่านง่าย เรียกซ้ำได้ และตรวจข้อผิดพลาดทีละส่วนได้ จริง ๆ แล้วเราใช้เมธอดมาตั้งแต่บทแรก: <code>main</code>, <code>println</code>, <code>nextInt</code>, <code>Math.sqrt</code> ล้วนเป็นเมธอด บทนี้จะเขียนเมธอดของเราเอง</p>
 <article class="subtopic" id="topic-7-1">
 <h3>7.1 ประกาศและเรียกใช้เมธอด</h3>
-<div class="concept-box"><span class="box-title">แยกส่วนของ method declaration</span><pre><code>static  void  printWelcome  ( )  {
+<div class="concept-box"><span class="box-title">แยกส่วนของ method declaration</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span>  <span class="tok-kw">void</span>  <span class="tok-fn">printWelcome</span>  ( )  {
   ①      ②         ③        ④   ⑤ body ...
-}</code></pre><ol><li><code>static</code> — เรียกผ่านคลาสได้โดยไม่ต้องสร้าง object (ใช้ในบทพื้นฐานนี้ ความหมายเต็มอยู่ในบทที่ 11–12)</li><li><code>void</code> — ชนิดผลลัพธ์: ไม่มีค่าคืนกลับ</li><li>ชื่อเมธอด — lowerCamelCase ขึ้นต้นด้วยคำกริยา เช่น <code>printReceipt</code>, <code>calculateTax</code></li><li><code>( )</code> — ตำแหน่ง parameter ตอนนี้ยังว่าง</li><li><code>{ }</code> — body คือคำสั่งที่ทำเมื่อถูกเรียก</li></ol><p>เมธอดประกาศ<strong>ภายในคลาส แต่นอกเมธอดอื่น</strong> (ไม่ซ้อนอยู่ใน main) และลำดับการประกาศไม่สำคัญ</p></div>
+}</code></pre></div><ol><li><code>static</code> — เรียกผ่านคลาสได้โดยไม่ต้องสร้าง object (ใช้ในบทพื้นฐานนี้ ความหมายเต็มอยู่ในบทที่ 11–12)</li><li><code>void</code> — ชนิดผลลัพธ์: ไม่มีค่าคืนกลับ</li><li>ชื่อเมธอด — lowerCamelCase ขึ้นต้นด้วยคำกริยา เช่น <code>printReceipt</code>, <code>calculateTax</code></li><li><code>( )</code> — ตำแหน่ง parameter ตอนนี้ยังว่าง</li><li><code>{ }</code> — body คือคำสั่งที่ทำเมื่อถูกเรียก</li></ol><p>เมธอดประกาศ<strong>ภายในคลาส แต่นอกเมธอดอื่น</strong> (ไม่ซ้อนอยู่ใน main) และลำดับการประกาศไม่สำคัญ</p></div>
 <div class="source-example"><h4>ตัวอย่าง 7.1.1 · แยกการแสดงข้อความออกจาก main <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ประกาศครั้งเดียว เรียกกี่ครั้งก็ได้ด้วยชื่อตามด้วย <code>()</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Welcome.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Welcome</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// เรียกเมธอด → กระโดดไปทำ แล้วกลับมาบรรทัดถัดไป</span>
@@ -162,18 +162,18 @@ Thank you!
     }
 }</code></pre></div><p>ข้อนี้ไม่มี parameter เลย เพราะหัวข้อ 7.1 ยังไม่สอนเรื่องนี้ — จุดที่ยากกว่าตัวอย่างคือต้องวางแผนว่าเมธอดไหน <em>ควรเรียก</em> printDivider() บ้าง แทนที่จะ copy โค้ดเส้นคั่นซ้ำ ๆ</p></div></div></article>
 <div class="note-box"><span class="box-title">void ไม่ได้แปลว่าไม่มี output</span><p>เมธอด void พิมพ์ข้อความได้ตามปกติ “void” หมายถึงไม่<strong>ส่งค่ากลับ</strong>ไปให้ผู้เรียกนำไปใช้ต่อ การแสดงผล (print) กับการคืนค่า (return) เป็นคนละเรื่อง — จะเห็นชัดในหัวข้อ 7.3</p></div>
-<div class="quick-check"><strong>ลองคิดก่อน · ลำดับการเรียก</strong><div><pre><code>static void a() { System.out.print("A"); b(); System.out.print("a"); }
-static void b() { System.out.print("B"); }
-// ใน main:
-a(); b();</code></pre></div><details><summary>ดูคำตอบ</summary><div><p><strong>ABaB</strong> — a พิมพ์ A, เรียก b พิมพ์ B, กลับมาพิมพ์ a, แล้ว main เรียก b อีกครั้งพิมพ์ B</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ลำดับการเรียก</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">a</span>() { <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"A"</span>); <span class="tok-fn">b</span>(); <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"a"</span>); }
+<span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">b</span>() { <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"B"</span>); }
+<span class="tok-com">// ใน main:</span>
+<span class="tok-fn">a</span>(); <span class="tok-fn">b</span>();</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p><strong>ABaB</strong> — a พิมพ์ A, เรียก b พิมพ์ B, กลับมาพิมพ์ a, แล้ว main เรียก b อีกครั้งพิมพ์ B</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-7-2">
 <h3>7.2 พารามิเตอร์และ argument</h3>
 <p><strong>parameter</strong> คือตัวแปรที่ประกาศในวงเล็บของเมธอดเพื่อรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก เมื่อเรียก Java จะคัดลอกค่า argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em></p>
-<div class="concept-box"><span class="box-title">parameter vs argument</span><pre><code>static void greet(String name, int times) { ... }   // name, times = parameter
-greet("Mali", 3);                                  // "Mali", 3   = argument
-        │      └──→ times = 3
-        └──────────→ name  = "Mali"</code></pre><ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul></div>
+<div class="concept-box"><span class="box-title">parameter vs argument</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">greet</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> times) { ... }   <span class="tok-com">// name, times = parameter</span>
+<span class="tok-fn">greet</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">3</span>);                                  <span class="tok-com">// "Mali", 3   = argument</span>
+        │      └──→ times = <span class="tok-num">3</span>
+        └──────────→ name  = <span class="tok-str">"Mali"</span></code></pre></div><ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul></div>
 <div class="source-example"><h4>ตัวอย่าง 7.2.1 · parameter หนึ่งตัว <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดเดียวทำงานกับข้อมูลต่างกันได้ ขึ้นอยู่กับ argument ที่ส่งมา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GreetParam.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GreetParam</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ส่ง argument "Mali" เข้า parameter name</span>
@@ -310,22 +310,22 @@ WrongArguments.java:4: error: method drawLine in class WrongArguments cannot be 
   required: char,int
   found:    char
   reason: actual and formal argument lists differ in length</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัด 3 สลับลำดับ: ส่ง 5 (int) ไปที่ parameter แรกซึ่งเป็น char → <code>possible lossy conversion from int to char</code></li><li>บรรทัด 4 ขาด argument → <code>cannot be applied to given types</code></li><li><code>required: char,int</code> / <code>found: char</code> บอกว่าคาดหวังอะไรและได้อะไร</li><li>แก้: <code>drawLine('*', 5);</code></li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · ส่งค่า</strong><div><pre><code>static void show(int a, int b) { System.out.println(a + "-" + b); }
-// main
-int x = 3, y = 8;
-show(y, x);
-show(x + y, x * y);</code></pre></div><details><summary>ดูคำตอบ</summary><div><p><strong>8-3</strong> และ <strong>11-24</strong> — ค่าจับคู่ตามตำแหน่ง ไม่ใช่ตามชื่อตัวแปร</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ส่งค่า</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">show</span>(<span class="tok-kw">int</span> a, <span class="tok-kw">int</span> b) { <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(a + <span class="tok-str">"-"</span> + b); }
+<span class="tok-com">// main</span>
+<span class="tok-kw">int</span> x = <span class="tok-num">3</span>, y = <span class="tok-num">8</span>;
+<span class="tok-fn">show</span>(y, x);
+<span class="tok-fn">show</span>(x + y, x * y);</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p><strong>8-3</strong> และ <strong>11-24</strong> — ค่าจับคู่ตามตำแหน่ง ไม่ใช่ตามชื่อตัวแปร</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-7-3">
 <h3>7.3 return value: เมธอดที่คืนผลลัพธ์</h3>
 <p>เมื่อเมธอดคำนวณค่าที่ผู้เรียกต้องนำไปใช้ต่อ ให้ระบุ<strong>ชนิดผลลัพธ์</strong>แทน void แล้วใช้ <code>return ค่า;</code> ส่งค่ากลับ เมื่อเจอ return เมธอดจะจบทันที</p>
-<div class="concept-box"><span class="box-title">โครงสร้างเมธอดที่คืนค่า</span><pre><code>static double calculateArea(double width, double height) {
-    double area = width * height;
-    return area;                    // ส่งค่า area กลับไปยังจุดที่เรียก
+<div class="concept-box"><span class="box-title">โครงสร้างเมธอดที่คืนค่า</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">calculateArea</span>(<span class="tok-kw">double</span> width, <span class="tok-kw">double</span> height) {
+    <span class="tok-kw">double</span> area = width * height;
+    <span class="tok-kw">return</span> area;                    <span class="tok-com">// ส่งค่า area กลับไปยังจุดที่เรียก</span>
 }
 
-double a = calculateArea(4, 2.5);   // นำค่าที่คืนมาเก็บในตัวแปร
-System.out.println(calculateArea(3, 3) * 2);  // หรือใช้ในนิพจน์โดยตรง</code></pre><p>คิดว่าการเรียกเมธอดที่คืนค่าคือ “นิพจน์” ที่ถูกแทนด้วยค่าที่ return ออกมา</p></div>
+<span class="tok-kw">double</span> a = <span class="tok-fn">calculateArea</span>(<span class="tok-num">4</span>, <span class="tok-num">2.5</span>);   <span class="tok-com">// นำค่าที่คืนมาเก็บในตัวแปร</span>
+<span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">calculateArea</span>(<span class="tok-num">3</span>, <span class="tok-num">3</span>) * <span class="tok-num">2</span>);  <span class="tok-com">// หรือใช้ในนิพจน์โดยตรง</span></code></pre></div><p>คิดว่าการเรียกเมธอดที่คืนค่าคือ “นิพจน์” ที่ถูกแทนด้วยค่าที่ return ออกมา</p></div>
 <div class="source-example"><h4>ตัวอย่าง 7.3.1 · คืนค่าแล้วนำไปใช้ต่อ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ค่าที่คืนกลับมาเก็บในตัวแปร พิมพ์ หรือใช้คำนวณต่อได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SquareReturn.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SquareReturn</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> a = <span class="tok-fn">square</span>(<span class="tok-num">4</span>);  <span class="tok-com">// นำค่าที่คืนมาเก็บในตัวแปร</span>
@@ -430,11 +430,11 @@ Count: 7</pre></div><div class="answer-gate" data-answer-id="7.3-P1"><button cla
 }</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingReturn.java:12: error: missing return statement
     }
     ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>กรณี n == 0 หลุดออกจาก if ทั้งหมดโดยไม่มี return</li><li>javac แจ้ง <code>missing return statement</code></li><li>แก้: เพิ่ม <code>return "zero";</code> ท้ายเมธอด</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · ค่าที่คืน</strong><div><pre><code>static int f(int x) {
-    if (x % 2 == 0) return x / 2;
-    return 3 * x + 1;
+<div class="quick-check"><strong>ลองคิดก่อน · ค่าที่คืน</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">f</span>(<span class="tok-kw">int</span> x) {
+    <span class="tok-kw">if</span> (x % <span class="tok-num">2</span> == <span class="tok-num">0</span>) <span class="tok-kw">return</span> x / <span class="tok-num">2</span>;
+    <span class="tok-kw">return</span> <span class="tok-num">3</span> * x + <span class="tok-num">1</span>;
 }
-// f(6), f(7), f(f(5))</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>f(6) = 3, f(7) = 22, f(5) = 16 → f(16) = <strong>8</strong></p></div></details></div>
+<span class="tok-com">// f(6), f(7), f(f(5))</span></code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>f(6) = 3, f(7) = 22, f(5) = 16 → f(16) = <strong>8</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-7-4">
 <h3>7.4 scope ของตัวแปร และ method overloading</h3>
@@ -533,12 +533,12 @@ Box 2x3x4         : 24.00</pre></div><div class="answer-gate" data-answer-id="7.
         <span class="tok-kw">return</span> length * width * height;
     }
 }</code></pre></div><p>ยากกว่าตัวอย่าง area ตรงที่ volumeOf(double, double) ของทรงกระบอกใช้สูตรที่ซับซ้อนกว่า และต้องระวังไม่ให้สลับลำดับ parameter กับเวอร์ชัน 3 ตัว</p></div></div></article>
-<div class="quick-check"><strong>ลองคิดก่อน · scope</strong><div><pre><code>int total = 0;
-for (int i = 1; i &lt;= 3; i++) {
-    int temp = i * 10;
+<div class="quick-check"><strong>ลองคิดก่อน · scope</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> total = <span class="tok-num">0</span>;
+<span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">3</span>; i++) {
+    <span class="tok-kw">int</span> temp = i * <span class="tok-num">10</span>;
     total += temp;
 }
-// บรรทัดนี้ใช้ตัวแปรใดได้บ้าง: total, i, temp ?</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>ใช้ได้เฉพาะ <strong>total</strong> (มีค่า 60) ส่วน i และ temp หมด scope เมื่อออกจากลูป</p></div></details></div>
+<span class="tok-com">// บรรทัดนี้ใช้ตัวแปรใดได้บ้าง: total, i, temp ?</span></code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>ใช้ได้เฉพาะ <strong>total</strong> (มีค่า 60) ส่วน i และ temp หมด scope เมื่อออกจากลูป</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-7-5">
 <h3>7.5 ประกอบโปรแกรมจากเมธอด</h3>

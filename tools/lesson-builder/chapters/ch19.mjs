@@ -1,4 +1,4 @@
-import { j, c, pre, dedent } from "../lib.mjs";
+import { j, c, pre, dedent, fpre } from "../lib.mjs";
 
 // Shared model used across examples (kept identical so readers see one design)
 const MODEL = dedent(j`
@@ -282,7 +282,7 @@ export default {
       blocks: [
         { type: "p", html: "เขียนสิ่งที่ผู้ใช้ทำได้ก่อนคิดเรื่องสีหรือ component วิธีนี้ช่วยตัดสินใจว่าต้องมีหน้าอะไรและข้อมูลใดต้องเก็บ" },
         { type: "concept", title: "ขอบเขตเวอร์ชันแรก (requirements)", html: `<ol><li>หน้า <strong>Home</strong> แสดงจำนวนวิชาและหน่วยกิตรวม</li><li>หน้า <strong>Add Course</strong> รับรหัส ชื่อ และหน่วยกิต ตรวจ: ช่องว่าง, รูปแบบรหัส (เช่น CS101), หน่วยกิตเป็นจำนวนเต็ม 1–6, รหัสไม่ซ้ำ, หน่วยกิตรวมไม่เกิน 22</li><li>หน้า <strong>Course List</strong> แสดงรายการ เลือกวิชาแล้วลบได้ (ถามยืนยัน)</li><li>ข้อมูลอยู่ใน memory; ปิดโปรแกรมแล้วไม่ต้องคงข้อมูล</li></ol>` },
-        { type: "example", title: "เส้นทางผู้ใช้ (user flow)", html: pre(`
+        { type: "example", title: "เส้นทางผู้ใช้ (user flow)", html: fpre(`
           HOME   --Add course-->   FORM
           HOME   --View list-->    LIST
           FORM   --Save (valid)--> LIST
@@ -359,7 +359,7 @@ export default {
       num: "19.3", toc: "สร้าง layout", title: "ประกอบหน้าด้วย layout manager",
       blocks: [
         { type: "p", html: "วาง CardLayout เป็น content pane ของ JFrame เพื่อสลับ Home, Form และ List; ภายในแต่ละ panel ใช้ layout ที่เหมาะกับหน้าที่: BorderLayout สำหรับกรอบหลัก, GridLayout สำหรับคู่ป้าย–ช่อง, FlowLayout ชิดขวาสำหรับแถวปุ่ม" },
-        { type: "example", title: "โครง container ของแอป", html: pre(`
+        { type: "example", title: "โครง container ของแอป", html: fpre(`
           JFrame "Course Planner"
           └── pages (CardLayout)
               ├── HOME  (BorderLayout: title / summary / buttons)

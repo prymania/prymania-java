@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 5, file: "chapter-05.html",
@@ -173,7 +173,7 @@ export default {
     {
       num: "5.3", toc: "if, else if และ else", title: "if, else if และ else",
       blocks: [
-        { type: "concept", title: "รูปแบบของ if ทั้ง 3 แบบ", html: pre(`
+        { type: "concept", title: "รูปแบบของ if ทั้ง 3 แบบ", html: jpre(`
           if (เงื่อนไข) {              if (เงื่อนไข) {              if (เงื่อนไข1) {
               ทำเมื่อจริง                 ทำเมื่อจริง                  ...
           }                           } else {                     } else if (เงื่อนไข2) {
@@ -294,10 +294,10 @@ export default {
             }`,
           steps: ["ยอด 1200 ≥ 1000 → ส่งฟรี ไม่ต้องดูสถานะสมาชิกเลย", "ถ้ายอดไม่ถึง จึงค่อยตรวจสมาชิก (if ชั้นใน)", "ternary เลือกข้อความ: 0 → \"FREE\""],
           tryIt: "ป้อน 800 และ y → 20 baht, ป้อน 800 และ n → 50 baht" },
-        { type: "note", title: "ใส่วงเล็บปีกกาเสมอ และอย่าใส่ ; หลัง if", html: pre(`
+        { type: "note", title: "ใส่วงเล็บปีกกาเสมอ และอย่าใส่ ; หลัง if", html: jpre(`
           if (score >= 50);              // ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป
               System.out.println("Pass");  // ← ทำงานทุกครั้ง!`) + `<p>แม้มีคำสั่งเดียวก็ควรใส่ <code>{ }</code> เพื่อให้เห็นขอบเขตชัดและป้องกันการเพิ่มคำสั่งผิดตำแหน่ง</p>` },
-        { type: "check", title: "trace if-else if", html: pre(`
+        { type: "check", title: "trace if-else if", html: jpre(`
           int x = 15;
           if (x > 20) System.out.println("A");
           else if (x > 10) System.out.println("B");
@@ -309,7 +309,7 @@ export default {
       num: "5.4", toc: "เลือกทางด้วย switch", title: "เลือกทางด้วย switch",
       blocks: [
         { type: "p", html: `<code>switch</code> เหมาะเมื่อเปรียบเทียบ<strong>ค่าเดียว</strong>กับตัวเลือกที่เป็นค่าแน่นอนหลายค่า เช่น รหัสเมนู วันในสัปดาห์ ใช้กับ <code>int</code>, <code>char</code>, <code>String</code> ได้ (แต่ไม่ใช้กับช่วงค่า เช่น ≥ 80 — กรณีนั้นใช้ if)` },
-        { type: "concept", title: "switch แบบดั้งเดิม vs แบบลูกศร (Java 14+)", html: pre(`
+        { type: "concept", title: "switch แบบดั้งเดิม vs แบบลูกศร (Java 14+)", html: jpre(`
           switch (day) {                       switch (day) {
               case 1:                              case 1 -> name = "Mon";
                   name = "Mon";                    case 2 -> name = "Tue";
@@ -424,7 +424,7 @@ export default {
             }`,
           steps: ["อ่าน 12, \"*\" และ 4", "<code>.charAt(0)</code> ดึงอักขระแรกจาก String เป็น char", "case '*' ทำงาน → 48.0", "case '/' มีหลายคำสั่งจึงใช้ <code>{ }</code>"] },
         { type: "table", title: "เลือก if หรือ switch", head: ["สถานการณ์", "ควรใช้"], rows: [["ตรวจช่วงค่า (≥, &lt;)", "if-else if"], ["เงื่อนไขหลายตัวแปรรวมกัน (&amp;&amp;, ||)", "if"], ["ค่าเดียวเทียบกับค่าคงที่หลายค่า", "switch"], ["เมนูตัวเลข/ตัวอักษร", "switch"]] },
-        { type: "check", title: "switch output", html: pre(`
+        { type: "check", title: "switch output", html: jpre(`
           int n = 1;
           switch (n) {
               case 1: System.out.print("one ");

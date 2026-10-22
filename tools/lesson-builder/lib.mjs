@@ -76,6 +76,63 @@ export function highlightJava(code) {
 export const codeBlock = (code, cls = "source-code") =>
   `<div class="code-block"><div class="code-head"><span class="code-file">${className(code)}.java</span></div><pre class="${cls}"><code>${highlightJava(code)}</code></pre></div>`;
 
+// Java snippet that is not run (syntax, fragment): same colored panel; header shows the class file if any
+export function jpre(src, file) {
+  const code = dedent(src);
+  const m = code.match(/\bclass\s+(\w+)/);
+  const name = file || (m ? m[1] + ".java" : "Java");
+  return `<div class="code-block"><div class="code-head"><span class="code-file">${esc(name)}</span></div><pre class="copyable"><code>${highlightJava(code)}</code></pre></div>`;
+}
+
+/* Flowchart / pseudocode / text diagrams: colored by role, not Java syntax.
+   Thai pseudocode keywords (เริ่มต้น/รับ/ถ้า ...) are colored only for "รหัสเทียม" and "Flowchart" panels. */
+const FLOW_TOKEN = new RegExp([
+  /(\/\/[^\n]*|←[^\n]*)/,                                              // 1 note
+  /(\((?:วงรี|ด้านขนาน|สี่เหลี่ยม[^)\n]*|เริ่มต้น|จบ)\))/,                     // 2 flowchart shape
+  /(เริ่มต้น|จบ)/,                                                     // 3 start / end
+  /(รับ|แสดง)/,                                                        // 4 input / output
+  /(มิฉะนั้น|ถ้า|ขณะที่|ทำซ้ำ)/,                                          // 5 control
+  /(ไม่ใช่|ใช่)/,                                                       // 6 branch label
+  /(◇)/,                                                               // 7 decision
+  /([→↑↓↙↘↖↗▼▲▶◀─│┌┐└┘├┤┬┴┼⏎␣]+|-->|--)/,                               // 8 arrows / lines
+  /("[^"\n]*")/,                                                       // 9 string
+  /(\b\d+(?:\.\d+)?\b)/,                                               // 10 number
+  /([A-Za-z_]\w*)(?=(\s*\()?)/,                                        // 11 word, 12 followed by "("
+].map((r) => r.source).join("|"), "g");
+
+function highlightFlow(code, thaiKeywords) {
+  let html = "", last = 0;
+  const span = (cls, s) => `<span class="tok-${cls}">${esc(s)}</span>`;
+  for (const m of code.matchAll(FLOW_TOKEN)) {
+    const [text, note, shape, start, io, ctl, yes, dec, arrow, str, num, word, call] = m;
+    const keyword = start || io || ctl || yes;
+    if (keyword && !thaiKeywords) continue;
+    html += esc(code.slice(last, m.index));
+    last = m.index + text.length;
+    if (note) html += span("com", text);
+    else if (shape) html += span("shape", text);
+    else if (start) html += span("start", text);
+    else if (io) html += span("io", text);
+    else if (ctl) html += span("ctl", text);
+    else if (yes) html += span("yes", text);
+    else if (dec) html += span("dec", text);
+    else if (arrow) html += span("arrow", text);
+    else if (str) html += span("str", text);
+    else if (num) html += span("num", text);
+    else if (/^[A-Z][A-Z0-9_]+$/.test(word)) html += span("const", text);
+    else if (/^[A-Z]/.test(word)) html += span("type", text);
+    else if (call !== undefined) html += span("fn", text);
+    else html += esc(text);
+  }
+  return html + esc(code.slice(last));
+}
+
+export const fpre = (src, label = "แผนภาพ") =>
+  `<div class="code-block is-flow"><div class="code-head"><span class="code-file">${esc(label)}</span></div><pre><code>${highlightFlow(dedent(src), label === "รหัสเทียม" || label === "Flowchart")}</code></pre></div>`;
+
+// block-level HTML (a panel, list, table) must not be wrapped in <p>
+const para = (h) => (/^\s*<(div|pre|ul|ol|table)\b/.test(h) ? h : `<p>${h}</p>`);
+
 function className(code) {
   const m = code.match(/public\s+(?:final\s+)?class\s+(\w+)/) || code.match(/class\s+(\w+)/);
   if (!m) throw new Error("No class found in:\n" + code.slice(0, 200));
@@ -180,7 +237,7 @@ const blockRenderers = {
   concept: (b) => `<div class="concept-box"><span class="box-title">${b.title}</span>${b.html}</div>`,
   note: (b) => `<div class="note-box"><span class="box-title">${b.title}</span>${b.html}</div>`,
   example: (b) => `<div class="example-box"><span class="box-title">${b.title}</span>${b.html}</div>`,
-  steps: (b) => `<div class="concept-box"><span class="box-title">${b.title}</span>${b.intro ? `<p>${b.intro}</p>` : ""}<ol class="step-list">${b.items.map((i) => `<li>${i}</li>`).join("")}</ol>${b.after ? `<p>${b.after}</p>` : ""}</div>`,
+  steps: (b) => `<div class="concept-box"><span class="box-title">${b.title}</span>${b.intro ? para(b.intro) : ""}<ol class="step-list">${b.items.map((i) => `<li>${i}</li>`).join("")}</ol>${b.after ? para(b.after) : ""}</div>`,
   table: (b) => `${b.title ? `<h4>${b.title}</h4>` : ""}<table class="comparison-table${b.cls ? " " + b.cls : ""}"><thead><tr>${b.head.map((h) => `<th>${h}</th>`).join("")}</tr></thead><tbody>${b.rows.map((r) => `<tr>${r.map((d) => `<td>${d}</td>`).join("")}</tr>`).join("")}</tbody></table>`,
   check: (b) => `<div class="quick-check"><strong>ลองคิดก่อน · ${b.title}</strong><div>${b.html}</div><details><summary>ดูคำตอบ</summary><div>${b.answer}</div></details></div>`,
   run: renderRun,
@@ -209,7 +266,7 @@ function renderRun(b, ctx) {
   return `<div class="source-example"><h4>${label} · ${b.title}${b.level ? ` <span class="example-level">${b.level}</span>` : ""}</h4>`
     + (b.concept ? `<p class="concept-line"><strong>แนวคิด:</strong> ${b.concept}</p>` : "")
     + `<div class="source-example-grid"><div class="source-field">${codeBlock(code)}</div>${outputBlock}</div>`
-    + steps + (b.after ? `<p>${b.after}</p>` : "") + (b.tryIt ? `<p class="try-it">${b.tryIt}</p>` : "") + `</div>`;
+    + steps + (b.after ? para(b.after) : "") + (b.tryIt ? `<p class="try-it">${b.tryIt}</p>` : "") + `</div>`;
 }
 
 function renderBlocks(blocks, ctx) {

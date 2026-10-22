@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre, fpre } from "../lib.mjs";
 
 const BA = ["ก่อนคลิก", "หลังคลิก"];
 
@@ -19,7 +19,7 @@ export default {
     {
       num: "16.1", toc: "Event source และ listener", title: "Event source และ listener",
       blocks: [
-        { type: "concept", title: "ลำดับเหตุการณ์เมื่อผู้ใช้คลิกปุ่ม", html: pre(`
+        { type: "concept", title: "ลำดับเหตุการณ์เมื่อผู้ใช้คลิกปุ่ม", html: fpre(`
           ผู้ใช้คลิกปุ่ม
               │
               ▼
@@ -110,7 +110,7 @@ export default {
                 }
             }`,
           steps: ["state ของโปรแกรมคือ value ตัวเดียว", "ทุก listener เปลี่ยน state แล้วเรียก refresh()", "refresh() เป็นจุดเดียวที่อัปเดต UI จาก state — ทำให้หน้าจอตรงกับข้อมูลเสมอ", "ค่าลบแสดงเป็นสีแดง"] },
-        { type: "check", title: "เมื่อไรโค้ดทำงาน", html: pre(`
+        { type: "check", title: "เมื่อไรโค้ดทำงาน", html: jpre(`
           JButton b = new JButton("Go");
           b.addActionListener(e -> System.out.println("clicked"));
           System.out.println("listener added");`) + `<p>ข้อความใดถูกพิมพ์ก่อน และ “clicked” ถูกพิมพ์เมื่อไร</p>`, answer: `<p>“listener added” พิมพ์ทันที ส่วน “clicked” พิมพ์ <strong>ทุกครั้งที่ผู้ใช้คลิก</strong>ปุ่ม (อาจไม่พิมพ์เลยถ้าไม่มีใครคลิก)</p>` },
@@ -120,7 +120,7 @@ export default {
       num: "16.2", toc: "ActionListener", title: "ActionListener: สามวิธีเขียน",
       blocks: [
         { type: "p", html: `<code>ActionListener</code> เป็น interface ที่มีเมธอดเดียว <code>actionPerformed(ActionEvent e)</code> เขียนได้ 3 แบบ ผลลัพธ์เหมือนกัน: (1) คลาสแยกที่ implements, (2) anonymous class, (3) lambda (สั้นที่สุด นิยมที่สุด)` },
-        { type: "concept", title: "เปรียบเทียบ 3 แบบ", html: pre(`
+        { type: "concept", title: "เปรียบเทียบ 3 แบบ", html: jpre(`
           // (1) คลาสที่ implements ActionListener
           class GreetHandler implements ActionListener {
               public void actionPerformed(ActionEvent e) { label.setText("Hi"); }
@@ -251,7 +251,7 @@ export default {
                 }
             }`,
           steps: ["listener ชื่อ answer เก็บในตัวแปรชนิด ActionListener แล้วใช้กับทั้ง 3 ปุ่ม", "getActionCommand() คืนข้อความของปุ่มที่ถูกกด", "getSource() คืนออบเจ็กต์ที่เป็นต้นเหตุ — cast เป็น JButton แล้วปิดปุ่มนั้น", "ภาพแสดงหลังคลิก B: ปุ่ม B ถูกปิด ข้อความสีเขียว"] },
-        { type: "check", title: "lambda", html: `<p>เขียน listener แบบ lambda สำหรับปุ่ม <code>clear</code> ที่ล้างช่อง <code>input</code> และเปลี่ยน label <code>status</code> เป็น “Cleared”</p>`, answer: pre(`
+        { type: "check", title: "lambda", html: `<p>เขียน listener แบบ lambda สำหรับปุ่ม <code>clear</code> ที่ล้างช่อง <code>input</code> และเปลี่ยน label <code>status</code> เป็น “Cleared”</p>`, answer: jpre(`
           clear.addActionListener(e -> {
               input.setText("");
               status.setText("Cleared");
@@ -566,7 +566,7 @@ export default {
                 }
             }`,
           steps: ["state: secret, tries — field ของออบเจ็กต์ GuessGui", "<code>history.append</code> ต่อท้ายประวัติ", "ทายถูก → ปิดช่องและปุ่ม ป้องกันการทายต่อ", "New game รีเซ็ต state และ UI ทั้งหมด", "ใช้ return ออกจาก listener ก่อนเมื่อข้อมูลผิด"] },
-        { type: "note", title: "อย่าใช้ Thread.sleep ใน listener", html: pre(`
+        { type: "note", title: "อย่าใช้ Thread.sleep ใน listener", html: jpre(`
           button.addActionListener(e -> {
               label.setText("Working...");
               try { Thread.sleep(3000); } catch (InterruptedException ex) { }   // ❌ หน้าจอค้าง 3 วินาที

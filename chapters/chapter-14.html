@@ -57,11 +57,11 @@
 <article class="subtopic" id="topic-14-1">
 <h3>14.1 หน้าต่าง, container และ component</h3>
 <p><strong>JFrame</strong> เป็นหน้าต่างหลัก; <strong>container</strong> (เช่น JPanel) ใช้บรรจุและจัดกลุ่ม component; <strong>component</strong> คือสิ่งที่มองเห็นหรือโต้ตอบได้ เช่น label, button และ text field</p>
-<div class="example-box"><span class="box-title">แผนผังส่วนประกอบ (component tree)</span><pre><code>JFrame (หน้าต่าง)
-└── content pane / JPanel (พื้นที่จัดกลุ่ม)
-    ├── JLabel     (ข้อความ)
-    ├── JTextField (ช่องกรอก)
-    └── JButton    (ปุ่มกด)</code></pre><p>หน้าต่างทำหน้าที่เป็น root container; เรามักเพิ่ม JPanel ก่อน แล้วใส่ component ลงใน panel เพื่อจัด layout</p></div>
+<div class="example-box"><span class="box-title">แผนผังส่วนประกอบ (component tree)</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code><span class="tok-type">JFrame</span> (หน้าต่าง)
+<span class="tok-arrow">└──</span> content pane / <span class="tok-type">JPanel</span> (พื้นที่จัดกลุ่ม)
+    <span class="tok-arrow">├──</span> <span class="tok-type">JLabel</span>     (ข้อความ)
+    <span class="tok-arrow">├──</span> <span class="tok-type">JTextField</span> (ช่องกรอก)
+    <span class="tok-arrow">└──</span> <span class="tok-type">JButton</span>    (ปุ่มกด)</code></pre></div><p>หน้าต่างทำหน้าที่เป็น root container; เรามักเพิ่ม JPanel ก่อน แล้วใส่ component ลงใน panel เพื่อจัด layout</p></div>
 <h4>Console กับ GUI ต่างกันอย่างไร</h4><table class="comparison-table"><thead><tr><th></th><th>Console</th><th>GUI</th></tr></thead><tbody><tr><td>ลำดับการทำงาน</td><td>โปรแกรมกำหนด: ถาม → รอ → ถามต่อ</td><td>ผู้ใช้กำหนด: คลิก/พิมพ์อะไรก่อนก็ได้</td></tr><tr><td>รับข้อมูล</td><td>Scanner อ่านทีละบรรทัด</td><td>อ่านจาก component เมื่อเกิดเหตุการณ์</td></tr><tr><td>แสดงผล</td><td>println ต่อท้ายไปเรื่อย ๆ</td><td>เปลี่ยนข้อความใน label/area ที่มีอยู่</td></tr><tr><td>โครงสร้างโค้ด</td><td>main ทำงานจากบนลงล่างจนจบ</td><td>main สร้างหน้าต่างแล้วจบ ที่เหลือขับเคลื่อนด้วย event</td></tr></tbody></table>
 <div class="source-example"><h4>ตัวอย่าง 14.1.1 · เทียบโปรแกรมเดียวกัน: เวอร์ชัน console <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรม console ทำงานตามลำดับที่เขียน ผลลัพธ์ต่อท้ายใน console</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConsoleGreeting.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConsoleGreeting</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -238,12 +238,12 @@ Student: Mali</pre></div></div><div class="walkthrough"><strong>อธิบา�
 <article class="subtopic" id="topic-14-4">
 <h3>14.4 Event Dispatch Thread (EDT)</h3>
 <p>Swing ไม่ปลอดภัยต่อการใช้งานจากหลาย thread พร้อมกัน ทุกการสร้างและแก้ไข component ต้องทำบน <strong>Event Dispatch Thread (EDT)</strong> ซึ่งเป็น thread เดียวที่วาดหน้าจอและประมวลผลเหตุการณ์ วิธีมาตรฐานคือห่อโค้ดสร้าง GUI ด้วย <code>SwingUtilities.invokeLater(() -&gt; { ... });</code></p>
-<div class="concept-box"><span class="box-title">invokeLater ทำอะไร</span><pre><code>main thread                      Event Dispatch Thread
-───────────                      ─────────────────────
-main() เริ่ม
-invokeLater(งานสร้าง GUI) ──────▶ คิวงาน: [สร้าง GUI]
-main() จบ                        ทำ "สร้าง GUI" → แสดงหน้าต่าง
-                                 รอ event: คลิก, พิมพ์, วาดใหม่ ...</code></pre><p><code>() -&gt; { ... }</code> คือ lambda — “งานชิ้นหนึ่ง” ที่ส่งให้ EDT ทำภายหลัง จะเรียนละเอียดในบทที่ 16</p></div>
+<div class="concept-box"><span class="box-title">invokeLater ทำอะไร</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code>main thread                      <span class="tok-type">Event</span> <span class="tok-type">Dispatch</span> <span class="tok-type">Thread</span>
+<span class="tok-arrow">───────────</span>                      <span class="tok-arrow">─────────────────────</span>
+<span class="tok-fn">main</span>() เริ่ม
+<span class="tok-fn">invokeLater</span>(งานสร้าง <span class="tok-const">GUI</span>) <span class="tok-arrow">──────▶</span> คิวงาน: [สร้าง <span class="tok-const">GUI</span>]
+<span class="tok-fn">main</span>() จบ                        ทำ <span class="tok-str">"สร้าง GUI"</span> <span class="tok-arrow">→</span> แสดงหน้าต่าง
+                                 รอ event: คลิก, พิมพ์, วาดใหม่ ...</code></pre></div><p><code>() -&gt; { ... }</code> คือ lambda — “งานชิ้นหนึ่ง” ที่ส่งให้ EDT ทำภายหลัง จะเรียนละเอียดในบทที่ 16</p></div>
 <div class="source-example"><h4>ตัวอย่าง 14.4.1 · ดูชื่อ thread ที่ทำงาน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> แสดงว่าโค้ดใน invokeLater ทำงานบน thread ชื่อ AWT-EventQueue-0 ไม่ใช่ main</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhichThread.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WhichThread</span> {

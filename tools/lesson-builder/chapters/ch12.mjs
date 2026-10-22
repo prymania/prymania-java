@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 12, file: "chapter-12.html",
@@ -277,7 +277,7 @@ export default {
                 public String toString() { return "[" + min + ", " + max + "]"; }
             }`,
           steps: ["เมธอด private check ใช้ซ้ำทั้งใน constructor และ setter", "setMin(95) ทำให้ min > max → ถูกปฏิเสธก่อนเปลี่ยนค่า", "ลำดับสำคัญ: <strong>ตรวจก่อน แล้วค่อยเปลี่ยน</strong>"] },
-        { type: "check", title: "ลำดับการตรวจ", html: pre(`
+        { type: "check", title: "ลำดับการตรวจ", html: jpre(`
           public void setAge(int age) {
               this.age = age;
               if (age < 0) throw new IllegalArgumentException("negative");
@@ -372,7 +372,7 @@ export default {
       num: "12.5", toc: "inheritance และ override", title: "inheritance และ method override",
       blocks: [
         { type: "p", html: `<strong>Inheritance</strong> (ความสัมพันธ์แบบ “เป็น” / is-a) ให้คลาสลูก (subclass) รับ field และเมธอดจากคลาสแม่ (superclass) ด้วยคำว่า <code>extends</code> แล้วเพิ่มหรือ<strong>override</strong> (เขียนทับ) พฤติกรรมได้ ใช้ <code>super(...)</code> เรียก constructor ของคลาสแม่ และ <code>super.method()</code> เรียกเมธอดเวอร์ชันของคลาสแม่` },
-        { type: "concept", title: "โครงสร้าง", html: pre(`
+        { type: "concept", title: "โครงสร้าง", html: jpre(`
           class Employee {                       // superclass
               protected String name;
               protected double baseSalary;

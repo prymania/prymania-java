@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, fpre } from "../lib.mjs";
 
 export default {
   num: "S2", file: "side-quest-timer.html", idPrefix: "S2", passPrefix: "side", utility: "SIDE QUEST 02",
@@ -232,7 +232,7 @@ export default {
       num: "S2.3", toc: "งานเบื้องหลัง", title: "งานเบื้องหลังด้วย SwingWorker",
       blocks: [
         { type: "p", html: `งานที่ใช้เวลานานจริง ๆ (คำนวณหนัก อ่านไฟล์ใหญ่ ดาวน์โหลด) ต้องทำบน thread อื่น แต่<strong>ห้ามแก้ component จาก thread นั้น</strong> <code>SwingWorker&lt;T, V&gt;</code> จัดการให้: <code>doInBackground()</code> ทำงานบน thread เบื้องหลัง, <code>publish()</code>/<code>process()</code> ส่งความคืบหน้ากลับมาบน EDT, และ <code>done()</code> ทำงานบน EDT เมื่อเสร็จ` },
-        { type: "concept", title: "เมธอดของ SwingWorker ทำงานบน thread ไหน", html: pre(`
+        { type: "concept", title: "เมธอดของ SwingWorker ทำงานบน thread ไหน", html: fpre(`
           worker.execute()
               │
               ├── doInBackground()   ← background thread  (ห้ามแตะ component)

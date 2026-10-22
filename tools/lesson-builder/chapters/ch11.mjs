@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 11, file: "chapter-11.html",
@@ -17,7 +17,7 @@ export default {
     {
       num: "11.1", toc: "class เป็นพิมพ์เขียว", title: "class เป็นพิมพ์เขียว",
       blocks: [
-        { type: "concept", title: "โครงสร้างของคลาส", html: pre(`
+        { type: "concept", title: "โครงสร้างของคลาส", html: jpre(`
           class Student {               // ชื่อคลาส: PascalCase
               String name;              // field (ข้อมูล)
               int score;
@@ -193,7 +193,7 @@ export default {
                 String name;
             }`,
           steps: ["<code>new Product[2]</code> สร้างอาเรย์ 2 ช่องที่เป็น null — ยังไม่มี Product สักตัว", "shelf[0] ถูก new แล้ว ใช้ได้", "shelf[1] ยังเป็น null → NullPointerException"] },
-        { type: "check", title: "reference", html: pre(`
+        { type: "check", title: "reference", html: jpre(`
           Product x = new Product(); x.stock = 5;
           Product y = x;
           y.stock += 2;
@@ -205,7 +205,7 @@ export default {
       num: "11.3", toc: "constructor และ this", title: "constructor และ this",
       blocks: [
         { type: "p", html: `<strong>constructor</strong> คือเมธอดพิเศษที่ทำงานอัตโนมัติตอน <code>new</code> ใช้กำหนดค่าเริ่มต้นให้ field มีชื่อเดียวกับคลาส และ<strong>ไม่มีชนิดผลลัพธ์</strong> (ไม่มี void) คำว่า <code>this</code> หมายถึง “ออบเจ็กต์ตัวนี้” ใช้แยก field ออกจาก parameter ที่ชื่อเหมือนกัน` },
-        { type: "concept", title: "รูปแบบ constructor", html: pre(`
+        { type: "concept", title: "รูปแบบ constructor", html: jpre(`
           class Student {
               String name;
               int score;
@@ -476,7 +476,7 @@ export default {
                 }
             }`,
           steps: ["issued เป็น static: มีตัวเดียว ทุก Ticket เห็นค่าเดียวกัน", "ทุกครั้งที่ new → issued เพิ่ม แล้วใช้เป็นหมายเลขของตั๋วใบนั้น", "number เป็น field ปกติ แต่ละใบมีค่าของตัวเอง", "เรียก static field ผ่านชื่อคลาส <code>Ticket.issued</code>"] },
-        { type: "check", title: "state", html: pre(`
+        { type: "check", title: "state", html: jpre(`
           Counter a = new Counter();   // class Counter { int n; void inc() { n++; } }
           Counter b = new Counter();
           a.inc(); a.inc(); b.inc();

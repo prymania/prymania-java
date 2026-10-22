@@ -56,13 +56,13 @@
 <article class="subtopic" id="topic-8-1">
 <h3>8.1 สร้างและเข้าถึงอาเรย์</h3>
 <p>ชนิดอาเรย์เขียนเป็น <code>ชนิดข้อมูล[]</code> สมาชิกตัวแรกอยู่ที่ <strong>index 0</strong> ไม่ใช่ 1 อาเรย์ที่สร้างแล้วมี<strong>ขนาดคงที่</strong> และตรวจจำนวนสมาชิกได้ด้วย <code>ชื่ออาเรย์.length</code> (ไม่มีวงเล็บ)</p>
-<div class="concept-box"><span class="box-title">Syntax: ประกาศ สร้าง และอ้างสมาชิก</span><pre><code>int[] scores;                    // ① ประกาศตัวแปรอาเรย์ (ยังไม่มีช่อง)
-scores = new int[3];             // ② สร้างพื้นที่ 3 ช่อง ค่าเริ่มต้นเป็น 0
-scores[0] = 80;                  // ③ กำหนดค่าช่อง index 0
-int[] other = {80, 75, 92};      // ประกาศ + สร้าง + กำหนดค่าในบรรทัดเดียว
+<div class="concept-box"><span class="box-title">Syntax: ประกาศ สร้าง และอ้างสมาชิก</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span>[] scores;                    <span class="tok-com">// ① ประกาศตัวแปรอาเรย์ (ยังไม่มีช่อง)</span>
+scores = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[<span class="tok-num">3</span>];             <span class="tok-com">// ② สร้างพื้นที่ 3 ช่อง ค่าเริ่มต้นเป็น 0</span>
+scores[<span class="tok-num">0</span>] = <span class="tok-num">80</span>;                  <span class="tok-com">// ③ กำหนดค่าช่อง index 0</span>
+<span class="tok-kw">int</span>[] other = {<span class="tok-num">80</span>, <span class="tok-num">75</span>, <span class="tok-num">92</span>};      <span class="tok-com">// ประกาศ + สร้าง + กำหนดค่าในบรรทัดเดียว</span>
 
-index:     0    1    2
-other:  [ 80 | 75 | 92 ]     other.length = 3</code></pre><p>ค่าเริ่มต้นเมื่อใช้ <code>new</code>: ตัวเลข → 0, double → 0.0, boolean → false, char → '\u0000', String/ออบเจ็กต์ → null</p></div>
+index:     <span class="tok-num">0</span>    <span class="tok-num">1</span>    <span class="tok-num">2</span>
+other:  [ <span class="tok-num">80</span> | <span class="tok-num">75</span> | <span class="tok-num">92</span> ]     other.length = <span class="tok-num">3</span></code></pre></div><p>ค่าเริ่มต้นเมื่อใช้ <code>new</code>: ตัวเลข → 0, double → 0.0, boolean → false, char → '\u0000', String/ออบเจ็กต์ → null</p></div>
 <div class="source-example"><h4>ตัวอย่าง 8.1.1 · อ่านและแก้ค่าสมาชิก <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>ชื่อ[index]</code> เหมือนตัวแปรปกติ ทั้งอ่านและกำหนดค่า</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ArrayBasics.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ArrayBasics</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// สร้างอาเรย์พร้อมค่าเริ่มต้น 4 ช่อง</span>
@@ -144,9 +144,9 @@ Day 4: 28.8</pre></div></div><div class="walkthrough"><strong>อธิบาย
 92
 Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
 	at OutOfBounds.main(OutOfBounds.java:5)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>พิมพ์ 80, 75, 92 ได้ปกติ</li><li>เงื่อนไข <code>&lt;=</code> ทำให้ i = 3 เข้าลูปด้วย</li><li><code>Index 3 out of bounds for length 3</code> บอกทั้ง index ที่ผิดและขนาดจริง</li><li>แก้: ใช้ <code>i &lt; scores.length</code></li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · trace อาเรย์</strong><div><pre><code>int[] a = {5, 10, 15, 20};
-a[0] = a[3] - a[1];
-a[2] = a[a.length - 2] / 5;</code></pre><p>อาเรย์ a มีค่าอะไรบ้าง</p></div><details><summary>ดูคำตอบ</summary><div><p>a[0] = 20 − 10 = 10, a[2] = a[2] / 5 = 15 / 5 = 3 → <strong>{10, 10, 3, 20}</strong></p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · trace อาเรย์</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span>[] a = {<span class="tok-num">5</span>, <span class="tok-num">10</span>, <span class="tok-num">15</span>, <span class="tok-num">20</span>};
+a[<span class="tok-num">0</span>] = a[<span class="tok-num">3</span>] - a[<span class="tok-num">1</span>];
+a[<span class="tok-num">2</span>] = a[a.length - <span class="tok-num">2</span>] / <span class="tok-num">5</span>;</code></pre></div><p>อาเรย์ a มีค่าอะไรบ้าง</p></div><details><summary>ดูคำตอบ</summary><div><p>a[0] = 20 − 10 = 10, a[2] = a[2] / 5 = 15 / 5 = 3 → <strong>{10, 10, 3, 20}</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-8-2">
 <h3>8.2 วนอ่าน รวม และค้นหาสมาชิก</h3>
@@ -255,24 +255,24 @@ c = [1, 2, 3]
 a == b ? true
 a == c ? false
 Arrays.equals(a, c) ? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>b = a → ชี้ข้อมูลเดียวกัน แก้ b[0] จึงเห็นใน a ด้วย</li><li>c เป็นสำเนา ไม่ได้รับผลกระทบ</li><li><code>Arrays.toString</code> แสดงอาเรย์ทั้งชุด (ถ้า println(a) ตรง ๆ จะได้ข้อความแปลก ๆ เช่น [I@1b6d3586)</li><li><code>==</code> เทียบว่าเป็นชุดเดียวกันไหม, <code>Arrays.equals</code> เทียบเนื้อหา</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · นับ</strong><div><pre><code>int[] v = {3, 8, 2, 8, 5, 8};
-int count = 0, last = -1;
-for (int i = 0; i &lt; v.length; i++) {
-    if (v[i] == 8) { count++; last = i; }
-}</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>count = <strong>3</strong>, last = <strong>5</strong> (ตำแหน่งสุดท้ายที่พบเลข 8)</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · นับ</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span>[] v = {<span class="tok-num">3</span>, <span class="tok-num">8</span>, <span class="tok-num">2</span>, <span class="tok-num">8</span>, <span class="tok-num">5</span>, <span class="tok-num">8</span>};
+<span class="tok-kw">int</span> count = <span class="tok-num">0</span>, last = -<span class="tok-num">1</span>;
+<span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; v.length; i++) {
+    <span class="tok-kw">if</span> (v[i] == <span class="tok-num">8</span>) { count++; last = i; }
+}</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>count = <strong>3</strong>, last = <strong>5</strong> (ตำแหน่งสุดท้ายที่พบเลข 8)</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-8-3">
 <h3>8.3 อาเรย์สองมิติ</h3>
 <p>อาเรย์สองมิติเก็บข้อมูลแบบ<strong>ตาราง</strong> (แถว × คอลัมน์) เช่น คะแนนนักศึกษาหลายคน หลายวิชา อ้างสมาชิกด้วย <code>ชื่อ[แถว][คอลัมน์]</code> จริง ๆ แล้วเป็น “อาเรย์ของอาเรย์”: <code>grid.length</code> คือจำนวนแถว และ <code>grid[r].length</code> คือจำนวนคอลัมน์ของแถว r</p>
-<div class="concept-box"><span class="box-title">ภาพของอาเรย์ 2 มิติ</span><pre><code>int[][] scores = {
-    {80, 75, 90},     // แถว 0 (นักศึกษาคนที่ 1)
-    {60, 85, 70}      // แถว 1 (นักศึกษาคนที่ 2)
+<div class="concept-box"><span class="box-title">ภาพของอาเรย์ 2 มิติ</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span>[][] scores = {
+    {<span class="tok-num">80</span>, <span class="tok-num">75</span>, <span class="tok-num">90</span>},     <span class="tok-com">// แถว 0 (นักศึกษาคนที่ 1)</span>
+    {<span class="tok-num">60</span>, <span class="tok-num">85</span>, <span class="tok-num">70</span>}      <span class="tok-com">// แถว 1 (นักศึกษาคนที่ 2)</span>
 };
-            col 0  col 1  col 2
-row 0   [   80  |  75  |  90  ]
-row 1   [   60  |  85  |  70  ]
+            col <span class="tok-num">0</span>  col <span class="tok-num">1</span>  col <span class="tok-num">2</span>
+row <span class="tok-num">0</span>   [   <span class="tok-num">80</span>  |  <span class="tok-num">75</span>  |  <span class="tok-num">90</span>  ]
+row <span class="tok-num">1</span>   [   <span class="tok-num">60</span>  |  <span class="tok-num">85</span>  |  <span class="tok-num">70</span>  ]
 
-scores[1][2] = 70     scores.length = 2     scores[0].length = 3</code></pre></div>
+scores[<span class="tok-num">1</span>][<span class="tok-num">2</span>] = <span class="tok-num">70</span>     scores.length = <span class="tok-num">2</span>     scores[<span class="tok-num">0</span>].length = <span class="tok-num">3</span></code></pre></div></div>
 <div class="source-example"><h4>ตัวอย่าง 8.3.1 · อ่านทั้งตารางด้วยลูปซ้อน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ลูปนอกวนแถว ลูปในวนคอลัมน์ — เหมือนการพิมพ์รูปทรงในบทที่ 6</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Grid2D.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Grid2D</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span>[][] scores = {  <span class="tok-com">// อาเรย์ 2 มิติ: 2 แถว 3 คอลัมน์</span>
@@ -368,9 +368,9 @@ Book row col: <b class="stdin">1 2</b>
 [X][ ][ ][ ]
 [ ][ ][X][ ]
 [ ][ ][ ][ ]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>new boolean[3][4] → 3 แถว 4 คอลัมน์ ทุกช่องเป็น false</li><li>จอง (1,2) และ (0,0) สำเร็จ</li><li>จอง (1,2) ซ้ำ → พบว่าเป็น true แล้ว</li><li>แสดงผัง X = จองแล้ว</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · index 2 มิติ</strong><div><pre><code>int[][] m = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-int sum = 0;
-for (int i = 0; i &lt; m.length; i++) sum += m[i][i];</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>บวกเส้นทแยงมุม m[0][0] + m[1][1] + m[2][2] = 1 + 5 + 9 = <strong>15</strong></p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · index 2 มิติ</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span>[][] m = {{<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>}, {<span class="tok-num">4</span>, <span class="tok-num">5</span>, <span class="tok-num">6</span>}, {<span class="tok-num">7</span>, <span class="tok-num">8</span>, <span class="tok-num">9</span>}};
+<span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
+<span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; m.length; i++) sum += m[i][i];</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>บวกเส้นทแยงมุม m[0][0] + m[1][1] + m[2][2] = 1 + 5 + 9 = <strong>15</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-8-4">
 <h3>8.4 อาเรย์กับเมธอด และคลาส Arrays</h3>

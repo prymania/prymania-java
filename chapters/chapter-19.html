@@ -57,13 +57,13 @@
 <h3>19.1 กำหนดความต้องการและ user flow</h3>
 <p>เขียนสิ่งที่ผู้ใช้ทำได้ก่อนคิดเรื่องสีหรือ component วิธีนี้ช่วยตัดสินใจว่าต้องมีหน้าอะไรและข้อมูลใดต้องเก็บ</p>
 <div class="concept-box"><span class="box-title">ขอบเขตเวอร์ชันแรก (requirements)</span><ol><li>หน้า <strong>Home</strong> แสดงจำนวนวิชาและหน่วยกิตรวม</li><li>หน้า <strong>Add Course</strong> รับรหัส ชื่อ และหน่วยกิต ตรวจ: ช่องว่าง, รูปแบบรหัส (เช่น CS101), หน่วยกิตเป็นจำนวนเต็ม 1–6, รหัสไม่ซ้ำ, หน่วยกิตรวมไม่เกิน 22</li><li>หน้า <strong>Course List</strong> แสดงรายการ เลือกวิชาแล้วลบได้ (ถามยืนยัน)</li><li>ข้อมูลอยู่ใน memory; ปิดโปรแกรมแล้วไม่ต้องคงข้อมูล</li></ol></div>
-<div class="example-box"><span class="box-title">เส้นทางผู้ใช้ (user flow)</span><pre><code>HOME   --Add course--&gt;   FORM
-HOME   --View list--&gt;    LIST
-FORM   --Save (valid)--&gt; LIST
-FORM   --Save (invalid)--&gt; แสดง error, อยู่ที่ FORM เดิม
-FORM   --Cancel--&gt;       HOME
-LIST   --Add another--&gt;  FORM
-LIST   --Home--&gt;         HOME</code></pre><p>การเขียน flow ให้เห็นเส้นทาง invalid ด้วย ช่วยไม่ให้หน้าเปลี่ยนทั้งที่ข้อมูลยังไม่ผ่าน</p></div>
+<div class="example-box"><span class="box-title">เส้นทางผู้ใช้ (user flow)</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code><span class="tok-const">HOME</span>   <span class="tok-arrow">--</span><span class="tok-type">Add</span> course<span class="tok-arrow">--&gt;</span>   <span class="tok-const">FORM</span>
+<span class="tok-const">HOME</span>   <span class="tok-arrow">--</span><span class="tok-type">View</span> list<span class="tok-arrow">--&gt;</span>    <span class="tok-const">LIST</span>
+<span class="tok-const">FORM</span>   <span class="tok-arrow">--</span><span class="tok-type">Save</span> (valid)<span class="tok-arrow">--&gt;</span> <span class="tok-const">LIST</span>
+<span class="tok-const">FORM</span>   <span class="tok-arrow">--</span><span class="tok-type">Save</span> (invalid)<span class="tok-arrow">--&gt;</span> แสดง error, อยู่ที่ <span class="tok-const">FORM</span> เดิม
+<span class="tok-const">FORM</span>   <span class="tok-arrow">--</span><span class="tok-type">Cancel</span><span class="tok-arrow">--&gt;</span>       <span class="tok-const">HOME</span>
+<span class="tok-const">LIST</span>   <span class="tok-arrow">--</span><span class="tok-type">Add</span> another<span class="tok-arrow">--&gt;</span>  <span class="tok-const">FORM</span>
+<span class="tok-const">LIST</span>   <span class="tok-arrow">--</span><span class="tok-type">Home</span><span class="tok-arrow">--&gt;</span>         <span class="tok-const">HOME</span></code></pre></div><p>การเขียน flow ให้เห็นเส้นทาง invalid ด้วย ช่วยไม่ให้หน้าเปลี่ยนทั้งที่ข้อมูลยังไม่ผ่าน</p></div>
 <h4>Acceptance criteria: เงื่อนไขที่ทดสอบได้</h4><table class="comparison-table"><thead><tr><th>#</th><th>เมื่อ…</th><th>ผลที่ต้องเห็น</th></tr></thead><tbody><tr><td>1</td><td>กรอก CS101, Programming, 3 แล้ว Save</td><td>ไปหน้า List เห็น CS101 และ Total 3 credits</td></tr><tr><td>2</td><td>เว้นชื่อว่างแล้ว Save</td><td>อยู่หน้า Form เห็น “Please fill in every field”</td></tr><tr><td>3</td><td>หน่วยกิต “abc” หรือ 7</td><td>error เรื่องหน่วยกิต ไม่บันทึก</td></tr><tr><td>4</td><td>เพิ่ม cs101 ซ้ำ (ตัวพิมพ์ต่าง)</td><td>error “already exists”</td></tr><tr><td>5</td><td>หน่วยกิตรวมจะเกิน 22</td><td>error “would exceed 22 credits”</td></tr><tr><td>6</td><td>เลือกวิชาแล้ว Remove → Yes</td><td>วิชาหายจากรายการ Total ลดลง</td></tr></tbody></table>
 <div class="quick-check"><strong>ลองคิดก่อน · criteria ที่ดี</strong><div><p>“หน้าจอต้องใช้งานง่าย” เป็น acceptance criterion ที่ดีหรือไม่ เพราะอะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>ไม่ดี เพราะวัดผลไม่ได้ ควรเขียนเป็นพฤติกรรมที่ทดสอบได้ เช่น “กด Enter ในช่องหน่วยกิตแล้วบันทึกได้เหมือนกด Save”</p></div></details></div>
 </article>
@@ -205,11 +205,11 @@ validate(AR106, Art, 2) -&gt; OK
 <article class="subtopic" id="topic-19-3">
 <h3>19.3 ประกอบหน้าด้วย layout manager</h3>
 <p>วาง CardLayout เป็น content pane ของ JFrame เพื่อสลับ Home, Form และ List; ภายในแต่ละ panel ใช้ layout ที่เหมาะกับหน้าที่: BorderLayout สำหรับกรอบหลัก, GridLayout สำหรับคู่ป้าย–ช่อง, FlowLayout ชิดขวาสำหรับแถวปุ่ม</p>
-<div class="example-box"><span class="box-title">โครง container ของแอป</span><pre><code>JFrame "Course Planner"
-└── pages (CardLayout)
-    ├── HOME  (BorderLayout: title / summary / buttons)
-    ├── FORM  (BorderLayout: title / GridLayout 3x2 fields / error + buttons)
-    └── LIST  (BorderLayout: JScrollPane(JList&lt;Course&gt;) / total + buttons)</code></pre></div>
+<div class="example-box"><span class="box-title">โครง container ของแอป</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code><span class="tok-type">JFrame</span> <span class="tok-str">"Course Planner"</span>
+<span class="tok-arrow">└──</span> <span class="tok-fn">pages</span> (<span class="tok-type">CardLayout</span>)
+    <span class="tok-arrow">├──</span> <span class="tok-const">HOME</span>  (<span class="tok-type">BorderLayout</span>: title / summary / buttons)
+    <span class="tok-arrow">├──</span> <span class="tok-const">FORM</span>  (<span class="tok-type">BorderLayout</span>: title / <span class="tok-type">GridLayout</span> 3x2 fields / error + buttons)
+    <span class="tok-arrow">└──</span> <span class="tok-const">LIST</span>  (<span class="tok-type">BorderLayout</span>: <span class="tok-type">JScrollPane</span>(<span class="tok-type">JList</span>&lt;<span class="tok-type">Course</span>&gt;) / total + buttons)</code></pre></div></div>
 <div class="source-example"><h4>ตัวอย่าง 19.3.1 · หน้าตาของทั้ง 3 หน้า (แอปเต็ม) <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดนี้คือแอปเวอร์ชันแรกที่สมบูรณ์ ส่วน 19.3 ให้สังเกตเมธอด buildHome / buildForm / buildList ซึ่งแต่ละเมธอดคืน panel ของหนึ่งหน้า ส่วน event อธิบายใน 19.4</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CoursePlannerApp.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;

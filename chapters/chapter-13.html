@@ -244,10 +244,10 @@ Find: <b class="stdin">Mango</b>
 }</code></pre></div></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>20
 Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2
 	at ListOutOfBounds.main(ListOutOfBounds.java:9)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>size = 2 → index ใช้ได้ 0, 1</li><li>get(2) → <code>Index 2 out of bounds for length 2</code></li><li>ArrayList ใหม่ที่ว่างเปล่า get(0) ก็ error เช่นกัน</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · add vs set</strong><div><pre><code>ArrayList&lt;Integer&gt; a = new ArrayList&lt;&gt;();
-a.add(1); a.add(2); a.add(3);
-a.add(0, 9);
-a.set(2, 7);</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>[1,2,3] → add(0,9) → [9,1,2,3] → set(2,7) → <strong>[9, 1, 7, 3]</strong></p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · add vs set</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; a = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
+a.<span class="tok-fn">add</span>(<span class="tok-num">1</span>); a.<span class="tok-fn">add</span>(<span class="tok-num">2</span>); a.<span class="tok-fn">add</span>(<span class="tok-num">3</span>);
+a.<span class="tok-fn">add</span>(<span class="tok-num">0</span>, <span class="tok-num">9</span>);
+a.<span class="tok-fn">set</span>(<span class="tok-num">2</span>, <span class="tok-num">7</span>);</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>[1,2,3] → add(0,9) → [9,1,2,3] → set(2,7) → <strong>[9, 1, 7, 3]</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-13-4">
 <h3>13.4 ลบสมาชิกและ index ที่เลื่อน</h3>
@@ -335,9 +335,9 @@ removeIf : [80, 90]</pre></div></div><div class="walkthrough"><strong>อธิ�
     }
 }</code></pre></div></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Exception in thread "main" java.util.ConcurrentModificationException
 	at ForEachRemove.main(ForEachRemove.java:7)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>for-each ใช้ iterator ที่ตรวจว่ารายการถูกแก้ระหว่างวนหรือไม่</li><li>เมื่อพบการแก้ → exception</li><li>แก้ด้วยวิธีใดวิธีหนึ่งในตัวอย่างก่อนหน้า</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · index เลื่อน</strong><div><pre><code>ArrayList&lt;String&gt; s = new ArrayList&lt;&gt;(List.of("A", "B", "C", "D", "E"));
-s.remove(1);
-s.remove(2);</code></pre></div><details><summary>ดูคำตอบ</summary><div><p>remove(1) ลบ B → [A, C, D, E] แล้ว remove(2) ลบ D (ไม่ใช่ C!) → <strong>[A, C, E]</strong></p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · index เลื่อน</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; s = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-str">"A"</span>, <span class="tok-str">"B"</span>, <span class="tok-str">"C"</span>, <span class="tok-str">"D"</span>, <span class="tok-str">"E"</span>));
+s.<span class="tok-fn">remove</span>(<span class="tok-num">1</span>);
+s.<span class="tok-fn">remove</span>(<span class="tok-num">2</span>);</code></pre></div></div><details><summary>ดูคำตอบ</summary><div><p>remove(1) ลบ B → [A, C, D, E] แล้ว remove(2) ลบ D (ไม่ใช่ C!) → <strong>[A, C, E]</strong></p></div></details></div>
 </article>
 <article class="subtopic" id="topic-13-5">
 <h3>13.5 วนอ่าน ประมวลผล และเรียงรายการ</h3>
@@ -417,10 +417,10 @@ sorted   [3, 7, 7, 7, 19, 25, 42]
 reversed [42, 25, 19, 7, 7, 7, 3]
 sorted names           [Beam, Nida, mali, ploy]
 case-insensitive order [Beam, mali, Nida, ploy]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>max/min/frequency ไม่ต้องเขียนลูปเอง</li><li>sort เรียงในรายการเดิม</li><li>String เรียงตามรหัสอักขระ: ตัวใหญ่มาก่อนตัวเล็ก</li><li><code>String.CASE_INSENSITIVE_ORDER</code> เรียงโดยไม่สนตัวพิมพ์</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · กรอง</strong><div><p>มี <code>ArrayList&lt;String&gt; words</code> จะสร้างรายการใหม่ที่มีเฉพาะคำยาวกว่า 4 ตัวอักษรได้อย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><pre><code>ArrayList&lt;String&gt; longWords = new ArrayList&lt;&gt;();
-for (String w : words) {
-    if (w.length() &gt; 4) longWords.add(w);
-}</code></pre></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · กรอง</strong><div><p>มี <code>ArrayList&lt;String&gt; words</code> จะสร้างรายการใหม่ที่มีเฉพาะคำยาวกว่า 4 ตัวอักษรได้อย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; longWords = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
+<span class="tok-kw">for</span> (<span class="tok-type">String</span> w : words) {
+    <span class="tok-kw">if</span> (w.<span class="tok-fn">length</span>() &gt; <span class="tok-num">4</span>) longWords.<span class="tok-fn">add</span>(w);
+}</code></pre></div></div></details></div>
 </article>
 <article class="subtopic" id="topic-13-6">
 <h3>13.6 เก็บ object ในรายการ</h3>

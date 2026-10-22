@@ -1,4 +1,4 @@
-import { j, c, pre } from "../lib.mjs";
+import { j, c, pre, jpre } from "../lib.mjs";
 
 export default {
   num: 7, file: "chapter-07.html",
@@ -16,7 +16,7 @@ export default {
     {
       num: "7.1", toc: "ประกาศและเรียกเมธอด", title: "ประกาศและเรียกใช้เมธอด",
       blocks: [
-        { type: "concept", title: "แยกส่วนของ method declaration", html: pre(`
+        { type: "concept", title: "แยกส่วนของ method declaration", html: jpre(`
           static  void  printWelcome  ( )  {
             ①      ②         ③        ④   ⑤ body ...
           }`) + `<ol><li><code>static</code> — เรียกผ่านคลาสได้โดยไม่ต้องสร้าง object (ใช้ในบทพื้นฐานนี้ ความหมายเต็มอยู่ในบทที่ 11–12)</li><li><code>void</code> — ชนิดผลลัพธ์: ไม่มีค่าคืนกลับ</li><li>ชื่อเมธอด — lowerCamelCase ขึ้นต้นด้วยคำกริยา เช่น <code>printReceipt</code>, <code>calculateTax</code></li><li><code>( )</code> — ตำแหน่ง parameter ตอนนี้ยังว่าง</li><li><code>{ }</code> — body คือคำสั่งที่ทำเมื่อถูกเรียก</li></ol><p>เมธอดประกาศ<strong>ภายในคลาส แต่นอกเมธอดอื่น</strong> (ไม่ซ้อนอยู่ใน main) และลำดับการประกาศไม่สำคัญ</p>` },
@@ -122,7 +122,7 @@ export default {
             }`,
           explain: "ข้อนี้ไม่มี parameter เลย เพราะหัวข้อ 7.1 ยังไม่สอนเรื่องนี้ — จุดที่ยากกว่าตัวอย่างคือต้องวางแผนว่าเมธอดไหน <em>ควรเรียก</em> printDivider() บ้าง แทนที่จะ copy โค้ดเส้นคั่นซ้ำ ๆ" },
         { type: "note", title: "void ไม่ได้แปลว่าไม่มี output", html: `<p>เมธอด void พิมพ์ข้อความได้ตามปกติ “void” หมายถึงไม่<strong>ส่งค่ากลับ</strong>ไปให้ผู้เรียกนำไปใช้ต่อ การแสดงผล (print) กับการคืนค่า (return) เป็นคนละเรื่อง — จะเห็นชัดในหัวข้อ 7.3</p>` },
-        { type: "check", title: "ลำดับการเรียก", html: pre(`
+        { type: "check", title: "ลำดับการเรียก", html: jpre(`
           static void a() { System.out.print("A"); b(); System.out.print("a"); }
           static void b() { System.out.print("B"); }
           // ใน main:
@@ -133,7 +133,7 @@ export default {
       num: "7.2", toc: "พารามิเตอร์และ argument", title: "พารามิเตอร์และ argument",
       blocks: [
         { type: "p", html: `<strong>parameter</strong> คือตัวแปรที่ประกาศในวงเล็บของเมธอดเพื่อรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก เมื่อเรียก Java จะคัดลอกค่า argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em>` },
-        { type: "concept", title: "parameter vs argument", html: pre(`
+        { type: "concept", title: "parameter vs argument", html: jpre(`
           static void greet(String name, int times) { ... }   // name, times = parameter
           greet("Mali", 3);                                  // "Mali", 3   = argument
                   │      └──→ times = 3
@@ -276,7 +276,7 @@ export default {
                 }
             }`,
           steps: ["บรรทัด 3 สลับลำดับ: ส่ง 5 (int) ไปที่ parameter แรกซึ่งเป็น char → <code>possible lossy conversion from int to char</code>", "บรรทัด 4 ขาด argument → <code>cannot be applied to given types</code>", "<code>required: char,int</code> / <code>found: char</code> บอกว่าคาดหวังอะไรและได้อะไร", "แก้: <code>drawLine('*', 5);</code>"] },
-        { type: "check", title: "ส่งค่า", html: pre(`
+        { type: "check", title: "ส่งค่า", html: jpre(`
           static void show(int a, int b) { System.out.println(a + "-" + b); }
           // main
           int x = 3, y = 8;
@@ -288,7 +288,7 @@ export default {
       num: "7.3", toc: "return value", title: "return value: เมธอดที่คืนผลลัพธ์",
       blocks: [
         { type: "p", html: `เมื่อเมธอดคำนวณค่าที่ผู้เรียกต้องนำไปใช้ต่อ ให้ระบุ<strong>ชนิดผลลัพธ์</strong>แทน void แล้วใช้ <code>return ค่า;</code> ส่งค่ากลับ เมื่อเจอ return เมธอดจะจบทันที` },
-        { type: "concept", title: "โครงสร้างเมธอดที่คืนค่า", html: pre(`
+        { type: "concept", title: "โครงสร้างเมธอดที่คืนค่า", html: jpre(`
           static double calculateArea(double width, double height) {
               double area = width * height;
               return area;                    // ส่งค่า area กลับไปยังจุดที่เรียก
@@ -414,7 +414,7 @@ export default {
                 }
             }`,
           steps: ["กรณี n == 0 หลุดออกจาก if ทั้งหมดโดยไม่มี return", "javac แจ้ง <code>missing return statement</code>", "แก้: เพิ่ม <code>return \"zero\";</code> ท้ายเมธอด"] },
-        { type: "check", title: "ค่าที่คืน", html: pre(`
+        { type: "check", title: "ค่าที่คืน", html: jpre(`
           static int f(int x) {
               if (x % 2 == 0) return x / 2;
               return 3 * x + 1;
@@ -521,7 +521,7 @@ export default {
                 }
             }`,
           explain: "ยากกว่าตัวอย่าง area ตรงที่ volumeOf(double, double) ของทรงกระบอกใช้สูตรที่ซับซ้อนกว่า และต้องระวังไม่ให้สลับลำดับ parameter กับเวอร์ชัน 3 ตัว" },
-        { type: "check", title: "scope", html: pre(`
+        { type: "check", title: "scope", html: jpre(`
           int total = 0;
           for (int i = 1; i <= 3; i++) {
               int temp = i * 10;
