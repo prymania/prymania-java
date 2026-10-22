@@ -18,66 +18,55 @@ export default {
     {
       num: "1.1", toc: "แยกโจทย์ด้วย IPO", title: "แยกโจทย์ด้วย Input · Process · Output",
       blocks: [
-        { type: "p", html: `ขีดเส้นใต้ข้อมูลที่โจทย์ให้มาและสิ่งที่โจทย์ถาม แล้วจัดลง 3 ส่วน: <strong>Input</strong> คือข้อมูลที่ต้องมีก่อนเริ่มทำงาน, <strong>Process</strong> คือกฎหรือการคำนวณ, <strong>Output</strong> คือคำตอบที่ต้องการ` },
-        { type: "steps", title: "ขั้นตอนการแยก IPO", items: [
-          "อ่านโจทย์จนจบหนึ่งรอบ ยังไม่ต้องคิดวิธีทำ",
-          "หาคำถามของโจทย์ (มักอยู่ท้ายประโยค เช่น “จงหา…”, “แสดง…”) → นี่คือ <strong>Output</strong>",
-          "หาข้อมูลที่โจทย์ให้มาหรือที่ต้องถามผู้ใช้ → นี่คือ <strong>Input</strong>",
-          "ถามตัวเองว่า “ถ้ามี Input แล้ว ต้องทำอะไรจึงได้ Output?” → นี่คือ <strong>Process</strong> (สูตร เงื่อนไข หรือขั้นตอน)",
-          "ตรวจย้อน: Process ใช้เฉพาะข้อมูลที่อยู่ใน Input หรือค่าคงที่ที่รู้แน่นอนเท่านั้นหรือไม่",
-        ] },
-        { type: "table", title: "ตัวอย่างการแยก IPO จากง่ายไปซับซ้อน", head: ["โจทย์", "Input", "Process", "Output"], rows: [
-          ["ซื้อสมุด 3 เล่ม ราคาเล่มละ 18 บาท จ่ายเท่าไร", "จำนวนเล่ม, ราคาต่อเล่ม", "ราคารวม = จำนวน × ราคา", "ราคารวม"],
+        { type: "p", html: `ก่อนเขียนโค้ด ให้แยกโจทย์เป็น 3 ส่วน: <strong>Input</strong> ข้อมูลที่ต้องมีก่อนเริ่ม, <strong>Process</strong> สูตรหรือกฎที่ใช้คำนวณ และ <strong>Output</strong> คำตอบที่โจทย์ถาม` },
+        { type: "table", head: ["โจทย์", "Input", "Process", "Output"], rows: [
+          ["ซื้อสมุด 3 เล่ม เล่มละ 18 บาท จ่ายเท่าไร", "จำนวนเล่ม, ราคาต่อเล่ม", "รวม = จำนวน × ราคา", "ราคารวม"],
           ["หาพื้นที่สี่เหลี่ยมผืนผ้า", "กว้าง, ยาว", "พื้นที่ = กว้าง × ยาว", "พื้นที่"],
           ["หาคะแนนเฉลี่ยจากสอบ 3 ครั้ง", "คะแนน 3 ค่า", "เฉลี่ย = (ค1 + ค2 + ค3) ÷ 3", "คะแนนเฉลี่ย"],
-          ["ซื้อของแล้วจ่ายเงินสด ต้องทอนเท่าไร", "ราคาสินค้า, เงินที่จ่าย", "เงินทอน = เงินที่จ่าย − ราคา", "เงินทอน"],
-          ["ซื้อครบ 500 บาทลด 10% ต้องจ่ายเท่าไร", "ยอดซื้อ", "ถ้ายอด ≥ 500 → ลด 10% มิฉะนั้นไม่ลด", "ยอดที่ต้องจ่าย"],
+          ["ซื้อครบ 500 บาทลด 10% ต้องจ่ายเท่าไร", "ยอดซื้อ", "ถ้ายอด ≥ 500 ลด 10%", "ยอดที่ต้องจ่าย"],
         ] },
-        { type: "run", title: "IPO ของราคาสมุด → Java", level: "พื้นฐาน",
-          concept: "Input ทั้งสองค่าถูกเก็บในตัวแปร Process คือบรรทัดที่คูณ และ Output คือบรรทัดที่พิมพ์ผล",
+        { type: "tip", title: "วิธีหา IPO", html: `หาคำถามของโจทย์ก่อน (มักอยู่ท้ายประโยค เช่น “จงหา…”) นั่นคือ <strong>Output</strong> แล้วถามตัวเองว่า “ต้องรู้อะไรบ้างจึงจะคำนวณได้” นั่นคือ <strong>Input</strong> ที่เหลือคือ <strong>Process</strong>` },
+        { type: "h", text: "จาก IPO สู่โค้ด" },
+        { type: "p", html: `แต่ละส่วนของ IPO กลายเป็นโค้ดหนึ่งกลุ่ม ยังไม่ต้องจำไวยากรณ์ Java ตอนนี้ ให้สังเกตว่าแผนตรงกับบรรทัดไหน` },
+        { type: "run", title: "IPO ของราคาสมุด",
           code: j`
             public class NotebookPrice {
                 public static void main(String[] args) {
                     // Input
-                    int quantity = 3;       // จำนวนเล่ม
-                    int pricePerBook = 18;  // ราคาต่อเล่ม (บาท)
+                    int quantity = 3;                      // จำนวนเล่ม
+                    int pricePerBook = 18;                 // ราคาต่อเล่ม
 
                     // Process
-                    int total = quantity * pricePerBook;  // 3 × 18 = 54
+                    int total = quantity * pricePerBook;   // 3 × 18 = 54
 
+                    // Output
                     System.out.println("Total = " + total + " baht");
                 }
             }`,
-          steps: ["บรรทัด Input เก็บจำนวนเล่ม (3) และราคาต่อเล่ม (18)", "บรรทัด Process คำนวณ 3 × 18 = 54 แล้วเก็บใน <code>total</code>", "บรรทัด Output แสดงข้อความพร้อมค่า 54"],
-          tryIt: "เปลี่ยน quantity เป็น 5 แล้วทำนายผลก่อนดูเฉลยในหัว (ควรได้ 90)" },
-        { type: "run", title: "IPO ที่รับค่าจากผู้ใช้: คะแนนเฉลี่ย", level: "ต่อยอด",
-          concept: "โจทย์จริงมัก <em>ถาม</em> Input จากผู้ใช้ แทนการเขียนค่าตายตัวในโปรแกรม ผลลัพธ์จึงเปลี่ยนตามข้อมูลที่ป้อน",
-          stdin: "70\n85\n90",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "warn", html: `อย่าใส่คำตอบไว้ใน Input (คำตอบคือสิ่งที่ได้หลังคำนวณ) และเขียน Process เป็นสูตรชัด ๆ เช่น “รวม = จำนวน × ราคา” ไม่ใช่ “คำนวณราคา” ส่วนค่าที่รู้อยู่แล้ว เช่น ภาษี 7% เป็นค่าคงที่ใน Process ไม่ต้องรับจากผู้ใช้` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: รับ Input จากผู้ใช้", blocks: [
+          { type: "p", html: `โจทย์จริงมักให้ผู้ใช้ป้อน Input แทนการเขียนค่าตายตัว ผลลัพธ์จึงเปลี่ยนตามข้อมูลที่ป้อน` },
+          { type: "run", title: "คะแนนเฉลี่ย 3 ครั้ง", stdin: "70\n85\n90",
+            code: j`
+              import java.util.Scanner;
 
-            public class AverageScore {
-                public static void main(String[] args) {
-                    // เตรียมรับข้อมูลจากคีย์บอร์ด
-                    Scanner input = new Scanner(System.in);
-                    // Input: คะแนน 3 ครั้ง
-                    System.out.print("Score 1: ");
-                    double s1 = input.nextDouble();
-                    System.out.print("Score 2: ");
-                    double s2 = input.nextDouble();
-                    System.out.print("Score 3: ");
-                    double s3 = input.nextDouble();
+              public class AverageScore {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);     // เตรียมรับข้อมูลจากคีย์บอร์ด
+                      System.out.print("Score 1: ");
+                      double s1 = input.nextDouble();
+                      System.out.print("Score 2: ");
+                      double s2 = input.nextDouble();
+                      System.out.print("Score 3: ");
+                      double s3 = input.nextDouble();
 
-                    // Process
-                    // วงเล็บ: บวกให้ครบก่อน แล้วจึงหาร
-                    double average = (s1 + s2 + s3) / 3;
-
-                    System.out.println("Average = " + average);
-                }
-            }`,
-          steps: ["โปรแกรมถามคะแนนทีละครั้ง ผู้ใช้พิมพ์ 70, 85, 90", "Process รวมก่อน (245) แล้วจึงหารด้วย 3 — ต้องมีวงเล็บ เพราะการหารทำก่อนการบวก", "Output แสดง 81.666… ซึ่งตรงกับการคำนวณด้วยมือ"],
-          tryIt: "ถ้าลบวงเล็บออกเป็น s1 + s2 + s3 / 3 ผลจะกลายเป็น 70 + 85 + 30 = 185 ซึ่งผิด นี่คือเหตุผลที่ต้องเขียน Process ให้ชัดก่อนเขียนโค้ด" },
-        { type: "note", title: "ข้อผิดพลาดที่พบบ่อย", html: `<ul><li><strong>เอาคำตอบไปใส่ใน Input</strong> — คำตอบที่คำนวณเสร็จแล้วไม่ใช่ Input เพราะ Input ต้องมีก่อนเริ่มทำงาน</li><li><strong>Process คลุมเครือ</strong> เช่น “คำนวณราคา” ควรเขียนเป็นสูตรชัด ๆ ว่า “ราคารวม = จำนวน × ราคาต่อหน่วย”</li><li><strong>ลืมค่าคงที่</strong> เช่น ภาษี 7% เป็นค่าที่รู้อยู่แล้ว ไม่ต้องรับจากผู้ใช้ แต่ต้องระบุใน Process</li></ul>` },
+                      double average = (s1 + s2 + s3) / 3;        // วงเล็บ: บวกให้ครบก่อน แล้วจึงหาร
+                      System.out.println("Average = " + average);
+                  }
+              }`,
+            after: "ถ้าลบวงเล็บเป็น <code>s1 + s2 + s3 / 3</code> จะได้ 70 + 85 + 30 = 185 ซึ่งผิด เพราะการหารทำก่อนการบวก" },
+        ] },
         { type: "check", title: "ค่าน้ำประปา", html: `<p>“ค่าน้ำหน่วยละ 12 บาท บวกค่าบริการรายเดือน 30 บาท จงหาค่าน้ำที่ต้องจ่ายเมื่อทราบจำนวนหน่วยที่ใช้” — Input, Process, Output คืออะไร</p>`,
           answer: `<p><strong>Input:</strong> จำนวนหน่วยที่ใช้ · <strong>Process:</strong> ค่าน้ำ = หน่วย × 12 + 30 (12 และ 30 เป็นค่าคงที่ ไม่ใช่ Input) · <strong>Output:</strong> ค่าน้ำที่ต้องจ่าย</p>` },
       ],
@@ -85,26 +74,24 @@ export default {
     {
       num: "1.2", toc: "ขั้นตอนวิธีและรหัสเทียม", title: "ขั้นตอนวิธีและรหัสเทียม (Pseudocode)",
       blocks: [
-        { type: "p", html: `<strong>ขั้นตอนวิธี (algorithm)</strong> คือวิธีแก้ปัญหาที่เรียงเป็นขั้น ทุกขั้นชัดเจน และมีจุดจบ ส่วน <strong>รหัสเทียม (pseudocode)</strong> คือการเขียนขั้นตอนด้วยภาษาคนอย่างเป็นระเบียบ โดยยังไม่ยึดไวยากรณ์ของภาษาใด ช่วยให้คิด logic ได้โดยไม่ต้องกังวลเรื่อง <code>;</code> หรือวงเล็บ` },
-        { type: "concept", title: "คุณสมบัติของขั้นตอนวิธีที่ดี", html: `<ul><li><strong>ชัดเจน</strong> — แต่ละขั้นตีความได้แบบเดียว (“เติมเกลือนิดหน่อย” ไม่ชัด, “เติมเกลือ 1 ช้อนชา” ชัด)</li><li><strong>มีลำดับ</strong> — ทำขั้นใดก่อนหลังต้องแน่นอน</li><li><strong>มีจุดจบ</strong> — ทำครบแล้วต้องหยุดได้เสมอ</li><li><strong>ให้ผลถูกต้อง</strong> — ทุก Input ที่ถูกต้องต้องได้ Output ที่ถูกต้อง</li></ul>` },
-        { type: "steps", title: "วิธีเขียนรหัสเทียมทีละขั้น", items: [
-          "เริ่มด้วยคำว่า <code>เริ่มต้น</code> และจบด้วย <code>จบ</code>",
-          "ขั้นแรกเกือบทุกครั้งคือ <code>รับ ...</code> (Input) ตั้งชื่อข้อมูลให้สื่อความหมาย เช่น <code>totalMinutes</code>",
-          "ขั้นกลางคือ <code>คำนวณ ...</code> หรือ <code>ตัวแปร = สูตร</code> (Process) หนึ่งบรรทัดทำหนึ่งเรื่อง",
-          "ขั้นสุดท้ายคือ <code>แสดง ...</code> (Output)",
-          "เยื้องบรรทัดเพื่อบอกว่าคำสั่งใดอยู่ภายใต้เงื่อนไขหรือการทำซ้ำ",
-          "ทดสอบรหัสเทียมด้วยมือ (dry run) โดยสมมติค่า Input แล้วเดินทีละบรรทัด",
+        { type: "p", html: `<strong>ขั้นตอนวิธี (algorithm)</strong> คือวิธีแก้ปัญหาที่เรียงเป็นขั้น ส่วน <strong>รหัสเทียม (pseudocode)</strong> คือการเขียนขั้นตอนนั้นด้วยภาษาคนอย่างเป็นระเบียบ ช่วยให้คิด logic ได้โดยยังไม่ต้องกังวลเรื่อง <code>;</code> หรือวงเล็บ` },
+        { type: "table", head: ["ขั้นตอนวิธีที่ดีต้อง", "ตัวอย่าง"], rows: [
+          ["ชัดเจน ตีความได้แบบเดียว", "“เติมเกลือ 1 ช้อนชา” ไม่ใช่ “เติมเกลือนิดหน่อย”"],
+          ["มีลำดับแน่นอน", "รับข้อมูลก่อน แล้วจึงคำนวณ"],
+          ["มีจุดจบ", "ทำครบแล้วหยุดได้เสมอ"],
+          ["ให้ผลถูกต้อง", "ทุก Input ที่ถูกต้องได้ Output ที่ถูกต้อง"],
         ] },
-        { type: "example", title: "รหัสเทียม: แปลงนาทีเป็นชั่วโมงและนาทีที่เหลือ", html: fpre(`
+        { type: "h", text: "เขียนรหัสเทียม" },
+        { type: "p", html: `เริ่มด้วย <code>เริ่มต้น</code> จบด้วย <code>จบ</code> ใช้คำกริยาชัด ๆ คือ <code>รับ</code> (Input), <code>คำนวณ</code> หรือ <code>ตัวแปร = สูตร</code> (Process) และ <code>แสดง</code> (Output) บรรทัดละหนึ่งเรื่อง` },
+        { type: "html", html: fpre(`
           เริ่มต้น
               รับ totalMinutes
               hours = totalMinutes หารเอาส่วนจำนวนเต็มด้วย 60
               minutes = totalMinutes เศษจากการหารด้วย 60
               แสดง hours และ minutes
-          จบ`, "รหัสเทียม") + `<p>Dry run ด้วย 135 นาที: 135 ÷ 60 ได้ 2 เศษ 15 → แสดง “2 ชั่วโมง 15 นาที”</p>` },
-        { type: "run", title: "รหัสเทียมแปลงนาที → Java", level: "พื้นฐาน",
-          concept: "แต่ละบรรทัดของรหัสเทียมกลายเป็นคำสั่ง Java หนึ่งบรรทัด “หารเอาส่วนจำนวนเต็ม” คือ <code>/</code> กับจำนวนเต็ม และ “เศษ” คือ <code>%</code>",
-          stdin: "135",
+          จบ`, "รหัสเทียม") },
+        { type: "p", html: `แต่ละบรรทัดของรหัสเทียมกลายเป็นคำสั่ง Java หนึ่งบรรทัด “หารเอาส่วนจำนวนเต็ม” คือ <code>/</code> และ “เศษ” คือ <code>%</code>` },
+        { type: "run", title: "แปลงนาทีเป็นชั่วโมงและนาที", stdin: "135",
           code: j`
             import java.util.Scanner;
 
@@ -112,69 +99,60 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Total minutes: ");
-                    // รับ totalMinutes
-                    int totalMinutes = input.nextInt();
+                    int totalMinutes = input.nextInt();     // รับ totalMinutes  → 135
 
-                    // หารเอาส่วนจำนวนเต็ม
-                    int hours = totalMinutes / 60;
-                    int minutes = totalMinutes % 60;  // เศษจากการหาร
+                    int hours = totalMinutes / 60;          // หารเอาส่วนจำนวนเต็ม → 2
+                    int minutes = totalMinutes % 60;        // เศษจากการหาร → 15
 
-                    // แสดงผล
-                    System.out.println(hours + " hours " + minutes + " minutes");
+                    System.out.println(hours + " hours " + minutes + " minutes");   // แสดง
                 }
             }`,
-          steps: ["<code>totalMinutes</code> = 135", "<code>135 / 60</code> กับจำนวนเต็มได้ 2 (ตัดทศนิยมทิ้ง)", "<code>135 % 60</code> ได้เศษ 15", "แสดง <code>2 hours 15 minutes</code>"],
-          tryIt: "ป้อน 59 หรือ 60 แล้วดูว่าได้อะไร — ค่าขอบแบบนี้ควรนำไปทดสอบทุกครั้ง" },
-        { type: "run", title: "ขั้นตอนวิธีหลายขั้น: ทอนเงินเป็นธนบัตร", level: "ประยุกต์",
-          concept: "เมื่อโจทย์ซับซ้อนขึ้น ให้แตกเป็นขั้นที่ซ้ำรูปแบบเดิม: หาจำนวนธนบัตรใบใหญ่ก่อน แล้วนำ “เงินที่เหลือ” ไปคิดใบถัดไป",
-          stdin: "1370",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "try", html: `ป้อน 59 และ 60 แล้วทำนายผลก่อนรัน ค่าขอบแบบนี้ควรนำไปทดสอบทุกครั้ง` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: ขั้นตอนที่ซ้ำรูปแบบเดิม (ทอนธนบัตร)", blocks: [
+          { type: "p", html: `หาจำนวนธนบัตรใบใหญ่ก่อน แล้วนำ “เงินที่เหลือ” ไปคิดใบถัดไป ขั้น “หาร แล้วเก็บเศษ” จึงซ้ำกัน 3 ครั้ง (บทที่ 6 จะใช้ลูปลดโค้ดซ้ำแบบนี้)` },
+          { type: "run", title: "ทอนเงินเป็นธนบัตร", stdin: "1370",
+            code: j`
+              import java.util.Scanner;
 
-            public class BanknoteChange {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Amount: ");
-                    int amount = input.nextInt();  // รับจำนวนเงิน
+              public class BanknoteChange {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Amount: ");
+                      int amount = input.nextInt();      // 1370
 
-                    int thousand = amount / 1000;  // จำนวนใบ 1000
-                    amount = amount % 1000;        // เงินที่เหลือ
-                    int hundred = amount / 100;    // จำนวนใบ 100
-                    amount = amount % 100;         // เงินที่เหลือ
-                    int twenty = amount / 20;      // จำนวนใบ 20
-                    amount = amount % 20;          // ที่เหลือคือเหรียญ
+                      int thousand = amount / 1000;      // 1 ใบ
+                      amount = amount % 1000;            // เหลือ 370
+                      int hundred = amount / 100;        // 3 ใบ
+                      amount = amount % 100;             // เหลือ 70
+                      int twenty = amount / 20;          // 3 ใบ
+                      amount = amount % 20;              // เหลือ 10 เป็นเหรียญ
 
-                    System.out.println("1000 x " + thousand);
-                    System.out.println("100 x " + hundred);
-                    System.out.println("20 x " + twenty);
-                    System.out.println("coins left: " + amount);
-                }
-            }`,
-          steps: ["รหัสเทียมคือ: รับ amount → ใบ1000 = amount ÷ 1000 → amount = เศษ → ใบ100 = amount ÷ 100 → … → แสดงผล", "1370 ÷ 1000 = 1 ใบ เหลือ 370", "370 ÷ 100 = 3 ใบ เหลือ 70", "70 ÷ 20 = 3 ใบ เหลือ 10 (เป็นเหรียญ)"],
-          after: "สังเกตว่าขั้น “หาร แล้วเก็บเศษ” ซ้ำกัน 3 ครั้ง การมองเห็นรูปแบบที่ซ้ำเป็นทักษะสำคัญ ในบทที่ 6 จะใช้ลูปลดโค้ดซ้ำแบบนี้" },
-        { type: "note", title: "รหัสเทียมที่อ่านง่าย", html: `<p>ใช้คำกริยาชัด ๆ เช่น รับ, คำนวณ, เปรียบเทียบ, แสดง และเยื้องบรรทัดเพื่อบอกว่าคำสั่งใดเป็นขั้นย่อย หลีกเลี่ยงประโยคยาวที่ทำหลายเรื่องในบรรทัดเดียว</p>` },
+                      System.out.println("1000 x " + thousand);
+                      System.out.println("100 x " + hundred);
+                      System.out.println("20 x " + twenty);
+                      System.out.println("coins left: " + amount);
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "dry run", html: `<p>ใช้รหัสเทียมแปลงนาทีด้านบนกับ Input <code>200</code> จะแสดงอะไร</p>`, answer: `<p>200 ÷ 60 = 3 เศษ 20 → แสดง <code>3 ชั่วโมง 20 นาที</code></p>` },
       ],
     },
     {
       num: "1.3", toc: "สัญลักษณ์ Flowchart", title: "สัญลักษณ์และลำดับของ Flowchart",
       blocks: [
-        { type: "p", html: "Flowchart (ผังงาน) คือแผนภาพแสดงลำดับการทำงาน ลูกศรบอกทิศทาง และรูปทรงบอกหน้าที่ของแต่ละขั้น เหมาะสำหรับมองภาพรวมและอธิบายให้คนอื่นเข้าใจ โดยเฉพาะเมื่อมีทางแยกหรือการวนซ้ำ" },
-        { type: "table", head: ["สัญลักษณ์", "หน้าที่", "ตัวอย่าง", "ตรงกับ Java (จะได้เรียน)"], rows: [
-          ["วงรี", "เริ่มต้นหรือสิ้นสุด", "เริ่มต้น, จบ", "<code>main</code> เริ่ม / จบ"],
-          ["สี่เหลี่ยมด้านขนาน", "รับข้อมูลหรือแสดงผล", "รับความกว้าง, แสดงพื้นที่", "<code>Scanner</code>, <code>println</code>"],
-          ["สี่เหลี่ยมผืนผ้า", "ประมวลผลหรือกำหนดค่า", "พื้นที่ = กว้าง × ยาว", "<code>area = w * h;</code>"],
-          ["สี่เหลี่ยมข้าวหลามตัด", "ตรวจสอบเงื่อนไข (ใช่/ไม่ใช่)", "คะแนน ≥ 50?", "<code>if</code>, <code>while</code>"],
-          ["ลูกศร", "เชื่อมและกำหนดทิศทาง", "บนลงล่างหรือซ้ายไปขวา", "ลำดับคำสั่ง"],
+        { type: "p", html: `Flowchart (ผังงาน) คือแผนภาพลำดับการทำงาน รูปทรงบอกหน้าที่ของแต่ละขั้น และลูกศรบอกทิศทาง เหมาะกับการมองภาพรวม โดยเฉพาะเมื่อมีทางแยกหรือการวนซ้ำ` },
+        { type: "table", head: ["สัญลักษณ์", "หน้าที่", "ตัวอย่าง", "ใน Java"], rows: [
+          ["วงรี", "เริ่มต้น / สิ้นสุด", "เริ่มต้น, จบ", "<code>main</code> เริ่ม / จบ"],
+          ["สี่เหลี่ยมด้านขนาน", "รับข้อมูล / แสดงผล", "รับความกว้าง, แสดงพื้นที่", "<code>Scanner</code>, <code>println</code>"],
+          ["สี่เหลี่ยมผืนผ้า", "คำนวณ / กำหนดค่า", "พื้นที่ = กว้าง × ยาว", "<code>area = w * h;</code>"],
+          ["ข้าวหลามตัด", "ตรวจเงื่อนไข ใช่ / ไม่ใช่", "คะแนน ≥ 50 ?", "<code>if</code>, <code>while</code>"],
+          ["ลูกศร", "ทิศทางการทำงาน", "บนลงล่าง", "ลำดับคำสั่ง"],
         ] },
-        { type: "steps", title: "ขั้นตอนวาด Flowchart จากรหัสเทียม", items: [
-          "วาดวงรี “เริ่มต้น” ด้านบนสุด",
-          "แปลงบรรทัด <em>รับ/แสดง</em> เป็นสี่เหลี่ยมด้านขนาน",
-          "แปลงบรรทัด <em>คำนวณ/กำหนดค่า</em> เป็นสี่เหลี่ยมผืนผ้า",
-          "แปลงบรรทัด <em>ถ้า…</em> เป็นข้าวหลามตัด แล้วเขียนป้ายบนลูกศรขาออกทั้งสองเส้น (ใช่/ไม่ใช่)",
-          "เชื่อมทุกรูปด้วยลูกศร ตรวจว่าทุกเส้นทางไปถึงวงรี “จบ” ได้",
-        ] },
-        { type: "example", title: "Flowchart: พื้นที่สี่เหลี่ยมผืนผ้า (ลำดับตรง ไม่มีทางแยก)", html: fpre(`
+        { type: "h", text: "จาก Flowchart สู่โค้ด" },
+        { type: "p", html: `อ่านโค้ดจากบนลงล่างเหมือนเดินตามลูกศร รูปแต่ละรูปตรงกับคำสั่งหนึ่งกลุ่ม` },
+        { type: "html", html: fpre(`
           (วงรี) เริ่มต้น
               ↓
           (ด้านขนาน) รับ width, height
@@ -184,64 +162,58 @@ export default {
           (ด้านขนาน) แสดง area
               ↓
           (วงรี) จบ`, "Flowchart") },
-        { type: "run", title: "Flowchart พื้นที่ → Java", level: "พื้นฐาน",
-          concept: "รูปแต่ละรูปในผังงานตรงกับคำสั่งหนึ่งกลุ่มในโค้ด อ่านโค้ดจากบนลงล่างเหมือนเดินตามลูกศร",
-          stdin: "4.5\n2",
+        { type: "run", title: "พื้นที่สี่เหลี่ยมผืนผ้า", stdin: "4.5\n2",
           code: j`
             import java.util.Scanner;
 
             public class RectangleArea {
-                public static void main(String[] args) {  // (วงรี) เริ่มต้น
+                public static void main(String[] args) {         // (วงรี) เริ่มต้น
                     Scanner input = new Scanner(System.in);
                     System.out.print("Width: ");
-                    double width = input.nextDouble();  // (ด้านขนาน) รับ
+                    double width = input.nextDouble();           // (ด้านขนาน) รับ
                     System.out.print("Height: ");
                     double height = input.nextDouble();
 
-                    double area = width * height;  // (สี่เหลี่ยม) คำนวณ
+                    double area = width * height;                // (สี่เหลี่ยม) คำนวณ → 9.0
 
-                    // (ด้านขนาน) แสดง
-                    System.out.println("Area = " + area);
-                }  // (วงรี) จบ
+                    System.out.println("Area = " + area);        // (ด้านขนาน) แสดง
+                }                                                // (วงรี) จบ
             }`,
-          steps: ["เริ่มที่ <code>main</code>", "รับ width = 4.5 และ height = 2", "คำนวณ area = 9.0", "แสดงผลแล้วจบโปรแกรม"] },
-        { type: "run", title: "Flowchart แปลงอุณหภูมิ (สูตรหลายขั้น)", level: "ต่อยอด",
-          concept: "สูตร F = C × 9 ÷ 5 + 32 อยู่ในสี่เหลี่ยมผืนผ้ากล่องเดียว แต่ต้องระวังลำดับการคำนวณ",
-          stdin: "37",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "tip", html: `วาด Flowchart จากรหัสเทียมได้ทันที: บรรทัด <em>รับ/แสดง</em> เป็นสี่เหลี่ยมด้านขนาน, <em>คำนวณ</em> เป็นสี่เหลี่ยมผืนผ้า, <em>ถ้า…</em> เป็นข้าวหลามตัด แล้วตรวจว่าทุกเส้นทางไปถึง “จบ” ได้` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: สูตรหลายขั้น (แปลงอุณหภูมิ)", blocks: [
+          { type: "run", title: "เซลเซียสเป็นฟาเรนไฮต์", stdin: "37",
+            code: j`
+              import java.util.Scanner;
 
-            public class CelsiusToFahrenheit {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Celsius: ");
-                    double c = input.nextDouble();  // (ด้านขนาน) รับ
+              public class CelsiusToFahrenheit {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Celsius: ");
+                      double c = input.nextDouble();               // (ด้านขนาน) รับ → 37
 
-                    // (สี่เหลี่ยม) คิดซ้ายไปขวา: ×9 → ÷5 → +32
-                    double f = c * 9 / 5 + 32;
+                      double f = c * 9 / 5 + 32;                   // (สี่เหลี่ยม) ×9 → ÷5 → +32 = 98.6
 
-                    // (ด้านขนาน) แสดง
-                    System.out.println("Fahrenheit = " + f);
-                }
-            }`,
-          steps: ["รับ c = 37", "คำนวณจากซ้ายไปขวา: 37 × 9 = 333 → ÷ 5 = 66.6 → + 32 = 98.6", "แสดง 98.6"],
-          tryIt: "ทดสอบด้วย 0 (ควรได้ 32) และ 100 (ควรได้ 212) ซึ่งเป็นค่าที่รู้คำตอบแน่นอน" },
+                      System.out.println("Fahrenheit = " + f);     // (ด้านขนาน) แสดง
+                  }
+              }`,
+            after: "ทดสอบด้วย 0 (ควรได้ 32) และ 100 (ควรได้ 212) ซึ่งเป็นค่าที่รู้คำตอบแน่นอน" },
+        ] },
         { type: "check", title: "เลือกสัญลักษณ์", html: `<p>ขั้น “ราคาสุทธิ = ราคา − ส่วนลด” และ “ถ้าราคาสุทธิ > 1000” ควรใช้รูปทรงใด</p>`, answer: `<p>บรรทัดแรกเป็นการคำนวณ → <strong>สี่เหลี่ยมผืนผ้า</strong> บรรทัดที่สองเป็นเงื่อนไข → <strong>ข้าวหลามตัด</strong> ที่มีลูกศรออก 2 ทาง</p>` },
       ],
     },
     {
       num: "1.4", toc: "ทางเลือกและการทำซ้ำ", title: "ทางเลือกและการทำซ้ำในผังงาน",
       blocks: [
-        { type: "p", html: `เมื่อมี <strong>ทางเลือก</strong> ให้ใช้รูปข้าวหลามตัดเขียนคำถามที่ตอบได้ว่า ใช่/ไม่ใช่ แล้ววาดลูกศรแยกทาง ส่วน <strong>การทำซ้ำ</strong> ใช้ลูกศรวนกลับไปยังเงื่อนไขที่ต้องตรวจใหม่ โปรแกรมเกือบทุกโปรแกรมประกอบจาก 3 โครงสร้างนี้: <em>ลำดับ (sequence)</em>, <em>ทางเลือก (selection)</em> และ <em>การทำซ้ำ (repetition)</em>` },
-        { type: "example", title: "ทางเลือก 2 ทาง: ตรวจสอบการสอบผ่าน", html: fpre(`
+        { type: "p", html: `โปรแกรมเกือบทุกโปรแกรมประกอบจาก 3 โครงสร้าง: <strong>ลำดับ</strong> (ทำทีละขั้น), <strong>ทางเลือก</strong> (แยกทางตามเงื่อนไข) และ <strong>การทำซ้ำ</strong> (วนกลับไปทำใหม่)` },
+        { type: "h", text: "ทางเลือก: ข้าวหลามตัดกลายเป็น if ... else" },
+        { type: "html", html: fpre(`
           (เริ่มต้น) → / รับ score / → ◇ score ≥ 50 ?
                                             ↙ ใช่       ไม่ใช่ ↘
                                 / แสดง "ผ่าน" /   / แสดง "ไม่ผ่าน" /
                                             ↘             ↙
-                                                 (จบ)`, "Flowchart") + `<p>เงื่อนไขต้องมีทางออกครบทุกกรณี มิฉะนั้นบางค่าอาจไม่มีขั้นตอนรองรับ</p>` },
-        { type: "run", title: "ทางเลือก 2 ทาง → Java", level: "พื้นฐาน",
-          concept: "ข้าวหลามตัดกลายเป็น <code>if ... else</code> ทาง “ใช่” อยู่ใน <code>if</code> ทาง “ไม่ใช่” อยู่ใน <code>else</code>",
-          stdin: "42",
+                                                 (จบ)`, "Flowchart") },
+        { type: "run", title: "ตรวจสอบการสอบผ่าน", stdin: "42",
           code: j`
             import java.util.Scanner;
 
@@ -251,45 +223,19 @@ export default {
                     System.out.print("Score: ");
                     int score = input.nextInt();
 
-                    if (score >= 50) {  // ◇ score ≥ 50 ?
-                        // ทาง "ใช่"
-                        System.out.println("ผ่าน");
+                    if (score >= 50) {                       // ◇ score ≥ 50 ?
+                        System.out.println("ผ่าน");          // ทาง "ใช่"
                     } else {
-                        // ทาง "ไม่ใช่"
-                        System.out.println("ไม่ผ่าน");
+                        System.out.println("ไม่ผ่าน");       // ทาง "ไม่ใช่" ← 42 มาทางนี้
                     }
-                    // ทั้งสองทางมาบรรจบที่นี่
-                    System.out.println("จบการตรวจ");
+                    System.out.println("จบการตรวจ");        // ทั้งสองทางมาบรรจบที่นี่
                 }
             }`,
-          steps: ["รับ score = 42", "ตรวจ 42 ≥ 50 → ไม่ใช่", "ไปทาง else แสดง “ไม่ผ่าน”", "ทั้งสองทางมาบรรจบกันที่ “จบการตรวจ”"],
-          tryIt: "ทดสอบค่าขอบ 49, 50 และ 51 — ค่า 50 ต้องได้ “ผ่าน” เพราะใช้ ≥" },
-        { type: "run", title: "ทางเลือกหลายชั้น: ตัดเกรด", level: "ต่อยอด",
-          concept: "เมื่อมีมากกว่า 2 ผลลัพธ์ ให้ต่อข้าวหลามตัดเป็นทอด ๆ ตรวจช่วงคะแนนจากสูงลงต่ำ ทางที่ตอบ “ใช่” ก่อนจะได้ผลนั้นและไม่ตรวจต่อ",
-          stdin: "73",
-          code: j`
-            import java.util.Scanner;
-
-            public class GradeChain {
-                public static void main(String[] args) {
-                    Scanner input = new Scanner(System.in);
-                    System.out.print("Score: ");
-                    int score = input.nextInt();
-
-                    if (score >= 80) {  // ◇ ชั้นที่ 1: ตรวจช่วงสูงสุดก่อน
-                        System.out.println("Grade A");
-                    // ◇ ชั้นที่ 2: มาถึงนี่แปลว่า score < 80
-                    } else if (score >= 70) {
-                        System.out.println("Grade B");
-                    } else if (score >= 60) {  // ◇ ชั้นที่ 3
-                        System.out.println("Grade C");
-                    } else {  // ทุกเงื่อนไขเป็นเท็จ
-                        System.out.println("Grade F");
-                    }
-                }
-            }`,
-          steps: ["◇ score ≥ 80? 73 → ไม่ใช่ ไปข้าวหลามตัดถัดไป", "◇ score ≥ 70? 73 → ใช่ แสดง Grade B", "ไม่ตรวจเงื่อนไขที่เหลือ ไปที่จบเลย"],
-          after: fpre(`
+          },
+        { type: "try", html: `ทดสอบค่าขอบ 49, 50 และ 51 ค่า 50 ต้องได้ “ผ่าน” เพราะเงื่อนไขใช้ ≥` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: ทางเลือกหลายชั้น (ตัดเกรด)", blocks: [
+          { type: "p", html: `เมื่อมีมากกว่า 2 ผลลัพธ์ ให้ต่อข้าวหลามตัดเป็นทอด ๆ ตรวจจากช่วงสูงลงต่ำ ทางแรกที่ตอบ “ใช่” ได้ผลนั้นและไม่ตรวจต่อ` },
+          { type: "html", html: fpre(`
             ◇ ≥80? ─ใช่→ / A /
               │ไม่ใช่
             ◇ ≥70? ─ใช่→ / B /
@@ -297,41 +243,62 @@ export default {
             ◇ ≥60? ─ใช่→ / C /
               │ไม่ใช่
             / F /            (ทุกทางไปที่ จบ)`, "Flowchart") },
-        { type: "example", title: "การวนซ้ำ: รวมตัวเลขจนกว่าจะป้อน 0", html: `<p>เมื่อป้อนค่าที่ไม่ใช่ 0 ให้บวกเข้าผลรวม แล้วกลับไปรับค่าถัดไป; เมื่อป้อน 0 จึงออกจากวงซ้ำ</p>` + fpre(`
+          { type: "run", title: "ตัดเกรด", stdin: "73",
+            code: j`
+              import java.util.Scanner;
+
+              public class GradeChain {
+                  public static void main(String[] args) {
+                      Scanner input = new Scanner(System.in);
+                      System.out.print("Score: ");
+                      int score = input.nextInt();
+
+                      if (score >= 80) {                 // ◇ 73 ≥ 80 ? ไม่ใช่
+                          System.out.println("Grade A");
+                      } else if (score >= 70) {          // ◇ 73 ≥ 70 ? ใช่ → จบที่นี่
+                          System.out.println("Grade B");
+                      } else if (score >= 60) {
+                          System.out.println("Grade C");
+                      } else {
+                          System.out.println("Grade F");
+                      }
+                  }
+              }`,
+            },
+        ] },
+        { type: "h", text: "การทำซ้ำ: ลูกศรวนกลับกลายเป็น while" },
+        { type: "p", html: `รวมตัวเลขที่ผู้ใช้ป้อนไปเรื่อย ๆ จนกว่าจะป้อน 0 ค่า 0 นี้เรียกว่า <strong>ค่าหยุด (sentinel)</strong>` },
+        { type: "html", html: fpre(`
           [กำหนด total = 0] → / รับ number / → ◇ number ≠ 0 ?
                                                 ↙ ใช่          ไม่ใช่ ↘
                                    [total = total + number]   / แสดง total /
                                                 ↓                 ↓
                                           / รับ number /        (จบ)
-                                                ↖ กลับไปตรวจเงื่อนไข`, "Flowchart") + `<p>วงซ้ำต้องมีทางออก ในตัวอย่างนี้ค่า 0 เป็นค่าหยุด (sentinel) ถ้าไม่มีวันป้อน 0 โปรแกรมก็จะรับข้อมูลต่อไปเรื่อย ๆ</p>` },
-        { type: "run", title: "วงซ้ำด้วย sentinel → Java", level: "ประยุกต์",
-          concept: "ลูกศรวนกลับคือ <code>while</code> เงื่อนไขในข้าวหลามตัดคือ <code>number != 0</code>",
-          stdin: "5\n12\n8\n0",
+                                                ↖ กลับไปตรวจเงื่อนไข`, "Flowchart") },
+        { type: "run", title: "รวมตัวเลขจนกว่าจะป้อน 0", stdin: "5\n12\n8\n0",
           code: j`
             import java.util.Scanner;
 
             public class SumUntilZero {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
-                    int total = 0;  // ผลรวมเริ่มที่ 0
+                    int total = 0;                            // ผลรวมเริ่มที่ 0
                     System.out.print("Number (0 = stop): ");
-                    int number = input.nextInt();  // รับค่าแรกก่อนเข้าวงซ้ำ
+                    int number = input.nextInt();             // รับค่าแรกก่อนเข้าวงซ้ำ
 
-                    while (number != 0) {        // ◇ number ≠ 0 ?
-                        total = total + number;  // บวกสะสม
+                    while (number != 0) {                     // ◇ number ≠ 0 ?
+                        total = total + number;               // บวกสะสม
                         System.out.print("Number (0 = stop): ");
-                        // รับค่าใหม่ แล้ววนกลับไปตรวจ
-                        number = input.nextInt();
+                        number = input.nextInt();             // รับค่าใหม่ แล้ววนกลับไปตรวจ
                     }
-                    // ออกจากวงเมื่อป้อน 0
-                    System.out.println("Total = " + total);
+                    System.out.println("Total = " + total);   // ออกจากวงเมื่อป้อน 0
                 }
             }`,
-          steps: ["total = 0, รับ 5 → 5 ≠ 0 จริง → total = 5", "รับ 12 → total = 17", "รับ 8 → total = 25", "รับ 0 → เงื่อนไขเท็จ ออกจากวง แสดง Total = 25"],
-          after: "ลองทำ <strong>trace table</strong> ด้วยมือก่อนดู output:" },
-        { type: "table", cls: "trace-table", head: ["รอบ", "number ที่รับ", "number ≠ 0 ?", "total หลังรอบ"], rows: [
-          ["เริ่ม", "5", "ใช่", "5"], ["2", "12", "ใช่", "17"], ["3", "8", "ใช่", "25"], ["4", "0", "ไม่ใช่ → ออก", "25"],
+          },
+        { type: "table", cls: "trace-table", title: "Trace table: ไล่ค่าทีละรอบ", head: ["รอบ", "number ที่รับ", "number ≠ 0 ?", "total หลังรอบ"], rows: [
+          ["1", "5", "ใช่", "5"], ["2", "12", "ใช่", "17"], ["3", "8", "ใช่", "25"], ["4", "0", "ไม่ใช่ → ออก", "25"],
         ] },
+        { type: "warn", html: `ทุกวงซ้ำต้องมีขั้นที่ทำให้เงื่อนไขเปลี่ยนได้ ในตัวอย่างนี้คือ “รับ number ใหม่” ถ้าลืมขั้นนี้ เงื่อนไขจะจริงตลอดไปและเกิด <strong>วงซ้ำไม่รู้จบ</strong>` },
         { type: "check", title: "ทางออกของวงซ้ำ", html: `<p>ถ้าในผังงานรวมตัวเลข ลืมกล่อง “รับ number” ที่อยู่ในวงซ้ำ จะเกิดอะไรขึ้นเมื่อป้อนค่าแรกเป็น 5</p>`, answer: `<p>number จะเป็น 5 ตลอดไป เงื่อนไข number ≠ 0 จริงเสมอ เกิด <strong>วงซ้ำไม่รู้จบ (infinite loop)</strong> — ทุกวงซ้ำต้องมีขั้นที่ทำให้เงื่อนไขเปลี่ยนได้</p>` },
       ],
     },
