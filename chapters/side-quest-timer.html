@@ -59,30 +59,26 @@
 <article class="subtopic" id="topic-S2-1">
 <h3>S2.1 Thread และ Event Dispatch Thread</h3>
 <p><strong>Thread</strong> คือเส้นทางการทำงานหนึ่งเส้นในโปรแกรม โปรแกรมทั่วไปเริ่มด้วย thread ชื่อ main โปรแกรม Swing มีอีก thread คือ EDT ที่รอ event และวาดหน้าจอ เราสร้าง thread เพิ่มเพื่อทำงานพร้อมกันได้</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.1.1</span>สอง thread ทำงานสลับกัน (console)</h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง Thread ด้วย lambda แล้ว <code>start()</code> — main และ worker ทำงานคู่ขนาน <code>join()</code> รอให้ worker จบก่อนทำต่อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TwoThreads.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TwoThreads</span> {
-    <span class="tok-com">// join() อาจโยน InterruptedException</span>
-    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) <span class="tok-kw">throws</span> <span class="tok-type">InterruptedException</span> {
-        <span class="tok-com">// สร้าง thread ใหม่ พร้อมงานที่จะทำ</span>
+<table class="comparison-table"><thead><tr><th>เมธอด</th><th>ทำอะไร</th></tr></thead><tbody><tr><td><code>new Thread(() -&gt; { ... })</code></td><td>สร้าง thread พร้อมงานที่จะทำ (ยังไม่เริ่ม)</td></tr><tr><td><code>start()</code></td><td>เริ่มทำงานคู่ขนานทันที ผู้เรียกไม่รอ</td></tr><tr><td><code>join()</code></td><td>รอให้ thread นั้นทำเสร็จ</td></tr><tr><td><code>Thread.sleep(ms)</code></td><td>หยุด thread ปัจจุบันตามเวลาที่กำหนด</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.1.1</span>สอง thread ทำงานสลับกัน (console)</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TwoThreads.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TwoThreads</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) <span class="tok-kw">throws</span> <span class="tok-type">InterruptedException</span> {   <span class="tok-com">// join() อาจโยน exception</span>
         <span class="tok-type">Thread</span> worker = <span class="tok-kw">new</span> <span class="tok-type">Thread</span>(() -&gt; {
             <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">3</span>; i++) {
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"worker step "</span> + i);
-                <span class="tok-fn">sleep</span>(<span class="tok-num">120</span>);  <span class="tok-com">// หยุดรอ 120 มิลลิวินาที</span>
+                <span class="tok-fn">sleep</span>(<span class="tok-num">120</span>);                                   <span class="tok-com">// รอ 120 มิลลิวินาที</span>
             }
         });
-        <span class="tok-com">// เริ่มทำงานคู่ขนานกับ main</span>
-        worker.<span class="tok-fn">start</span>();
-        <span class="tok-com">// main ทำงานของตัวเองต่อไป</span>
+        worker.<span class="tok-fn">start</span>();                                       <span class="tok-com">// เริ่มคู่ขนาน main ไม่รอ</span>
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">3</span>; i++) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main step "</span> + i);
             <span class="tok-fn">sleep</span>(<span class="tok-num">100</span>);
         }
-        worker.<span class="tok-fn">join</span>();  <span class="tok-com">// รอให้ worker ทำเสร็จ</span>
+        worker.<span class="tok-fn">join</span>();                                        <span class="tok-com">// รอ worker จบ</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"both finished"</span>);
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">sleep</span>(<span class="tok-kw">int</span> ms) {
-        <span class="tok-com">// Thread.sleep บังคับให้จัดการ InterruptedException</span>
-        <span class="tok-kw">try</span> { <span class="tok-type">Thread</span>.<span class="tok-fn">sleep</span>(ms); } <span class="tok-kw">catch</span> (<span class="tok-type">InterruptedException</span> e) { }
+        <span class="tok-kw">try</span> { <span class="tok-type">Thread</span>.<span class="tok-fn">sleep</span>(ms); } <span class="tok-kw">catch</span> (<span class="tok-type">InterruptedException</span> e) { }   <span class="tok-com">// บังคับให้ดัก exception</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>worker step 1
 main step 1
@@ -90,8 +86,11 @@ main step 2
 worker step 2
 main step 3
 worker step 3
-both finished</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>start() เริ่ม thread ใหม่ทันที main ไม่รอ</li><li>ข้อความของสอง thread สลับกัน ลำดับอาจต่างเล็กน้อยในแต่ละครั้งที่รัน</li><li>join() ทำให้ main รอ worker จบก่อนพิมพ์ “both finished”</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก S2.1.2</span>Thread.sleep บน EDT ทำหน้าต่างค้าง</h4><p class="concept-line"><strong>แนวคิด:</strong> listener เปลี่ยนข้อความเป็น Working... แล้ว sleep 2 วินาที — แต่หน้าจอไม่ได้วาดข้อความนั้นเลย เพราะ EDT ถูกบล็อก ปุ่มยังค้างในสถานะถูกกด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FrozenUi.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+both finished</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>ข้อความของสอง thread สลับกัน ลำดับอาจต่างเล็กน้อยในแต่ละครั้งที่รัน</p></div>
+<h4 class="sub">sleep บน EDT ทำหน้าต่างค้าง</h4>
+<p>listener ด้านล่างเปลี่ยนข้อความเป็น Working... แล้ว sleep 2 วินาที ดูว่าหน้าจอแสดงอะไร</p>
+<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก S2.1.2</span>Thread.sleep บน EDT ทำหน้าต่างค้าง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FrozenUi.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FrozenUi</span> {
@@ -102,13 +101,10 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             <span class="tok-type">JLabel</span> status = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Idle"</span>, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
             <span class="tok-type">JButton</span> start = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Start (blocking)"</span>);
             start.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// ข้อความนี้ยังไม่ทันแสดง</span>
                 status.<span class="tok-fn">setText</span>(<span class="tok-str">"Working..."</span>);
                 <span class="tok-kw">try</span> {
-                    <span class="tok-com">// หยุด EDT 2 วินาที → หน้าจอค้าง</span>
                     <span class="tok-type">Thread</span>.<span class="tok-fn">sleep</span>(<span class="tok-num">2000</span>);
                 } <span class="tok-kw">catch</span> (<span class="tok-type">InterruptedException</span> ex) { }
-                <span class="tok-com">// หน้าจอเห็นแค่ข้อความสุดท้าย</span>
                 status.<span class="tok-fn">setText</span>(<span class="tok-str">"Done"</span>);
             });
             frame.<span class="tok-fn">add</span>(status, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
@@ -117,17 +113,19 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ภาพแรกที่จับได้หลังคลิก — ได้เมื่อ EDT ว่างแล้วเท่านั้น (หลัง 2 วินาที)</p><figure class="gui-shot"><div class="gui-titlebar">Frozen</div><img src="../assets/gui/gc0b382a0b4-0.png" width="244" height="81" alt="ภาพหน้าต่าง Frozen" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>setText("Working...") แค่บันทึกว่าต้องวาดใหม่ การวาดจริงทำโดย EDT ภายหลัง</li><li>แต่ EDT กำลัง sleep อยู่ใน listener จึงไม่มีโอกาสวาด</li><li>แม้แต่โปรแกรมที่ใช้ถ่ายภาพหน้าจอนี้ก็ต้องรอ EDT ว่าง — ภาพแรกที่ได้จึงเป็น Done ทันที ไม่เคยมีจังหวะที่หน้าจอแสดง Working...</li><li>ระหว่าง 2 วินาทีนั้นหน้าต่างไม่ตอบสนอง ย้าย/ย่อ/กดปุ่มไม่ได้</li></ol></div></div>
-<div class="quick-check"><strong>ลองคิดก่อน · ทำไมค้าง</strong><div><p>ถ้าระหว่าง listener ข้างต้น sleep ผู้ใช้คลิกปุ่มอื่นอีก 3 ครั้ง จะเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>การคลิกถูกเก็บไว้ในคิว event และจะถูกประมวลผลต่อกันทันทีหลัง listener แรกจบ — ผู้ใช้จะรู้สึกว่าโปรแกรมไม่ตอบสนองแล้วกระตุก</p></div></details></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ภาพแรกที่จับได้หลังคลิก — ได้เมื่อ EDT ว่างแล้วเท่านั้น (หลัง 2 วินาที)</p><figure class="gui-shot"><div class="gui-titlebar">Frozen</div><img src="../assets/gui/gf307fb13ff-0.png" width="244" height="81" alt="ภาพหน้าต่าง Frozen" loading="lazy"></figure></div></div></div></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · ทำไมไม่เคยเห็น Working...</strong><div><p>ภาพแสดง Done ทันที และระหว่าง 2 วินาทีนั้นหน้าต่างย้ายหรือกดอะไรไม่ได้ เพราะอะไร</p></div><details><summary>ดูคำตอบ</summary><div><p><code>setText("Working...")</code> แค่บันทึกว่าต้องวาดใหม่ การวาดจริงทำโดย EDT ภายหลัง แต่ EDT กำลัง sleep อยู่ใน listener จึงไม่มีโอกาสวาด เมื่อตื่นก็เปลี่ยนเป็น Done แล้ว แม้แต่โปรแกรมถ่ายภาพหน้าจอนี้ก็ต้องรอ EDT ว่างเหมือนกัน</p></div></details></div>
+<div class="quick-check"><strong>ลองคิดก่อน · คลิกระหว่างค้าง</strong><div><p>ถ้าระหว่าง listener ข้างต้น sleep ผู้ใช้คลิกปุ่มอื่นอีก 3 ครั้ง จะเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>การคลิกถูกเก็บไว้ในคิว event และจะถูกประมวลผลต่อกันทันทีหลัง listener แรกจบ — ผู้ใช้จะรู้สึกว่าโปรแกรมไม่ตอบสนองแล้วกระตุก</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-S2-2">
 <h3>S2.2 javax.swing.Timer: งานตามช่วงเวลา</h3>
-<p><code>new Timer(delayMs, listener)</code> เรียก listener ซ้ำทุก delay มิลลิวินาที <strong>บน EDT</strong> จึงแก้ component ได้ปลอดภัยและไม่บล็อกหน้าจอระหว่างรอ ใช้กับนาฬิกา นับถอยหลัง แอนิเมชันง่าย ๆ (ระวัง: ใช้ <code>javax.swing.Timer</code> ไม่ใช่ <code>java.util.Timer</code>)</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.2.1</span>นับถอยหลัง 10 วินาที</h4><p class="concept-line"><strong>แนวคิด:</strong> Timer ทุก 1000 ms ลดตัวเลขทีละ 1 และหยุดตัวเองด้วย <code>timer.stop()</code> เมื่อถึง 0</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Countdown.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p><code>new Timer(delayMs, listener)</code> เรียก listener ซ้ำทุก delay มิลลิวินาที <strong>บน EDT</strong> จึงแก้ component ได้ปลอดภัย และระหว่างรอ EDT ว่างวาดหน้าจอ ใช้กับนาฬิกา นับถอยหลัง และแอนิเมชันง่าย ๆ</p>
+<div class="callout warn"><span class="box-title">ข้อผิดพลาดที่พบบ่อย</span><p>import ให้ถูก: ใช้ <code>javax.swing.Timer</code> ไม่ใช่ <code>java.util.Timer</code> ซึ่งทำงานบน thread อื่น</p></div>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.2.1</span>นับถอยหลัง 10 วินาที</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Countdown.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Countdown</span> {
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">int</span> seconds = <span class="tok-num">10</span>;  <span class="tok-com">// วินาทีที่เหลือ</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">int</span> seconds = <span class="tok-num">10</span>;
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
@@ -136,24 +134,21 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             <span class="tok-type">JLabel</span> label = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"10"</span>, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
             label.<span class="tok-fn">setFont</span>(<span class="tok-kw">new</span> <span class="tok-type">Font</span>(<span class="tok-str">"SansSerif"</span>, <span class="tok-type">Font</span>.<span class="tok-const">BOLD</span>, <span class="tok-num">40</span>));
             <span class="tok-type">JButton</span> start = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Start"</span>);
-            <span class="tok-com">// javax.swing.Timer: ทำงานทุก 1000 ms บน EDT</span>
-            <span class="tok-type">Timer</span> timer = <span class="tok-kw">new</span> <span class="tok-type">Timer</span>(<span class="tok-num">1000</span>, <span class="tok-num">null</span>);
-            <span class="tok-com">// โค้ดที่ทำทุกครั้งที่ Timer ครบรอบ</span>
-            timer.<span class="tok-fn">addActionListener</span>(e -&gt; {
+            <span class="tok-type">Timer</span> timer = <span class="tok-kw">new</span> <span class="tok-type">Timer</span>(<span class="tok-num">1000</span>, <span class="tok-num">null</span>);              <span class="tok-com">// ทุก 1000 ms บน EDT</span>
+            timer.<span class="tok-fn">addActionListener</span>(e -&gt; {                    <span class="tok-com">// เพิ่มทีหลัง lambda จึงอ้าง timer ได้</span>
                 seconds--;
-                <span class="tok-com">// แก้ UI ได้ปลอดภัย เพราะอยู่บน EDT</span>
-                label.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">valueOf</span>(seconds));
+                label.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">valueOf</span>(seconds));       <span class="tok-com">// แก้ UI ได้ตรง ๆ</span>
                 <span class="tok-kw">if</span> (seconds == <span class="tok-num">0</span>) {
-                    timer.<span class="tok-fn">stop</span>();  <span class="tok-com">// ครบเวลา → หยุด Timer</span>
+                    timer.<span class="tok-fn">stop</span>();                             <span class="tok-com">// ครบเวลา → หยุดตัวเอง</span>
                     label.<span class="tok-fn">setText</span>(<span class="tok-str">"Time's up!"</span>);
                     start.<span class="tok-fn">setEnabled</span>(<span class="tok-num">true</span>);
                 }
             });
             start.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                seconds = <span class="tok-num">10</span>;  <span class="tok-com">// รีเซ็ตก่อนเริ่มใหม่</span>
+                seconds = <span class="tok-num">10</span>;
                 label.<span class="tok-fn">setText</span>(<span class="tok-str">"10"</span>);
-                start.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);
-                timer.<span class="tok-fn">start</span>();  <span class="tok-com">// เริ่มนับ</span>
+                start.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);                      <span class="tok-com">// กันเริ่มซ้อน</span>
+                timer.<span class="tok-fn">start</span>();
             });
             frame.<span class="tok-fn">add</span>(label, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
             frame.<span class="tok-fn">add</span>(start, <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
@@ -161,15 +156,15 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 3 วินาทีหลังคลิก Start</p><figure class="gui-shot"><div class="gui-titlebar">Countdown</div><img src="../assets/gui/g62c5b788d9-0.png" width="224" height="121" alt="ภาพหน้าต่าง Countdown" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สร้าง Timer ก่อน แล้วเพิ่ม listener ทีหลังเพื่อให้ lambda อ้างถึงตัวแปร timer ได้</li><li>ทุกวินาที listener ทำงานบน EDT และแก้ label ได้ตรง ๆ</li><li>ระหว่างรอระหว่าง tick หน้าต่างยังตอบสนองปกติ</li><li>ปุ่ม Start ปิดระหว่างนับ ป้องกันเริ่มซ้อน</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.2.2</span>นาฬิกาจับเวลา Start / Stop / Reset</h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ Timer ถี่ (100 ms) เพื่อแสดงทศนิยม แต่คำนวณเวลาจริงจาก <code>System.currentTimeMillis()</code> — แม่นกว่าการนับ tick เพราะ Timer อาจมาช้าเล็กน้อย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Stopwatch.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 3 วินาทีหลังคลิก Start</p><figure class="gui-shot"><div class="gui-titlebar">Countdown</div><img src="../assets/gui/g346117ae57-0.png" width="224" height="121" alt="ภาพหน้าต่าง Countdown" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">นาฬิกาจับเวลา</h4>
+<p>Timer อาจมาช้าเล็กน้อยทุก tick การนับ tick จึงคลาดเคลื่อนสะสม ให้ใช้ Timer แค่สั่งวาดใหม่ทุก 100 ms แต่คำนวณเวลาจริงจาก <code>System.currentTimeMillis()</code></p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.2.2</span>Start / Stop / Reset</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Stopwatch.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Stopwatch</span> {
-    <span class="tok-com">// เวลาที่กด Start ล่าสุด</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">long</span> startMillis;
-    <span class="tok-com">// เวลาสะสมจากรอบก่อน ๆ</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">long</span> accumulated = <span class="tok-num">0</span>;
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">long</span> startMillis;                          <span class="tok-com">// เวลาที่กด Start ล่าสุด</span>
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">long</span> accumulated = <span class="tok-num">0</span>;                      <span class="tok-com">// เวลาสะสมจากรอบก่อน</span>
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
@@ -177,18 +172,15 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JLabel</span> display = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"0.0 s"</span>, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
             display.<span class="tok-fn">setFont</span>(<span class="tok-kw">new</span> <span class="tok-type">Font</span>(<span class="tok-str">"Monospaced"</span>, <span class="tok-type">Font</span>.<span class="tok-const">BOLD</span>, <span class="tok-num">32</span>));
-            <span class="tok-com">// อัปเดตทุก 100 ms</span>
             <span class="tok-type">Timer</span> timer = <span class="tok-kw">new</span> <span class="tok-type">Timer</span>(<span class="tok-num">100</span>, e -&gt; {
-                <span class="tok-com">// เวลาสะสม + เวลาของรอบนี้</span>
-                <span class="tok-kw">long</span> elapsed = accumulated + <span class="tok-type">System</span>.<span class="tok-fn">currentTimeMillis</span>() - startMillis;
+                <span class="tok-kw">long</span> elapsed = accumulated + <span class="tok-type">System</span>.<span class="tok-fn">currentTimeMillis</span>() - startMillis;   <span class="tok-com">// เวลาจริง</span>
                 display.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%.1f s"</span>, elapsed / <span class="tok-num">1000.0</span>));
             });
             <span class="tok-type">JButton</span> start = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Start"</span>);
             <span class="tok-type">JButton</span> stop = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Stop"</span>);
             <span class="tok-type">JButton</span> reset = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Reset"</span>);
             start.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// กันกด Start ซ้ำขณะเดินอยู่</span>
-                <span class="tok-kw">if</span> (!timer.<span class="tok-fn">isRunning</span>()) {
+                <span class="tok-kw">if</span> (!timer.<span class="tok-fn">isRunning</span>()) {                     <span class="tok-com">// กันกดซ้ำขณะเดิน</span>
                     startMillis = <span class="tok-type">System</span>.<span class="tok-fn">currentTimeMillis</span>();
                     timer.<span class="tok-fn">start</span>();
                 }
@@ -196,8 +188,7 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             stop.<span class="tok-fn">addActionListener</span>(e -&gt; {
                 <span class="tok-kw">if</span> (timer.<span class="tok-fn">isRunning</span>()) {
                     timer.<span class="tok-fn">stop</span>();
-                    <span class="tok-com">// เก็บเวลาของรอบนี้ไว้</span>
-                    accumulated += <span class="tok-type">System</span>.<span class="tok-fn">currentTimeMillis</span>() - startMillis;
+                    accumulated += <span class="tok-type">System</span>.<span class="tok-fn">currentTimeMillis</span>() - startMillis;   <span class="tok-com">// เก็บรอบนี้ไว้</span>
                 }
             });
             reset.<span class="tok-fn">addActionListener</span>(e -&gt; {
@@ -215,8 +206,10 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">Start แล้ว Stop หลังประมาณ 1.6 วินาที</p><figure class="gui-shot"><div class="gui-titlebar">Stopwatch</div><img src="../assets/gui/g46af3700cc-0.png" width="244" height="111" alt="ภาพหน้าต่าง Stopwatch" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>accumulated เก็บเวลารวมของช่วงก่อนหน้า ทำให้ Start ต่อหลัง Stop ได้</li><li>timer.isRunning() ป้องกันกด Start ซ้ำ</li><li>ตัวเลขในภาพอาจต่างเล็กน้อยจาก 1.6 ตามจังหวะเวลาของเครื่อง</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.2.3</span>แอนิเมชัน: แถบความคืบหน้าและสีที่เปลี่ยน</h4><p class="concept-line"><strong>แนวคิด:</strong> Timer 50 ms เพิ่มค่า JProgressBar ทีละ 2% และเปลี่ยนสีตามช่วง — เป็นพื้นฐานของแอนิเมชันใน Swing</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ProgressAnimation.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">Start แล้ว Stop หลังประมาณ 1.6 วินาที</p><figure class="gui-shot"><div class="gui-titlebar">Stopwatch</div><img src="../assets/gui/g96c9d69c02-0.png" width="244" height="111" alt="ภาพหน้าต่าง Stopwatch" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>ภาพแสดง 2.0 s แม้รอเพียง 1.6 วินาที เพราะรวมเวลาที่โปรแกรมจำลองใช้กดปุ่ม Start และ Stop ด้วย ตัวเลขบนเครื่องของนิสิตจะต่างไปตามจังหวะการกดจริง</p></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: แอนิเมชันแถบความคืบหน้า</summary><div class="more-body"><p>Timer ทุก 50 ms เพิ่มค่า JProgressBar ทีละ 2% (ครบ 100% ในประมาณ 2.5 วินาที) และเปลี่ยนสีจากแดง → ส้ม → เขียว ภาพที่ 1.3 วินาทีจึงอยู่ราวครึ่งทาง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.2.3</span>Loading bar</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ProgressAnimation.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ProgressAnimation</span> {
@@ -224,21 +217,16 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Loading"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// ค่าต่ำสุด 0, สูงสุด 100</span>
             <span class="tok-type">JProgressBar</span> bar = <span class="tok-kw">new</span> <span class="tok-type">JProgressBar</span>(<span class="tok-num">0</span>, <span class="tok-num">100</span>);
-            <span class="tok-com">// แสดงเปอร์เซ็นต์บนแถบ</span>
-            bar.<span class="tok-fn">setStringPainted</span>(<span class="tok-num">true</span>);
+            bar.<span class="tok-fn">setStringPainted</span>(<span class="tok-num">true</span>);                       <span class="tok-com">// แสดง % บนแถบ</span>
             <span class="tok-type">JLabel</span> status = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Starting..."</span>, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
-            <span class="tok-com">// ทำทุก 50 ms</span>
             <span class="tok-type">Timer</span> timer = <span class="tok-kw">new</span> <span class="tok-type">Timer</span>(<span class="tok-num">50</span>, <span class="tok-num">null</span>);
             timer.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-kw">int</span> v = bar.<span class="tok-fn">getValue</span>() + <span class="tok-num">2</span>;  <span class="tok-com">// เพิ่มทีละ 2%</span>
+                <span class="tok-kw">int</span> v = bar.<span class="tok-fn">getValue</span>() + <span class="tok-num">2</span>;
                 bar.<span class="tok-fn">setValue</span>(v);
-                <span class="tok-com">// เปลี่ยนสีตามช่วง</span>
                 bar.<span class="tok-fn">setForeground</span>(v &lt; <span class="tok-num">40</span> ? <span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">200</span>, <span class="tok-num">80</span>, <span class="tok-num">60</span>) : v &lt; <span class="tok-num">80</span> ? <span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">230</span>, <span class="tok-num">160</span>, <span class="tok-num">30</span>) : <span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">60</span>, <span class="tok-num">160</span>, <span class="tok-num">60</span>));
                 status.<span class="tok-fn">setText</span>(v &lt; <span class="tok-num">100</span> ? <span class="tok-str">"Loading course data..."</span> : <span class="tok-str">"Ready!"</span>);
-                <span class="tok-com">// ครบ 100% → หยุด</span>
-                <span class="tok-kw">if</span> (v &gt;= <span class="tok-num">100</span>) timer.<span class="tok-fn">stop</span>();
+                <span class="tok-kw">if</span> (v &gt;= <span class="tok-num">100</span>) timer.<span class="tok-fn">stop</span>();                   <span class="tok-com">// ครบ → หยุด</span>
             });
             timer.<span class="tok-fn">start</span>();
             <span class="tok-type">JPanel</span> p = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">2</span>, <span class="tok-num">1</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));
@@ -250,12 +238,12 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 1.3 วินาทีหลังเปิดโปรแกรม</p><figure class="gui-shot"><div class="gui-titlebar">Loading</div><img src="../assets/gui/gec8a39fb44-0.png" width="284" height="81" alt="ภาพหน้าต่าง Loading" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ทุก 50 ms เพิ่ม 2% → ครบ 100% ในประมาณ 2.5 วินาที</li><li>ภาพที่ประมาณ 1.3 วินาทีจึงอยู่ราวครึ่งทาง</li><li>สีเปลี่ยนจากแดง → ส้ม → เขียว ตามค่า</li><li>timer.stop() เมื่อครบ</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 1.3 วินาทีหลังเปิดโปรแกรม</p><figure class="gui-shot"><div class="gui-titlebar">Loading</div><img src="../assets/gui/gc3e5b02e9a-0.png" width="284" height="81" alt="ภาพหน้าต่าง Loading" loading="lazy"></figure></div></div></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · Timer</strong><div><p>ถ้าใช้ <code>while (seconds &gt; 0) { Thread.sleep(1000); seconds--; label.setText(...); }</code> ใน listener ของปุ่ม แทนการใช้ Timer จะเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>หน้าต่างค้าง 10 วินาทีและไม่เห็นตัวเลขเปลี่ยนระหว่างนั้น เพราะลูปบล็อก EDT — Timer แบ่งงานเป็นชิ้นสั้น ๆ ทำให้ EDT ว่างวาดหน้าจอระหว่างแต่ละ tick</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-S2-3">
 <h3>S2.3 งานเบื้องหลังด้วย SwingWorker</h3>
-<p>งานที่ใช้เวลานานจริง ๆ (คำนวณหนัก อ่านไฟล์ใหญ่ ดาวน์โหลด) ต้องทำบน thread อื่น แต่<strong>ห้ามแก้ component จาก thread นั้น</strong> <code>SwingWorker&lt;T, V&gt;</code> จัดการให้: <code>doInBackground()</code> ทำงานบน thread เบื้องหลัง, <code>publish()</code>/<code>process()</code> ส่งความคืบหน้ากลับมาบน EDT, และ <code>done()</code> ทำงานบน EDT เมื่อเสร็จ</p>
+<p>งานที่ใช้เวลานานจริง ๆ (คำนวณหนัก อ่านไฟล์ใหญ่ ดาวน์โหลด) ต้องทำบน thread อื่น แต่<strong>ห้ามแก้ component จาก thread นั้น</strong> <code>SwingWorker&lt;T, V&gt;</code> แยกสองส่วนนี้ให้ชัด</p>
 <div class="concept-box"><span class="box-title">เมธอดของ SwingWorker ทำงานบน thread ไหน</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code>worker.<span class="tok-fn">execute</span>()
     <span class="tok-arrow">│</span>
     <span class="tok-arrow">├──</span> <span class="tok-fn">doInBackground</span>()   <span class="tok-com">← background thread  (ห้ามแตะ component)</span>
@@ -264,7 +252,7 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
     <span class="tok-arrow">├──</span> <span class="tok-fn">process</span>(chunks)   <span class="tok-com">← EDT  (อัปเดต progress ได้)</span>
     <span class="tok-arrow">│</span>
     <span class="tok-arrow">└──</span> <span class="tok-fn">done</span>()            <span class="tok-com">← EDT  (เรียก get() เอาผลลัพธ์ แล้วแสดงผล)</span></code></pre></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.3.1</span>นับจำนวนเฉพาะเบื้องหลังพร้อม progress</h4><p class="concept-line"><strong>แนวคิด:</strong> หน้าต่างยังตอบสนองระหว่างคำนวณ ความคืบหน้าส่งผ่าน <code>setProgress</code> ซึ่ง SwingWorker แจ้ง listener บน EDT ให้อัตโนมัติ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrimeWorkerDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.3.1</span>นับจำนวนเฉพาะเบื้องหลังพร้อม progress</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrimeWorkerDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrimeWorkerDemo</span> {
@@ -277,28 +265,22 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             <span class="tok-type">JLabel</span> result = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Primes below 2,000,000: ?"</span>, <span class="tok-type">SwingConstants</span>.<span class="tok-const">CENTER</span>);
             <span class="tok-type">JButton</span> go = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Count primes"</span>);
             go.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// กันกดซ้ำระหว่างทำงาน</span>
-                go.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);
-                <span class="tok-com">// &lt;ผลลัพธ์, ค่าระหว่างทาง&gt;</span>
-                <span class="tok-type">SwingWorker</span>&lt;<span class="tok-type">Integer</span>, <span class="tok-type">Void</span>&gt; worker = <span class="tok-kw">new</span> <span class="tok-type">SwingWorker</span>&lt;&gt;() {
+                go.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);                                         <span class="tok-com">// กันกดซ้ำ</span>
+                <span class="tok-type">SwingWorker</span>&lt;<span class="tok-type">Integer</span>, <span class="tok-type">Void</span>&gt; worker = <span class="tok-kw">new</span> <span class="tok-type">SwingWorker</span>&lt;&gt;() {     <span class="tok-com">// &lt;ผลลัพธ์, ค่าระหว่างทาง&gt;</span>
                     <span class="tok-ann">@Override</span>
-                    <span class="tok-com">// ทำใน background thread ไม่ใช่ EDT</span>
-                    <span class="tok-kw">protected</span> <span class="tok-type">Integer</span> <span class="tok-fn">doInBackground</span>() {
+                    <span class="tok-kw">protected</span> <span class="tok-type">Integer</span> <span class="tok-fn">doInBackground</span>() {                      <span class="tok-com">// background thread</span>
                         <span class="tok-kw">int</span> limit = <span class="tok-num">2_000_000</span>, count = <span class="tok-num">0</span>;
                         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> n = <span class="tok-num">2</span>; n &lt; limit; n++) {
                             <span class="tok-kw">if</span> (<span class="tok-fn">isPrime</span>(n)) count++;
-                            <span class="tok-com">// รายงานความคืบหน้า 0-100</span>
-                            <span class="tok-kw">if</span> (n % <span class="tok-num">20_000</span> == <span class="tok-num">0</span>) <span class="tok-fn">setProgress</span>(n * <span class="tok-num">100</span> / limit);
+                            <span class="tok-kw">if</span> (n % <span class="tok-num">20_000</span> == <span class="tok-num">0</span>) <span class="tok-fn">setProgress</span>(n * <span class="tok-num">100</span> / limit);   <span class="tok-com">// 0-100 เรียกได้ปลอดภัย</span>
                         }
-                        <span class="tok-kw">return</span> count;  <span class="tok-com">// ผลลัพธ์ส่งต่อให้ done()</span>
+                        <span class="tok-kw">return</span> count;                                         <span class="tok-com">// ส่งต่อให้ done()</span>
                     }
 
                     <span class="tok-ann">@Override</span>
-                    <span class="tok-com">// done() ทำงานบน EDT แก้ UI ได้</span>
-                    <span class="tok-kw">protected</span> <span class="tok-kw">void</span> <span class="tok-fn">done</span>() {
+                    <span class="tok-kw">protected</span> <span class="tok-kw">void</span> <span class="tok-fn">done</span>() {                                   <span class="tok-com">// EDT: แก้ UI ได้</span>
                         <span class="tok-kw">try</span> {
-                            <span class="tok-com">// get() ดึงผลจาก doInBackground</span>
-                            result.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"Primes below 2,000,000: %,d"</span>, <span class="tok-fn">get</span>()));
+                            result.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"Primes below 2,000,000: %,d"</span>, <span class="tok-fn">get</span>()));   <span class="tok-com">// get() = ผลลัพธ์</span>
                         } <span class="tok-kw">catch</span> (<span class="tok-type">Exception</span> ex) {
                             result.<span class="tok-fn">setText</span>(<span class="tok-str">"Error: "</span> + ex.<span class="tok-fn">getMessage</span>());
                         }
@@ -306,11 +288,10 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
                         go.<span class="tok-fn">setEnabled</span>(<span class="tok-num">true</span>);
                     }
                 };
-                <span class="tok-com">// รับการแจ้งเปลี่ยนค่า progress</span>
-                worker.<span class="tok-fn">addPropertyChangeListener</span>(ev -&gt; {
+                worker.<span class="tok-fn">addPropertyChangeListener</span>(ev -&gt; {                      <span class="tok-com">// ได้รับบน EDT</span>
                     <span class="tok-kw">if</span> (<span class="tok-str">"progress"</span>.<span class="tok-fn">equals</span>(ev.<span class="tok-fn">getPropertyName</span>())) bar.<span class="tok-fn">setValue</span>((<span class="tok-type">Integer</span>) ev.<span class="tok-fn">getNewValue</span>());
                 });
-                worker.<span class="tok-fn">execute</span>();  <span class="tok-com">// เริ่มทำงานใน background</span>
+                worker.<span class="tok-fn">execute</span>();
             });
             <span class="tok-type">JPanel</span> p = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">3</span>, <span class="tok-num">1</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));
             p.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>));
@@ -324,12 +305,13 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">boolean</span> <span class="tok-fn">isPrime</span>(<span class="tok-kw">int</span> n) {
-        <span class="tok-com">// (long) กัน d * d ล้นช่วง int</span>
-        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> d = <span class="tok-num">2</span>; (<span class="tok-kw">long</span>) d * d &lt;= n; d++) <span class="tok-kw">if</span> (n % d == <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> d = <span class="tok-num">2</span>; (<span class="tok-kw">long</span>) d * d &lt;= n; d++) <span class="tok-kw">if</span> (n % d == <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;   <span class="tok-com">// (long) กัน d*d ล้น</span>
         <span class="tok-kw">return</span> <span class="tok-num">true</span>;
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 2.5 วินาทีหลังคลิก (งานเสร็จแล้ว)</p><figure class="gui-shot"><div class="gui-titlebar">Background work</div><img src="../assets/gui/g9b975fd5b2-0.png" width="304" height="111" alt="ภาพหน้าต่าง Background work" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>doInBackground ทำงานบน thread อื่น ไม่แตะ component เลย</li><li>setProgress (0–100) ปลอดภัยที่จะเรียกจาก background — listener ได้รับบน EDT</li><li>done() ทำงานบน EDT: get() เอาผลลัพธ์แล้วแสดง</li><li>ระหว่างคำนวณ ผู้ใช้ยังย้ายหน้าต่างหรือคลิกส่วนอื่นได้</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.3.2</span>invokeLater: ส่งงานกลับมาที่ EDT จาก Thread ธรรมดา</h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าใช้ Thread เองแทน SwingWorker ทุกการแก้ component ต้องห่อด้วย <code>SwingUtilities.invokeLater</code> เพื่อส่งงานนั้นกลับไปทำบน EDT</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ManualThreadDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 2.5 วินาทีหลังคลิก (งานเสร็จแล้ว)</p><figure class="gui-shot"><div class="gui-titlebar">Background work</div><img src="../assets/gui/g471628f25e-0.png" width="304" height="111" alt="ภาพหน้าต่าง Background work" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>ระหว่างคำนวณ ผู้ใช้ยังย้ายหน้าต่างหรือคลิกส่วนอื่นได้ เพราะ EDT ว่าง</p></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: ใช้ Thread เองแล้วส่งงานกลับด้วย invokeLater</summary><div class="more-body"><p>ถ้าใช้ Thread เองแทน SwingWorker ทุกการแก้ component ต้องห่อด้วย <code>SwingUtilities.invokeLater</code> เพื่อส่งกลับไปทำบน EDT วิธีนี้ยุ่งกว่า SwingWorker แต่ช่วยให้เข้าใจกลไก</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.3.2</span>ดาวน์โหลดจำลอง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ManualThreadDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ManualThreadDemo</span> {
@@ -341,16 +323,12 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             <span class="tok-type">JButton</span> download = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Download"</span>);
             download.<span class="tok-fn">addActionListener</span>(e -&gt; {
                 download.<span class="tok-fn">setEnabled</span>(<span class="tok-num">false</span>);
-                <span class="tok-kw">new</span> <span class="tok-type">Thread</span>(() -&gt; {  <span class="tok-com">// thread ที่สร้างเอง</span>
+                <span class="tok-kw">new</span> <span class="tok-type">Thread</span>(() -&gt; {                                    <span class="tok-com">// thread ที่สร้างเอง</span>
                     <span class="tok-kw">for</span> (<span class="tok-kw">int</span> part = <span class="tok-num">1</span>; part &lt;= <span class="tok-num">4</span>; part++) {
-                        <span class="tok-com">// จำลองการดาวน์โหลดทีละส่วน</span>
-                        <span class="tok-kw">try</span> { <span class="tok-type">Thread</span>.<span class="tok-fn">sleep</span>(<span class="tok-num">250</span>); } <span class="tok-kw">catch</span> (<span class="tok-type">InterruptedException</span> ex) { <span class="tok-kw">return</span>; }
-                        <span class="tok-com">// lambda ใช้ได้เฉพาะตัวแปรที่ไม่เปลี่ยนค่า</span>
-                        <span class="tok-kw">final</span> <span class="tok-kw">int</span> p = part;
-                        <span class="tok-com">// ส่งงานแก้ UI กลับไปทำบน EDT</span>
-                        <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; log.<span class="tok-fn">addElement</span>(<span class="tok-str">"received part "</span> + p + <span class="tok-str">"/4"</span>));
+                        <span class="tok-kw">try</span> { <span class="tok-type">Thread</span>.<span class="tok-fn">sleep</span>(<span class="tok-num">250</span>); } <span class="tok-kw">catch</span> (<span class="tok-type">InterruptedException</span> ex) { <span class="tok-kw">return</span>; }   <span class="tok-com">// ไม่บล็อกหน้าจอ</span>
+                        <span class="tok-kw">final</span> <span class="tok-kw">int</span> p = part;                           <span class="tok-com">// lambda ต้องใช้ตัวแปรที่ไม่เปลี่ยนค่า</span>
+                        <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; log.<span class="tok-fn">addElement</span>(<span class="tok-str">"received part "</span> + p + <span class="tok-str">"/4"</span>));   <span class="tok-com">// กลับไป EDT</span>
                     }
-                    <span class="tok-com">// เสร็จแล้วแจ้ง UI อีกครั้ง</span>
                     <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
                         log.<span class="tok-fn">addElement</span>(<span class="tok-str">"download complete"</span>);
                         download.<span class="tok-fn">setEnabled</span>(<span class="tok-num">true</span>);
@@ -363,40 +341,39 @@ both finished</pre></div></div><div class="walkthrough"><strong>อธิบา�
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 1.5 วินาทีหลังคลิก</p><figure class="gui-shot"><div class="gui-titlebar">Fake download</div><img src="../assets/gui/gd057b256c9-0.png" width="244" height="131" alt="ภาพหน้าต่าง Fake download" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Thread ใหม่ sleep ได้โดยไม่บล็อกหน้าจอ</li><li>แต่การ addElement ต้องทำบน EDT จึงห่อด้วย invokeLater</li><li><code>final int p = part</code> เพราะ lambda ใช้ได้เฉพาะตัวแปรที่ไม่เปลี่ยนค่า (effectively final)</li><li>SwingWorker มักง่ายและปลอดภัยกว่าวิธีนี้</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">ประมาณ 1.5 วินาทีหลังคลิก</p><figure class="gui-shot"><div class="gui-titlebar">Fake download</div><img src="../assets/gui/gccb268b44b-0.png" width="244" height="131" alt="ภาพหน้าต่าง Fake download" loading="lazy"></figure></div></div></div></div></div></div></details>
 </article>
 <article class="subtopic" id="topic-S2-4">
 <h3>S2.4 เลือกเครื่องมือและทดสอบ</h3>
 <table class="comparison-table"><thead><tr><th>สถานการณ์</th><th>เครื่องมือ</th><th>เหตุผล</th></tr></thead><tbody><tr><td>อัปเดตทุก n มิลลิวินาที (นาฬิกา, นับถอยหลัง, แอนิเมชัน)</td><td><code>javax.swing.Timer</code></td><td>ทำงานบน EDT แก้ UI ได้ตรง ๆ</td></tr><tr><td>งานนานครั้งเดียวแล้วแสดงผล</td><td><code>SwingWorker</code></td><td>แยก background/EDT ให้ชัด มี progress และ done()</td></tr><tr><td>งานเบื้องหลังที่ไม่เกี่ยวกับ UI (console)</td><td><code>Thread</code></td><td>ง่ายที่สุด</td></tr><tr><td>ส่งงานจาก thread อื่นมาแก้ UI</td><td><code>SwingUtilities.invokeLater</code></td><td>รับประกันว่าทำบน EDT</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.4.1</span>แยก logic เวลาออกจาก Timer เพื่อทดสอบ</h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>CountdownModel</code> ไม่รู้จัก Timer หรือ Swing — มีแค่เมธอด tick() ทดสอบได้ทันทีโดยไม่ต้องรอเวลาจริง แล้วค่อยให้ Timer เรียก tick() ในแอปจริง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CountdownModelTest.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CountdownModelTest</span> {
+<h4 class="sub">แยก logic เวลาออกจาก Timer</h4>
+<p>โค้ดที่ขึ้นกับเวลาจริงทดสอบช้า ให้ย้าย logic ไปไว้ในคลาสที่ไม่รู้จัก Timer หรือ Swing มีแค่เมธอด <code>tick()</code> ทดสอบโดยเรียก tick() เองได้ทันที แล้วในแอปจริงจึงให้ Timer เรียก tick()</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง S2.4.1</span>ทดสอบ CountdownModel โดยไม่ต้องรอ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CountdownModelTest.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CountdownModelTest</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ทดสอบ model โดยไม่ต้องรอเวลาจริง</span>
         <span class="tok-type">CountdownModel</span> m = <span class="tok-kw">new</span> <span class="tok-type">CountdownModel</span>(<span class="tok-num">3</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"start: "</span> + m.<span class="tok-fn">display</span>() + <span class="tok-str">" finished="</span> + m.<span class="tok-fn">isFinished</span>());
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; <span class="tok-num">5</span>; i++) {
-            m.<span class="tok-fn">tick</span>();  <span class="tok-com">// เรียก tick เองแทน Timer</span>
+            m.<span class="tok-fn">tick</span>();                                     <span class="tok-com">// เรียกเองแทน Timer</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"tick "</span> + (i + <span class="tok-num">1</span>) + <span class="tok-str">": "</span> + m.<span class="tok-fn">display</span>() + <span class="tok-str">" finished="</span> + m.<span class="tok-fn">isFinished</span>());
         }
-        <span class="tok-com">// ทดสอบการแสดงเกิน 1 นาที</span>
         <span class="tok-type">CountdownModel</span> long1 = <span class="tok-kw">new</span> <span class="tok-type">CountdownModel</span>(<span class="tok-num">125</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"125 s shows "</span> + long1.<span class="tok-fn">display</span>());
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"125 s shows "</span> + long1.<span class="tok-fn">display</span>());   <span class="tok-com">// 02:05</span>
     }
 }
 
-<span class="tok-kw">class</span> <span class="tok-type">CountdownModel</span> {  <span class="tok-com">// logic การนับถอยหลัง ไม่มีโค้ด Swing</span>
+<span class="tok-kw">class</span> <span class="tok-type">CountdownModel</span> {                                    <span class="tok-com">// ไม่มีโค้ด Swing</span>
     <span class="tok-kw">private</span> <span class="tok-kw">int</span> remaining;
 
     <span class="tok-type">CountdownModel</span>(<span class="tok-kw">int</span> seconds) { remaining = seconds; }
 
     <span class="tok-kw">void</span> <span class="tok-fn">tick</span>() {
-        <span class="tok-kw">if</span> (remaining &gt; <span class="tok-num">0</span>) remaining--;  <span class="tok-com">// ไม่ให้ติดลบ</span>
+        <span class="tok-kw">if</span> (remaining &gt; <span class="tok-num">0</span>) remaining--;                   <span class="tok-com">// ไม่ติดลบแม้เรียกเกิน</span>
     }
 
     <span class="tok-kw">boolean</span> <span class="tok-fn">isFinished</span>() { <span class="tok-kw">return</span> remaining == <span class="tok-num">0</span>; }
 
     <span class="tok-type">String</span> <span class="tok-fn">display</span>() {
-        <span class="tok-com">// นาที:วินาที เติม 0 ให้ครบ 2 หลัก</span>
-        <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%02d:%02d"</span>, remaining / <span class="tok-num">60</span>, remaining % <span class="tok-num">60</span>);
+        <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%02d:%02d"</span>, remaining / <span class="tok-num">60</span>, remaining % <span class="tok-num">60</span>);   <span class="tok-com">// นาที:วินาที</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>start: 00:03 finished=false
 tick 1: 00:02 finished=false
@@ -404,7 +381,7 @@ tick 2: 00:01 finished=false
 tick 3: 00:00 finished=true
 tick 4: 00:00 finished=true
 tick 5: 00:00 finished=true
-125 s shows 02:05</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>tick ไม่ลดต่ำกว่า 0 แม้ถูกเรียกเกิน</li><li>display จัดรูปแบบนาที:วินาที</li><li>ทดสอบ 5 tick ได้ในพริบตา ไม่ต้องรอ 5 วินาที</li></ol></div></div>
+125 s shows 02:05</pre></div></div></div>
 <div class="note-box"><span class="box-title">Checklist เมื่อใช้ thread กับ Swing</span><ul><li>ไม่มี Thread.sleep หรือลูปยาวใน listener</li><li>ไม่แก้ component จาก thread อื่นโดยไม่ผ่าน invokeLater / SwingWorker</li><li>ปิดปุ่มเริ่มระหว่างทำงาน ป้องกันเริ่มงานซ้อน</li><li>หยุด Timer เมื่อไม่ใช้ (stop) เพื่อไม่ให้ทำงานค้างเบื้องหลัง</li></ul></div>
 </article>
       </section>
