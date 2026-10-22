@@ -59,8 +59,10 @@
 <div class="concept-box"><span class="box-title">ลำดับการประมวลผลฟอร์มเมื่อกด Submit</span><ol class="step-list"><li><strong>อ่าน</strong>ค่าจากทุก component (ยังเป็น String/สถานะ)</li><li><strong>ตรวจ</strong>ว่าไม่ว่าง → รูปแบบถูก → แปลงชนิด → อยู่ในช่วงที่ยอมรับ</li><li>ถ้าผิด: <strong>แจ้ง</strong>ผู้ใช้ให้ชัดว่าช่องไหนผิดอย่างไร แล้วหยุด (ไม่บันทึก)</li><li>ถ้าถูกทั้งหมด: <strong>ทำงาน</strong> (คำนวณ/บันทึก) แล้วแจ้งผลสำเร็จ และ <strong>reset</strong> ฟอร์มถ้าเหมาะสม</li></ol></div>
 <article class="subtopic" id="topic-17-1">
 <h3>17.1 อ่านค่าจาก component</h3>
+<p>แต่ละ component อ่านค่าด้วยเมธอดต่างกัน และได้ชนิดข้อมูลต่างกัน จำตารางนี้ไว้ใช้ทั้งบท</p>
 <table class="comparison-table"><thead><tr><th>Component</th><th>อ่านค่า</th><th>ชนิดที่ได้</th></tr></thead><tbody><tr><td>JTextField / JTextArea</td><td><code>getText()</code></td><td>String</td></tr><tr><td>JPasswordField</td><td><code>getPassword()</code></td><td>char[] → <code>new String(...)</code></td></tr><tr><td>JComboBox&lt;String&gt;</td><td><code>getSelectedItem()</code> / <code>getSelectedIndex()</code></td><td>Object (cast เป็น String) / int</td></tr><tr><td>JRadioButton / JCheckBox</td><td><code>isSelected()</code></td><td>boolean</td></tr><tr><td>JSpinner (ตัวเลข)</td><td><code>(int) spinner.getValue()</code></td><td>Integer</td></tr><tr><td>JSlider</td><td><code>getValue()</code></td><td>int</td></tr><tr><td>JList</td><td><code>getSelectedValue()</code> / <code>getSelectedValuesList()</code></td><td>E / List&lt;E&gt;</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.1.1</span>อ่านทุกช่องแล้วสรุปใน text area</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อคลิก Preview โปรแกรมอ่านค่าจาก component ทุกชนิดแล้วแสดงรวมกัน — ยังไม่ตรวจความถูกต้อง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>ตัวอย่างนี้อ่านค่าจากทุกชนิดเมื่อคลิก Preview แล้วแสดงรวมกัน ยังไม่ตรวจความถูกต้อง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.1.1</span>อ่านทุกช่องแล้วสรุปใน text area</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReadForm</span> {
@@ -72,29 +74,22 @@
             <span class="tok-type">JComboBox</span>&lt;<span class="tok-type">String</span>&gt; year = <span class="tok-kw">new</span> <span class="tok-type">JComboBox</span>&lt;&gt;(<span class="tok-kw">new</span> <span class="tok-type">String</span>[]{<span class="tok-str">"Year 1"</span>, <span class="tok-str">"Year 2"</span>, <span class="tok-str">"Year 3"</span>, <span class="tok-str">"Year 4"</span>});
             <span class="tok-type">JRadioButton</span> male = <span class="tok-kw">new</span> <span class="tok-type">JRadioButton</span>(<span class="tok-str">"Male"</span>);
             <span class="tok-type">JRadioButton</span> female = <span class="tok-kw">new</span> <span class="tok-type">JRadioButton</span>(<span class="tok-str">"Female"</span>);
-            <span class="tok-com">// เลือกเพศได้ทีละหนึ่ง</span>
             <span class="tok-type">ButtonGroup</span> g = <span class="tok-kw">new</span> <span class="tok-type">ButtonGroup</span>();
             g.<span class="tok-fn">add</span>(male);
             g.<span class="tok-fn">add</span>(female);
             <span class="tok-type">JCheckBox</span> news = <span class="tok-kw">new</span> <span class="tok-type">JCheckBox</span>(<span class="tok-str">"Newsletter"</span>);
-            <span class="tok-com">// ค่าเริ่ม 18, ช่วง 15-60</span>
             <span class="tok-type">JSpinner</span> age = <span class="tok-kw">new</span> <span class="tok-type">JSpinner</span>(<span class="tok-kw">new</span> <span class="tok-type">SpinnerNumberModel</span>(<span class="tok-num">18</span>, <span class="tok-num">15</span>, <span class="tok-num">60</span>, <span class="tok-num">1</span>));
             <span class="tok-type">JTextArea</span> out = <span class="tok-kw">new</span> <span class="tok-type">JTextArea</span>(<span class="tok-num">5</span>, <span class="tok-num">26</span>);
             out.<span class="tok-fn">setEditable</span>(<span class="tok-num">false</span>);
             <span class="tok-type">JButton</span> preview = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Preview"</span>);
-            <span class="tok-com">// อ่านค่าทุกช่องเมื่อกดปุ่ม</span>
             preview.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// ยังไม่เลือกทั้งคู่ก็เป็นไปได้</span>
-                <span class="tok-type">String</span> gender = male.<span class="tok-fn">isSelected</span>() ? <span class="tok-str">"Male"</span> : female.<span class="tok-fn">isSelected</span>() ? <span class="tok-str">"Female"</span> : <span class="tok-str">"(not chosen)"</span>;
-                <span class="tok-com">// getText() อ่านข้อความในช่อง</span>
-                out.<span class="tok-fn">setText</span>(<span class="tok-str">"Name: "</span> + name.<span class="tok-fn">getText</span>()
-                    <span class="tok-com">// ตัวที่เลือก และตำแหน่ง</span>
+                <span class="tok-type">String</span> gender = male.<span class="tok-fn">isSelected</span>() ? <span class="tok-str">"Male"</span>                            <span class="tok-com">// ตรวจทีละปุ่ม</span>
+                              : female.<span class="tok-fn">isSelected</span>() ? <span class="tok-str">"Female"</span> : <span class="tok-str">"(not chosen)"</span>;     <span class="tok-com">// อาจยังไม่เลือกเลย</span>
+                out.<span class="tok-fn">setText</span>(<span class="tok-str">"Name: "</span> + name.<span class="tok-fn">getText</span>()                                 <span class="tok-com">// String</span>
                     + <span class="tok-str">"\nYear: "</span> + year.<span class="tok-fn">getSelectedItem</span>() + <span class="tok-str">" (index "</span> + year.<span class="tok-fn">getSelectedIndex</span>() + <span class="tok-str">")"</span>
                     + <span class="tok-str">"\nGender: "</span> + gender
-                    <span class="tok-com">// getValue() คืน Object จึงต้อง cast</span>
-                    + <span class="tok-str">"\nAge: "</span> + (<span class="tok-kw">int</span>) age.<span class="tok-fn">getValue</span>()
-                    <span class="tok-com">// isSelected() = ติ๊กหรือไม่</span>
-                    + <span class="tok-str">"\nNewsletter: "</span> + news.<span class="tok-fn">isSelected</span>());
+                    + <span class="tok-str">"\nAge: "</span> + (<span class="tok-kw">int</span>) age.<span class="tok-fn">getValue</span>()                                <span class="tok-com">// Object → cast เป็น int</span>
+                    + <span class="tok-str">"\nNewsletter: "</span> + news.<span class="tok-fn">isSelected</span>());                          <span class="tok-com">// boolean</span>
             });
             <span class="tok-type">JPanel</span> form = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">4</span>));
             form.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Name:"</span>)); form.<span class="tok-fn">add</span>(name);
@@ -113,8 +108,9 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกข้อมูลแล้วคลิก Preview</p><figure class="gui-shot"><div class="gui-titlebar">Read values</div><img src="../assets/gui/gf994f15aa5-0.png" width="305" height="251" alt="ภาพหน้าต่าง Read values" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>getText() ได้ String</li><li>getSelectedItem() ได้ Object ซึ่งเป็น "Year 2"</li><li>radio ต้องเช็ค isSelected ทีละปุ่ม — ถ้าไม่เลือกเลยต้องจัดการกรณีนี้</li><li>spinner คืน Integer cast เป็น int</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.1.2</span>อ่านรายการที่เลือกหลายรายการจาก JList</h4><p class="concept-line"><strong>แนวคิด:</strong> JList เลือกได้หลายรายการ (กด Ctrl ค้าง) อ่านด้วย <code>getSelectedValuesList()</code> ได้ List — ตัวอย่างตั้งค่าเลือกไว้ล่วงหน้าด้วย setSelectedIndices</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiSelect.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกข้อมูลแล้วคลิก Preview</p><figure class="gui-shot"><div class="gui-titlebar">Read values</div><img src="../assets/gui/g4a1d582273-0.png" width="305" height="251" alt="ภาพหน้าต่าง Read values" loading="lazy"></figure></div></div></div></div></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: อ่านหลายรายการที่เลือกจาก JList</summary><div class="more-body"><p>JList เลือกได้หลายรายการ (กด Ctrl ค้าง) อ่านด้วย <code>getSelectedValuesList()</code> ได้เป็น List ตัวอย่างนี้ตั้งค่าเลือกไว้ล่วงหน้าด้วย <code>setSelectedIndices</code></p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.1.2</span>วิชาเลือกที่ติ๊กไว้</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiSelect.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
 
@@ -125,14 +121,11 @@
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">String</span>[] courses = {<span class="tok-str">"AI Basics"</span>, <span class="tok-str">"Mobile Apps"</span>, <span class="tok-str">"Web Design"</span>, <span class="tok-str">"Databases"</span>, <span class="tok-str">"Game Dev"</span>};
             <span class="tok-type">JList</span>&lt;<span class="tok-type">String</span>&gt; list = <span class="tok-kw">new</span> <span class="tok-type">JList</span>&lt;&gt;(courses);
-            <span class="tok-com">// เลือกไว้ล่วงหน้า 3 รายการ</span>
-            list.<span class="tok-fn">setSelectedIndices</span>(<span class="tok-kw">new</span> <span class="tok-kw">int</span>[]{<span class="tok-num">0</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>});
+            list.<span class="tok-fn">setSelectedIndices</span>(<span class="tok-kw">new</span> <span class="tok-kw">int</span>[]{<span class="tok-num">0</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>});              <span class="tok-com">// เลือกไว้ก่อน 3 รายการ</span>
             <span class="tok-type">JLabel</span> result = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">" "</span>);
             <span class="tok-type">JButton</span> show = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Show selected"</span>);
             show.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// รายการที่เลือกทั้งหมด</span>
-                <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; chosen = list.<span class="tok-fn">getSelectedValuesList</span>();
-                <span class="tok-com">// ต่อชื่อด้วย ", "</span>
+                <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; chosen = list.<span class="tok-fn">getSelectedValuesList</span>();   <span class="tok-com">// ทุกรายการที่เลือก</span>
                 result.<span class="tok-fn">setText</span>(chosen.<span class="tok-fn">size</span>() + <span class="tok-str">" chosen: "</span> + <span class="tok-type">String</span>.<span class="tok-fn">join</span>(<span class="tok-str">", "</span>, chosen));
             });
             <span class="tok-type">JPanel</span> root = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">4</span>, <span class="tok-num">4</span>));
@@ -145,35 +138,32 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Electives</div><img src="../assets/gui/g5f6f4e8fd0-0.png" width="212" height="183" alt="ภาพหน้าต่าง Electives" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>setSelectedIndices เลือก index 0, 2, 3 ไว้ก่อน</li><li>getSelectedValuesList() คืน List&lt;String&gt; ของที่เลือก</li><li>String.join ต่อรายการด้วยตัวคั่น</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Electives</div><img src="../assets/gui/gcd76751c6c-0.png" width="212" height="183" alt="ภาพหน้าต่าง Electives" loading="lazy"></figure></div></div></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · ชนิดที่ได้</strong><div><p>ช่องกรอกอายุเป็น JTextField ผู้ใช้พิมพ์ <code>20</code> — <code>ageField.getText() + 1</code> ได้อะไร</p></div><details><summary>ดูคำตอบ</summary><div><p><strong>"201"</strong> — getText() คืน String จึงเป็นการต่อข้อความ ต้อง <code>Integer.parseInt(ageField.getText().trim()) + 1</code> จึงได้ 21</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-17-2">
 <h3>17.2 ตรวจข้อมูลว่าง รูปแบบ และช่วงค่า</h3>
+<p>อย่าเชื่อข้อมูลจากผู้ใช้จนกว่าจะตรวจแล้ว ตรวจตามลำดับ: <strong>ว่างไหม → แปลงชนิดได้ไหม → อยู่ในช่วงไหม</strong> แต่ละขั้นให้ข้อความ error ที่ตรงกับปัญหา</p>
 <h4>การตรวจที่พบบ่อย</h4><table class="comparison-table"><thead><tr><th>ตรวจ</th><th>วิธี</th></tr></thead><tbody><tr><td>ว่าง</td><td><code>text.trim().isEmpty()</code> หรือ <code>text.isBlank()</code></td></tr><tr><td>เป็นจำนวนเต็ม/ทศนิยม</td><td><code>Integer.parseInt</code> / <code>Double.parseDouble</code> ใน try-catch</td></tr><tr><td>ช่วงค่า</td><td><code>value &gt;= min &amp;&amp; value &lt;= max</code></td></tr><tr><td>ความยาว</td><td><code>text.length() &gt;= 8</code></td></tr><tr><td>รูปแบบ (เช่น อีเมล, เบอร์โทร)</td><td><code>text.matches("regex")</code></td></tr><tr><td>เลือกแล้วหรือยัง</td><td><code>combo.getSelectedIndex() &gt; 0</code> (ถ้ารายการแรกคือ “-- เลือก --”), radio ใด isSelected</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.1</span>ฟังก์ชันตรวจข้อมูลทดสอบได้โดยไม่ต้องมีหน้าจอ</h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนการตรวจเป็นเมธอด static ที่รับ String และคืนข้อความ error (หรือ null ถ้าถูกต้อง) แล้วทดสอบใน console ก่อนนำไปใช้กับ GUI</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Validators.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Validators</span> {
+<p>เขียนการตรวจเป็นเมธอดที่รับ String และคืนข้อความ error หรือ <code>null</code> ถ้าผ่าน แล้วทดสอบใน console ให้ครบทุกกรณีก่อนนำไปใช้กับหน้าจอ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.1</span>ทดสอบเมธอดตรวจอายุใน console</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Validators.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Validators</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// รวมกรณีว่าง ไม่ใช่ตัวเลข และนอกช่วง</span>
-        <span class="tok-type">String</span>[] ages = {<span class="tok-str">"20"</span>, <span class="tok-str">""</span>, <span class="tok-str">"  "</span>, <span class="tok-str">"abc"</span>, <span class="tok-str">"-3"</span>, <span class="tok-str">"150"</span>, <span class="tok-str">" 45 "</span>};
+        <span class="tok-type">String</span>[] ages = {<span class="tok-str">"20"</span>, <span class="tok-str">""</span>, <span class="tok-str">"  "</span>, <span class="tok-str">"abc"</span>, <span class="tok-str">"-3"</span>, <span class="tok-str">"150"</span>, <span class="tok-str">" 45 "</span>};   <span class="tok-com">// ปกติ ว่าง ไม่ใช่ตัวเลข นอกช่วง</span>
         <span class="tok-kw">for</span> (<span class="tok-type">String</span> a : ages) {
-            <span class="tok-com">// null = ผ่าน, ข้อความ = เหตุผลที่ไม่ผ่าน</span>
             <span class="tok-type">String</span> err = <span class="tok-fn">checkAge</span>(a);
             <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-8s -&gt; %s%n"</span>, <span class="tok-str">"\""</span> + a + <span class="tok-str">"\""</span>, err == <span class="tok-num">null</span> ? <span class="tok-str">"OK"</span> : err);
         }
     }
 
-    <span class="tok-kw">static</span> <span class="tok-type">String</span> <span class="tok-fn">checkAge</span>(<span class="tok-type">String</span> text) {
-        <span class="tok-com">// ตรวจว่างก่อน</span>
-        <span class="tok-kw">if</span> (text == <span class="tok-num">null</span> || text.<span class="tok-fn">isBlank</span>()) <span class="tok-kw">return</span> <span class="tok-str">"Age is required"</span>;
+    <span class="tok-kw">static</span> <span class="tok-type">String</span> <span class="tok-fn">checkAge</span>(<span class="tok-type">String</span> text) {                 <span class="tok-com">// null = ผ่าน</span>
+        <span class="tok-kw">if</span> (text == <span class="tok-num">null</span> || text.<span class="tok-fn">isBlank</span>()) <span class="tok-kw">return</span> <span class="tok-str">"Age is required"</span>;      <span class="tok-com">// 1. ว่าง</span>
         <span class="tok-kw">int</span> age;
         <span class="tok-kw">try</span> {
-            <span class="tok-com">// trim ตัดช่องว่างหัวท้ายก่อนแปลง</span>
-            age = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(text.<span class="tok-fn">trim</span>());
+            age = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(text.<span class="tok-fn">trim</span>());           <span class="tok-com">// 2. แปลง (" 45 " ผ่านเพราะ trim)</span>
         } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> e) {
             <span class="tok-kw">return</span> <span class="tok-str">"Age must be a whole number"</span>;
         }
-        <span class="tok-com">// ตรวจช่วงค่า</span>
-        <span class="tok-kw">if</span> (age &lt; <span class="tok-num">1</span> || age &gt; <span class="tok-num">120</span>) <span class="tok-kw">return</span> <span class="tok-str">"Age must be between 1 and 120"</span>;
+        <span class="tok-kw">if</span> (age &lt; <span class="tok-num">1</span> || age &gt; <span class="tok-num">120</span>) <span class="tok-kw">return</span> <span class="tok-str">"Age must be between 1 and 120"</span>;   <span class="tok-com">// 3. ช่วงค่า</span>
         <span class="tok-kw">return</span> <span class="tok-num">null</span>;
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>"20"     -&gt; OK
@@ -182,14 +172,14 @@
 "abc"    -&gt; Age must be a whole number
 "-3"     -&gt; Age must be between 1 and 120
 "150"    -&gt; Age must be between 1 and 120
-" 45 "   -&gt; OK</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ตรวจตามลำดับ: ว่าง → แปลงชนิด → ช่วงค่า</li><li>คืน null หมายถึงผ่าน</li><li>" 45 " ผ่านเพราะ trim ก่อน parse</li><li>ทดสอบได้ครบทุกกรณีโดยไม่ต้องคลิกหน้าจอ (บทที่ 10)</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.2</span>ตรวจรูปแบบด้วย regular expression</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>String.matches(regex)</code> ตรวจว่าข้อความทั้งก้อนตรงกับรูปแบบ — ใช้กับอีเมล รหัสนักศึกษา เบอร์โทร</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PatternCheck.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PatternCheck</span> {
-    <span class="tok-com">// regex อีเมล: ชื่อ@โดเมน.นามสกุล</span>
-    <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">EMAIL</span> = <span class="tok-str">"[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+"</span>;
-    <span class="tok-com">// 0 ตามด้วยเลข 1-2 หลัก ขีดใส่หรือไม่ก็ได้</span>
-    <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">PHONE</span> = <span class="tok-str">"0\\d{1,2}-?\\d{3}-?\\d{4}"</span>;
-    <span class="tok-com">// 66 ตามด้วยเลข 6 หลัก</span>
-    <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">STUDENT_ID</span> = <span class="tok-str">"66\\d{6}"</span>;
+" 45 "   -&gt; OK</pre></div></div></div>
+<h4 class="sub">ตรวจรูปแบบด้วย regular expression</h4>
+<p><code>text.matches(regex)</code> ตรวจว่าข้อความ<strong>ทั้งก้อน</strong>ตรงกับรูปแบบ เหมาะกับอีเมล รหัสนักศึกษา เบอร์โทร</p>
+<table class="comparison-table"><thead><tr><th>regex</th><th>ความหมาย</th></tr></thead><tbody><tr><td><code>\\d</code></td><td>ตัวเลข 1 ตัว</td></tr><tr><td><code>\\w</code></td><td>ตัวอักษร ตัวเลข หรือ _</td></tr><tr><td><code>+</code></td><td>ตัวก่อนหน้า 1 ตัวขึ้นไป</td></tr><tr><td><code>{3}</code></td><td>ตัวก่อนหน้า 3 ตัวพอดี</td></tr><tr><td><code>-?</code></td><td>มีขีดหรือไม่ก็ได้</td></tr><tr><td><code>[A-Za-z]</code></td><td>ตัวอักษรภาษาอังกฤษ</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.2</span>อีเมล เบอร์โทร และรหัสนักศึกษา</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PatternCheck.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PatternCheck</span> {
+    <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">EMAIL</span> = <span class="tok-str">"[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+"</span>;      <span class="tok-com">// ชื่อ@โดเมน.นามสกุล</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">PHONE</span> = <span class="tok-str">"0\\d{1,2}-?\\d{3}-?\\d{4}"</span>;           <span class="tok-com">// 0 + 1-2 หลัก, ขีดใส่หรือไม่ก็ได้</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">STUDENT_ID</span> = <span class="tok-str">"66\\d{6}"</span>;                       <span class="tok-com">// 66 + ตัวเลข 6 ตัวพอดี</span>
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-fn">test</span>(<span class="tok-str">"email"</span>, <span class="tok-const">EMAIL</span>, <span class="tok-str">"jhope@mail.com"</span>, <span class="tok-str">"jhope.j@uni.ac.th"</span>, <span class="tok-str">"jhope@"</span>, <span class="tok-str">"@mail.com"</span>);
@@ -197,10 +187,8 @@
         <span class="tok-fn">test</span>(<span class="tok-str">"id"</span>, <span class="tok-const">STUDENT_ID</span>, <span class="tok-str">"66012345"</span>, <span class="tok-str">"65012345"</span>, <span class="tok-str">"6601234"</span>);
     }
 
-    <span class="tok-com">// String... รับ argument ได้หลายตัว</span>
-    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">test</span>(<span class="tok-type">String</span> label, <span class="tok-type">String</span> regex, <span class="tok-type">String</span>... samples) {
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">test</span>(<span class="tok-type">String</span> label, <span class="tok-type">String</span> regex, <span class="tok-type">String</span>... samples) {   <span class="tok-com">// String... = กี่ตัวก็ได้ (อาเรย์)</span>
         <span class="tok-kw">for</span> (<span class="tok-type">String</span> s : samples) {
-            <span class="tok-com">// matches ตรวจทั้งข้อความตาม regex</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-6s %-18s %s%n"</span>, label, s, s.<span class="tok-fn">matches</span>(regex) ? <span class="tok-str">"valid"</span> : <span class="tok-str">"INVALID"</span>);
         }
     }
@@ -214,8 +202,11 @@ phone  02-123-4567        valid
 phone  81234              INVALID
 id     66012345           valid
 id     65012345           INVALID
-id     6601234            INVALID</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>\\w</code> = ตัวอักษร/ตัวเลข/_, <code>+</code> = หนึ่งตัวขึ้นไป, <code>\\d{3}</code> = ตัวเลข 3 ตัว, <code>-?</code> = มีขีดหรือไม่ก็ได้</li><li>รหัสนักศึกษาต้องขึ้นต้น 66 ตามด้วยตัวเลข 6 ตัวพอดี</li><li>regex สำหรับอีเมลแบบง่ายนี้พอสำหรับฟอร์มทั่วไป (ไม่ครอบคลุมทุกกรณีตามมาตรฐาน)</li><li><code>String...</code> คือ varargs: ส่ง argument กี่ตัวก็ได้ ได้เป็นอาเรย์</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.3</span>ตรวจหลายช่องแล้วแสดง error ทั้งหมดในครั้งเดียว</h4><p class="concept-line"><strong>แนวคิด:</strong> รวบรวม error ทุกช่องใส่ list แล้วแสดงพร้อมกัน ผู้ใช้แก้ได้ในรอบเดียว — ดีกว่าบอกทีละข้อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiFieldValidation.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+id     6601234            INVALID</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>regex อีเมลแบบง่ายนี้พอสำหรับฟอร์มทั่วไป แต่ไม่ครอบคลุมทุกกรณีตามมาตรฐาน</p></div>
+<h4 class="sub">ตรวจหลายช่อง แสดง error ทั้งหมดในครั้งเดียว</h4>
+<p>รวบรวม error ทุกช่องลงรายการโดยไม่หยุดที่ข้อแรก แล้วแสดงพร้อมกัน ผู้ใช้แก้ได้ในรอบเดียว</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.3</span>ฟอร์มลงทะเบียน 3 ช่อง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiFieldValidation.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
@@ -230,28 +221,23 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             <span class="tok-type">JLabel</span> messages = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">" "</span>);
             <span class="tok-type">JButton</span> register = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Register"</span>);
             register.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// รวบรวมข้อผิดพลาดทุกช่อง</span>
-                <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; errors = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
-                <span class="tok-com">// ช่องว่าง</span>
+                <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; errors = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();                 <span class="tok-com">// เก็บทุกข้อ</span>
                 <span class="tok-kw">if</span> (name.<span class="tok-fn">getText</span>().<span class="tok-fn">isBlank</span>()) errors.<span class="tok-fn">add</span>(<span class="tok-str">"Name is required"</span>);
-                <span class="tok-com">// รูปแบบอีเมล</span>
                 <span class="tok-kw">if</span> (!email.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>().<span class="tok-fn">matches</span>(<span class="tok-str">"[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+"</span>)) errors.<span class="tok-fn">add</span>(<span class="tok-str">"Email format is invalid"</span>);
                 <span class="tok-kw">try</span> {
-                    <span class="tok-com">// ไม่ใช่ตัวเลขจะไปที่ catch</span>
                     <span class="tok-kw">int</span> a = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(age.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());
                     <span class="tok-kw">if</span> (a &lt; <span class="tok-num">15</span> || a &gt; <span class="tok-num">99</span>) errors.<span class="tok-fn">add</span>(<span class="tok-str">"Age must be 15-99"</span>);
                 } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> ex) {
                     errors.<span class="tok-fn">add</span>(<span class="tok-str">"Age must be a number"</span>);
                 }
-                <span class="tok-kw">if</span> (errors.<span class="tok-fn">isEmpty</span>()) {  <span class="tok-com">// ไม่มีข้อผิดพลาดเลย</span>
+                <span class="tok-kw">if</span> (errors.<span class="tok-fn">isEmpty</span>()) {
                     messages.<span class="tok-fn">setForeground</span>(<span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">0</span>, <span class="tok-num">120</span>, <span class="tok-num">0</span>));
                     messages.<span class="tok-fn">setText</span>(<span class="tok-str">"Registered "</span> + name.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>() + <span class="tok-str">"!"</span>);
                 } <span class="tok-kw">else</span> {
                     messages.<span class="tok-fn">setForeground</span>(<span class="tok-type">Color</span>.<span class="tok-const">RED</span>);
-                    <span class="tok-com">// &lt;br&gt; แสดงแต่ละข้อผิดพลาดคนละบรรทัด</span>
-                    messages.<span class="tok-fn">setText</span>(<span class="tok-str">"&lt;html&gt;"</span> + <span class="tok-type">String</span>.<span class="tok-fn">join</span>(<span class="tok-str">"&lt;br&gt;"</span>, errors) + <span class="tok-str">"&lt;/html&gt;"</span>);
+                    messages.<span class="tok-fn">setText</span>(<span class="tok-str">"&lt;html&gt;"</span> + <span class="tok-type">String</span>.<span class="tok-fn">join</span>(<span class="tok-str">"&lt;br&gt;"</span>, errors) + <span class="tok-str">"&lt;/html&gt;"</span>);   <span class="tok-com">// ข้อละบรรทัด</span>
                 }
-                frame.<span class="tok-fn">pack</span>();  <span class="tok-com">// ปรับขนาดตามข้อความที่เปลี่ยน</span>
+                frame.<span class="tok-fn">pack</span>();                                                  <span class="tok-com">// ปรับขนาดตามข้อความใหม่</span>
             });
             <span class="tok-type">JPanel</span> form = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">2</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));
             form.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Name:"</span>)); form.<span class="tok-fn">add</span>(name);
@@ -267,13 +253,14 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกผิดทุกช่องแล้วคลิก Register</p><figure class="gui-shot"><div class="gui-titlebar">Register</div><img src="../assets/gui/ga3083dc97e-0.png" width="342" height="182" alt="ภาพหน้าต่าง Register" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">แก้ให้ถูกแล้วคลิกอีกครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Register</div><img src="../assets/gui/ga3083dc97e-1.png" width="342" height="150" alt="ภาพหน้าต่าง Register" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ตรวจทุกช่องโดยไม่หยุดที่ error แรก</li><li>แสดง error หลายบรรทัดด้วย HTML &lt;br&gt; ใน JLabel</li><li>frame.pack() ปรับขนาดหน้าต่างตามข้อความใหม่</li><li>เมื่อถูกทั้งหมดแสดงข้อความสีเขียว</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกผิดทุกช่องแล้วคลิก Register</p><figure class="gui-shot"><div class="gui-titlebar">Register</div><img src="../assets/gui/g3ae60a83f6-0.png" width="342" height="182" alt="ภาพหน้าต่าง Register" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">แก้ให้ถูกแล้วคลิกอีกครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Register</div><img src="../assets/gui/g3ae60a83f6-1.png" width="342" height="150" alt="ภาพหน้าต่าง Register" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · ลำดับการตรวจ</strong><div><p>ทำไมต้องตรวจ “ว่าง” ก่อน “แปลงเป็นตัวเลข” และตรวจ “แปลงได้” ก่อน “ช่วงค่า”</p></div><details><summary>ดูคำตอบ</summary><div><p>เพื่อให้ข้อความ error ตรงกับปัญหาจริง (ช่องว่างควรได้ “กรุณากรอก” ไม่ใช่ “ไม่ใช่ตัวเลข”) และการตรวจช่วงค่าทำได้ก็ต่อเมื่อมีตัวเลขแล้วเท่านั้น</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-17-3">
 <h3>17.3 แจ้ง error ให้ผู้ใช้: JOptionPane และข้อความในฟอร์ม</h3>
-<table class="comparison-table"><thead><tr><th>เมธอด</th><th>ใช้เมื่อ</th><th>คืนค่า</th></tr></thead><tbody><tr><td><code>showMessageDialog(parent, msg, title, type)</code></td><td>แจ้งข้อมูล/คำเตือน/error</td><td>-</td></tr><tr><td><code>showConfirmDialog(parent, msg, title, options)</code></td><td>ถามยืนยัน Yes/No(/Cancel)</td><td>int เช่น YES_OPTION</td></tr><tr><td><code>showInputDialog(parent, msg)</code></td><td>ถามข้อความสั้น ๆ หนึ่งค่า</td><td>String หรือ null ถ้ากด Cancel</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.1</span>dialog แจ้ง error</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>JOptionPane.ERROR_MESSAGE</code> แสดงไอคอน error — dialog เป็น modal: ผู้ใช้ต้องกด OK ก่อนจึงกลับไปที่หน้าต่างหลักได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ErrorDialog.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>แจ้ง error ได้สองแบบ: เปิด <strong>dialog</strong> ด้วย JOptionPane (ผู้ใช้ต้องกด OK ก่อน) หรือแสดง<strong>ข้อความข้างช่องที่ผิด</strong>ในฟอร์ม</p>
+<table class="comparison-table"><thead><tr><th>เมธอดของ JOptionPane</th><th>ใช้เมื่อ</th><th>คืนค่า</th></tr></thead><tbody><tr><td><code>showMessageDialog(parent, msg, title, type)</code></td><td>แจ้งข้อมูล/คำเตือน/error</td><td>-</td></tr><tr><td><code>showConfirmDialog(parent, msg, title, options)</code></td><td>ถามยืนยัน Yes/No(/Cancel)</td><td>int เช่น YES_OPTION</td></tr><tr><td><code>showInputDialog(parent, msg)</code></td><td>ถามข้อความสั้น ๆ หนึ่งค่า</td><td>String หรือ null ถ้ากด Cancel</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.1</span>dialog แจ้ง error</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ErrorDialog.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ErrorDialog</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -284,18 +271,13 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             <span class="tok-type">JButton</span> check = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Check"</span>);
             check.<span class="tok-fn">addActionListener</span>(e -&gt; {
                 <span class="tok-kw">try</span> {
-                    <span class="tok-com">// ข้อมูลผิดจะไปที่ catch</span>
                     <span class="tok-kw">int</span> q = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(qty.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());
-                    <span class="tok-com">// กล่องข้อความแจ้ง</span>
                     <span class="tok-type">JOptionPane</span>.<span class="tok-fn">showMessageDialog</span>(frame, <span class="tok-str">"Quantity = "</span> + q, <span class="tok-str">"OK"</span>, <span class="tok-type">JOptionPane</span>.<span class="tok-const">INFORMATION_MESSAGE</span>);
                 } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> ex) {
-                    <span class="tok-com">// กล่องแจ้งข้อผิดพลาด</span>
                     <span class="tok-type">JOptionPane</span>.<span class="tok-fn">showMessageDialog</span>(frame, <span class="tok-str">"'"</span> + qty.<span class="tok-fn">getText</span>() + <span class="tok-str">"' is not a whole number."</span>,
-                        <span class="tok-str">"Invalid quantity"</span>, <span class="tok-type">JOptionPane</span>.<span class="tok-const">ERROR_MESSAGE</span>);
-                    <span class="tok-com">// กลับไปที่ช่องกรอก</span>
-                    qty.<span class="tok-fn">requestFocusInWindow</span>();
-                    <span class="tok-com">// เลือกข้อความเดิมไว้ พิมพ์ทับได้ทันที</span>
-                    qty.<span class="tok-fn">selectAll</span>();
+                        <span class="tok-str">"Invalid quantity"</span>, <span class="tok-type">JOptionPane</span>.<span class="tok-const">ERROR_MESSAGE</span>);    <span class="tok-com">// ไอคอน error</span>
+                    qty.<span class="tok-fn">requestFocusInWindow</span>();                            <span class="tok-com">// กลับไปที่ช่อง</span>
+                    qty.<span class="tok-fn">selectAll</span>();                                       <span class="tok-com">// พิมพ์ทับได้ทันที</span>
                 }
             });
             <span class="tok-type">JPanel</span> p = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
@@ -307,8 +289,10 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Quantity</div><img src="../assets/gui/g8f46056775-0.png" width="210" height="36" alt="ภาพหน้าต่าง Quantity" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Invalid quantity</div><img src="../assets/gui/g8f46056775-1.png" width="262" height="90" alt="ภาพหน้าต่าง Invalid quantity" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>parent = frame ทำให้ dialog อยู่กลางหน้าต่างหลัก</li><li>ภาพแสดงทั้งหน้าต่างหลักและ dialog ที่เปิดขึ้น</li><li>หลังปิด dialog: โฟกัสกลับไปที่ช่องและเลือกข้อความทั้งหมด ผู้ใช้พิมพ์ทับได้ทันที</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.2</span>ยืนยันก่อนลบด้วย showConfirmDialog</h4><p class="concept-line"><strong>แนวคิด:</strong> การกระทำที่ย้อนกลับไม่ได้ควรถามยืนยัน ตรวจค่าที่คืนกับ <code>JOptionPane.YES_OPTION</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConfirmDelete.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Quantity</div><img src="../assets/gui/g0afa7fda1b-0.png" width="210" height="36" alt="ภาพหน้าต่าง Quantity" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Invalid quantity</div><img src="../assets/gui/g0afa7fda1b-1.png" width="262" height="90" alt="ภาพหน้าต่าง Invalid quantity" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>ส่ง <code>frame</code> เป็น parent ทำให้ dialog อยู่กลางหน้าต่างหลัก dialog เป็น <strong>modal</strong>: ผู้ใช้ต้องกด OK ก่อนจึงกลับไปที่หน้าต่างหลักได้</p></div>
+<h4 class="sub">ถามยืนยันก่อนทำสิ่งที่ย้อนกลับไม่ได้</h4>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.2</span>ยืนยันก่อนลบทั้งหมด</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConfirmDelete.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConfirmDelete</span> {
@@ -322,12 +306,10 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             notes.<span class="tok-fn">addElement</span>(<span class="tok-str">"Call mom"</span>);
             <span class="tok-type">JButton</span> deleteAll = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Delete all"</span>);
             deleteAll.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// กล่องถาม ใช่/ไม่ใช่</span>
                 <span class="tok-kw">int</span> answer = <span class="tok-type">JOptionPane</span>.<span class="tok-fn">showConfirmDialog</span>(frame,
-                    <span class="tok-str">"Delete all "</span> + notes.<span class="tok-fn">size</span>() + <span class="tok-str">" notes? This cannot be undone."</span>,
+                    <span class="tok-str">"Delete all "</span> + notes.<span class="tok-fn">size</span>() + <span class="tok-str">" notes? This cannot be undone."</span>,   <span class="tok-com">// บอกผลกระทบชัดเจน</span>
                     <span class="tok-str">"Confirm delete"</span>, <span class="tok-type">JOptionPane</span>.<span class="tok-const">YES_NO_OPTION</span>, <span class="tok-type">JOptionPane</span>.<span class="tok-const">WARNING_MESSAGE</span>);
-                <span class="tok-com">// ผู้ใช้กด Yes</span>
-                <span class="tok-kw">if</span> (answer == <span class="tok-type">JOptionPane</span>.<span class="tok-const">YES_OPTION</span>) {
+                <span class="tok-kw">if</span> (answer == <span class="tok-type">JOptionPane</span>.<span class="tok-const">YES_OPTION</span>) {          <span class="tok-com">// กด No หรือปิด dialog = ไม่ลบ</span>
                     notes.<span class="tok-fn">clear</span>();
                 }
             });
@@ -337,12 +319,13 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notes</div><img src="../assets/gui/g03ec2c3c16-0.png" width="244" height="121" alt="ภาพหน้าต่าง Notes" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Confirm delete</div><img src="../assets/gui/g03ec2c3c16-1.png" width="305" height="90" alt="ภาพหน้าต่าง Confirm delete" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ข้อความบอกผลกระทบชัดเจน (จำนวนที่จะลบ, ย้อนกลับไม่ได้)</li><li>WARNING_MESSAGE แสดงไอคอนเตือน</li><li>ลบเฉพาะเมื่อผู้ใช้กด Yes — กด No หรือปิด dialog จะไม่ลบ</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.3</span>แสดง error ข้างช่องและเปลี่ยนสีขอบ</h4><p class="concept-line"><strong>แนวคิด:</strong> dialog ขัดจังหวะผู้ใช้ทุกครั้ง ฟอร์มยาวนิยมแสดง error <strong>ข้างช่องที่ผิด</strong>และไฮไลต์ขอบสีแดงแทน — ผู้ใช้เห็นทุกปัญหาพร้อมกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InlineErrors.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notes</div><img src="../assets/gui/g7d51d69d32-0.png" width="244" height="121" alt="ภาพหน้าต่าง Notes" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Confirm delete</div><img src="../assets/gui/g7d51d69d32-1.png" width="305" height="90" alt="ภาพหน้าต่าง Confirm delete" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">แสดง error ข้างช่องที่ผิด</h4>
+<p>dialog ขัดจังหวะผู้ใช้ทุกครั้ง ฟอร์มยาวจึงนิยมแสดงข้อความสีแดงข้างช่องที่ผิดและเปลี่ยนขอบเป็นสีแดง ผู้ใช้เห็นทุกปัญหาพร้อมกัน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.3</span>ขอบแดงและข้อความข้างช่อง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InlineErrors.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">InlineErrors</span> {
-    <span class="tok-com">// สีแดงสำหรับข้อความผิดพลาด</span>
     <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">Color</span> <span class="tok-const">ERROR</span> = <span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">200</span>, <span class="tok-num">30</span>, <span class="tok-num">30</span>);
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -351,23 +334,18 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JTextField</span> user = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">12</span>);
             <span class="tok-type">JPasswordField</span> pass = <span class="tok-kw">new</span> <span class="tok-type">JPasswordField</span>(<span class="tok-num">12</span>);
-            <span class="tok-com">// ป้ายแสดงข้อผิดพลาดของแต่ละช่อง</span>
-            <span class="tok-type">JLabel</span> userErr = <span class="tok-fn">errorLabel</span>();
+            <span class="tok-type">JLabel</span> userErr = <span class="tok-fn">errorLabel</span>();                                <span class="tok-com">// ข้อความ error ของแต่ละช่อง</span>
             <span class="tok-type">JLabel</span> passErr = <span class="tok-fn">errorLabel</span>();
             <span class="tok-type">JButton</span> signUp = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Sign up"</span>);
             signUp.<span class="tok-fn">addActionListener</span>(e -&gt; {
                 <span class="tok-type">String</span> u = user.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>();
-                <span class="tok-com">// getPassword() คืน char[] จึงแปลงเป็น String</span>
-                <span class="tok-type">String</span> p = <span class="tok-kw">new</span> <span class="tok-type">String</span>(pass.<span class="tok-fn">getPassword</span>());
-                <span class="tok-com">// ?: ผ่าน → null, ไม่ผ่าน → ข้อความ</span>
+                <span class="tok-type">String</span> p = <span class="tok-kw">new</span> <span class="tok-type">String</span>(pass.<span class="tok-fn">getPassword</span>());               <span class="tok-com">// char[] → String</span>
                 <span class="tok-kw">boolean</span> ok = <span class="tok-fn">mark</span>(user, userErr, u.<span class="tok-fn">length</span>() &gt;= <span class="tok-num">4</span> ? <span class="tok-num">null</span> : <span class="tok-str">"at least 4 characters"</span>);
-                <span class="tok-com">// &amp;= ตรวจครบทุกช่อง แม้ช่องก่อนหน้าผิด</span>
                 ok &amp;= <span class="tok-fn">mark</span>(pass, passErr, p.<span class="tok-fn">length</span>() &gt;= <span class="tok-num">8</span> &amp;&amp; p.<span class="tok-fn">matches</span>(<span class="tok-str">".*\\d.*"</span>) &amp;&amp; p.<span class="tok-fn">matches</span>(<span class="tok-str">".*[A-Za-z].*"</span>)
-                    ? <span class="tok-num">null</span> : <span class="tok-str">"8+ chars with letters and digits"</span>);
-                <span class="tok-com">// แสดงเมื่อผ่านทุกช่อง</span>
+                    ? <span class="tok-num">null</span> : <span class="tok-str">"8+ chars with letters and digits"</span>);        <span class="tok-com">// &amp;= ตรวจครบแม้ช่องแรกผิด</span>
                 <span class="tok-kw">if</span> (ok) <span class="tok-type">JOptionPane</span>.<span class="tok-fn">showMessageDialog</span>(frame, <span class="tok-str">"Welcome, "</span> + u + <span class="tok-str">"!"</span>);
             });
-            <span class="tok-type">JPanel</span> form = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">3</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));
+            <span class="tok-type">JPanel</span> form = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">3</span>, <span class="tok-num">6</span>, <span class="tok-num">6</span>));        <span class="tok-com">// ป้าย | ช่อง | error</span>
             form.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>, <span class="tok-num">10</span>));
             form.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Username:"</span>)); form.<span class="tok-fn">add</span>(user); form.<span class="tok-fn">add</span>(userErr);
             form.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Password:"</span>)); form.<span class="tok-fn">add</span>(pass); form.<span class="tok-fn">add</span>(passErr);
@@ -384,21 +362,20 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
         <span class="tok-kw">return</span> l;
     }
 
-    <span class="tok-com">// ระบายกรอบและข้อความตามผลตรวจ</span>
-    <span class="tok-kw">static</span> <span class="tok-kw">boolean</span> <span class="tok-fn">mark</span>(<span class="tok-type">JTextField</span> field, <span class="tok-type">JLabel</span> errorLabel, <span class="tok-type">String</span> error) {
+    <span class="tok-kw">static</span> <span class="tok-kw">boolean</span> <span class="tok-fn">mark</span>(<span class="tok-type">JTextField</span> field, <span class="tok-type">JLabel</span> errorLabel, <span class="tok-type">String</span> error) {   <span class="tok-com">// error == null = ผ่าน</span>
         <span class="tok-kw">if</span> (error == <span class="tok-num">null</span>) {
-            <span class="tok-com">// คืนกรอบปกติ</span>
-            field.<span class="tok-fn">setBorder</span>(<span class="tok-type">UIManager</span>.<span class="tok-fn">getBorder</span>(<span class="tok-str">"TextField.border"</span>));
+            field.<span class="tok-fn">setBorder</span>(<span class="tok-type">UIManager</span>.<span class="tok-fn">getBorder</span>(<span class="tok-str">"TextField.border"</span>));         <span class="tok-com">// คืนขอบปกติ</span>
             errorLabel.<span class="tok-fn">setText</span>(<span class="tok-str">" "</span>);
             <span class="tok-kw">return</span> <span class="tok-num">true</span>;
         }
-        <span class="tok-com">// กรอบแดง หนา 2 พิกเซล</span>
-        field.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createLineBorder</span>(<span class="tok-const">ERROR</span>, <span class="tok-num">2</span>));
+        field.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createLineBorder</span>(<span class="tok-const">ERROR</span>, <span class="tok-num">2</span>));            <span class="tok-com">// ขอบแดง หนา 2</span>
         errorLabel.<span class="tok-fn">setText</span>(error);
         <span class="tok-kw">return</span> <span class="tok-num">false</span>;
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Sign up</div><img src="../assets/gui/gd4d6c1de22-0.png" width="440" height="110" alt="ภาพหน้าต่าง Sign up" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เมธอด mark() ทำงานสองทาง: ถ้า error เป็น null คืนสภาพปกติ ถ้าไม่ใช่ทำขอบแดง+ข้อความ</li><li><code>ok &amp;= ...</code> ทำให้ตรวจทุกช่องแม้ช่องแรกผิด</li><li><code>".*\\d.*"</code> = มีตัวเลขอย่างน้อยหนึ่งตัวที่ใดก็ได้</li><li>อ่านรหัสผ่านด้วย getPassword() แล้วแปลงเป็น String</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.4</span>showInputDialog ถามค่าเดียวพร้อมตรวจซ้ำ</h4><p class="concept-line"><strong>แนวคิด:</strong> showInputDialog คืน String หรือ <code>null</code> เมื่อผู้ใช้กด Cancel — ต้องจัดการทั้งสองกรณี และวนถามใหม่เมื่อค่าไม่ถูกต้อง ภาพแสดง dialog error หลังป้อน −50</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BudgetPrompt.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Sign up</div><img src="../assets/gui/ga3e0083c2d-0.png" width="440" height="110" alt="ภาพหน้าต่าง Sign up" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p><code>".*\\d.*"</code> หมายถึง “มีตัวเลขอย่างน้อยหนึ่งตัวที่ตำแหน่งใดก็ได้”</p></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: showInputDialog ถามซ้ำจนได้ค่าที่ถูกต้อง</summary><div class="more-body"><p>showInputDialog คืน String หรือ <code>null</code> เมื่อผู้ใช้กด Cancel ต้องจัดการทั้งสองกรณี และวนถามใหม่เมื่อค่าไม่ถูกต้อง ภาพแสดง dialog เตือนหลังป้อน −50</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.4</span>ตั้งงบประมาณ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BudgetPrompt.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BudgetPrompt</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -408,10 +385,8 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             <span class="tok-type">JLabel</span> budget = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Budget: not set"</span>);
             <span class="tok-type">JButton</span> set = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Set budget"</span>);
             set.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// null = ผู้ใช้กดยกเลิก</span>
                 <span class="tok-type">Double</span> value = <span class="tok-fn">askPositiveNumber</span>(frame, <span class="tok-str">"Monthly budget (baht):"</span>);
-                <span class="tok-com">// ได้ค่ามาจึงอัปเดต</span>
-                <span class="tok-kw">if</span> (value != <span class="tok-num">null</span>) budget.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"Budget: %,.2f"</span>, value));
+                <span class="tok-kw">if</span> (value != <span class="tok-num">null</span>) budget.<span class="tok-fn">setText</span>(<span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"Budget: %,.2f"</span>, value));   <span class="tok-com">// null = ยกเลิก</span>
             });
             <span class="tok-type">JPanel</span> p = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             p.<span class="tok-fn">add</span>(budget);
@@ -422,17 +397,12 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
         });
     }
 
-    <span class="tok-com">// Double (ห่อ) จึงคืน null ได้</span>
-    <span class="tok-kw">static</span> <span class="tok-type">Double</span> <span class="tok-fn">askPositiveNumber</span>(<span class="tok-type">JFrame</span> parent, <span class="tok-type">String</span> prompt) {
-        <span class="tok-com">// ถามซ้ำจนได้ค่าถูกหรือกดยกเลิก</span>
-        <span class="tok-kw">while</span> (<span class="tok-num">true</span>) {
-            <span class="tok-com">// กล่องรับข้อความ</span>
+    <span class="tok-kw">static</span> <span class="tok-type">Double</span> <span class="tok-fn">askPositiveNumber</span>(<span class="tok-type">JFrame</span> parent, <span class="tok-type">String</span> prompt) {    <span class="tok-com">// Double (ห่อ) คืน null ได้</span>
+        <span class="tok-kw">while</span> (<span class="tok-num">true</span>) {                                                <span class="tok-com">// ถามจนได้ค่าถูกหรือยกเลิก</span>
             <span class="tok-type">String</span> text = <span class="tok-type">JOptionPane</span>.<span class="tok-fn">showInputDialog</span>(parent, prompt);
-            <span class="tok-com">// กด Cancel</span>
-            <span class="tok-kw">if</span> (text == <span class="tok-num">null</span>) <span class="tok-kw">return</span> <span class="tok-num">null</span>;
+            <span class="tok-kw">if</span> (text == <span class="tok-num">null</span>) <span class="tok-kw">return</span> <span class="tok-num">null</span>;                            <span class="tok-com">// กด Cancel</span>
             <span class="tok-kw">try</span> {
                 <span class="tok-kw">double</span> v = <span class="tok-type">Double</span>.<span class="tok-fn">parseDouble</span>(text.<span class="tok-fn">trim</span>());
-                <span class="tok-com">// ค่าถูกต้อง → คืนค่าและออก</span>
                 <span class="tok-kw">if</span> (v &gt; <span class="tok-num">0</span>) <span class="tok-kw">return</span> v;
                 <span class="tok-type">JOptionPane</span>.<span class="tok-fn">showMessageDialog</span>(parent, <span class="tok-str">"Please enter a number greater than 0"</span>, <span class="tok-str">"Invalid"</span>, <span class="tok-type">JOptionPane</span>.<span class="tok-const">WARNING_MESSAGE</span>);
             } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> ex) {
@@ -440,46 +410,42 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             }
         }
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Budget</div><img src="../assets/gui/gf21555067f-0.png" width="195" height="36" alt="ภาพหน้าต่าง Budget" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Invalid</div><img src="../assets/gui/gf21555067f-1.png" width="279" height="90" alt="ภาพหน้าต่าง Invalid" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>คืน Double (wrapper) เพื่อให้คืน null ได้เมื่อยกเลิก</li><li>วน while(true) จนได้ค่าถูกหรือผู้ใช้ยกเลิก</li><li>ภาพ: ผู้ใช้ป้อน −50 แล้วกด OK → dialog เตือนเปิดซ้อน (ซึ่งเมื่อกด OK จะถามใหม่อีกรอบ)</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Budget</div><img src="../assets/gui/g50b7a23d22-0.png" width="195" height="36" alt="ภาพหน้าต่าง Budget" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Invalid</div><img src="../assets/gui/g50b7a23d22-1.png" width="279" height="90" alt="ภาพหน้าต่าง Invalid" loading="lazy"></figure></div></div></div></div></div></div></details>
 <div class="note-box"><span class="box-title">เขียนข้อความ error ที่ดี</span><ul><li>บอก<strong>ช่องไหน</strong>: “Email format is invalid” ไม่ใช่ “Invalid input”</li><li>บอก<strong>ต้องทำอย่างไร</strong>: “Age must be 15-99” ไม่ใช่ “Wrong age”</li><li>ไม่โทษผู้ใช้ และไม่แสดง stack trace หรือชื่อ exception</li><li>เก็บค่าที่ผู้ใช้พิมพ์ไว้ ไม่ล้างฟอร์มเมื่อผิด ให้แก้เฉพาะจุด</li></ul></div>
 </article>
 <article class="subtopic" id="topic-17-4">
 <h3>17.4 แยก validation เป็นเมธอดและคลาส</h3>
-<p>เมื่อฟอร์มใหญ่ขึ้น listener ที่อ่าน-ตรวจ-บันทึกในที่เดียวจะยาวและทดสอบยาก แนวทางที่ดีคือ (1) อ่านค่าจากหน้าจอเป็นออบเจ็กต์ข้อมูล (2) ส่งให้เมธอด/คลาส validator คืนรายการ error (3) listener มีหน้าที่แค่เชื่อมสองส่วนและแสดงผล</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.4.1</span>Validator แยกจาก UI พร้อมชุดทดสอบ</h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>BookingValidator</code> ไม่รู้จัก Swing เลย จึงทดสอบด้วย console ได้ทุกกรณี แล้วค่อยนำไปใช้ในฟอร์ม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingValidatorTest.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<p>เมื่อฟอร์มใหญ่ขึ้น listener ที่อ่าน ตรวจ และบันทึกในที่เดียวจะยาวและทดสอบยาก ให้แบ่งงานเป็นสามส่วน</p>
+<table class="comparison-table"><thead><tr><th>ส่วน</th><th>หน้าที่</th><th>รู้จัก Swing ไหม</th></tr></thead><tbody><tr><td>UI (listener)</td><td>อ่านค่าจากหน้าจอ ส่งให้ validator แล้วแสดงผล</td><td>รู้</td></tr><tr><td>validator</td><td>รับค่าเป็น String คืนรายการ error</td><td>ไม่รู้</td></tr><tr><td>กฎทางธุรกิจ</td><td>คำนวณ เช่น คิดราคา</td><td>ไม่รู้</td></tr></tbody></table>
+<p>ส่วนที่ไม่รู้จัก Swing ทดสอบใน console ได้ทุกกรณีโดยไม่ต้องคลิกหน้าจอ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.4.1</span>Validator พร้อมชุดทดสอบ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingValidatorTest.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookingValidatorTest</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-fn">test</span>(<span class="tok-str">"JHope"</span>, <span class="tok-str">"2"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">true</span>);  <span class="tok-com">// ข้อมูลถูกต้อง</span>
-        <span class="tok-fn">test</span>(<span class="tok-str">""</span>, <span class="tok-str">"2"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">true</span>);
-        <span class="tok-fn">test</span>(<span class="tok-str">"Suga"</span>, <span class="tok-str">"0"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">false</span>);  <span class="tok-com">// guests = 0 นอกช่วง</span>
-        <span class="tok-fn">test</span>(<span class="tok-str">"RM"</span>, <span class="tok-str">"5"</span>, <span class="tok-str">"x"</span>, <span class="tok-num">true</span>);
-        <span class="tok-fn">test</span>(<span class="tok-str">"Jungkook"</span>, <span class="tok-str">"11"</span>, <span class="tok-str">"31"</span>, <span class="tok-num">false</span>);
+        <span class="tok-fn">test</span>(<span class="tok-str">"JHope"</span>, <span class="tok-str">"2"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">true</span>);                    <span class="tok-com">// ปกติ</span>
+        <span class="tok-fn">test</span>(<span class="tok-str">""</span>, <span class="tok-str">"2"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">true</span>);                         <span class="tok-com">// ชื่อว่าง</span>
+        <span class="tok-fn">test</span>(<span class="tok-str">"Suga"</span>, <span class="tok-str">"0"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">false</span>);                    <span class="tok-com">// guests นอกช่วง</span>
+        <span class="tok-fn">test</span>(<span class="tok-str">"RM"</span>, <span class="tok-str">"5"</span>, <span class="tok-str">"x"</span>, <span class="tok-num">true</span>);                       <span class="tok-com">// nights ไม่ใช่ตัวเลข</span>
+        <span class="tok-fn">test</span>(<span class="tok-str">"Jungkook"</span>, <span class="tok-str">"11"</span>, <span class="tok-str">"31"</span>, <span class="tok-num">false</span>);              <span class="tok-com">// นอกช่วงทั้งคู่</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">test</span>(<span class="tok-type">String</span> name, <span class="tok-type">String</span> guests, <span class="tok-type">String</span> nights, <span class="tok-kw">boolean</span> breakfast) {
-        <span class="tok-com">// ตรวจโดยไม่ต้องเปิดหน้าจอ</span>
         <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; errors = <span class="tok-type">BookingValidator</span>.<span class="tok-fn">validate</span>(name, guests, nights);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-8s g=%-3s n=%-3s -&gt; %s%n"</span>, name, guests, nights, errors.<span class="tok-fn">isEmpty</span>() ? <span class="tok-str">"OK"</span> : errors);
     }
 }
 
 <span class="tok-kw">class</span> <span class="tok-type">BookingValidator</span> {
-    <span class="tok-com">// logic ตรวจข้อมูลแยกจาก GUI</span>
     <span class="tok-kw">static</span> <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; <span class="tok-fn">validate</span>(<span class="tok-type">String</span> name, <span class="tok-type">String</span> guests, <span class="tok-type">String</span> nights) {
-        <span class="tok-com">// เก็บข้อผิดพลาดทั้งหมด</span>
         <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; errors = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         <span class="tok-kw">if</span> (name.<span class="tok-fn">isBlank</span>()) errors.<span class="tok-fn">add</span>(<span class="tok-str">"name required"</span>);
-        <span class="tok-com">// Integer: ได้ null เมื่อค่าใช้ไม่ได้</span>
-        <span class="tok-type">Integer</span> g = <span class="tok-fn">parseInRange</span>(guests, <span class="tok-num">1</span>, <span class="tok-num">10</span>, <span class="tok-str">"guests"</span>, errors);
+        <span class="tok-type">Integer</span> g = <span class="tok-fn">parseInRange</span>(guests, <span class="tok-num">1</span>, <span class="tok-num">10</span>, <span class="tok-str">"guests"</span>, errors);       <span class="tok-com">// null เมื่อใช้ไม่ได้</span>
         <span class="tok-type">Integer</span> n = <span class="tok-fn">parseInRange</span>(nights, <span class="tok-num">1</span>, <span class="tok-num">30</span>, <span class="tok-str">"nights"</span>, errors);
-        <span class="tok-com">// ตรวจข้ามช่องเมื่อทั้งสองค่าใช้ได้</span>
-        <span class="tok-kw">if</span> (g != <span class="tok-num">null</span> &amp;&amp; n != <span class="tok-num">null</span> &amp;&amp; g * n &gt; <span class="tok-num">60</span>) errors.<span class="tok-fn">add</span>(<span class="tok-str">"too many guest-nights"</span>);
+        <span class="tok-kw">if</span> (g != <span class="tok-num">null</span> &amp;&amp; n != <span class="tok-num">null</span> &amp;&amp; g * n &gt; <span class="tok-num">60</span>) errors.<span class="tok-fn">add</span>(<span class="tok-str">"too many guest-nights"</span>);   <span class="tok-com">// กฎข้ามช่อง</span>
         <span class="tok-kw">return</span> errors;
     }
 
-    <span class="tok-com">// แปลงและตรวจช่วงในคราวเดียว</span>
     <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-type">Integer</span> <span class="tok-fn">parseInRange</span>(<span class="tok-type">String</span> text, <span class="tok-kw">int</span> min, <span class="tok-kw">int</span> max, <span class="tok-type">String</span> label, <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; errors) {
         <span class="tok-kw">try</span> {
             <span class="tok-kw">int</span> v = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(text.<span class="tok-fn">trim</span>());
@@ -497,8 +463,11 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
          g=2   n=3   -&gt; [name required]
 Suga     g=0   n=3   -&gt; [guests must be 1-10]
 RM       g=5   n=x   -&gt; [nights must be a number]
-Jungkook g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>parseInRange ใช้ซ้ำได้กับทุกช่องตัวเลข และเพิ่ม error ลงรายการที่ส่งมา</li><li>คืน Integer (null เมื่อผิด) เพื่อให้ตรวจกฎข้ามช่องได้เฉพาะเมื่อทั้งคู่ถูก</li><li>กฎข้ามช่อง: guests × nights ไม่เกิน 60</li><li>ชุดทดสอบครอบคลุมกรณีปกติ ว่าง ค่าขอบ รูปแบบผิด และกฎข้ามช่อง</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.4.2</span>ใช้ validator ในฟอร์มจองห้องพัก</h4><p class="concept-line"><strong>แนวคิด:</strong> listener สั้นลงมาก: อ่านค่า → เรียก validate → แสดง error หรือคำนวณราคา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+Jungkook g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p><code>parseInRange</code> คืน <code>Integer</code> ซึ่งเป็น null ได้ จึงตรวจกฎข้ามช่อง (guests × nights ≤ 60) เฉพาะเมื่อทั้งสองค่าใช้ได้</p></div>
+<h4 class="sub">ใช้ validator ในฟอร์ม</h4>
+<p>listener สั้นลงมาก: อ่านค่า → เรียก validate → ถ้ามี error แสดงแล้ว return → ถ้าไม่มี คำนวณราคาด้วยกฎใน <code>BookingRules</code></p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.4.2</span>ฟอร์มจองห้องพัก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
@@ -515,15 +484,13 @@ Jungkook g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div
             <span class="tok-type">JLabel</span> result = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">" "</span>);
             <span class="tok-type">JButton</span> book = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Book"</span>);
             book.<span class="tok-fn">addActionListener</span>(e -&gt; {
-                <span class="tok-com">// ใช้กฎจากคลาส BookingRules</span>
                 <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; errors = <span class="tok-type">BookingRules</span>.<span class="tok-fn">validate</span>(name.<span class="tok-fn">getText</span>(), guests.<span class="tok-fn">getText</span>(), nights.<span class="tok-fn">getText</span>());
                 <span class="tok-kw">if</span> (!errors.<span class="tok-fn">isEmpty</span>()) {
                     result.<span class="tok-fn">setForeground</span>(<span class="tok-type">Color</span>.<span class="tok-const">RED</span>);
                     result.<span class="tok-fn">setText</span>(<span class="tok-str">"Please fix: "</span> + <span class="tok-type">String</span>.<span class="tok-fn">join</span>(<span class="tok-str">", "</span>, errors));
-                    <span class="tok-kw">return</span>;  <span class="tok-com">// มีข้อผิดพลาด → ไม่คำนวณต่อ</span>
+                    <span class="tok-kw">return</span>;                                           <span class="tok-com">// ไม่คำนวณต่อ</span>
                 }
-                <span class="tok-com">// ตรวจแล้ว จึงแปลงได้อย่างปลอดภัย</span>
-                <span class="tok-kw">int</span> g = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(guests.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());
+                <span class="tok-kw">int</span> g = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(guests.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());    <span class="tok-com">// ตรวจแล้ว แปลงได้แน่นอน</span>
                 <span class="tok-kw">int</span> n = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(nights.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>());
                 <span class="tok-kw">double</span> total = <span class="tok-type">BookingRules</span>.<span class="tok-fn">price</span>(g, n, breakfast.<span class="tok-fn">isSelected</span>());
                 result.<span class="tok-fn">setForeground</span>(<span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">0</span>, <span class="tok-num">110</span>, <span class="tok-num">0</span>));
@@ -545,7 +512,7 @@ Jungkook g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div
     }
 }
 
-<span class="tok-kw">class</span> <span class="tok-type">BookingRules</span> {  <span class="tok-com">// กฎทางธุรกิจ ไม่มีโค้ด Swing</span>
+<span class="tok-kw">class</span> <span class="tok-type">BookingRules</span> {                                          <span class="tok-com">// ไม่มีโค้ด Swing</span>
     <span class="tok-kw">static</span> <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; <span class="tok-fn">validate</span>(<span class="tok-type">String</span> name, <span class="tok-type">String</span> guests, <span class="tok-type">String</span> nights) {
         <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; errors = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         <span class="tok-kw">if</span> (name.<span class="tok-fn">isBlank</span>()) errors.<span class="tok-fn">add</span>(<span class="tok-str">"name"</span>);
@@ -564,28 +531,26 @@ Jungkook g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">price</span>(<span class="tok-kw">int</span> guests, <span class="tok-kw">int</span> nights, <span class="tok-kw">boolean</span> breakfast) {
-        <span class="tok-com">// ห้องละ 2 คน ปัดขึ้น</span>
-        <span class="tok-kw">double</span> room = <span class="tok-num">1200</span> * nights * <span class="tok-type">Math</span>.<span class="tok-fn">ceil</span>(guests / <span class="tok-num">2.0</span>);
-        <span class="tok-com">// อาหารเช้าคิดต่อคนต่อคืน</span>
-        <span class="tok-kw">return</span> room + (breakfast ? <span class="tok-num">250.0</span> * guests * nights : <span class="tok-num">0</span>);
+        <span class="tok-kw">double</span> room = <span class="tok-num">1200</span> * nights * <span class="tok-type">Math</span>.<span class="tok-fn">ceil</span>(guests / <span class="tok-num">2.0</span>);            <span class="tok-com">// ห้องละ 2 คน ปัดขึ้น</span>
+        <span class="tok-kw">return</span> room + (breakfast ? <span class="tok-num">250.0</span> * guests * nights : <span class="tok-num">0</span>);         <span class="tok-com">// อาหารเช้าต่อคนต่อคืน</span>
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกถูกต้องแล้วคลิก Book</p><figure class="gui-shot"><div class="gui-titlebar">Hotel booking</div><img src="../assets/gui/g7683f74930-0.png" width="404" height="151" alt="ภาพหน้าต่าง Hotel booking" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>BookingRules รวมกฎทั้งหมด (ตรวจ + คิดราคา) ไม่มีโค้ด Swing</li><li>ห้องพักได้ 2 คน: จำนวนห้อง = ceil(guests / 2)</li><li>2 คน 3 คืน = 1 ห้อง × 3 คืน × 1200 = 3,600</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกถูกต้องแล้วคลิก Book</p><figure class="gui-shot"><div class="gui-titlebar">Hotel booking</div><img src="../assets/gui/g7b683911c8-0.png" width="404" height="151" alt="ภาพหน้าต่าง Hotel booking" loading="lazy"></figure></div></div></div></div></div>
+<p>2 คน 3 คืน = 1 ห้อง × 3 คืน × 1,200 = 3,600 บาท</p>
 </article>
 <article class="subtopic" id="topic-17-5">
 <h3>17.5 ล้างและ reset ฟอร์ม</h3>
-<p>หลังบันทึกสำเร็จ หรือเมื่อผู้ใช้กดปุ่ม Clear ควรคืนทุก component เป็นค่าเริ่มต้น: ช่องข้อความว่าง, combo กลับรายการแรก, radio กลับค่า default, check box ไม่ติ๊ก, ล้างข้อความ error และย้ายโฟกัสไปช่องแรก รวมไว้ในเมธอด <code>resetForm()</code> เดียวเพื่อไม่ลืมช่องใด</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.5.1</span>บันทึกลงรายการแล้ว reset</h4><p class="concept-line"><strong>แนวคิด:</strong> Save: ตรวจ → เพิ่มลง JList → ถ้าสำเร็จ resetForm() / Clear: resetForm() ทันที — ผู้ใช้กรอกคนถัดไปได้เลย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MemberEntry.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>หลังบันทึกสำเร็จ หรือเมื่อผู้ใช้กด Clear ให้คืนทุก component เป็นค่าเริ่มต้น รวมไว้ในเมธอด <code>resetForm()</code> เดียวเพื่อไม่ลืมช่องใด</p>
+<table class="comparison-table"><thead><tr><th>component</th><th>คืนค่าเริ่มต้นด้วย</th></tr></thead><tbody><tr><td>JTextField</td><td><code>setText("")</code></td></tr><tr><td>JComboBox</td><td><code>setSelectedIndex(0)</code></td></tr><tr><td>JRadioButton</td><td><code>defaultButton.setSelected(true)</code></td></tr><tr><td>JCheckBox</td><td><code>setSelected(false)</code></td></tr><tr><td>ข้อความ error</td><td><code>setText(" ")</code></td></tr><tr><td>โฟกัส</td><td><code>firstField.requestFocusInWindow()</code></td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.5.1</span>บันทึกลงรายการแล้ว reset</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MemberEntry.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MemberEntry</span> {
-    <span class="tok-com">// component เป็น field ใช้ได้ทุกเมธอด</span>
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JTextField</span> name = <span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">12</span>);
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JComboBox</span>&lt;<span class="tok-type">String</span>&gt; faculty = <span class="tok-kw">new</span> <span class="tok-type">JComboBox</span>&lt;&gt;(<span class="tok-kw">new</span> <span class="tok-type">String</span>[]{<span class="tok-str">"Science"</span>, <span class="tok-str">"Arts"</span>, <span class="tok-str">"Engineering"</span>});
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JRadioButton</span> basic = <span class="tok-kw">new</span> <span class="tok-type">JRadioButton</span>(<span class="tok-str">"Basic"</span>, <span class="tok-num">true</span>);
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JRadioButton</span> gold = <span class="tok-kw">new</span> <span class="tok-type">JRadioButton</span>(<span class="tok-str">"Gold"</span>);
     <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">JLabel</span> error = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">" "</span>);
-    <span class="tok-com">// รายการที่บันทึกแล้ว</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">DefaultListModel</span>&lt;<span class="tok-type">String</span>&gt; saved = <span class="tok-kw">new</span> <span class="tok-type">DefaultListModel</span>&lt;&gt;();
+    <span class="tok-kw">private</span> <span class="tok-kw">final</span> <span class="tok-type">DefaultListModel</span>&lt;<span class="tok-type">String</span>&gt; saved = <span class="tok-kw">new</span> <span class="tok-type">DefaultListModel</span>&lt;&gt;();     <span class="tok-com">// รายการที่บันทึกแล้ว</span>
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; <span class="tok-kw">new</span> <span class="tok-type">MemberEntry</span>().<span class="tok-fn">show</span>());
@@ -600,7 +565,6 @@ Jungkook g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div
         error.<span class="tok-fn">setForeground</span>(<span class="tok-type">Color</span>.<span class="tok-const">RED</span>);
         <span class="tok-type">JButton</span> save = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Save"</span>);
         <span class="tok-type">JButton</span> clear = <span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Clear"</span>);
-        <span class="tok-com">// แยกงานเป็นเมธอด</span>
         save.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">save</span>());
         clear.<span class="tok-fn">addActionListener</span>(e -&gt; <span class="tok-fn">resetForm</span>());
         <span class="tok-type">JPanel</span> form = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">GridLayout</span>(<span class="tok-num">0</span>, <span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">4</span>));
@@ -626,27 +590,25 @@ Jungkook g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div
 
     <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">save</span>() {
         <span class="tok-type">String</span> n = name.<span class="tok-fn">getText</span>().<span class="tok-fn">trim</span>();
-        <span class="tok-kw">if</span> (n.<span class="tok-fn">isEmpty</span>()) {  <span class="tok-com">// ไม่มีชื่อ</span>
+        <span class="tok-kw">if</span> (n.<span class="tok-fn">isEmpty</span>()) {
             error.<span class="tok-fn">setText</span>(<span class="tok-str">"Name is required"</span>);
-            <span class="tok-com">// พาเคอร์เซอร์ไปช่องที่ผิด</span>
-            name.<span class="tok-fn">requestFocusInWindow</span>();
-            <span class="tok-kw">return</span>;
+            name.<span class="tok-fn">requestFocusInWindow</span>();                  <span class="tok-com">// พาไปช่องที่ผิด</span>
+            <span class="tok-kw">return</span>;                                       <span class="tok-com">// ผิด → ไม่ล้างฟอร์ม</span>
         }
         <span class="tok-type">String</span> p = gold.<span class="tok-fn">isSelected</span>() ? <span class="tok-str">"Gold"</span> : <span class="tok-str">"Basic"</span>;
-        <span class="tok-com">// เพิ่มลงรายการ</span>
         saved.<span class="tok-fn">addElement</span>(n + <span class="tok-str">" - "</span> + faculty.<span class="tok-fn">getSelectedItem</span>() + <span class="tok-str">" - "</span> + p);
-        <span class="tok-com">// ล้างฟอร์มพร้อมรับข้อมูลถัดไป</span>
-        <span class="tok-fn">resetForm</span>();
+        <span class="tok-fn">resetForm</span>();                                      <span class="tok-com">// สำเร็จ → พร้อมรับคนถัดไป</span>
     }
 
-    <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">resetForm</span>() {
+    <span class="tok-kw">private</span> <span class="tok-kw">void</span> <span class="tok-fn">resetForm</span>() {                            <span class="tok-com">// คืนทุกช่องในที่เดียว</span>
         name.<span class="tok-fn">setText</span>(<span class="tok-str">""</span>);
-        faculty.<span class="tok-fn">setSelectedIndex</span>(<span class="tok-num">0</span>);  <span class="tok-com">// กลับไปตัวเลือกแรก</span>
+        faculty.<span class="tok-fn">setSelectedIndex</span>(<span class="tok-num">0</span>);
         basic.<span class="tok-fn">setSelected</span>(<span class="tok-num">true</span>);
         error.<span class="tok-fn">setText</span>(<span class="tok-str">" "</span>);
         name.<span class="tok-fn">requestFocusInWindow</span>();
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">บันทึก JHope (Engineering, Gold) แล้วบันทึก Suga (ค่าเริ่มต้น)</p><figure class="gui-shot"><div class="gui-titlebar">Members</div><img src="../assets/gui/g7d1acb7b4c-0.png" width="520" height="152" alt="ภาพหน้าต่าง Members" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JHope ถูกบันทึกพร้อม Engineering และ Gold</li><li>resetForm() คืนทุกช่องเป็นค่าเริ่มต้นทันที</li><li>Suga ถูกบันทึกด้วยค่าเริ่มต้น (Science, Basic) — พิสูจน์ว่า reset ทำงาน</li><li>ไม่ล้างฟอร์มเมื่อบันทึกไม่สำเร็จ</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">บันทึก JHope (Engineering, Gold) แล้วบันทึก Suga (ค่าเริ่มต้น)</p><figure class="gui-shot"><div class="gui-titlebar">Members</div><img src="../assets/gui/gb8d390944a-0.png" width="520" height="152" alt="ภาพหน้าต่าง Members" loading="lazy"></figure></div></div></div></div></div>
+<p>Suga ถูกบันทึกด้วยค่าเริ่มต้น (Science, Basic) แสดงว่า resetForm() คืนทุกช่องจริงหลังบันทึก JHope</p>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
