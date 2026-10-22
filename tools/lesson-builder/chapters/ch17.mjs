@@ -41,20 +41,28 @@ export default {
                         JComboBox<String> year = new JComboBox<>(new String[]{"Year 1", "Year 2", "Year 3", "Year 4"});
                         JRadioButton male = new JRadioButton("Male");
                         JRadioButton female = new JRadioButton("Female");
+                        // เลือกเพศได้ทีละหนึ่ง
                         ButtonGroup g = new ButtonGroup();
                         g.add(male);
                         g.add(female);
                         JCheckBox news = new JCheckBox("Newsletter");
+                        // ค่าเริ่ม 18, ช่วง 15-60
                         JSpinner age = new JSpinner(new SpinnerNumberModel(18, 15, 60, 1));
                         JTextArea out = new JTextArea(5, 26);
                         out.setEditable(false);
                         JButton preview = new JButton("Preview");
+                        // อ่านค่าทุกช่องเมื่อกดปุ่ม
                         preview.addActionListener(e -> {
+                            // ยังไม่เลือกทั้งคู่ก็เป็นไปได้
                             String gender = male.isSelected() ? "Male" : female.isSelected() ? "Female" : "(not chosen)";
+                            // getText() อ่านข้อความในช่อง
                             out.setText("Name: " + name.getText()
+                                // ตัวที่เลือก และตำแหน่ง
                                 + "\nYear: " + year.getSelectedItem() + " (index " + year.getSelectedIndex() + ")"
                                 + "\nGender: " + gender
+                                // getValue() คืน Object จึงต้อง cast
                                 + "\nAge: " + (int) age.getValue()
+                                // isSelected() = ติ๊กหรือไม่
                                 + "\nNewsletter: " + news.isSelected());
                         });
                         JPanel form = new JPanel(new GridLayout(0, 2, 4, 4));
@@ -90,11 +98,14 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         String[] courses = {"AI Basics", "Mobile Apps", "Web Design", "Databases", "Game Dev"};
                         JList<String> list = new JList<>(courses);
+                        // เลือกไว้ล่วงหน้า 3 รายการ
                         list.setSelectedIndices(new int[]{0, 2, 3});
                         JLabel result = new JLabel(" ");
                         JButton show = new JButton("Show selected");
                         show.addActionListener(e -> {
+                            // รายการที่เลือกทั้งหมด
                             List<String> chosen = list.getSelectedValuesList();
+                            // ต่อชื่อด้วย ", "
                             result.setText(chosen.size() + " chosen: " + String.join(", ", chosen));
                         });
                         JPanel root = new JPanel(new BorderLayout(4, 4));
@@ -128,21 +139,26 @@ export default {
           code: j`
             public class Validators {
                 public static void main(String[] args) {
+                    // รวมกรณีว่าง ไม่ใช่ตัวเลข และนอกช่วง
                     String[] ages = {"20", "", "  ", "abc", "-3", "150", " 45 "};
                     for (String a : ages) {
+                        // null = ผ่าน, ข้อความ = เหตุผลที่ไม่ผ่าน
                         String err = checkAge(a);
                         System.out.printf("%-8s -> %s%n", "\"" + a + "\"", err == null ? "OK" : err);
                     }
                 }
 
                 static String checkAge(String text) {
+                    // ตรวจว่างก่อน
                     if (text == null || text.isBlank()) return "Age is required";
                     int age;
                     try {
+                        // trim ตัดช่องว่างหัวท้ายก่อนแปลง
                         age = Integer.parseInt(text.trim());
                     } catch (NumberFormatException e) {
                         return "Age must be a whole number";
                     }
+                    // ตรวจช่วงค่า
                     if (age < 1 || age > 120) return "Age must be between 1 and 120";
                     return null;
                 }
@@ -152,8 +168,11 @@ export default {
           concept: "<code>String.matches(regex)</code> ตรวจว่าข้อความทั้งก้อนตรงกับรูปแบบ — ใช้กับอีเมล รหัสนักศึกษา เบอร์โทร",
           code: j`
             public class PatternCheck {
+                // regex อีเมล: ชื่อ@โดเมน.นามสกุล
                 static final String EMAIL = "[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+";
+                // 0 ตามด้วยเลข 1-2 หลัก ขีดใส่หรือไม่ก็ได้
                 static final String PHONE = "0\\d{1,2}-?\\d{3}-?\\d{4}";
+                // 66 ตามด้วยเลข 6 หลัก
                 static final String STUDENT_ID = "66\\d{6}";
 
                 public static void main(String[] args) {
@@ -162,8 +181,10 @@ export default {
                     test("id", STUDENT_ID, "66012345", "65012345", "6601234");
                 }
 
+                // String... รับ argument ได้หลายตัว
                 static void test(String label, String regex, String... samples) {
                     for (String s : samples) {
+                        // matches ตรวจทั้งข้อความตาม regex
                         System.out.printf("%-6s %-18s %s%n", label, s, s.matches(regex) ? "valid" : "INVALID");
                     }
                 }
@@ -187,23 +208,28 @@ export default {
                         JLabel messages = new JLabel(" ");
                         JButton register = new JButton("Register");
                         register.addActionListener(e -> {
+                            // รวบรวมข้อผิดพลาดทุกช่อง
                             ArrayList<String> errors = new ArrayList<>();
+                            // ช่องว่าง
                             if (name.getText().isBlank()) errors.add("Name is required");
+                            // รูปแบบอีเมล
                             if (!email.getText().trim().matches("[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+")) errors.add("Email format is invalid");
                             try {
+                                // ไม่ใช่ตัวเลขจะไปที่ catch
                                 int a = Integer.parseInt(age.getText().trim());
                                 if (a < 15 || a > 99) errors.add("Age must be 15-99");
                             } catch (NumberFormatException ex) {
                                 errors.add("Age must be a number");
                             }
-                            if (errors.isEmpty()) {
+                            if (errors.isEmpty()) {  // ไม่มีข้อผิดพลาดเลย
                                 messages.setForeground(new Color(0, 120, 0));
                                 messages.setText("Registered " + name.getText().trim() + "!");
                             } else {
                                 messages.setForeground(Color.RED);
+                                // <br> แสดงแต่ละข้อผิดพลาดคนละบรรทัด
                                 messages.setText("<html>" + String.join("<br>", errors) + "</html>");
                             }
-                            frame.pack();
+                            frame.pack();  // ปรับขนาดตามข้อความที่เปลี่ยน
                         });
                         JPanel form = new JPanel(new GridLayout(0, 2, 6, 6));
                         form.add(new JLabel("Name:")); form.add(name);
@@ -246,12 +272,17 @@ export default {
                         JButton check = new JButton("Check");
                         check.addActionListener(e -> {
                             try {
+                                // ข้อมูลผิดจะไปที่ catch
                                 int q = Integer.parseInt(qty.getText().trim());
+                                // กล่องข้อความแจ้ง
                                 JOptionPane.showMessageDialog(frame, "Quantity = " + q, "OK", JOptionPane.INFORMATION_MESSAGE);
                             } catch (NumberFormatException ex) {
+                                // กล่องแจ้งข้อผิดพลาด
                                 JOptionPane.showMessageDialog(frame, "'" + qty.getText() + "' is not a whole number.",
                                     "Invalid quantity", JOptionPane.ERROR_MESSAGE);
+                                // กลับไปที่ช่องกรอก
                                 qty.requestFocusInWindow();
+                                // เลือกข้อความเดิมไว้ พิมพ์ทับได้ทันที
                                 qty.selectAll();
                             }
                         });
@@ -283,9 +314,11 @@ export default {
                         notes.addElement("Call mom");
                         JButton deleteAll = new JButton("Delete all");
                         deleteAll.addActionListener(e -> {
+                            // กล่องถาม ใช่/ไม่ใช่
                             int answer = JOptionPane.showConfirmDialog(frame,
                                 "Delete all " + notes.size() + " notes? This cannot be undone.",
                                 "Confirm delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                            // ผู้ใช้กด Yes
                             if (answer == JOptionPane.YES_OPTION) {
                                 notes.clear();
                             }
@@ -305,6 +338,7 @@ export default {
             import java.awt.*;
 
             public class InlineErrors {
+                // สีแดงสำหรับข้อความผิดพลาด
                 static final Color ERROR = new Color(200, 30, 30);
 
                 public static void main(String[] args) {
@@ -313,15 +347,20 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JTextField user = new JTextField(12);
                         JPasswordField pass = new JPasswordField(12);
+                        // ป้ายแสดงข้อผิดพลาดของแต่ละช่อง
                         JLabel userErr = errorLabel();
                         JLabel passErr = errorLabel();
                         JButton signUp = new JButton("Sign up");
                         signUp.addActionListener(e -> {
                             String u = user.getText().trim();
+                            // getPassword() คืน char[] จึงแปลงเป็น String
                             String p = new String(pass.getPassword());
+                            // ?: ผ่าน → null, ไม่ผ่าน → ข้อความ
                             boolean ok = mark(user, userErr, u.length() >= 4 ? null : "at least 4 characters");
+                            // &= ตรวจครบทุกช่อง แม้ช่องก่อนหน้าผิด
                             ok &= mark(pass, passErr, p.length() >= 8 && p.matches(".*\\d.*") && p.matches(".*[A-Za-z].*")
                                 ? null : "8+ chars with letters and digits");
+                            // แสดงเมื่อผ่านทุกช่อง
                             if (ok) JOptionPane.showMessageDialog(frame, "Welcome, " + u + "!");
                         });
                         JPanel form = new JPanel(new GridLayout(0, 3, 6, 6));
@@ -341,12 +380,15 @@ export default {
                     return l;
                 }
 
+                // ระบายกรอบและข้อความตามผลตรวจ
                 static boolean mark(JTextField field, JLabel errorLabel, String error) {
                     if (error == null) {
+                        // คืนกรอบปกติ
                         field.setBorder(UIManager.getBorder("TextField.border"));
                         errorLabel.setText(" ");
                         return true;
                     }
+                    // กรอบแดง หนา 2 พิกเซล
                     field.setBorder(BorderFactory.createLineBorder(ERROR, 2));
                     errorLabel.setText(error);
                     return false;
@@ -366,7 +408,9 @@ export default {
                         JLabel budget = new JLabel("Budget: not set");
                         JButton set = new JButton("Set budget");
                         set.addActionListener(e -> {
+                            // null = ผู้ใช้กดยกเลิก
                             Double value = askPositiveNumber(frame, "Monthly budget (baht):");
+                            // ได้ค่ามาจึงอัปเดต
                             if (value != null) budget.setText(String.format("Budget: %,.2f", value));
                         });
                         JPanel p = new JPanel();
@@ -378,12 +422,17 @@ export default {
                     });
                 }
 
+                // Double (ห่อ) จึงคืน null ได้
                 static Double askPositiveNumber(JFrame parent, String prompt) {
+                    // ถามซ้ำจนได้ค่าถูกหรือกดยกเลิก
                     while (true) {
+                        // กล่องรับข้อความ
                         String text = JOptionPane.showInputDialog(parent, prompt);
+                        // กด Cancel
                         if (text == null) return null;
                         try {
                             double v = Double.parseDouble(text.trim());
+                            // ค่าถูกต้อง → คืนค่าและออก
                             if (v > 0) return v;
                             JOptionPane.showMessageDialog(parent, "Please enter a number greater than 0", "Invalid", JOptionPane.WARNING_MESSAGE);
                         } catch (NumberFormatException ex) {
@@ -408,29 +457,35 @@ export default {
 
             public class BookingValidatorTest {
                 public static void main(String[] args) {
-                    test("Mali", "2", "3", true);
+                    test("Mali", "2", "3", true);  // ข้อมูลถูกต้อง
                     test("", "2", "3", true);
-                    test("Beam", "0", "3", false);
+                    test("Beam", "0", "3", false);  // guests = 0 นอกช่วง
                     test("Nida", "5", "x", true);
                     test("Ploy", "11", "31", false);
                 }
 
                 static void test(String name, String guests, String nights, boolean breakfast) {
+                    // ตรวจโดยไม่ต้องเปิดหน้าจอ
                     List<String> errors = BookingValidator.validate(name, guests, nights);
                     System.out.printf("%-5s g=%-3s n=%-3s -> %s%n", name, guests, nights, errors.isEmpty() ? "OK" : errors);
                 }
             }
 
             class BookingValidator {
+                // logic ตรวจข้อมูลแยกจาก GUI
                 static List<String> validate(String name, String guests, String nights) {
+                    // เก็บข้อผิดพลาดทั้งหมด
                     List<String> errors = new ArrayList<>();
                     if (name.isBlank()) errors.add("name required");
+                    // Integer: ได้ null เมื่อค่าใช้ไม่ได้
                     Integer g = parseInRange(guests, 1, 10, "guests", errors);
                     Integer n = parseInRange(nights, 1, 30, "nights", errors);
+                    // ตรวจข้ามช่องเมื่อทั้งสองค่าใช้ได้
                     if (g != null && n != null && g * n > 60) errors.add("too many guest-nights");
                     return errors;
                 }
 
+                // แปลงและตรวจช่วงในคราวเดียว
                 private static Integer parseInRange(String text, int min, int max, String label, List<String> errors) {
                     try {
                         int v = Integer.parseInt(text.trim());
@@ -466,12 +521,14 @@ export default {
                         JLabel result = new JLabel(" ");
                         JButton book = new JButton("Book");
                         book.addActionListener(e -> {
+                            // ใช้กฎจากคลาส BookingRules
                             List<String> errors = BookingRules.validate(name.getText(), guests.getText(), nights.getText());
                             if (!errors.isEmpty()) {
                                 result.setForeground(Color.RED);
                                 result.setText("Please fix: " + String.join(", ", errors));
-                                return;
+                                return;  // มีข้อผิดพลาด → ไม่คำนวณต่อ
                             }
+                            // ตรวจแล้ว จึงแปลงได้อย่างปลอดภัย
                             int g = Integer.parseInt(guests.getText().trim());
                             int n = Integer.parseInt(nights.getText().trim());
                             double total = BookingRules.price(g, n, breakfast.isSelected());
@@ -494,7 +551,7 @@ export default {
                 }
             }
 
-            class BookingRules {
+            class BookingRules {  // กฎทางธุรกิจ ไม่มีโค้ด Swing
                 static List<String> validate(String name, String guests, String nights) {
                     List<String> errors = new ArrayList<>();
                     if (name.isBlank()) errors.add("name");
@@ -513,7 +570,9 @@ export default {
                 }
 
                 static double price(int guests, int nights, boolean breakfast) {
+                    // ห้องละ 2 คน ปัดขึ้น
                     double room = 1200 * nights * Math.ceil(guests / 2.0);
+                    // อาหารเช้าคิดต่อคนต่อคืน
                     return room + (breakfast ? 250.0 * guests * nights : 0);
                 }
             }`,
@@ -531,11 +590,13 @@ export default {
             import java.awt.*;
 
             public class MemberEntry {
+                // component เป็น field ใช้ได้ทุกเมธอด
                 private final JTextField name = new JTextField(12);
                 private final JComboBox<String> faculty = new JComboBox<>(new String[]{"Science", "Arts", "Engineering"});
                 private final JRadioButton basic = new JRadioButton("Basic", true);
                 private final JRadioButton gold = new JRadioButton("Gold");
                 private final JLabel error = new JLabel(" ");
+                // รายการที่บันทึกแล้ว
                 private final DefaultListModel<String> saved = new DefaultListModel<>();
 
                 public static void main(String[] args) {
@@ -551,6 +612,7 @@ export default {
                     error.setForeground(Color.RED);
                     JButton save = new JButton("Save");
                     JButton clear = new JButton("Clear");
+                    // แยกงานเป็นเมธอด
                     save.addActionListener(e -> save());
                     clear.addActionListener(e -> resetForm());
                     JPanel form = new JPanel(new GridLayout(0, 2, 4, 4));
@@ -576,19 +638,22 @@ export default {
 
                 private void save() {
                     String n = name.getText().trim();
-                    if (n.isEmpty()) {
+                    if (n.isEmpty()) {  // ไม่มีชื่อ
                         error.setText("Name is required");
+                        // พาเคอร์เซอร์ไปช่องที่ผิด
                         name.requestFocusInWindow();
                         return;
                     }
                     String p = gold.isSelected() ? "Gold" : "Basic";
+                    // เพิ่มลงรายการ
                     saved.addElement(n + " - " + faculty.getSelectedItem() + " - " + p);
+                    // ล้างฟอร์มพร้อมรับข้อมูลถัดไป
                     resetForm();
                 }
 
                 private void resetForm() {
                     name.setText("");
-                    faculty.setSelectedIndex(0);
+                    faculty.setSelectedIndex(0);  // กลับไปตัวเลือกแรก
                     basic.setSelected(true);
                     error.setText(" ");
                     name.requestFocusInWindow();
@@ -613,9 +678,12 @@ export default {
                     JTextField name = new JTextField(10);
                     JButton greet = new JButton("Greet");
                     greet.addActionListener(e -> {
+                        // ช่องว่าง → กล่องแจ้งข้อผิดพลาด
                         if (name.getText().isBlank()) {
+                            // ไอคอนข้อผิดพลาด
                             JOptionPane.showMessageDialog(frame, "Please enter your name", "Missing name", JOptionPane.ERROR_MESSAGE);
                         } else {
+                            // ไอคอนข้อมูลทั่วไป
                             JOptionPane.showMessageDialog(frame, "Hello, " + name.getText().trim() + "!", "Greeting", JOptionPane.INFORMATION_MESSAGE);
                         }
                     });
@@ -634,6 +702,7 @@ export default {
       solution: j`
         public class ScoreValidator {
             public static void main(String[] args) {
+                // รวมค่าขอบ 0, 100 และค่าผิด
                 String[] inputs = {"85", "0", "100", "-1", "101", "", "eighty", " 72 "};
                 for (String in : inputs) {
                     String err = checkScore(in);
@@ -642,10 +711,14 @@ export default {
             }
 
             static String checkScore(String text) {
+                // ว่าง
                 if (text == null || text.isBlank()) return "Score is required";
                 try {
+                    // ข้อความที่ไม่ใช่ตัวเลข → catch
                     int s = Integer.parseInt(text.trim());
+                    // นอกช่วง
                     if (s < 0 || s > 100) return "Score must be 0-100";
+                    // null = ผ่าน
                     return null;
                 } catch (NumberFormatException e) {
                     return "Score must be a whole number";
@@ -660,6 +733,7 @@ export default {
 
         public class CurrencyForm {
             public static void main(String[] args) {
+                // อาเรย์คู่ขนาน: สกุลเงินและอัตรา
                 String[] codes = {"USD", "EUR", "JPY"};
                 double[] rates = {35.5, 38.2, 0.24};
                 SwingUtilities.invokeLater(() -> {
@@ -669,16 +743,20 @@ export default {
                     JComboBox<String> currency = new JComboBox<>(codes);
                     JButton convert = new JButton("Convert");
                     JLabel result = new JLabel(" ");
+                    // จำกรอบเดิมไว้คืนค่าภายหลัง
                     javax.swing.border.Border normal = amount.getBorder();
                     convert.addActionListener(e -> {
                         try {
                             double baht = Double.parseDouble(amount.getText().trim());
+                            // ค่า ≤ 0 ใช้ catch เดียวกัน
                             if (baht <= 0) throw new NumberFormatException();
                             int i = currency.getSelectedIndex();
+                            // ค่าถูก → คืนกรอบปกติ
                             amount.setBorder(normal);
                             result.setForeground(new Color(0, 120, 0));
                             result.setText(String.format("%,.2f THB = %,.2f %s", baht, baht / rates[i], codes[i]));
                         } catch (NumberFormatException ex) {
+                            // ค่าผิด → กรอบแดง
                             amount.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
                             result.setForeground(Color.RED);
                             result.setText("Amount must be a number greater than 0");
@@ -714,15 +792,19 @@ export default {
                     notes.setLineWrap(true);
                     JButton exit = new JButton("Exit");
                     exit.addActionListener(e -> {
+                        // ไม่มีข้อความ → ปิดได้เลย
                         if (notes.getText().isBlank()) {
+                            // ปิดหน้าต่าง
                             frame.dispose();
                             return;
                         }
+                        // ถาม 3 ทาง: Yes / No / Cancel
                         int answer = JOptionPane.showConfirmDialog(frame, "Save your note before exit?", "Unsaved note",
                             JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (answer == JOptionPane.YES_OPTION) {
                             JOptionPane.showMessageDialog(frame, "Saved " + notes.getText().length() + " characters.");
                             frame.dispose();
+                        // No = ปิดโดยไม่บันทึก
                         } else if (answer == JOptionPane.NO_OPTION) {
                             frame.dispose();
                         }
@@ -745,14 +827,19 @@ export default {
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Sign up");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // ประกาศหลายตัวในบรรทัดเดียว
                     JTextField user = new JTextField(12), email = new JTextField(12), phone = new JTextField(12);
                     JCheckBox terms = new JCheckBox("I accept the terms");
                     JLabel eUser = err(), eEmail = err(), ePhone = err(), eTerms = err();
                     JButton submit = new JButton("Submit");
                     submit.addActionListener(e -> {
+                        // ตัวอักษรหรือตัวเลข 4-12 ตัว
                         boolean ok = show(eUser, user.getText().trim().matches("[A-Za-z0-9]{4,12}") ? null : "4-12 letters/digits");
+                        // &= ตรวจทุกช่อง
                         ok &= show(eEmail, email.getText().trim().matches("[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+") ? null : "invalid email");
+                        // รูปแบบ 0XX-XXX-XXXX
                         ok &= show(ePhone, phone.getText().trim().matches("0\\d{2}-\\d{3}-\\d{4}") ? null : "use 0XX-XXX-XXXX");
+                        // ต้องติ๊กยอมรับเงื่อนไข
                         ok &= show(eTerms, terms.isSelected() ? null : "required");
                         frame.pack();
                         if (ok) JOptionPane.showMessageDialog(frame, "Registered!");
@@ -776,6 +863,7 @@ export default {
                 return l;
             }
 
+            // แสดงข้อความ และคืนว่าผ่านหรือไม่
             static boolean show(JLabel label, String message) {
                 label.setText(message == null ? " " : message);
                 return message == null;
@@ -790,6 +878,7 @@ export default {
         import java.util.List;
 
         public class OrderForm {
+            // ตัวเลือกสินค้ามาจาก OrderRules
             private final JComboBox<String> product = new JComboBox<>(OrderRules.NAMES);
             private final JSpinner qty = new JSpinner(new SpinnerNumberModel(1, 1, 20, 1));
             private final JRadioButton standard = new JRadioButton("Standard (40)", true);
@@ -837,15 +926,20 @@ export default {
             private void place() {
                 int p = product.getSelectedIndex();
                 int q = (int) qty.getValue();
+                // ?: ค่าส่งตามแบบที่เลือก
                 int shipping = express.isSelected() ? 90 : 40;
+                // ตรวจข้อมูลด้วยคลาสกฎ
                 List<String> errors = OrderRules.validate(p, address.getText(), coupon.getText());
                 if (!errors.isEmpty()) {
+                    // แสดงข้อผิดพลาดทั้งหมดในกล่องเดียว
                     JOptionPane.showMessageDialog(frame, String.join("\n", errors), "Please fix", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 double total = OrderRules.total(p, q, shipping, coupon.getText().trim());
+                // สรุปคำสั่งซื้อก่อนยืนยัน
                 String summary = String.format("%s x %d%nShipping: %d%nCoupon: %s%nTotal: %,.2f baht%n%nConfirm order?",
                     OrderRules.NAMES[p], q, shipping, coupon.getText().isBlank() ? "-" : coupon.getText().trim(), total);
+                // ยืนยันแล้วจึงบันทึก
                 if (JOptionPane.showConfirmDialog(frame, summary, "Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     orders.addElement(String.format("%s x%d = %,.2f", OrderRules.NAMES[p], q, total));
                     resetForm();
@@ -862,21 +956,26 @@ export default {
         }
 
         class OrderRules {
+            // ช่องแรกคือคำแนะนำ ไม่ใช่สินค้า
             static final String[] NAMES = {"-- choose --", "Keyboard", "Mouse", "Headset"};
             static final double[] PRICES = {0, 890, 390, 1290};
 
             static List<String> validate(int productIndex, String address, String coupon) {
                 List<String> errors = new ArrayList<>();
+                // ยังไม่ได้เลือกสินค้า
                 if (productIndex <= 0) errors.add("Choose a product");
                 if (address.trim().length() < 10) errors.add("Address must be at least 10 characters");
                 String c = coupon.trim();
+                // คูปองว่างได้ แต่ถ้ากรอกต้องถูกต้อง
                 if (!c.isEmpty() && !c.equals("SAVE10") && !c.equals("SAVE50")) errors.add("Unknown coupon: " + c);
                 return errors;
             }
 
             static double total(int productIndex, int qty, int shipping, String coupon) {
                 double goods = PRICES[productIndex] * qty;
+                // ลด 10%
                 if (coupon.equals("SAVE10")) goods *= 0.9;
+                // ลด 50 บาท ไม่ให้ติดลบ
                 if (coupon.equals("SAVE50")) goods = Math.max(0, goods - 50);
                 return goods + shipping;
             }
@@ -889,7 +988,9 @@ export default {
         import java.util.ArrayList;
 
         public class ProductEditor {
+            // ข้อมูลจริง
             private final ArrayList<Product> products = new ArrayList<>();
+            // ข้อความที่แสดงบน JList
             private final DefaultListModel<String> model = new DefaultListModel<>();
             private final JList<String> list = new JList<>(model);
             private final JTextField name = new JTextField(10);
@@ -908,10 +1009,13 @@ export default {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JButton add = new JButton("Add");
                 JButton clear = new JButton("Clear");
+                // -1 = เพิ่มใหม่
                 add.addActionListener(e -> save(-1));
+                // ส่ง index ที่เลือก = แก้ไข
                 update.addActionListener(e -> save(list.getSelectedIndex()));
                 delete.addActionListener(e -> delete());
                 clear.addActionListener(e -> clearForm());
+                // เลือกรายการ → ดึงข้อมูลมาใส่ฟอร์ม
                 list.addListSelectionListener(e -> {
                     int i = list.getSelectedIndex();
                     if (i >= 0) {
@@ -943,13 +1047,15 @@ export default {
             private void save(int editIndex) {
                 String n = name.getText().trim();
                 double p;
-                try {
+                try {  // ราคาผิดรูปแบบ → ใช้ -1 แทน
                     p = Double.parseDouble(price.getText().trim());
                 } catch (NumberFormatException ex) {
                     p = -1;
                 }
                 String error = null;
+                // ตรวจทีละเงื่อนไข เก็บข้อผิดพลาดแรก
                 if (n.isEmpty()) error = "Name is required";
+                // ห้ามชื่อซ้ำ
                 else if (isDuplicate(n, editIndex)) error = "Name already exists";
                 else if (p <= 0) error = "Price must be a number > 0";
                 if (error != null) {
@@ -957,16 +1063,19 @@ export default {
                     status.setText(error);
                     return;
                 }
+                // เพิ่มใหม่
                 if (editIndex < 0) products.add(new Product(n, p));
+                // แทนที่ตำแหน่งเดิม
                 else products.set(editIndex, new Product(n, p));
                 status.setForeground(new Color(0, 110, 0));
                 status.setText(editIndex < 0 ? "Added " + n : "Updated " + n);
-                refreshList();
+                refreshList();  // สร้างรายการแสดงผลใหม่
                 clearForm();
             }
 
             private boolean isDuplicate(String n, int ignoreIndex) {
                 for (int i = 0; i < products.size(); i++) {
+                    // ข้ามตัวที่กำลังแก้ไข
                     if (i != ignoreIndex && products.get(i).name.equalsIgnoreCase(n)) return true;
                 }
                 return false;
@@ -975,6 +1084,7 @@ export default {
             private void delete() {
                 int i = list.getSelectedIndex();
                 if (i < 0) return;
+                // ยืนยันก่อนลบ
                 if (JOptionPane.showConfirmDialog(frame, "Delete " + products.get(i).name + "?", "Confirm",
                         JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     products.remove(i);
@@ -984,7 +1094,7 @@ export default {
             }
 
             private void refreshList() {
-                model.clear();
+                model.clear();  // ล้างแล้วสร้างจากข้อมูลจริงทุกครั้ง
                 for (Product p : products) model.addElement(String.format("%-8s %8.2f", p.name, p.price));
             }
 
@@ -996,6 +1106,7 @@ export default {
             }
 
             private void updateButtons() {
+                // ปุ่มแก้ไข/ลบใช้ได้เมื่อเลือกรายการ
                 boolean selected = list.getSelectedIndex() >= 0;
                 update.setEnabled(selected);
                 delete.setEnabled(selected);

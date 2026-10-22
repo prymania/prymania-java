@@ -40,7 +40,9 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Two screens side by side (test)");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // วาง 2 หน้าจอคู่กันเพื่อทดสอบ
                         JPanel both = new JPanel(new GridLayout(1, 2, 10, 0));
+                        // แต่ละหน้าจอเป็นออบเจ็กต์ของคลาสตัวเอง
                         both.add(new HomeScreen());
                         both.add(new ProfileScreen("Mali", "Science"));
                         frame.setContentPane(both);
@@ -50,18 +52,22 @@ export default {
                 }
             }
 
+            // หน้าจอ = คลาสลูกของ JPanel
             class HomeScreen extends JPanel {
                 HomeScreen() {
+                    // กำหนด layout ผ่าน constructor ของ JPanel
                     super(new BorderLayout(0, 8));
                     setBorder(BorderFactory.createTitledBorder("HomeScreen"));
                     JLabel title = new JLabel("Welcome!", SwingConstants.CENTER);
                     title.setFont(title.getFont().deriveFont(Font.BOLD, 20f));
+                    // add ของตัวเอง (JPanel)
                     add(title, BorderLayout.CENTER);
                     add(new JButton("Start"), BorderLayout.SOUTH);
                 }
             }
 
             class ProfileScreen extends JPanel {
+                // รับข้อมูลที่ต้องแสดงผ่าน constructor
                 ProfileScreen(String name, String faculty) {
                     super(new GridLayout(0, 1, 4, 4));
                     setBorder(BorderFactory.createTitledBorder("ProfileScreen"));
@@ -95,8 +101,10 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Card demo");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // CardLayout: ซ้อนหลายหน้า แสดงทีละหน้า
                         CardLayout cards = new CardLayout();
                         JPanel content = new JPanel(cards);
+                        // แต่ละหน้ามีชื่อเรียก "home"
                         content.add(page("Home", "Today: 2 classes, 1 deadline", new Color(229, 244, 207)), "home");
                         content.add(page("Settings", "Theme: Light   Language: TH", new Color(217, 243, 243)), "settings");
                         content.add(page("Help", "Email: help@uni.ac.th", new Color(253, 229, 220)), "help");
@@ -104,6 +112,7 @@ export default {
                         JPanel nav = new JPanel(new FlowLayout(FlowLayout.LEFT));
                         for (String name : new String[]{"Home", "Settings", "Help"}) {
                             JButton b = new JButton(name);
+                            // แสดงหน้าตามชื่อ
                             b.addActionListener(e -> cards.show(content, name.toLowerCase()));
                             nav.add(b);
                         }
@@ -114,6 +123,7 @@ export default {
                     });
                 }
 
+                // เมธอดสร้างหน้าแบบเดียวกัน
                 static JPanel page(String title, String text, Color bg) {
                     JPanel p = new JPanel(new GridLayout(2, 1));
                     p.setBackground(bg);
@@ -133,7 +143,7 @@ export default {
             import java.awt.*;
 
             public class StepWizard {
-                private static int step = 0;
+                private static int step = 0;  // ขั้นตอนปัจจุบัน
                 private static final String[] STEPS = {"1. Choose course", "2. Pick a section", "3. Confirm"};
 
                 public static void main(String[] args) {
@@ -145,20 +155,25 @@ export default {
                         for (String s : STEPS) {
                             JLabel l = new JLabel(s, SwingConstants.CENTER);
                             l.setFont(l.getFont().deriveFont(Font.BOLD, 16f));
-                            content.add(l, s);
+                            content.add(l, s);  // ใช้ข้อความเป็นชื่อการ์ด
                         }
                         JLabel progress = new JLabel();
                         JButton back = new JButton("< Back");
                         JButton next = new JButton("Next >");
+                        // อัปเดตปุ่มและข้อความตามขั้นตอน
                         Runnable refresh = () -> {
                             progress.setText("Step " + (step + 1) + " of " + STEPS.length);
+                            // ขั้นแรกย้อนกลับไม่ได้
                             back.setEnabled(step > 0);
+                            // ขั้นสุดท้ายเปลี่ยนเป็น Finish
                             next.setText(step == STEPS.length - 1 ? "Finish" : "Next >");
                         };
+                        // previous: ไปการ์ดก่อนหน้า
                         back.addActionListener(e -> { step--; cards.previous(content); refresh.run(); });
                         next.addActionListener(e -> {
                             if (step < STEPS.length - 1) {
                                 step++;
+                                // next: ไปการ์ดถัดไป
                                 cards.next(content);
                                 refresh.run();
                             } else {
@@ -172,7 +187,7 @@ export default {
                         buttons.add(next);
                         bottom.add(buttons, BorderLayout.EAST);
                         bottom.setBorder(BorderFactory.createEmptyBorder(0, 8, 0, 0));
-                        refresh.run();
+                        refresh.run();  // ตั้งค่าเริ่มต้น
                         frame.add(content, BorderLayout.CENTER);
                         frame.add(bottom, BorderLayout.SOUTH);
                         frame.setSize(340, 170);
@@ -199,7 +214,9 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Navigator");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // ตัวกลางจัดการการเปลี่ยนหน้า
                         Navigator nav = new Navigator();
+                        // หน้าแต่ละหน้ารู้จัก Navigator
                         nav.add(Navigator.HOME, new SimplePage("Home", nav, "Start", Navigator.MENU));
                         nav.add(Navigator.MENU, new SimplePage("Menu", nav, "About", Navigator.ABOUT));
                         nav.add(Navigator.ABOUT, new SimplePage("About: v1.0 by Mali", nav, "Home", Navigator.HOME));
@@ -212,15 +229,18 @@ export default {
             }
 
             class Navigator {
+                // ชื่อหน้าเป็นค่าคงที่ ป้องกันพิมพ์ผิด
                 static final String HOME = "home", MENU = "menu", ABOUT = "about";
                 private final CardLayout cards = new CardLayout();
                 private final JPanel container = new JPanel(cards);
                 private final JLabel status = new JLabel(" page: " + HOME);
 
+                // ลงทะเบียนหน้าพร้อมชื่อ
                 void add(String name, JPanel page) { container.add(page, name); }
 
-                void goTo(String name) {
+                void goTo(String name) {  // ทุกการเปลี่ยนหน้าผ่านเมธอดนี้
                     cards.show(container, name);
+                    // อัปเดตแถบสถานะไปพร้อมกัน
                     status.setText(" page: " + name);
                 }
 
@@ -235,6 +255,7 @@ export default {
                     JLabel t = new JLabel(title, SwingConstants.CENTER);
                     t.setFont(t.getFont().deriveFont(Font.BOLD, 16f));
                     JButton go = new JButton(buttonText);
+                    // ปุ่มบอก Navigator ว่าจะไปหน้าไหน
                     go.addActionListener(e -> nav.goTo(target));
                     add(t, BorderLayout.CENTER);
                     add(go, BorderLayout.SOUTH);
@@ -249,6 +270,7 @@ export default {
             import java.util.ArrayList;
 
             public class BackHistory {
+                // ประวัติหน้าที่เคยไป
                 private static final ArrayList<String> history = new ArrayList<>();
                 private static final CardLayout cards = new CardLayout();
                 private static final JPanel content = new JPanel(cards);
@@ -259,6 +281,7 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("History");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // สร้างการ์ดแต่ละหน้า
                         for (String name : new String[]{"Home", "Courses", "Grades"}) {
                             JLabel l = new JLabel(name + " screen", SwingConstants.CENTER);
                             l.setFont(l.getFont().deriveFont(Font.BOLD, 18f));
@@ -268,6 +291,7 @@ export default {
                         nav.add(back);
                         for (String name : new String[]{"Home", "Courses", "Grades"}) {
                             JButton b = new JButton(name);
+                            // ทุกปุ่มเรียก goTo
                             b.addActionListener(e -> goTo(name));
                             nav.add(b);
                         }
@@ -282,6 +306,7 @@ export default {
                 }
 
                 static void goTo(String name) {
+                    // ไม่บันทึกซ้ำถ้าอยู่หน้าเดิม
                     if (history.isEmpty() || !history.get(history.size() - 1).equals(name)) {
                         history.add(name);
                     }
@@ -289,15 +314,19 @@ export default {
                 }
 
                 static void goBack() {
+                    // มีหน้าก่อนหน้าให้ย้อน
                     if (history.size() > 1) {
+                        // ลบหน้าปัจจุบันออกจากประวัติ
                         history.remove(history.size() - 1);
                         show();
                     }
                 }
 
                 static void show() {
+                    // แสดงหน้าสุดท้ายในประวัติ
                     cards.show(content, history.get(history.size() - 1));
                     back.setEnabled(history.size() > 1);
+                    // แสดงเส้นทาง Home > Courses > ...
                     path.setText(" " + String.join(" > ", history));
                 }
             }`,
@@ -319,13 +348,16 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Registration");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // ข้อมูลกลางที่ทุกหน้าใช้ร่วมกัน
                         Registration model = new Registration();
                         CardLayout cards = new CardLayout();
                         JPanel content = new JPanel(cards);
+                        // ส่ง model เดียวกันให้ทั้งสองหน้า
                         SummaryPage summary = new SummaryPage(model);
                         FormPage form = new FormPage(model);
+                        // บอกฟอร์มว่ากด Next แล้วให้ทำอะไร
                         form.onNext(() -> {
-                            summary.refresh();
+                            summary.refresh();  // ดึงข้อมูลล่าสุดก่อนแสดง
                             cards.show(content, "summary");
                         });
                         summary.onEdit(() -> cards.show(content, "form"));
@@ -338,7 +370,7 @@ export default {
                 }
             }
 
-            class Registration {
+            class Registration {  // เก็บข้อมูลอย่างเดียว ไม่มีโค้ด GUI
                 String name = "";
                 String track = "";
             }
@@ -347,6 +379,7 @@ export default {
                 private final JTextField name = new JTextField(12);
                 private final JComboBox<String> track = new JComboBox<>(new String[]{"Software", "Data", "Network", "Game"});
                 private final JButton next = new JButton("Next");
+                // ค่าเริ่มต้น: งานว่าง ไม่ทำอะไร
                 private Runnable onNext = () -> { };
 
                 FormPage(Registration model) {
@@ -356,12 +389,14 @@ export default {
                     add(new JLabel("Track:")); add(track);
                     add(new JLabel()); add(next);
                     next.addActionListener(e -> {
+                        // เขียนข้อมูลลง model
                         model.name = name.getText().trim();
                         model.track = (String) track.getSelectedItem();
-                        onNext.run();
+                        onNext.run();  // แจ้งผู้ที่ลงทะเบียนไว้
                     });
                 }
 
+                // รับงานจากภายนอก
                 void onNext(Runnable action) { this.onNext = action; }
             }
 
@@ -379,7 +414,7 @@ export default {
                     add(edit, BorderLayout.SOUTH);
                 }
 
-                void refresh() {
+                void refresh() {  // อ่านข้อมูลจาก model มาแสดง
                     text.setText(model.name + " - " + model.track + " track");
                 }
 
@@ -413,8 +448,11 @@ export default {
                         courses.addElement("CS101 Programming (3)");
                         JButton add = new JButton("Add course...");
                         add.addActionListener(e -> {
+                            // สร้าง dialog โดยมี frame เป็นเจ้าของ
                             CourseDialog dialog = new CourseDialog(frame);
+                            // modal: รอจนกว่า dialog จะปิด
                             dialog.setVisible(true);
+                            // ปิดแล้วจึงอ่านผลลัพธ์
                             if (dialog.getResult() != null) courses.addElement(dialog.getResult());
                         });
                         frame.add(new JScrollPane(new JList<>(courses)), BorderLayout.CENTER);
@@ -426,10 +464,12 @@ export default {
                 }
             }
 
+            // JDialog: หน้าต่างย่อยของหน้าต่างหลัก
             class CourseDialog extends JDialog {
-                private String result = null;
+                private String result = null;  // null = ผู้ใช้กดยกเลิก
 
                 CourseDialog(JFrame owner) {
+                    // true = modal (บล็อกหน้าต่างหลัก)
                     super(owner, "Add course", true);
                     JTextField code = new JTextField(8);
                     JSpinner credits = new JSpinner(new SpinnerNumberModel(3, 1, 6, 1));
@@ -437,10 +477,13 @@ export default {
                     JButton cancel = new JButton("Cancel");
                     ok.addActionListener(e -> {
                         if (code.getText().isBlank()) {
+                            // this = dialog เป็นเจ้าของกล่องข้อความ
                             JOptionPane.showMessageDialog(this, "Course code is required");
                             return;
                         }
+                        // เก็บผลก่อนปิด
                         result = code.getText().trim() + " (" + credits.getValue() + ")";
+                        // ปิด dialog → setVisible(true) คืนค่ากลับ
                         dispose();
                     });
                     cancel.addActionListener(e -> dispose());
@@ -451,7 +494,7 @@ export default {
                     form.add(ok); form.add(cancel);
                     setContentPane(form);
                     pack();
-                    setLocationRelativeTo(owner);
+                    setLocationRelativeTo(owner);  // แสดงกลางหน้าต่างหลัก
                 }
 
                 String getResult() { return result; }
@@ -470,6 +513,7 @@ export default {
         import java.awt.*;
 
         public class TwoCards {
+            // ชื่อการ์ดเป็นค่าคงที่
             static final String WELCOME = "welcome", INFO = "info";
 
             public static void main(String[] args) {
@@ -483,6 +527,7 @@ export default {
                     welcome.setBackground(new Color(229, 244, 207));
                     welcome.add(new JLabel("Welcome!", SwingConstants.CENTER), BorderLayout.CENTER);
                     JButton toInfo = new JButton("Go to info");
+                    // ไปการ์ด info
                     toInfo.addActionListener(e -> cards.show(content, INFO));
                     welcome.add(toInfo, BorderLayout.SOUTH);
 
@@ -490,10 +535,11 @@ export default {
                     info.setBackground(new Color(217, 243, 243));
                     info.add(new JLabel("<html>Java Programming<br>Chapter 18: Navigation</html>", SwingConstants.CENTER), BorderLayout.CENTER);
                     JButton back = new JButton("Back");
+                    // กลับการ์ด welcome
                     back.addActionListener(e -> cards.show(content, WELCOME));
                     info.add(back, BorderLayout.SOUTH);
 
-                    content.add(welcome, WELCOME);
+                    content.add(welcome, WELCOME);  // เพิ่มการ์ดพร้อมชื่อ
                     content.add(info, INFO);
                     frame.setContentPane(content);
                     frame.setSize(260, 150);
@@ -516,8 +562,10 @@ export default {
                     CardLayout cards = new CardLayout();
                     JPanel content = new JPanel(cards);
                     JPanel menu = new JPanel(new GridLayout(0, 1, 4, 4));
+                    // เก็บปุ่มไว้ในอาเรย์ เพื่อปรับสถานะทีหลัง
                     JButton[] buttons = new JButton[pages.length];
                     for (int i = 0; i < pages.length; i++) {
+                        // ตัวแปรใหม่ทุกรอบ lambda จึงใช้ได้
                         String name = pages[i];
                         JLabel label = new JLabel(name + " content", SwingConstants.CENTER);
                         label.setFont(label.getFont().deriveFont(Font.BOLD, 16f));
@@ -525,11 +573,12 @@ export default {
                         buttons[i] = new JButton(name);
                         buttons[i].addActionListener(e -> {
                             cards.show(content, name);
+                            // ปิดปุ่มของหน้าที่กำลังแสดง
                             for (JButton b : buttons) b.setEnabled(!b.getText().equals(name));
                         });
                         menu.add(buttons[i]);
                     }
-                    buttons[0].setEnabled(false);
+                    buttons[0].setEnabled(false);  // เริ่มที่หน้าแรก
                     JPanel west = new JPanel(new BorderLayout());
                     west.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
                     west.add(menu, BorderLayout.NORTH);
@@ -547,12 +596,13 @@ export default {
         import java.awt.*;
 
         public class SignupWizard {
-            private int step = 0;
+            private int step = 0;  // ขั้นตอนปัจจุบัน (0-2)
             private final CardLayout cards = new CardLayout();
             private final JPanel content = new JPanel(cards);
             private final JTextField name = new JTextField(12);
             private final JTextField email = new JTextField(12);
             private final JLabel error = new JLabel(" ");
+            // ตัวเลือกแผนเก็บในอาเรย์
             private final JRadioButton[] plans = {new JRadioButton("Free", true), new JRadioButton("Pro (99)"), new JRadioButton("Team (299)")};
             private final JLabel summary = new JLabel();
             private final JButton back = new JButton("Back");
@@ -565,14 +615,17 @@ export default {
             private void show() {
                 JFrame frame = new JFrame("Sign up");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // การ์ดที่ 1: ข้อมูลผู้ใช้
                 JPanel s1 = new JPanel(new GridLayout(0, 2, 6, 6));
                 s1.add(new JLabel("Name:")); s1.add(name);
                 s1.add(new JLabel("Email:")); s1.add(email);
                 error.setForeground(Color.RED);
                 s1.add(error);
+                // การ์ดที่ 2: เลือกแผน
                 JPanel s2 = new JPanel(new GridLayout(0, 1));
                 ButtonGroup g = new ButtonGroup();
                 for (JRadioButton r : plans) { g.add(r); s2.add(r); }
+                // การ์ดที่ 3: สรุป
                 JPanel s3 = new JPanel(new BorderLayout());
                 s3.add(summary, BorderLayout.CENTER);
                 content.add(s1, "1");
@@ -592,20 +645,21 @@ export default {
             }
 
             private void onNext(JFrame frame) {
-                if (step == 0) {
+                if (step == 0) {  // ตรวจข้อมูลก่อนออกจากขั้นที่ 1
                     if (name.getText().isBlank() || !email.getText().contains("@")) {
                         error.setText("Name and valid email needed");
-                        return;
+                        return;  // ข้อมูลไม่ครบ → อยู่ขั้นเดิม
                     }
                     error.setText(" ");
                 }
-                if (step == 2) {
+                if (step == 2) {  // ขั้นสุดท้าย → เสร็จสิ้น
                     JOptionPane.showMessageDialog(frame, "Account created!");
                     return;
                 }
                 step++;
-                if (step == 2) {
+                if (step == 2) {  // เข้าขั้นสรุป → สร้างข้อความสรุป
                     String plan = "";
+                    // หาแผนที่เลือก
                     for (JRadioButton r : plans) if (r.isSelected()) plan = r.getText();
                     summary.setText("<html><b>Summary</b><br>Name: " + name.getText().trim()
                         + "<br>Email: " + email.getText().trim() + "<br>Plan: " + plan + "</html>");
@@ -628,6 +682,7 @@ export default {
 
         public class ListDetailApp {
             public static void main(String[] args) {
+                // ข้อมูลจริง
                 ArrayList<Product> products = new ArrayList<>();
                 products.add(new Product("Keyboard", 890, "Mechanical, blue switches"));
                 products.add(new Product("Headset", 1290, "Noise cancelling, USB-C"));
@@ -639,17 +694,21 @@ export default {
                     JPanel content = new JPanel(cards);
 
                     DefaultListModel<String> names = new DefaultListModel<>();
+                    // JList แสดงเฉพาะชื่อ
                     for (Product p : products) names.addElement(p.name);
                     JList<String> list = new JList<>(names);
                     JButton view = new JButton("View");
-                    view.setEnabled(false);
+                    view.setEnabled(false);  // ยังไม่ได้เลือก กดดูไม่ได้
                     JPanel listPage = new JPanel(new BorderLayout(0, 6));
                     listPage.add(new JScrollPane(list), BorderLayout.CENTER);
                     listPage.add(view, BorderLayout.SOUTH);
 
+                    // ส่งงาน "กลับหน้ารายการ" ให้หน้ารายละเอียด
                     DetailPage detail = new DetailPage(() -> cards.show(content, "list"));
+                    // เลือกแล้วจึงกด View ได้
                     list.addListSelectionListener(e -> view.setEnabled(list.getSelectedIndex() >= 0));
                     view.addActionListener(e -> {
+                        // ส่งสินค้าที่เลือกไปแสดง
                         detail.showProduct(products.get(list.getSelectedIndex()));
                         cards.show(content, "detail");
                     });
@@ -672,6 +731,7 @@ export default {
         class DetailPage extends JPanel {
             private final JLabel name = new JLabel(), price = new JLabel(), desc = new JLabel();
 
+            // รับงานย้อนกลับเป็น Runnable
             DetailPage(Runnable onBack) {
                 super(new BorderLayout(0, 6));
                 name.setFont(name.getFont().deriveFont(Font.BOLD, 18f));
@@ -680,12 +740,13 @@ export default {
                 info.add(price);
                 info.add(desc);
                 JButton back = new JButton("Back to list");
+                // หน้านี้ไม่ต้องรู้จัก CardLayout
                 back.addActionListener(e -> onBack.run());
                 add(info, BorderLayout.CENTER);
                 add(back, BorderLayout.SOUTH);
             }
 
-            void showProduct(Product p) {
+            void showProduct(Product p) {  // เติมข้อมูลก่อนแสดงหน้า
                 name.setText(p.name);
                 price.setText(String.format("%,.2f baht", p.price));
                 desc.setText(p.description);
@@ -699,10 +760,12 @@ export default {
         import java.util.ArrayList;
 
         public class LedgerApp {
+            // ข้อมูลจริงอยู่ในคลาส Ledger
             private final Ledger ledger = new Ledger();
             private final CardLayout cards = new CardLayout();
             private final JPanel content = new JPanel(cards);
             private final DefaultListModel<String> listModel = new DefaultListModel<>();
+            // label ของหน้าสรุป
             private final JLabel income = new JLabel(), expense = new JLabel(), balance = new JLabel();
 
             public static void main(String[] args) {
@@ -712,6 +775,7 @@ export default {
             private void show() {
                 JFrame frame = new JFrame("Ledger");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                // แต่ละหน้าสร้างจากเมธอด
                 content.add(addPage(), "Add");
                 content.add(new JScrollPane(new JList<>(listModel)), "List");
                 content.add(summaryPage(), "Summary");
@@ -719,6 +783,7 @@ export default {
                 JPanel nav = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 for (String name : new String[]{"Add", "List", "Summary"}) {
                     JButton b = new JButton(name);
+                    // ทุกปุ่มไปผ่าน goTo
                     b.addActionListener(e -> goTo(name));
                     nav.add(b);
                 }
@@ -729,15 +794,18 @@ export default {
             }
 
             private void goTo(String name) {
+                // เข้าหน้ารายการ → สร้างรายการใหม่จากข้อมูลล่าสุด
                 if (name.equals("List")) {
                     listModel.clear();
                     for (Entry e : ledger.entries) {
                         listModel.addElement(String.format("%-10s %s%,.2f", e.description, e.income ? "+" : "-", e.amount));
                     }
+                // เข้าหน้าสรุป → คำนวณยอดใหม่
                 } else if (name.equals("Summary")) {
                     income.setText(String.format("Income:  %,.2f", ledger.totalIncome()));
                     expense.setText(String.format("Expense: %,.2f", ledger.totalExpense()));
                     balance.setText(String.format("Balance: %,.2f", ledger.balance()));
+                    // ติดลบเป็นสีแดง
                     balance.setForeground(ledger.balance() < 0 ? Color.RED : new Color(0, 110, 0));
                 }
                 cards.show(content, name);
@@ -756,13 +824,15 @@ export default {
                 save.addActionListener(e -> {
                     try {
                         double a = Double.parseDouble(amount.getText().trim());
+                        // ข้อมูลไม่ครบ → ใช้ catch เดียวกัน
                         if (desc.getText().isBlank() || a <= 0) throw new NumberFormatException();
+                        // บันทึกลง model
                         ledger.add(new Entry(desc.getText().trim(), a, in.isSelected()));
                         msg.setForeground(new Color(0, 110, 0));
                         msg.setText("Saved (" + ledger.entries.size() + " entries)");
                         desc.setText("");
                         amount.setText("");
-                        in.setSelected(true);
+                        in.setSelected(true);  // ล้างฟอร์มหลังบันทึก
                     } catch (NumberFormatException ex) {
                         msg.setForeground(Color.RED);
                         msg.setText("Need description and amount > 0");
@@ -778,6 +848,7 @@ export default {
 
             private JPanel summaryPage() {
                 JPanel p = new JPanel(new GridLayout(0, 1, 4, 4));
+                // ตั้งฟอนต์และเพิ่มทั้ง 3 label
                 for (JLabel l : new JLabel[]{income, expense, balance}) {
                     l.setFont(new Font("Monospaced", Font.BOLD, 15));
                     p.add(l);
@@ -794,12 +865,14 @@ export default {
         }
 
         class Ledger {
+            // รายการทั้งหมด
             final ArrayList<Entry> entries = new ArrayList<>();
 
             void add(Entry e) { entries.add(e); }
 
             double totalIncome() {
                 double sum = 0;
+                // รวมเฉพาะรายรับ
                 for (Entry e : entries) if (e.income) sum += e.amount;
                 return sum;
             }
@@ -810,6 +883,7 @@ export default {
                 return sum;
             }
 
+            // ยอดคงเหลือ
             double balance() { return totalIncome() - totalExpense(); }
         }` },
     { level: 3, title: "ล็อกอินด้วย JDialog ก่อนเข้าแอป", html: `<p>เมื่อเปิดโปรแกรม ให้แสดง <strong>JDialog modal</strong> สำหรับล็อกอิน (username, password, ปุ่ม Login/Cancel) ก่อนหน้าต่างหลักจะทำงาน บัญชีที่ถูกต้องเก็บในอาเรย์ <code>{"mali", "beam"}</code> รหัสผ่าน <code>{"java1234", "swing5678"}</code> ล็อกอินผิดให้แสดงข้อความสีแดงใน dialog และนับครั้ง ผิดครบ 3 ครั้งให้ปิดโปรแกรม ถ้าสำเร็จ หน้าต่างหลักแสดง “Welcome, ชื่อ” และปุ่ม Logout ที่เปิด dialog ล็อกอินใหม่</p>`,
@@ -819,6 +893,7 @@ export default {
         import java.awt.*;
 
         public class LoginFirstApp {
+            // ผู้ใช้และรหัสผ่านเป็นอาเรย์คู่ขนาน
             static final String[] USERS = {"mali", "beam"};
             static final String[] PASSWORDS = {"java1234", "swing5678"};
 
@@ -833,28 +908,32 @@ export default {
                     frame.add(logout, BorderLayout.SOUTH);
                     frame.setSize(280, 140);
                     frame.setLocation(60, 60);
+                    // งาน login ใช้ทั้งตอนเริ่มและตอน logout
                     Runnable login = () -> {
                         LoginDialog d = new LoginDialog(frame);
+                        // รอจนกว่า dialog จะปิด
                         d.setVisible(true);
+                        // null = ยกเลิกหรือผิดเกิน 3 ครั้ง
                         if (d.getUser() == null) {
                             frame.dispose();
-                            System.exit(0);
+                            System.exit(0);  // จบโปรแกรม
                         }
                         welcome.setText("Welcome, " + d.getUser());
                     };
                     logout.addActionListener(e -> login.run());
                     frame.setVisible(true);
-                    login.run();
+                    login.run();  // เปิด dialog หลังแสดงหน้าต่างหลัก
                 });
             }
         }
 
         class LoginDialog extends JDialog {
-            private String user = null;
-            private int failures = 0;
+            private String user = null;  // ชื่อผู้ใช้ที่ login สำเร็จ
+            private int failures = 0;    // จำนวนครั้งที่ผิด
 
             LoginDialog(JFrame owner) {
                 super(owner, "Login", true);
+                // กด X ปิดเฉพาะ dialog
                 setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
                 JTextField name = new JTextField(10);
                 JPasswordField pass = new JPasswordField(10);
@@ -864,8 +943,11 @@ export default {
                 JButton cancel = new JButton("Cancel");
                 ok.addActionListener(e -> {
                     String u = name.getText().trim();
+                    // getPassword() คืน char[]
                     String p = new String(pass.getPassword());
+                    // ตรวจกับผู้ใช้ทุกคน
                     for (int i = 0; i < LoginFirstApp.USERS.length; i++) {
+                        // ชื่อและรหัสตรงกันที่ index เดียวกัน
                         if (LoginFirstApp.USERS[i].equals(u) && LoginFirstApp.PASSWORDS[i].equals(p)) {
                             user = u;
                             dispose();
@@ -873,13 +955,13 @@ export default {
                         }
                     }
                     failures++;
-                    if (failures >= 3) {
+                    if (failures >= 3) {  // ผิดครบ 3 ครั้ง
                         JOptionPane.showMessageDialog(this, "Too many attempts");
                         dispose();
                         return;
                     }
                     error.setText("Wrong username or password (" + failures + "/3)");
-                    pass.setText("");
+                    pass.setText("");  // ล้างช่องรหัสผ่าน
                     pack();
                 });
                 cancel.addActionListener(e -> dispose());

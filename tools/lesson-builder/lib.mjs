@@ -37,6 +37,45 @@ export function dedent(src) {
 // <pre> for syntax templates (not copyable) or real snippets (copyable)
 export const pre = (src, copyable = false) => `<pre${copyable ? ' class="copyable"' : ""}><code>${esc(dedent(src))}</code></pre>`;
 
+/* ---------------- Java syntax highlighting (static, at build time) ---------------- */
+const JAVA_KEYWORDS = new Set(("abstract assert break case catch class continue default do else enum extends final finally for if implements import "
+  + "instanceof interface native new package private protected public return static strictfp super switch synchronized this throw throws "
+  + "transient try volatile while var record yield sealed permits non-sealed "
+  + "boolean byte char double float int long short void").split(" "));
+const JAVA_LITERALS = new Set(["true", "false", "null"]);
+const JAVA_TOKEN = new RegExp([
+  /(\/\*[\s\S]*?\*\/|\/\/[^\n]*)/,                                     // 1 comment
+  /("""[\s\S]*?"""|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])+')/,           // 2 string / char
+  /(@[A-Za-z_]\w*)/,                                                   // 3 annotation
+  /(\b(?:0[xX][0-9a-fA-F_]+|\d[\d_]*(?:\.\d+)?(?:[eE][+-]?\d+)?)[lLfFdD]?\b)/, // 4 number
+  /([A-Za-z_$][\w$]*)(?=(\s*\()?)/,                                    // 5 word, 6 followed by "("
+].map((r) => r.source).join("|"), "g");
+
+export function highlightJava(code) {
+  let html = "", last = 0;
+  const span = (cls, s) => `<span class="tok-${cls}">${esc(s)}</span>`;
+  for (const m of code.matchAll(JAVA_TOKEN)) {
+    html += esc(code.slice(last, m.index));
+    last = m.index + m[0].length;
+    const [text, com, str, ann, num, word, call] = m;
+    if (com) html += span("com", text);
+    else if (str) html += span("str", text);
+    else if (ann) html += span("ann", text);
+    else if (num) html += span("num", text);
+    else if (JAVA_KEYWORDS.has(word)) html += span("kw", text);
+    else if (JAVA_LITERALS.has(word)) html += span("num", text);
+    else if (/^[A-Z][A-Z0-9_]+$/.test(word)) html += span("const", text);
+    else if (/^[A-Z]/.test(word)) html += span("type", text);
+    else if (call !== undefined) html += span("fn", text);
+    else html += esc(text);
+  }
+  return html + esc(code.slice(last));
+}
+
+// Code panel: header bar with the file name (copy button is added there by lesson.js) + highlighted source
+export const codeBlock = (code, cls = "source-code") =>
+  `<div class="code-block"><div class="code-head"><span class="code-file">${className(code)}.java</span></div><pre class="${cls}"><code>${highlightJava(code)}</code></pre></div>`;
+
 function className(code) {
   const m = code.match(/public\s+(?:final\s+)?class\s+(\w+)/) || code.match(/class\s+(\w+)/);
   if (!m) throw new Error("No class found in:\n" + code.slice(0, 200));
@@ -165,11 +204,10 @@ function renderRun(b, ctx) {
     const lbl = b.outputLabel || (expect === "compile-error" ? "Compile error (จาก javac จริง)" : expect === "runtime-error" ? "Output + Runtime error" : b.stdin ? "Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)" : "Output");
     outputBlock = `<div class="source-output${expect !== "ok" ? " is-error" : ""}"><span>${lbl}</span><pre>${outputHtml(text) || "(ไม่มีผลลัพธ์)"}</pre></div>`;
   }
-  const file = className(code) + ".java";
   const steps = b.steps ? `<div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol>${b.steps.map((s) => `<li>${s}</li>`).join("")}</ol></div>` : "";
   return `<div class="source-example"><h4>${label} · ${b.title}${b.level ? ` <span class="example-level">${b.level}</span>` : ""}</h4>`
     + (b.concept ? `<p class="concept-line"><strong>แนวคิด:</strong> ${b.concept}</p>` : "")
-    + `<div class="source-example-grid"><div class="source-field"><span>Java source · ${file}</span><pre class="source-code">${esc(code)}</pre></div>${outputBlock}</div>`
+    + `<div class="source-example-grid"><div class="source-field">${codeBlock(code)}</div>${outputBlock}</div>`
     + steps + (b.after ? `<p>${b.after}</p>` : "") + (b.tryIt ? `<p class="try-it">${b.tryIt}</p>` : "") + `</div>`;
 }
 
@@ -203,7 +241,7 @@ function renderExercise(ex, chapterNo) {
   if (ex.sampleHtml) samples += `<div class="ex-sample"><strong>${ex.sampleTitle || "ตัวอย่างผลลัพธ์"}</strong>${ex.sampleHtml}</div>`;
   const spec = ex.spec ? `<div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol>${ex.spec.map((s) => `<li>${s}</li>`).join("")}</ol></div>` : "";
   const hint = ex.hint ? `<p class="ex-hint">${ex.hint}</p>` : "";
-  const answerCode = ex.solution && !ex.hideCode ? `<pre><code>${esc(dedent(ex.solution))}</code></pre>` : "";
+  const answerCode = ex.solution && !ex.hideCode ? codeBlock(dedent(ex.solution), "answer-code") : "";
   const answer = `<div class="answer-gate" data-answer-id="${id}"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ ${id}<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4>${ex.answerHtml && ex.answerFirst ? ex.answerHtml : ""}${answerCode}${ex.answerHtml && !ex.answerFirst ? ex.answerHtml : ""}${ex.explain ? `<p>${ex.explain}</p>` : ""}</div></div>`;
   return `<article class="end-exercise" data-level="${ex.level}"><h3><span class="exercise-id">Exercise ${id}</span>${ex.title}<span class="level level-${ex.level}">${LEVEL[ex.level]}</span></h3><div class="ex-body">${ex.html}</div>${spec}${samples}${hint}${answer}</article>`;
 }
@@ -213,7 +251,6 @@ export const allExerciseIds = [];
 export function buildChapter(ch, outDir) {
   exampleCounter = {};
   const pad = String(ch.num).padStart(2, "0");
-  const topicsToc = ch.topics.map((t) => `<a href="#topic-${t.num.replace(".", "-")}"><span class="toc-number">${t.num}</span>${t.toc}</a>`).join("");
   const topicsHtml = ch.topics.map((t) => `<article class="subtopic" id="topic-${t.num.replace(".", "-")}">
 <h3>${t.num} ${t.title}</h3>
 ${renderBlocks(t.blocks, { topic: t.num })}
@@ -231,13 +268,15 @@ ${renderBlocks(t.blocks, { topic: t.num })}
   <meta name="theme-color" content="#f5f7f4">
   <title>${ch.pageTitle} | Java programming by Prymania</title>
   <link rel="stylesheet" href="../assets/lesson.css">
+  <link rel="stylesheet" href="../assets/course-nav.css">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
   <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญ${ch.shortName}"><p class="toc-label">${ch.tocLabel}</p>${topicsToc}<a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <!-- course-nav --><!-- /course-nav -->
       <div class="sidebar-bottom">${ch.sidebarBottom}</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
@@ -259,7 +298,7 @@ ${ch.exercises.map((e) => renderExercise(e, ch.num)).join("\n")}
       <footer class="lesson-footer">Java programming by Prymania · ${ch.footer}</footer>
     </main>
   </div>
-  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
 </body>
 </html>
 `;

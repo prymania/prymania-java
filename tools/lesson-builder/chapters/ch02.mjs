@@ -50,8 +50,11 @@ export default {
         { type: "run", title: "โปรแกรมแรก: Hello, Java!", level: "พื้นฐาน",
           concept: "โปรแกรมที่สั้นที่สุดที่มีครบทุกส่วน: คลาส → main → คำสั่งหนึ่งคำสั่ง",
           code: j`
+            // ชื่อคลาสต้องตรงกับชื่อไฟล์ Hello.java
             public class Hello {
+                // จุดเริ่มทำงานของโปรแกรม
                 public static void main(String[] args) {
+                    // แสดงข้อความแล้วขึ้นบรรทัดใหม่
                     System.out.println("Hello, Java!");
                 }
             }`,
@@ -59,8 +62,9 @@ export default {
         { type: "run", title: "หลายคำสั่ง ทำงานจากบนลงล่าง", level: "พื้นฐาน",
           concept: "คำสั่งใน main ทำงานเรียงตามลำดับบรรทัด (sequence) ทีละคำสั่ง",
           code: j`
-            public class AboutMe {
+            public class AboutMe {  // ไฟล์ AboutMe.java
                 public static void main(String[] args) {
+                    // ทำงานจากบนลงล่างทีละคำสั่ง
                     System.out.println("Name: Mali");
                     System.out.println("Major: Computer Science");
                     System.out.println("Year: 1");
@@ -73,11 +77,12 @@ export default {
           code: j`
             public class PrintVsPrintln {
                 public static void main(String[] args) {
-                    System.out.print("A");
-                    System.out.print("B");
+                    System.out.print("A");  // print: ไม่ขึ้นบรรทัดใหม่
+                    System.out.print("B");  // ต่อท้าย A ในบรรทัดเดียวกัน
+                    // println: พิมพ์ C แล้วขึ้นบรรทัดใหม่
                     System.out.println("C");
                     System.out.println("D");
-                    System.out.println();
+                    System.out.println();  // println เปล่า ๆ = บรรทัดว่าง
                     System.out.print("E ");
                     System.out.println("F");
                 }
@@ -95,7 +100,8 @@ export default {
                     // พิมพ์บรรทัดแรก
                     System.out.println("Line 1");
                     // System.out.println("Line 2");  <- บรรทัดนี้ถูกปิดไว้
-                    System.out.println("Line 3"); // comment ท้ายบรรทัดก็ได้
+                    // comment ท้ายบรรทัดก็ได้
+                    System.out.println("Line 3");
                 }
             }`,
           steps: ["ส่วน <code>/* ... */</code> ด้านบนไม่ถูกคอมไพล์", "<code>Line 2</code> ไม่ถูกพิมพ์เพราะทั้งบรรทัดเป็น comment", "comment ท้ายบรรทัดไม่กระทบคำสั่งก่อนหน้า"],
@@ -111,11 +117,15 @@ export default {
           code: j`
             public class ReceiptHeader {
                 public static void main(String[] args) {
+                    // \" แสดงเครื่องหมายคำพูด
                     System.out.println("==== \"Java Cafe\" ====");
+                    // \t เว้นระยะไปตำแหน่ง tab ถัดไป
                     System.out.println("Item\tQty\tPrice");
                     System.out.println("Latte\t2\t90");
                     System.out.println("Cake\t1\t65");
+                    // \n ขึ้นบรรทัดใหม่กลางข้อความ
                     System.out.println("Thank you!\nSee you again.");
+                    // \\ แสดง \ หนึ่งตัว
                     System.out.println("Saved at C:\\receipts");
                 }
             }`,
@@ -214,7 +224,7 @@ export default {
         public class Welcome {
             public static void main(String[] args) {
                 // แสดงป้ายต้อนรับ 3 บรรทัด
-                System.out.println("Computer Programming 1");
+                System.out.println("Computer Programming 1");  // println ทีละบรรทัด
                 System.out.println("Mali Jaidee");
                 System.out.println("Ready to learn Java");
             }
@@ -224,10 +234,10 @@ export default {
       solution: j`
         public class PrintSameLine {
             public static void main(String[] args) {
-                System.out.print("I ");
+                System.out.print("I ");  // print ไม่ขึ้นบรรทัดใหม่
                 System.out.print("love ");
                 System.out.print("Java");
-                System.out.println();
+                System.out.println();  // ขึ้นบรรทัดใหม่หลังจบประโยค
                 System.out.println("Done");
             }
         }`, explain: "<code>println()</code> เปล่า ๆ ทำหน้าที่ขึ้นบรรทัดใหม่หลังจาก print ชุดแรก" },
@@ -253,9 +263,9 @@ export default {
       solution: j`
         public class SpecialChars {
             public static void main(String[] args) {
-                System.out.println("Teacher said \"Practice every day\"");
-                System.out.println("File: C:\\java\\Hello.java");
-                System.out.println("Line A\nLine B");
+                System.out.println("Teacher said \"Practice every day\"");  // \" แสดงเครื่องหมายคำพูด
+                System.out.println("File: C:\\java\\Hello.java");           // \\ แสดง \ หนึ่งตัว
+                System.out.println("Line A\nLine B");                       // \n แบ่งเป็น 2 บรรทัด
             }
         }` },
     { level: 2, title: "ตารางเวลาเรียนด้วย \\t", html: `<p>แสดงตารางเรียน 3 วิชา โดยใช้ <code>\\t</code> จัดคอลัมน์ให้ตรงกัน มีหัวตาราง และเส้นคั่นด้วยเครื่องหมาย <code>-</code></p>`,
@@ -263,6 +273,7 @@ export default {
       solution: j`
         public class Timetable {
             public static void main(String[] args) {
+                // \t จัดหัวตารางเป็นคอลัมน์
                 System.out.println("Day\tTime\tSubject");
                 System.out.println("-------------------------------");
                 System.out.println("Mon\t09:00\tProgramming");
@@ -276,12 +287,14 @@ export default {
         public class SimpleReceipt {
             public static void main(String[] args) {
                 System.out.println("===== MINI MART =====");
+                // \t\t: ชื่อสั้นจึงเว้น 2 tab
                 System.out.println("Pen\t\t15");
+                // ชื่อยาว เว้น 1 tab พอ
                 System.out.println("Notebook\t35");
                 System.out.println("---------------------");
                 System.out.println("Total\t\t50");
                 System.out.println("=====================");
-                System.out.println();
+                System.out.println();  // บรรทัดว่างคั่น
                 System.out.println("Thank you!");
             }
         }`, explain: "<code>Pen</code> สั้นกว่า <code>Notebook</code> จึงใช้ <code>\\t\\t</code> เพื่อให้ราคาอยู่คอลัมน์เดียวกัน" },
@@ -290,6 +303,7 @@ export default {
       solution: j`
         public class AsciiHouse {
             public static void main(String[] args) {
+                // \\ ในโค้ด = \ ตัวเดียวบนจอ
                 System.out.println("     /\\");
                 System.out.println("    /  \\");
                 System.out.println("   /    \\");
@@ -309,6 +323,7 @@ export default {
                 System.out.println("| Junior Java Developer        |");
                 System.out.println("| mali@example.com             |");
                 System.out.println("|                              |");
+                // \" ใช้ 2 ตัวอักษรในโค้ด แต่แสดง 1 ตัว
                 System.out.println("| \"Code a little every day.\"   |");
                 System.out.println("+------------------------------+");
             }
@@ -326,9 +341,9 @@ export default {
         public class Report {
             public static void main(String[] args) {
                 System.out.println("Student Report");
-                System.out.println("Name:\tMali");
+                System.out.println("Name:\tMali");  // \t เว้นระยะหลังหัวข้อ
                 System.out.println("Score:\t85");
-                System.out.println("Status: \"Pass\"");
+                System.out.println("Status: \"Pass\"");  // \" ครอบคำว่า Pass
             }
         }`, explain: "จุดที่แก้: (1) ชื่อคลาส <code>report</code> → <code>Report</code> ให้ตรงชื่อไฟล์ (2) เติม <code>;</code> บรรทัด 3 (3) <code>printline</code> → <code>println</code> (4) ใช้ <code>\\\"</code> รอบ Pass (5) เติม <code>}</code> ปิดคลาส" },
   ],

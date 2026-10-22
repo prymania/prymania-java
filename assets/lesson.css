@@ -30,17 +30,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 [hidden] { display: none !important; }
 .skip-link { position: absolute; top: 8px; left: -999px; z-index: 10; background: var(--surface); padding: 8px 12px; }
 .skip-link:focus { left: 8px; }
-.lesson-shell { display: grid; max-width: 1560px; min-height: 100vh; grid-template-columns: var(--sidebar-width) minmax(0, 1fr); margin: 0 auto; }
+.lesson-shell { display: grid; min-height: 100vh; grid-template-columns: var(--sidebar-width) minmax(0, 1290px); }
 .lesson-sidebar { position: sticky; top: 0; display: flex; height: 100vh; flex-direction: column; overflow-y: auto; border-right: 1px solid var(--line); background: var(--paper); padding: 22px 17px; }
 .lesson-brand { display: flex; align-items: center; gap: 10px; padding: 0 4px 17px; color: var(--ink); text-decoration: none; }
 .brand-mark { display: grid; width: 42px; height: 42px; flex: 0 0 42px; place-items: center; border-radius: 11px 4px; background: var(--charcoal); color: var(--lime); font: 800 14px Consolas, monospace; }
 .brand-title { display: block; font-size: 15px; font-weight: 800; line-height: 1.4; }
 .brand-caption { display: block; color: var(--muted); font-size: 11px; }
-.toc-label { margin: 13px 7px 7px; color: var(--cyan-dark); font-size: 11px; font-weight: 800; }
-.lesson-toc { display: grid; gap: 3px; }
-.lesson-toc a { display: flex; align-items: flex-start; gap: 8px; border-radius: 4px; padding: 6px 7px; color: #34443e; font-size: 13px; line-height: 1.5; text-decoration: none; }
-.lesson-toc a:hover { background: var(--lime-soft); }
-.toc-number { flex: 0 0 30px; color: var(--cyan-dark); font: 700 13px Consolas, monospace; }
 .sidebar-bottom { margin-top: auto; border-top: 1px solid var(--line); padding: 12px 5px 0; color: var(--muted); font-size: 12px; }
 .lesson-main { min-width: 0; padding: 24px clamp(24px, 4vw, 62px) 52px; }
 .utility-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 19px; color: var(--muted); font-size: 13px; }
@@ -118,10 +113,6 @@ code:not(pre code) { border-radius: 3px; background: #e8efeb; padding: 1px 5px; 
   .lesson-brand { padding-bottom: 9px; }
   .brand-mark { width: 36px; height: 36px; flex-basis: 36px; }
   .brand-title { font-size: 14px; }
-  .lesson-toc { display: block; }
-  .lesson-toc summary { min-height: 40px; padding: 7px 1px; color: var(--cyan-dark); font-size: 14px; font-weight: 800; cursor: pointer; }
-  .lesson-toc a { display: inline-flex; margin: 2px 3px 3px 0; border: 1px solid var(--line); background: #fff; padding: 5px 8px; font-size: 12px; }
-  .toc-number { flex-basis: auto; }
   .sidebar-bottom { display: none; }
   .lesson-main { padding: 15px 16px 38px; }
   .utility-row { align-items: flex-start; font-size: 12px; }
@@ -240,3 +231,21 @@ code:not(pre code) { border-radius: 3px; background: #e8efeb; padding: 1px 5px; 
 @media (max-width: 700px) { .source-example-grid:has(.is-gui) { grid-template-columns: 1fr; } }
 code:not(pre code) { overflow-wrap: anywhere; }
 .lesson-main, .source-example, .end-exercise, .concept-box, .note-box, .example-box { min-width: 0; overflow-wrap: break-word; }
+
+/* ---------- Java code panel: file header + syntax colors ---------- */
+.code-block { min-width: 0; overflow: hidden; border: 1px solid #0c1210; border-radius: 7px; background: #161f1c; box-shadow: 0 2px 10px #0000001a; }
+.code-head { display: flex; min-height: 38px; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid #ffffff14; background: #1d2824; padding: 5px 8px 5px 14px; }
+.code-file { overflow: hidden; color: #9fb0a8; font: 12.5px Consolas, "Courier New", monospace; text-overflow: ellipsis; white-space: nowrap; }
+.code-head .copy-button { position: static; flex: 0 0 auto; }
+.code-block > pre { margin: 0; border-radius: 0; background: transparent; padding: 14px 16px 16px; color: #e6edf3; line-height: 1.7; }
+.source-field .code-block > .source-code { min-height: 172px; }
+.answer-content .code-block { margin: 6px 0 8px; }
+.tok-kw { color: #6cb6ff; }
+.tok-type { color: #f2cc60; }
+.tok-fn { color: #67d4c8; }
+.tok-str { color: #a5d6a7; }
+.tok-num { color: #f69d50; }
+.tok-const { color: #dcbdfb; }
+.tok-ann { color: #dcbdfb; }
+.tok-com { color: #8b9a94; font-style: italic; }
+@media (max-width: 700px) { .source-field .code-block > .source-code { min-height: 150px; } }

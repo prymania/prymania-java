@@ -25,12 +25,13 @@ export default {
           code: j`
             public class Welcome {
                 public static void main(String[] args) {
+                    // เรียกเมธอด → กระโดดไปทำ แล้วกลับมาบรรทัดถัดไป
                     printWelcome();
                     System.out.println("(main continues)");
-                    printWelcome();
+                    printWelcome();  // เรียกซ้ำได้หลายครั้ง
                 }
 
-                static void printWelcome() {
+                static void printWelcome() {  // static void: ไม่คืนค่า
                     System.out.println("Welcome to Java");
                 }
             }`,
@@ -41,12 +42,12 @@ export default {
             public class CallChain {
                 public static void main(String[] args) {
                     System.out.println("main: start");
-                    printHeader();
+                    printHeader();  // main เรียก printHeader
                     System.out.println("main: end");
                 }
 
                 static void printHeader() {
-                    printLine();
+                    printLine();  // เมธอดเรียกเมธอดอื่นต่อได้
                     System.out.println("  REPORT");
                     printLine();
                 }
@@ -61,12 +62,12 @@ export default {
           code: j`
             public class ShopSteps {
                 public static void main(String[] args) {
-                    showBanner();
+                    showBanner();  // main อ่านเหมือนสารบัญของงาน
                     showMenu();
                     showFooter();
                 }
 
-                static void showBanner() {
+                static void showBanner() {  // แต่ละเมธอดทำงานเดียว
                     System.out.println("*** JAVA CAFE ***");
                 }
 
@@ -103,13 +104,14 @@ export default {
           code: j`
             public class GreetParam {
                 public static void main(String[] args) {
+                    // ส่ง argument "Mali" เข้า parameter name
                     greet("Mali");
                     greet("Beam");
                     String friend = "Nida";
-                    greet(friend);
+                    greet(friend);  // ส่งค่าในตัวแปรก็ได้
                 }
 
-                static void greet(String name) {
+                static void greet(String name) {  // parameter รับค่าที่ส่งมา
                     System.out.println("Hello, " + name + "!");
                 }
             }`,
@@ -119,11 +121,13 @@ export default {
           code: j`
             public class DrawLine {
                 public static void main(String[] args) {
+                    // ลำดับ argument ต้องตรงกับ parameter
                     drawLine('*', 10);
                     drawLine('-', 4);
-                    drawLine('=', 2 * 6);
+                    drawLine('=', 2 * 6);  // ส่งนิพจน์ได้ คำนวณก่อนส่ง
                 }
 
+                // parameter 2 ตัว: char กับ int
                 static void drawLine(char symbol, int length) {
                     for (int i = 0; i < length; i++) {
                         System.out.print(symbol);
@@ -138,12 +142,14 @@ export default {
             public class PassByValue {
                 public static void main(String[] args) {
                     int score = 50;
+                    // ส่งสำเนาของค่า 50 ไป
                     addBonus(score);
+                    // ค่าใน main ไม่เปลี่ยน
                     System.out.println("main: score = " + score);
                 }
 
                 static void addBonus(int score) {
-                    score = score + 10;
+                    score = score + 10;  // แก้ได้แค่สำเนาในเมธอดนี้
                     System.out.println("addBonus: score = " + score);
                 }
             }`,
@@ -187,14 +193,16 @@ export default {
           code: j`
             public class SquareReturn {
                 public static void main(String[] args) {
-                    int a = square(4);
+                    int a = square(4);  // นำค่าที่คืนมาเก็บในตัวแปร
                     System.out.println("square(4) = " + a);
+                    // ใช้ผลลัพธ์ในนิพจน์ได้ทันที
                     System.out.println("square(3) + square(4) = " + (square(3) + square(4)));
+                    // ส่งผลลัพธ์เป็น argument ต่อได้
                     System.out.println("square(square(2)) = " + square(square(2)));
                 }
 
-                static int square(int n) {
-                    return n * n;
+                static int square(int n) {  // int หน้าชื่อ = ชนิดของค่าที่คืน
+                    return n * n;           // return ส่งค่ากลับไปยังจุดที่เรียก
                 }
             }`,
           steps: ["square(4) คืน 16 เก็บใน a", "square(3) + square(4) = 9 + 16 = 25", "square(square(2)): ในสุดได้ 4 → square(4) = 16"] },
@@ -203,7 +211,9 @@ export default {
           code: j`
             public class PrintVsReturn {
                 public static void main(String[] args) {
+                    // แสดงผลเอง นำค่าไปใช้ต่อไม่ได้
                     printTotal(100, 3);
+                    // คืนค่า จึงนำไปคำนวณต่อได้
                     double total = getTotal(100, 3);
                     double withVat = total * 1.07;
                     System.out.println("With VAT: " + withVat);
@@ -233,18 +243,20 @@ export default {
                 }
 
                 static char gradeOf(int score) {
+                    // return แล้วจบเมธอดทันที
                     if (score >= 80) return 'A';
                     if (score >= 70) return 'B';
                     if (score >= 60) return 'C';
-                    return 'F';
+                    return 'F';  // ไม่ตรงเงื่อนไขใดเลย
                 }
 
                 static boolean isPrime(int n) {
-                    if (n < 2) return false;
+                    if (n < 2) return false;  // ออกก่อนได้เมื่อรู้คำตอบ
                     for (int d = 2; d * d <= n; d++) {
+                        // เจอตัวหาร → ไม่ใช่จำนวนเฉพาะ
                         if (n % d == 0) return false;
                     }
-                    return true;
+                    return true;  // ไม่เจอตัวหารเลย
                 }
             }`,
           steps: ["gradeOf(85): เจอ return 'A' แล้วจบเมธอดทันที ไม่ตรวจบรรทัดล่าง", "ไม่ต้องใช้ else เพราะ return ออกไปแล้ว", "isPrime เจอตัวหารก็ return false ทันที (ไม่ต้องใช้ break หรือ flag)", "ถ้าวนครบโดยไม่เจอตัวหาร จึง return true"] },
@@ -282,13 +294,13 @@ export default {
           code: j`
             public class ScopeDemo {
                 public static void main(String[] args) {
-                    int count = 1;
+                    int count = 1;  // count ของ main
                     helper();
                     System.out.println("main count = " + count);
                 }
 
                 static void helper() {
-                    int count = 99;
+                    int count = 99;  // ตัวแปรคนละตัวกับ count ใน main
                     System.out.println("helper count = " + count);
                 }
             }`,
@@ -311,13 +323,17 @@ export default {
           code: j`
             public class OverloadDemo {
                 public static void main(String[] args) {
+                    // เรียก max(int, int)
                     System.out.println(max(3, 9));
+                    // เรียก max(double, double)
                     System.out.println(max(2.5, 1.75));
+                    // เรียก max แบบ 3 ตัว
                     System.out.println(max(4, 11, 7));
                     System.out.println(area(5));
                     System.out.println(area(4, 6));
                 }
 
+                // ชื่อเดียวกัน ต่างกันที่ parameter (overloading)
                 static int max(int a, int b) {
                     return a > b ? a : b;
                 }
@@ -327,7 +343,7 @@ export default {
                 }
 
                 static int max(int a, int b, int c) {
-                    return max(max(a, b), c);
+                    return max(max(a, b), c);  // เรียกเวอร์ชัน 2 ตัวซ้อนกัน
                 }
 
                 static double area(double side) {
@@ -373,16 +389,18 @@ export default {
                     double mid = input.nextDouble();
                     double fin = input.nextDouble();
 
+                    // แต่ละขั้นเรียกเมธอดที่ทำงานเดียว
                     double total = totalScore(work, mid, fin);
                     char grade = gradeOf(total);
                     printReport(name, total, grade);
                 }
 
+                // รวมคะแนน
                 static double totalScore(double work, double mid, double fin) {
                     return work + mid + fin;
                 }
 
-                static char gradeOf(double total) {
+                static char gradeOf(double total) {  // ตัดเกรด
                     if (total >= 80) return 'A';
                     if (total >= 70) return 'B';
                     if (total >= 60) return 'C';
@@ -390,11 +408,13 @@ export default {
                     return 'F';
                 }
 
+                // แสดงรายงาน
                 static void printReport(String name, double total, char grade) {
                     System.out.println("-".repeat(24));
                     System.out.printf("%-8s %s%n", "Name", name);
                     System.out.printf("%-8s %.1f%n", "Total", total);
                     System.out.printf("%-8s %c%n", "Grade", grade);
+                    // ?: เลือกคำว่า Pass หรือ Fail
                     System.out.printf("%-8s %s%n", "Result", grade == 'F' ? "Fail" : "Pass");
                     System.out.println("-".repeat(24));
                 }
@@ -405,15 +425,17 @@ export default {
           code: j`
             public class TestGradeOf {
                 public static void main(String[] args) {
-                    check(95, 'A');
+                    check(95, 'A');  // ทดสอบหลายค่า รวมค่าขอบ 80 และ 79.9
                     check(80, 'A');
                     check(79.9, 'B');
                     check(60, 'C');
                     check(49, 'F');
                 }
 
+                // ตัวช่วยทดสอบ: เทียบผลจริงกับที่คาด
                 static void check(double score, char expected) {
                     char actual = gradeOf(score);
+                    // ตรงกัน → PASS
                     String status = actual == expected ? "PASS" : "FAIL";
                     System.out.printf("%-4s gradeOf(%.1f) = %c (expected %c)%n", status, score, actual, expected);
                 }
@@ -437,9 +459,9 @@ export default {
       solution: j`
         public class CourseName {
             public static void main(String[] args) {
-                printCourseName();
+                printCourseName();  // เรียกเมธอดครั้งที่ 1
                 System.out.println("---");
-                printCourseName();
+                printCourseName();  // เรียกครั้งที่ 2 ได้ผลเหมือนเดิม
             }
 
             static void printCourseName() {
@@ -456,6 +478,7 @@ export default {
             }
 
             static void printBox(String text) {
+                // ความยาวกรอบขึ้นกับความยาวข้อความ
                 String line = "+" + "-".repeat(text.length() + 2) + "+";
                 System.out.println(line);
                 System.out.println("| " + text + " |");
@@ -467,12 +490,13 @@ export default {
       solution: j`
         public class AverageMethod {
             public static void main(String[] args) {
+                // ส่งคะแนน 3 ค่า รับค่าเฉลี่ยกลับมา
                 System.out.printf("Average 1 = %.2f%n", averageOf(80, 90, 100));
                 System.out.printf("Average 2 = %.2f%n", averageOf(7, 8, 8));
             }
 
             static double averageOf(double a, double b, double c) {
-                return (a + b + c) / 3.0;
+                return (a + b + c) / 3.0;  // 3.0 ทำให้ได้ทศนิยม
             }
         }` },
     { level: 2, title: "แปลงหน่วยด้วยหลายเมธอด", html: `<p>เขียนเมธอดคืนค่า 3 ตัว: <code>cToF(double c)</code>, <code>kmToMile(double km)</code> (1 km = 0.621371 mile) และ <code>kgToPound(double kg)</code> (1 kg = 2.20462 lb) แล้วให้ main รับค่าทั้งสามจากผู้ใช้และแสดงผลแปลงเป็นตาราง</p>`,
@@ -481,6 +505,7 @@ export default {
         import java.util.Scanner;
 
         public class UnitConverter {
+            // ค่าคงที่ระดับคลาส ใช้ได้ทุกเมธอด
             static final double MILE_PER_KM = 0.621371;
             static final double POUND_PER_KG = 2.20462;
 
@@ -490,12 +515,13 @@ export default {
                 double c = input.nextDouble();
                 double km = input.nextDouble();
                 double kg = input.nextDouble();
+                // เรียกเมธอดแปลงหน่วยใน printf
                 System.out.printf("%8.2f C  = %8.2f F%n", c, cToF(c));
                 System.out.printf("%8.2f km = %8.2f mi%n", km, kmToMile(km));
                 System.out.printf("%8.2f kg = %8.2f lb%n", kg, kgToPound(kg));
             }
 
-            static double cToF(double c) {
+            static double cToF(double c) {  // เมธอดละหนึ่งการแปลง
                 return c * 9 / 5 + 32;
             }
 
@@ -520,6 +546,7 @@ export default {
                 int evens = 0, primes = 0;
                 System.out.print("Primes: ");
                 for (int n = a; n <= b; n++) {
+                    // ใช้เมธอดเป็นเงื่อนไขของ if
                     if (isEven(n)) evens++;
                     if (isPrime(n)) {
                         primes++;
@@ -531,6 +558,7 @@ export default {
                 System.out.println("Prime count: " + primes);
             }
 
+            // คืนผลของนิพจน์ boolean ได้โดยตรง
             static boolean isEven(int n) {
                 return n % 2 == 0;
             }
@@ -548,20 +576,24 @@ export default {
       solution: j`
         public class AreaOverload {
             public static void main(String[] args) {
+                // เลือก area ตามจำนวน argument
                 System.out.printf("Circle r=3       : %.2f%n", area(3));
                 System.out.printf("Rectangle 4x6    : %.2f%n", area(4, 6));
                 System.out.printf("Triangle 3,4,5   : %.2f%n", area(3, 4, 5));
             }
 
-            static double area(double r) {
+            static double area(double r) {  // วงกลม: πr²
                 return Math.PI * r * r;
             }
 
+            // สี่เหลี่ยม: กว้าง × ยาว
             static double area(double w, double h) {
                 return w * h;
             }
 
+            // สามเหลี่ยม: สูตรเฮรอน
             static double area(double a, double b, double c) {
+                // ครึ่งหนึ่งของเส้นรอบรูป
                 double s = (a + b + c) / 2;
                 return Math.sqrt(s * (s - a) * (s - b) * (s - c));
             }
@@ -575,14 +607,18 @@ export default {
                 double rate = 6;
                 System.out.printf("%6s %12s %12s%n", "Months", "Payment", "Interest");
                 for (int months = 12; months <= 60; months += 12) {
+                    // คำนวณค่างวดของแต่ละระยะเวลา
                     double pay = monthlyPayment(principal, rate, months);
                     System.out.printf("%6d %,12.2f %,12.2f%n", months, pay, pay * months - principal);
                 }
             }
 
             static double monthlyPayment(double principal, double annualRate, int months) {
+                // ไม่มีดอกเบี้ย → หารเท่า ๆ กัน
                 if (annualRate == 0) return principal / months;
+                // ดอกเบี้ยต่อเดือนเป็นทศนิยม
                 double r = annualRate / 12 / 100;
+                // สูตรผ่อนชำระแบบลดต้นลดดอก
                 return principal * r / (1 - Math.pow(1 + r, -months));
             }
         }` },
@@ -593,9 +629,10 @@ export default {
             public static void main(String[] args) {
                 int found = 0;
                 for (int n = 100; n <= 200; n++) {
-                    if (isPalindrome(n)) {
+                    if (isPalindrome(n)) {  // ใช้เมธอดเป็นเงื่อนไข
                         System.out.printf("%d (sum %d)  ", n, digitSum(n));
                         found++;
+                        // ขึ้นบรรทัดใหม่ทุก 5 ตัว
                         if (found % 5 == 0) System.out.println();
                     }
                 }
@@ -604,10 +641,10 @@ export default {
             }
 
             static int digitSum(int n) {
-                int sum = 0;
+                int sum = 0;  // ผลรวมหลัก
                 while (n > 0) {
-                    sum += n % 10;
-                    n /= 10;
+                    sum += n % 10;  // บวกหลักขวาสุด
+                    n /= 10;        // ตัดหลักขวาสุดทิ้ง
                 }
                 return sum;
             }
@@ -615,6 +652,7 @@ export default {
             static int reverse(int n) {
                 int rev = 0;
                 while (n > 0) {
+                    // เลื่อนหลักเดิมไปซ้ายแล้วเติมหลักใหม่
                     rev = rev * 10 + n % 10;
                     n /= 10;
                 }
@@ -622,7 +660,7 @@ export default {
             }
 
             static boolean isPalindrome(int n) {
-                return n == reverse(n);
+                return n == reverse(n);  // เลขกลับหน้าหลังเท่าเดิม
             }
         }`, explain: "การแก้ parameter n ใน digitSum และ reverse ไม่กระทบตัวแปร n ใน main เพราะ Java ส่งสำเนาของค่า" },
     { level: 3, title: "ตัวช่วยตรวจการรับข้อมูล", html: `<p>เขียนเมธอด <code>readIntInRange(Scanner in, String prompt, int min, int max)</code> ที่ถามซ้ำจนกว่าผู้ใช้จะป้อนจำนวนเต็มในช่วง [min, max] แล้ว return ค่านั้น จากนั้นใช้เมธอดนี้สร้างโปรแกรมรับวันเกิด (วัน 1–31, เดือน 1–12, ปี ค.ศ. 1900–2026) และคำนวณอายุ ณ วันที่ 4/10/2026 (ถ้ายังไม่ถึงวันเกิดในปีนี้ให้ลบ 1)</p>`,
@@ -633,6 +671,7 @@ export default {
         public class BirthdayInput {
             public static void main(String[] args) {
                 Scanner in = new Scanner(System.in);
+                // เมธอดเดียวใช้ตรวจช่วงได้หลายแบบ
                 int d = readIntInRange(in, "Day: ", 1, 31);
                 int m = readIntInRange(in, "Month: ", 1, 12);
                 int y = readIntInRange(in, "Year: ", 1900, 2026);
@@ -640,11 +679,13 @@ export default {
                 System.out.println("Age on 4/10/2026: " + ageOn(d, m, y, 4, 10, 2026));
             }
 
+            // อ่านจนกว่าจะได้ค่าในช่วง
             static int readIntInRange(Scanner in, String prompt, int min, int max) {
                 int value;
                 while (true) {
                     System.out.print(prompt);
                     value = in.nextInt();
+                    // ค่าถูก → return ออกจากลูปและเมธอด
                     if (value >= min && value <= max) return value;
                     System.out.println("Please enter " + min + "-" + max);
                 }
@@ -652,6 +693,7 @@ export default {
 
             static int ageOn(int d, int m, int y, int nowD, int nowM, int nowY) {
                 int age = nowY - y;
+                // ยังไม่ถึงวันเกิดของปีนี้
                 if (nowM < m || (nowM == m && nowD < d)) {
                     age--;
                 }
@@ -666,10 +708,11 @@ export default {
         public class DiceGame {
             public static void main(String[] args) {
                 Scanner in = new Scanner(System.in);
-                int first = readRoll(in);
+                int first = readRoll(in);  // อ่านผลทอยครั้งแรก
                 String result = firstRollResult(first);
                 if (result.equals("POINT")) {
                     System.out.println("Point is " + first);
+                    // ทอยต่อจนกว่าจะได้แต้มหรือ 7
                     boolean win = playForPoint(in, first);
                     System.out.println(win ? "You WIN!" : "You LOSE!");
                 } else {
@@ -677,6 +720,7 @@ export default {
                 }
             }
 
+            // อ่านแต้มลูกเต๋า 2 ลูกจนกว่าจะถูกต้อง
             static int readRoll(Scanner in) {
                 while (true) {
                     System.out.print("Roll (two dice): ");
@@ -690,16 +734,20 @@ export default {
             }
 
             static String firstRollResult(int sum) {
+                // 7 หรือ 11 ชนะทันที
                 if (sum == 7 || sum == 11) return "WIN";
+                // 2, 3, 12 แพ้ทันที
                 if (sum == 2 || sum == 3 || sum == 12) return "LOSE";
                 return "POINT";
             }
 
+            // ทอยซ้ำจนรู้ผล
             static boolean playForPoint(Scanner in, int point) {
                 while (true) {
                     int sum = readRoll(in);
+                    // ได้แต้มเดิม → ชนะ
                     if (sum == point) return true;
-                    if (sum == 7) return false;
+                    if (sum == 7) return false;  // ได้ 7 → แพ้
                 }
             }
         }` },

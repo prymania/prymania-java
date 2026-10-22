@@ -28,17 +28,21 @@ export default {
         { type: "run", title: "ArrayList แรก", level: "พื้นฐาน",
           concept: "สร้างรายการว่าง เพิ่มทีละตัวด้วย add แล้วพิมพ์ทั้งรายการได้ทันที (ArrayList มี toString ในตัว)",
           code: j`
-            import java.util.ArrayList;
+            import java.util.ArrayList;  // ต้อง import ก่อนใช้
 
             public class FirstList {
                 public static void main(String[] args) {
+                    // <String> = เก็บได้เฉพาะ String, เริ่มต้นว่าง
                     ArrayList<String> fruits = new ArrayList<>();
                     System.out.println("Empty? " + fruits.isEmpty() + ", size = " + fruits.size());
-                    fruits.add("Apple");
+                    fruits.add("Apple");  // add ต่อท้าย รายการยาวขึ้นเอง
                     fruits.add("Banana");
                     fruits.add("Cherry");
+                    // println แสดงทั้งรายการในรูป [..]
                     System.out.println(fruits);
+                    // size() = จำนวนสมาชิก (อาเรย์ใช้ length)
                     System.out.println("size = " + fruits.size());
+                    // get(index) แทน [index]
                     System.out.println("first = " + fruits.get(0));
                     System.out.println("last = " + fruits.get(fruits.size() - 1));
                 }
@@ -53,12 +57,13 @@ export default {
             public class ReadUntilSentinel {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
+                    // ไม่ต้องรู้จำนวนล่วงหน้า
                     ArrayList<Integer> scores = new ArrayList<>();
                     while (true) {
                         System.out.print("Score (-1 to stop): ");
                         int s = input.nextInt();
-                        if (s == -1) break;
-                        scores.add(s);
+                        if (s == -1) break;  // ค่าหยุด
+                        scores.add(s);       // เพิ่มทีละค่า
                     }
                     System.out.println("Scores: " + scores);
                     System.out.println("Count: " + scores.size());
@@ -79,11 +84,14 @@ export default {
 
             public class WrapperDemo {
                 public static void main(String[] args) {
+                    // ใช้ Integer แทน int
                     ArrayList<Integer> nums = new ArrayList<>();
+                    // int ถูกห่อเป็น Integer อัตโนมัติ
                     nums.add(5);
                     nums.add(12);
                     nums.add(8);
                     int sum = 0;
+                    // Integer ถูกแปลงกลับเป็น int อัตโนมัติ
                     for (int n : nums) {
                         sum += n;
                     }
@@ -92,6 +100,7 @@ export default {
                     ArrayList<Double> prices = new ArrayList<>();
                     prices.add(19.5);
                     prices.add(7.25);
+                    // Double → double อัตโนมัติ
                     double first = prices.get(0);
                     System.out.println("first price x 2 = " + first * 2);
                 }
@@ -122,9 +131,13 @@ export default {
                     list.add(100);
                     list.add(1000);
                     list.add(1000);
+                    // ค่าน้อย ๆ Java ใช้ออบเจ็กต์ร่วมกัน → true
                     System.out.println("100 == 100   ? " + (list.get(0) == list.get(1)));
+                    // ค่าใหญ่เป็นคนละออบเจ็กต์ → false
                     System.out.println("1000 == 1000 ? " + (list.get(2) == list.get(3)));
+                    // equals เทียบค่า ถูกต้องเสมอ
                     System.out.println("equals       ? " + list.get(2).equals(list.get(3)));
+                    // แปลงเป็น int ก่อน แล้ว == เทียบค่าได้
                     int a = list.get(2), b = list.get(3);
                     System.out.println("int a == b   ? " + (a == b));
                 }
@@ -154,8 +167,10 @@ export default {
                     queue.add("Beam");
                     queue.add("Nida");
                     System.out.println("start   " + queue);
+                    // แทรกที่ index 1 ตัวที่เหลือเลื่อนไปขวา
                     queue.add(1, "Ploy");
                     System.out.println("insert  " + queue);
+                    // set แทนที่ และคืนค่าเดิม
                     String old = queue.set(0, "Tan");
                     System.out.println("set     " + queue + " (replaced " + old + ")");
                     System.out.println("get(2)  " + queue.get(2));
@@ -180,11 +195,13 @@ export default {
                     for (int k = 0; k < 2; k++) {
                         System.out.print("Find: ");
                         String item = input.next();
+                        // มีในรายการหรือไม่
                         if (stock.contains(item)) {
+                            // indexOf: ตัวแรก, lastIndexOf: ตัวสุดท้าย
                             System.out.println("  first at " + stock.indexOf(item) + ", last at " + stock.lastIndexOf(item));
                         } else {
                             System.out.println("  not in stock -> adding");
-                            stock.add(item);
+                            stock.add(item);  // ไม่มี → เพิ่มต่อท้าย
                         }
                     }
                     System.out.println(stock);
@@ -226,15 +243,17 @@ export default {
                 public static void main(String[] args) {
                     ArrayList<String> names = new ArrayList<>();
                     names.add("Mali"); names.add("Beam"); names.add("Nida"); names.add("Beam");
-                    names.remove(0);
+                    names.remove(0);  // remove(int) = ลบตาม index
                     System.out.println("remove(0)       " + names);
+                    // remove(Object) = ลบตัวแรกที่เท่ากัน
                     names.remove("Beam");
                     System.out.println("remove(\"Beam\")  " + names);
 
                     ArrayList<Integer> nums = new ArrayList<>();
                     nums.add(5); nums.add(2); nums.add(9); nums.add(2);
-                    nums.remove(2);
+                    nums.remove(2);  // 2 เป็น int → ลบ index 2
                     System.out.println("remove(2)       " + nums);
+                    // ห่อเป็น Integer → ลบค่า 2
                     nums.remove(Integer.valueOf(2));
                     System.out.println("remove(value 2) " + nums);
                 }
@@ -269,6 +288,7 @@ export default {
                     List<Integer> data = List.of(45, 30, 80, 20, 10, 90);
 
                     ArrayList<Integer> a = new ArrayList<>(data);
+                    // วนจากท้าย: ลบแล้ว index ที่เหลือไม่เลื่อน
                     for (int i = a.size() - 1; i >= 0; i--) {
                         if (a.get(i) < 50) a.remove(i);
                     }
@@ -276,13 +296,14 @@ export default {
 
                     ArrayList<Integer> b = new ArrayList<>(data);
                     int i = 0;
-                    while (i < b.size()) {
+                    while (i < b.size()) {  // เพิ่ม i เฉพาะเมื่อไม่ได้ลบ
                         if (b.get(i) < 50) b.remove(i);
-                        else i++;
+                        else i++;  // ลบแล้วไม่เพิ่ม i เพราะตัวถัดไปเลื่อนมาแทน
                     }
                     System.out.println("while    : " + b);
 
                     ArrayList<Integer> c = new ArrayList<>(data);
+                    // ลบทุกตัวที่ตรงเงื่อนไข (lambda)
                     c.removeIf(score -> score < 50);
                     System.out.println("removeIf : " + c);
                 }
@@ -323,14 +344,17 @@ export default {
 
             public class IterateList {
                 public static void main(String[] args) {
+                    // List.of สร้างรายการเริ่มต้นแบบสั้น
                     ArrayList<String> tasks = new ArrayList<>(List.of("Read", "Code", "Test"));
+                    // for แบบ index ใช้ get(i)
                     for (int i = 0; i < tasks.size(); i++) {
                         System.out.println((i + 1) + ". " + tasks.get(i));
                     }
-                    for (String t : tasks) {
+                    for (String t : tasks) {  // for-each อ่านทีละตัว
                         System.out.print(t.toUpperCase() + " ");
                     }
                     System.out.println();
+                    // forEach + lambda
                     tasks.forEach(t -> System.out.println("- " + t));
                 }
             }`,
@@ -343,12 +367,15 @@ export default {
 
             public class ListStats {
                 public static void main(String[] args) {
+                    // ArrayList<Double> สร้างจาก List.of
                     ArrayList<Double> temps = new ArrayList<>(List.of(31.5, 29.0, 33.2, 35.1, 30.4, 34.0));
+                    // เริ่มจากตัวแรก
                     double sum = 0, max = temps.get(0);
                     ArrayList<Double> hotDays = new ArrayList<>();
                     for (double t : temps) {
                         sum += t;
                         if (t > max) max = t;
+                        // เก็บวันที่ร้อนลงอีกรายการ
                         if (t >= 33) hotDays.add(t);
                     }
                     System.out.printf("Average %.2f, Max %.1f%n", sum / temps.size(), max);
@@ -366,16 +393,20 @@ export default {
             public class CollectionsTools {
                 public static void main(String[] args) {
                     ArrayList<Integer> nums = new ArrayList<>(List.of(42, 7, 19, 7, 3, 25, 7));
+                    // หาค่ามาก/น้อยสุด
                     System.out.println("max " + Collections.max(nums) + ", min " + Collections.min(nums));
+                    // นับจำนวนครั้งที่พบ
                     System.out.println("frequency of 7: " + Collections.frequency(nums, 7));
+                    // เรียงจากน้อยไปมาก
                     Collections.sort(nums);
                     System.out.println("sorted   " + nums);
-                    Collections.reverse(nums);
+                    Collections.reverse(nums);  // กลับลำดับ
                     System.out.println("reversed " + nums);
 
                     ArrayList<String> names = new ArrayList<>(List.of("ploy", "Beam", "mali", "Nida"));
-                    Collections.sort(names);
+                    Collections.sort(names);  // ตัวใหญ่มาก่อนตัวเล็ก
                     System.out.println("sorted names           " + names);
+                    // เรียงโดยไม่สนตัวพิมพ์
                     names.sort(String.CASE_INSENSITIVE_ORDER);
                     System.out.println("case-insensitive order " + names);
                 }
@@ -399,23 +430,29 @@ export default {
 
             public class StudentList {
                 public static void main(String[] args) {
+                    // รายการของออบเจ็กต์ Student
                     ArrayList<Student> list = new ArrayList<>();
+                    // สร้างออบเจ็กต์แล้วเพิ่มในรายการ
                     list.add(new Student("6601", "Mali", 78));
                     list.add(new Student("6602", "Beam", 55));
                     list.add(new Student("6603", "Nida", 91));
 
-                    Student s = findById(list, "6602");
+                    Student s = findById(list, "6602");  // ค้นด้วยรหัส
+                    // ไม่พบจะได้ null จึงต้องตรวจก่อนใช้
                     if (s != null) s.setScore(65);
 
+                    // ไม่พบ → แสดง null
                     System.out.println(findById(list, "9999"));
                     for (Student st : list) System.out.println(st);
                 }
 
+                // รับรายการเป็น parameter
                 static Student findById(ArrayList<Student> list, String id) {
                     for (Student s : list) {
+                        // เทียบ String ด้วย equals
                         if (s.getId().equals(id)) return s;
                     }
-                    return null;
+                    return null;  // วนครบแล้วไม่พบ
                 }
             }
 
@@ -454,14 +491,17 @@ export default {
                     items.add(new Product("Cable", 120, 60));
                     items.add(new Product("Monitor", 4590, 5));
 
+                    // เรียงตามราคา
                     items.sort(Comparator.comparing(Product::getPrice));
                     System.out.println("By price:       " + items);
+                    // reversed() = มากไปน้อย
                     items.sort(Comparator.comparing(Product::getStock).reversed());
                     System.out.println("By stock desc:  " + items);
                     items.sort(Comparator.comparing(Product::getName));
                     System.out.println("By name:        " + items);
 
                     double value = 0;
+                    // มูลค่ารวม = ราคา × จำนวน
                     for (Product p : items) value += p.getPrice() * p.getStock();
                     System.out.printf("Inventory value: %,.2f%n", value);
                 }
@@ -495,21 +535,25 @@ export default {
             public class TodoApp {
                 public static void main(String[] args) {
                     Scanner in = new Scanner(System.in);
+                    // รายการงาน
                     ArrayList<String> todos = new ArrayList<>();
                     int choice;
                     do {
                         System.out.print("[1] Add [2] Done [3] List [0] Exit: ");
                         choice = in.nextInt();
-                        in.nextLine();
+                        in.nextLine();  // ทิ้ง Enter ที่ค้างจาก nextInt()
                         switch (choice) {
                             case 1 -> {
                                 System.out.print("  Task: ");
+                                // อ่านชื่องานทั้งบรรทัด
                                 todos.add(in.nextLine());
                             }
                             case 2 -> {
                                 System.out.print("  Task number: ");
                                 int n = in.nextInt();
+                                // ตรวจหมายเลขว่าอยู่ในช่วง
                                 if (n >= 1 && n <= todos.size()) {
+                                    // remove คืนค่าที่ถูกลบ, n - 1 เพราะ index เริ่มที่ 0
                                     System.out.println("  Completed: " + todos.remove(n - 1));
                                 } else {
                                     System.out.println("  No such task");
@@ -544,8 +588,11 @@ export default {
                 friends.add("Beam");
                 friends.add("Nida");
                 friends.add("Ploy");
+                // แสดงรายการพร้อมจำนวน
                 System.out.println(friends + " (" + friends.size() + ")");
+                // แทรกหน้าสุด
                 friends.add(0, "Tan");
+                // แทนตัวสุดท้าย
                 friends.set(friends.size() - 1, "Pim");
                 System.out.println(friends + " (" + friends.size() + ")");
                 System.out.println("First: " + friends.get(0) + ", Last: " + friends.get(friends.size() - 1));
@@ -564,18 +611,19 @@ export default {
                 ArrayList<Integer> nums = new ArrayList<>();
                 System.out.print("Numbers (0 to stop): ");
                 int n = in.nextInt();
-                while (n != 0) {
+                while (n != 0) {  // รับจนกว่าจะป้อน 0
                     nums.add(n);
                     n = in.nextInt();
                 }
-                if (nums.isEmpty()) {
+                if (nums.isEmpty()) {  // ป้องกันการหารด้วย 0
                     System.out.println("No numbers");
-                    return;
+                    return;  // จบ main ทันที
                 }
                 int sum = 0;
                 for (int x : nums) sum += x;
                 System.out.println("List: " + nums);
                 System.out.printf("Sum: %d, Average: %.2f%n", sum, (double) sum / nums.size());
+                // Collections.max/min ใช้กับ ArrayList ได้
                 System.out.println("Max: " + Collections.max(nums) + ", Min: " + Collections.min(nums));
             }
         }` },
@@ -589,9 +637,9 @@ export default {
             public static void main(String[] args) {
                 ArrayList<Integer> list = new ArrayList<>(List.of(10, 20, 30, 20, 40, 50));
                 System.out.println("start          " + list);
-                list.remove(Integer.valueOf(20));
+                list.remove(Integer.valueOf(20));  // ลบค่า 20 ตัวแรก
                 System.out.println("remove value 20 " + list);
-                list.remove(2);
+                list.remove(2);  // ลบตาม index
                 System.out.println("remove index 2  " + list);
                 list.remove(Integer.valueOf(50));
                 System.out.println("remove value 50 " + list);
@@ -610,12 +658,15 @@ export default {
                 int n = in.nextInt();
                 ArrayList<Integer> scores = new ArrayList<>();
                 System.out.print("Scores: ");
+                // อ่าน n ค่าใส่รายการ
                 for (int i = 0; i < n; i++) scores.add(in.nextInt());
 
                 ArrayList<Integer> passed = new ArrayList<>();
+                // วิธีที่ 1: สร้างรายการใหม่เฉพาะที่ผ่าน
                 for (int s : scores) if (s >= 50) passed.add(s);
 
                 int before = scores.size();
+                // วิธีที่ 2: ลบจากรายการเดิม วนจากท้าย
                 for (int i = scores.size() - 1; i >= 0; i--) {
                     if (scores.get(i) < 50) scores.remove(i);
                 }
@@ -634,15 +685,19 @@ export default {
             public static void main(String[] args) {
                 Scanner in = new Scanner(System.in);
                 System.out.print("Sentence: ");
+                // ตัวเล็ก ลบเครื่องหมาย แล้วแยกคำ
                 String[] tokens = in.nextLine().toLowerCase().replaceAll("[^a-z ]", "").trim().split("\\s+");
+                // รายการคู่ขนาน: คำ
                 ArrayList<String> words = new ArrayList<>();
+                // รายการคู่ขนาน: จำนวนครั้ง
                 ArrayList<Integer> counts = new ArrayList<>();
                 for (String t : tokens) {
-                    int idx = words.indexOf(t);
+                    int idx = words.indexOf(t);  // เคยพบคำนี้หรือยัง
                     if (idx >= 0) {
+                        // เพิ่มจำนวนที่ตำแหน่งเดียวกัน
                         counts.set(idx, counts.get(idx) + 1);
                     } else {
-                        words.add(t);
+                        words.add(t);  // คำใหม่ → เพิ่มทั้งสองรายการ
                         counts.add(1);
                     }
                 }
@@ -666,14 +721,19 @@ export default {
                 ArrayList<String> queue = new ArrayList<>();
                 while (true) {
                     System.out.print("> ");
+                    // แยกคำสั่งกับชื่อ (สูงสุด 2 ส่วน)
                     String[] parts = in.nextLine().trim().split(" ", 2);
                     String cmd = parts[0];
                     if (cmd.equals("end")) break;
                     switch (cmd) {
+                        // ต่อท้ายคิว
                         case "join" -> queue.add(parts[1]);
+                        // แทรกหน้าสุด
                         case "vip" -> queue.add(0, parts[1]);
+                        // remove(0) เรียกคิวแรกออก
                         case "serve" -> System.out.println(queue.isEmpty() ? "  queue is empty" : "  serving " + queue.remove(0));
                         case "leave" -> {
+                            // remove(Object) คืน false ถ้าไม่พบ
                             if (!queue.remove(parts[1])) System.out.println("  " + parts[1] + " is not in queue");
                         }
                         case "show" -> System.out.println("  " + queue);
@@ -692,9 +752,11 @@ export default {
         public class ContactApp {
             public static void main(String[] args) {
                 ContactBook book = new ContactBook();
+                // add คืนข้อความผลลัพธ์
                 System.out.println(book.add(new Contact("Nida", "081-111-2222", "nida@mail.com")));
                 System.out.println(book.add(new Contact("beam", "089-333-4444", "beam@work.co.th")));
                 System.out.println(book.add(new Contact("Mali", "086-555-6666", "mali@mail.com")));
+                // ชื่อซ้ำ (ไม่สนตัวพิมพ์)
                 System.out.println(book.add(new Contact("NIDA", "080-000-0000", "x@x.com")));
                 System.out.println("Find Mali: " + book.findByName("mali"));
                 System.out.println("Search 'mail': " + book.search("mail"));
@@ -712,9 +774,11 @@ export default {
         }
 
         class ContactBook {
+            // เก็บรายชื่อไว้ภายใน ภายนอกเข้าถึงตรงไม่ได้
             private final ArrayList<Contact> contacts = new ArrayList<>();
 
             String add(Contact c) {
+                // ตรวจชื่อซ้ำก่อนเพิ่ม
                 if (findByName(c.getName()) != null) return "Duplicate: " + c.getName();
                 contacts.add(c);
                 return "Added: " + c.getName();
@@ -722,15 +786,18 @@ export default {
 
             Contact findByName(String name) {
                 for (Contact c : contacts) {
+                    // ไม่สนตัวพิมพ์เล็ก/ใหญ่
                     if (c.getName().equalsIgnoreCase(name)) return c;
                 }
                 return null;
             }
 
             ArrayList<Contact> search(String keyword) {
+                // รายการผลลัพธ์ใหม่
                 ArrayList<Contact> result = new ArrayList<>();
                 String k = keyword.toLowerCase();
                 for (Contact c : contacts) {
+                    // ค้นทั้งชื่อและอีเมล
                     if (c.getName().toLowerCase().contains(k) || c.getEmail().toLowerCase().contains(k)) result.add(c);
                 }
                 return result;
@@ -738,11 +805,14 @@ export default {
 
             boolean remove(String name) {
                 Contact c = findByName(name);
+                // พบและลบสำเร็จจึงได้ true
                 return c != null && contacts.remove(c);
             }
 
             ArrayList<Contact> listSorted() {
+                // สำเนา เพื่อไม่เปลี่ยนลำดับเดิม
                 ArrayList<Contact> copy = new ArrayList<>(contacts);
+                // เรียงตามชื่อโดยไม่สนตัวพิมพ์
                 copy.sort(Comparator.comparing(Contact::getName, String.CASE_INSENSITIVE_ORDER));
                 return copy;
             }
@@ -757,11 +827,11 @@ export default {
                 ShoppingCart cart = new ShoppingCart();
                 cart.add("Mouse", 390, 1);
                 cart.add("Cable", 120, 2);
-                cart.add("Mouse", 390, 1);
+                cart.add("Mouse", 390, 1);  // สินค้าเดิม → เพิ่มจำนวน
                 cart.add("Pad", 250, 1);
                 cart.changeQty("Cable", 3);
                 cart.removeItem("Pad");
-                cart.applyCoupon("FREE50");
+                cart.applyCoupon("FREE50");  // ไม่มีรหัสนี้
                 cart.applyCoupon("MINUS100");
                 cart.printReceipt();
             }
@@ -776,17 +846,21 @@ export default {
         }
 
         class ShoppingCart {
+            // รายการสินค้าในตะกร้า
             private final ArrayList<CartItem> items = new ArrayList<>();
             private double discount = 0;
 
             private CartItem find(String name) {
+                // หาสินค้าตามชื่อ ไม่พบคืน null
                 for (CartItem it : items) if (it.name.equalsIgnoreCase(name)) return it;
                 return null;
             }
 
             void add(String name, double price, int qty) {
                 CartItem it = find(name);
+                // มีอยู่แล้ว → เพิ่มจำนวน
                 if (it != null) it.qty += qty;
+                // ยังไม่มี → เพิ่มรายการใหม่
                 else items.add(new CartItem(name, price, qty));
             }
 
@@ -798,6 +872,7 @@ export default {
             void changeQty(String name, int qty) {
                 CartItem it = find(name);
                 if (it == null) return;
+                // จำนวน 0 หรือติดลบ → ลบออก
                 if (qty <= 0) items.remove(it);
                 else it.qty = qty;
             }
@@ -818,6 +893,7 @@ export default {
                     }
                     default -> System.out.println("Invalid coupon: " + code);
                 }
+                // ส่วนลดไม่เกินยอดซื้อ
                 discount = Math.min(discount, sub);
             }
 
@@ -838,6 +914,7 @@ export default {
         public class Registration {
             public static void main(String[] args) {
                 Course c = new Course("CS201", "OOP", 3, 3);
+                // ลงทะเบียนเกินจำนวนที่นั่ง และลงซ้ำ
                 String[] ids = {"6601", "6602", "6603", "6604", "6605", "6602"};
                 for (String id : ids) System.out.println(c.enroll(id));
                 System.out.println(c.status());
@@ -851,7 +928,9 @@ export default {
         class Course {
             private final String code, name;
             private final int credits, seats;
+            // รายชื่อที่ได้ที่นั่ง
             private final ArrayList<String> enrolled = new ArrayList<>();
+            // รายชื่อสำรอง
             private final ArrayList<String> waitlist = new ArrayList<>();
 
             Course(String code, String name, int credits, int seats) {
@@ -859,20 +938,23 @@ export default {
             }
 
             String enroll(String id) {
+                // ห้ามลงซ้ำ
                 if (enrolled.contains(id) || waitlist.contains(id)) return id + ": already registered";
+                // ยังมีที่นั่ง
                 if (enrolled.size() < seats) {
                     enrolled.add(id);
                     return id + ": enrolled (" + enrolled.size() + "/" + seats + ")";
                 }
-                waitlist.add(id);
+                waitlist.add(id);  // เต็มแล้ว → ต่อคิวสำรอง
                 return id + ": course full, waitlist #" + waitlist.size();
             }
 
             String drop(String id) {
+                // อยู่ในคิวสำรอง → ลบออกได้เลย
                 if (waitlist.remove(id)) return id + ": removed from waitlist";
                 if (!enrolled.remove(id)) return id + ": not found";
                 String msg = id + ": dropped";
-                if (!waitlist.isEmpty()) {
+                if (!waitlist.isEmpty()) {  // มีคนรอ → เลื่อนคนแรกขึ้นมา
                     String next = waitlist.remove(0);
                     enrolled.add(next);
                     msg += ", " + next + " moved from waitlist";

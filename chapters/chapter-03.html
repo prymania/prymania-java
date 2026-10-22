@@ -6,13 +6,44 @@
   <meta name="theme-color" content="#f5f7f4">
   <title>บทที่ 3: ตัวแปรและการคำนวณ | Java programming by Prymania</title>
   <link rel="stylesheet" href="../assets/lesson.css">
+  <link rel="stylesheet" href="../assets/course-nav.css">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
   <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญบทที่ 3"><p class="toc-label">บทที่ 3 · เก็บและคำนวณข้อมูล</p><a href="#topic-3-1"><span class="toc-number">3.1</span>ตัวแปรและการกำหนดค่า</a><a href="#topic-3-2"><span class="toc-number">3.2</span>ชนิดข้อมูล</a><a href="#topic-3-3"><span class="toc-number">3.3</span>ตัวดำเนินการ</a><a href="#topic-3-4"><span class="toc-number">3.4</span>ค่าคงที่และการแปลงชนิด</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <!-- course-nav -->
+<button class="nav-toggle" type="button" aria-expanded="false">☰ สารบัญทุกบท</button>
+<nav class="course-nav" aria-label="สารบัญรายวิชา">
+<p class="nav-label">เริ่มต้น</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">01</span><span class="nav-title">คิดเป็นขั้นตอน · Flowchart</span></summary><div class="nav-topics"><a href="chapter-01.html"><span class="toc-number">1</span>ภาพรวมของบท</a><a href="chapter-01.html#topic-1-1"><span class="toc-number">1.1</span>แยกโจทย์ด้วย IPO</a><a href="chapter-01.html#topic-1-2"><span class="toc-number">1.2</span>ขั้นตอนวิธีและรหัสเทียม</a><a href="chapter-01.html#topic-1-3"><span class="toc-number">1.3</span>สัญลักษณ์ Flowchart</a><a href="chapter-01.html#topic-1-4"><span class="toc-number">1.4</span>ทางเลือกและการทำซ้ำ</a><a href="chapter-01.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">02</span><span class="nav-title">รู้จัก Java</span></summary><div class="nav-topics"><a href="chapter-02.html"><span class="toc-number">2</span>ภาพรวมของบท</a><a href="chapter-02.html#topic-2-1"><span class="toc-number">2.1</span>JDK, JVM และ IDE</a><a href="chapter-02.html#topic-2-2"><span class="toc-number">2.2</span>โครงสร้างโปรแกรม Java</a><a href="chapter-02.html#topic-2-3"><span class="toc-number">2.3</span>คอมไพล์ รัน และอ่าน error</a><a href="chapter-02.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav" open><summary aria-current="page"><span class="nav-number">03</span><span class="nav-title">ตัวแปรและชนิดข้อมูล</span></summary><div class="nav-topics"><a href="#lesson-content"><span class="toc-number">3</span>ภาพรวมของบท</a><a href="#topic-3-1"><span class="toc-number">3.1</span>ตัวแปรและการกำหนดค่า</a><a href="#topic-3-2"><span class="toc-number">3.2</span>ชนิดข้อมูล</a><a href="#topic-3-3"><span class="toc-number">3.3</span>ตัวดำเนินการ</a><a href="#topic-3-4"><span class="toc-number">3.4</span>ค่าคงที่และการแปลงชนิด</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">04</span><span class="nav-title">รับข้อมูลและแสดงผล</span></summary><div class="nav-topics"><a href="chapter-04.html"><span class="toc-number">4</span>ภาพรวมของบท</a><a href="chapter-04.html#topic-4-1"><span class="toc-number">4.1</span>print · println · printf</a><a href="chapter-04.html#topic-4-2"><span class="toc-number">4.2</span>Scanner</a><a href="chapter-04.html#topic-4-3"><span class="toc-number">4.3</span>ตัวเลขและข้อความ</a><a href="chapter-04.html#topic-4-4"><span class="toc-number">4.4</span>จัดการบรรทัดข้อมูล</a><a href="chapter-04.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">ฝึกเขียนโปรแกรม</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">05</span><span class="nav-title">เงื่อนไข</span></summary><div class="nav-topics"><a href="chapter-05.html"><span class="toc-number">5</span>ภาพรวมของบท</a><a href="chapter-05.html#topic-5-1"><span class="toc-number">5.1</span>ค่าจริงและการเปรียบเทียบ</a><a href="chapter-05.html#topic-5-2"><span class="toc-number">5.2</span>ตัวดำเนินการตรรกะ</a><a href="chapter-05.html#topic-5-3"><span class="toc-number">5.3</span>if, else if และ else</a><a href="chapter-05.html#topic-5-4"><span class="toc-number">5.4</span>เลือกทางด้วย switch</a><a href="chapter-05.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">06</span><span class="nav-title">การทำซ้ำ</span></summary><div class="nav-topics"><a href="chapter-06.html"><span class="toc-number">6</span>ภาพรวมของบท</a><a href="chapter-06.html#topic-6-1"><span class="toc-number">6.1</span>while และการอัปเดตค่า</a><a href="chapter-06.html#topic-6-2"><span class="toc-number">6.2</span>for เมื่อรู้จำนวนรอบ</a><a href="chapter-06.html#topic-6-3"><span class="toc-number">6.3</span>do-while และ sentinel</a><a href="chapter-06.html#topic-6-4"><span class="toc-number">6.4</span>ลูปซ้อนและคำสั่งควบคุม</a><a href="chapter-06.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">07</span><span class="nav-title">เมธอด</span></summary><div class="nav-topics"><a href="chapter-07.html"><span class="toc-number">7</span>ภาพรวมของบท</a><a href="chapter-07.html#topic-7-1"><span class="toc-number">7.1</span>ประกาศและเรียกเมธอด</a><a href="chapter-07.html#topic-7-2"><span class="toc-number">7.2</span>พารามิเตอร์และ argument</a><a href="chapter-07.html#topic-7-3"><span class="toc-number">7.3</span>return value</a><a href="chapter-07.html#topic-7-4"><span class="toc-number">7.4</span>scope และ overload</a><a href="chapter-07.html#topic-7-5"><span class="toc-number">7.5</span>ประกอบโปรแกรมจากเมธอด</a><a href="chapter-07.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">08</span><span class="nav-title">อาเรย์</span></summary><div class="nav-topics"><a href="chapter-08.html"><span class="toc-number">8</span>ภาพรวมของบท</a><a href="chapter-08.html#topic-8-1"><span class="toc-number">8.1</span>สร้างและเข้าถึงอาเรย์</a><a href="chapter-08.html#topic-8-2"><span class="toc-number">8.2</span>วนอ่าน รวม และค้นหา</a><a href="chapter-08.html#topic-8-3"><span class="toc-number">8.3</span>อาเรย์สองมิติ</a><a href="chapter-08.html#topic-8-4"><span class="toc-number">8.4</span>อาเรย์กับเมธอด</a><a href="chapter-08.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">09</span><span class="nav-title">ข้อความและ String</span></summary><div class="nav-topics"><a href="chapter-09.html"><span class="toc-number">9</span>ภาพรวมของบท</a><a href="chapter-09.html#topic-9-1"><span class="toc-number">9.1</span>เปรียบเทียบและต่อข้อความ</a><a href="chapter-09.html#topic-9-2"><span class="toc-number">9.2</span>ค้นหาและตัดข้อความ</a><a href="chapter-09.html#topic-9-3"><span class="toc-number">9.3</span>แปลงข้อความเป็นตัวเลข</a><a href="chapter-09.html#topic-9-4"><span class="toc-number">9.4</span>char และ Character</a><a href="chapter-09.html#topic-9-5"><span class="toc-number">9.5</span>StringBuilder</a><a href="chapter-09.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">ต่อยอดด้วย Java</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">10</span><span class="nav-title">ทดสอบและแก้บั๊ก</span></summary><div class="nav-topics"><a href="chapter-10.html"><span class="toc-number">10</span>ภาพรวมของบท</a><a href="chapter-10.html#topic-10-1"><span class="toc-number">10.1</span>จำแนก error</a><a href="chapter-10.html#topic-10-2"><span class="toc-number">10.2</span>อ่าน compiler diagnostics</a><a href="chapter-10.html#topic-10-3"><span class="toc-number">10.3</span>trace และ debugger</a><a href="chapter-10.html#topic-10-4"><span class="toc-number">10.4</span>ออกแบบ test case</a><a href="chapter-10.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">11</span><span class="nav-title">คลาสและออบเจ็กต์</span></summary><div class="nav-topics"><a href="chapter-11.html"><span class="toc-number">11</span>ภาพรวมของบท</a><a href="chapter-11.html#topic-11-1"><span class="toc-number">11.1</span>class เป็นพิมพ์เขียว</a><a href="chapter-11.html#topic-11-2"><span class="toc-number">11.2</span>สร้าง object ด้วย new</a><a href="chapter-11.html#topic-11-3"><span class="toc-number">11.3</span>constructor และ this</a><a href="chapter-11.html#topic-11-4"><span class="toc-number">11.4</span>หลาย object หลาย state</a><a href="chapter-11.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">12</span><span class="nav-title">จัดระเบียบโค้ด</span></summary><div class="nav-topics"><a href="chapter-12.html"><span class="toc-number">12</span>ภาพรวมของบท</a><a href="chapter-12.html#topic-12-1"><span class="toc-number">12.1</span>access modifier</a><a href="chapter-12.html#topic-12-2"><span class="toc-number">12.2</span>encapsulation</a><a href="chapter-12.html#topic-12-3"><span class="toc-number">12.3</span>validation และ invariant</a><a href="chapter-12.html#topic-12-4"><span class="toc-number">12.4</span>composition</a><a href="chapter-12.html#topic-12-5"><span class="toc-number">12.5</span>inheritance และ override</a><a href="chapter-12.html#topic-12-6"><span class="toc-number">12.6</span>polymorphism</a><a href="chapter-12.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">13</span><span class="nav-title">ArrayList</span></summary><div class="nav-topics"><a href="chapter-13.html"><span class="toc-number">13</span>ภาพรวมของบท</a><a href="chapter-13.html#topic-13-1"><span class="toc-number">13.1</span>Array หรือ ArrayList</a><a href="chapter-13.html#topic-13-2"><span class="toc-number">13.2</span>Generic type</a><a href="chapter-13.html#topic-13-3"><span class="toc-number">13.3</span>เพิ่ม อ่าน แก้ข้อมูล</a><a href="chapter-13.html#topic-13-4"><span class="toc-number">13.4</span>ลบและ index ที่เลื่อน</a><a href="chapter-13.html#topic-13-5"><span class="toc-number">13.5</span>วนอ่านรายการ</a><a href="chapter-13.html#topic-13-6"><span class="toc-number">13.6</span>เก็บ object ในรายการ</a><a href="chapter-13.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">14</span><span class="nav-title">เริ่มต้นกับ Swing</span></summary><div class="nav-topics"><a href="chapter-14.html"><span class="toc-number">14</span>ภาพรวมของบท</a><a href="chapter-14.html#topic-14-1"><span class="toc-number">14.1</span>Console กับ GUI</a><a href="chapter-14.html#topic-14-2"><span class="toc-number">14.2</span>สร้าง JFrame</a><a href="chapter-14.html#topic-14-3"><span class="toc-number">14.3</span>Container และ JPanel</a><a href="chapter-14.html#topic-14-4"><span class="toc-number">14.4</span>Event Dispatch Thread</a><a href="chapter-14.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">15</span><span class="nav-title">Components และ Layout</span></summary><div class="nav-topics"><a href="chapter-15.html"><span class="toc-number">15</span>ภาพรวมของบท</a><a href="chapter-15.html#topic-15-1"><span class="toc-number">15.1</span>Label, Button และ Panel</a><a href="chapter-15.html#topic-15-2"><span class="toc-number">15.2</span>รับและแสดงข้อความ</a><a href="chapter-15.html#topic-15-3"><span class="toc-number">15.3</span>ComboBox</a><a href="chapter-15.html#topic-15-4"><span class="toc-number">15.4</span>Layout Manager</a><a href="chapter-15.html#topic-15-5"><span class="toc-number">15.5</span>ประกอบหลาย Panel</a><a href="chapter-15.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">16</span><span class="nav-title">เหตุการณ์และปุ่ม</span></summary><div class="nav-topics"><a href="chapter-16.html"><span class="toc-number">16</span>ภาพรวมของบท</a><a href="chapter-16.html#topic-16-1"><span class="toc-number">16.1</span>Event source และ listener</a><a href="chapter-16.html#topic-16-2"><span class="toc-number">16.2</span>ActionListener</a><a href="chapter-16.html#topic-16-3"><span class="toc-number">16.3</span>Lambda และ callback</a><a href="chapter-16.html#topic-16-4"><span class="toc-number">16.4</span>อัปเดต UI บน EDT</a><a href="chapter-16.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">17</span><span class="nav-title">ฟอร์มและตรวจข้อมูล</span></summary><div class="nav-topics"><a href="chapter-17.html"><span class="toc-number">17</span>ภาพรวมของบท</a><a href="chapter-17.html#topic-17-1"><span class="toc-number">17.1</span>อ่านค่าจาก component</a><a href="chapter-17.html#topic-17-2"><span class="toc-number">17.2</span>ตรวจข้อมูลว่างและรูปแบบ</a><a href="chapter-17.html#topic-17-3"><span class="toc-number">17.3</span>แจ้ง error ให้ผู้ใช้</a><a href="chapter-17.html#topic-17-4"><span class="toc-number">17.4</span>แยก validation เป็น method</a><a href="chapter-17.html#topic-17-5"><span class="toc-number">17.5</span>ล้างและ reset form</a><a href="chapter-17.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">18</span><span class="nav-title">หลายหน้าจอ</span></summary><div class="nav-topics"><a href="chapter-18.html"><span class="toc-number">18</span>ภาพรวมของบท</a><a href="chapter-18.html#topic-18-1"><span class="toc-number">18.1</span>ออกแบบหน้าจอแยกกัน</a><a href="chapter-18.html#topic-18-2"><span class="toc-number">18.2</span>CardLayout</a><a href="chapter-18.html#topic-18-3"><span class="toc-number">18.3</span>ปุ่มนำทาง</a><a href="chapter-18.html#topic-18-4"><span class="toc-number">18.4</span>แชร์ state ระหว่างหน้า</a><a href="chapter-18.html#topic-18-5"><span class="toc-number">18.5</span>CardLayout หรือหลาย JFrame</a><a href="chapter-18.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">19</span><span class="nav-title">โปรเจกต์ GUI</span></summary><div class="nav-topics"><a href="chapter-19.html"><span class="toc-number">19</span>ภาพรวมของบท</a><a href="chapter-19.html#topic-19-1"><span class="toc-number">19.1</span>กำหนดขอบเขตและ flow</a><a href="chapter-19.html#topic-19-2"><span class="toc-number">19.2</span>วาง model และ class</a><a href="chapter-19.html#topic-19-3"><span class="toc-number">19.3</span>สร้าง layout</a><a href="chapter-19.html#topic-19-4"><span class="toc-number">19.4</span>ต่อ event และ validation</a><a href="chapter-19.html#topic-19-5"><span class="toc-number">19.5</span>ทดสอบและขยายงาน</a><a href="chapter-19.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">บทเสริม · เลือกอ่าน</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">+</span><span class="nav-title">Random และเกมทายเลข</span></summary><div class="nav-topics"><a href="side-quest-random.html"><span class="toc-number">S1</span>ภาพรวมของบท</a><a href="side-quest-random.html#topic-S1-1"><span class="toc-number">S1.1</span>สุ่มค่าด้วย Math.random</a><a href="side-quest-random.html#topic-S1-2"><span class="toc-number">S1.2</span>ใช้ java.util.Random</a><a href="side-quest-random.html#topic-S1-3"><span class="toc-number">S1.3</span>เกมทายตัวเลข</a><a href="side-quest-random.html#topic-S1-4"><span class="toc-number">S1.4</span>จำนวนครั้งและทดสอบ</a><a href="side-quest-random.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">+</span><span class="nav-title">Timer และ Thread</span></summary><div class="nav-topics"><a href="side-quest-timer.html"><span class="toc-number">S2</span>ภาพรวมของบท</a><a href="side-quest-timer.html#topic-S2-1"><span class="toc-number">S2.1</span>Event Dispatch Thread</a><a href="side-quest-timer.html#topic-S2-2"><span class="toc-number">S2.2</span>Swing Timer</a><a href="side-quest-timer.html#topic-S2-3"><span class="toc-number">S2.3</span>งานเบื้องหลัง</a><a href="side-quest-timer.html#topic-S2-4"><span class="toc-number">S2.4</span>เลือกเครื่องมือและทดสอบ</a><a href="side-quest-timer.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+</nav>
+<!-- /course-nav -->
       <div class="sidebar-bottom">เลือกชนิดข้อมูลให้เหมาะ ก่อนคำนวณ</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
@@ -28,56 +59,60 @@
 <div class="concept-box"><span class="box-title">รูปแบบการประกาศตัวแปร</span><pre><code>ชนิด ชื่อ;              // ประกาศอย่างเดียว      int age;
 ชื่อ = ค่า;             // กำหนดค่าภายหลัง        age = 19;
 ชนิด ชื่อ = ค่า;        // ประกาศพร้อมกำหนดค่า    int age = 19;</code></pre><p><code>=</code> ใน Java แปลว่า <strong>“นำค่าด้านขวามาเก็บในตัวแปรด้านซ้าย”</strong> ไม่ใช่ “เท่ากับ” แบบคณิตศาสตร์ ดังนั้น <code>x = x + 1</code> จึงถูกต้อง: คำนวณ x + 1 ก่อน แล้วเก็บกลับลงใน x</p></div>
-<div class="source-example"><h4>ตัวอย่าง 3.1.1 · ประกาศ กำหนดค่า และพิมพ์ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรใช้แทนค่าได้ทุกที่ เมื่อพิมพ์ตัวแปร Java พิมพ์<em>ค่า</em>ที่อยู่ข้างใน ไม่ใช่ชื่อ</p><div class="source-example-grid"><div class="source-field"><span>Java source · FirstVariables.java</span><pre class="source-code">public class FirstVariables {
-    public static void main(String[] args) {
-        int age = 19;
-        String name = "Mali";
-        System.out.println(name);
-        System.out.println(age);
-        System.out.println("name");
-        System.out.println("Name: " + name + ", age " + age);
+<div class="source-example"><h4>ตัวอย่าง 3.1.1 · ประกาศ กำหนดค่า และพิมพ์ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรใช้แทนค่าได้ทุกที่ เมื่อพิมพ์ตัวแปร Java พิมพ์<em>ค่า</em>ที่อยู่ข้างใน ไม่ใช่ชื่อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FirstVariables.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FirstVariables</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// ประกาศตัวแปรชนิด int พร้อมค่าเริ่มต้น</span>
+        <span class="tok-kw">int</span> age = <span class="tok-num">19</span>;
+        <span class="tok-type">String</span> name = <span class="tok-str">"Mali"</span>;      <span class="tok-com">// ข้อความต้องอยู่ใน "..."</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name);  <span class="tok-com">// ไม่มี "" → แสดงค่าในตัวแปร</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(age);
+        <span class="tok-com">// มี "" → แสดงคำว่า name ตรงตัว</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"name"</span>);
+        <span class="tok-com">// + ต่อข้อความกับค่าตัวแปร</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name: "</span> + name + <span class="tok-str">", age "</span> + age);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Mali
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Mali
 19
 name
 Name: Mali, age 19</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>println(name)</code> พิมพ์ค่า Mali</li><li><code>println("name")</code> มีเครื่องหมายคำพูด จึงพิมพ์คำว่า name ตรงตัว</li><li><code>+</code> ระหว่างข้อความกับค่า คือการ<strong>ต่อข้อความ</strong></li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 3.1.2 · ค่าเปลี่ยนได้ตามลำดับคำสั่ง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรเก็บได้ทีละค่า ค่าใหม่จะเขียนทับค่าเก่า ต้องไล่ค่าตามลำดับบรรทัด</p><div class="source-example-grid"><div class="source-field"><span>Java source · ChangingValues.java</span><pre class="source-code">public class ChangingValues {
-    public static void main(String[] args) {
-        int bookCount = 3;
-        System.out.println("Start: " + bookCount);
-        bookCount = bookCount + 2;
-        System.out.println("After +2: " + bookCount);
-        bookCount = 10;
-        System.out.println("Reset: " + bookCount);
-        bookCount = bookCount * 2 - 1;
-        System.out.println("Final: " + bookCount);
+<div class="source-example"><h4>ตัวอย่าง 3.1.2 · ค่าเปลี่ยนได้ตามลำดับคำสั่ง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรเก็บได้ทีละค่า ค่าใหม่จะเขียนทับค่าเก่า ต้องไล่ค่าตามลำดับบรรทัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ChangingValues.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ChangingValues</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> bookCount = <span class="tok-num">3</span>;  <span class="tok-com">// ค่าเริ่มต้น 3</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Start: "</span> + bookCount);
+        <span class="tok-com">// อ่านค่าเดิม (3) + 2 แล้วเก็บกลับ</span>
+        bookCount = bookCount + <span class="tok-num">2</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"After +2: "</span> + bookCount);
+        bookCount = <span class="tok-num">10</span>;  <span class="tok-com">// เขียนทับค่าเดิม</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Reset: "</span> + bookCount);
+        bookCount = bookCount * <span class="tok-num">2</span> - <span class="tok-num">1</span>;  <span class="tok-com">// 10 * 2 - 1 = 19</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Final: "</span> + bookCount);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Start: 3
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Start: 3
 After +2: 5
 Reset: 10
 Final: 19</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เริ่มที่ 3</li><li><code>bookCount + 2</code> = 5 แล้วเก็บกลับ → 5</li><li>กำหนดใหม่เป็น 10 (ค่า 5 หายไป)</li><li>10 × 2 − 1 = 19</li></ol></div></div>
 <h4>Trace table ของตัวอย่างด้านบน</h4><table class="comparison-table trace-table"><thead><tr><th>บรรทัด</th><th>คำสั่ง</th><th>bookCount</th></tr></thead><tbody><tr><td>3</td><td>int bookCount = 3;</td><td>3</td></tr><tr><td>5</td><td>bookCount = bookCount + 2;</td><td>5</td></tr><tr><td>7</td><td>bookCount = 10;</td><td>10</td></tr><tr><td>9</td><td>bookCount = bookCount * 2 - 1;</td><td>19</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 3.1.3 · สลับค่าตัวแปรสองตัว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าเขียน <code>a = b; b = a;</code> ค่าเดิมของ a จะหายก่อน จึงต้องใช้ตัวแปรชั่วคราว (temp) เก็บไว้ก่อน</p><div class="source-example-grid"><div class="source-field"><span>Java source · SwapValues.java</span><pre class="source-code">public class SwapValues {
-    public static void main(String[] args) {
-        int a = 5;
-        int b = 8;
-        System.out.println("Before: a=" + a + ", b=" + b);
+<div class="source-example"><h4>ตัวอย่าง 3.1.3 · สลับค่าตัวแปรสองตัว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าเขียน <code>a = b; b = a;</code> ค่าเดิมของ a จะหายก่อน จึงต้องใช้ตัวแปรชั่วคราว (temp) เก็บไว้ก่อน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SwapValues.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SwapValues</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> a = <span class="tok-num">5</span>;  <span class="tok-com">// ค่าเริ่มต้นก่อนสลับ</span>
+        <span class="tok-kw">int</span> b = <span class="tok-num">8</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Before: a="</span> + a + <span class="tok-str">", b="</span> + b);
 
-        int temp = a;   // เก็บค่า a ไว้ก่อน
-        a = b;          // a ได้ 8
-        b = temp;       // b ได้ค่าเดิมของ a คือ 5
+        <span class="tok-kw">int</span> temp = a;  <span class="tok-com">// เก็บค่า a ไว้ก่อน</span>
+        a = b;         <span class="tok-com">// a ได้ 8</span>
+        b = temp;      <span class="tok-com">// b ได้ค่าเดิมของ a คือ 5</span>
 
-        System.out.println("After:  a=" + a + ", b=" + b);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"After:  a="</span> + a + <span class="tok-str">", b="</span> + b);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Before: a=5, b=8
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Before: a=5, b=8
 After:  a=8, b=5</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>temp = 5</li><li>a = 8 (ค่า 5 ของ a ถูกทับ แต่ยังอยู่ใน temp)</li><li>b = temp = 5</li><li>สลับสำเร็จ</li></ol></div><p class="try-it">ลบบรรทัด temp ออกแล้วเขียน a = b; b = a; — ทั้งสองตัวจะกลายเป็น 8</p></div>
-<div class="source-example"><h4>ทดลอง error 3.1.4 · ใช้ตัวแปรที่ยังไม่มีค่า <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java ไม่ยอมให้อ่านค่าตัวแปรที่ประกาศแล้วแต่ยังไม่ได้กำหนดค่า</p><div class="source-example-grid"><div class="source-field"><span>Java source · VariableErrors.java</span><pre class="source-code">public class VariableErrors {
-    public static void main(String[] args) {
-        int score;
-        int bonus = 5;
-        System.out.println(score + bonus);
+<div class="source-example"><h4>ทดลอง error 3.1.4 · ใช้ตัวแปรที่ยังไม่มีค่า <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java ไม่ยอมให้อ่านค่าตัวแปรที่ประกาศแล้วแต่ยังไม่ได้กำหนดค่า</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">VariableErrors.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">VariableErrors</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> score;
+        <span class="tok-kw">int</span> bonus = <span class="tok-num">5</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(score + bonus);
     }
-}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>VariableErrors.java:5: error: variable score might not have been initialized
+}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>VariableErrors.java:5: error: variable score might not have been initialized
         System.out.println(score + bonus);
                            ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>variable score might not have been initialized</code> — score ประกาศแล้วแต่ยังไม่มีค่า</li><li>แก้: กำหนดค่าเริ่มต้น เช่น <code>int score = 0;</code></li></ol></div><p>ถ้าใช้ตัวแปรที่<strong>ไม่เคยประกาศ</strong>เลย เช่น <code>total = 10;</code> จะได้ error อีกแบบคือ <code>cannot find symbol ... variable total</code></p></div>
 <div class="note-box"><span class="box-title">กฎการตั้งชื่อตัวแปร</span><ul><li>ประกอบด้วยตัวอักษร ตัวเลข <code>_</code> หรือ <code>$</code> แต่<strong>ห้ามขึ้นต้นด้วยตัวเลข</strong> (<code>2score</code> ผิด)</li><li>ห้ามมีช่องว่าง และห้ามใช้คำสงวน เช่น <code>class</code>, <code>int</code>, <code>public</code></li><li>ตัวพิมพ์ใหญ่-เล็กต่างกัน: <code>score</code> กับ <code>Score</code> คนละตัว</li><li>นิยมใช้ <strong>camelCase</strong>: คำแรกตัวเล็ก คำถัดไปขึ้นต้นตัวใหญ่ เช่น <code>studentScore</code>, <code>totalPrice</code></li><li>ตั้งชื่อให้สื่อความหมาย: <code>studentScore</code> ดีกว่า <code>x</code></li></ul></div>
@@ -91,47 +126,50 @@ y = y - 1;</code></pre><p>สุดท้าย x และ y มีค่าเ
 <p>เลือกชนิดข้อมูลจากลักษณะของค่า: <code>int</code> สำหรับจำนวนเต็ม, <code>double</code> สำหรับทศนิยม, <code>char</code> สำหรับอักขระหนึ่งตัว และ <code>boolean</code> เก็บ <code>true</code> หรือ <code>false</code> ส่วน <code>String</code> ใช้เก็บข้อความและไม่ใช่ชนิด primitive (เป็นคลาส จึงขึ้นต้นด้วยตัวใหญ่)</p>
 <table class="comparison-table"><thead><tr><th>ชนิด</th><th>ตัวอย่าง</th><th>เหมาะกับ</th><th>ช่วงค่า/หมายเหตุ</th></tr></thead><tbody><tr><td><code>int</code></td><td><code>int age = 19;</code></td><td>จำนวนเต็ม เช่น อายุ จำนวนชิ้น</td><td>ประมาณ ±2,100 ล้าน</td></tr><tr><td><code>long</code></td><td><code>long population = 66000000L;</code></td><td>จำนวนเต็มขนาดใหญ่</td><td>ลงท้ายด้วย L</td></tr><tr><td><code>double</code></td><td><code>double height = 165.5;</code></td><td>ตัวเลขทศนิยม เช่น ส่วนสูง ราคา</td><td>ความละเอียดประมาณ 15 หลัก</td></tr><tr><td><code>char</code></td><td><code>char grade = 'A';</code></td><td>อักขระหนึ่งตัว</td><td>ใช้ single quote <code>' '</code></td></tr><tr><td><code>boolean</code></td><td><code>boolean isReady = true;</code></td><td>สถานะจริง/เท็จ</td><td>มีแค่ true, false</td></tr><tr><td><code>String</code></td><td><code>String name = "Mali";</code></td><td>ข้อความ</td><td>ใช้ double quote <code>" "</code></td></tr></tbody></table>
 <div class="concept-box"><span class="box-title">เลือกชนิดข้อมูลด้วยคำถาม 4 ข้อ</span><ol class="step-list"><li>เป็นข้อความหรือไม่? → <code>String</code> (ถ้าตัวอักษรเดียวและต้องการแบบอักขระ → <code>char</code>)</li><li>เป็นใช่/ไม่ใช่หรือไม่? → <code>boolean</code></li><li>มีทศนิยมได้หรือไม่? → <code>double</code></li><li>เป็นจำนวนนับ/จำนวนเต็มเสมอ → <code>int</code> (ถ้าใหญ่มาก → <code>long</code>)</li></ol></div>
-<div class="source-example"><h4>ตัวอย่าง 3.2.1 · ข้อมูลนักศึกษาหลายชนิด <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ข้อมูลแต่ละอย่างมีลักษณะต่างกัน จึงใช้ชนิดต่างกัน</p><div class="source-example-grid"><div class="source-field"><span>Java source · StudentData.java</span><pre class="source-code">public class StudentData {
-    public static void main(String[] args) {
-        String name = "Nida";
-        int age = 20;
-        double gpa = 3.25;
-        char section = 'B';
-        boolean registered = true;
+<div class="source-example"><h4>ตัวอย่าง 3.2.1 · ข้อมูลนักศึกษาหลายชนิด <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ข้อมูลแต่ละอย่างมีลักษณะต่างกัน จึงใช้ชนิดต่างกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StudentData.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StudentData</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">String</span> name = <span class="tok-str">"Nida"</span>;  <span class="tok-com">// String: ข้อความ</span>
+        <span class="tok-kw">int</span> age = <span class="tok-num">20</span>;          <span class="tok-com">// int: จำนวนเต็ม</span>
+        <span class="tok-kw">double</span> gpa = <span class="tok-num">3.25</span>;     <span class="tok-com">// double: ทศนิยม</span>
+        <span class="tok-com">// char: อักขระเดียว ใช้ '...'</span>
+        <span class="tok-kw">char</span> section = <span class="tok-str">'B'</span>;
+        <span class="tok-com">// boolean: true หรือ false</span>
+        <span class="tok-kw">boolean</span> registered = <span class="tok-num">true</span>;
 
-        System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
-        System.out.println("GPA: " + gpa);
-        System.out.println("Section: " + section);
-        System.out.println("Registered: " + registered);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name: "</span> + name);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Age: "</span> + age);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"GPA: "</span> + gpa);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Section: "</span> + section);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Registered: "</span> + registered);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Name: Nida
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Name: Nida
 Age: 20
 GPA: 3.25
 Section: B
 Registered: true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ชื่อเป็นข้อความ → String</li><li>อายุนับเป็นปีเต็ม → int</li><li>เกรดเฉลี่ยมีทศนิยม → double</li><li>กลุ่มเรียนเป็นตัวอักษรเดียว → char</li><li>สถานะลงทะเบียน → boolean</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 3.2.2 · int กับ double แสดงผลต่างกัน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> double แสดงจุดทศนิยมเสมอ (เช่น <code>5.0</code>) และ int เก็บลง double ได้อัตโนมัติ แต่ double เก็บลง int ตรง ๆ ไม่ได้</p><div class="source-example-grid"><div class="source-field"><span>Java source · IntVsDouble.java</span><pre class="source-code">public class IntVsDouble {
-    public static void main(String[] args) {
-        int whole = 5;
-        double decimal = 5;       // int 5 ถูกขยายเป็น 5.0
-        double price = 19.99;
-        System.out.println(whole);
-        System.out.println(decimal);
-        System.out.println(price);
-        System.out.println(0.1 + 0.2);
+<div class="source-example"><h4>ตัวอย่าง 3.2.2 · int กับ double แสดงผลต่างกัน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> double แสดงจุดทศนิยมเสมอ (เช่น <code>5.0</code>) และ int เก็บลง double ได้อัตโนมัติ แต่ double เก็บลง int ตรง ๆ ไม่ได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">IntVsDouble.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">IntVsDouble</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> whole = <span class="tok-num">5</span>;         <span class="tok-com">// int เก็บจำนวนเต็ม</span>
+        <span class="tok-kw">double</span> decimal = <span class="tok-num">5</span>;    <span class="tok-com">// int 5 ถูกขยายเป็น 5.0</span>
+        <span class="tok-kw">double</span> price = <span class="tok-num">19.99</span>;  <span class="tok-com">// double เก็บทศนิยมได้</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(whole);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(decimal);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(price);
+        <span class="tok-com">// ทศนิยมฐานสองคลาดเคลื่อนเล็กน้อย</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-num">0.1</span> + <span class="tok-num">0.2</span>);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>5
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>5
 5.0
 19.99
 0.30000000000000004</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>whole</code> แสดง 5</li><li><code>decimal</code> แสดง 5.0 แม้กำหนดด้วยเลข 5</li><li><code>0.1 + 0.2</code> ได้ 0.30000000000000004 เพราะ double เก็บทศนิยมฐานสองแบบประมาณ — ใช้ printf จัดทศนิยมเวลาแสดงผล (บทที่ 4)</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 3.2.3 · ชนิดไม่ตรงกัน <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ค่าต้องเข้ากับชนิดของตัวแปร Java ตรวจตั้งแต่ตอนคอมไพล์ (strongly typed)</p><div class="source-example-grid"><div class="source-field"><span>Java source · TypeMismatch.java</span><pre class="source-code">public class TypeMismatch {
-    public static void main(String[] args) {
-        int count = 2.5;
-        String code = 'A';
-        char letter = "B";
-        boolean done = "true";
+<div class="source-example"><h4>ทดลอง error 3.2.3 · ชนิดไม่ตรงกัน <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ค่าต้องเข้ากับชนิดของตัวแปร Java ตรวจตั้งแต่ตอนคอมไพล์ (strongly typed)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TypeMismatch.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TypeMismatch</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> count = <span class="tok-num">2.5</span>;
+        <span class="tok-type">String</span> code = <span class="tok-str">'A'</span>;
+        <span class="tok-kw">char</span> letter = <span class="tok-str">"B"</span>;
+        <span class="tok-kw">boolean</span> done = <span class="tok-str">"true"</span>;
     }
-}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>TypeMismatch.java:3: error: incompatible types: possible lossy conversion from double to int
+}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>TypeMismatch.java:3: error: incompatible types: possible lossy conversion from double to int
         int count = 2.5;
                     ^
 TypeMismatch.java:4: error: incompatible types: char cannot be converted to String
@@ -150,85 +188,92 @@ TypeMismatch.java:6: error: incompatible types: String cannot be converted to bo
 <h3>3.3 ตัวดำเนินการและลำดับการคำนวณ</h3>
 <p>Java ใช้ <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> คำนวณเลข และ <code>%</code> (modulo) หาเศษจากการหาร วงเล็บช่วยกำหนดส่วนที่ต้องคำนวณก่อน</p>
 <table class="comparison-table"><thead><tr><th>ลำดับ</th><th>ตัวดำเนินการ</th><th>ทิศทาง</th></tr></thead><tbody><tr><td>1</td><td><code>( )</code> วงเล็บ</td><td>ในสุดก่อน</td></tr><tr><td>2</td><td><code>*</code> <code>/</code> <code>%</code></td><td>ซ้าย → ขวา</td></tr><tr><td>3</td><td><code>+</code> <code>-</code></td><td>ซ้าย → ขวา</td></tr><tr><td>4</td><td><code>=</code> <code>+=</code> <code>-=</code> …</td><td>ทำสุดท้าย</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 3.3.1 · ตัวดำเนินการพื้นฐาน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ลองทุกตัวดำเนินการกับตัวเลขชุดเดียวกัน สังเกต <code>/</code> และ <code>%</code> กับจำนวนเต็ม</p><div class="source-example-grid"><div class="source-field"><span>Java source · BasicOperators.java</span><pre class="source-code">public class BasicOperators {
-    public static void main(String[] args) {
-        int a = 17;
-        int b = 5;
-        System.out.println("a + b = " + (a + b));
-        System.out.println("a - b = " + (a - b));
-        System.out.println("a * b = " + (a * b));
-        System.out.println("a / b = " + (a / b));
-        System.out.println("a % b = " + (a % b));
-        System.out.println("17.0 / 5 = " + (17.0 / 5));
+<div class="source-example"><h4>ตัวอย่าง 3.3.1 · ตัวดำเนินการพื้นฐาน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ลองทุกตัวดำเนินการกับตัวเลขชุดเดียวกัน สังเกต <code>/</code> และ <code>%</code> กับจำนวนเต็ม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BasicOperators.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BasicOperators</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> a = <span class="tok-num">17</span>;  <span class="tok-com">// ใช้ a, b ในทุกบรรทัดด้านล่าง</span>
+        <span class="tok-kw">int</span> b = <span class="tok-num">5</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a + b = "</span> + (a + b));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a - b = "</span> + (a - b));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a * b = "</span> + (a * b));
+        <span class="tok-com">// int / int ตัดเศษทิ้ง</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a / b = "</span> + (a / b));
+        <span class="tok-com">// % ให้เศษจากการหาร</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a % b = "</span> + (a % b));
+        <span class="tok-com">// มี double ร่วมด้วย → ได้ทศนิยม</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"17.0 / 5 = "</span> + (<span class="tok-num">17.0</span> / <span class="tok-num">5</span>));
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>a + b = 22
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>a + b = 22
 a - b = 12
 a * b = 85
 a / b = 3
 a % b = 2
 17.0 / 5 = 3.4</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>17 / 5</code> เป็นจำนวนเต็มทั้งคู่ → ได้ 3 (ตัดเศษทิ้ง ไม่ปัดเศษ)</li><li><code>17 % 5</code> → เศษ 2 (เพราะ 5 × 3 = 15, 17 − 15 = 2)</li><li><code>17.0 / 5</code> มี double หนึ่งข้าง → ได้ 3.4</li><li>ต้องใส่วงเล็บ <code>(a + b)</code> ไม่เช่นนั้น + จะต่อข้อความแทนการบวก</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 3.3.2 · ลำดับการคำนวณและวงเล็บ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คูณ/หารก่อนบวก/ลบเสมอ ถ้าต้องการลำดับอื่นให้ใส่วงเล็บ</p><div class="source-example-grid"><div class="source-field"><span>Java source · Precedence.java</span><pre class="source-code">public class Precedence {
-    public static void main(String[] args) {
-        System.out.println(2 + 3 * 4);
-        System.out.println((2 + 3) * 4);
-        System.out.println(20 - 6 / 2);
-        System.out.println(20 / 4 * 2);
-        System.out.println(10 - 4 - 3);
-        System.out.println("Sum: " + 2 + 3);
-        System.out.println("Sum: " + (2 + 3));
+<div class="source-example"><h4>ตัวอย่าง 3.3.2 · ลำดับการคำนวณและวงเล็บ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คูณ/หารก่อนบวก/ลบเสมอ ถ้าต้องการลำดับอื่นให้ใส่วงเล็บ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Precedence.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Precedence</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-num">2</span> + <span class="tok-num">3</span> * <span class="tok-num">4</span>);    <span class="tok-com">// * ทำก่อน +</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>((<span class="tok-num">2</span> + <span class="tok-num">3</span>) * <span class="tok-num">4</span>);  <span class="tok-com">// วงเล็บทำก่อนเสมอ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-num">20</span> - <span class="tok-num">6</span> / <span class="tok-num">2</span>);
+        <span class="tok-com">// ลำดับเท่ากัน → ทำจากซ้ายไปขวา</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-num">20</span> / <span class="tok-num">4</span> * <span class="tok-num">2</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-num">10</span> - <span class="tok-num">4</span> - <span class="tok-num">3</span>);
+        <span class="tok-com">// ต่อข้อความทีละตัว → Sum: 23</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Sum: "</span> + <span class="tok-num">2</span> + <span class="tok-num">3</span>);
+        <span class="tok-com">// วงเล็บบวกเลขก่อน → Sum: 5</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Sum: "</span> + (<span class="tok-num">2</span> + <span class="tok-num">3</span>));
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>14
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>14
 20
 17
 10
 3
 Sum: 23
 Sum: 5</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>2 + 3 * 4</code> → 3 × 4 = 12 ก่อน แล้ว + 2 = 14</li><li><code>(2 + 3) * 4</code> → 20</li><li><code>20 / 4 * 2</code> ระดับเดียวกัน ทำซ้ายไปขวา → 5 × 2 = 10</li><li><code>"Sum: " + 2 + 3</code> ซ้ายไปขวา: ข้อความ + 2 = “Sum: 2” แล้ว + 3 = “Sum: 23” (ต่อข้อความ!)</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 3.3.3 · ใช้ / และ % แยกหลักตัวเลข <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>% 10</code> ได้หลักหน่วย และ <code>/ 10</code> ตัดหลักหน่วยทิ้ง ใช้ซ้ำเพื่อแยกทุกหลัก</p><div class="source-example-grid"><div class="source-field"><span>Java source · DigitSplit.java</span><pre class="source-code">public class DigitSplit {
-    public static void main(String[] args) {
-        int number = 4729;
-        int ones = number % 10;
-        int tens = number / 10 % 10;
-        int hundreds = number / 100 % 10;
-        int thousands = number / 1000;
-        System.out.println("Thousands: " + thousands);
-        System.out.println("Hundreds: " + hundreds);
-        System.out.println("Tens: " + tens);
-        System.out.println("Ones: " + ones);
-        System.out.println("Digit sum: " + (thousands + hundreds + tens + ones));
+<div class="source-example"><h4>ตัวอย่าง 3.3.3 · ใช้ / และ % แยกหลักตัวเลข <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>% 10</code> ได้หลักหน่วย และ <code>/ 10</code> ตัดหลักหน่วยทิ้ง ใช้ซ้ำเพื่อแยกทุกหลัก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DigitSplit.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DigitSplit</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> number = <span class="tok-num">4729</span>;
+        <span class="tok-kw">int</span> ones = number % <span class="tok-num">10</span>;  <span class="tok-com">// % 10 = หลักหน่วย</span>
+        <span class="tok-com">// ตัดหลักหน่วยทิ้ง แล้วเอาหลักสุดท้าย</span>
+        <span class="tok-kw">int</span> tens = number / <span class="tok-num">10</span> % <span class="tok-num">10</span>;
+        <span class="tok-kw">int</span> hundreds = number / <span class="tok-num">100</span> % <span class="tok-num">10</span>;
+        <span class="tok-kw">int</span> thousands = number / <span class="tok-num">1000</span>;  <span class="tok-com">// / 1000 = หลักพัน</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Thousands: "</span> + thousands);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hundreds: "</span> + hundreds);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Tens: "</span> + tens);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Ones: "</span> + ones);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Digit sum: "</span> + (thousands + hundreds + tens + ones));
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Thousands: 4
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Thousands: 4
 Hundreds: 7
 Tens: 2
 Ones: 9
 Digit sum: 22</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>4729 % 10 = 9</li><li>4729 / 10 = 472 → 472 % 10 = 2</li><li>4729 / 100 = 47 → 47 % 10 = 7</li><li>4729 / 1000 = 4</li><li>ผลรวมหลัก 4 + 7 + 2 + 9 = 22</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 3.3.4 · ตัวดำเนินการแบบย่อและ ++ / -- <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>x += 5</code> คือ <code>x = x + 5</code> และ <code>x++</code> คือเพิ่มทีละ 1 ใช้บ่อยมากในลูป (บทที่ 6)</p><div class="source-example-grid"><div class="source-field"><span>Java source · CompoundAssign.java</span><pre class="source-code">public class CompoundAssign {
-    public static void main(String[] args) {
-        int points = 10;
-        points += 5;    // 15
-        points -= 3;    // 12
-        points *= 2;    // 24
-        points /= 5;    // 4
-        points %= 3;    // 1
-        System.out.println("points = " + points);
+<div class="source-example"><h4>ตัวอย่าง 3.3.4 · ตัวดำเนินการแบบย่อและ ++ / -- <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>x += 5</code> คือ <code>x = x + 5</code> และ <code>x++</code> คือเพิ่มทีละ 1 ใช้บ่อยมากในลูป (บทที่ 6)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CompoundAssign.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CompoundAssign</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> points = <span class="tok-num">10</span>;
+        points += <span class="tok-num">5</span>;  <span class="tok-com">// 15</span>
+        points -= <span class="tok-num">3</span>;  <span class="tok-com">// 12</span>
+        points *= <span class="tok-num">2</span>;  <span class="tok-com">// 24</span>
+        points /= <span class="tok-num">5</span>;  <span class="tok-com">// 4</span>
+        points %= <span class="tok-num">3</span>;  <span class="tok-com">// 1</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"points = "</span> + points);
 
-        int count = 0;
+        <span class="tok-kw">int</span> count = <span class="tok-num">0</span>;
+        count++;  <span class="tok-com">// เพิ่มทีละ 1</span>
         count++;
-        count++;
-        count--;
-        System.out.println("count = " + count);
+        count--;  <span class="tok-com">// ลดทีละ 1</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"count = "</span> + count);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>points = 1
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>points = 1
 count = 1</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>10 → 15 → 12 → 24 → 4 (24/5 เป็นจำนวนเต็ม) → 1 (4 % 3)</li><li>count: 0 → 1 → 2 → 1</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 3.3.5 · หารจำนวนเต็มด้วยศูนย์ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่เมื่อรันถึงบรรทัดที่หารด้วย 0 โปรแกรมหยุดทันทีด้วย <code>ArithmeticException</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · DivideByZero.java</span><pre class="source-code">public class DivideByZero {
-    public static void main(String[] args) {
-        int total = 100;
-        int people = 0;
-        System.out.println("Before division");
-        int share = total / people;
-        System.out.println("Share: " + share);
+<div class="source-example"><h4>ทดลอง error 3.3.5 · หารจำนวนเต็มด้วยศูนย์ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่เมื่อรันถึงบรรทัดที่หารด้วย 0 โปรแกรมหยุดทันทีด้วย <code>ArithmeticException</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DivideByZero.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DivideByZero</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> total = <span class="tok-num">100</span>;
+        <span class="tok-kw">int</span> people = <span class="tok-num">0</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Before division"</span>);
+        <span class="tok-kw">int</span> share = total / people;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Share: "</span> + share);
     }
-}</pre></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Before division
+}</code></pre></div></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Before division
 Exception in thread "main" java.lang.ArithmeticException: / by zero
 	at DivideByZero.main(DivideByZero.java:6)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัดแรกพิมพ์ได้ตามปกติ</li><li><code>100 / 0</code> กับจำนวนเต็ม → เกิด runtime error</li><li>ข้อความ <code>/ by zero</code> และ <code>DivideByZero.java:6</code> บอกสาเหตุและบรรทัด</li><li>บรรทัด Share ไม่ถูกทำเลย</li></ol></div><p>หมายเหตุ: ถ้าเป็น double เช่น <code>100.0 / 0</code> จะไม่ error แต่ได้ค่า <code>Infinity</code> ซึ่งก็ยังไม่ใช่คำตอบที่ต้องการ ในบทที่ 5 จะใช้ if ตรวจก่อนหาร</p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · คำนวณในใจ</strong><div><pre><code>System.out.println(7 + 8 / 3 * 2);
@@ -240,75 +285,90 @@ System.out.println(1 + 2 + "A");</code></pre></div><details><summary>ดูค�
 <h3>3.4 ค่าคงที่และการแปลงชนิดข้อมูล</h3>
 <p>ค่าที่ไม่ต้องการให้เปลี่ยนประกาศด้วย <code>final</code> เช่นอัตราภาษี นิยมตั้งชื่อด้วยตัวพิมพ์ใหญ่คั่นด้วย <code>_</code> (<code>TAX_RATE</code>) ส่วนการแปลงชนิด (type casting) ใช้เมื่อต้องการเปลี่ยน int ↔ double อย่างตั้งใจ</p>
 <div class="concept-box"><span class="box-title">การแปลงชนิด 2 แบบ</span><ul><li><strong>Widening (อัตโนมัติ):</strong> ชนิดเล็กไปใหญ่ เช่น <code>int → double</code> ไม่เสียข้อมูล Java ทำให้เอง <code>double d = 7;</code></li><li><strong>Narrowing (ต้อง cast):</strong> ชนิดใหญ่ไปเล็ก เช่น <code>double → int</code> อาจเสียทศนิยม ต้องเขียน <code>(int)</code> เพื่อยืนยัน <code>int n = (int) 7.9;</code> ได้ 7 (ตัดทิ้ง ไม่ปัด)</li></ul></div>
-<div class="source-example"><h4>ตัวอย่าง 3.4.1 · ค่าคงที่ด้วย final <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตั้งค่าที่ใช้หลายที่ไว้เป็นค่าคงที่ ถ้าอัตราเปลี่ยนก็แก้ที่เดียว และ compiler กันไม่ให้เผลอแก้</p><div class="source-example-grid"><div class="source-field"><span>Java source · TaxConstant.java</span><pre class="source-code">public class TaxConstant {
-    public static void main(String[] args) {
-        final double TAX_RATE = 0.07;
-        double price = 35.50;
-        int quantity = 3;
+<div class="source-example"><h4>ตัวอย่าง 3.4.1 · ค่าคงที่ด้วย final <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตั้งค่าที่ใช้หลายที่ไว้เป็นค่าคงที่ ถ้าอัตราเปลี่ยนก็แก้ที่เดียว และ compiler กันไม่ให้เผลอแก้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TaxConstant.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TaxConstant</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// final = ค่าคงที่ แก้ภายหลังไม่ได้</span>
+        <span class="tok-kw">final</span> <span class="tok-kw">double</span> <span class="tok-const">TAX_RATE</span> = <span class="tok-num">0.07</span>;
+        <span class="tok-kw">double</span> price = <span class="tok-num">35.50</span>;
+        <span class="tok-kw">int</span> quantity = <span class="tok-num">3</span>;
 
-        double subtotal = price * quantity;
-        double tax = subtotal * TAX_RATE;
-        double total = subtotal + tax;
+        <span class="tok-kw">double</span> subtotal = price * quantity;  <span class="tok-com">// 35.50 × 3</span>
+        <span class="tok-com">// ใช้ค่าคงที่แทนการพิมพ์ 0.07 ตรง ๆ</span>
+        <span class="tok-kw">double</span> tax = subtotal * <span class="tok-const">TAX_RATE</span>;
+        <span class="tok-kw">double</span> total = subtotal + tax;
 
-        System.out.println("Subtotal: " + subtotal);
-        System.out.println("Tax: " + tax);
-        System.out.println("Total: " + total);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Subtotal: "</span> + subtotal);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Tax: "</span> + tax);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total: "</span> + total);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Subtotal: 106.5
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Subtotal: 106.5
 Tax: 7.455000000000001
 Total: 113.955</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>subtotal = 35.50 × 3 = 106.5</li><li>tax = 106.5 × 0.07 = 7.455 (Java แสดง 7.455000000000001 เพราะ double เก็บทศนิยมแบบประมาณ)</li><li>total = 113.955 (บทที่ 4 จะจัดเป็นทศนิยม 2 ตำแหน่ง)</li></ol></div><p class="try-it">เพิ่มบรรทัด TAX_RATE = 0.1; แล้วดูว่า compiler แจ้งอะไร (cannot assign a value to final variable)</p></div>
-<div class="source-example"><h4>ตัวอย่าง 3.4.2 · กับดักการหารจำนวนเต็มเมื่อหาค่าเฉลี่ย <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java คำนวณด้านขวาของ <code>=</code> ให้เสร็จก่อน แล้วค่อยเก็บ ถ้าด้านขวาเป็น int หาร int ทศนิยมหายไปก่อนจะถึง double</p><div class="source-example-grid"><div class="source-field"><span>Java source · AverageTrap.java</span><pre class="source-code">public class AverageTrap {
-    public static void main(String[] args) {
-        int total = 7;
-        int count = 2;
+<div class="source-example"><h4>ตัวอย่าง 3.4.2 · กับดักการหารจำนวนเต็มเมื่อหาค่าเฉลี่ย <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java คำนวณด้านขวาของ <code>=</code> ให้เสร็จก่อน แล้วค่อยเก็บ ถ้าด้านขวาเป็น int หาร int ทศนิยมหายไปก่อนจะถึง double</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AverageTrap.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AverageTrap</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> total = <span class="tok-num">7</span>;
+        <span class="tok-kw">int</span> count = <span class="tok-num">2</span>;
 
-        double wrong = total / count;
-        double right1 = total / 2.0;
-        double right2 = (double) total / count;
-        double stillWrong = (double) (total / count);
+        <span class="tok-com">// int / int = 3 แล้วจึงแปลงเป็น 3.0</span>
+        <span class="tok-kw">double</span> wrong = total / count;
+        <span class="tok-com">// หารด้วย 2.0 → ได้ทศนิยม</span>
+        <span class="tok-kw">double</span> right1 = total / <span class="tok-num">2.0</span>;
+        <span class="tok-com">// แปลง total เป็น double ก่อนหาร</span>
+        <span class="tok-kw">double</span> right2 = (<span class="tok-kw">double</span>) total / count;
+        <span class="tok-com">// หารเสร็จ (3) แล้วค่อยแปลง → ยังผิด</span>
+        <span class="tok-kw">double</span> stillWrong = (<span class="tok-kw">double</span>) (total / count);
 
-        System.out.println("wrong      = " + wrong);
-        System.out.println("right1     = " + right1);
-        System.out.println("right2     = " + right2);
-        System.out.println("stillWrong = " + stillWrong);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"wrong      = "</span> + wrong);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"right1     = "</span> + right1);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"right2     = "</span> + right2);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"stillWrong = "</span> + stillWrong);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>wrong      = 3.0
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>wrong      = 3.0
 right1     = 3.5
 right2     = 3.5
 stillWrong = 3.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>7 / 2</code> = 3 (int) → เก็บใน double เป็น 3.0 ❌</li><li><code>7 / 2.0</code> = 3.5 ✔</li><li><code>(double) total / count</code> → cast total เป็น 7.0 ก่อน แล้วหาร → 3.5 ✔</li><li><code>(double)(total / count)</code> → หารในวงเล็บได้ 3 ก่อน แล้วค่อย cast → 3.0 ❌</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 3.4.3 · cast ทศนิยมเป็นจำนวนเต็ม และปัดเศษ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>(int)</code> ตัดทศนิยมทิ้งเสมอ ถ้าต้องการปัดเศษให้ใช้ <code>Math.round</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · CastAndRound.java</span><pre class="source-code">public class CastAndRound {
-    public static void main(String[] args) {
-        double price = 49.75;
-        int cut = (int) price;
-        long rounded = Math.round(price);
-        double twoDecimals = Math.round(3.14159 * 100) / 100.0;
+<div class="source-example"><h4>ตัวอย่าง 3.4.3 · cast ทศนิยมเป็นจำนวนเต็ม และปัดเศษ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>(int)</code> ตัดทศนิยมทิ้งเสมอ ถ้าต้องการปัดเศษให้ใช้ <code>Math.round</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CastAndRound.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CastAndRound</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">double</span> price = <span class="tok-num">49.75</span>;
+        <span class="tok-com">// (int) ตัดทศนิยมทิ้ง ไม่ปัดเศษ</span>
+        <span class="tok-kw">int</span> cut = (<span class="tok-kw">int</span>) price;
+        <span class="tok-com">// ปัดเป็นจำนวนเต็มที่ใกล้ที่สุด</span>
+        <span class="tok-kw">long</span> rounded = <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(price);
+        <span class="tok-com">// เทคนิคปัดทศนิยม 2 ตำแหน่ง</span>
+        <span class="tok-kw">double</span> twoDecimals = <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(<span class="tok-num">3.14159</span> * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>;
 
-        System.out.println("cast  : " + cut);
-        System.out.println("round : " + rounded);
-        System.out.println("2 dp  : " + twoDecimals);
-        System.out.println("char 'A' + 1 = " + (char) ('A' + 1));
-        System.out.println("(int) 'A' = " + (int) 'A');
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"cast  : "</span> + cut);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"round : "</span> + rounded);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"2 dp  : "</span> + twoDecimals);
+        <span class="tok-com">// รหัส 'A' + 1 แล้วแปลงกลับเป็น char</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"char 'A' + 1 = "</span> + (<span class="tok-kw">char</span>) (<span class="tok-str">'A'</span> + <span class="tok-num">1</span>));
+        <span class="tok-com">// ดูรหัสตัวเลขของ 'A'</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"(int) 'A' = "</span> + (<span class="tok-kw">int</span>) <span class="tok-str">'A'</span>);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>cast  : 49
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>cast  : 49
 round : 50
 2 dp  : 3.14
 char 'A' + 1 = B
 (int) 'A' = 65</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>(int) 49.75</code> → 49 (ตัดทิ้ง)</li><li><code>Math.round(49.75)</code> → 50</li><li>ปัด 2 ตำแหน่ง: 3.14159 × 100 = 314.159 → round 314 → ÷ 100.0 = 3.14</li><li>char เก็บเป็นรหัสตัวเลข: 'A' คือ 65, 'A' + 1 = 66 → cast กลับเป็น 'B'</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 3.4.4 · ใช้เมธอดใน Math ช่วยคำนวณ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>Math</code> มีเมธอดสำเร็จรูป เช่น <code>Math.sqrt</code> (รากที่สอง), <code>Math.pow</code> (ยกกำลัง), <code>Math.PI</code>, <code>Math.abs</code>, <code>Math.max</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · MathTools.java</span><pre class="source-code">public class MathTools {
-    public static void main(String[] args) {
-        double radius = 3;
-        double area = Math.PI * Math.pow(radius, 2);
-        System.out.println("Circle area: " + area);
+<div class="source-example"><h4>ตัวอย่าง 3.4.4 · ใช้เมธอดใน Math ช่วยคำนวณ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>Math</code> มีเมธอดสำเร็จรูป เช่น <code>Math.sqrt</code> (รากที่สอง), <code>Math.pow</code> (ยกกำลัง), <code>Math.PI</code>, <code>Math.abs</code>, <code>Math.max</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MathTools.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MathTools</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">double</span> radius = <span class="tok-num">3</span>;
+        <span class="tok-com">// πr² ด้วย Math.pow</span>
+        <span class="tok-kw">double</span> area = <span class="tok-type">Math</span>.<span class="tok-const">PI</span> * <span class="tok-type">Math</span>.<span class="tok-fn">pow</span>(radius, <span class="tok-num">2</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Circle area: "</span> + area);
 
-        double a = 6, b = 8;
-        double hyp = Math.sqrt(a * a + b * b);
-        System.out.println("Hypotenuse: " + hyp);
+        <span class="tok-kw">double</span> a = <span class="tok-num">6</span>, b = <span class="tok-num">8</span>;
+        <span class="tok-com">// รากที่สองของ a² + b²</span>
+        <span class="tok-kw">double</span> hyp = <span class="tok-type">Math</span>.<span class="tok-fn">sqrt</span>(a * a + b * b);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hypotenuse: "</span> + hyp);
 
-        System.out.println("abs(-12) = " + Math.abs(-12));
-        System.out.println("max(7, 3) = " + Math.max(7, 3));
-        System.out.println("min(7, 3) = " + Math.min(7, 3));
+        <span class="tok-com">// ค่าสัมบูรณ์</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"abs(-12) = "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">abs</span>(-<span class="tok-num">12</span>));
+        <span class="tok-com">// ค่าที่มากกว่า</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"max(7, 3) = "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">max</span>(<span class="tok-num">7</span>, <span class="tok-num">3</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"min(7, 3) = "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">min</span>(<span class="tok-num">7</span>, <span class="tok-num">3</span>));
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Circle area: 28.274333882308138
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Circle area: 28.274333882308138
 Hypotenuse: 10.0
 abs(-12) = 12
 max(7, 3) = 7
@@ -322,112 +382,120 @@ min(7, 3) = 3</pre></div></div><div class="walkthrough"><strong>อธิบา�
         <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 3.1</span>นับจำนวนหนังสือ<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>ชั้นหนังสือมีหนังสือ 4 เล่ม แล้วได้รับเพิ่มอีก 3 เล่ม จากนั้นให้เพื่อนยืมไป 2 เล่ม จงเขียนโปรแกรมที่ใช้ตัวแปร<strong>ตัวเดียว</strong>ชื่อ <code>books</code> ติดตามจำนวนหนังสือ และพิมพ์จำนวนหลังทุกเหตุการณ์</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ประกาศ <code>int books = 4;</code></li><li>อัปเดตค่าด้วย <code>books = books + ...</code> หรือ <code>+=</code>, <code>-=</code></li><li>พิมพ์ 3 บรรทัดตามตัวอย่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Start: 4
 After receiving: 7
-After lending: 5</pre></div><div class="answer-gate" data-answer-id="3.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class BookCounter {
-    public static void main(String[] args) {
-        int books = 4;
-        System.out.println("Start: " + books);
-        books += 3;
-        System.out.println("After receiving: " + books);
-        books -= 2;
-        System.out.println("After lending: " + books);
+After lending: 5</pre></div><div class="answer-gate" data-answer-id="3.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">BookCounter.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookCounter</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> books = <span class="tok-num">4</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Start: "</span> + books);
+        books += <span class="tok-num">3</span>;  <span class="tok-com">// books = books + 3</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"After receiving: "</span> + books);
+        books -= <span class="tok-num">2</span>;  <span class="tok-com">// books = books - 2</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"After lending: "</span> + books);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 3.2</span>ประกาศข้อมูลนักศึกษา<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>เลือกชนิดข้อมูลให้เหมาะสมและประกาศตัวแปรสำหรับ: ชื่อ <code>Nida</code>, อายุ 20 ปี, คะแนนเฉลี่ย 3.25, เพศ <code>F</code> (อักขระเดียว) และสถานะ “ลงทะเบียนแล้ว” แล้วแสดงผลตามตัวอย่าง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ชนิดข้อมูลครบ 5 ชนิด: String, int, double, char, boolean</li><li>ตั้งชื่อตัวแปรแบบ camelCase</li><li>แสดงผลในรูปแบบ <code>ชื่อหัวข้อ: ค่า</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Name: Nida
 Age: 20
 GPA: 3.25
 Gender: F
-Registered: true</pre></div><div class="answer-gate" data-answer-id="3.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class StudentInfo {
-    public static void main(String[] args) {
-        String name = "Nida";
-        int age = 20;
-        double gpa = 3.25;
-        char gender = 'F';
-        boolean isRegistered = true;
-        System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
-        System.out.println("GPA: " + gpa);
-        System.out.println("Gender: " + gender);
-        System.out.println("Registered: " + isRegistered);
+Registered: true</pre></div><div class="answer-gate" data-answer-id="3.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">StudentInfo.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StudentInfo</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">String</span> name = <span class="tok-str">"Nida"</span>;
+        <span class="tok-kw">int</span> age = <span class="tok-num">20</span>;
+        <span class="tok-kw">double</span> gpa = <span class="tok-num">3.25</span>;
+        <span class="tok-kw">char</span> gender = <span class="tok-str">'F'</span>;
+        <span class="tok-kw">boolean</span> isRegistered = <span class="tok-num">true</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name: "</span> + name);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Age: "</span> + age);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"GPA: "</span> + gpa);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Gender: "</span> + gender);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Registered: "</span> + isRegistered);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 3.3</span>แบ่งส้มให้เท่ากัน<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>มีส้ม 23 ผล แบ่งให้เพื่อน 4 คนเท่า ๆ กัน จงหาจำนวนส้มที่แต่ละคนได้ และจำนวนที่เหลือ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เก็บ 23 และ 4 ในตัวแปร</li><li>ใช้ <code>/</code> หาส่วนแบ่ง และ <code>%</code> หาเศษ</li><li>ตรวจด้วยมือ: ส่วนแบ่ง × คน + เศษ ต้องเท่ากับ 23</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Each friend gets 5 oranges
-Left over: 3</pre></div><div class="answer-gate" data-answer-id="3.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class ShareOranges {
-    public static void main(String[] args) {
-        int oranges = 23;
-        int friends = 4;
-        int each = oranges / friends;
-        int left = oranges % friends;
-        System.out.println("Each friend gets " + each + " oranges");
-        System.out.println("Left over: " + left);
+Left over: 3</pre></div><div class="answer-gate" data-answer-id="3.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ShareOranges.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ShareOranges</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> oranges = <span class="tok-num">23</span>;
+        <span class="tok-kw">int</span> friends = <span class="tok-num">4</span>;
+        <span class="tok-kw">int</span> each = oranges / friends;  <span class="tok-com">// จำนวนเต็มที่แต่ละคนได้</span>
+        <span class="tok-kw">int</span> left = oranges % friends;  <span class="tok-com">// เศษที่เหลือ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Each friend gets "</span> + each + <span class="tok-str">" oranges"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Left over: "</span> + left);
     }
-}</code></pre><p>5 × 4 + 3 = 23 ถูกต้อง</p></div></div></article>
+}</code></pre></div><p>5 × 4 + 3 = 23 ถูกต้อง</p></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 3.4</span>ยอดซื้อรวมภาษี<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สินค้าราคาชิ้นละ 35.50 บาท ซื้อ 3 ชิ้น คำนวณยอดก่อนภาษี ภาษีมูลค่าเพิ่ม 7% และยอดสุทธิ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ประกาศอัตราภาษีเป็น <code>final double VAT = 0.07;</code></li><li>คำนวณ 3 ค่า: subtotal, vat, total</li><li>แสดงทศนิยม 2 ตำแหน่งด้วยวิธี <code>Math.round(x * 100) / 100.0</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Subtotal: 106.5
 VAT 7%: 7.46
-Total: 113.96</pre></div><div class="answer-gate" data-answer-id="3.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class VatTotal {
-    public static void main(String[] args) {
-        final double VAT = 0.07;
-        double price = 35.50;
-        int qty = 3;
-        double subtotal = price * qty;
-        double vat = subtotal * VAT;
-        double total = subtotal + vat;
-        System.out.println("Subtotal: " + Math.round(subtotal * 100) / 100.0);
-        System.out.println("VAT 7%: " + Math.round(vat * 100) / 100.0);
-        System.out.println("Total: " + Math.round(total * 100) / 100.0);
+Total: 113.96</pre></div><div class="answer-gate" data-answer-id="3.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">VatTotal.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">VatTotal</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">final</span> <span class="tok-kw">double</span> <span class="tok-const">VAT</span> = <span class="tok-num">0.07</span>;  <span class="tok-com">// ค่าคงที่ VAT 7%</span>
+        <span class="tok-kw">double</span> price = <span class="tok-num">35.50</span>;
+        <span class="tok-kw">int</span> qty = <span class="tok-num">3</span>;
+        <span class="tok-kw">double</span> subtotal = price * qty;
+        <span class="tok-kw">double</span> vat = subtotal * <span class="tok-const">VAT</span>;
+        <span class="tok-kw">double</span> total = subtotal + vat;
+        <span class="tok-com">// ปัดทศนิยม 2 ตำแหน่ง</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Subtotal: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(subtotal * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"VAT 7%: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(vat * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(total * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
     }
-}</code></pre></div></div></article>
-<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 3.5</span>แปลงวินาทีเป็นชั่วโมง นาที วินาที<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>แปลง 3,665 วินาทีเป็นชั่วโมง นาที และวินาที โดยใช้การหารจำนวนเต็มและเศษจากการหาร</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>1 ชั่วโมง = 3600 วินาที, 1 นาที = 60 วินาที</li><li>หา hours ก่อน แล้วนำ<strong>เศษ</strong>ไปหา minutes และ seconds</li><li>แสดงผลรูปแบบ <code>1 h 1 m 5 s</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>3665 seconds = 1 h 1 m 5 s</pre></div><div class="answer-gate" data-answer-id="3.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class SecondsToTime {
-    public static void main(String[] args) {
-        int total = 3665;
-        int hours = total / 3600;
-        int remain = total % 3600;
-        int minutes = remain / 60;
-        int seconds = remain % 60;
-        System.out.println(total + " seconds = " + hours + " h " + minutes + " m " + seconds + " s");
+}</code></pre></div></div></div></article>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 3.5</span>แปลงวินาทีเป็นชั่วโมง นาที วินาที<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>แปลง 3,665 วินาทีเป็นชั่วโมง นาที และวินาที โดยใช้การหารจำนวนเต็มและเศษจากการหาร</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>1 ชั่วโมง = 3600 วินาที, 1 นาที = 60 วินาที</li><li>หา hours ก่อน แล้วนำ<strong>เศษ</strong>ไปหา minutes และ seconds</li><li>แสดงผลรูปแบบ <code>1 h 1 m 5 s</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>3665 seconds = 1 h 1 m 5 s</pre></div><div class="answer-gate" data-answer-id="3.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">SecondsToTime.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SecondsToTime</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> total = <span class="tok-num">3665</span>;
+        <span class="tok-kw">int</span> hours = total / <span class="tok-num">3600</span>;   <span class="tok-com">// 3600 วินาที = 1 ชั่วโมง</span>
+        <span class="tok-kw">int</span> remain = total % <span class="tok-num">3600</span>;  <span class="tok-com">// วินาทีที่เหลือหลังหักชั่วโมง</span>
+        <span class="tok-kw">int</span> minutes = remain / <span class="tok-num">60</span>;
+        <span class="tok-kw">int</span> seconds = remain % <span class="tok-num">60</span>;  <span class="tok-com">// เศษจากนาที = วินาที</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(total + <span class="tok-str">" seconds = "</span> + hours + <span class="tok-str">" h "</span> + minutes + <span class="tok-str">" m "</span> + seconds + <span class="tok-str">" s"</span>);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 3.6</span>ค่าเฉลี่ยแบบทศนิยม<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>มีคะแนน 8, 9 และ 10 เก็บในตัวแปรชนิด <code>int</code> ทั้งสามตัว จงหาค่าเฉลี่ยให้ได้ทศนิยมที่ถูกต้อง <strong>และ</strong>แสดงผลแบบผิดเพื่อเปรียบเทียบ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>คำนวณผลรวมเป็น int</li><li>แสดงค่าเฉลี่ยแบบผิด (หาร int ด้วย int) และแบบถูก (cast หรือหารด้วย 3.0)</li><li>ใช้คะแนน 8, 9, 9 แทนดูด้วย ว่าแบบผิดให้ผลต่างจากแบบถูกอย่างไร (ในตัวอย่างใช้ 8, 9, 10)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Sum = 27
 Wrong average = 9.0
 Right average = 9.0
-8,9,9 wrong = 8, right = 8.666666666666666</pre></div><div class="answer-gate" data-answer-id="3.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class DecimalAverage {
-    public static void main(String[] args) {
-        int s1 = 8, s2 = 9, s3 = 10;
-        int sum = s1 + s2 + s3;
-        double wrong = sum / 3;
-        double right = sum / 3.0;
-        System.out.println("Sum = " + sum);
-        System.out.println("Wrong average = " + wrong);
-        System.out.println("Right average = " + right);
-        int t1 = 8, t2 = 9, t3 = 9;
-        int sum2 = t1 + t2 + t3;
-        System.out.println("8,9,9 wrong = " + (sum2 / 3) + ", right = " + ((double) sum2 / 3));
+8,9,9 wrong = 8, right = 8.666666666666666</pre></div><div class="answer-gate" data-answer-id="3.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">DecimalAverage.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DecimalAverage</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> s1 = <span class="tok-num">8</span>, s2 = <span class="tok-num">9</span>, s3 = <span class="tok-num">10</span>;
+        <span class="tok-kw">int</span> sum = s1 + s2 + s3;
+        <span class="tok-kw">double</span> wrong = sum / <span class="tok-num">3</span>;    <span class="tok-com">// int / int ตัดเศษ</span>
+        <span class="tok-kw">double</span> right = sum / <span class="tok-num">3.0</span>;  <span class="tok-com">// หารด้วย 3.0 ได้ทศนิยม</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Sum = "</span> + sum);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Wrong average = "</span> + wrong);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Right average = "</span> + right);
+        <span class="tok-kw">int</span> t1 = <span class="tok-num">8</span>, t2 = <span class="tok-num">9</span>, t3 = <span class="tok-num">9</span>;
+        <span class="tok-kw">int</span> sum2 = t1 + t2 + t3;
+        <span class="tok-com">// ชุดนี้หารไม่ลงตัว เห็นความต่างชัด</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"8,9,9 wrong = "</span> + (sum2 / <span class="tok-num">3</span>) + <span class="tok-str">", right = "</span> + ((<span class="tok-kw">double</span>) sum2 / <span class="tok-num">3</span>));
     }
-}</code></pre><p>กับ 8, 9, 10 ผลรวม 27 หาร 3 ลงตัว ทั้งสองแบบจึงได้ 9 เท่ากัน — อย่าเชื่อการทดสอบชุดเดียว! กับ 8, 9, 9 แบบผิดได้ 8 แต่แบบถูกได้ 8.67</p></div></div></article>
+}</code></pre></div><p>กับ 8, 9, 10 ผลรวม 27 หาร 3 ลงตัว ทั้งสองแบบจึงได้ 9 เท่ากัน — อย่าเชื่อการทดสอบชุดเดียว! กับ 8, 9, 9 แบบผิดได้ 8 แต่แบบถูกได้ 8.67</p></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 3.7</span>ดัชนีมวลกาย (BMI)<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>คำนวณ BMI จากน้ำหนัก 68.5 กิโลกรัม และส่วนสูง 172 <strong>เซนติเมตร</strong> ด้วยสูตร BMI = น้ำหนัก ÷ (ส่วนสูงเป็นเมตร)²</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แปลงเซนติเมตรเป็นเมตรก่อน (÷ 100.0)</li><li>ใช้ <code>Math.pow</code> หรือคูณตัวเองก็ได้</li><li>แสดง BMI ทศนิยม 2 ตำแหน่ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Height (m): 1.72
-BMI: 23.15</pre></div><div class="answer-gate" data-answer-id="3.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class BmiCalc {
-    public static void main(String[] args) {
-        double weight = 68.5;
-        int heightCm = 172;
-        double heightM = heightCm / 100.0;
-        double bmi = weight / Math.pow(heightM, 2);
-        System.out.println("Height (m): " + heightM);
-        System.out.println("BMI: " + Math.round(bmi * 100) / 100.0);
+BMI: 23.15</pre></div><div class="answer-gate" data-answer-id="3.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">BmiCalc.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BmiCalc</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">double</span> weight = <span class="tok-num">68.5</span>;
+        <span class="tok-kw">int</span> heightCm = <span class="tok-num">172</span>;
+        <span class="tok-com">// 100.0 ทำให้ได้ 1.72 ไม่ใช่ 1</span>
+        <span class="tok-kw">double</span> heightM = heightCm / <span class="tok-num">100.0</span>;
+        <span class="tok-com">// น้ำหนัก ÷ ส่วนสูง²</span>
+        <span class="tok-kw">double</span> bmi = weight / <span class="tok-type">Math</span>.<span class="tok-fn">pow</span>(heightM, <span class="tok-num">2</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Height (m): "</span> + heightM);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"BMI: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(bmi * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
     }
-}</code></pre><p>ถ้าเขียน <code>heightCm / 100</code> จะได้ 1 (int) แทน 1.72 ทำให้ BMI ผิดมาก</p></div></div></article>
+}</code></pre></div><p>ถ้าเขียน <code>heightCm / 100</code> จะได้ 1 (int) แทน 1.72 ทำให้ BMI ผิดมาก</p></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 3.8</span>แยกหลักและกลับตัวเลข<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>กำหนดจำนวนเต็ม 3 หลัก <code>number = 582</code> จงแยกหลักร้อย สิบ หน่วย แล้วสร้าง<strong>ตัวเลขกลับหลัก</strong> (285) และหาผลรวมของหลัก โดยใช้เฉพาะ <code>/</code>, <code>%</code>, <code>*</code>, <code>+</code> (ห้ามใช้ String)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>หลักหน่วย = number % 10, หลักสิบ = number / 10 % 10, หลักร้อย = number / 100</li><li>ตัวเลขกลับหลัก = หน่วย × 100 + สิบ × 10 + ร้อย</li><li>แสดงผลตามตัวอย่าง และลองเปลี่ยนเป็น 907 ว่าได้ 709 หรือไม่</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Digits: 5, 8, 2
 Reversed: 285
-Digit sum: 15</pre></div><div class="answer-gate" data-answer-id="3.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class ReverseDigits {
-    public static void main(String[] args) {
-        int number = 582;
-        int hundreds = number / 100;
-        int tens = number / 10 % 10;
-        int ones = number % 10;
-        int reversed = ones * 100 + tens * 10 + hundreds;
-        System.out.println("Digits: " + hundreds + ", " + tens + ", " + ones);
-        System.out.println("Reversed: " + reversed);
-        System.out.println("Digit sum: " + (hundreds + tens + ones));
+Digit sum: 15</pre></div><div class="answer-gate" data-answer-id="3.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ReverseDigits.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReverseDigits</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> number = <span class="tok-num">582</span>;
+        <span class="tok-com">// หลักร้อย</span>
+        <span class="tok-kw">int</span> hundreds = number / <span class="tok-num">100</span>;
+        <span class="tok-com">// หลักสิบ</span>
+        <span class="tok-kw">int</span> tens = number / <span class="tok-num">10</span> % <span class="tok-num">10</span>;
+        <span class="tok-com">// หลักหน่วย</span>
+        <span class="tok-kw">int</span> ones = number % <span class="tok-num">10</span>;
+        <span class="tok-com">// สลับตำแหน่งหลัก</span>
+        <span class="tok-kw">int</span> reversed = ones * <span class="tok-num">100</span> + tens * <span class="tok-num">10</span> + hundreds;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Digits: "</span> + hundreds + <span class="tok-str">", "</span> + tens + <span class="tok-str">", "</span> + ones);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Reversed: "</span> + reversed);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Digit sum: "</span> + (hundreds + tens + ones));
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 3.9</span>ทอนเงินด้วยธนบัตรและเหรียญ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>ลูกค้าซื้อของ 1,263 บาท จ่ายด้วยเงิน 2,000 บาท จงคำนวณเงินทอนแล้วแตกเป็นธนบัตร/เหรียญ 500, 100, 50, 20, 10, 5, 1 ให้ได้<strong>จำนวนใบน้อยที่สุด</strong></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เงินทอน = 2000 − 1263</li><li>คำนวณจากชนิดใหญ่ไปเล็ก: จำนวน = เงินที่เหลือ / ชนิด แล้ว เงินที่เหลือ = เงินที่เหลือ % ชนิด</li><li>ใช้ตัวแปร <code>remain</code> ตัวเดียวอัปเดตไปเรื่อย ๆ</li><li>ตรวจผล: ผลรวมของ (ชนิด × จำนวน) ต้องเท่ากับเงินทอน</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Change: 737
 500 x 1
 100 x 2
@@ -435,65 +503,69 @@ Digit sum: 15</pre></div><div class="answer-gate" data-answer-id="3.8"><button c
 20 x 1
 10 x 1
 5 x 1
-1 x 2</pre></div><div class="answer-gate" data-answer-id="3.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class ChangeBreakdown {
-    public static void main(String[] args) {
-        int price = 1263;
-        int paid = 2000;
-        int change = paid - price;
-        System.out.println("Change: " + change);
-        int remain = change;
-        int b500 = remain / 500; remain %= 500;
-        int b100 = remain / 100; remain %= 100;
-        int b50 = remain / 50;   remain %= 50;
-        int b20 = remain / 20;   remain %= 20;
-        int c10 = remain / 10;   remain %= 10;
-        int c5 = remain / 5;     remain %= 5;
-        int c1 = remain;
-        System.out.println("500 x " + b500);
-        System.out.println("100 x " + b100);
-        System.out.println("50 x " + b50);
-        System.out.println("20 x " + b20);
-        System.out.println("10 x " + c10);
-        System.out.println("5 x " + c5);
-        System.out.println("1 x " + c1);
+1 x 2</pre></div><div class="answer-gate" data-answer-id="3.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ChangeBreakdown.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ChangeBreakdown</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> price = <span class="tok-num">1263</span>;
+        <span class="tok-kw">int</span> paid = <span class="tok-num">2000</span>;
+        <span class="tok-kw">int</span> change = paid - price;  <span class="tok-com">// 2000 - 1263 = 737</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Change: "</span> + change);
+        <span class="tok-kw">int</span> remain = change;
+        <span class="tok-com">// จำนวนใบ แล้วเก็บเศษไว้คิดต่อ</span>
+        <span class="tok-kw">int</span> b500 = remain / <span class="tok-num">500</span>; remain %= <span class="tok-num">500</span>;
+        <span class="tok-kw">int</span> b100 = remain / <span class="tok-num">100</span>; remain %= <span class="tok-num">100</span>;
+        <span class="tok-kw">int</span> b50 = remain / <span class="tok-num">50</span>;   remain %= <span class="tok-num">50</span>;
+        <span class="tok-kw">int</span> b20 = remain / <span class="tok-num">20</span>;   remain %= <span class="tok-num">20</span>;
+        <span class="tok-kw">int</span> c10 = remain / <span class="tok-num">10</span>;   remain %= <span class="tok-num">10</span>;
+        <span class="tok-kw">int</span> c5 = remain / <span class="tok-num">5</span>;     remain %= <span class="tok-num">5</span>;
+        <span class="tok-kw">int</span> c1 = remain;  <span class="tok-com">// ที่เหลือเป็นเหรียญ 1 บาท</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"500 x "</span> + b500);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"100 x "</span> + b100);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"50 x "</span> + b50);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"20 x "</span> + b20);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"10 x "</span> + c10);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"5 x "</span> + c5);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"1 x "</span> + c1);
     }
-}</code></pre><p>737 = 500 + 2×100 + 20 + 10 + 5 + 2×1</p></div></div></article>
+}</code></pre></div><p>737 = 500 + 2×100 + 20 + 10 + 5 + 2×1</p></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 3.10</span>ค่าโทรศัพท์รายเดือน<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>บริษัทคิดค่าโทรดังนี้: ค่าบริการรายเดือน 199 บาท โทรฟรี 150 นาที นาทีที่เกินคิดนาทีละ 1.50 บาท และค่าอินเทอร์เน็ต 12.5 GB คิด GB ละ 20 บาท รวมแล้วบวก VAT 7% เดือนนี้โทร 237 นาที</p><p><strong>ข้อจำกัด:</strong> ยังไม่ได้เรียน if ให้หานาทีที่เกินด้วย <code>Math.max(0, นาทีที่โทร − 150)</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ประกาศค่าคงที่ทั้งหมดด้วย final (ค่าบริการ, นาทีฟรี, ราคาต่อนาที, ราคาต่อ GB, VAT)</li><li>คำนวณ: นาทีที่เกิน, ค่าโทรส่วนเกิน, ค่าเน็ต, ยอดก่อน VAT, VAT, ยอดสุทธิ</li><li>แสดงทศนิยม 2 ตำแหน่ง</li><li>ทดลองเปลี่ยนนาทีที่โทรเป็น 120 แล้วตรวจว่าค่าโทรส่วนเกินเป็น 0</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Extra minutes: 87
 Call charge: 130.5
 Data charge: 250.0
 Before VAT: 579.5
 VAT: 40.57
-Total: 620.07</pre></div><div class="answer-gate" data-answer-id="3.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class PhoneBill {
-    public static void main(String[] args) {
-        final double BASE_FEE = 199;
-        final int FREE_MINUTES = 150;
-        final double PER_MINUTE = 1.50;
-        final double PER_GB = 20;
-        final double VAT = 0.07;
+Total: 620.07</pre></div><div class="answer-gate" data-answer-id="3.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">PhoneBill.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PhoneBill</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// ค่าคงที่ทั้งหมดอยู่ด้านบน แก้ง่าย</span>
+        <span class="tok-kw">final</span> <span class="tok-kw">double</span> <span class="tok-const">BASE_FEE</span> = <span class="tok-num">199</span>;
+        <span class="tok-kw">final</span> <span class="tok-kw">int</span> <span class="tok-const">FREE_MINUTES</span> = <span class="tok-num">150</span>;
+        <span class="tok-kw">final</span> <span class="tok-kw">double</span> <span class="tok-const">PER_MINUTE</span> = <span class="tok-num">1.50</span>;
+        <span class="tok-kw">final</span> <span class="tok-kw">double</span> <span class="tok-const">PER_GB</span> = <span class="tok-num">20</span>;
+        <span class="tok-kw">final</span> <span class="tok-kw">double</span> <span class="tok-const">VAT</span> = <span class="tok-num">0.07</span>;
 
-        int minutesUsed = 237;
-        double gbUsed = 12.5;
+        <span class="tok-kw">int</span> minutesUsed = <span class="tok-num">237</span>;
+        <span class="tok-kw">double</span> gbUsed = <span class="tok-num">12.5</span>;
 
-        int extraMinutes = Math.max(0, minutesUsed - FREE_MINUTES);
-        double callCharge = extraMinutes * PER_MINUTE;
-        double dataCharge = gbUsed * PER_GB;
-        double beforeVat = BASE_FEE + callCharge + dataCharge;
-        double vat = beforeVat * VAT;
-        double total = beforeVat + vat;
+        <span class="tok-com">// ไม่ให้ติดลบเมื่อใช้ไม่ถึง 150 นาที</span>
+        <span class="tok-kw">int</span> extraMinutes = <span class="tok-type">Math</span>.<span class="tok-fn">max</span>(<span class="tok-num">0</span>, minutesUsed - <span class="tok-const">FREE_MINUTES</span>);
+        <span class="tok-kw">double</span> callCharge = extraMinutes * <span class="tok-const">PER_MINUTE</span>;
+        <span class="tok-kw">double</span> dataCharge = gbUsed * <span class="tok-const">PER_GB</span>;
+        <span class="tok-com">// รวมก่อนคิด VAT</span>
+        <span class="tok-kw">double</span> beforeVat = <span class="tok-const">BASE_FEE</span> + callCharge + dataCharge;
+        <span class="tok-kw">double</span> vat = beforeVat * <span class="tok-const">VAT</span>;
+        <span class="tok-kw">double</span> total = beforeVat + vat;
 
-        System.out.println("Extra minutes: " + extraMinutes);
-        System.out.println("Call charge: " + Math.round(callCharge * 100) / 100.0);
-        System.out.println("Data charge: " + Math.round(dataCharge * 100) / 100.0);
-        System.out.println("Before VAT: " + Math.round(beforeVat * 100) / 100.0);
-        System.out.println("VAT: " + Math.round(vat * 100) / 100.0);
-        System.out.println("Total: " + Math.round(total * 100) / 100.0);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Extra minutes: "</span> + extraMinutes);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Call charge: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(callCharge * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Data charge: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(dataCharge * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Before VAT: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(beforeVat * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"VAT: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(vat * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total: "</span> + <span class="tok-type">Math</span>.<span class="tok-fn">round</span>(total * <span class="tok-num">100</span>) / <span class="tok-num">100.0</span>);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-02.html">← บทที่ 2</a><a class="pager-link" href="chapter-04.html">บทที่ 4: รับข้อมูลและแสดงผล →</a></nav>
       <footer class="lesson-footer">Java programming by Prymania · บทที่ 3 · ตรวจผลคำนวณด้วยมือเสมอ</footer>
     </main>
   </div>
-  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
 </body>
 </html>

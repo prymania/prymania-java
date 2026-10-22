@@ -31,16 +31,17 @@ export default {
           code: j`
             public class BookDemo {
                 public static void main(String[] args) {
+                    // new สร้างออบเจ็กต์จากคลาส Book
                     Book b = new Book();
-                    b.title = "Java Basics";
+                    b.title = "Java Basics";  // กำหนดค่า field ผ่านจุด (.)
                     b.author = "Mali";
                     b.pages = 320;
                     System.out.println(b.title + " by " + b.author + ", " + b.pages + " pages");
                 }
             }
 
-            class Book {
-                String title;
+            class Book {       // คลาส = แม่แบบของออบเจ็กต์
+                String title;  // field: ข้อมูลที่ทุก Book มี
                 String author;
                 int pages;
             }`,
@@ -53,7 +54,7 @@ export default {
                     Book b = new Book();
                     b.title = "Java Basics";
                     b.pages = 320;
-                    b.describe();
+                    b.describe();  // เรียกเมธอดของออบเจ็กต์ b
                     System.out.println("Reading time: " + b.readingHours(40) + " hours");
                     System.out.println("Thick book? " + b.isThick());
                 }
@@ -63,10 +64,12 @@ export default {
                 String title;
                 int pages;
 
+                // เมธอดใช้ field ของออบเจ็กต์ตัวเองได้ตรง ๆ
                 void describe() {
                     System.out.println("Book: " + title + " (" + pages + " pages)");
                 }
 
+                // รับ parameter และคืนค่าได้เหมือนเมธอด static
                 double readingHours(int pagesPerHour) {
                     return (double) pages / pagesPerHour;
                 }
@@ -105,6 +108,7 @@ export default {
           code: j`
             public class DefaultFields {
                 public static void main(String[] args) {
+                    // ยังไม่ได้กำหนดค่า field ใด ๆ
                     Product p = new Product();
                     System.out.println("name = " + p.name);
                     System.out.println("price = " + p.price);
@@ -114,10 +118,10 @@ export default {
             }
 
             class Product {
-                String name;
-                double price;
+                String name;   // String เริ่มต้นเป็น null
+                double price;  // ตัวเลขเริ่มต้นเป็น 0
                 int stock;
-                boolean onSale;
+                boolean onSale;  // boolean เริ่มต้นเป็น false
             }`,
           steps: ["String → null", "double → 0.0, int → 0", "boolean → false", "constructor ในหัวข้อถัดไปช่วยกำหนดค่าเริ่มต้นที่มีความหมาย"] },
         { type: "run", title: "สองตัวแปรชี้ออบเจ็กต์เดียวกัน", level: "ต่อยอด",
@@ -129,15 +133,17 @@ export default {
                     a.name = "Pen";
                     a.stock = 10;
 
-                    Product b = a;
-                    b.stock = 3;
+                    Product b = a;  // ไม่ได้สร้างใหม่: b ชี้ออบเจ็กต์เดียวกับ a
+                    b.stock = 3;    // แก้ผ่าน b → a เห็นค่าใหม่ด้วย
 
-                    Product c = new Product();
+                    Product c = new Product();  // new = ออบเจ็กต์ใหม่อีกตัว
                     c.name = "Pen";
                     c.stock = 3;
 
                     System.out.println("a.stock = " + a.stock);
+                    // ชี้ตัวเดียวกัน
                     System.out.println("a == b ? " + (a == b));
+                    // ค่าเหมือนกันแต่คนละออบเจ็กต์
                     System.out.println("a == c ? " + (a == c));
                 }
             }
@@ -155,11 +161,12 @@ export default {
                     Product p = new Product();
                     p.name = "Notebook";
                     p.price = 40;
-                    applyDiscount(p, 25);
+                    applyDiscount(p, 25);  // ส่งการอ้างอิงของออบเจ็กต์เข้าไป
                     System.out.println(p.name + " now costs " + p.price);
                 }
 
                 static void applyDiscount(Product item, double percent) {
+                    // แก้ field ของออบเจ็กต์ตัวจริง
                     item.price = item.price * (100 - percent) / 100;
                 }
             }
@@ -215,6 +222,7 @@ export default {
           code: j`
             public class ConstructorDemo {
                 public static void main(String[] args) {
+                    // constructor กำหนดค่าตอนสร้างเลย
                     Student a = new Student("Mali", 85);
                     Student b = new Student("Beam", 72);
                     a.describe();
@@ -226,7 +234,9 @@ export default {
                 String name;
                 int score;
 
+                // constructor: ชื่อเดียวกับคลาส ไม่มีชนิดคืนค่า
                 Student(String name, int score) {
+                    // this.name = field, name = parameter
                     this.name = name;
                     this.score = score;
                 }
@@ -251,6 +261,7 @@ export default {
                 int score;
 
                 Student(String name, int score) {
+                    // กำหนด parameter ให้ตัวเอง field ไม่เปลี่ยน
                     name = name;
                     score = score;
                 }
@@ -261,6 +272,7 @@ export default {
           code: j`
             public class OverloadedConstructors {
                 public static void main(String[] args) {
+                    // เลือก constructor ตามจำนวน argument
                     Rectangle a = new Rectangle(4, 3);
                     Rectangle b = new Rectangle(5);
                     Rectangle c = new Rectangle();
@@ -274,17 +286,19 @@ export default {
                 double width;
                 double height;
 
+                // constructor หลัก
                 Rectangle(double width, double height) {
                     this.width = width;
                     this.height = height;
                 }
 
-                Rectangle(double side) {
+                Rectangle(double side) {  // สี่เหลี่ยมจัตุรัส
+                    // this(...) เรียก constructor ตัวอื่น
                     this(side, side);
                 }
 
                 Rectangle() {
-                    this(1);
+                    this(1);  // ค่าเริ่มต้น 1 x 1
                 }
 
                 double area() {
@@ -292,6 +306,7 @@ export default {
                 }
 
                 String info() {
+                    // เรียกเมธอดอื่นในคลาสเดียวกันได้
                     return width + " x " + height + " = " + area();
                 }
             }`,
@@ -303,7 +318,9 @@ export default {
                 public static void main(String[] args) {
                     Point p = new Point(3, 4);
                     Point q = new Point(-1, 2);
+                    // println เรียก toString() ให้อัตโนมัติ
                     System.out.println(p);
+                    // ต่อข้อความก็เรียก toString() เช่นกัน
                     System.out.println("q is " + q);
                     System.out.printf("distance = %.2f%n", p.distanceTo(q));
                 }
@@ -318,13 +335,15 @@ export default {
                     this.y = y;
                 }
 
+                // รับออบเจ็กต์อีกตัวเป็น parameter
                 double distanceTo(Point other) {
+                    // x ของตัวเอง - x ของ other
                     int dx = x - other.x;
                     int dy = y - other.y;
                     return Math.sqrt(dx * dx + dy * dy);
                 }
 
-                @Override
+                @Override  // เขียนทับเมธอด toString ของ Object
                 public String toString() {
                     return "(" + x + ", " + y + ")";
                 }
@@ -343,11 +362,12 @@ export default {
           code: j`
             public class TwoAccounts {
                 public static void main(String[] args) {
+                    // ออบเจ็กต์ 2 ตัว ข้อมูลแยกกัน
                     BankAccount mali = new BankAccount("Mali", 1000);
                     BankAccount beam = new BankAccount("Beam", 500);
                     mali.deposit(250);
                     beam.withdraw(200);
-                    beam.withdraw(1000);
+                    beam.withdraw(1000);  // ถอนเกินยอด
                     mali.printBalance();
                     beam.printBalance();
                 }
@@ -357,6 +377,7 @@ export default {
                 String owner;
                 double balance;
 
+                // กำหนดเจ้าของและยอดเริ่มต้น
                 BankAccount(String owner, double balance) {
                     this.owner = owner;
                     this.balance = balance;
@@ -367,7 +388,7 @@ export default {
                 }
 
                 void withdraw(double amount) {
-                    if (amount > balance) {
+                    if (amount > balance) {  // ตรวจยอดเงินก่อนถอน
                         System.out.println(owner + ": insufficient funds for " + amount);
                     } else {
                         balance -= amount;
@@ -384,17 +405,19 @@ export default {
           code: j`
             public class StudentArray {
                 public static void main(String[] args) {
-                    Student[] list = {
+                    Student[] list = {  // อาเรย์ของออบเจ็กต์
                         new Student("Mali", 85),
                         new Student("Beam", 62),
                         new Student("Nida", 91),
                         new Student("Ploy", 48)
                     };
-                    Student best = list[0];
+                    Student best = list[0];  // เริ่มจากคนแรก
                     int passed = 0;
-                    for (Student s : list) {
+                    for (Student s : list) {  // for-each กับอาเรย์ออบเจ็กต์
                         System.out.println(s);
+                        // คะแนนสูงกว่า → จำคนนี้
                         if (s.score > best.score) best = s;
+                        // เรียกเมธอดของแต่ละคน
                         if (s.isPassed()) passed++;
                     }
                     System.out.println("Top: " + best.name);
@@ -415,7 +438,7 @@ export default {
                     return score >= 50;
                 }
 
-                public String toString() {
+                public String toString() {  // กำหนดรูปแบบตอนแสดงผล
                     return String.format("%-5s %3d %s", name, score, isPassed() ? "PASS" : "FAIL");
                 }
             }`,
@@ -431,18 +454,20 @@ export default {
                     System.out.println(t1);
                     System.out.println(t2);
                     System.out.println(t3);
+                    // ตัวแปร static เรียกผ่านชื่อคลาส
                     System.out.println("Tickets issued: " + Ticket.issued);
                 }
             }
 
             class Ticket {
+                // static: ทุกออบเจ็กต์ใช้ร่วมกันตัวเดียว
                 static int issued = 0;
-                int number;
+                int number;  // ของแต่ละออบเจ็กต์
                 String event;
 
                 Ticket(String event) {
-                    issued++;
-                    this.number = issued;
+                    issued++;              // นับเพิ่มทุกครั้งที่สร้างตั๋ว
+                    this.number = issued;  // เลขตั๋วคือจำนวนที่ออกไปแล้ว
                     this.event = event;
                 }
 
@@ -468,6 +493,7 @@ export default {
             public static void main(String[] args) {
                 Rectangle r1 = new Rectangle(4, 2.5);
                 Rectangle r2 = new Rectangle(7.2, 3);
+                // เรียกเมธอดในนิพจน์ได้ทันที
                 System.out.printf("R1: area=%.2f perimeter=%.2f%n", r1.area(), r1.perimeter());
                 System.out.printf("R2: area=%.2f perimeter=%.2f%n", r2.area(), r2.perimeter());
             }
@@ -482,7 +508,7 @@ export default {
                 this.height = height;
             }
 
-            double area() {
+            double area() {  // คำนวณจาก field ของตัวเอง
                 return width * height;
             }
 
@@ -499,7 +525,7 @@ export default {
                 Pet b = new Pet("Lucky", "Dog", 5);
                 System.out.println(a);
                 System.out.println(b);
-                a.birthday();
+                a.birthday();  // เปลี่ยนสถานะของออบเจ็กต์ a
                 a.birthday();
                 System.out.println("After 2 birthdays: " + a);
             }
@@ -517,7 +543,7 @@ export default {
             }
 
             void birthday() {
-                age++;
+                age++;  // อายุเพิ่ม 1 ปี
             }
 
             public String toString() {
@@ -531,17 +557,18 @@ export default {
             public static void main(String[] args) {
                 ClickCounter a = new ClickCounter();
                 ClickCounter b = new ClickCounter();
+                // คำสั่งสั้นเขียนบรรทัดเดียวกันได้
                 a.click(); a.click(); a.click();
                 b.click();
                 System.out.println("A=" + a.getCount() + " B=" + b.getCount());
-                a.reset();
+                a.reset();  // reset เฉพาะ a
                 a.click();
                 System.out.println("A=" + a.getCount() + " B=" + b.getCount());
             }
         }
 
         class ClickCounter {
-            int count;
+            int count;  // ตัวนับของแต่ละออบเจ็กต์ เริ่มที่ 0
 
             void click() {
                 count++;
@@ -551,7 +578,7 @@ export default {
                 count = 0;
             }
 
-            int getCount() {
+            int getCount() {  // getter คืนค่า field
                 return count;
             }
         }` },
@@ -561,6 +588,7 @@ export default {
         public class TemperatureApp {
             public static void main(String[] args) {
                 Temperature[] temps = {
+                    // สร้างจากองศาฟาเรนไฮต์ผ่านเมธอด static
                     new Temperature(-5), new Temperature(0), new Temperature(36.6), Temperature.fromFahrenheit(212)
                 };
                 System.out.printf("%8s %8s %8s %s%n", "C", "F", "K", "Freezing");
@@ -577,7 +605,9 @@ export default {
                 this.celsius = celsius;
             }
 
+            // factory method: สร้างและคืนออบเจ็กต์
             static Temperature fromFahrenheit(double f) {
+                // แปลง F → C ก่อนสร้าง
                 return new Temperature((f - 32) * 5 / 9);
             }
 
@@ -590,7 +620,7 @@ export default {
             }
 
             boolean isFreezing() {
-                return celsius <= 0;
+                return celsius <= 0;  // ไม่เกิน 0 องศา = เยือกแข็ง
             }
         }`, explain: "เมธอด static ที่สร้างออบเจ็กต์ (factory method) เรียกผ่านชื่อคลาสได้โดยไม่ต้องมีออบเจ็กต์ก่อน" },
     { level: 2, title: "ตะกร้าสินค้าด้วยอาเรย์ของออบเจ็กต์", html: `<p>สร้างคลาส <code>Item</code> (ชื่อ, ราคาต่อหน่วย, จำนวน) มีเมธอด <code>subtotal()</code> จากนั้นใน main รับจำนวนรายการ n แล้วรับข้อมูลแต่ละรายการ (ชื่อ ราคา จำนวน — ชื่อเป็นคำเดียว) เก็บในอาเรย์ <code>Item[]</code> แสดงใบเสร็จและยอดรวม</p>`,
@@ -603,16 +633,18 @@ export default {
                 Scanner in = new Scanner(System.in);
                 System.out.print("Items: ");
                 int n = in.nextInt();
+                // อาเรย์ขนาด n ยังไม่มีออบเจ็กต์
                 Item[] cart = new Item[n];
                 for (int i = 0; i < n; i++) {
                     System.out.print("name price qty: ");
+                    // สร้างออบเจ็กต์ใส่แต่ละช่อง
                     cart[i] = new Item(in.next(), in.nextDouble(), in.nextInt());
                 }
                 double total = 0;
                 System.out.println("-".repeat(32));
                 for (Item it : cart) {
                     System.out.printf("%-10s %6.2f x %-3d %8.2f%n", it.name, it.price, it.qty, it.subtotal());
-                    total += it.subtotal();
+                    total += it.subtotal();  // รวมยอดของทุกรายการ
                 }
                 System.out.println("-".repeat(32));
                 System.out.printf("%-23s %8.2f%n", "TOTAL", total);
@@ -630,7 +662,7 @@ export default {
                 this.qty = qty;
             }
 
-            double subtotal() {
+            double subtotal() {  // ยอดย่อยของรายการนี้
                 return price * qty;
             }
         }` },
@@ -641,11 +673,11 @@ export default {
             public static void main(String[] args) {
                 Clock a = new Clock(23, 58);
                 for (int i = 0; i < 3; i++) {
-                    a.tick();
+                    a.tick();  // เดินทีละนาที
                     System.out.println("tick -> " + a);
                 }
                 Clock b = new Clock(9, 45);
-                b.addMinutes(135);
+                b.addMinutes(135);  // บวกหลายนาทีพร้อมกัน
                 System.out.println("09:45 + 135 min = " + b);
             }
         }
@@ -661,19 +693,23 @@ export default {
 
             void tick() {
                 minute++;
-                if (minute == 60) {
+                if (minute == 60) {  // ครบ 60 นาที → ขึ้นชั่วโมงใหม่
                     minute = 0;
+                    // % 24 ทำให้ 24 กลับเป็น 0
                     hour = (hour + 1) % 24;
                 }
             }
 
             void addMinutes(int m) {
+                // แปลงเป็นนาทีทั้งหมดก่อน
                 int total = hour * 60 + minute + m;
+                // แปลงกลับเป็นชั่วโมง วนรอบ 24
                 hour = (total / 60) % 24;
                 minute = total % 60;
             }
 
             public String toString() {
+                // %02d เติม 0 ข้างหน้าให้ครบ 2 หลัก
                 return String.format("%02d:%02d", hour, minute);
             }
         }` },
@@ -682,6 +718,7 @@ export default {
       solution: j`
         public class RegistryApp {
             public static void main(String[] args) {
+                // รหัสออกให้อัตโนมัติ
                 Student[] list = {new Student("Mali", 3.45), new Student("Beam", 2.80), new Student("Nida", 3.92)};
                 for (Student s : list) System.out.println(s);
                 System.out.println("Total students: " + Student.count());
@@ -689,20 +726,20 @@ export default {
         }
 
         class Student {
-            static int nextId = 6601;
+            static int nextId = 6601;  // รหัสถัดไป (ใช้ร่วมกันทุกคน)
             int id;
             String name;
             double gpa;
 
             Student(String name, double gpa) {
-                this.id = nextId;
-                nextId++;
+                this.id = nextId;  // ใช้รหัสปัจจุบัน
+                nextId++;          // เตรียมรหัสของคนถัดไป
                 this.name = name;
                 this.gpa = gpa;
             }
 
             static int count() {
-                return nextId - 6601;
+                return nextId - 6601;  // จำนวนที่ออกรหัสไปแล้ว
             }
 
             public String toString() {
@@ -716,6 +753,7 @@ export default {
             public static void main(String[] args) {
                 Fraction a = new Fraction(1, 2);
                 Fraction b = new Fraction(1, 3);
+                // toString ถูกเรียกเมื่อต่อข้อความ
                 System.out.println(a + " + " + b + " = " + a.add(b));
                 Fraction c = new Fraction(3, 4), d = new Fraction(5, 6);
                 System.out.println(c + " - " + d + " = " + c.subtract(d));
@@ -723,6 +761,7 @@ export default {
                 System.out.println(e + " * " + f + " = " + e.multiply(f));
                 Fraction g = new Fraction(-3, 4);
                 System.out.println(a + " / " + g + " = " + a.divide(g));
+                // ตัวส่วนติดลบถูกจัดให้เป็นบวก
                 System.out.println("6/-8 = " + new Fraction(6, -8));
             }
         }
@@ -732,25 +771,27 @@ export default {
             int den;
 
             Fraction(int num, int den) {
-                if (den < 0) {
+                if (den < 0) {  // ย้ายเครื่องหมายลบไปที่ตัวเศษ
                     num = -num;
                     den = -den;
                 }
-                int g = gcd(Math.abs(num), den);
+                int g = gcd(Math.abs(num), den);  // ตัวหารร่วมมาก
+                // ทอนเป็นเศษส่วนอย่างต่ำ
                 this.num = num / g;
                 this.den = den / g;
             }
 
             static int gcd(int a, int b) {
-                while (b != 0) {
+                while (b != 0) {  // ขั้นตอนวิธีของยุคลิด
                     int t = a % b;
                     a = b;
                     b = t;
                 }
-                return a == 0 ? 1 : a;
+                return a == 0 ? 1 : a;  // กรณี 0 → ใช้ 1 กันหารด้วย 0
             }
 
             Fraction add(Fraction o) {
+                // a/b + c/d = (ad + cb) / bd
                 return new Fraction(num * o.den + o.num * den, den * o.den);
             }
 
@@ -763,10 +804,12 @@ export default {
             }
 
             Fraction divide(Fraction o) {
+                // หารคือคูณด้วยส่วนกลับ
                 return new Fraction(num * o.den, den * o.num);
             }
 
             public String toString() {
+                // ตัวส่วนเป็น 1 แสดงเป็นจำนวนเต็ม
                 return den == 1 ? String.valueOf(num) : num + "/" + den;
             }
         }`, explain: "การคืนออบเจ็กต์ใหม่แทนการแก้ตัวเดิมทำให้ a, b ยังมีค่าเดิมหลังคำนวณ (immutable style แบบเดียวกับ String)" },
@@ -777,6 +820,7 @@ export default {
             public static void main(String[] args) {
                 Room small = new Room("Small", 6);
                 Room hall = new Room("Hall", 40);
+                // ห้อง small จอง 10:00 สำหรับ 4 คน
                 System.out.println(small.book(10, 4));
                 System.out.println(small.book(10, 3));
                 System.out.println(small.book(13, 8));
@@ -790,6 +834,7 @@ export default {
         class Room {
             String name;
             int capacity;
+            // ชั่วโมง 9:00-17:00 = 9 ช่อง
             boolean[] booked = new boolean[9];
 
             Room(String name, int capacity) {
@@ -798,9 +843,13 @@ export default {
             }
 
             String book(int hour, int people) {
+                // นอกเวลาทำการ
                 if (hour < 9 || hour > 17) return name + " " + hour + ":00 -> outside opening hours";
+                // เกินความจุ
                 if (people > capacity) return name + " " + hour + ":00 -> too many people (max " + capacity + ")";
+                // ชั่วโมง 9 อยู่ในช่อง 0
                 if (booked[hour - 9]) return name + " " + hour + ":00 -> already booked";
+                // บันทึกการจอง
                 booked[hour - 9] = true;
                 return name + " " + hour + ":00 -> booked for " + people;
             }
@@ -808,6 +857,7 @@ export default {
             String freeHours() {
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < booked.length; i++) {
+                    // แปลง index กลับเป็นชั่วโมง
                     if (!booked[i]) sb.append(i + 9).append(" ");
                 }
                 return sb.toString().trim();
@@ -820,16 +870,19 @@ export default {
             public static void main(String[] args) {
                 Fighter a = new Fighter("Knight", 40, 12, 4);
                 Fighter b = new Fighter("Orc", 50, 10, 2);
+                // ตัวแปรอ้างอิงถึงผู้โจมตีและผู้ป้องกัน
                 Fighter attacker = a, defender = b;
                 int turn = 1;
+                // สู้จนกว่าจะมีฝ่ายหนึ่งแพ้
                 while (a.isAlive() && b.isAlive()) {
                     System.out.print("Turn " + turn + ": ");
                     attacker.attack(defender);
-                    Fighter temp = attacker;
+                    Fighter temp = attacker;  // สลับบทบาทด้วย temp
                     attacker = defender;
                     defender = temp;
                     turn++;
                 }
+                // ?: เลือกผู้ชนะ
                 Fighter winner = a.isAlive() ? a : b;
                 System.out.println("Winner: " + winner.name + " with " + winner.hp + " HP");
             }
@@ -851,12 +904,15 @@ export default {
             }
 
             int takeDamage(int raw) {
+                // ความเสียหายอย่างน้อย 1
                 int damage = Math.max(1, raw - defense);
+                // HP ไม่ติดลบ
                 hp = Math.max(0, hp - damage);
                 return damage;
             }
 
             void attack(Fighter target) {
+                // ให้เป้าหมายรับความเสียหาย
                 int dmg = target.takeDamage(attack);
                 System.out.println(name + " hits " + target.name + " for " + dmg + " (" + target.name + " HP " + target.hp + ")");
             }

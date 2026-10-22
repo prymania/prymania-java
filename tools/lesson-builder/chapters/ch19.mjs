@@ -2,7 +2,8 @@ import { j, c, pre, dedent } from "../lib.mjs";
 
 // Shared model used across examples (kept identical so readers see one design)
 const MODEL = dedent(j`
-  class Course {
+  class Course {  // model: ข้อมูลวิชา ไม่มีโค้ด GUI
+      // final: กำหนดครั้งเดียวใน constructor
       private final String code;
       private final String name;
       private final int credits;
@@ -19,16 +20,21 @@ const MODEL = dedent(j`
 
       @Override
       public String toString() {
+          // จัดคอลัมน์ให้ตรงกันใน JList
           return String.format("%-7s %-22s %d cr", code, name, credits);
       }
   }
 
+  // กฎทั้งหมดของแผนการเรียนอยู่ที่นี่
   class CoursePlanner {
+      // หน่วยกิตสูงสุดต่อภาค
       static final int MAX_CREDITS = 22;
+      // private: แก้ได้ผ่านเมธอดของคลาสนี้เท่านั้น
       private final ArrayList<Course> courses = new ArrayList<>();
 
       boolean containsCode(String code) {
           for (Course c : courses) {
+              // รหัสซ้ำโดยไม่สนตัวพิมพ์
               if (c.getCode().equalsIgnoreCase(code)) return true;
           }
           return false;
@@ -42,27 +48,36 @@ const MODEL = dedent(j`
 
       /** Validates raw text input; returns an error message or null if OK. */
       String validate(String code, String name, String creditsText) {
+          // ช่องว่าง
           if (code.isEmpty() || name.isEmpty() || creditsText.isEmpty()) return "Please fill in every field";
+          // ตัวอักษร 2-4 ตัว ตามด้วยตัวเลข 3 หลัก
           if (!code.matches("[A-Za-z]{2,4}\\d{3}")) return "Code must look like CS101";
           int credits;
           try {
+              // ข้อความที่ไม่ใช่ตัวเลข → catch
               credits = Integer.parseInt(creditsText);
           } catch (NumberFormatException e) {
               return "Credits must be a whole number";
           }
+          // ช่วงหน่วยกิต
           if (credits < 1 || credits > 6) return "Credits must be 1-6";
+          // รหัสซ้ำ
           if (containsCode(code)) return "Course " + code.toUpperCase() + " already exists";
+          // เกินหน่วยกิตสูงสุด
           if (getTotalCredits() + credits > MAX_CREDITS) return "Total would exceed " + MAX_CREDITS + " credits";
+          // null = ผ่านทุกกฎ
           return null;
       }
 
       void add(Course c) {
+          // ป้องกันซ้ำอีกชั้น แม้ไม่ได้เรียก validate
           if (containsCode(c.getCode())) throw new IllegalArgumentException("duplicate " + c.getCode());
           courses.add(c);
       }
 
       void remove(int index) { courses.remove(index); }
 
+      // ภายนอกอ่านได้แต่แก้รายการไม่ได้
       List<Course> getCourses() { return Collections.unmodifiableList(courses); }
   }`);
 
@@ -76,8 +91,11 @@ const APP_IMPORTS = dedent(j`
 
 const APP_BODY = dedent(j`
   public class CoursePlannerApp {
+      // ชื่อหน้าเป็นค่าคงที่
       static final String HOME = "HOME", FORM = "FORM", LIST = "LIST";
+      // model ตัวเดียวของทั้งแอป
       private final CoursePlanner planner = new CoursePlanner();
+      // CardLayout สลับ 3 หน้า
       private final CardLayout layout = new CardLayout();
       private final JPanel pages = new JPanel(layout);
       private final JLabel homeSummary = new JLabel("", SwingConstants.CENTER);
@@ -85,6 +103,7 @@ const APP_BODY = dedent(j`
       private final JTextField nameField = new JTextField(16);
       private final JTextField creditsField = new JTextField(4);
       private final JLabel formError = new JLabel(" ");
+      // ข้อมูลที่ JList แสดง
       private final DefaultListModel<Course> listModel = new DefaultListModel<>();
       private final JList<Course> courseList = new JList<>(listModel);
       private final JLabel listTotal = new JLabel();
@@ -92,12 +111,14 @@ const APP_BODY = dedent(j`
       private JFrame frame;
 
       public static void main(String[] args) {
+          // สร้างออบเจ็กต์แล้วเรียก show บน EDT
           SwingUtilities.invokeLater(() -> new CoursePlannerApp().show());
       }
 
       private void show() {
           frame = new JFrame("Course Planner");
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          // ลงทะเบียนแต่ละหน้าพร้อมชื่อ
           pages.add(buildHome(), HOME);
           pages.add(buildForm(), FORM);
           pages.add(buildList(), LIST);
@@ -109,30 +130,37 @@ const APP_BODY = dedent(j`
           frame.setVisible(true);
       }
 
+      // เปลี่ยนหน้าผ่านเมธอดเดียว
       private void goTo(String page) {
+          // อัปเดตข้อมูลทุกครั้งก่อนแสดง
           refresh();
           layout.show(pages, page);
+          // เข้าฟอร์ม → เคอร์เซอร์อยู่ช่องแรก
           if (page.equals(FORM)) codeField.requestFocusInWindow();
       }
 
-      private void refresh() {
+      private void refresh() {  // ดึงข้อมูลจาก model มาแสดงทุกหน้า
           int n = planner.getCourses().size();
           int total = planner.getTotalCredits();
+          // HTML จัดข้อความหลายบรรทัดกึ่งกลาง
           homeSummary.setText("<html><center><b>" + n + " course(s)</b><br>" + total + " / "
               + CoursePlanner.MAX_CREDITS + " credits planned</center></html>");
           listModel.clear();
+          // สร้างรายการแสดงผลใหม่จาก model
           for (Course c : planner.getCourses()) listModel.addElement(c);
           listTotal.setText("Total: " + total + " credits");
+          // ปุ่มลบใช้ได้เมื่อเลือกรายการ
           removeButton.setEnabled(courseList.getSelectedIndex() >= 0);
       }
 
-      private JPanel buildHome() {
+      private JPanel buildHome() {  // หน้า Home
           JPanel p = new JPanel(new BorderLayout(0, 10));
           JLabel title = new JLabel("Course Planner", SwingConstants.CENTER);
           title.setFont(title.getFont().deriveFont(Font.BOLD, 20f));
           homeSummary.setFont(homeSummary.getFont().deriveFont(15f));
           JButton add = new JButton("Add course");
           JButton view = new JButton("View list");
+          // ปุ่มเปลี่ยนหน้า
           add.addActionListener(e -> goTo(FORM));
           view.addActionListener(e -> goTo(LIST));
           JPanel buttons = new JPanel();
@@ -144,7 +172,7 @@ const APP_BODY = dedent(j`
           return p;
       }
 
-      private JPanel buildForm() {
+      private JPanel buildForm() {  // หน้า Form
           JPanel fields = new JPanel(new GridLayout(3, 2, 8, 8));
           fields.add(new JLabel("Code (e.g. CS101):")); fields.add(codeField);
           fields.add(new JLabel("Name:")); fields.add(nameField);
@@ -153,7 +181,9 @@ const APP_BODY = dedent(j`
           JButton save = new JButton("Save");
           JButton cancel = new JButton("Cancel");
           save.addActionListener(e -> save());
+          // กด Enter ในช่องหน่วยกิต = Save
           creditsField.addActionListener(e -> save());
+          // ยกเลิก: ล้างฟอร์มแล้วกลับหน้าแรก
           cancel.addActionListener(e -> { clearForm(); goTo(HOME); });
           JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
           buttons.add(cancel);
@@ -170,7 +200,9 @@ const APP_BODY = dedent(j`
           return p;
       }
 
+      // หน้า List
       private JPanel buildList() {
+          // ฟอนต์ความกว้างคงที่ คอลัมน์จึงตรง
           courseList.setFont(new Font("Monospaced", Font.PLAIN, 13));
           courseList.addListSelectionListener(e -> removeButton.setEnabled(courseList.getSelectedIndex() >= 0));
           removeButton.addActionListener(e -> removeSelected());
@@ -191,15 +223,17 @@ const APP_BODY = dedent(j`
           return p;
       }
 
-      private void save() {
+      private void save() {  // บันทึก: ตรวจ → เพิ่ม → ไปหน้ารายการ
           String code = codeField.getText().trim();
           String name = nameField.getText().trim();
           String creditsText = creditsField.getText().trim();
+          // ให้ model ตรวจตามกฎ
           String error = planner.validate(code, name, creditsText);
           if (error != null) {
-              formError.setText(error);
+              formError.setText(error);  // แสดงข้อผิดพลาดบนฟอร์ม
               return;
           }
+          // ผ่านแล้วจึงแปลงตัวเลขได้อย่างปลอดภัย
           planner.add(new Course(code.toUpperCase(), name, Integer.parseInt(creditsText)));
           clearForm();
           goTo(LIST);
@@ -209,9 +243,10 @@ const APP_BODY = dedent(j`
           int i = courseList.getSelectedIndex();
           if (i < 0) return;
           Course c = planner.getCourses().get(i);
+          // ยืนยันก่อนลบ
           int ok = JOptionPane.showConfirmDialog(frame, "Remove " + c.getCode() + "?", "Confirm", JOptionPane.YES_NO_OPTION);
           if (ok == JOptionPane.YES_OPTION) {
-              planner.remove(i);
+              planner.remove(i);  // ลบใน model แล้วรีเฟรชหน้าจอ
               refresh();
           }
       }
@@ -283,26 +318,35 @@ export default {
 
             public class PlannerModelTest {
                 public static void main(String[] args) {
+                    // ทดสอบ model โดยไม่เปิดหน้าจอ
                     CoursePlanner p = new CoursePlanner();
-                    check(p, "CS101", "Programming", "3");
+                    check(p, "CS101", "Programming", "3");  // ข้อมูลถูกต้อง
                     p.add(new Course("CS101", "Programming", 3));
+                    // ชื่อว่าง
                     check(p, "MA102", "", "3");
+                    // หน่วยกิตไม่ใช่ตัวเลข
                     check(p, "MA102", "Calculus", "abc");
+                    // เกิน 6 หน่วยกิต
                     check(p, "MA102", "Calculus", "7");
+                    // รหัสซ้ำ (ตัวพิมพ์ต่างกัน)
                     check(p, "cs101", "Programming again", "3");
+                    // รูปแบบรหัสผิด
                     check(p, "C1", "Bad code", "3");
+                    // อาเรย์ 2 มิติ: วิชาละแถว
                     for (String[] c : new String[][]{{"MA102", "Calculus", "4"}, {"PH103", "Physics", "4"},
                             {"EN104", "English", "3"}, {"SC105", "Science Lab", "6"}}) {
                         p.add(new Course(c[0], c[1], Integer.parseInt(c[2])));
                     }
                     System.out.println("Total now: " + p.getTotalCredits());
+                    // รวมแล้ว 23 หน่วยกิต เกิน
                     check(p, "AR106", "Art", "3");
-                    check(p, "AR106", "Art", "2");
+                    check(p, "AR106", "Art", "2");  // รวมแล้วพอดี 22
                     for (Course c : p.getCourses()) System.out.println("  " + c);
                 }
 
                 static void check(CoursePlanner p, String code, String name, String credits) {
                     String err = p.validate(code, name, credits);
+                    // ชื่อว่างแสดงเป็น ""
                     System.out.printf("validate(%s, %s, %s) -> %s%n", code, name.isEmpty() ? "\"\"" : name, credits, err == null ? "OK" : err);
                 }
             }
@@ -370,35 +414,41 @@ export default {
             import java.util.List;
 
             public class PlannerTests {
-                static int passed = 0, total = 0;
+                static int passed = 0, total = 0;  // ตัวนับผลการทดสอบ
 
                 public static void main(String[] args) {
                     CoursePlanner p = new CoursePlanner();
+                    // expect(เงื่อนไขที่ต้องจริง, ชื่อการทดสอบ)
                     expect(p.validate("CS101", "Programming", "3") == null, "valid course accepted");
                     p.add(new Course("CS101", "Programming", 3));
                     expect(p.getTotalCredits() == 3, "total is 3 after one course");
                     expect(p.validate("", "x", "3") != null, "empty code rejected");
                     expect(p.validate("CS102", "x", "0") != null, "0 credits rejected");
+                    // ค่าขอบบน
                     expect(p.validate("CS102", "x", "6") == null, "6 credits accepted (boundary)");
                     expect(p.validate("CS102", "x", "2.5") != null, "2.5 credits rejected");
+                    // ซ้ำโดยตัวพิมพ์ต่าง
                     expect(p.validate("Cs101", "x", "3") != null, "duplicate with different case rejected");
                     p.add(new Course("MA201", "Math", 6));
                     p.add(new Course("PH201", "Physics", 6));
                     p.add(new Course("EN201", "English", 4));
+                    // ค่าขอบ: รวมพอดี 22
                     expect(p.validate("AR101", "Art", "3") == null, "exactly 22 credits accepted");
                     expect(p.validate("AR101", "Art", "4") != null, "23 credits rejected");
                     boolean threw = false;
                     try {
+                        // ต้องโยน exception
                         p.add(new Course("CS101", "dup", 1));
                     } catch (IllegalArgumentException e) {
-                        threw = true;
+                        threw = true;  // ถ้าโยนจริงจะมาที่นี่
                     }
                     expect(threw, "add() throws on duplicate even without validate");
-                    p.remove(0);
+                    p.remove(0);  // ลบตัวแรก (CS101)
                     expect(p.getTotalCredits() == 16 && !p.containsCode("CS101"), "remove updates list and total");
                     System.out.println(passed + "/" + total + " tests passed");
                 }
 
+                // ตัวช่วยทดสอบ นับผ่าน/ไม่ผ่าน
                 static void expect(boolean condition, String name) {
                     total++;
                     if (condition) passed++;
@@ -427,9 +477,10 @@ export default {
                 p.add(new Course("MA102", "Calculus", 4));
                 p.add(new Course("EN103", "English", 3));
                 System.out.println("Before: " + p.getCourses().size() + " courses, " + p.getTotalCredits() + " cr");
-                p.remove(1);
+                p.remove(1);  // ลบตาม index
                 System.out.println("Remove index 1 -> " + p.getCourses().size() + " courses, " + p.getTotalCredits() + " cr");
                 System.out.println("MA102 still there? " + p.containsCode("MA102"));
+                // ลำดับที่เหลือยังเหมือนเดิม
                 System.out.println("Order kept: " + p.getCourses().get(0).getCode() + ", " + p.getCourses().get(1).getCode());
             }
         }
@@ -445,7 +496,7 @@ export default {
         public class SummaryTest {
             public static void main(String[] args) {
                 CoursePlanner p = new CoursePlanner();
-                System.out.println(summary(p));
+                System.out.println(summary(p));  // กรณีว่าง
                 p.add(new Course("CS101", "Programming", 3));
                 p.add(new Course("MA102", "Calculus", 4));
                 p.add(new Course("PH103", "Physics", 4));
@@ -454,12 +505,15 @@ export default {
 
             // In the real project this method belongs inside CoursePlanner
             static String summary(CoursePlanner p) {
+                // ไม่มีวิชาเลย
                 if (p.getCourses().isEmpty()) return "No courses planned";
                 StringBuilder sb = new StringBuilder();
+                // toString ของ Course แต่ละบรรทัด
                 for (Course c : p.getCourses()) sb.append(c).append("\n");
                 sb.append("-".repeat(36)).append("\n");
                 int total = p.getTotalCredits();
                 sb.append("Total: ").append(total).append(" / ").append(CoursePlanner.MAX_CREDITS)
+                  // append ต่อกันเป็นทอด
                   .append(" credits (").append(CoursePlanner.MAX_CREDITS - total).append(" remaining)");
                 return sb.toString();
             }
@@ -488,19 +542,23 @@ export default {
             }
 
             static List<Course> sortedBy(CoursePlanner p, String key) {
+                // สำเนา ไม่กระทบลำดับเดิม
                 List<Course> copy = new ArrayList<>(p.getCourses());
                 if (key.equals("credits")) {
+                    // หน่วยกิตมากไปน้อย เท่ากันเรียงตามรหัส
                     copy.sort(Comparator.comparing(Course::getCredits).reversed().thenComparing(Course::getCode));
                 } else {
+                    // เรียงตามรหัส
                     copy.sort(Comparator.comparing(Course::getCode));
                 }
                 return copy;
             }
 
             static List<Course> search(CoursePlanner p, String keyword) {
-                String k = keyword.toLowerCase();
+                String k = keyword.toLowerCase();  // ค้นโดยไม่สนตัวพิมพ์
                 List<Course> result = new ArrayList<>();
                 for (Course c : p.getCourses()) {
+                    // ค้นทั้งรหัสและชื่อ
                     if (c.getCode().toLowerCase().contains(k) || c.getName().toLowerCase().contains(k)) result.add(c);
                 }
                 return result;
@@ -521,9 +579,11 @@ export default {
         import java.util.ArrayList;
 
         public class TypedPlanner {
+            // ข้อมูลจริง
             private final ArrayList<TypedCourse> courses = new ArrayList<>();
             private final JTextField code = new JTextField(8);
             private final JTextField credits = new JTextField(4);
+            // ประเภทวิชา
             private final JComboBox<String> type = new JComboBox<>(new String[]{"Core", "Elective"});
             private final JLabel summary = new JLabel();
             private final DefaultListModel<TypedCourse> model = new DefaultListModel<>();
@@ -539,9 +599,12 @@ export default {
                 save.addActionListener(e -> {
                     try {
                         int cr = Integer.parseInt(credits.getText().trim());
+                        // ข้อมูลผิดใช้ catch เดียวกัน
                         if (code.getText().isBlank() || cr < 1 || cr > 6) throw new NumberFormatException();
+                        // getSelectedItem() คืน Object จึง cast
                         TypedCourse c = new TypedCourse(code.getText().trim().toUpperCase(), cr, (String) type.getSelectedItem());
                         courses.add(c);
+                        // เพิ่มทั้งข้อมูลจริงและรายการที่แสดง
                         model.addElement(c);
                         code.setText("");
                         credits.setText("");
@@ -566,7 +629,7 @@ export default {
                 frame.setVisible(true);
             }
 
-            private int creditsOf(String t) {
+            private int creditsOf(String t) {  // รวมหน่วยกิตตามประเภท
                 int sum = 0;
                 for (TypedCourse c : courses) if (c.type.equals(t)) sum += c.credits;
                 return sum;
@@ -593,12 +656,14 @@ export default {
         import java.util.ArrayList;
 
         public class EditablePlanner {
+            // แต่ละวิชาเป็นอาเรย์ {รหัส, ชื่อ, หน่วยกิต}
             private final ArrayList<String[]> courses = new ArrayList<>();
             private final DefaultListModel<String> model = new DefaultListModel<>();
             private final JList<String> list = new JList<>(model);
             private final JTextField code = new JTextField(7), name = new JTextField(10), credits = new JTextField(3);
             private final JLabel title = new JLabel("Add course");
             private final JLabel status = new JLabel(" ");
+            // -1 = โหมดเพิ่ม, อื่น ๆ = index ที่กำลังแก้
             private int editingIndex = -1;
 
             public static void main(String[] args) {
@@ -629,6 +694,7 @@ export default {
                 frame.setVisible(true);
             }
 
+            // ignoreIndex: ไม่นับตัวที่กำลังแก้
             private String validate(String c, String n, String cr, int ignoreIndex) {
                 if (c.isEmpty() || n.isEmpty()) return "fill every field";
                 int credit;
@@ -636,10 +702,13 @@ export default {
                 if (credit < 1 || credit > 6) return "credits 1-6";
                 int total = 0;
                 for (int i = 0; i < courses.size(); i++) {
+                    // ข้ามตัวที่กำลังแก้ไข
                     if (i == ignoreIndex) continue;
+                    // รหัสซ้ำกับวิชาอื่น
                     if (courses.get(i)[0].equalsIgnoreCase(c)) return c + " already exists";
                     total += Integer.parseInt(courses.get(i)[2]);
                 }
+                // เกิน 22 หน่วยกิต
                 if (total + credit > 22) return "over 22 credits";
                 return null;
             }
@@ -649,13 +718,15 @@ export default {
                 String err = validate(c, n, cr, editingIndex);
                 if (err != null) { status.setText("Error: " + err); return; }
                 String[] course = {c, n, cr};
+                // แทนที่ตัวเดิม
                 if (editingIndex >= 0) courses.set(editingIndex, course);
+                // เพิ่มใหม่
                 else courses.add(course);
                 status.setText(editingIndex >= 0 ? "Updated " + c : "Added " + c);
-                editingIndex = -1;
+                editingIndex = -1;  // กลับสู่โหมดเพิ่ม
                 title.setText("Add course");
                 code.setText(""); name.setText(""); credits.setText("");
-                model.clear();
+                model.clear();  // สร้างรายการแสดงผลใหม่
                 int total = 0;
                 for (String[] x : courses) {
                     model.addElement(x[0] + "  " + x[1] + "  " + x[2] + " cr");
@@ -667,8 +738,9 @@ export default {
             private void startEdit() {
                 int i = list.getSelectedIndex();
                 if (i < 0) return;
-                editingIndex = i;
+                editingIndex = i;  // จำตำแหน่งที่กำลังแก้
                 String[] x = courses.get(i);
+                // ดึงข้อมูลเดิมใส่ฟอร์ม
                 code.setText(x[0]); name.setText(x[1]); credits.setText(x[2]);
                 title.setText("Edit course");
             }
@@ -679,16 +751,20 @@ export default {
         import java.util.ArrayList;
 
         public class PrerequisitePlanner {
+            // กฎ: {วิชา, วิชาที่ต้องผ่านก่อน}
             static final String[][] PREREQ = {{"CS201", "CS101"}, {"CS301", "CS201"}, {"MA201", "MA101"}};
             final ArrayList<String> plan = new ArrayList<>();
 
+            // คืนวิชาบังคับก่อนที่ยังขาด หรือ null
             String missingPrerequisite(String code) {
                 for (String[] rule : PREREQ) {
+                    // เจอกฎของวิชานี้ แต่ยังไม่มีวิชาบังคับก่อนในแผน
                     if (rule[0].equals(code) && !plan.contains(rule[1])) return rule[1];
                 }
                 return null;
             }
 
+            // มีวิชาในแผนที่ต้องใช้วิชานี้หรือไม่
             String blockingDependent(String code) {
                 for (String[] rule : PREREQ) {
                     if (rule[1].equals(code) && plan.contains(rule[0])) return rule[0];
@@ -698,6 +774,7 @@ export default {
 
             String add(String code) {
                 String missing = missingPrerequisite(code);
+                // ขาดวิชาบังคับก่อน → ไม่เพิ่ม
                 if (missing != null) return "cannot add " + code + ": needs " + missing;
                 plan.add(code);
                 return "added " + code;
@@ -705,6 +782,7 @@ export default {
 
             String remove(String code) {
                 String dep = blockingDependent(code);
+                // มีวิชาที่พึ่งวิชานี้อยู่ → ลบไม่ได้
                 if (dep != null) return "cannot remove " + code + ": required by " + dep;
                 plan.remove(code);
                 return "removed " + code;
@@ -714,10 +792,12 @@ export default {
 
             public static void main(String[] args) {
                 PrerequisitePlanner p = new PrerequisitePlanner();
+                // ยังไม่มี CS101
                 test(p.add("CS201"), "cannot add CS201: needs CS101");
                 test(p.add("CS101"), "added CS101");
                 test(p.add("CS201"), "added CS201");
                 test(p.add("CS301"), "added CS301");
+                // CS201 ต้องใช้ CS101
                 test(p.remove("CS101"), "cannot remove CS101: required by CS201");
                 test(p.remove("CS301"), "removed CS301");
                 test(p.remove("CS201"), "removed CS201");

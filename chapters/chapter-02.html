@@ -6,13 +6,44 @@
   <meta name="theme-color" content="#f5f7f4">
   <title>บทที่ 2: เริ่มต้นกับ Java | Java programming by Prymania</title>
   <link rel="stylesheet" href="../assets/lesson.css">
+  <link rel="stylesheet" href="../assets/course-nav.css">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
   <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญบทที่ 2"><p class="toc-label">บทที่ 2 · โปรแกรมแรก</p><a href="#topic-2-1"><span class="toc-number">2.1</span>JDK, JVM และ IDE</a><a href="#topic-2-2"><span class="toc-number">2.2</span>โครงสร้างโปรแกรม Java</a><a href="#topic-2-3"><span class="toc-number">2.3</span>คอมไพล์ รัน และอ่าน error</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <!-- course-nav -->
+<button class="nav-toggle" type="button" aria-expanded="false">☰ สารบัญทุกบท</button>
+<nav class="course-nav" aria-label="สารบัญรายวิชา">
+<p class="nav-label">เริ่มต้น</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">01</span><span class="nav-title">คิดเป็นขั้นตอน · Flowchart</span></summary><div class="nav-topics"><a href="chapter-01.html"><span class="toc-number">1</span>ภาพรวมของบท</a><a href="chapter-01.html#topic-1-1"><span class="toc-number">1.1</span>แยกโจทย์ด้วย IPO</a><a href="chapter-01.html#topic-1-2"><span class="toc-number">1.2</span>ขั้นตอนวิธีและรหัสเทียม</a><a href="chapter-01.html#topic-1-3"><span class="toc-number">1.3</span>สัญลักษณ์ Flowchart</a><a href="chapter-01.html#topic-1-4"><span class="toc-number">1.4</span>ทางเลือกและการทำซ้ำ</a><a href="chapter-01.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav" open><summary aria-current="page"><span class="nav-number">02</span><span class="nav-title">รู้จัก Java</span></summary><div class="nav-topics"><a href="#lesson-content"><span class="toc-number">2</span>ภาพรวมของบท</a><a href="#topic-2-1"><span class="toc-number">2.1</span>JDK, JVM และ IDE</a><a href="#topic-2-2"><span class="toc-number">2.2</span>โครงสร้างโปรแกรม Java</a><a href="#topic-2-3"><span class="toc-number">2.3</span>คอมไพล์ รัน และอ่าน error</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">03</span><span class="nav-title">ตัวแปรและชนิดข้อมูล</span></summary><div class="nav-topics"><a href="chapter-03.html"><span class="toc-number">3</span>ภาพรวมของบท</a><a href="chapter-03.html#topic-3-1"><span class="toc-number">3.1</span>ตัวแปรและการกำหนดค่า</a><a href="chapter-03.html#topic-3-2"><span class="toc-number">3.2</span>ชนิดข้อมูล</a><a href="chapter-03.html#topic-3-3"><span class="toc-number">3.3</span>ตัวดำเนินการ</a><a href="chapter-03.html#topic-3-4"><span class="toc-number">3.4</span>ค่าคงที่และการแปลงชนิด</a><a href="chapter-03.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">04</span><span class="nav-title">รับข้อมูลและแสดงผล</span></summary><div class="nav-topics"><a href="chapter-04.html"><span class="toc-number">4</span>ภาพรวมของบท</a><a href="chapter-04.html#topic-4-1"><span class="toc-number">4.1</span>print · println · printf</a><a href="chapter-04.html#topic-4-2"><span class="toc-number">4.2</span>Scanner</a><a href="chapter-04.html#topic-4-3"><span class="toc-number">4.3</span>ตัวเลขและข้อความ</a><a href="chapter-04.html#topic-4-4"><span class="toc-number">4.4</span>จัดการบรรทัดข้อมูล</a><a href="chapter-04.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">ฝึกเขียนโปรแกรม</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">05</span><span class="nav-title">เงื่อนไข</span></summary><div class="nav-topics"><a href="chapter-05.html"><span class="toc-number">5</span>ภาพรวมของบท</a><a href="chapter-05.html#topic-5-1"><span class="toc-number">5.1</span>ค่าจริงและการเปรียบเทียบ</a><a href="chapter-05.html#topic-5-2"><span class="toc-number">5.2</span>ตัวดำเนินการตรรกะ</a><a href="chapter-05.html#topic-5-3"><span class="toc-number">5.3</span>if, else if และ else</a><a href="chapter-05.html#topic-5-4"><span class="toc-number">5.4</span>เลือกทางด้วย switch</a><a href="chapter-05.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">06</span><span class="nav-title">การทำซ้ำ</span></summary><div class="nav-topics"><a href="chapter-06.html"><span class="toc-number">6</span>ภาพรวมของบท</a><a href="chapter-06.html#topic-6-1"><span class="toc-number">6.1</span>while และการอัปเดตค่า</a><a href="chapter-06.html#topic-6-2"><span class="toc-number">6.2</span>for เมื่อรู้จำนวนรอบ</a><a href="chapter-06.html#topic-6-3"><span class="toc-number">6.3</span>do-while และ sentinel</a><a href="chapter-06.html#topic-6-4"><span class="toc-number">6.4</span>ลูปซ้อนและคำสั่งควบคุม</a><a href="chapter-06.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">07</span><span class="nav-title">เมธอด</span></summary><div class="nav-topics"><a href="chapter-07.html"><span class="toc-number">7</span>ภาพรวมของบท</a><a href="chapter-07.html#topic-7-1"><span class="toc-number">7.1</span>ประกาศและเรียกเมธอด</a><a href="chapter-07.html#topic-7-2"><span class="toc-number">7.2</span>พารามิเตอร์และ argument</a><a href="chapter-07.html#topic-7-3"><span class="toc-number">7.3</span>return value</a><a href="chapter-07.html#topic-7-4"><span class="toc-number">7.4</span>scope และ overload</a><a href="chapter-07.html#topic-7-5"><span class="toc-number">7.5</span>ประกอบโปรแกรมจากเมธอด</a><a href="chapter-07.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">08</span><span class="nav-title">อาเรย์</span></summary><div class="nav-topics"><a href="chapter-08.html"><span class="toc-number">8</span>ภาพรวมของบท</a><a href="chapter-08.html#topic-8-1"><span class="toc-number">8.1</span>สร้างและเข้าถึงอาเรย์</a><a href="chapter-08.html#topic-8-2"><span class="toc-number">8.2</span>วนอ่าน รวม และค้นหา</a><a href="chapter-08.html#topic-8-3"><span class="toc-number">8.3</span>อาเรย์สองมิติ</a><a href="chapter-08.html#topic-8-4"><span class="toc-number">8.4</span>อาเรย์กับเมธอด</a><a href="chapter-08.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">09</span><span class="nav-title">ข้อความและ String</span></summary><div class="nav-topics"><a href="chapter-09.html"><span class="toc-number">9</span>ภาพรวมของบท</a><a href="chapter-09.html#topic-9-1"><span class="toc-number">9.1</span>เปรียบเทียบและต่อข้อความ</a><a href="chapter-09.html#topic-9-2"><span class="toc-number">9.2</span>ค้นหาและตัดข้อความ</a><a href="chapter-09.html#topic-9-3"><span class="toc-number">9.3</span>แปลงข้อความเป็นตัวเลข</a><a href="chapter-09.html#topic-9-4"><span class="toc-number">9.4</span>char และ Character</a><a href="chapter-09.html#topic-9-5"><span class="toc-number">9.5</span>StringBuilder</a><a href="chapter-09.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">ต่อยอดด้วย Java</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">10</span><span class="nav-title">ทดสอบและแก้บั๊ก</span></summary><div class="nav-topics"><a href="chapter-10.html"><span class="toc-number">10</span>ภาพรวมของบท</a><a href="chapter-10.html#topic-10-1"><span class="toc-number">10.1</span>จำแนก error</a><a href="chapter-10.html#topic-10-2"><span class="toc-number">10.2</span>อ่าน compiler diagnostics</a><a href="chapter-10.html#topic-10-3"><span class="toc-number">10.3</span>trace และ debugger</a><a href="chapter-10.html#topic-10-4"><span class="toc-number">10.4</span>ออกแบบ test case</a><a href="chapter-10.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">11</span><span class="nav-title">คลาสและออบเจ็กต์</span></summary><div class="nav-topics"><a href="chapter-11.html"><span class="toc-number">11</span>ภาพรวมของบท</a><a href="chapter-11.html#topic-11-1"><span class="toc-number">11.1</span>class เป็นพิมพ์เขียว</a><a href="chapter-11.html#topic-11-2"><span class="toc-number">11.2</span>สร้าง object ด้วย new</a><a href="chapter-11.html#topic-11-3"><span class="toc-number">11.3</span>constructor และ this</a><a href="chapter-11.html#topic-11-4"><span class="toc-number">11.4</span>หลาย object หลาย state</a><a href="chapter-11.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">12</span><span class="nav-title">จัดระเบียบโค้ด</span></summary><div class="nav-topics"><a href="chapter-12.html"><span class="toc-number">12</span>ภาพรวมของบท</a><a href="chapter-12.html#topic-12-1"><span class="toc-number">12.1</span>access modifier</a><a href="chapter-12.html#topic-12-2"><span class="toc-number">12.2</span>encapsulation</a><a href="chapter-12.html#topic-12-3"><span class="toc-number">12.3</span>validation และ invariant</a><a href="chapter-12.html#topic-12-4"><span class="toc-number">12.4</span>composition</a><a href="chapter-12.html#topic-12-5"><span class="toc-number">12.5</span>inheritance และ override</a><a href="chapter-12.html#topic-12-6"><span class="toc-number">12.6</span>polymorphism</a><a href="chapter-12.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">13</span><span class="nav-title">ArrayList</span></summary><div class="nav-topics"><a href="chapter-13.html"><span class="toc-number">13</span>ภาพรวมของบท</a><a href="chapter-13.html#topic-13-1"><span class="toc-number">13.1</span>Array หรือ ArrayList</a><a href="chapter-13.html#topic-13-2"><span class="toc-number">13.2</span>Generic type</a><a href="chapter-13.html#topic-13-3"><span class="toc-number">13.3</span>เพิ่ม อ่าน แก้ข้อมูล</a><a href="chapter-13.html#topic-13-4"><span class="toc-number">13.4</span>ลบและ index ที่เลื่อน</a><a href="chapter-13.html#topic-13-5"><span class="toc-number">13.5</span>วนอ่านรายการ</a><a href="chapter-13.html#topic-13-6"><span class="toc-number">13.6</span>เก็บ object ในรายการ</a><a href="chapter-13.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">14</span><span class="nav-title">เริ่มต้นกับ Swing</span></summary><div class="nav-topics"><a href="chapter-14.html"><span class="toc-number">14</span>ภาพรวมของบท</a><a href="chapter-14.html#topic-14-1"><span class="toc-number">14.1</span>Console กับ GUI</a><a href="chapter-14.html#topic-14-2"><span class="toc-number">14.2</span>สร้าง JFrame</a><a href="chapter-14.html#topic-14-3"><span class="toc-number">14.3</span>Container และ JPanel</a><a href="chapter-14.html#topic-14-4"><span class="toc-number">14.4</span>Event Dispatch Thread</a><a href="chapter-14.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">15</span><span class="nav-title">Components และ Layout</span></summary><div class="nav-topics"><a href="chapter-15.html"><span class="toc-number">15</span>ภาพรวมของบท</a><a href="chapter-15.html#topic-15-1"><span class="toc-number">15.1</span>Label, Button และ Panel</a><a href="chapter-15.html#topic-15-2"><span class="toc-number">15.2</span>รับและแสดงข้อความ</a><a href="chapter-15.html#topic-15-3"><span class="toc-number">15.3</span>ComboBox</a><a href="chapter-15.html#topic-15-4"><span class="toc-number">15.4</span>Layout Manager</a><a href="chapter-15.html#topic-15-5"><span class="toc-number">15.5</span>ประกอบหลาย Panel</a><a href="chapter-15.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">16</span><span class="nav-title">เหตุการณ์และปุ่ม</span></summary><div class="nav-topics"><a href="chapter-16.html"><span class="toc-number">16</span>ภาพรวมของบท</a><a href="chapter-16.html#topic-16-1"><span class="toc-number">16.1</span>Event source และ listener</a><a href="chapter-16.html#topic-16-2"><span class="toc-number">16.2</span>ActionListener</a><a href="chapter-16.html#topic-16-3"><span class="toc-number">16.3</span>Lambda และ callback</a><a href="chapter-16.html#topic-16-4"><span class="toc-number">16.4</span>อัปเดต UI บน EDT</a><a href="chapter-16.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">17</span><span class="nav-title">ฟอร์มและตรวจข้อมูล</span></summary><div class="nav-topics"><a href="chapter-17.html"><span class="toc-number">17</span>ภาพรวมของบท</a><a href="chapter-17.html#topic-17-1"><span class="toc-number">17.1</span>อ่านค่าจาก component</a><a href="chapter-17.html#topic-17-2"><span class="toc-number">17.2</span>ตรวจข้อมูลว่างและรูปแบบ</a><a href="chapter-17.html#topic-17-3"><span class="toc-number">17.3</span>แจ้ง error ให้ผู้ใช้</a><a href="chapter-17.html#topic-17-4"><span class="toc-number">17.4</span>แยก validation เป็น method</a><a href="chapter-17.html#topic-17-5"><span class="toc-number">17.5</span>ล้างและ reset form</a><a href="chapter-17.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">18</span><span class="nav-title">หลายหน้าจอ</span></summary><div class="nav-topics"><a href="chapter-18.html"><span class="toc-number">18</span>ภาพรวมของบท</a><a href="chapter-18.html#topic-18-1"><span class="toc-number">18.1</span>ออกแบบหน้าจอแยกกัน</a><a href="chapter-18.html#topic-18-2"><span class="toc-number">18.2</span>CardLayout</a><a href="chapter-18.html#topic-18-3"><span class="toc-number">18.3</span>ปุ่มนำทาง</a><a href="chapter-18.html#topic-18-4"><span class="toc-number">18.4</span>แชร์ state ระหว่างหน้า</a><a href="chapter-18.html#topic-18-5"><span class="toc-number">18.5</span>CardLayout หรือหลาย JFrame</a><a href="chapter-18.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">19</span><span class="nav-title">โปรเจกต์ GUI</span></summary><div class="nav-topics"><a href="chapter-19.html"><span class="toc-number">19</span>ภาพรวมของบท</a><a href="chapter-19.html#topic-19-1"><span class="toc-number">19.1</span>กำหนดขอบเขตและ flow</a><a href="chapter-19.html#topic-19-2"><span class="toc-number">19.2</span>วาง model และ class</a><a href="chapter-19.html#topic-19-3"><span class="toc-number">19.3</span>สร้าง layout</a><a href="chapter-19.html#topic-19-4"><span class="toc-number">19.4</span>ต่อ event และ validation</a><a href="chapter-19.html#topic-19-5"><span class="toc-number">19.5</span>ทดสอบและขยายงาน</a><a href="chapter-19.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">บทเสริม · เลือกอ่าน</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">+</span><span class="nav-title">Random และเกมทายเลข</span></summary><div class="nav-topics"><a href="side-quest-random.html"><span class="toc-number">S1</span>ภาพรวมของบท</a><a href="side-quest-random.html#topic-S1-1"><span class="toc-number">S1.1</span>สุ่มค่าด้วย Math.random</a><a href="side-quest-random.html#topic-S1-2"><span class="toc-number">S1.2</span>ใช้ java.util.Random</a><a href="side-quest-random.html#topic-S1-3"><span class="toc-number">S1.3</span>เกมทายตัวเลข</a><a href="side-quest-random.html#topic-S1-4"><span class="toc-number">S1.4</span>จำนวนครั้งและทดสอบ</a><a href="side-quest-random.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">+</span><span class="nav-title">Timer และ Thread</span></summary><div class="nav-topics"><a href="side-quest-timer.html"><span class="toc-number">S2</span>ภาพรวมของบท</a><a href="side-quest-timer.html#topic-S2-1"><span class="toc-number">S2.1</span>Event Dispatch Thread</a><a href="side-quest-timer.html#topic-S2-2"><span class="toc-number">S2.2</span>Swing Timer</a><a href="side-quest-timer.html#topic-S2-3"><span class="toc-number">S2.3</span>งานเบื้องหลัง</a><a href="side-quest-timer.html#topic-S2-4"><span class="toc-number">S2.4</span>เลือกเครื่องมือและทดสอบ</a><a href="side-quest-timer.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+</nav>
+<!-- /course-nav -->
       <div class="sidebar-bottom">เขียนโปรแกรมแรกให้รันได้ด้วยตัวเอง</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
@@ -40,58 +71,68 @@
         System.out.println("Hello, Java!");   // ③ คำสั่ง: พิมพ์ข้อความแล้วขึ้นบรรทัดใหม่
     }                                         // ④ ปิดเมธอด main
 }                                             // ⑤ ปิดคลาส</code></pre><ul><li><code>public class Hello</code> — ชื่อคลาสต้องตรงกับชื่อไฟล์ <code>Hello.java</code> (ตัวพิมพ์เล็ก-ใหญ่ต้องตรงด้วย)</li><li><code>public static void main(String[] args)</code> — ต้องเขียนแบบนี้ทุกตัวอักษร ความหมายของแต่ละคำจะเรียนในบทเมธอดและคลาส</li><li><code>System.out.println(...)</code> — สั่งพิมพ์ค่าในวงเล็บไปที่ console</li><li>ข้อความ (String) ต้องอยู่ใน <code>" "</code> เครื่องหมายคำพูดคู่</li></ul></div>
-<div class="source-example"><h4>ตัวอย่าง 2.2.1 · โปรแกรมแรก: Hello, Java! <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมที่สั้นที่สุดที่มีครบทุกส่วน: คลาส → main → คำสั่งหนึ่งคำสั่ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · Hello.java</span><pre class="source-code">public class Hello {
-    public static void main(String[] args) {
-        System.out.println("Hello, Java!");
+<div class="source-example"><h4>ตัวอย่าง 2.2.1 · โปรแกรมแรก: Hello, Java! <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมที่สั้นที่สุดที่มีครบทุกส่วน: คลาส → main → คำสั่งหนึ่งคำสั่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Hello.java</span></div><pre class="source-code"><code><span class="tok-com">// ชื่อคลาสต้องตรงกับชื่อไฟล์ Hello.java</span>
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Hello</span> {
+    <span class="tok-com">// จุดเริ่มทำงานของโปรแกรม</span>
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// แสดงข้อความแล้วขึ้นบรรทัดใหม่</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello, Java!"</span>);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Hello, Java!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JVM เริ่มที่ <code>main</code></li><li>ทำคำสั่ง println หนึ่งครั้ง พิมพ์ <code>Hello, Java!</code> และขึ้นบรรทัดใหม่</li><li>ถึง <code>}</code> ของ main → โปรแกรมจบ</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 2.2.2 · หลายคำสั่ง ทำงานจากบนลงล่าง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งใน main ทำงานเรียงตามลำดับบรรทัด (sequence) ทีละคำสั่ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · AboutMe.java</span><pre class="source-code">public class AboutMe {
-    public static void main(String[] args) {
-        System.out.println("Name: Mali");
-        System.out.println("Major: Computer Science");
-        System.out.println("Year: 1");
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Hello, Java!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JVM เริ่มที่ <code>main</code></li><li>ทำคำสั่ง println หนึ่งครั้ง พิมพ์ <code>Hello, Java!</code> และขึ้นบรรทัดใหม่</li><li>ถึง <code>}</code> ของ main → โปรแกรมจบ</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 2.2.2 · หลายคำสั่ง ทำงานจากบนลงล่าง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งใน main ทำงานเรียงตามลำดับบรรทัด (sequence) ทีละคำสั่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AboutMe.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AboutMe</span> {  <span class="tok-com">// ไฟล์ AboutMe.java</span>
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// ทำงานจากบนลงล่างทีละคำสั่ง</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name: Mali"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Major: Computer Science"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Year: 1"</span>);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Name: Mali
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Name: Mali
 Major: Computer Science
 Year: 1</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัดแรกพิมพ์ชื่อ</li><li>บรรทัดที่สองพิมพ์สาขา</li><li>บรรทัดที่สามพิมพ์ชั้นปี — ลำดับใน output ตรงกับลำดับในโค้ดเสมอ</li></ol></div><p class="try-it">สลับบรรทัด Name กับ Year แล้วดูว่า output เปลี่ยนตามหรือไม่</p></div>
-<div class="source-example"><h4>ตัวอย่าง 2.2.3 · print กับ println ต่างกันอย่างไร <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>print</code> พิมพ์แล้ว<strong>อยู่บรรทัดเดิม</strong> ส่วน <code>println</code> พิมพ์แล้ว<strong>ขึ้นบรรทัดใหม่</strong> และ <code>println()</code> เปล่า ๆ ใช้เว้นบรรทัด</p><div class="source-example-grid"><div class="source-field"><span>Java source · PrintVsPrintln.java</span><pre class="source-code">public class PrintVsPrintln {
-    public static void main(String[] args) {
-        System.out.print("A");
-        System.out.print("B");
-        System.out.println("C");
-        System.out.println("D");
-        System.out.println();
-        System.out.print("E ");
-        System.out.println("F");
+<div class="source-example"><h4>ตัวอย่าง 2.2.3 · print กับ println ต่างกันอย่างไร <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>print</code> พิมพ์แล้ว<strong>อยู่บรรทัดเดิม</strong> ส่วน <code>println</code> พิมพ์แล้ว<strong>ขึ้นบรรทัดใหม่</strong> และ <code>println()</code> เปล่า ๆ ใช้เว้นบรรทัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintVsPrintln.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintVsPrintln</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"A"</span>);  <span class="tok-com">// print: ไม่ขึ้นบรรทัดใหม่</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"B"</span>);  <span class="tok-com">// ต่อท้าย A ในบรรทัดเดียวกัน</span>
+        <span class="tok-com">// println: พิมพ์ C แล้วขึ้นบรรทัดใหม่</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"C"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"D"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();  <span class="tok-com">// println เปล่า ๆ = บรรทัดว่าง</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"E "</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"F"</span>);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>ABC
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>ABC
 D
 
 E F</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>print A และ B ต่อกันในบรรทัดเดิม → <code>AB</code></li><li>println C ต่อท้ายแล้วขึ้นบรรทัด → บรรทัดแรกคือ <code>ABC</code></li><li>println D อยู่บรรทัดที่สอง</li><li><code>println()</code> ว่าง ทำให้เกิดบรรทัดว่าง</li><li>print "E " (มีช่องว่าง) แล้ว println F → <code>E F</code></li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 2.2.4 · Comment: ข้อความที่ compiler ไม่สนใจ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> comment ใช้อธิบายโค้ดให้คนอ่าน <code>//</code> ใช้บรรทัดเดียว <code>/* ... */</code> ใช้หลายบรรทัด โค้ดที่อยู่ใน comment จะไม่ทำงาน</p><div class="source-example-grid"><div class="source-field"><span>Java source · CommentDemo.java</span><pre class="source-code">/*
+<div class="source-example"><h4>ตัวอย่าง 2.2.4 · Comment: ข้อความที่ compiler ไม่สนใจ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> comment ใช้อธิบายโค้ดให้คนอ่าน <code>//</code> ใช้บรรทัดเดียว <code>/* ... */</code> ใช้หลายบรรทัด โค้ดที่อยู่ใน comment จะไม่ทำงาน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CommentDemo.java</span></div><pre class="source-code"><code><span class="tok-com">/*
  * โปรแกรมนี้ใช้ทดลอง comment
  * ผู้เขียน: Mali
- */
-public class CommentDemo {
-    public static void main(String[] args) {
-        // พิมพ์บรรทัดแรก
-        System.out.println("Line 1");
-        // System.out.println("Line 2");  &lt;- บรรทัดนี้ถูกปิดไว้
-        System.out.println("Line 3"); // comment ท้ายบรรทัดก็ได้
+ */</span>
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CommentDemo</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// พิมพ์บรรทัดแรก</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Line 1"</span>);
+        <span class="tok-com">// System.out.println("Line 2");  &lt;- บรรทัดนี้ถูกปิดไว้</span>
+        <span class="tok-com">// comment ท้ายบรรทัดก็ได้</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Line 3"</span>);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Line 1
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Line 1
 Line 3</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ส่วน <code>/* ... */</code> ด้านบนไม่ถูกคอมไพล์</li><li><code>Line 2</code> ไม่ถูกพิมพ์เพราะทั้งบรรทัดเป็น comment</li><li>comment ท้ายบรรทัดไม่กระทบคำสั่งก่อนหน้า</li></ol></div><p>เทคนิค “comment out” (ปิดบรรทัดชั่วคราว) มีประโยชน์มากเวลาหาว่าบรรทัดไหนทำให้เกิดปัญหา</p></div>
 <h4>Escape sequence: อักขระพิเศษในข้อความ</h4><table class="comparison-table"><thead><tr><th>เขียนว่า</th><th>ความหมาย</th><th>ตัวอย่าง</th><th>ผลลัพธ์</th></tr></thead><tbody><tr><td><code>\n</code></td><td>ขึ้นบรรทัดใหม่</td><td><code>"A\nB"</code></td><td>A<br>B</td></tr><tr><td><code>\t</code></td><td>แท็บ (เว้นช่องเป็นคอลัมน์)</td><td><code>"A\tB"</code></td><td>A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B</td></tr><tr><td><code>\"</code></td><td>เครื่องหมาย " ในข้อความ</td><td><code>"Say \"Hi\""</code></td><td>Say "Hi"</td></tr><tr><td><code>\\</code></td><td>เครื่องหมาย \ หนึ่งตัว</td><td><code>"C:\\java"</code></td><td>C:\java</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 2.2.5 · จัดรูปแบบผลลัพธ์ด้วย escape sequence <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>\t</code> ทำตาราง ใช้ <code>\n</code> ขึ้นบรรทัดในคำสั่งเดียว และใช้ <code>\"</code> เมื่อต้องการแสดงเครื่องหมายคำพูด</p><div class="source-example-grid"><div class="source-field"><span>Java source · ReceiptHeader.java</span><pre class="source-code">public class ReceiptHeader {
-    public static void main(String[] args) {
-        System.out.println("==== \"Java Cafe\" ====");
-        System.out.println("Item\tQty\tPrice");
-        System.out.println("Latte\t2\t90");
-        System.out.println("Cake\t1\t65");
-        System.out.println("Thank you!\nSee you again.");
-        System.out.println("Saved at C:\\receipts");
+<div class="source-example"><h4>ตัวอย่าง 2.2.5 · จัดรูปแบบผลลัพธ์ด้วย escape sequence <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>\t</code> ทำตาราง ใช้ <code>\n</code> ขึ้นบรรทัดในคำสั่งเดียว และใช้ <code>\"</code> เมื่อต้องการแสดงเครื่องหมายคำพูด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReceiptHeader.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReceiptHeader</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// \" แสดงเครื่องหมายคำพูด</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"==== \"Java Cafe\" ===="</span>);
+        <span class="tok-com">// \t เว้นระยะไปตำแหน่ง tab ถัดไป</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Item\tQty\tPrice"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Latte\t2\t90"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Cake\t1\t65"</span>);
+        <span class="tok-com">// \n ขึ้นบรรทัดใหม่กลางข้อความ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Thank you!\nSee you again."</span>);
+        <span class="tok-com">// \\ แสดง \ หนึ่งตัว</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Saved at C:\\receipts"</span>);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>==== "Java Cafe" ====
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>==== "Java Cafe" ====
 Item	Qty	Price
 Latte	2	90
 Cake	1	65
@@ -111,20 +152,20 @@ fun
 <div class="example-box"><span class="box-title">คำสั่งพื้นฐานบน command line</span><pre><code>javac Hello.java     ← คอมไพล์ ได้ไฟล์ Hello.class
 java Hello           ← รัน (ไม่ต้องเติม .class)</code></pre><p>ตั้งแต่ Java 11 สามารถรันไฟล์เดียวโดยตรงด้วย <code>java Hello.java</code> ได้ด้วย (คอมไพล์ในหน่วยความจำให้อัตโนมัติ)</p></div>
 <div class="concept-box"><span class="box-title">วิธีอ่าน error อย่างเป็นขั้นตอน</span><ol class="step-list"><li>อ่านบรรทัดแรกของ error: <code>Hello.java:3: error: ';' expected</code> → ไฟล์ Hello.java บรรทัด 3 ขาด <code>;</code></li><li>ดูบรรทัดที่ javac คัดลอกมาและเครื่องหมาย <code>^</code> ที่ชี้ตำแหน่ง</li><li>ตรวจบรรทัดนั้น <em>และบรรทัดก่อนหน้า</em> เพราะบางครั้งต้นเหตุอยู่ก่อนจุดที่ถูกชี้</li><li>แก้<strong>ทีละจุด</strong>โดยเริ่มจาก error แรก แล้วคอมไพล์ใหม่ — error ตัวหลัง ๆ มักเป็นผลพวงของตัวแรก</li></ol></div>
-<div class="source-example"><h4>ทดลอง error 2.3.1 · ลืม semicolon <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ทุกคำสั่งต้องจบด้วย <code>;</code> javac ชี้ตำแหน่งท้ายคำสั่งที่ขาด</p><div class="source-example-grid"><div class="source-field"><span>Java source · MissingSemicolon.java</span><pre class="source-code">public class MissingSemicolon {
-    public static void main(String[] args) {
-        System.out.println("Start")
-        System.out.println("End");
+<div class="source-example"><h4>ทดลอง error 2.3.1 · ลืม semicolon <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ทุกคำสั่งต้องจบด้วย <code>;</code> javac ชี้ตำแหน่งท้ายคำสั่งที่ขาด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingSemicolon.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingSemicolon</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Start"</span>)
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"End"</span>);
     }
-}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingSemicolon.java:3: error: ';' expected
+}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingSemicolon.java:3: error: ';' expected
         System.out.println("Start")
                                    ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>MissingSemicolon.java:3</code> บอกว่าปัญหาอยู่บรรทัด 3</li><li><code>';' expected</code> บอกชนิดปัญหา: ขาด semicolon</li><li><code>^</code> ชี้ตำแหน่งท้าย <code>"Start")</code> → เติม <code>;</code> ตรงนั้น</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 2.3.2 · สะกดชื่อผิด (ตัวพิมพ์ใหญ่-เล็ก) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java แยกตัวพิมพ์ใหญ่-เล็ก (case-sensitive) <code>system</code> กับ <code>System</code> คือคนละชื่อ</p><div class="source-example-grid"><div class="source-field"><span>Java source · WrongCase.java</span><pre class="source-code">public class WrongCase {
-    public static void main(String[] args) {
-        system.out.println("Hello");
-        System.out.printn("World");
+<div class="source-example"><h4>ทดลอง error 2.3.2 · สะกดชื่อผิด (ตัวพิมพ์ใหญ่-เล็ก) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java แยกตัวพิมพ์ใหญ่-เล็ก (case-sensitive) <code>system</code> กับ <code>System</code> คือคนละชื่อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongCase.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongCase</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        system.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printn</span>(<span class="tok-str">"World"</span>);
     }
-}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WrongCase.java:3: error: package system does not exist
+}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WrongCase.java:3: error: package system does not exist
         system.out.println("Hello");
               ^
 WrongCase.java:4: error: cannot find symbol
@@ -132,19 +173,19 @@ WrongCase.java:4: error: cannot find symbol
                   ^
   symbol:   method printn(String)
   location: variable out of type PrintStream</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>error แรก: <code>package system does not exist</code> — compiler ไม่รู้จัก <code>system</code> ตัวเล็ก ต้องเป็น <code>System</code></li><li>error ที่สอง: <code>cannot find symbol</code> ชี้ที่ <code>printn</code> — ไม่มีเมธอดชื่อนี้ ต้องเป็น <code>println</code></li><li><code>cannot find symbol</code> เป็น error ที่พบบ่อยที่สุด มักแปลว่า “สะกดผิด” หรือ “ยังไม่ได้ประกาศ”</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 2.3.3 · วงเล็บปีกกาไม่ครบคู่ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ทุก <code>{</code> ต้องมี <code>}</code> คู่กัน ถ้าขาด javac จะอ่านไปจนสุดไฟล์แล้วจึงแจ้ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · MissingBrace.java</span><pre class="source-code">public class MissingBrace {
-    public static void main(String[] args) {
-        System.out.println("Open");
-        System.out.println("Close");
+<div class="source-example"><h4>ทดลอง error 2.3.3 · วงเล็บปีกกาไม่ครบคู่ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ทุก <code>{</code> ต้องมี <code>}</code> คู่กัน ถ้าขาด javac จะอ่านไปจนสุดไฟล์แล้วจึงแจ้ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingBrace.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingBrace</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Open"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Close"</span>);
 
-}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingBrace.java:6: error: reached end of file while parsing
+}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingBrace.java:6: error: reached end of file while parsing
 }
  ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>reached end of file while parsing</code> แปลว่าอ่านถึงท้ายไฟล์แล้วยังปิดบล็อกไม่ครบ</li><li>error ถูกรายงานที่บรรทัดสุดท้าย แต่จุดที่ต้องแก้คือ <code>}</code> ของ main ที่หายไป</li><li>การจัดย่อหน้า (indent) ให้สม่ำเสมอทำให้เห็นวงเล็บที่ขาดได้ง่าย</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 2.3.4 · ข้อความไม่ปิดเครื่องหมายคำพูด <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> String ต้องเปิดและปิดด้วย <code>"</code> ในบรรทัดเดียวกัน</p><div class="source-example-grid"><div class="source-field"><span>Java source · UnclosedString.java</span><pre class="source-code">public class UnclosedString {
-    public static void main(String[] args) {
-        System.out.println("Hello);
+<div class="source-example"><h4>ทดลอง error 2.3.4 · ข้อความไม่ปิดเครื่องหมายคำพูด <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> String ต้องเปิดและปิดด้วย <code>"</code> ในบรรทัดเดียวกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">UnclosedString.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">UnclosedString</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>("<span class="tok-type">Hello</span>);
     }
-}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>UnclosedString.java:3: error: unclosed string literal
+}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>UnclosedString.java:3: error: unclosed string literal
         System.out.println("Hello);
                            ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>unclosed string literal</code> → เปิด <code>"</code> แล้วไม่ปิด</li><li>compiler มองว่า <code>);</code> เป็นส่วนหนึ่งของข้อความ คำสั่งจึงไม่สมบูรณ์</li><li>แก้เป็น <code>"Hello");</code></li></ol></div></div>
 <h4>สรุป error ที่พบบ่อยในบทนี้</h4><table class="comparison-table"><thead><tr><th>ข้อความ error</th><th>สาเหตุที่เป็นไปได้</th><th>วิธีแก้</th></tr></thead><tbody><tr><td><code>';' expected</code></td><td>ลืม semicolon</td><td>เติม ; ท้ายคำสั่ง</td></tr><tr><td><code>cannot find symbol</code></td><td>สะกดชื่อผิด/ตัวพิมพ์ผิด</td><td>ตรวจตัวสะกด เช่น println, System</td></tr><tr><td><code>reached end of file while parsing</code></td><td>ขาด <code>}</code></td><td>นับคู่วงเล็บ จัด indent</td></tr><tr><td><code>unclosed string literal</code></td><td>ไม่ปิด <code>"</code></td><td>ปิดเครื่องหมายคำพูด</td></tr><tr><td><code>class X is public, should be declared in a file named X.java</code></td><td>ชื่อไฟล์ไม่ตรงชื่อคลาส</td><td>เปลี่ยนชื่อไฟล์หรือชื่อคลาสให้ตรงกัน</td></tr></tbody></table>
@@ -160,31 +201,31 @@ WrongCase.java:4: error: cannot find symbol
         <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
         <p>ทำตามลำดับจากง่ายไปยาก อ่านโจทย์และตัวอย่างผลลัพธ์ให้ครบก่อนเริ่มเขียน แล้วจึงเปิดเฉลยเพื่อเทียบแนวคิด</p>
         <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
-<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 2.1</span>ทักทายด้วยโปรแกรมแรก<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างคลาสชื่อ <code>Greeting</code> ให้พิมพ์ข้อความ <code>สวัสดี Java</code> หนึ่งบรรทัด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ประกาศ <code>public class Greeting</code></li><li>บันทึกไฟล์ให้ชื่อถูกต้อง (ตอบด้วยว่าชื่อไฟล์คืออะไร)</li><li>ใช้ <code>System.out.println</code> หนึ่งครั้ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>สวัสดี Java</pre></div><div class="answer-gate" data-answer-id="2.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Greeting {
-    public static void main(String[] args) {
-        System.out.println("สวัสดี Java");
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 2.1</span>ทักทายด้วยโปรแกรมแรก<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างคลาสชื่อ <code>Greeting</code> ให้พิมพ์ข้อความ <code>สวัสดี Java</code> หนึ่งบรรทัด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ประกาศ <code>public class Greeting</code></li><li>บันทึกไฟล์ให้ชื่อถูกต้อง (ตอบด้วยว่าชื่อไฟล์คืออะไร)</li><li>ใช้ <code>System.out.println</code> หนึ่งครั้ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>สวัสดี Java</pre></div><div class="answer-gate" data-answer-id="2.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Greeting.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Greeting</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"สวัสดี Java"</span>);
     }
-}</code></pre><p>ชื่อไฟล์ต้องเป็น <code>Greeting.java</code> ให้ตรงกับชื่อคลาส public</p></div></div></article>
+}</code></pre></div><p>ชื่อไฟล์ต้องเป็น <code>Greeting.java</code> ให้ตรงกับชื่อคลาส public</p></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 2.2</span>ป้ายต้อนรับ 3 บรรทัด<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>แสดงข้อความ 3 บรรทัด: ชื่อวิชา, ชื่อของคุณ และ <code>Ready to learn Java</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ println 3 คำสั่ง</li><li>ใส่ comment บรรทัดบนสุดของ main ว่าโปรแกรมนี้ทำอะไร</li><li>ข้อความในบรรทัดที่ 1–2 เปลี่ยนเป็นของตนเองได้</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Computer Programming 1
 Mali Jaidee
-Ready to learn Java</pre></div><div class="answer-gate" data-answer-id="2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Welcome {
-    public static void main(String[] args) {
-        // แสดงป้ายต้อนรับ 3 บรรทัด
-        System.out.println("Computer Programming 1");
-        System.out.println("Mali Jaidee");
-        System.out.println("Ready to learn Java");
+Ready to learn Java</pre></div><div class="answer-gate" data-answer-id="2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Welcome.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Welcome</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// แสดงป้ายต้อนรับ 3 บรรทัด</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Computer Programming 1"</span>);  <span class="tok-com">// println ทีละบรรทัด</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Mali Jaidee"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Ready to learn Java"</span>);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 2.3</span>print ต่อบรรทัด<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>ใช้ <code>System.out.print</code> อย่างน้อย 3 คำสั่งเพื่อพิมพ์คำว่า <code>I</code>, <code>love</code>, <code>Java</code> ให้อยู่ในบรรทัดเดียวกันโดยมีช่องว่างคั่น แล้วใช้ println พิมพ์ <code>Done</code> ในบรรทัดถัดไป</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ห้ามเขียนทั้งประโยคในคำสั่งเดียว</li><li>ระวังช่องว่างระหว่างคำ</li><li>ต้องขึ้นบรรทัดใหม่ก่อนพิมพ์ Done</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>I love Java
-Done</pre></div><div class="answer-gate" data-answer-id="2.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class PrintSameLine {
-    public static void main(String[] args) {
-        System.out.print("I ");
-        System.out.print("love ");
-        System.out.print("Java");
-        System.out.println();
-        System.out.println("Done");
+Done</pre></div><div class="answer-gate" data-answer-id="2.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">PrintSameLine.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintSameLine</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"I "</span>);  <span class="tok-com">// print ไม่ขึ้นบรรทัดใหม่</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"love "</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Java"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();  <span class="tok-com">// ขึ้นบรรทัดใหม่หลังจบประโยค</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Done"</span>);
     }
-}</code></pre><p><code>println()</code> เปล่า ๆ ทำหน้าที่ขึ้นบรรทัดใหม่หลังจาก print ชุดแรก</p></div></div></article>
+}</code></pre></div><p><code>println()</code> เปล่า ๆ ทำหน้าที่ขึ้นบรรทัดใหม่หลังจาก print ชุดแรก</p></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 2.4</span>หาข้อผิดพลาดและแก้ไข<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>โค้ดต่อไปนี้คอมไพล์ไม่ผ่าน มี<strong>ข้อผิดพลาด 3 จุด</strong> ให้ระบุว่าแต่ละจุดผิดอย่างไร javac จะแจ้งว่าอย่างไร แล้วเขียนโค้ดที่ถูกต้อง</p><pre><code>public class Start {
     public static void main(String[] args) {
         System.out.println("Start")
@@ -193,36 +234,37 @@ Done</pre></div><div class="answer-gate" data-answer-id="2.3"><button class="ans
     }
 }</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ระบุเลขบรรทัดและสาเหตุของแต่ละจุด</li><li>แก้ให้คอมไพล์ผ่านและได้ผลลัพธ์ตามตัวอย่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Start
 Middle
-End</pre></div><div class="answer-gate" data-answer-id="2.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Start {
-    public static void main(String[] args) {
-        System.out.println("Start");
-        System.out.println("Middle");
-        System.out.println("End");
+End</pre></div><div class="answer-gate" data-answer-id="2.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Start.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Start</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Start"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Middle"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"End"</span>);
     }
-}</code></pre><p>บรรทัด 3 ขาด <code>;</code> (<code>';' expected</code>), บรรทัด 4 <code>system</code> ต้องเป็น <code>System</code> (<code>package system does not exist</code>), บรรทัด 5 ไม่ปิด <code>"</code> (<code>unclosed string literal</code>)</p></div></div></article>
+}</code></pre></div><p>บรรทัด 3 ขาด <code>;</code> (<code>';' expected</code>), บรรทัด 4 <code>system</code> ต้องเป็น <code>System</code> (<code>package system does not exist</code>), บรรทัด 5 ไม่ปิด <code>"</code> (<code>unclosed string literal</code>)</p></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 2.5</span>ข้อความที่มีเครื่องหมายพิเศษ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนโปรแกรมแสดงผล<strong>ให้ตรงตามตัวอย่างทุกตัวอักษร</strong> ซึ่งมีทั้งเครื่องหมายคำพูดและ backslash</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>\"</code> สำหรับเครื่องหมายคำพูด</li><li>ใช้ <code>\\</code> สำหรับ backslash</li><li>บรรทัดที่ 3 และ 4 ต้องเกิดจาก println <strong>คำสั่งเดียว</strong> โดยใช้ <code>\n</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Teacher said "Practice every day"
 File: C:\java\Hello.java
 Line A
-Line B</pre></div><div class="answer-gate" data-answer-id="2.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class SpecialChars {
-    public static void main(String[] args) {
-        System.out.println("Teacher said \"Practice every day\"");
-        System.out.println("File: C:\\java\\Hello.java");
-        System.out.println("Line A\nLine B");
+Line B</pre></div><div class="answer-gate" data-answer-id="2.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">SpecialChars.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SpecialChars</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Teacher said \"Practice every day\""</span>);  <span class="tok-com">// \" แสดงเครื่องหมายคำพูด</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"File: C:\\java\\Hello.java"</span>);           <span class="tok-com">// \\ แสดง \ หนึ่งตัว</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Line A\nLine B"</span>);                       <span class="tok-com">// \n แบ่งเป็น 2 บรรทัด</span>
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 2.6</span>ตารางเวลาเรียนด้วย \t<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>แสดงตารางเรียน 3 วิชา โดยใช้ <code>\t</code> จัดคอลัมน์ให้ตรงกัน มีหัวตาราง และเส้นคั่นด้วยเครื่องหมาย <code>-</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>หัวตารางมี 3 คอลัมน์: Day, Time, Subject</li><li>มีเส้นคั่นใต้หัวตาราง</li><li>ข้อมูล 3 แถวตามตัวอย่าง (เปลี่ยนวิชาเป็นของตนเองได้)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Day	Time	Subject
 -------------------------------
 Mon	09:00	Programming
 Tue	13:00	Math
-Wed	10:00	English</pre></div><div class="answer-gate" data-answer-id="2.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Timetable {
-    public static void main(String[] args) {
-        System.out.println("Day\tTime\tSubject");
-        System.out.println("-------------------------------");
-        System.out.println("Mon\t09:00\tProgramming");
-        System.out.println("Tue\t13:00\tMath");
-        System.out.println("Wed\t10:00\tEnglish");
+Wed	10:00	English</pre></div><div class="answer-gate" data-answer-id="2.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Timetable.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Timetable</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// \t จัดหัวตารางเป็นคอลัมน์</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Day\tTime\tSubject"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"-------------------------------"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Mon\t09:00\tProgramming"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Tue\t13:00\tMath"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Wed\t10:00\tEnglish"</span>);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 2.7</span>ใบเสร็จอย่างง่าย<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>แสดงใบเสร็จร้านค้าที่มีชื่อร้าน เส้นคั่น ชื่อสินค้า 2 รายการพร้อมราคา ราคารวม และคำว่า <code>Thank you!</code> ตามตัวอย่าง (ยังไม่ต้องคำนวณ ให้พิมพ์ตัวเลขตรง ๆ)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>=</code> ทำเส้นคั่นบนและล่าง</li><li>ใช้ <code>\t</code> คั่นชื่อสินค้ากับราคา</li><li>มีบรรทัดว่าง 1 บรรทัดก่อน Thank you!</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>===== MINI MART =====
 Pen		15
 Notebook	35
@@ -230,52 +272,56 @@ Notebook	35
 Total		50
 =====================
 
-Thank you!</pre></div><div class="answer-gate" data-answer-id="2.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class SimpleReceipt {
-    public static void main(String[] args) {
-        System.out.println("===== MINI MART =====");
-        System.out.println("Pen\t\t15");
-        System.out.println("Notebook\t35");
-        System.out.println("---------------------");
-        System.out.println("Total\t\t50");
-        System.out.println("=====================");
-        System.out.println();
-        System.out.println("Thank you!");
+Thank you!</pre></div><div class="answer-gate" data-answer-id="2.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">SimpleReceipt.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SimpleReceipt</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"===== MINI MART ====="</span>);
+        <span class="tok-com">// \t\t: ชื่อสั้นจึงเว้น 2 tab</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Pen\t\t15"</span>);
+        <span class="tok-com">// ชื่อยาว เว้น 1 tab พอ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Notebook\t35"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"---------------------"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total\t\t50"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"====================="</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();  <span class="tok-com">// บรรทัดว่างคั่น</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Thank you!"</span>);
     }
-}</code></pre><p><code>Pen</code> สั้นกว่า <code>Notebook</code> จึงใช้ <code>\t\t</code> เพื่อให้ราคาอยู่คอลัมน์เดียวกัน</p></div></div></article>
+}</code></pre></div><p><code>Pen</code> สั้นกว่า <code>Notebook</code> จึงใช้ <code>\t\t</code> เพื่อให้ราคาอยู่คอลัมน์เดียวกัน</p></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 2.8</span>วาดรูปด้วยตัวอักษร<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>ใช้ println แสดงรูปบ้านด้วยตัวอักษรตามตัวอย่าง รูปมีหลังคา (<code>/</code> และ <code>\</code>) ผนัง และประตู</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ต้องแสดง backslash ให้ถูกต้อง (ใช้ <code>\\</code>)</li><li>จัดช่องว่างนำหน้าให้รูปสมมาตร</li><li>อธิบายว่าทำไมบรรทัดหลังคาในโค้ดดูยาวกว่าผลลัพธ์</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>     /\
     /  \
    /    \
   /______\
   |      |
   |  []  |
-  |______|</pre></div><div class="answer-gate" data-answer-id="2.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class AsciiHouse {
-    public static void main(String[] args) {
-        System.out.println("     /\\");
-        System.out.println("    /  \\");
-        System.out.println("   /    \\");
-        System.out.println("  /______\\");
-        System.out.println("  |      |");
-        System.out.println("  |  []  |");
-        System.out.println("  |______|");
+  |______|</pre></div><div class="answer-gate" data-answer-id="2.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">AsciiHouse.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AsciiHouse</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// \\ ในโค้ด = \ ตัวเดียวบนจอ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"     /\\"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"    /  \\"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"   /    \\"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  /______\\"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  |      |"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  |  []  |"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  |______|"</span>);
     }
-}</code></pre><p>ในโค้ด <code>\\</code> สองตัวแสดงผลเป็น <code>\</code> ตัวเดียว บรรทัดในโค้ดจึงยาวกว่าผลลัพธ์หนึ่งตัวอักษร</p></div></div></article>
+}</code></pre></div><p>ในโค้ด <code>\\</code> สองตัวแสดงผลเป็น <code>\</code> ตัวเดียว บรรทัดในโค้ดจึงยาวกว่าผลลัพธ์หนึ่งตัวอักษร</p></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 2.9</span>นามบัตรในกรอบ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างนามบัตรในกรอบที่ทำจาก <code>+</code>, <code>-</code> และ <code>|</code> ภายในมีชื่อ ตำแหน่ง อีเมล และคำคมในเครื่องหมายคำพูด ทุกบรรทัดต้องกว้างเท่ากัน (ขอบขวาตรงกัน)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ภาษาอังกฤษในการ์ดเพื่อให้นับความกว้างได้ง่าย</li><li>บรรทัดคำคมต้องมีเครื่องหมาย <code>"</code> ครอบ</li><li>นับจำนวนตัวอักษรแต่ละบรรทัดให้เท่ากัน (ในตัวอย่างกว้าง 32 ตัวอักษร)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>+------------------------------+
 | Mali Jaidee                  |
 | Junior Java Developer        |
 | mali@example.com             |
 |                              |
 | "Code a little every day."   |
-+------------------------------+</pre></div><div class="answer-gate" data-answer-id="2.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class BusinessCard {
-    public static void main(String[] args) {
-        System.out.println("+------------------------------+");
-        System.out.println("| Mali Jaidee                  |");
-        System.out.println("| Junior Java Developer        |");
-        System.out.println("| mali@example.com             |");
-        System.out.println("|                              |");
-        System.out.println("| \"Code a little every day.\"   |");
-        System.out.println("+------------------------------+");
++------------------------------+</pre></div><div class="answer-gate" data-answer-id="2.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">BusinessCard.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BusinessCard</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"+------------------------------+"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| Mali Jaidee                  |"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| Junior Java Developer        |"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| mali@example.com             |"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"|                              |"</span>);
+        <span class="tok-com">// \" ใช้ 2 ตัวอักษรในโค้ด แต่แสดง 1 ตัว</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| \"Code a little every day.\"   |"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"+------------------------------+"</span>);
     }
-}</code></pre><p>บรรทัดคำคมในโค้ดมี <code>\"</code> 2 ที่ ดูยาวกว่าบรรทัดอื่น 2 ตัวอักษร แต่ผลลัพธ์กว้างเท่ากัน</p></div></div></article>
+}</code></pre></div><p>บรรทัดคำคมในโค้ดมี <code>\"</code> 2 ที่ ดูยาวกว่าบรรทัดอื่น 2 ตัวอักษร แต่ผลลัพธ์กว้างเท่ากัน</p></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 2.10</span>แก้โปรแกรมที่มีหลาย error<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>โค้ดนี้บันทึกในไฟล์ <code>Report.java</code> แต่มีข้อผิดพลาด<strong>อย่างน้อย 4 จุด</strong> ให้คอมไพล์ อ่าน error ทีละตัว แก้ทีละจุดจนรันได้ผลตามตัวอย่าง และบันทึกว่าแก้อะไรตามลำดับ</p><pre><code>public class report {
     public static void main(String[] args) {
         System.out.println("Student Report")
@@ -285,19 +331,19 @@ Thank you!</pre></div><div class="answer-gate" data-answer-id="2.7"><button clas
 }</code></pre></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เริ่มแก้จาก error แรกที่ javac รายงาน แล้วคอมไพล์ใหม่ทุกครั้ง</li><li>ผลลัพธ์บรรทัดสุดท้ายต้องมีเครื่องหมายคำพูดรอบคำว่า Pass</li><li>เขียนสรุปว่าแต่ละ error มีข้อความว่าอะไร</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Student Report
 Name:	Mali
 Score:	85
-Status: "Pass"</pre></div><div class="answer-gate" data-answer-id="2.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Report {
-    public static void main(String[] args) {
-        System.out.println("Student Report");
-        System.out.println("Name:\tMali");
-        System.out.println("Score:\t85");
-        System.out.println("Status: \"Pass\"");
+Status: "Pass"</pre></div><div class="answer-gate" data-answer-id="2.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Report.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Report</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Student Report"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name:\tMali"</span>);  <span class="tok-com">// \t เว้นระยะหลังหัวข้อ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Score:\t85"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Status: \"Pass\""</span>);  <span class="tok-com">// \" ครอบคำว่า Pass</span>
     }
-}</code></pre><p>จุดที่แก้: (1) ชื่อคลาส <code>report</code> → <code>Report</code> ให้ตรงชื่อไฟล์ (2) เติม <code>;</code> บรรทัด 3 (3) <code>printline</code> → <code>println</code> (4) ใช้ <code>\"</code> รอบ Pass (5) เติม <code>}</code> ปิดคลาส</p></div></div></article>
+}</code></pre></div><p>จุดที่แก้: (1) ชื่อคลาส <code>report</code> → <code>Report</code> ให้ตรงชื่อไฟล์ (2) เติม <code>;</code> บรรทัด 3 (3) <code>printline</code> → <code>println</code> (4) ใช้ <code>\"</code> รอบ Pass (5) เติม <code>}</code> ปิดคลาส</p></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-01.html">← บทที่ 1</a><a class="pager-link" href="chapter-03.html">บทที่ 3: ตัวแปรและการคำนวณ →</a></nav>
       <footer class="lesson-footer">Java programming by Prymania · บทที่ 2 · บันทึกไฟล์และลองรันด้วยตัวเอง</footer>
     </main>
   </div>
-  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
 </body>
 </html>

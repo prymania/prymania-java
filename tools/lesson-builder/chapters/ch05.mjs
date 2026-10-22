@@ -28,11 +28,14 @@ export default {
             public class Comparisons {
                 public static void main(String[] args) {
                     int score = 72;
+                    // ผลการเปรียบเทียบเป็น boolean
                     boolean passed = score >= 50;
+                    // == คือเปรียบเทียบ (= คือกำหนดค่า)
                     boolean perfect = score == 100;
                     System.out.println("passed = " + passed);
                     System.out.println("perfect = " + perfect);
                     System.out.println("score < 80 ? " + (score < 80));
+                    // != แปลว่า "ไม่เท่ากับ"
                     System.out.println("score != 72 ? " + (score != 72));
                 }
             }`,
@@ -59,8 +62,11 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Username: ");
                     String user = input.next();
+                    // == เทียบว่าเป็นออบเจ็กต์เดียวกัน ไม่ใช่เนื้อหา
                     System.out.println("user == \"admin\"      -> " + (user == "admin"));
+                    // equals เทียบเนื้อหาข้อความ
                     System.out.println("user.equals(\"admin\") -> " + user.equals("admin"));
+                    // ไม่สนตัวพิมพ์เล็ก/ใหญ่
                     System.out.println("equalsIgnoreCase(\"ADMIN\") -> " + user.equalsIgnoreCase("ADMIN"));
                 }
             }`,
@@ -70,10 +76,12 @@ export default {
           code: j`
             public class DoubleCompare {
                 public static void main(String[] args) {
-                    double a = 0.1 + 0.2;
+                    double a = 0.1 + 0.2;  // ทศนิยมฐานสองคลาดเคลื่อนเล็กน้อย
                     double b = 0.3;
                     System.out.println("a = " + a);
+                    // จึงไม่ควรใช้ == กับ double
                     System.out.println("a == b ? " + (a == b));
+                    // ถือว่าเท่ากันเมื่อต่างกันน้อยมาก
                     System.out.println("close enough ? " + (Math.abs(a - b) < 1e-9));
                 }
             }`,
@@ -92,10 +100,13 @@ export default {
             public class RangeCheck {
                 public static void main(String[] args) {
                     int age = 19;
+                    // && ต้องจริงทั้งสองข้าง
                     boolean inRange = age >= 18 && age <= 25;
+                    // || จริงข้างเดียวก็พอ
                     boolean outOfRange = age < 18 || age > 25;
                     System.out.println("18-25? " + inRange);
                     System.out.println("outside? " + outOfRange);
+                    // ! กลับค่าจริงเป็นเท็จ
                     System.out.println("not in range? " + !inRange);
                 }
             }`,
@@ -109,8 +120,11 @@ export default {
                     boolean hasPass = true;
                     int age = 16;
 
+                    // วงเล็บทำให้ || ทำก่อน
                     boolean ruleA = (isStudent || hasPass) && age >= 18;
+                    // && ทำก่อน || (เหมือน C)
                     boolean ruleB = isStudent || hasPass && age >= 18;
+                    // เขียนวงเล็บให้ชัดเหมือน B
                     boolean ruleC = isStudent || (hasPass && age >= 18);
 
                     System.out.println("A = " + ruleA);
@@ -127,6 +141,7 @@ export default {
                 public static void main(String[] args) {
                     int total = 100;
                     int count = 0;
+                    // ถ้า count เป็น 0 จะไม่หารเลย (short-circuit)
                     if (count != 0 && total / count > 10) {
                         System.out.println("Average above 10");
                     } else {
@@ -140,8 +155,11 @@ export default {
           code: j`
             public class LeapYear {
                 public static void main(String[] args) {
+                    // ปีตัวอย่างหลายค่า
                     int[] years = {2024, 2025, 1900, 2000};
+                    // วนทีละปี (เรียนในบทที่ 6)
                     for (int year : years) {
+                        // หาร 4 ลงตัวแต่ไม่ลงตัว 100 หรือหาร 400 ลงตัว
                         boolean leap = (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
                         System.out.println(year + " leap? " + leap);
                     }
@@ -174,9 +192,10 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Temperature: ");
                     double temp = input.nextDouble();
-                    if (temp >= 37.5) {
+                    if (temp >= 37.5) {  // เงื่อนไขจริง → ทำในวงเล็บปีกกา
                         System.out.println("Warning: fever!");
                     }
+                    // ทำเสมอ ไม่ว่าเงื่อนไขเป็นอะไร
                     System.out.println("Recorded " + temp);
                 }
             }`,
@@ -191,9 +210,9 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Number: ");
                     int n = input.nextInt();
-                    if (n % 2 == 0) {
+                    if (n % 2 == 0) {  // เศษจากหาร 2 เป็น 0 = เลขคู่
                         System.out.println(n + " is even");
-                    } else {
+                    } else {  // มิฉะนั้นเป็นเลขคี่
                         System.out.println(n + " is odd");
                     }
                 }
@@ -209,16 +228,17 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Score: ");
                     int score = input.nextInt();
+                    // ประกาศไว้ก่อน แล้วกำหนดค่าในแต่ละทาง
                     String grade;
-                    if (score >= 80) {
+                    if (score >= 80) {  // ตรวจจากช่วงสูงสุดลงมา
                         grade = "A";
-                    } else if (score >= 70) {
+                    } else if (score >= 70) {  // มาถึงนี่แปลว่า score < 80
                         grade = "B";
                     } else if (score >= 60) {
                         grade = "C";
                     } else if (score >= 50) {
                         grade = "D";
-                    } else {
+                    } else {  // ไม่ตรงเงื่อนไขใดเลย
                         grade = "F";
                     }
                     System.out.println("Grade: " + grade);
@@ -235,9 +255,9 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Score: ");
                     int score = input.nextInt();
-                    if (score >= 50) {
+                    if (score >= 50) {  // คะแนน ≥ 50 ทุกค่าเข้าทางนี้ก่อน
                         System.out.println("Pass");
-                    } else if (score >= 90) {
+                    } else if (score >= 90) {  // จึงไม่มีวันมาถึงเงื่อนไขนี้
                         System.out.println("Excellent");
                     }
                 }
@@ -257,15 +277,17 @@ export default {
                     String member = input.next();
 
                     double shipping;
-                    if (total >= 1000) {
+                    if (total >= 1000) {  // ยอดถึง 1000 ส่งฟรี
                         shipping = 0;
                     } else {
+                        // if ซ้อน: ตรวจสมาชิกเฉพาะยอดไม่ถึง 1000
                         if (member.equals("y")) {
                             shipping = 20;
                         } else {
                             shipping = 50;
                         }
                     }
+                    // ตัวดำเนินการ ?: เลือกค่าตามเงื่อนไข
                     String label = shipping == 0 ? "FREE" : shipping + " baht";
                     System.out.println("Shipping: " + label);
                 }
@@ -309,7 +331,9 @@ export default {
                     System.out.print("Day (1-7): ");
                     int day = input.nextInt();
                     String name;
+                    // เลือกทางตามค่าของ day
                     switch (day) {
+                        // break: ออกจาก switch
                         case 1: name = "Monday"; break;
                         case 2: name = "Tuesday"; break;
                         case 3: name = "Wednesday"; break;
@@ -317,6 +341,7 @@ export default {
                         case 5: name = "Friday"; break;
                         case 6: name = "Saturday"; break;
                         case 7: name = "Sunday"; break;
+                        // default: ไม่ตรง case ใดเลย
                         default: name = "Unknown day";
                     }
                     System.out.println(name);
@@ -329,10 +354,10 @@ export default {
             public class FallThrough {
                 public static void main(String[] args) {
                     int level = 2;
-                    switch (level) {
+                    switch (level) {  // ไม่มี break ทุก case
                         case 1:
                             System.out.println("Bronze");
-                        case 2:
+                        case 2:  // เข้าที่ case 2 แล้วไหลลงต่อ
                             System.out.println("Silver");
                         case 3:
                             System.out.println("Gold");
@@ -352,12 +377,14 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Month (1-12): ");
                     int month = input.nextInt();
+                    // switch แบบลูกศร คืนค่าได้
                     String season = switch (month) {
+                        // หลายค่าใน case เดียว คั่นด้วย ,
                         case 3, 4, 5 -> "Summer";
                         case 6, 7, 8, 9, 10 -> "Rainy";
                         case 11, 12, 1, 2 -> "Winter";
                         default -> "Invalid month";
-                    };
+                    };  // มี ; ปิดท้าย เพราะเป็นนิพจน์
                     System.out.println("Season: " + season);
                 }
             }`,
@@ -372,14 +399,19 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Expression (a op b): ");
                     double a = input.nextDouble();
+                    // อ่านคำแล้วเอาตัวอักษรแรก
                     char op = input.next().charAt(0);
                     double b = input.nextDouble();
 
                     switch (op) {
+                        // แบบลูกศรไม่ต้อง break
                         case '+' -> System.out.println("= " + (a + b));
                         case '-' -> System.out.println("= " + (a - b));
+                        // รองรับทั้ง * และ x
                         case '*', 'x' -> System.out.println("= " + (a * b));
+                        // หลายคำสั่ง → ใช้ { }
                         case '/' -> {
+                            // ป้องกันการหารด้วย 0
                             if (b == 0) {
                                 System.out.println("Cannot divide by zero");
                             } else {
@@ -413,11 +445,11 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Number: ");
                 int n = input.nextInt();
-                if (n > 0) {
+                if (n > 0) {  // มากกว่า 0
                     System.out.println("positive");
-                } else if (n < 0) {
+                } else if (n < 0) {  // น้อยกว่า 0
                     System.out.println("negative");
-                } else {
+                } else {  // ที่เหลือคือ 0
                     System.out.println("zero");
                 }
             }
@@ -432,8 +464,8 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Number: ");
                 int x = input.nextInt();
-                int result = x;
-                if (x < 0) {
+                int result = x;  // เริ่มจากค่าเดิม
+                if (x < 0) {     // ถ้าติดลบ จึงกลับเครื่องหมาย
                     result = -x;
                 }
                 System.out.println("|" + x + "| = " + result);
@@ -450,10 +482,11 @@ export default {
                 System.out.println("1) Tea  2) Coffee  3) Water");
                 System.out.print("Choose: ");
                 int choice = input.nextInt();
-                switch (choice) {
+                switch (choice) {  // เลือกเมนูตามหมายเลข
                     case 1 -> System.out.println("Tea - 25 baht");
                     case 2 -> System.out.println("Coffee - 40 baht");
                     case 3 -> System.out.println("Water - 10 baht");
+                    // เลขที่ไม่มีในเมนู
                     default -> System.out.println("Invalid menu");
                 }
             }
@@ -468,9 +501,9 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Age: ");
                 int age = input.nextInt();
-                if (age < 0 || age > 120) {
+                if (age < 0 || age > 120) {  // ตรวจค่าผิดปกติก่อน
                     System.out.println("Invalid age");
-                } else if (age <= 3) {
+                } else if (age <= 3) {  // ตรวจช่วงอายุจากน้อยไปมาก
                     System.out.println("Free");
                 } else if (age <= 12) {
                     System.out.println("Child 60 baht");
@@ -494,16 +527,18 @@ export default {
                 System.out.print("Member (y/n): ");
                 String member = input.next();
                 int percent;
-                if (total >= 2000) {
+                if (total >= 2000) {  // ส่วนลดตามยอดซื้อ
                     percent = 15;
                 } else if (total >= 1000) {
                     percent = 10;
                 } else {
                     percent = 0;
                 }
+                // if แยก: สมาชิกได้เพิ่มอีก 5%
                 if (member.equalsIgnoreCase("y")) {
                     percent += 5;
                 }
+                // คิดส่วนลดจากเปอร์เซ็นต์รวม
                 double discount = total * percent / 100;
                 System.out.printf("Discount %d%% = %.2f%n", percent, discount);
                 System.out.printf("Net = %.2f%n", total - discount);
@@ -519,10 +554,10 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Enter 3 numbers: ");
                 int a = input.nextInt(), b = input.nextInt(), c = input.nextInt();
-                int max = a;
-                if (b > max) max = b;
+                int max = a;           // สมมติว่าตัวแรกมากที่สุด
+                if (b > max) max = b;  // เจอค่าที่มากกว่า → เปลี่ยน
                 if (c > max) max = c;
-                int min = a;
+                int min = a;  // ทำแบบเดียวกันกับค่าน้อยสุด
                 if (b < min) min = b;
                 if (c < min) min = c;
                 System.out.println("Max = " + max);
@@ -541,7 +576,9 @@ export default {
                 String user = input.next();
                 System.out.print("Password: ");
                 String pass = input.next();
+                // ตรวจชื่อผู้ใช้ก่อน
                 if (user.equalsIgnoreCase("student")) {
+                    // ชื่อถูกจึงตรวจรหัสผ่าน
                     if (pass.equals("java2026")) {
                         System.out.println("Login successful");
                     } else {
@@ -563,13 +600,14 @@ export default {
                 System.out.print("Units: ");
                 int units = input.nextInt();
                 double energy;
-                if (units <= 150) {
+                if (units <= 150) {  // ขั้นที่ 1: 150 หน่วยแรก
                     energy = units * 3.25;
-                } else if (units <= 400) {
+                } else if (units <= 400) {  // ขั้นที่ 2: หน่วยที่ 151-400
                     energy = 150 * 3.25 + (units - 150) * 4.22;
-                } else {
+                } else {  // ขั้นที่ 3: เกิน 400 หน่วย
                     energy = 150 * 3.25 + 250 * 4.22 + (units - 400) * 4.42;
                 }
+                // บวกค่าบริการรายเดือน
                 double beforeVat = energy + 38.22;
                 double vat = beforeVat * 0.07;
                 System.out.printf("Energy charge: %.2f%n", energy);
@@ -588,19 +626,23 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Sides: ");
                 int a = input.nextInt(), b = input.nextInt(), c = input.nextInt();
+                // ทุกด้านเป็นบวก และผลรวม 2 ด้านยาวกว่าด้านที่เหลือ
                 boolean valid = a > 0 && b > 0 && c > 0 && a + b > c && a + c > b && b + c > a;
                 if (!valid) {
                     System.out.println("Not a triangle");
                 } else {
-                    if (a == b && b == c) {
+                    if (a == b && b == c) {  // เท่ากันทั้ง 3 ด้าน
                         System.out.println("Equilateral");
+                    // เท่ากันบางคู่
                     } else if (a == b || b == c || a == c) {
                         System.out.println("Isosceles");
                     } else {
                         System.out.println("Scalene");
                     }
+                    // ด้านยาวที่สุด
                     int longest = Math.max(a, Math.max(b, c));
                     int sumSquares = a * a + b * b + c * c - longest * longest;
+                    // ตรวจตามทฤษฎีบทพีทาโกรัส
                     if (sumSquares == longest * longest) {
                         System.out.println("Right triangle: yes");
                     } else {
@@ -618,15 +660,19 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Gender weight height: ");
+                // แปลงเป็นตัวใหญ่แล้วเอาตัวแรก
                 char gender = input.next().toUpperCase().charAt(0);
                 double weight = input.nextDouble();
                 double heightCm = input.nextDouble();
+                // ตรวจข้อมูลผิดก่อนคำนวณ
                 if ((gender != 'M' && gender != 'F') || weight <= 0 || heightCm < 50 || heightCm > 250) {
                     System.out.println("Invalid input");
                 } else {
+                    // แปลงเซนติเมตรเป็นเมตร
                     double h = heightCm / 100;
                     double bmi = weight / (h * h);
                     String group;
+                    // ไม่มี { } ได้เมื่อมีคำสั่งเดียว
                     if (bmi < 18.5) group = "Underweight";
                     else if (bmi < 23) group = "Normal";
                     else if (bmi < 25) group = "Overweight";
@@ -634,6 +680,7 @@ export default {
                     else group = "Obese II";
                     System.out.printf("BMI = %.2f (%s)%n", bmi, group);
                     if (bmi < 18.5) {
+                        // น้ำหนักที่ควรเพิ่มให้ถึง 18.5
                         System.out.printf("Gain about %.1f kg%n", 18.5 * h * h - weight);
                     } else if (bmi >= 23) {
                         System.out.printf("Lose about %.1f kg%n", weight - 22.9 * h * h);
@@ -653,21 +700,26 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Date (d m y): ");
                 int d = input.nextInt(), m = input.nextInt(), y = input.nextInt();
+                // เงื่อนไขปีอธิกสุรทิน
                 boolean leap = (y % 4 == 0 && y % 100 != 0) || y % 400 == 0;
+                // จำนวนวันของแต่ละเดือน
                 int daysInMonth = switch (m) {
                     case 4, 6, 9, 11 -> 30;
+                    // กุมภาพันธ์ขึ้นกับปีอธิกสุรทิน
                     case 2 -> leap ? 29 : 28;
                     case 1, 3, 5, 7, 8, 10, 12 -> 31;
                     default -> 0;
                 };
+                // ตรวจวันที่ไม่ถูกต้อง
                 if (daysInMonth == 0 || d < 1 || d > daysInMonth) {
                     System.out.println("Invalid date");
                 } else {
                     d++;
+                    // เกินจำนวนวัน → ขึ้นเดือนใหม่
                     if (d > daysInMonth) {
                         d = 1;
                         m++;
-                        if (m > 12) {
+                        if (m > 12) {  // เกินเดือน 12 → ขึ้นปีใหม่
                             m = 1;
                             y++;
                         }

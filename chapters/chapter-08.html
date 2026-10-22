@@ -6,13 +6,44 @@
   <meta name="theme-color" content="#f5f7f4">
   <title>บทที่ 8: อาเรย์และชุดข้อมูล | Java programming by Prymania</title>
   <link rel="stylesheet" href="../assets/lesson.css">
+  <link rel="stylesheet" href="../assets/course-nav.css">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
   <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญบทที่ 8"><p class="toc-label">บทที่ 8 · ข้อมูลหลายค่า</p><a href="#topic-8-1"><span class="toc-number">8.1</span>สร้างและเข้าถึงอาเรย์</a><a href="#topic-8-2"><span class="toc-number">8.2</span>วนอ่าน รวม และค้นหา</a><a href="#topic-8-3"><span class="toc-number">8.3</span>อาเรย์สองมิติ</a><a href="#topic-8-4"><span class="toc-number">8.4</span>อาเรย์กับเมธอด</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <!-- course-nav -->
+<button class="nav-toggle" type="button" aria-expanded="false">☰ สารบัญทุกบท</button>
+<nav class="course-nav" aria-label="สารบัญรายวิชา">
+<p class="nav-label">เริ่มต้น</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">01</span><span class="nav-title">คิดเป็นขั้นตอน · Flowchart</span></summary><div class="nav-topics"><a href="chapter-01.html"><span class="toc-number">1</span>ภาพรวมของบท</a><a href="chapter-01.html#topic-1-1"><span class="toc-number">1.1</span>แยกโจทย์ด้วย IPO</a><a href="chapter-01.html#topic-1-2"><span class="toc-number">1.2</span>ขั้นตอนวิธีและรหัสเทียม</a><a href="chapter-01.html#topic-1-3"><span class="toc-number">1.3</span>สัญลักษณ์ Flowchart</a><a href="chapter-01.html#topic-1-4"><span class="toc-number">1.4</span>ทางเลือกและการทำซ้ำ</a><a href="chapter-01.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">02</span><span class="nav-title">รู้จัก Java</span></summary><div class="nav-topics"><a href="chapter-02.html"><span class="toc-number">2</span>ภาพรวมของบท</a><a href="chapter-02.html#topic-2-1"><span class="toc-number">2.1</span>JDK, JVM และ IDE</a><a href="chapter-02.html#topic-2-2"><span class="toc-number">2.2</span>โครงสร้างโปรแกรม Java</a><a href="chapter-02.html#topic-2-3"><span class="toc-number">2.3</span>คอมไพล์ รัน และอ่าน error</a><a href="chapter-02.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">03</span><span class="nav-title">ตัวแปรและชนิดข้อมูล</span></summary><div class="nav-topics"><a href="chapter-03.html"><span class="toc-number">3</span>ภาพรวมของบท</a><a href="chapter-03.html#topic-3-1"><span class="toc-number">3.1</span>ตัวแปรและการกำหนดค่า</a><a href="chapter-03.html#topic-3-2"><span class="toc-number">3.2</span>ชนิดข้อมูล</a><a href="chapter-03.html#topic-3-3"><span class="toc-number">3.3</span>ตัวดำเนินการ</a><a href="chapter-03.html#topic-3-4"><span class="toc-number">3.4</span>ค่าคงที่และการแปลงชนิด</a><a href="chapter-03.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">04</span><span class="nav-title">รับข้อมูลและแสดงผล</span></summary><div class="nav-topics"><a href="chapter-04.html"><span class="toc-number">4</span>ภาพรวมของบท</a><a href="chapter-04.html#topic-4-1"><span class="toc-number">4.1</span>print · println · printf</a><a href="chapter-04.html#topic-4-2"><span class="toc-number">4.2</span>Scanner</a><a href="chapter-04.html#topic-4-3"><span class="toc-number">4.3</span>ตัวเลขและข้อความ</a><a href="chapter-04.html#topic-4-4"><span class="toc-number">4.4</span>จัดการบรรทัดข้อมูล</a><a href="chapter-04.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">ฝึกเขียนโปรแกรม</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">05</span><span class="nav-title">เงื่อนไข</span></summary><div class="nav-topics"><a href="chapter-05.html"><span class="toc-number">5</span>ภาพรวมของบท</a><a href="chapter-05.html#topic-5-1"><span class="toc-number">5.1</span>ค่าจริงและการเปรียบเทียบ</a><a href="chapter-05.html#topic-5-2"><span class="toc-number">5.2</span>ตัวดำเนินการตรรกะ</a><a href="chapter-05.html#topic-5-3"><span class="toc-number">5.3</span>if, else if และ else</a><a href="chapter-05.html#topic-5-4"><span class="toc-number">5.4</span>เลือกทางด้วย switch</a><a href="chapter-05.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">06</span><span class="nav-title">การทำซ้ำ</span></summary><div class="nav-topics"><a href="chapter-06.html"><span class="toc-number">6</span>ภาพรวมของบท</a><a href="chapter-06.html#topic-6-1"><span class="toc-number">6.1</span>while และการอัปเดตค่า</a><a href="chapter-06.html#topic-6-2"><span class="toc-number">6.2</span>for เมื่อรู้จำนวนรอบ</a><a href="chapter-06.html#topic-6-3"><span class="toc-number">6.3</span>do-while และ sentinel</a><a href="chapter-06.html#topic-6-4"><span class="toc-number">6.4</span>ลูปซ้อนและคำสั่งควบคุม</a><a href="chapter-06.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">07</span><span class="nav-title">เมธอด</span></summary><div class="nav-topics"><a href="chapter-07.html"><span class="toc-number">7</span>ภาพรวมของบท</a><a href="chapter-07.html#topic-7-1"><span class="toc-number">7.1</span>ประกาศและเรียกเมธอด</a><a href="chapter-07.html#topic-7-2"><span class="toc-number">7.2</span>พารามิเตอร์และ argument</a><a href="chapter-07.html#topic-7-3"><span class="toc-number">7.3</span>return value</a><a href="chapter-07.html#topic-7-4"><span class="toc-number">7.4</span>scope และ overload</a><a href="chapter-07.html#topic-7-5"><span class="toc-number">7.5</span>ประกอบโปรแกรมจากเมธอด</a><a href="chapter-07.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav" open><summary aria-current="page"><span class="nav-number">08</span><span class="nav-title">อาเรย์</span></summary><div class="nav-topics"><a href="#lesson-content"><span class="toc-number">8</span>ภาพรวมของบท</a><a href="#topic-8-1"><span class="toc-number">8.1</span>สร้างและเข้าถึงอาเรย์</a><a href="#topic-8-2"><span class="toc-number">8.2</span>วนอ่าน รวม และค้นหา</a><a href="#topic-8-3"><span class="toc-number">8.3</span>อาเรย์สองมิติ</a><a href="#topic-8-4"><span class="toc-number">8.4</span>อาเรย์กับเมธอด</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">09</span><span class="nav-title">ข้อความและ String</span></summary><div class="nav-topics"><a href="chapter-09.html"><span class="toc-number">9</span>ภาพรวมของบท</a><a href="chapter-09.html#topic-9-1"><span class="toc-number">9.1</span>เปรียบเทียบและต่อข้อความ</a><a href="chapter-09.html#topic-9-2"><span class="toc-number">9.2</span>ค้นหาและตัดข้อความ</a><a href="chapter-09.html#topic-9-3"><span class="toc-number">9.3</span>แปลงข้อความเป็นตัวเลข</a><a href="chapter-09.html#topic-9-4"><span class="toc-number">9.4</span>char และ Character</a><a href="chapter-09.html#topic-9-5"><span class="toc-number">9.5</span>StringBuilder</a><a href="chapter-09.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">ต่อยอดด้วย Java</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">10</span><span class="nav-title">ทดสอบและแก้บั๊ก</span></summary><div class="nav-topics"><a href="chapter-10.html"><span class="toc-number">10</span>ภาพรวมของบท</a><a href="chapter-10.html#topic-10-1"><span class="toc-number">10.1</span>จำแนก error</a><a href="chapter-10.html#topic-10-2"><span class="toc-number">10.2</span>อ่าน compiler diagnostics</a><a href="chapter-10.html#topic-10-3"><span class="toc-number">10.3</span>trace และ debugger</a><a href="chapter-10.html#topic-10-4"><span class="toc-number">10.4</span>ออกแบบ test case</a><a href="chapter-10.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">11</span><span class="nav-title">คลาสและออบเจ็กต์</span></summary><div class="nav-topics"><a href="chapter-11.html"><span class="toc-number">11</span>ภาพรวมของบท</a><a href="chapter-11.html#topic-11-1"><span class="toc-number">11.1</span>class เป็นพิมพ์เขียว</a><a href="chapter-11.html#topic-11-2"><span class="toc-number">11.2</span>สร้าง object ด้วย new</a><a href="chapter-11.html#topic-11-3"><span class="toc-number">11.3</span>constructor และ this</a><a href="chapter-11.html#topic-11-4"><span class="toc-number">11.4</span>หลาย object หลาย state</a><a href="chapter-11.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">12</span><span class="nav-title">จัดระเบียบโค้ด</span></summary><div class="nav-topics"><a href="chapter-12.html"><span class="toc-number">12</span>ภาพรวมของบท</a><a href="chapter-12.html#topic-12-1"><span class="toc-number">12.1</span>access modifier</a><a href="chapter-12.html#topic-12-2"><span class="toc-number">12.2</span>encapsulation</a><a href="chapter-12.html#topic-12-3"><span class="toc-number">12.3</span>validation และ invariant</a><a href="chapter-12.html#topic-12-4"><span class="toc-number">12.4</span>composition</a><a href="chapter-12.html#topic-12-5"><span class="toc-number">12.5</span>inheritance และ override</a><a href="chapter-12.html#topic-12-6"><span class="toc-number">12.6</span>polymorphism</a><a href="chapter-12.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">13</span><span class="nav-title">ArrayList</span></summary><div class="nav-topics"><a href="chapter-13.html"><span class="toc-number">13</span>ภาพรวมของบท</a><a href="chapter-13.html#topic-13-1"><span class="toc-number">13.1</span>Array หรือ ArrayList</a><a href="chapter-13.html#topic-13-2"><span class="toc-number">13.2</span>Generic type</a><a href="chapter-13.html#topic-13-3"><span class="toc-number">13.3</span>เพิ่ม อ่าน แก้ข้อมูล</a><a href="chapter-13.html#topic-13-4"><span class="toc-number">13.4</span>ลบและ index ที่เลื่อน</a><a href="chapter-13.html#topic-13-5"><span class="toc-number">13.5</span>วนอ่านรายการ</a><a href="chapter-13.html#topic-13-6"><span class="toc-number">13.6</span>เก็บ object ในรายการ</a><a href="chapter-13.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">14</span><span class="nav-title">เริ่มต้นกับ Swing</span></summary><div class="nav-topics"><a href="chapter-14.html"><span class="toc-number">14</span>ภาพรวมของบท</a><a href="chapter-14.html#topic-14-1"><span class="toc-number">14.1</span>Console กับ GUI</a><a href="chapter-14.html#topic-14-2"><span class="toc-number">14.2</span>สร้าง JFrame</a><a href="chapter-14.html#topic-14-3"><span class="toc-number">14.3</span>Container และ JPanel</a><a href="chapter-14.html#topic-14-4"><span class="toc-number">14.4</span>Event Dispatch Thread</a><a href="chapter-14.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">15</span><span class="nav-title">Components และ Layout</span></summary><div class="nav-topics"><a href="chapter-15.html"><span class="toc-number">15</span>ภาพรวมของบท</a><a href="chapter-15.html#topic-15-1"><span class="toc-number">15.1</span>Label, Button และ Panel</a><a href="chapter-15.html#topic-15-2"><span class="toc-number">15.2</span>รับและแสดงข้อความ</a><a href="chapter-15.html#topic-15-3"><span class="toc-number">15.3</span>ComboBox</a><a href="chapter-15.html#topic-15-4"><span class="toc-number">15.4</span>Layout Manager</a><a href="chapter-15.html#topic-15-5"><span class="toc-number">15.5</span>ประกอบหลาย Panel</a><a href="chapter-15.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">16</span><span class="nav-title">เหตุการณ์และปุ่ม</span></summary><div class="nav-topics"><a href="chapter-16.html"><span class="toc-number">16</span>ภาพรวมของบท</a><a href="chapter-16.html#topic-16-1"><span class="toc-number">16.1</span>Event source และ listener</a><a href="chapter-16.html#topic-16-2"><span class="toc-number">16.2</span>ActionListener</a><a href="chapter-16.html#topic-16-3"><span class="toc-number">16.3</span>Lambda และ callback</a><a href="chapter-16.html#topic-16-4"><span class="toc-number">16.4</span>อัปเดต UI บน EDT</a><a href="chapter-16.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">17</span><span class="nav-title">ฟอร์มและตรวจข้อมูล</span></summary><div class="nav-topics"><a href="chapter-17.html"><span class="toc-number">17</span>ภาพรวมของบท</a><a href="chapter-17.html#topic-17-1"><span class="toc-number">17.1</span>อ่านค่าจาก component</a><a href="chapter-17.html#topic-17-2"><span class="toc-number">17.2</span>ตรวจข้อมูลว่างและรูปแบบ</a><a href="chapter-17.html#topic-17-3"><span class="toc-number">17.3</span>แจ้ง error ให้ผู้ใช้</a><a href="chapter-17.html#topic-17-4"><span class="toc-number">17.4</span>แยก validation เป็น method</a><a href="chapter-17.html#topic-17-5"><span class="toc-number">17.5</span>ล้างและ reset form</a><a href="chapter-17.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">18</span><span class="nav-title">หลายหน้าจอ</span></summary><div class="nav-topics"><a href="chapter-18.html"><span class="toc-number">18</span>ภาพรวมของบท</a><a href="chapter-18.html#topic-18-1"><span class="toc-number">18.1</span>ออกแบบหน้าจอแยกกัน</a><a href="chapter-18.html#topic-18-2"><span class="toc-number">18.2</span>CardLayout</a><a href="chapter-18.html#topic-18-3"><span class="toc-number">18.3</span>ปุ่มนำทาง</a><a href="chapter-18.html#topic-18-4"><span class="toc-number">18.4</span>แชร์ state ระหว่างหน้า</a><a href="chapter-18.html#topic-18-5"><span class="toc-number">18.5</span>CardLayout หรือหลาย JFrame</a><a href="chapter-18.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">19</span><span class="nav-title">โปรเจกต์ GUI</span></summary><div class="nav-topics"><a href="chapter-19.html"><span class="toc-number">19</span>ภาพรวมของบท</a><a href="chapter-19.html#topic-19-1"><span class="toc-number">19.1</span>กำหนดขอบเขตและ flow</a><a href="chapter-19.html#topic-19-2"><span class="toc-number">19.2</span>วาง model และ class</a><a href="chapter-19.html#topic-19-3"><span class="toc-number">19.3</span>สร้าง layout</a><a href="chapter-19.html#topic-19-4"><span class="toc-number">19.4</span>ต่อ event และ validation</a><a href="chapter-19.html#topic-19-5"><span class="toc-number">19.5</span>ทดสอบและขยายงาน</a><a href="chapter-19.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">บทเสริม · เลือกอ่าน</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">+</span><span class="nav-title">Random และเกมทายเลข</span></summary><div class="nav-topics"><a href="side-quest-random.html"><span class="toc-number">S1</span>ภาพรวมของบท</a><a href="side-quest-random.html#topic-S1-1"><span class="toc-number">S1.1</span>สุ่มค่าด้วย Math.random</a><a href="side-quest-random.html#topic-S1-2"><span class="toc-number">S1.2</span>ใช้ java.util.Random</a><a href="side-quest-random.html#topic-S1-3"><span class="toc-number">S1.3</span>เกมทายตัวเลข</a><a href="side-quest-random.html#topic-S1-4"><span class="toc-number">S1.4</span>จำนวนครั้งและทดสอบ</a><a href="side-quest-random.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">+</span><span class="nav-title">Timer และ Thread</span></summary><div class="nav-topics"><a href="side-quest-timer.html"><span class="toc-number">S2</span>ภาพรวมของบท</a><a href="side-quest-timer.html#topic-S2-1"><span class="toc-number">S2.1</span>Event Dispatch Thread</a><a href="side-quest-timer.html#topic-S2-2"><span class="toc-number">S2.2</span>Swing Timer</a><a href="side-quest-timer.html#topic-S2-3"><span class="toc-number">S2.3</span>งานเบื้องหลัง</a><a href="side-quest-timer.html#topic-S2-4"><span class="toc-number">S2.4</span>เลือกเครื่องมือและทดสอบ</a><a href="side-quest-timer.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+</nav>
+<!-- /course-nav -->
       <div class="sidebar-bottom">index เริ่มที่ 0 และจบที่ length − 1</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
@@ -32,72 +63,83 @@ int[] other = {80, 75, 92};      // ประกาศ + สร้าง + ก�
 
 index:     0    1    2
 other:  [ 80 | 75 | 92 ]     other.length = 3</code></pre><p>ค่าเริ่มต้นเมื่อใช้ <code>new</code>: ตัวเลข → 0, double → 0.0, boolean → false, char → '\u0000', String/ออบเจ็กต์ → null</p></div>
-<div class="source-example"><h4>ตัวอย่าง 8.1.1 · อ่านและแก้ค่าสมาชิก <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>ชื่อ[index]</code> เหมือนตัวแปรปกติ ทั้งอ่านและกำหนดค่า</p><div class="source-example-grid"><div class="source-field"><span>Java source · ArrayBasics.java</span><pre class="source-code">public class ArrayBasics {
-    public static void main(String[] args) {
-        int[] scores = {80, 75, 92, 88};
-        System.out.println("First: " + scores[0]);
-        System.out.println("Last: " + scores[3]);
-        System.out.println("Length: " + scores.length);
+<div class="source-example"><h4>ตัวอย่าง 8.1.1 · อ่านและแก้ค่าสมาชิก <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>ชื่อ[index]</code> เหมือนตัวแปรปกติ ทั้งอ่านและกำหนดค่า</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ArrayBasics.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ArrayBasics</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// สร้างอาเรย์พร้อมค่าเริ่มต้น 4 ช่อง</span>
+        <span class="tok-kw">int</span>[] scores = {<span class="tok-num">80</span>, <span class="tok-num">75</span>, <span class="tok-num">92</span>, <span class="tok-num">88</span>};
+        <span class="tok-com">// index เริ่มที่ 0</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"First: "</span> + scores[<span class="tok-num">0</span>]);
+        <span class="tok-com">// ช่องสุดท้ายคือ length - 1</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Last: "</span> + scores[<span class="tok-num">3</span>]);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Length: "</span> + scores.length);
 
-        scores[1] = 100;
-        scores[2] += 5;
-        System.out.println("scores[1] = " + scores[1]);
-        System.out.println("scores[2] = " + scores[2]);
-        System.out.println("Last via length-1: " + scores[scores.length - 1]);
+        scores[<span class="tok-num">1</span>] = <span class="tok-num">100</span>;  <span class="tok-com">// เขียนทับค่าในช่อง index 1</span>
+        scores[<span class="tok-num">2</span>] += <span class="tok-num">5</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"scores[1] = "</span> + scores[<span class="tok-num">1</span>]);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"scores[2] = "</span> + scores[<span class="tok-num">2</span>]);
+        <span class="tok-com">// ใช้ length หาช่องสุดท้ายได้เสมอ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Last via length-1: "</span> + scores[scores.length - <span class="tok-num">1</span>]);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>First: 80
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>First: 80
 Last: 88
 Length: 4
 scores[1] = 100
 scores[2] = 97
 Last via length-1: 88</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>index 0 คือ 80, index 3 คือ 88</li><li>length = 4 แต่ index สุดท้ายคือ 3</li><li>แก้ช่อง 1 เป็น 100 และเพิ่มช่อง 2 อีก 5 → 97</li><li><code>scores[scores.length - 1]</code> เป็นวิธีอ้างตัวสุดท้ายที่ไม่ขึ้นกับขนาด</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.1.2 · สร้างด้วย new แล้วเติมค่าภายหลัง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อรู้ขนาดแต่ยังไม่รู้ค่า ใช้ <code>new ชนิด[ขนาด]</code> แล้วค่อยกำหนดค่า ช่องที่ยังไม่กำหนดจะเป็นค่าเริ่มต้น</p><div class="source-example-grid"><div class="source-field"><span>Java source · NewArray.java</span><pre class="source-code">public class NewArray {
-    public static void main(String[] args) {
-        double[] prices = new double[4];
-        String[] names = new String[3];
-        boolean[] done = new boolean[2];
+<div class="source-example"><h4>ตัวอย่าง 8.1.2 · สร้างด้วย new แล้วเติมค่าภายหลัง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อรู้ขนาดแต่ยังไม่รู้ค่า ใช้ <code>new ชนิด[ขนาด]</code> แล้วค่อยกำหนดค่า ช่องที่ยังไม่กำหนดจะเป็นค่าเริ่มต้น</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NewArray.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NewArray</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// new สร้างช่องว่าง 4 ช่อง ค่าเริ่มต้น 0.0</span>
+        <span class="tok-kw">double</span>[] prices = <span class="tok-kw">new</span> <span class="tok-kw">double</span>[<span class="tok-num">4</span>];
+        <span class="tok-com">// String เริ่มต้นเป็น null</span>
+        <span class="tok-type">String</span>[] names = <span class="tok-kw">new</span> <span class="tok-type">String</span>[<span class="tok-num">3</span>];
+        <span class="tok-com">// boolean เริ่มต้นเป็น false</span>
+        <span class="tok-kw">boolean</span>[] done = <span class="tok-kw">new</span> <span class="tok-kw">boolean</span>[<span class="tok-num">2</span>];
 
-        prices[0] = 19.5;
-        prices[2] = 7.25;
-        names[0] = "Pen";
+        prices[<span class="tok-num">0</span>] = <span class="tok-num">19.5</span>;
+        prices[<span class="tok-num">2</span>] = <span class="tok-num">7.25</span>;
+        names[<span class="tok-num">0</span>] = <span class="tok-str">"Pen"</span>;
 
-        System.out.println(prices[0] + " " + prices[1] + " " + prices[2] + " " + prices[3]);
-        System.out.println(names[0] + " " + names[1]);
-        System.out.println(done[0]);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(prices[<span class="tok-num">0</span>] + <span class="tok-str">" "</span> + prices[<span class="tok-num">1</span>] + <span class="tok-str">" "</span> + prices[<span class="tok-num">2</span>] + <span class="tok-str">" "</span> + prices[<span class="tok-num">3</span>]);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(names[<span class="tok-num">0</span>] + <span class="tok-str">" "</span> + names[<span class="tok-num">1</span>]);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(done[<span class="tok-num">0</span>]);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>19.5 0.0 7.25 0.0
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>19.5 0.0 7.25 0.0
 Pen null
 false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>prices[1] และ prices[3] ยังไม่กำหนด → 0.0</li><li>names[1] ยังไม่กำหนด → null</li><li>boolean เริ่มต้นเป็น false</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.1.3 · รับค่าจากผู้ใช้ใส่อาเรย์ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ให้ผู้ใช้กำหนดขนาด แล้วใช้ลูปอ่านค่าลงแต่ละช่อง — รูปแบบนี้ใช้บ่อยที่สุด</p><div class="source-example-grid"><div class="source-field"><span>Java source · ReadIntoArray.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 8.1.3 · รับค่าจากผู้ใช้ใส่อาเรย์ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ให้ผู้ใช้กำหนดขนาด แล้วใช้ลูปอ่านค่าลงแต่ละช่อง — รูปแบบนี้ใช้บ่อยที่สุด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadIntoArray.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class ReadIntoArray {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("How many days? ");
-        int n = input.nextInt();
-        double[] temps = new double[n];
-        System.out.print("Temperatures: ");
-        for (int i = 0; i &lt; temps.length; i++) {
-            temps[i] = input.nextDouble();
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReadIntoArray</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"How many days? "</span>);
+        <span class="tok-kw">int</span> n = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-com">// ขนาดอาเรย์มาจากข้อมูลที่ผู้ใช้ป้อน</span>
+        <span class="tok-kw">double</span>[] temps = <span class="tok-kw">new</span> <span class="tok-kw">double</span>[n];
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Temperatures: "</span>);
+        <span class="tok-com">// i วิ่ง 0 ถึง length - 1</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; temps.length; i++) {
+            <span class="tok-com">// เก็บค่าที่อ่านลงช่องที่ i</span>
+            temps[i] = input.<span class="tok-fn">nextDouble</span>();
         }
-        for (int i = 0; i &lt; temps.length; i++) {
-            System.out.println("Day " + (i + 1) + ": " + temps[i]);
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; temps.length; i++) {
+            <span class="tok-com">// i + 1 เพื่อแสดงวันที่เริ่มจาก 1</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Day "</span> + (i + <span class="tok-num">1</span>) + <span class="tok-str">": "</span> + temps[i]);
         }
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>How many days? <b class="stdin">4</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>How many days? <b class="stdin">4</b>
 Temperatures: <b class="stdin">29.5 31 30.2 28.8</b>
 Day 1: 29.5
 Day 2: 31.0
 Day 3: 30.2
 Day 4: 28.8</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สร้างอาเรย์ขนาด n = 4</li><li>ลูปแรกอ่านค่าใส่ index 0–3</li><li>ลูปที่สองแสดงผล โดยแสดงเลขวันเป็น i + 1 ให้คนอ่านเริ่มนับที่ 1</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 8.1.4 · index เกินขอบเขต <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมคอมไพล์ผ่าน แต่ตอนรันจะเกิด <code>ArrayIndexOutOfBoundsException</code> เมื่ออ่านช่องที่ไม่มี</p><div class="source-example-grid"><div class="source-field"><span>Java source · OutOfBounds.java</span><pre class="source-code">public class OutOfBounds {
-    public static void main(String[] args) {
-        int[] scores = {80, 75, 92};
-        for (int i = 0; i &lt;= scores.length; i++) {
-            System.out.println(scores[i]);
+<div class="source-example"><h4>ทดลอง error 8.1.4 · index เกินขอบเขต <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมคอมไพล์ผ่าน แต่ตอนรันจะเกิด <code>ArrayIndexOutOfBoundsException</code> เมื่ออ่านช่องที่ไม่มี</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OutOfBounds.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OutOfBounds</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] scores = {<span class="tok-num">80</span>, <span class="tok-num">75</span>, <span class="tok-num">92</span>};
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt;= scores.length; i++) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(scores[i]);
         }
     }
-}</pre></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>80
+}</code></pre></div></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>80
 75
 92
 Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
@@ -109,95 +151,105 @@ a[2] = a[a.length - 2] / 5;</code></pre><p>อาเรย์ a มีค่า�
 <article class="subtopic" id="topic-8-2">
 <h3>8.2 วนอ่าน รวม และค้นหาสมาชิก</h3>
 <p>ใช้ลูป <code>for</code> ตั้งแต่ index 0 ถึง <code>length - 1</code> ถ้าต้องการแค่<em>ค่า</em>และไม่ต้องใช้ index ให้ใช้ <strong>enhanced for (for-each)</strong>: <code>for (int s : scores)</code> อ่านว่า “สำหรับ s แต่ละตัวใน scores”</p>
-<div class="source-example"><h4>ตัวอย่าง 8.2.1 · for ปกติ vs for-each <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> for-each อ่านง่ายกว่าเมื่อไม่ต้องใช้ index แต่แก้ค่าในอาเรย์ไม่ได้และไม่รู้ตำแหน่ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · TwoLoops.java</span><pre class="source-code">public class TwoLoops {
-    public static void main(String[] args) {
-        String[] fruits = {"Apple", "Banana", "Cherry"};
-        for (int i = 0; i &lt; fruits.length; i++) {
-            System.out.println(i + ": " + fruits[i]);
+<div class="source-example"><h4>ตัวอย่าง 8.2.1 · for ปกติ vs for-each <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> for-each อ่านง่ายกว่าเมื่อไม่ต้องใช้ index แต่แก้ค่าในอาเรย์ไม่ได้และไม่รู้ตำแหน่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TwoLoops.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TwoLoops</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">String</span>[] fruits = {<span class="tok-str">"Apple"</span>, <span class="tok-str">"Banana"</span>, <span class="tok-str">"Cherry"</span>};
+        <span class="tok-com">// for แบบ index: รู้ตำแหน่ง</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; fruits.length; i++) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(i + <span class="tok-str">": "</span> + fruits[i]);
         }
-        for (String f : fruits) {
-            System.out.println("I like " + f);
+        <span class="tok-com">// for-each: อ่านทีละค่า ไม่ต้องใช้ index</span>
+        <span class="tok-kw">for</span> (<span class="tok-type">String</span> f : fruits) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"I like "</span> + f);
         }
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>0: Apple
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>0: Apple
 1: Banana
 2: Cherry
 I like Apple
 I like Banana
 I like Cherry</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>for ปกติรู้ทั้ง index และค่า</li><li>for-each ได้ค่าทีละตัวในตัวแปร f</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.2.2 · ผลรวม ค่าเฉลี่ย และนับตามเงื่อนไข <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รวม (accumulate) และนับ (count) เป็นสองรูปแบบพื้นฐานที่ใช้กับอาเรย์เกือบทุกโจทย์</p><div class="source-example-grid"><div class="source-field"><span>Java source · SumAndCount.java</span><pre class="source-code">public class SumAndCount {
-    public static void main(String[] args) {
-        int[] scores = {72, 45, 88, 91, 50, 39, 67};
-        int sum = 0;
-        int passed = 0;
-        for (int s : scores) {
+<div class="source-example"><h4>ตัวอย่าง 8.2.2 · ผลรวม ค่าเฉลี่ย และนับตามเงื่อนไข <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รวม (accumulate) และนับ (count) เป็นสองรูปแบบพื้นฐานที่ใช้กับอาเรย์เกือบทุกโจทย์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SumAndCount.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SumAndCount</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] scores = {<span class="tok-num">72</span>, <span class="tok-num">45</span>, <span class="tok-num">88</span>, <span class="tok-num">91</span>, <span class="tok-num">50</span>, <span class="tok-num">39</span>, <span class="tok-num">67</span>};
+        <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
+        <span class="tok-kw">int</span> passed = <span class="tok-num">0</span>;
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> s : scores) {  <span class="tok-com">// อ่านทุกค่าในอาเรย์</span>
             sum += s;
-            if (s &gt;= 50) {
+            <span class="tok-kw">if</span> (s &gt;= <span class="tok-num">50</span>) {  <span class="tok-com">// นับเฉพาะค่าที่ผ่าน</span>
                 passed++;
             }
         }
-        double average = (double) sum / scores.length;
-        System.out.println("Sum = " + sum);
-        System.out.printf("Average = %.2f%n", average);
-        System.out.println("Passed = " + passed + " / " + scores.length);
+        <span class="tok-com">// แปลงเป็น double ก่อนหาร</span>
+        <span class="tok-kw">double</span> average = (<span class="tok-kw">double</span>) sum / scores.length;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Sum = "</span> + sum);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Average = %.2f%n"</span>, average);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Passed = "</span> + passed + <span class="tok-str">" / "</span> + scores.length);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Sum = 452
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Sum = 452
 Average = 64.57
 Passed = 5 / 7</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>sum สะสมทุกค่า = 452</li><li>passed นับเฉพาะค่าที่ ≥ 50 = 5</li><li>หารด้วย length ไม่ใช่เลขตายตัว — ถ้าอาเรย์เปลี่ยนขนาดโค้ดยังถูก</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.2.3 · หาค่ามากสุด น้อยสุด และตำแหน่ง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เริ่มจากสมาชิกตัวแรก แล้วเทียบกับตัวที่เหลือ เก็บทั้ง<em>ค่า</em>และ <em>index</em> ที่พบ</p><div class="source-example-grid"><div class="source-field"><span>Java source · FindMax.java</span><pre class="source-code">public class FindMax {
-    public static void main(String[] args) {
-        double[] sales = {1200.5, 980.0, 1530.25, 760.0, 1490.0};
-        int maxIndex = 0;
-        int minIndex = 0;
-        for (int i = 1; i &lt; sales.length; i++) {
-            if (sales[i] &gt; sales[maxIndex]) maxIndex = i;
-            if (sales[i] &lt; sales[minIndex]) minIndex = i;
+<div class="source-example"><h4>ตัวอย่าง 8.2.3 · หาค่ามากสุด น้อยสุด และตำแหน่ง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เริ่มจากสมาชิกตัวแรก แล้วเทียบกับตัวที่เหลือ เก็บทั้ง<em>ค่า</em>และ <em>index</em> ที่พบ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FindMax.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FindMax</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">double</span>[] sales = {<span class="tok-num">1200.5</span>, <span class="tok-num">980.0</span>, <span class="tok-num">1530.25</span>, <span class="tok-num">760.0</span>, <span class="tok-num">1490.0</span>};
+        <span class="tok-kw">int</span> maxIndex = <span class="tok-num">0</span>;  <span class="tok-com">// เก็บตำแหน่ง ไม่ใช่ค่า</span>
+        <span class="tok-kw">int</span> minIndex = <span class="tok-num">0</span>;
+        <span class="tok-com">// เริ่มที่ 1 เพราะช่อง 0 เป็นค่าตั้งต้น</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt; sales.length; i++) {
+            <span class="tok-com">// เจอค่าที่มากกว่า → จำตำแหน่งใหม่</span>
+            <span class="tok-kw">if</span> (sales[i] &gt; sales[maxIndex]) maxIndex = i;
+            <span class="tok-kw">if</span> (sales[i] &lt; sales[minIndex]) minIndex = i;
         }
-        System.out.println("Best day: " + (maxIndex + 1) + " (" + sales[maxIndex] + ")");
-        System.out.println("Worst day: " + (minIndex + 1) + " (" + sales[minIndex] + ")");
+        <span class="tok-com">// + 1 เพื่อแสดงวันที่เริ่มจาก 1</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Best day: "</span> + (maxIndex + <span class="tok-num">1</span>) + <span class="tok-str">" ("</span> + sales[maxIndex] + <span class="tok-str">")"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Worst day: "</span> + (minIndex + <span class="tok-num">1</span>) + <span class="tok-str">" ("</span> + sales[minIndex] + <span class="tok-str">")"</span>);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Best day: 3 (1530.25)
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Best day: 3 (1530.25)
 Worst day: 4 (760.0)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สมมติ index 0 เป็นทั้ง max และ min</li><li>เริ่มเทียบที่ i = 1</li><li>เก็บ index แทนค่า ทำให้รู้ทั้งตำแหน่งและค่า (sales[maxIndex])</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.2.4 · ค้นหาแบบเชิงเส้น (linear search) <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ไล่ตรวจทีละตัวจนเจอ ถ้าไม่เจอให้ใช้ค่าพิเศษ เช่น −1 แทนตำแหน่ง</p><div class="source-example-grid"><div class="source-field"><span>Java source · LinearSearch.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 8.2.4 · ค้นหาแบบเชิงเส้น (linear search) <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ไล่ตรวจทีละตัวจนเจอ ถ้าไม่เจอให้ใช้ค่าพิเศษ เช่น −1 แทนตำแหน่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LinearSearch.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class LinearSearch {
-    public static void main(String[] args) {
-        String[] students = {"Mali", "Beam", "Nida", "Ploy", "Tan"};
-        Scanner input = new Scanner(System.in);
-        System.out.print("Search name: ");
-        String target = input.next();
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LinearSearch</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">String</span>[] students = {<span class="tok-str">"Mali"</span>, <span class="tok-str">"Beam"</span>, <span class="tok-str">"Nida"</span>, <span class="tok-str">"Ploy"</span>, <span class="tok-str">"Tan"</span>};
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Search name: "</span>);
+        <span class="tok-type">String</span> target = input.<span class="tok-fn">next</span>();
 
-        int found = -1;
-        for (int i = 0; i &lt; students.length; i++) {
-            if (students[i].equalsIgnoreCase(target)) {
+        <span class="tok-kw">int</span> found = -<span class="tok-num">1</span>;  <span class="tok-com">// -1 = ยังไม่เจอ</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; students.length; i++) {
+            <span class="tok-com">// เทียบโดยไม่สนตัวพิมพ์เล็ก/ใหญ่</span>
+            <span class="tok-kw">if</span> (students[i].<span class="tok-fn">equalsIgnoreCase</span>(target)) {
                 found = i;
-                break;
+                <span class="tok-kw">break</span>;  <span class="tok-com">// เจอแล้ว ไม่ต้องค้นต่อ</span>
             }
         }
-        if (found &gt;= 0) {
-            System.out.println(target + " is at index " + found);
-        } else {
-            System.out.println(target + " not found");
+        <span class="tok-kw">if</span> (found &gt;= <span class="tok-num">0</span>) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(target + <span class="tok-str">" is at index "</span> + found);
+        } <span class="tok-kw">else</span> {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(target + <span class="tok-str">" not found"</span>);
         }
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Search name: <b class="stdin">Nida</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Search name: <b class="stdin">Nida</b>
 Nida is at index 2</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>found = −1 หมายถึง “ยังไม่เจอ”</li><li>เทียบ String ด้วย equalsIgnoreCase</li><li>เจอที่ index 2 → break ไม่ต้องหาต่อ</li><li>หลังลูปตรวจ found เพื่อเลือกข้อความ</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.2.5 · กับดัก: = ไม่ได้คัดลอกอาเรย์ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรอาเรย์เก็บ<strong>การอ้างอิง (reference)</strong> ไปยังข้อมูล <code>b = a</code> ทำให้สองชื่อชี้ข้อมูลชุดเดียวกัน ถ้าต้องการสำเนาจริงใช้ <code>a.clone()</code> หรือ <code>Arrays.copyOf</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · ArrayReference.java</span><pre class="source-code">import java.util.Arrays;
+<div class="source-example"><h4>ตัวอย่าง 8.2.5 · กับดัก: = ไม่ได้คัดลอกอาเรย์ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรอาเรย์เก็บ<strong>การอ้างอิง (reference)</strong> ไปยังข้อมูล <code>b = a</code> ทำให้สองชื่อชี้ข้อมูลชุดเดียวกัน ถ้าต้องการสำเนาจริงใช้ <code>a.clone()</code> หรือ <code>Arrays.copyOf</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ArrayReference.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Arrays</span>;
 
-public class ArrayReference {
-    public static void main(String[] args) {
-        int[] a = {1, 2, 3};
-        int[] b = a;
-        int[] c = a.clone();
-        b[0] = 99;
-        System.out.println("a = " + Arrays.toString(a));
-        System.out.println("b = " + Arrays.toString(b));
-        System.out.println("c = " + Arrays.toString(c));
-        System.out.println("a == b ? " + (a == b));
-        System.out.println("a == c ? " + (a == c));
-        System.out.println("Arrays.equals(a, c) ? " + Arrays.equals(a, c));
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ArrayReference</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] a = {<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>};
+        <span class="tok-kw">int</span>[] b = a;  <span class="tok-com">// b ชี้ไปที่อาเรย์เดียวกับ a</span>
+        <span class="tok-com">// clone() สร้างอาเรย์ใหม่ที่ค่าเหมือนกัน</span>
+        <span class="tok-kw">int</span>[] c = a.<span class="tok-fn">clone</span>();
+        b[<span class="tok-num">0</span>] = <span class="tok-num">99</span>;    <span class="tok-com">// แก้ผ่าน b → a เปลี่ยนด้วย</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a = "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(a));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"b = "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(b));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"c = "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(c));
+        <span class="tok-com">// == เทียบว่าเป็นอาเรย์เดียวกันหรือไม่</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == b ? "</span> + (a == b));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == c ? "</span> + (a == c));
+        <span class="tok-com">// equals เทียบค่าทุกช่อง</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Arrays.equals(a, c) ? "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">equals</span>(a, c));
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>a = [99, 2, 3]
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>a = [99, 2, 3]
 b = [99, 2, 3]
 c = [1, 2, 3]
 a == b ? true
@@ -221,85 +273,93 @@ row 0   [   80  |  75  |  90  ]
 row 1   [   60  |  85  |  70  ]
 
 scores[1][2] = 70     scores.length = 2     scores[0].length = 3</code></pre></div>
-<div class="source-example"><h4>ตัวอย่าง 8.3.1 · อ่านทั้งตารางด้วยลูปซ้อน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ลูปนอกวนแถว ลูปในวนคอลัมน์ — เหมือนการพิมพ์รูปทรงในบทที่ 6</p><div class="source-example-grid"><div class="source-field"><span>Java source · Grid2D.java</span><pre class="source-code">public class Grid2D {
-    public static void main(String[] args) {
-        int[][] scores = {
-            {80, 75, 90},
-            {60, 85, 70}
+<div class="source-example"><h4>ตัวอย่าง 8.3.1 · อ่านทั้งตารางด้วยลูปซ้อน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ลูปนอกวนแถว ลูปในวนคอลัมน์ — เหมือนการพิมพ์รูปทรงในบทที่ 6</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Grid2D.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Grid2D</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[][] scores = {  <span class="tok-com">// อาเรย์ 2 มิติ: 2 แถว 3 คอลัมน์</span>
+            {<span class="tok-num">80</span>, <span class="tok-num">75</span>, <span class="tok-num">90</span>},
+            {<span class="tok-num">60</span>, <span class="tok-num">85</span>, <span class="tok-num">70</span>}
         };
-        System.out.println("rows = " + scores.length + ", cols = " + scores[0].length);
-        System.out.println("scores[1][2] = " + scores[1][2]);
-        for (int r = 0; r &lt; scores.length; r++) {
-            for (int c = 0; c &lt; scores[r].length; c++) {
-                System.out.printf("%4d", scores[r][c]);
+        <span class="tok-com">// length = จำนวนแถว, [0].length = จำนวนคอลัมน์</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"rows = "</span> + scores.length + <span class="tok-str">", cols = "</span> + scores[<span class="tok-num">0</span>].length);
+        <span class="tok-com">// [แถว][คอลัมน์]</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"scores[1][2] = "</span> + scores[<span class="tok-num">1</span>][<span class="tok-num">2</span>]);
+        <span class="tok-com">// ลูปนอก: แถว</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> r = <span class="tok-num">0</span>; r &lt; scores.length; r++) {
+            <span class="tok-com">// ลูปใน: คอลัมน์ของแถวนั้น</span>
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> c = <span class="tok-num">0</span>; c &lt; scores[r].length; c++) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%4d"</span>, scores[r][c]);
             }
-            System.out.println();
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
         }
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>rows = 2, cols = 3
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>rows = 2, cols = 3
 scores[1][2] = 70
   80  75  90
   60  85  70</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>scores.length = 2 แถว</li><li>scores[0].length = 3 คอลัมน์</li><li>ลูปซ้อนพิมพ์ทีละแถว</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.3.2 · ผลรวมแต่ละแถวและแต่ละคอลัมน์ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ผลรวมแถว: ลูปนอกคือแถว ผลรวมรีเซ็ตทุกแถว / ผลรวมคอลัมน์: สลับให้ลูปนอกเป็นคอลัมน์</p><div class="source-example-grid"><div class="source-field"><span>Java source · RowColSums.java</span><pre class="source-code">public class RowColSums {
-    public static void main(String[] args) {
-        String[] students = {"Mali", "Beam", "Nida"};
-        String[] subjects = {"Math", "Sci", "Eng"};
-        int[][] s = {
-            {78, 85, 90},
-            {62, 70, 58},
-            {95, 88, 92}
+<div class="source-example"><h4>ตัวอย่าง 8.3.2 · ผลรวมแต่ละแถวและแต่ละคอลัมน์ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ผลรวมแถว: ลูปนอกคือแถว ผลรวมรีเซ็ตทุกแถว / ผลรวมคอลัมน์: สลับให้ลูปนอกเป็นคอลัมน์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RowColSums.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RowColSums</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">String</span>[] students = {<span class="tok-str">"Mali"</span>, <span class="tok-str">"Beam"</span>, <span class="tok-str">"Nida"</span>};
+        <span class="tok-type">String</span>[] subjects = {<span class="tok-str">"Math"</span>, <span class="tok-str">"Sci"</span>, <span class="tok-str">"Eng"</span>};
+        <span class="tok-kw">int</span>[][] s = {
+            {<span class="tok-num">78</span>, <span class="tok-num">85</span>, <span class="tok-num">90</span>},
+            {<span class="tok-num">62</span>, <span class="tok-num">70</span>, <span class="tok-num">58</span>},
+            {<span class="tok-num">95</span>, <span class="tok-num">88</span>, <span class="tok-num">92</span>}
         };
-        System.out.printf("%-6s", "");
-        for (String sub : subjects) System.out.printf("%6s", sub);
-        System.out.printf("%7s%n", "Total");
-        for (int r = 0; r &lt; s.length; r++) {
-            int rowSum = 0;
-            System.out.printf("%-6s", students[r]);
-            for (int c = 0; c &lt; s[r].length; c++) {
-                System.out.printf("%6d", s[r][c]);
-                rowSum += s[r][c];
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-6s"</span>, <span class="tok-str">""</span>);
+        <span class="tok-com">// หัวตาราง: ชื่อวิชา</span>
+        <span class="tok-kw">for</span> (<span class="tok-type">String</span> sub : subjects) <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%6s"</span>, sub);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%7s%n"</span>, <span class="tok-str">"Total"</span>);
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> r = <span class="tok-num">0</span>; r &lt; s.length; r++) {
+            <span class="tok-kw">int</span> rowSum = <span class="tok-num">0</span>;  <span class="tok-com">// ผลรวมของแถวนี้ เริ่มใหม่ทุกแถว</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-6s"</span>, students[r]);
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> c = <span class="tok-num">0</span>; c &lt; s[r].length; c++) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%6d"</span>, s[r][c]);
+                rowSum += s[r][c];  <span class="tok-com">// บวกตามแถว</span>
             }
-            System.out.printf("%7d%n", rowSum);
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%7d%n"</span>, rowSum);
         }
-        System.out.printf("%-6s", "Avg");
-        for (int c = 0; c &lt; subjects.length; c++) {
-            int colSum = 0;
-            for (int r = 0; r &lt; s.length; r++) {
-                colSum += s[r][c];
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-6s"</span>, <span class="tok-str">"Avg"</span>);
+        <span class="tok-com">// ลูปนอกเป็นคอลัมน์ เพื่อรวมตามวิชา</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> c = <span class="tok-num">0</span>; c &lt; subjects.length; c++) {
+            <span class="tok-kw">int</span> colSum = <span class="tok-num">0</span>;
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> r = <span class="tok-num">0</span>; r &lt; s.length; r++) {
+                colSum += s[r][c];  <span class="tok-com">// บวกลงตามคอลัมน์</span>
             }
-            System.out.printf("%6.1f", (double) colSum / s.length);
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%6.1f"</span>, (<span class="tok-kw">double</span>) colSum / s.length);
         }
-        System.out.println();
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>        Math   Sci   Eng  Total
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>        Math   Sci   Eng  Total
 Mali      78    85    90    253
 Beam      62    70    58    190
 Nida      95    88    92    275
 Avg     78.3  81.0  80.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อาเรย์ 1 มิติ students, subjects ใช้เป็นหัวแถว/หัวคอลัมน์ที่ index ตรงกับตาราง</li><li>rowSum ประกาศ<em>ใน</em>ลูปนอก จึงเริ่มที่ 0 ทุกแถว</li><li>ค่าเฉลี่ยคอลัมน์: ลูปนอกวน c ลูปในวน r</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.3.3 · ที่นั่งโรงภาพยนตร์: แก้ไขค่าในตาราง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ boolean[][] เก็บสถานะที่นั่ง จองแล้วเปลี่ยนเป็น true และตรวจว่าว่างก่อนจอง</p><div class="source-example-grid"><div class="source-field"><span>Java source · SeatBooking.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 8.3.3 · ที่นั่งโรงภาพยนตร์: แก้ไขค่าในตาราง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ boolean[][] เก็บสถานะที่นั่ง จองแล้วเปลี่ยนเป็น true และตรวจว่าว่างก่อนจอง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SeatBooking.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class SeatBooking {
-    public static void main(String[] args) {
-        boolean[][] booked = new boolean[3][4];
-        Scanner input = new Scanner(System.in);
-        for (int k = 0; k &lt; 3; k++) {
-            System.out.print("Book row col: ");
-            int r = input.nextInt(), c = input.nextInt();
-            if (booked[r][c]) {
-                System.out.println("  Seat taken!");
-            } else {
-                booked[r][c] = true;
-                System.out.println("  Booked.");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SeatBooking</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// 3 แถว 4 ที่นั่ง เริ่มต้นเป็น false ทั้งหมด</span>
+        <span class="tok-kw">boolean</span>[][] booked = <span class="tok-kw">new</span> <span class="tok-kw">boolean</span>[<span class="tok-num">3</span>][<span class="tok-num">4</span>];
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> k = <span class="tok-num">0</span>; k &lt; <span class="tok-num">3</span>; k++) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Book row col: "</span>);
+            <span class="tok-kw">int</span> r = input.<span class="tok-fn">nextInt</span>(), c = input.<span class="tok-fn">nextInt</span>();
+            <span class="tok-kw">if</span> (booked[r][c]) {  <span class="tok-com">// true = มีคนจองแล้ว</span>
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  Seat taken!"</span>);
+            } <span class="tok-kw">else</span> {
+                booked[r][c] = <span class="tok-num">true</span>;  <span class="tok-com">// จองที่นั่ง</span>
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  Booked."</span>);
             }
         }
-        for (int r = 0; r &lt; booked.length; r++) {
-            for (int c = 0; c &lt; booked[r].length; c++) {
-                System.out.print(booked[r][c] ? "[X]" : "[ ]");
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> r = <span class="tok-num">0</span>; r &lt; booked.length; r++) {
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> c = <span class="tok-num">0</span>; c &lt; booked[r].length; c++) {
+                <span class="tok-com">// ?: เลือกสัญลักษณ์ตามสถานะ</span>
+                <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(booked[r][c] ? <span class="tok-str">"[X]"</span> : <span class="tok-str">"[ ]"</span>);
             }
-            System.out.println();
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
         }
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Book row col: <b class="stdin">1 2</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Book row col: <b class="stdin">1 2</b>
   Booked.
 Book row col: <b class="stdin">0 0</b>
   Booked.
@@ -315,81 +375,92 @@ for (int i = 0; i &lt; m.length; i++) sum += m[i][i];</code></pre></div><details
 <article class="subtopic" id="topic-8-4">
 <h3>8.4 อาเรย์กับเมธอด และคลาส Arrays</h3>
 <p>อาเรย์ส่งเป็น argument และคืนจากเมธอดได้ เนื่องจากส่ง<strong>การอ้างอิง</strong> เมธอดที่แก้สมาชิกในอาเรย์จะทำให้ผู้เรียกเห็นการเปลี่ยนแปลงด้วย (ต่างจากตัวแปร int ในบทที่ 7) คลาส <code>java.util.Arrays</code> มีเมธอดสำเร็จรูป เช่น <code>toString</code>, <code>sort</code>, <code>fill</code>, <code>copyOf</code></p>
-<div class="source-example"><h4>ตัวอย่าง 8.4.1 · เมธอดรับอาเรย์และคืนค่า <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนเมธอดที่ใช้ซ้ำได้กับอาเรย์ทุกขนาด เพราะใช้ <code>.length</code> แทนเลขตายตัว</p><div class="source-example-grid"><div class="source-field"><span>Java source · ArrayMethods.java</span><pre class="source-code">public class ArrayMethods {
-    public static void main(String[] args) {
-        int[] a = {4, 9, 1, 7};
-        int[] b = {10, 20};
-        System.out.println("sum(a) = " + sum(a) + ", max(a) = " + max(a));
-        System.out.println("sum(b) = " + sum(b) + ", max(b) = " + max(b));
-        doubleAll(b);
-        System.out.println("after doubleAll: b[0]=" + b[0] + ", b[1]=" + b[1]);
+<div class="source-example"><h4>ตัวอย่าง 8.4.1 · เมธอดรับอาเรย์และคืนค่า <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนเมธอดที่ใช้ซ้ำได้กับอาเรย์ทุกขนาด เพราะใช้ <code>.length</code> แทนเลขตายตัว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ArrayMethods.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ArrayMethods</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] a = {<span class="tok-num">4</span>, <span class="tok-num">9</span>, <span class="tok-num">1</span>, <span class="tok-num">7</span>};
+        <span class="tok-kw">int</span>[] b = {<span class="tok-num">10</span>, <span class="tok-num">20</span>};
+        <span class="tok-com">// ส่งอาเรย์เป็น argument ได้</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"sum(a) = "</span> + <span class="tok-fn">sum</span>(a) + <span class="tok-str">", max(a) = "</span> + <span class="tok-fn">max</span>(a));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"sum(b) = "</span> + <span class="tok-fn">sum</span>(b) + <span class="tok-str">", max(b) = "</span> + <span class="tok-fn">max</span>(b));
+        <span class="tok-fn">doubleAll</span>(b);  <span class="tok-com">// เมธอดแก้ค่าในอาเรย์เดิมได้</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"after doubleAll: b[0]="</span> + b[<span class="tok-num">0</span>] + <span class="tok-str">", b[1]="</span> + b[<span class="tok-num">1</span>]);
     }
 
-    static int sum(int[] values) {
-        int total = 0;
-        for (int v : values) total += v;
-        return total;
+    <span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">sum</span>(<span class="tok-kw">int</span>[] values) {  <span class="tok-com">// รับอาเรย์เป็น parameter</span>
+        <span class="tok-kw">int</span> total = <span class="tok-num">0</span>;
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> v : values) total += v;
+        <span class="tok-kw">return</span> total;
     }
 
-    static int max(int[] values) {
-        int best = values[0];
-        for (int v : values) if (v &gt; best) best = v;
-        return best;
+    <span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">max</span>(<span class="tok-kw">int</span>[] values) {
+        <span class="tok-kw">int</span> best = values[<span class="tok-num">0</span>];
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> v : values) <span class="tok-kw">if</span> (v &gt; best) best = v;
+        <span class="tok-kw">return</span> best;
     }
 
-    static void doubleAll(int[] values) {
-        for (int i = 0; i &lt; values.length; i++) {
-            values[i] *= 2;
+    <span class="tok-com">// void แต่แก้ค่าในอาเรย์ที่ส่งมาได้จริง</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">doubleAll</span>(<span class="tok-kw">int</span>[] values) {
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; values.length; i++) {
+            values[i] *= <span class="tok-num">2</span>;
         }
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>sum(a) = 21, max(a) = 9
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>sum(a) = 21, max(a) = 9
 sum(b) = 30, max(b) = 20
 after doubleAll: b[0]=20, b[1]=40</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>sum และ max ใช้ได้กับอาเรย์ทุกขนาด</li><li>doubleAll แก้สมาชิกผ่านการอ้างอิง → b ใน main เปลี่ยนจริง</li><li>doubleAll ต้องใช้ for ปกติ เพราะ for-each แก้ค่าในอาเรย์ไม่ได้</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.4.2 · Arrays.sort, toString, fill, copyOf <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ไม่ต้องเขียนการเรียงลำดับเองในงานทั่วไป — แต่ควรเข้าใจว่าเรียงแล้วอาเรย์เดิมถูกเปลี่ยน</p><div class="source-example-grid"><div class="source-field"><span>Java source · ArraysUtility.java</span><pre class="source-code">import java.util.Arrays;
+<div class="source-example"><h4>ตัวอย่าง 8.4.2 · Arrays.sort, toString, fill, copyOf <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ไม่ต้องเขียนการเรียงลำดับเองในงานทั่วไป — แต่ควรเข้าใจว่าเรียงแล้วอาเรย์เดิมถูกเปลี่ยน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ArraysUtility.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Arrays</span>;
 
-public class ArraysUtility {
-    public static void main(String[] args) {
-        int[] nums = {42, 7, 19, 3, 25};
-        int[] backup = Arrays.copyOf(nums, nums.length);
-        Arrays.sort(nums);
-        System.out.println("sorted : " + Arrays.toString(nums));
-        System.out.println("backup : " + Arrays.toString(backup));
-        System.out.println("median : " + nums[nums.length / 2]);
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ArraysUtility</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] nums = {<span class="tok-num">42</span>, <span class="tok-num">7</span>, <span class="tok-num">19</span>, <span class="tok-num">3</span>, <span class="tok-num">25</span>};
+        <span class="tok-com">// สำรองไว้ก่อนเรียง</span>
+        <span class="tok-kw">int</span>[] backup = <span class="tok-type">Arrays</span>.<span class="tok-fn">copyOf</span>(nums, nums.length);
+        <span class="tok-com">// เรียงจากน้อยไปมาก (แก้อาเรย์เดิม)</span>
+        <span class="tok-type">Arrays</span>.<span class="tok-fn">sort</span>(nums);
+        <span class="tok-com">// toString แสดงทุกช่องในรูป [..]</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"sorted : "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(nums));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"backup : "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(backup));
+        <span class="tok-com">// ค่ากลางหลังเรียง</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"median : "</span> + nums[nums.length / <span class="tok-num">2</span>]);
 
-        String[] names = {"Ploy", "Beam", "Mali"};
-        Arrays.sort(names);
-        System.out.println("names  : " + Arrays.toString(names));
+        <span class="tok-type">String</span>[] names = {<span class="tok-str">"Ploy"</span>, <span class="tok-str">"Beam"</span>, <span class="tok-str">"Mali"</span>};
+        <span class="tok-type">Arrays</span>.<span class="tok-fn">sort</span>(names);  <span class="tok-com">// ข้อความเรียงตามตัวอักษร</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"names  : "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(names));
 
-        int[] zeros = new int[5];
-        Arrays.fill(zeros, 7);
-        System.out.println("filled : " + Arrays.toString(zeros));
-        int[] bigger = Arrays.copyOf(backup, 7);
-        System.out.println("bigger : " + Arrays.toString(bigger));
+        <span class="tok-kw">int</span>[] zeros = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[<span class="tok-num">5</span>];
+        <span class="tok-type">Arrays</span>.<span class="tok-fn">fill</span>(zeros, <span class="tok-num">7</span>);  <span class="tok-com">// ใส่ 7 ทุกช่อง</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"filled : "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(zeros));
+        <span class="tok-com">// ขยายเป็น 7 ช่อง ช่องที่เกินเป็น 0</span>
+        <span class="tok-kw">int</span>[] bigger = <span class="tok-type">Arrays</span>.<span class="tok-fn">copyOf</span>(backup, <span class="tok-num">7</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"bigger : "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(bigger));
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>sorted : [3, 7, 19, 25, 42]
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>sorted : [3, 7, 19, 25, 42]
 backup : [42, 7, 19, 3, 25]
 median : 19
 names  : [Beam, Mali, Ploy]
 filled : [7, 7, 7, 7, 7]
 bigger : [42, 7, 19, 3, 25, 0, 0]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>copyOf ทำสำเนาก่อน sort เพื่อเก็บลำดับเดิม</li><li>sort เรียงจากน้อยไปมาก (String เรียงตามตัวอักษร)</li><li>หลังเรียง ค่ากลาง (median) อยู่ที่ index length/2</li><li>copyOf ที่ขนาดใหญ่กว่าเดิมเติม 0 ให้ช่องใหม่</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 8.4.3 · เรียงลำดับเองด้วย Bubble Sort <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สลับคู่ที่ติดกันซึ่งเรียงผิด ทำซ้ำหลายรอบ ค่าที่มากที่สุดจะ “ลอย” ไปท้ายทีละตัว</p><div class="source-example-grid"><div class="source-field"><span>Java source · BubbleSort.java</span><pre class="source-code">import java.util.Arrays;
+<div class="source-example"><h4>ตัวอย่าง 8.4.3 · เรียงลำดับเองด้วย Bubble Sort <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สลับคู่ที่ติดกันซึ่งเรียงผิด ทำซ้ำหลายรอบ ค่าที่มากที่สุดจะ “ลอย” ไปท้ายทีละตัว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BubbleSort.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Arrays</span>;
 
-public class BubbleSort {
-    public static void main(String[] args) {
-        int[] a = {5, 2, 9, 1, 6};
-        System.out.println("start  " + Arrays.toString(a));
-        for (int pass = 0; pass &lt; a.length - 1; pass++) {
-            for (int i = 0; i &lt; a.length - 1 - pass; i++) {
-                if (a[i] &gt; a[i + 1]) {
-                    int temp = a[i];
-                    a[i] = a[i + 1];
-                    a[i + 1] = temp;
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BubbleSort</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] a = {<span class="tok-num">5</span>, <span class="tok-num">2</span>, <span class="tok-num">9</span>, <span class="tok-num">1</span>, <span class="tok-num">6</span>};
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"start  "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(a));
+        <span class="tok-com">// ทำ n - 1 รอบ</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> pass = <span class="tok-num">0</span>; pass &lt; a.length - <span class="tok-num">1</span>; pass++) {
+            <span class="tok-com">// ช่องท้ายที่เรียงแล้วไม่ต้องเทียบ</span>
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; a.length - <span class="tok-num">1</span> - pass; i++) {
+                <span class="tok-com">// คู่ติดกันกลับลำดับ → สลับ</span>
+                <span class="tok-kw">if</span> (a[i] &gt; a[i + <span class="tok-num">1</span>]) {
+                    <span class="tok-com">// สลับด้วยตัวแปรชั่วคราว</span>
+                    <span class="tok-kw">int</span> temp = a[i];
+                    a[i] = a[i + <span class="tok-num">1</span>];
+                    a[i + <span class="tok-num">1</span>] = temp;
                 }
             }
-            System.out.println("pass " + (pass + 1) + " " + Arrays.toString(a));
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"pass "</span> + (pass + <span class="tok-num">1</span>) + <span class="tok-str">" "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(a));
         }
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>start  [5, 2, 9, 1, 6]
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>start  [5, 2, 9, 1, 6]
 pass 1 [2, 5, 1, 6, 9]
 pass 2 [2, 1, 5, 6, 9]
 pass 3 [1, 2, 5, 6, 9]
@@ -402,138 +473,150 @@ pass 4 [1, 2, 5, 6, 9]</pre></div></div><div class="walkthrough"><strong>อธ�
         <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 8.1</span>เก็บอุณหภูมิ<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้างอาเรย์ <code>double</code> เก็บอุณหภูมิ 5 วัน: 29.5, 31.0, 30.2, 28.8, 32.1 แล้วแสดงอุณหภูมิของวันที่สอง วันสุดท้าย (โดยใช้ length) และจำนวนวัน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ประกาศพร้อมกำหนดค่าด้วย <code>{ }</code></li><li>วันสุดท้ายต้องใช้ <code>temps[temps.length - 1]</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Day 2: 31.0
 Last day: 32.1
-Days: 5</pre></div><div class="answer-gate" data-answer-id="8.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class Temperatures {
-    public static void main(String[] args) {
-        double[] temps = {29.5, 31.0, 30.2, 28.8, 32.1};
-        System.out.println("Day 2: " + temps[1]);
-        System.out.println("Last day: " + temps[temps.length - 1]);
-        System.out.println("Days: " + temps.length);
+Days: 5</pre></div><div class="answer-gate" data-answer-id="8.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Temperatures.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Temperatures</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">double</span>[] temps = {<span class="tok-num">29.5</span>, <span class="tok-num">31.0</span>, <span class="tok-num">30.2</span>, <span class="tok-num">28.8</span>, <span class="tok-num">32.1</span>};
+        <span class="tok-com">// index 1 คือวันที่ 2</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Day 2: "</span> + temps[<span class="tok-num">1</span>]);
+        <span class="tok-com">// ช่องสุดท้ายคือ length - 1</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Last day: "</span> + temps[temps.length - <span class="tok-num">1</span>]);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Days: "</span> + temps.length);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 8.2</span>แสดงทุกค่าโดยไม่เกินขอบเขต<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>อาเรย์ <code>{4, 8, 12, 16, 20}</code> จงเขียน for ปกติแสดงค่าพร้อม index และเขียน for-each แสดงค่าแบบต่อกันในบรรทัดเดียว</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เงื่อนไขลูปต้องใช้ <code>i &lt; values.length</code></li><li>ผลลัพธ์รูปแบบ <code>[0] = 4</code></li><li>บรรทัดสุดท้ายแสดงค่าทั้งหมดคั่นด้วยช่องว่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[0] = 4
 [1] = 8
 [2] = 12
 [3] = 16
 [4] = 20
-4 8 12 16 20</pre></div><div class="answer-gate" data-answer-id="8.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>public class PrintAll {
-    public static void main(String[] args) {
-        int[] values = {4, 8, 12, 16, 20};
-        for (int i = 0; i &lt; values.length; i++) {
-            System.out.println("[" + i + "] = " + values[i]);
+4 8 12 16 20</pre></div><div class="answer-gate" data-answer-id="8.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">PrintAll.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintAll</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] values = {<span class="tok-num">4</span>, <span class="tok-num">8</span>, <span class="tok-num">12</span>, <span class="tok-num">16</span>, <span class="tok-num">20</span>};
+        <span class="tok-com">// for แบบ index</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; values.length; i++) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"["</span> + i + <span class="tok-str">"] = "</span> + values[i]);
         }
-        for (int v : values) {
-            System.out.print(v + " ");
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> v : values) {  <span class="tok-com">// for-each</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(v + <span class="tok-str">" "</span>);
         }
-        System.out.println();
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 8.3</span>รวมและเฉลี่ยคะแนนที่ป้อน<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับจำนวนนักศึกษา n แล้วรับคะแนน n ค่าเก็บในอาเรย์ แสดงคะแนนทั้งหมด ผลรวม และค่าเฉลี่ย</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>สร้างอาเรย์ขนาด n ด้วย new</li><li>ใช้ลูปอ่านค่า และอีกลูปคำนวณ</li><li>แสดงค่าเฉลี่ย 2 ตำแหน่ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>n = <b class="stdin">5</b>
 Scores: <b class="stdin">70 82 65 90 77</b>
 Scores: [70, 82, 65, 90, 77]
 Sum: 384
-Average: 76.80</pre></div><div class="answer-gate" data-answer-id="8.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Arrays;
-import java.util.Scanner;
+Average: 76.80</pre></div><div class="answer-gate" data-answer-id="8.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ScoreArray.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Arrays</span>;
+<span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class ScoreArray {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("n = ");
-        int n = input.nextInt();
-        int[] scores = new int[n];
-        System.out.print("Scores: ");
-        for (int i = 0; i &lt; n; i++) {
-            scores[i] = input.nextInt();
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ScoreArray</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"n = "</span>);
+        <span class="tok-kw">int</span> n = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-com">// สร้างอาเรย์ตามจำนวนที่ผู้ใช้ป้อน</span>
+        <span class="tok-kw">int</span>[] scores = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[n];
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Scores: "</span>);
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; n; i++) {
+            scores[i] = input.<span class="tok-fn">nextInt</span>();  <span class="tok-com">// อ่านค่าลงช่องที่ i</span>
         }
-        int sum = 0;
-        for (int s : scores) sum += s;
-        System.out.println("Scores: " + Arrays.toString(scores));
-        System.out.println("Sum: " + sum);
-        System.out.printf("Average: %.2f%n", (double) sum / n);
+        <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> s : scores) sum += s;  <span class="tok-com">// for-each รวมค่า</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Scores: "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(scores));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Sum: "</span> + sum);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Average: %.2f%n"</span>, (<span class="tok-kw">double</span>) sum / n);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 8.4</span>คะแนนสูงกว่าค่าเฉลี่ย<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับคะแนน n ค่า หาค่าเฉลี่ย แล้วแสดงรายการคะแนนที่<strong>สูงกว่าค่าเฉลี่ย</strong>พร้อมลำดับที่ของนักศึกษา (เริ่มนับที่ 1) และจำนวนคนที่สูงกว่าค่าเฉลี่ย</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ต้องเก็บคะแนนในอาเรย์ เพราะต้องวนสองรอบ (หาค่าเฉลี่ยก่อน แล้วจึงเทียบ)</li><li>แสดงในรูปแบบ <code>Student 2: 88</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>n = <b class="stdin">6</b>
 Scores: <b class="stdin">55 88 72 91 60 79</b>
 Average = 74.17
 Student 2: 88
 Student 4: 91
 Student 6: 79
-Above average: 3</pre></div><div class="answer-gate" data-answer-id="8.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Above average: 3</pre></div><div class="answer-gate" data-answer-id="8.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">AboveAverage.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class AboveAverage {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("n = ");
-        int n = input.nextInt();
-        int[] scores = new int[n];
-        int sum = 0;
-        System.out.print("Scores: ");
-        for (int i = 0; i &lt; n; i++) {
-            scores[i] = input.nextInt();
-            sum += scores[i];
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AboveAverage</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"n = "</span>);
+        <span class="tok-kw">int</span> n = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">int</span>[] scores = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[n];
+        <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Scores: "</span>);
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; n; i++) {
+            <span class="tok-com">// เก็บค่าไว้ก่อน เพื่อใช้เทียบภายหลัง</span>
+            scores[i] = input.<span class="tok-fn">nextInt</span>();
+            sum += scores[i];  <span class="tok-com">// รวมไปพร้อมกัน</span>
         }
-        double avg = (double) sum / n;
-        System.out.printf("Average = %.2f%n", avg);
-        int count = 0;
-        for (int i = 0; i &lt; n; i++) {
-            if (scores[i] &gt; avg) {
-                System.out.println("Student " + (i + 1) + ": " + scores[i]);
+        <span class="tok-kw">double</span> avg = (<span class="tok-kw">double</span>) sum / n;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Average = %.2f%n"</span>, avg);
+        <span class="tok-kw">int</span> count = <span class="tok-num">0</span>;
+        <span class="tok-com">// วนรอบที่ 2: เทียบกับค่าเฉลี่ย</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; n; i++) {
+            <span class="tok-kw">if</span> (scores[i] &gt; avg) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Student "</span> + (i + <span class="tok-num">1</span>) + <span class="tok-str">": "</span> + scores[i]);
                 count++;
             }
         }
-        System.out.println("Above average: " + count);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Above average: "</span> + count);
     }
-}</code></pre><p>นี่คือเหตุผลที่ต้องใช้อาเรย์ — ถ้าอ่านแล้วทิ้งเลย จะย้อนกลับไปเทียบกับค่าเฉลี่ยไม่ได้</p></div></div></article>
+}</code></pre></div><p>นี่คือเหตุผลที่ต้องใช้อาเรย์ — ถ้าอ่านแล้วทิ้งเลย จะย้อนกลับไปเทียบกับค่าเฉลี่ยไม่ได้</p></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 8.5</span>ค้นหาสินค้าและราคา<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>มีอาเรย์คู่ขนาน (parallel arrays) <code>String[] items = {"Pen", "Pencil", "Eraser", "Ruler", "Notebook"}</code> และ <code>double[] prices = {12, 6, 8.5, 15, 35}</code> ให้ผู้ใช้ป้อนชื่อสินค้าและจำนวน แล้วแสดงราคารวม ถ้าไม่พบสินค้าให้แสดง <code>Item not found</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ค้นหาแบบไม่สนตัวพิมพ์ด้วย equalsIgnoreCase</li><li>index ของ items และ prices ต้องสอดคล้องกัน</li><li>ใช้ found = −1 เป็นค่าเริ่มต้น</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Item: <b class="stdin">ruler</b>
 Qty: <b class="stdin">3</b>
 Ruler x 3 = 45.00 baht</pre></div><div><small>ครั้งที่ 2</small><pre>Item: <b class="stdin">Glue</b>
 Qty: <b class="stdin">1</b>
-Item not found</pre></div></div></div><div class="answer-gate" data-answer-id="8.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Item not found</pre></div></div></div><div class="answer-gate" data-answer-id="8.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">PriceLookup.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class PriceLookup {
-    public static void main(String[] args) {
-        String[] items = {"Pen", "Pencil", "Eraser", "Ruler", "Notebook"};
-        double[] prices = {12, 6, 8.5, 15, 35};
-        Scanner input = new Scanner(System.in);
-        System.out.print("Item: ");
-        String name = input.next();
-        System.out.print("Qty: ");
-        int qty = input.nextInt();
-        int found = -1;
-        for (int i = 0; i &lt; items.length; i++) {
-            if (items[i].equalsIgnoreCase(name)) {
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PriceLookup</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// อาเรย์คู่ขนาน: index เดียวกัน = สินค้าเดียวกัน</span>
+        <span class="tok-type">String</span>[] items = {<span class="tok-str">"Pen"</span>, <span class="tok-str">"Pencil"</span>, <span class="tok-str">"Eraser"</span>, <span class="tok-str">"Ruler"</span>, <span class="tok-str">"Notebook"</span>};
+        <span class="tok-kw">double</span>[] prices = {<span class="tok-num">12</span>, <span class="tok-num">6</span>, <span class="tok-num">8.5</span>, <span class="tok-num">15</span>, <span class="tok-num">35</span>};
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Item: "</span>);
+        <span class="tok-type">String</span> name = input.<span class="tok-fn">next</span>();
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Qty: "</span>);
+        <span class="tok-kw">int</span> qty = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">int</span> found = -<span class="tok-num">1</span>;
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; items.length; i++) {
+            <span class="tok-com">// หาตำแหน่งของสินค้า</span>
+            <span class="tok-kw">if</span> (items[i].<span class="tok-fn">equalsIgnoreCase</span>(name)) {
                 found = i;
-                break;
+                <span class="tok-kw">break</span>;
             }
         }
-        if (found == -1) {
-            System.out.println("Item not found");
-        } else {
-            System.out.printf("%s x %d = %.2f baht%n", items[found], qty, prices[found] * qty);
+        <span class="tok-kw">if</span> (found == -<span class="tok-num">1</span>) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Item not found"</span>);
+        } <span class="tok-kw">else</span> {
+            <span class="tok-com">// ใช้ index เดียวกันดึงราคา</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%s x %d = %.2f baht%n"</span>, items[found], qty, prices[found] * qty);
         }
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 8.6</span>กลับลำดับอาเรย์ในที่เดิม<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอด <code>static void reverse(int[] a)</code> ที่กลับลำดับสมาชิก<strong>ในอาเรย์เดิม</strong> (ไม่สร้างอาเรย์ใหม่) โดยสลับตัวแรกกับตัวสุดท้าย ตัวที่สองกับตัวรองสุดท้าย … แล้วทดสอบกับอาเรย์ขนาดคู่และขนาดคี่</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ลูปวนแค่ครึ่งอาเรย์ (<code>i &lt; a.length / 2</code>)</li><li>ตำแหน่งคู่สลับคือ <code>a.length - 1 - i</code></li><li>แสดงผลด้วย Arrays.toString ก่อนและหลัง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>before: [1, 2, 3, 4, 5, 6] [10, 20, 30, 40, 50]
-after : [6, 5, 4, 3, 2, 1] [50, 40, 30, 20, 10]</pre></div><div class="answer-gate" data-answer-id="8.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Arrays;
+after : [6, 5, 4, 3, 2, 1] [50, 40, 30, 20, 10]</pre></div><div class="answer-gate" data-answer-id="8.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ReverseInPlace.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Arrays</span>;
 
-public class ReverseInPlace {
-    public static void main(String[] args) {
-        int[] even = {1, 2, 3, 4, 5, 6};
-        int[] odd = {10, 20, 30, 40, 50};
-        System.out.println("before: " + Arrays.toString(even) + " " + Arrays.toString(odd));
-        reverse(even);
-        reverse(odd);
-        System.out.println("after : " + Arrays.toString(even) + " " + Arrays.toString(odd));
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReverseInPlace</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] even = {<span class="tok-num">1</span>, <span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span>, <span class="tok-num">6</span>};
+        <span class="tok-kw">int</span>[] odd = {<span class="tok-num">10</span>, <span class="tok-num">20</span>, <span class="tok-num">30</span>, <span class="tok-num">40</span>, <span class="tok-num">50</span>};
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"before: "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(even) + <span class="tok-str">" "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(odd));
+        <span class="tok-fn">reverse</span>(even);
+        <span class="tok-fn">reverse</span>(odd);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"after : "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(even) + <span class="tok-str">" "</span> + <span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(odd));
     }
 
-    static void reverse(int[] a) {
-        for (int i = 0; i &lt; a.length / 2; i++) {
-            int j = a.length - 1 - i;
-            int temp = a[i];
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">reverse</span>(<span class="tok-kw">int</span>[] a) {
+        <span class="tok-com">// วนแค่ครึ่งเดียว</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; a.length / <span class="tok-num">2</span>; i++) {
+            <span class="tok-com">// ตำแหน่งคู่จากด้านท้าย</span>
+            <span class="tok-kw">int</span> j = a.length - <span class="tok-num">1</span> - i;
+            <span class="tok-com">// สลับช่อง i กับ j</span>
+            <span class="tok-kw">int</span> temp = a[i];
             a[i] = a[j];
             a[j] = temp;
         }
     }
-}</code></pre><p>ถ้าวนครบทั้งอาเรย์ จะสลับกลับไปเป็นลำดับเดิม! ขนาดคี่ ตัวกลางไม่ต้องสลับ</p></div></div></article>
+}</code></pre></div><p>ถ้าวนครบทั้งอาเรย์ จะสลับกลับไปเป็นลำดับเดิม! ขนาดคี่ ตัวกลางไม่ต้องสลับ</p></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 8.7</span>ความถี่ของคะแนน (histogram)<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับคะแนนแบบจำนวนเต็ม 0–10 จำนวน n ค่า แล้วนับว่าแต่ละคะแนนปรากฏกี่ครั้ง โดยใช้อาเรย์ <code>int[] freq = new int[11]</code> ซึ่ง index คือคะแนน แสดงผลเป็นแผนภูมิดาวเฉพาะคะแนนที่มีคนได้</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ค่าคะแนนเป็น index โดยตรง: <code>freq[score]++</code></li><li>ข้ามคะแนนที่มีความถี่เป็น 0</li><li>แสดงดาวด้วย <code>"*".repeat(freq[s])</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>n = <b class="stdin">12</b>
 Scores: <b class="stdin">7 8 7 10 5 8 7 9 6 8 7 10</b>
  5 | *      (1)
@@ -541,26 +624,28 @@ Scores: <b class="stdin">7 8 7 10 5 8 7 9 6 8 7 10</b>
  7 | ****   (4)
  8 | ***    (3)
  9 | *      (1)
-10 | **     (2)</pre></div><div class="answer-gate" data-answer-id="8.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+10 | **     (2)</pre></div><div class="answer-gate" data-answer-id="8.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ScoreHistogram.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class ScoreHistogram {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("n = ");
-        int n = input.nextInt();
-        int[] freq = new int[11];
-        System.out.print("Scores: ");
-        for (int i = 0; i &lt; n; i++) {
-            int score = input.nextInt();
-            freq[score]++;
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ScoreHistogram</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"n = "</span>);
+        <span class="tok-kw">int</span> n = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-com">// ช่อง 0-10 เก็บจำนวนครั้งของแต่ละคะแนน</span>
+        <span class="tok-kw">int</span>[] freq = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[<span class="tok-num">11</span>];
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Scores: "</span>);
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; n; i++) {
+            <span class="tok-kw">int</span> score = input.<span class="tok-fn">nextInt</span>();
+            freq[score]++;  <span class="tok-com">// ใช้คะแนนเป็น index แล้วนับเพิ่ม</span>
         }
-        for (int s = 0; s &lt;= 10; s++) {
-            if (freq[s] &gt; 0) {
-                System.out.printf("%2d | %-6s (%d)%n", s, "*".repeat(freq[s]), freq[s]);
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> s = <span class="tok-num">0</span>; s &lt;= <span class="tok-num">10</span>; s++) {
+            <span class="tok-kw">if</span> (freq[s] &gt; <span class="tok-num">0</span>) {
+                <span class="tok-com">// repeat วาดแท่งตามความถี่</span>
+                <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%2d | %-6s (%d)%n"</span>, s, <span class="tok-str">"*"</span>.<span class="tok-fn">repeat</span>(freq[s]), freq[s]);
             }
         }
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 8.8</span>ตารางคะแนนรายวิชาแบบ 2 มิติ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับจำนวนนักศึกษา (แถว) และจำนวนวิชา (คอลัมน์) แล้วรับคะแนนลงอาเรย์ 2 มิติ จากนั้นแสดงตารางที่มี (1) คะแนนรวมและค่าเฉลี่ยของนักศึกษาแต่ละคน (2) ค่าเฉลี่ยของแต่ละวิชา และ (3) ลำดับที่ของนักศึกษาที่ได้คะแนนรวมสูงสุด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>int[][] scores = new int[rows][cols]</code></li><li>แต่ละแถวคำนวณ total ใหม่ (ประกาศในลูปนอก)</li><li>ค่าเฉลี่ยวิชาใช้ลูปนอกเป็นคอลัมน์</li><li>จัดคอลัมน์ด้วย printf</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>students subjects: <b class="stdin">3 4</b>
 Student 1: <b class="stdin">70 80 65 90</b>
 Student 2: <b class="stdin">88 92 79 85</b>
@@ -569,70 +654,79 @@ S1     70   80   65   90 |  305  76.25
 S2     88   92   79   85 |  344  86.00
 S3     60   55   72   68 |  255  63.75
 Avg  72.7 75.7 72.0 81.0
-Top student: S2 (344)</pre></div><div class="answer-gate" data-answer-id="8.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Top student: S2 (344)</pre></div><div class="answer-gate" data-answer-id="8.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ScoreTable.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class ScoreTable {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("students subjects: ");
-        int rows = input.nextInt(), cols = input.nextInt();
-        int[][] scores = new int[rows][cols];
-        for (int r = 0; r &lt; rows; r++) {
-            System.out.print("Student " + (r + 1) + ": ");
-            for (int c = 0; c &lt; cols; c++) {
-                scores[r][c] = input.nextInt();
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ScoreTable</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"students subjects: "</span>);
+        <span class="tok-kw">int</span> rows = input.<span class="tok-fn">nextInt</span>(), cols = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-com">// ขนาดอาเรย์ 2 มิติจากผู้ใช้</span>
+        <span class="tok-kw">int</span>[][] scores = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[rows][cols];
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> r = <span class="tok-num">0</span>; r &lt; rows; r++) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Student "</span> + (r + <span class="tok-num">1</span>) + <span class="tok-str">": "</span>);
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> c = <span class="tok-num">0</span>; c &lt; cols; c++) {
+                <span class="tok-com">// อ่านคะแนนลงตาราง</span>
+                scores[r][c] = input.<span class="tok-fn">nextInt</span>();
             }
         }
-        int bestRow = 0, bestTotal = -1;
-        for (int r = 0; r &lt; rows; r++) {
-            int total = 0;
-            System.out.printf("S%-3d", r + 1);
-            for (int c = 0; c &lt; cols; c++) {
-                System.out.printf("%5d", scores[r][c]);
+        <span class="tok-kw">int</span> bestRow = <span class="tok-num">0</span>, bestTotal = -<span class="tok-num">1</span>;
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> r = <span class="tok-num">0</span>; r &lt; rows; r++) {
+            <span class="tok-kw">int</span> total = <span class="tok-num">0</span>;  <span class="tok-com">// ผลรวมของนักเรียนคนนี้</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"S%-3d"</span>, r + <span class="tok-num">1</span>);
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> c = <span class="tok-num">0</span>; c &lt; cols; c++) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%5d"</span>, scores[r][c]);
                 total += scores[r][c];
             }
-            System.out.printf(" | %4d %6.2f%n", total, (double) total / cols);
-            if (total &gt; bestTotal) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">" | %4d %6.2f%n"</span>, total, (<span class="tok-kw">double</span>) total / cols);
+            <span class="tok-kw">if</span> (total &gt; bestTotal) {  <span class="tok-com">// จำแถวที่คะแนนรวมสูงสุด</span>
                 bestTotal = total;
                 bestRow = r;
             }
         }
-        System.out.print("Avg ");
-        for (int c = 0; c &lt; cols; c++) {
-            int sum = 0;
-            for (int r = 0; r &lt; rows; r++) sum += scores[r][c];
-            System.out.printf("%5.1f", (double) sum / rows);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Avg "</span>);
+        <span class="tok-com">// ค่าเฉลี่ยรายวิชา (ตามคอลัมน์)</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> c = <span class="tok-num">0</span>; c &lt; cols; c++) {
+            <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> r = <span class="tok-num">0</span>; r &lt; rows; r++) sum += scores[r][c];
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%5.1f"</span>, (<span class="tok-kw">double</span>) sum / rows);
         }
-        System.out.println();
-        System.out.println("Top student: S" + (bestRow + 1) + " (" + bestTotal + ")");
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Top student: S"</span> + (bestRow + <span class="tok-num">1</span>) + <span class="tok-str">" ("</span> + bestTotal + <span class="tok-str">")"</span>);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 8.9</span>รวมอาเรย์ที่เรียงแล้วสองชุด<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>เขียนเมธอด <code>static int[] merge(int[] a, int[] b)</code> ที่รับอาเรย์สองชุดที่<strong>เรียงจากน้อยไปมากแล้ว</strong> และคืนอาเรย์ใหม่ที่มีสมาชิกทั้งหมดเรียงจากน้อยไปมาก <strong>ห้ามใช้ Arrays.sort</strong> ให้ใช้ตัวชี้ (index) สองตัวเดินไปพร้อมกัน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>อาเรย์ผลลัพธ์ขนาด a.length + b.length</li><li>เทียบ a[i] กับ b[j] ตัวที่น้อยกว่าใส่ผลลัพธ์ แล้วขยับตัวชี้นั้น</li><li>เมื่ออาเรย์หนึ่งหมด ให้คัดลอกส่วนที่เหลือของอีกอาเรย์</li><li>ทดสอบกรณีอาเรย์หนึ่งว่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[1, 2, 3, 4, 7, 8, 10, 12, 15]
-[2, 3, 8, 12, 15]</pre></div><div class="answer-gate" data-answer-id="8.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Arrays;
+[2, 3, 8, 12, 15]</pre></div><div class="answer-gate" data-answer-id="8.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">MergeSorted.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Arrays</span>;
 
-public class MergeSorted {
-    public static void main(String[] args) {
-        int[] a = {1, 4, 7, 10};
-        int[] b = {2, 3, 8, 12, 15};
-        System.out.println(Arrays.toString(merge(a, b)));
-        System.out.println(Arrays.toString(merge(new int[0], b)));
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MergeSorted</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span>[] a = {<span class="tok-num">1</span>, <span class="tok-num">4</span>, <span class="tok-num">7</span>, <span class="tok-num">10</span>};
+        <span class="tok-kw">int</span>[] b = {<span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">8</span>, <span class="tok-num">12</span>, <span class="tok-num">15</span>};
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(<span class="tok-fn">merge</span>(a, b)));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(<span class="tok-fn">merge</span>(<span class="tok-kw">new</span> <span class="tok-kw">int</span>[<span class="tok-num">0</span>], b)));
     }
 
-    static int[] merge(int[] a, int[] b) {
-        int[] result = new int[a.length + b.length];
-        int i = 0, j = 0, k = 0;
-        while (i &lt; a.length &amp;&amp; j &lt; b.length) {
-            if (a[i] &lt;= b[j]) {
+    <span class="tok-kw">static</span> <span class="tok-kw">int</span>[] <span class="tok-fn">merge</span>(<span class="tok-kw">int</span>[] a, <span class="tok-kw">int</span>[] b) {
+        <span class="tok-com">// ขนาดผลลัพธ์ = ผลรวมความยาว</span>
+        <span class="tok-kw">int</span>[] result = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[a.length + b.length];
+        <span class="tok-com">// i ชี้ใน a, j ชี้ใน b, k ชี้ใน result</span>
+        <span class="tok-kw">int</span> i = <span class="tok-num">0</span>, j = <span class="tok-num">0</span>, k = <span class="tok-num">0</span>;
+        <span class="tok-com">// ทั้งสองอาเรย์ยังมีค่าเหลือ</span>
+        <span class="tok-kw">while</span> (i &lt; a.length &amp;&amp; j &lt; b.length) {
+            <span class="tok-com">// เลือกค่าที่น้อยกว่าก่อน</span>
+            <span class="tok-kw">if</span> (a[i] &lt;= b[j]) {
                 result[k++] = a[i++];
-            } else {
+            } <span class="tok-kw">else</span> {
                 result[k++] = b[j++];
             }
         }
-        while (i &lt; a.length) result[k++] = a[i++];
-        while (j &lt; b.length) result[k++] = b[j++];
-        return result;
+        <span class="tok-com">// คัดลอกค่าที่เหลือของ a</span>
+        <span class="tok-kw">while</span> (i &lt; a.length) result[k++] = a[i++];
+        <span class="tok-com">// คัดลอกค่าที่เหลือของ b</span>
+        <span class="tok-kw">while</span> (j &lt; b.length) result[k++] = b[j++];
+        <span class="tok-kw">return</span> result;
     }
-}</code></pre><p><code>result[k++] = a[i++];</code> คือใช้ค่า k และ i ปัจจุบันก่อน แล้วจึงเพิ่มทั้งคู่ทีละ 1</p></div></div></article>
+}</code></pre></div><p><code>result[k++] = a[i++];</code> คือใช้ค่า k และ i ปัจจุบันก่อน แล้วจึงเพิ่มทั้งคู่ทีละ 1</p></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 8.10</span>เกม Tic-Tac-Toe: ตรวจผู้ชนะ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>กระดาน 3×3 เก็บใน <code>char[][] board</code> (ค่า 'X', 'O' หรือ '.') ให้ผู้ใช้ป้อนกระดาน 3 บรรทัด (บรรทัดละ 3 ตัวอักษร) แล้วเขียนเมธอด <code>static char winner(char[][] b)</code> คืน 'X' หรือ 'O' ถ้ามีผู้ชนะ (เรียงกัน 3 ตัวในแถว คอลัมน์ หรือทแยง) หรือ '-' ถ้ายังไม่มี จากนั้นแสดงกระดานและผล</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>อ่านแต่ละบรรทัดด้วย <code>next()</code> แล้วใช้ <code>charAt(c)</code> เติมลงอาเรย์</li><li>ตรวจ 3 แถว 3 คอลัมน์ด้วยลูป และทแยง 2 เส้น</li><li>ช่องว่าง '.' ไม่นับเป็นผู้ชนะ</li><li>ถ้าไม่มีผู้ชนะและไม่มี '.' เหลือ ให้แสดง Draw</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Row 0: <b class="stdin">XOX</b>
 Row 1: <b class="stdin">OXO</b>
 Row 2: <b class="stdin">OOX</b>
@@ -651,48 +745,55 @@ Row 2: <b class="stdin">O..</b>
  X | O | .
  . | X | .
  O | . | .
-Game continues</pre></div></div></div><div class="answer-gate" data-answer-id="8.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Game continues</pre></div></div></div><div class="answer-gate" data-answer-id="8.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 8.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">TicTacToe.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class TicTacToe {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        char[][] board = new char[3][3];
-        for (int r = 0; r &lt; 3; r++) {
-            System.out.print("Row " + r + ": ");
-            String line = input.next();
-            for (int c = 0; c &lt; 3; c++) board[r][c] = line.charAt(c);
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TicTacToe</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-kw">char</span>[][] board = <span class="tok-kw">new</span> <span class="tok-kw">char</span>[<span class="tok-num">3</span>][<span class="tok-num">3</span>];  <span class="tok-com">// ตาราง 3×3</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> r = <span class="tok-num">0</span>; r &lt; <span class="tok-num">3</span>; r++) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Row "</span> + r + <span class="tok-str">": "</span>);
+            <span class="tok-type">String</span> line = input.<span class="tok-fn">next</span>();
+            <span class="tok-com">// แยกตัวอักษรแต่ละตัวลงช่อง</span>
+            <span class="tok-kw">for</span> (<span class="tok-kw">int</span> c = <span class="tok-num">0</span>; c &lt; <span class="tok-num">3</span>; c++) board[r][c] = line.<span class="tok-fn">charAt</span>(c);
         }
-        for (char[] row : board) {
-            System.out.println(" " + row[0] + " | " + row[1] + " | " + row[2]);
+        <span class="tok-com">// for-each กับอาเรย์ 2 มิติ: ทีละแถว</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">char</span>[] row : board) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">" "</span> + row[<span class="tok-num">0</span>] + <span class="tok-str">" | "</span> + row[<span class="tok-num">1</span>] + <span class="tok-str">" | "</span> + row[<span class="tok-num">2</span>]);
         }
-        char w = winner(board);
-        if (w != '-') System.out.println("Winner: " + w);
-        else if (isFull(board)) System.out.println("Draw");
-        else System.out.println("Game continues");
+        <span class="tok-kw">char</span> w = <span class="tok-fn">winner</span>(board);  <span class="tok-com">// '-' หมายถึงยังไม่มีผู้ชนะ</span>
+        <span class="tok-kw">if</span> (w != <span class="tok-str">'-'</span>) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Winner: "</span> + w);
+        <span class="tok-kw">else</span> <span class="tok-kw">if</span> (<span class="tok-fn">isFull</span>(board)) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Draw"</span>);
+        <span class="tok-kw">else</span> <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Game continues"</span>);
     }
 
-    static char winner(char[][] b) {
-        for (int i = 0; i &lt; 3; i++) {
-            if (b[i][0] != '.' &amp;&amp; b[i][0] == b[i][1] &amp;&amp; b[i][1] == b[i][2]) return b[i][0];
-            if (b[0][i] != '.' &amp;&amp; b[0][i] == b[1][i] &amp;&amp; b[1][i] == b[2][i]) return b[0][i];
+    <span class="tok-kw">static</span> <span class="tok-kw">char</span> <span class="tok-fn">winner</span>(<span class="tok-kw">char</span>[][] b) {
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; <span class="tok-num">3</span>; i++) {
+            <span class="tok-com">// แถวที่ i เหมือนกันทั้งแถว</span>
+            <span class="tok-kw">if</span> (b[i][<span class="tok-num">0</span>] != <span class="tok-str">'.'</span> &amp;&amp; b[i][<span class="tok-num">0</span>] == b[i][<span class="tok-num">1</span>] &amp;&amp; b[i][<span class="tok-num">1</span>] == b[i][<span class="tok-num">2</span>]) <span class="tok-kw">return</span> b[i][<span class="tok-num">0</span>];
+            <span class="tok-com">// คอลัมน์ที่ i</span>
+            <span class="tok-kw">if</span> (b[<span class="tok-num">0</span>][i] != <span class="tok-str">'.'</span> &amp;&amp; b[<span class="tok-num">0</span>][i] == b[<span class="tok-num">1</span>][i] &amp;&amp; b[<span class="tok-num">1</span>][i] == b[<span class="tok-num">2</span>][i]) <span class="tok-kw">return</span> b[<span class="tok-num">0</span>][i];
         }
-        if (b[1][1] != '.' &amp;&amp; b[0][0] == b[1][1] &amp;&amp; b[1][1] == b[2][2]) return b[1][1];
-        if (b[1][1] != '.' &amp;&amp; b[0][2] == b[1][1] &amp;&amp; b[1][1] == b[2][0]) return b[1][1];
-        return '-';
+        <span class="tok-com">// แนวทแยง ซ้ายบน → ขวาล่าง</span>
+        <span class="tok-kw">if</span> (b[<span class="tok-num">1</span>][<span class="tok-num">1</span>] != <span class="tok-str">'.'</span> &amp;&amp; b[<span class="tok-num">0</span>][<span class="tok-num">0</span>] == b[<span class="tok-num">1</span>][<span class="tok-num">1</span>] &amp;&amp; b[<span class="tok-num">1</span>][<span class="tok-num">1</span>] == b[<span class="tok-num">2</span>][<span class="tok-num">2</span>]) <span class="tok-kw">return</span> b[<span class="tok-num">1</span>][<span class="tok-num">1</span>];
+        <span class="tok-com">// แนวทแยง ขวาบน → ซ้ายล่าง</span>
+        <span class="tok-kw">if</span> (b[<span class="tok-num">1</span>][<span class="tok-num">1</span>] != <span class="tok-str">'.'</span> &amp;&amp; b[<span class="tok-num">0</span>][<span class="tok-num">2</span>] == b[<span class="tok-num">1</span>][<span class="tok-num">1</span>] &amp;&amp; b[<span class="tok-num">1</span>][<span class="tok-num">1</span>] == b[<span class="tok-num">2</span>][<span class="tok-num">0</span>]) <span class="tok-kw">return</span> b[<span class="tok-num">1</span>][<span class="tok-num">1</span>];
+        <span class="tok-kw">return</span> <span class="tok-str">'-'</span>;
     }
 
-    static boolean isFull(char[][] b) {
-        for (char[] row : b)
-            for (char cell : row)
-                if (cell == '.') return false;
-        return true;
+    <span class="tok-com">// มีช่องว่าง '.' เหลือ → ยังไม่เต็ม</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">boolean</span> <span class="tok-fn">isFull</span>(<span class="tok-kw">char</span>[][] b) {
+        <span class="tok-kw">for</span> (<span class="tok-kw">char</span>[] row : b)
+            <span class="tok-kw">for</span> (<span class="tok-kw">char</span> cell : row)
+                <span class="tok-kw">if</span> (cell == <span class="tok-str">'.'</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;
+        <span class="tok-kw">return</span> <span class="tok-num">true</span>;
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-07.html">← บทที่ 7</a><a class="pager-link" href="chapter-09.html">บทที่ 9: String →</a></nav>
       <footer class="lesson-footer">Java programming by Prymania · บทที่ 8 · วาดตาราง index ทุกครั้งที่สับสน</footer>
     </main>
   </div>
-  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
 </body>
 </html>

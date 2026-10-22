@@ -71,17 +71,22 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     for (int round = 1; round <= 3; round++) {
-                        try {
+                        try {  // คำสั่งที่อาจเกิด exception อยู่ใน try
                             System.out.print("a b: ");
+                            // ข้อความที่ไม่ใช่ตัวเลข → NumberFormatException
                             int a = Integer.parseInt(input.next());
                             int b = Integer.parseInt(input.next());
+                            // หารด้วย 0 → ArithmeticException
                             System.out.println("  a / b = " + (a / b));
+                        // จับเฉพาะกรณีหารด้วย 0
                         } catch (ArithmeticException e) {
                             System.out.println("  Cannot divide by zero");
+                        // จับกรณีแปลงตัวเลขไม่ได้
                         } catch (NumberFormatException e) {
                             System.out.println("  Not a number: " + e.getMessage());
                         }
                     }
+                    // โปรแกรมไม่หยุดกลางทาง
                     System.out.println("Program finished normally");
                 }
             }`,
@@ -199,9 +204,10 @@ export default {
             public class DebugFactorialFixed {
                 public static void main(String[] args) {
                     int n = 5;
-                    int result = 1;
+                    int result = 1;  // ผลคูณต้องเริ่มที่ 1
                     for (int i = 1; i <= n; i++) {
                         result *= i;
+                        // พิมพ์ค่าระหว่างทางเพื่อตรวจ
                         System.out.printf("i=%d result=%d%n", i, result);
                     }
                     System.out.println(n + "! = " + result);
@@ -245,13 +251,15 @@ export default {
                 }
 
                 static void sell(int[] stock, int item, int qty) {
+                    // ลดสต็อก
                     stock[item] -= qty;
+                    // ตรวจเงื่อนไขที่ต้องจริงเสมอ
                     check(stock[item] >= 0, "stock of item " + item + " became " + stock[item]);
                     System.out.println("Sold " + qty + " of item " + item + ", left " + stock[item]);
                 }
 
                 static void check(boolean condition, String message) {
-                    if (!condition) {
+                    if (!condition) {  // เงื่อนไขเป็นเท็จ → แจ้งเตือน
                         System.out.println("!! CHECK FAILED: " + message);
                     }
                 }
@@ -278,11 +286,14 @@ export default {
           code: j`
             public class GradeTests {
                 public static void main(String[] args) {
+                    // รวมค่าขอบ (80, 79, 50, 49) และค่าผิด (-1, 101)
                     int[] inputs = {85, 65, 80, 79, 50, 49, 0, 100, -1, 101};
+                    // คำตอบที่ควรได้ ตำแหน่งตรงกับ inputs
                     String[] expected = {"A", "C", "A", "B", "D", "F", "F", "A", "Invalid", "Invalid"};
                     int passed = 0;
                     for (int i = 0; i < inputs.length; i++) {
                         String actual = grade(inputs[i]);
+                        // เทียบผลจริงกับที่คาด
                         boolean ok = actual.equals(expected[i]);
                         if (ok) passed++;
                         System.out.printf("%-4s grade(%d) = %s, expected %s%n", ok ? "OK" : "FAIL", inputs[i], actual, expected[i]);
@@ -292,6 +303,7 @@ export default {
 
                 static String grade(int score) {
                     if (score < 0 || score > 100) return "Invalid";
+                    // ลองดูว่าค่าขอบ 80 ผ่านหรือไม่
                     if (score > 80) return "A";
                     if (score >= 70) return "B";
                     if (score >= 60) return "C";
@@ -305,14 +317,16 @@ export default {
           code: j`
             public class AverageTests {
                 public static void main(String[] args) {
+                    // new double[]{...} สร้างอาเรย์ส่งเข้าเมธอดได้ทันที
                     test(new double[]{2, 4, 6}, 4.0);
                     test(new double[]{0.1, 0.2}, 0.15);
                     test(new double[]{-5, 5}, 0.0);
                     test(new double[]{7}, 7.0);
-                    test(new double[]{}, 0.0);
+                    test(new double[]{}, 0.0);  // กรณีขอบ: อาเรย์ว่าง
                 }
 
                 static double average(double[] values) {
+                    // ป้องกันการหารด้วย 0
                     if (values.length == 0) return 0.0;
                     double sum = 0;
                     for (double v : values) sum += v;
@@ -321,6 +335,7 @@ export default {
 
                 static void test(double[] values, double expected) {
                     double actual = average(values);
+                    // double เทียบด้วยระยะห่างที่น้อยมาก
                     boolean ok = Math.abs(actual - expected) < 1e-9;
                     System.out.printf("%s n=%d actual=%.4f expected=%.4f%n", ok ? "OK  " : "FAIL", values.length, actual, expected);
                 }
@@ -378,11 +393,13 @@ export default {
       solution: j`
         public class LeapYearTests {
             public static void main(String[] args) {
+                // ปีที่ทดสอบ รวมกรณีพิเศษ 1900, 2000
                 int[] years = {2023, 2024, 1900, 2000, 2100, 2400};
                 boolean[] expected = {false, true, false, true, false, true};
                 int passed = 0;
                 for (int i = 0; i < years.length; i++) {
                     boolean actual = isLeapYear(years[i]);
+                    // boolean เทียบด้วย == ได้
                     boolean ok = actual == expected[i];
                     if (ok) passed++;
                     System.out.printf("%-4s %d -> %b%n", ok ? "OK" : "FAIL", years[i], actual);
@@ -391,6 +408,7 @@ export default {
             }
 
             static boolean isLeapYear(int year) {
+                // หาร 4 ลงตัวแต่ไม่ลงตัว 100 หรือหาร 400 ลงตัว
                 return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
             }
         }` },
@@ -413,10 +431,11 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("5 scores: ");
                 int sum = 0;
+                // i = 0 ถึง 4 ครบ 5 รอบ
                 for (int i = 0; i < 5; i++) {
                     sum += input.nextInt();
                 }
-                double average = sum / 5.0;
+                double average = sum / 5.0;  // 5.0 ทำให้หารแบบทศนิยม
                 System.out.printf("Average = %.2f%n", average);
             }
         }`, explain: "บั๊ก 2 จุด: (1) ลูป <code>i = 1; i &lt; 5</code> วนแค่ 4 รอบ อ่านแค่ 70 80 90 85 ได้ sum = 325 (2) <code>sum / 5</code> เป็นการหาร int ได้ 65 แล้วจึงกลายเป็น 65.0 ต้องใช้ 5.0" },
@@ -437,7 +456,7 @@ export default {
             public static void main(String[] args) {
                 int[] a = {10, 20, 30, 40};
                 int[] targets = {10, 30, 40, 99};
-                int[] expected = {0, 2, 3, -1};
+                int[] expected = {0, 2, 3, -1};  // -1 = ไม่พบ
                 for (int i = 0; i < targets.length; i++) {
                     int actual = indexOf(a, targets[i]);
                     System.out.printf("%s indexOf(%d) = %d%n", actual == expected[i] ? "OK  " : "FAIL", targets[i], actual);
@@ -445,12 +464,13 @@ export default {
             }
 
             static int indexOf(int[] a, int target) {
+                // ค้นให้ครบทุกช่องก่อน
                 for (int i = 0; i < a.length; i++) {
                     if (a[i] == target) {
-                        return i;
+                        return i;  // เจอแล้วคืนตำแหน่งทันที
                     }
                 }
-                return -1;
+                return -1;  // ไม่พบหลังวนครบ
             }
         }`, explain: "else return -1 ทำให้เมธอดจบตั้งแต่รอบแรกถ้าตัวแรกไม่ตรง — เป็นบั๊กที่พบบ่อยมาก" },
     { level: 2, title: "Exception จากข้อมูลผู้ใช้", html: `<p>เขียนโปรแกรมรับ “จำนวนสินค้า” และ “ราคารวม” เป็นข้อความ (nextLine) แล้วคำนวณราคาต่อชิ้น ให้ดักทุกกรณีผิดพลาดด้วย try-catch และข้อความที่เป็นมิตร: ป้อนไม่ใช่ตัวเลข, จำนวนเป็น 0, จำนวนติดลบ (ตรวจด้วย if) ถ้าผิดให้ถามใหม่ทั้งชุดจนกว่าจะถูก</p>`,
@@ -461,18 +481,19 @@ export default {
         public class SafeUnitPrice {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
-                boolean done = false;
+                boolean done = false;  // ทำซ้ำจนได้ข้อมูลที่ถูกต้อง
                 while (!done) {
                     try {
                         System.out.print("Quantity: ");
+                        // ถ้าแปลงไม่ได้ จะข้ามไปที่ catch ทันที
                         int qty = Integer.parseInt(input.nextLine().trim());
                         System.out.print("Total price: ");
                         double total = Double.parseDouble(input.nextLine().trim());
-                        if (qty <= 0) {
+                        if (qty <= 0) {  // ตรวจค่าที่ทำให้หารด้วย 0
                             System.out.println("  Quantity must be positive. Try again.");
                         } else {
                             System.out.printf("Unit price = %.2f%n", total / qty);
-                            done = true;
+                            done = true;  // ได้คำตอบแล้ว → ออกจากลูป
                         }
                     } catch (NumberFormatException e) {
                         System.out.println("  Please enter numbers only. Try again.");
@@ -493,7 +514,9 @@ export default {
             public static void main(String[] args) {
                 int h = 4;
                 for (int row = 1; row <= h; row++) {
+                    // เว้นวรรค h - row ตัว
                     for (int s = 0; s < h - row; s++) System.out.print(" ");
+                    // ดาว 2·row − 1 ตัว
                     for (int k = 0; k < 2 * row - 1; k++) System.out.print("*");
                     System.out.println();
                 }
@@ -513,12 +536,14 @@ export default {
       solution: j`
         public class ShippingTests {
             public static void main(String[] args) {
+                // ข้อมูลทดสอบ 3 อาเรย์คู่ขนาน
                 double[] kg = {0, 1, 1.5, 5, 5.5, 10, 1, 5.5};
                 boolean[] member = {false, false, false, false, false, false, true, true};
                 double[] expected = {-1, 40, 47.5, 100, 125, 170, 36, 112.5};
                 int passed = 0;
                 for (int i = 0; i < kg.length; i++) {
                     double actual = shipping(kg[i], member[i]);
+                    // เทียบ double ด้วยระยะห่าง
                     boolean ok = Math.abs(actual - expected[i]) < 0.001;
                     if (ok) passed++;
                     System.out.printf("%-4s kg=%.1f member=%-5b -> %.2f (expected %.2f)%n", ok ? "OK" : "FAIL", kg[i], member[i], actual, expected[i]);
@@ -527,12 +552,15 @@ export default {
             }
 
             static double shipping(double kg, boolean member) {
-                if (kg <= 0) return -1;
+                if (kg <= 0) return -1;  // น้ำหนักไม่ถูกต้อง
                 double fee;
                 if (kg <= 1) fee = 40;
+                // ส่วนที่เกิน 1 กก. คิดกก.ละ 15
                 else if (kg <= 5) fee = 40 + (kg - 1) * 15;
                 else fee = 120 + (kg - 5) * 10;
+                // สมาชิกลด 10%
                 if (member) fee = fee * 0.9;
+                // ปัดทศนิยม 2 ตำแหน่ง
                 return Math.round(fee * 100) / 100.0;
             }
         }`, explain: "บั๊กที่แก้: (1) <code>kg &lt; 0</code> → <code>kg &lt;= 0</code> (2) <code>kg &lt; 1</code> → <code>kg &lt;= 1</code> (3) ส่วนเกินต้องเป็น <code>(kg − 1) * 15</code> (4) ลด 10% คือคูณ 0.9 ไม่ใช่ 0.1 (5) ไม่ได้ปัดเศษ" },
@@ -553,8 +581,10 @@ export default {
 
         public class FixBubbleSort {
             public static void main(String[] args) {
+                // รวมกรณีเรียงแล้ว, เรียงกลับ, ค่าซ้ำ, 1 ตัว, ว่าง
                 int[][] tests = {{1, 2, 3, 4}, {4, 3, 2, 1}, {3, 1, 3, 2, 1}, {7}, {}};
                 for (int[] t : tests) {
+                    // เก็บข้อความก่อนเรียง
                     String before = Arrays.toString(t);
                     sort(t);
                     System.out.printf("%-16s -> %-16s %s%n", before, Arrays.toString(t), isSorted(t) ? "OK" : "FAIL");
@@ -565,6 +595,7 @@ export default {
                 for (int pass = 0; pass < a.length - 1; pass++) {
                     for (int i = 0; i < a.length - 1 - pass; i++) {
                         if (a[i] > a[i + 1]) {
+                            // ต้องมี temp จึงจะไม่ทำค่าหาย
                             int temp = a[i];
                             a[i] = a[i + 1];
                             a[i + 1] = temp;
@@ -574,6 +605,7 @@ export default {
             }
 
             static boolean isSorted(int[] a) {
+                // ตรวจว่าทุกคู่ติดกันเรียงแล้ว
                 for (int i = 0; i + 1 < a.length; i++) {
                     if (a[i] > a[i + 1]) return false;
                 }
@@ -585,6 +617,7 @@ export default {
       solution: j`
         public class AccountValidator {
             public static void main(String[] args) {
+                // ข้อมูลทดสอบรวมกรณีผิดแบบต่าง ๆ และ null
                 String[] inputs = {"123-4-56789-0", "", "123-4-56789", "1234-5-6789-0", "123-4-5678a-0", "12a-4-56789-0", "123-4-56789-01", null};
                 String[] expected = {"OK", "empty", "wrong length", "dash at position 3", "non-digit at position 10", "non-digit at position 2", "wrong length", "empty"};
                 int passed = 0;
@@ -598,13 +631,16 @@ export default {
             }
 
             static String validateAccount(String acc) {
+                // ตรวจ null ก่อน (short-circuit)
                 if (acc == null || acc.isEmpty()) return "empty";
                 if (acc.length() != 13) return "wrong length";
                 for (int i = 0; i < acc.length(); i++) {
                     char ch = acc.charAt(i);
+                    // ตำแหน่งที่ต้องเป็นขีด
                     boolean dashPos = i == 3 || i == 5 || i == 11;
                     if (dashPos && ch != '-') return "dash at position " + i;
                     if (!dashPos && !Character.isDigit(ch)) {
+                        // ?: เลือกข้อความผิดพลาด
                         return ch == '-' ? "dash at position " + i : "non-digit at position " + i;
                     }
                 }

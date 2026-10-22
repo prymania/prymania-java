@@ -39,13 +39,12 @@ export default {
             public class NotebookPrice {
                 public static void main(String[] args) {
                     // Input
-                    int quantity = 3;
-                    int pricePerBook = 18;
+                    int quantity = 3;       // จำนวนเล่ม
+                    int pricePerBook = 18;  // ราคาต่อเล่ม (บาท)
 
                     // Process
-                    int total = quantity * pricePerBook;
+                    int total = quantity * pricePerBook;  // 3 × 18 = 54
 
-                    // Output
                     System.out.println("Total = " + total + " baht");
                 }
             }`,
@@ -59,6 +58,7 @@ export default {
 
             public class AverageScore {
                 public static void main(String[] args) {
+                    // เตรียมรับข้อมูลจากคีย์บอร์ด
                     Scanner input = new Scanner(System.in);
                     // Input: คะแนน 3 ครั้ง
                     System.out.print("Score 1: ");
@@ -69,9 +69,9 @@ export default {
                     double s3 = input.nextDouble();
 
                     // Process
+                    // วงเล็บ: บวกให้ครบก่อน แล้วจึงหาร
                     double average = (s1 + s2 + s3) / 3;
 
-                    // Output
                     System.out.println("Average = " + average);
                 }
             }`,
@@ -112,11 +112,14 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Total minutes: ");
-                    int totalMinutes = input.nextInt();      // รับ totalMinutes
+                    // รับ totalMinutes
+                    int totalMinutes = input.nextInt();
 
-                    int hours = totalMinutes / 60;           // หารเอาส่วนจำนวนเต็ม
-                    int minutes = totalMinutes % 60;         // เศษจากการหาร
+                    // หารเอาส่วนจำนวนเต็ม
+                    int hours = totalMinutes / 60;
+                    int minutes = totalMinutes % 60;  // เศษจากการหาร
 
+                    // แสดงผล
                     System.out.println(hours + " hours " + minutes + " minutes");
                 }
             }`,
@@ -132,14 +135,14 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Amount: ");
-                    int amount = input.nextInt();
+                    int amount = input.nextInt();  // รับจำนวนเงิน
 
-                    int thousand = amount / 1000;   // จำนวนใบ 1000
-                    amount = amount % 1000;         // เงินที่เหลือ
-                    int hundred = amount / 100;     // จำนวนใบ 100
-                    amount = amount % 100;
-                    int twenty = amount / 20;       // จำนวนใบ 20
-                    amount = amount % 20;
+                    int thousand = amount / 1000;  // จำนวนใบ 1000
+                    amount = amount % 1000;        // เงินที่เหลือ
+                    int hundred = amount / 100;    // จำนวนใบ 100
+                    amount = amount % 100;         // เงินที่เหลือ
+                    int twenty = amount / 20;      // จำนวนใบ 20
+                    amount = amount % 20;          // ที่เหลือคือเหรียญ
 
                     System.out.println("1000 x " + thousand);
                     System.out.println("100 x " + hundred);
@@ -188,17 +191,18 @@ export default {
             import java.util.Scanner;
 
             public class RectangleArea {
-                public static void main(String[] args) {           // (วงรี) เริ่มต้น
+                public static void main(String[] args) {  // (วงรี) เริ่มต้น
                     Scanner input = new Scanner(System.in);
                     System.out.print("Width: ");
-                    double width = input.nextDouble();             // (ด้านขนาน) รับ
+                    double width = input.nextDouble();  // (ด้านขนาน) รับ
                     System.out.print("Height: ");
                     double height = input.nextDouble();
 
-                    double area = width * height;                  // (สี่เหลี่ยม) คำนวณ
+                    double area = width * height;  // (สี่เหลี่ยม) คำนวณ
 
-                    System.out.println("Area = " + area);          // (ด้านขนาน) แสดง
-                }                                                  // (วงรี) จบ
+                    // (ด้านขนาน) แสดง
+                    System.out.println("Area = " + area);
+                }  // (วงรี) จบ
             }`,
           steps: ["เริ่มที่ <code>main</code>", "รับ width = 4.5 และ height = 2", "คำนวณ area = 9.0", "แสดงผลแล้วจบโปรแกรม"] },
         { type: "run", title: "Flowchart แปลงอุณหภูมิ (สูตรหลายขั้น)", level: "ต่อยอด",
@@ -211,10 +215,12 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Celsius: ");
-                    double c = input.nextDouble();
+                    double c = input.nextDouble();  // (ด้านขนาน) รับ
 
+                    // (สี่เหลี่ยม) คิดซ้ายไปขวา: ×9 → ÷5 → +32
                     double f = c * 9 / 5 + 32;
 
+                    // (ด้านขนาน) แสดง
                     System.out.println("Fahrenheit = " + f);
                 }
             }`,
@@ -245,11 +251,14 @@ export default {
                     System.out.print("Score: ");
                     int score = input.nextInt();
 
-                    if (score >= 50) {
+                    if (score >= 50) {  // ◇ score ≥ 50 ?
+                        // ทาง "ใช่"
                         System.out.println("ผ่าน");
                     } else {
+                        // ทาง "ไม่ใช่"
                         System.out.println("ไม่ผ่าน");
                     }
+                    // ทั้งสองทางมาบรรจบที่นี่
                     System.out.println("จบการตรวจ");
                 }
             }`,
@@ -267,13 +276,14 @@ export default {
                     System.out.print("Score: ");
                     int score = input.nextInt();
 
-                    if (score >= 80) {
+                    if (score >= 80) {  // ◇ ชั้นที่ 1: ตรวจช่วงสูงสุดก่อน
                         System.out.println("Grade A");
+                    // ◇ ชั้นที่ 2: มาถึงนี่แปลว่า score < 80
                     } else if (score >= 70) {
                         System.out.println("Grade B");
-                    } else if (score >= 60) {
+                    } else if (score >= 60) {  // ◇ ชั้นที่ 3
                         System.out.println("Grade C");
-                    } else {
+                    } else {  // ทุกเงื่อนไขเป็นเท็จ
                         System.out.println("Grade F");
                     }
                 }
@@ -303,15 +313,17 @@ export default {
             public class SumUntilZero {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
-                    int total = 0;
+                    int total = 0;  // ผลรวมเริ่มที่ 0
                     System.out.print("Number (0 = stop): ");
-                    int number = input.nextInt();
+                    int number = input.nextInt();  // รับค่าแรกก่อนเข้าวงซ้ำ
 
-                    while (number != 0) {
-                        total = total + number;
+                    while (number != 0) {        // ◇ number ≠ 0 ?
+                        total = total + number;  // บวกสะสม
                         System.out.print("Number (0 = stop): ");
+                        // รับค่าใหม่ แล้ววนกลับไปตรวจ
                         number = input.nextInt();
                     }
+                    // ออกจากวงเมื่อป้อน 0
                     System.out.println("Total = " + total);
                 }
             }`,
@@ -341,6 +353,7 @@ export default {
                 double b = input.nextDouble();
                 System.out.print("Score 3: ");
                 double c = input.nextDouble();
+                // Process: บวกก่อนแล้วจึงหาร
                 double average = (a + b + c) / 3;
                 System.out.println("Average = " + average);
             }
@@ -355,11 +368,11 @@ export default {
         public class CircleIPO {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
-                final double PI = 3.14159;
+                final double PI = 3.14159;  // ค่าคงที่ ไม่ใช่ Input
                 System.out.print("Radius: ");
                 double r = input.nextDouble();
-                double area = PI * r * r;
-                double circumference = 2 * PI * r;
+                double area = PI * r * r;           // πr²
+                double circumference = 2 * PI * r;  // 2πr
                 System.out.println("Area = " + area);
                 System.out.println("Circumference = " + circumference);
             }
@@ -376,8 +389,9 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Seconds: ");
                 int totalSeconds = input.nextInt();
+                // หารเอาส่วนจำนวนเต็ม
                 int minutes = totalSeconds / 60;
-                int seconds = totalSeconds % 60;
+                int seconds = totalSeconds % 60;  // เศษจากการหาร
                 System.out.println(minutes + " minutes " + seconds + " seconds");
             }
         }`,
@@ -399,8 +413,9 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("C = ");
                 double c = input.nextDouble();
+                // (สี่เหลี่ยมผืนผ้า) คำนวณ
                 double f = c * 9 / 5 + 32;
-                System.out.println("F = " + f);
+                System.out.println("F = " + f);  // (ด้านขนาน) แสดง
             }
         }`,
       answerHtml: pre(`
@@ -428,7 +443,9 @@ export default {
                 double length = input.nextDouble();
                 System.out.print("Price per meter: ");
                 double price = input.nextDouble();
+                // ความยาวรั้ว: ต้องคำนวณก่อน
                 double fence = 2 * (width + length);
+                // ใช้ fence ที่ได้จากบรรทัดบน
                 double cost = fence * price;
                 System.out.println("Fence length = " + fence + " m");
                 System.out.println("Cost = " + cost + " baht");
@@ -453,10 +470,10 @@ export default {
                 System.out.print("Hours: ");
                 int hours = input.nextInt();
                 int fee;
-                if (hours <= 1) {
-                    fee = 0;
+                if (hours <= 1) {  // ◇ ไม่เกิน 1 ชั่วโมง ?
+                    fee = 0;       // ใช่: ฟรี
                 } else {
-                    fee = 20;
+                    fee = 20;  // ไม่ใช่: เหมา 20 บาท
                 }
                 System.out.println("Fee = " + fee + " baht");
             }
@@ -483,8 +500,9 @@ export default {
                 int hours = input.nextInt();
                 int pay;
                 if (hours <= 40) {
-                    pay = hours * 100;
+                    pay = hours * 100;  // อัตราปกติทั้งหมด
                 } else {
+                    // 40 ชม.แรก + ส่วนที่เกิน
                     pay = 40 * 100 + (hours - 40) * 150;
                 }
                 System.out.println("Pay = " + pay + " baht");
@@ -516,11 +534,12 @@ export default {
                 double s3 = input.nextDouble();
                 double avg = (s1 + s2 + s3) / 3;
                 String grade;
-                if (avg >= 80) grade = "A";
+                if (avg >= 80) grade = "A";  // ตรวจจากสูงลงต่ำ
                 else if (avg >= 70) grade = "B";
                 else if (avg >= 60) grade = "C";
                 else if (avg >= 50) grade = "D";
                 else grade = "F";
+                // ทศนิยม 2 ตำแหน่ง
                 System.out.printf("Average = %.2f%n", avg);
                 System.out.println("Grade = " + grade);
                 if (grade.equals("F")) System.out.println("ไม่ผ่าน");
@@ -548,21 +567,22 @@ export default {
         public class SumCountAverage {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
-                int total = 0;
-                int count = 0;
+                int total = 0;  // ผลรวม
+                int count = 0;  // ตัวนับจำนวนค่า
                 System.out.print("Number: ");
                 int number = input.nextInt();
-                while (number != 0) {
+                while (number != 0) {  // 0 คือค่าหยุด (sentinel)
                     total = total + number;
                     count = count + 1;
                     System.out.print("Number: ");
                     number = input.nextInt();
                 }
-                if (count == 0) {
+                if (count == 0) {  // ป้องกันการหารด้วย 0
                     System.out.println("ไม่มีข้อมูล");
                 } else {
                     System.out.println("Sum = " + total);
                     System.out.println("Count = " + count);
+                    // แปลงเป็น double ก่อนหาร
                     System.out.println("Average = " + (double) total / count);
                 }
             }
@@ -593,16 +613,16 @@ export default {
                 int price = input.nextInt();
                 System.out.print("Paid: ");
                 int paid = input.nextInt();
-                if (paid < price) {
+                if (paid < price) {  // ◇ เงินไม่พอ ?
                     System.out.println("เงินไม่พอ ขาดอีก " + (price - paid) + " บาท");
                 } else {
                     int change = paid - price;
                     System.out.println("Change = " + change);
-                    int ten = change / 10;
-                    change = change % 10;
+                    int ten = change / 10;  // เหรียญใหญ่ก่อน
+                    change = change % 10;   // เก็บเศษไว้คิดต่อ
                     int five = change / 5;
                     change = change % 5;
-                    int one = change;
+                    int one = change;  // ที่เหลือเป็นเหรียญ 1 บาททั้งหมด
                     System.out.println("10 baht x " + ten);
                     System.out.println("5 baht x " + five);
                     System.out.println("1 baht x " + one);

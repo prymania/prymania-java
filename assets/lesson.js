@@ -54,10 +54,16 @@ function copyText(text) {
 function addCopyButtons() {
   document.querySelectorAll("pre.source-code, .answer-content pre, pre.copyable").forEach((pre) => {
     if (pre.parentElement.classList.contains("code-wrap")) return;
-    const wrap = document.createElement("div");
-    wrap.className = "code-wrap";
-    pre.replaceWith(wrap);
-    wrap.append(pre);
+    // code panel with a header bar: the button goes in the header
+    const head = pre.parentElement.classList.contains("code-block") ? pre.parentElement.querySelector(".code-head") : null;
+    if (head && head.querySelector(".copy-button")) return;
+    let wrap = head;
+    if (!wrap) {
+      wrap = document.createElement("div");
+      wrap.className = "code-wrap";
+      pre.replaceWith(wrap);
+      wrap.append(pre);
+    }
 
     const button = document.createElement("button");
     button.type = "button";

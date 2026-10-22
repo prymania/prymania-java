@@ -34,8 +34,9 @@ export default {
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("Welcome to registration"));
                         JButton back = new JButton("Back");
-                        back.setEnabled(false);
+                        back.setEnabled(false);  // ปุ่มกดไม่ได้ (สีจาง)
                         JButton next = new JButton("Next");
+                        // ข้อความเมื่อชี้เมาส์ค้าง
                         next.setToolTipText("Go to step 2");
                         panel.add(back);
                         panel.add(next);
@@ -57,8 +58,10 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Notice");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // JLabel ใช้ HTML จัดรูปแบบได้
                         JLabel label = new JLabel("<html><b>Exam schedule</b><br>Midterm: 12 Oct<br>"
                             + "<font color='red'>Final: 15 Dec</font></html>");
+                        // จัดข้อความกึ่งกลาง
                         label.setHorizontalAlignment(SwingConstants.CENTER);
                         label.setBorder(BorderFactory.createEmptyBorder(12, 30, 12, 30));
                         frame.add(label, BorderLayout.CENTER);
@@ -87,6 +90,7 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("Name:"));
+                        // ช่องกรอกกว้างประมาณ 12 ตัวอักษร
                         panel.add(new JTextField(12));
                         panel.add(new JLabel("ID:"));
                         panel.add(new JTextField(7));
@@ -108,15 +112,21 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Notes");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // 5 แถว 24 คอลัมน์
                         JTextArea notes = new JTextArea(5, 24);
+                        // ตัดบรรทัดเมื่อยาวเกิน
                         notes.setLineWrap(true);
+                        // ตัดที่ช่องว่างระหว่างคำ
                         notes.setWrapStyleWord(true);
                         StringBuilder sb = new StringBuilder();
                         for (int i = 1; i <= 8; i++) {
                             sb.append("Line ").append(i).append(": remember to practice Java every day.\n");
                         }
+                        // ใส่ข้อความทั้งหมด
                         notes.setText(sb.toString());
+                        // เลื่อนเคอร์เซอร์ไปต้นข้อความ
                         notes.setCaretPosition(0);
+                        // ห่อด้วย JScrollPane จึงเลื่อนดูได้
                         frame.add(new JScrollPane(notes), BorderLayout.CENTER);
                         frame.add(new JLabel("8 lines - scroll to read more"), BorderLayout.SOUTH);
                         frame.pack();
@@ -136,14 +146,18 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Field types");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // ตาราง 3 แถว 2 คอลัมน์
                         JPanel panel = new JPanel(new GridLayout(3, 2, 6, 6));
                         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
                         JTextField total = new JTextField("1,250.00");
+                        // อ่านอย่างเดียว
                         total.setEditable(false);
+                        // ตัวเลขชิดขวา
                         total.setHorizontalAlignment(JTextField.RIGHT);
                         panel.add(new JLabel("Total (read-only):"));
                         panel.add(total);
                         panel.add(new JLabel("Password:"));
+                        // ช่องรหัสผ่าน แสดงเป็นจุด
                         panel.add(new JPasswordField(10));
                         JTextField qty = new JTextField("3");
                         qty.setHorizontalAlignment(JTextField.RIGHT);
@@ -177,7 +191,9 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Faculty");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // ตัวเลือกจากอาเรย์
                         String[] faculties = {"Science", "Engineering", "Education", "Arts"};
+                        // <String> = ชนิดของตัวเลือก
                         JComboBox<String> combo = new JComboBox<>(faculties);
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("Faculty:"));
@@ -200,15 +216,18 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Drink options");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // true = เลือกไว้ก่อน
                         JRadioButton small = new JRadioButton("Small", true);
                         JRadioButton medium = new JRadioButton("Medium");
                         JRadioButton large = new JRadioButton("Large");
+                        // ButtonGroup: เลือกได้ทีละหนึ่ง
                         ButtonGroup sizes = new ButtonGroup();
                         sizes.add(small);
                         sizes.add(medium);
                         sizes.add(large);
 
                         JPanel sizePanel = new JPanel();
+                        // กรอบพร้อมหัวข้อ
                         sizePanel.setBorder(BorderFactory.createTitledBorder("Size"));
                         sizePanel.add(small);
                         sizePanel.add(medium);
@@ -216,6 +235,7 @@ export default {
 
                         JPanel extraPanel = new JPanel();
                         extraPanel.setBorder(BorderFactory.createTitledBorder("Extras"));
+                        // check box เลือกได้หลายอัน
                         extraPanel.add(new JCheckBox("Extra shot"));
                         extraPanel.add(new JCheckBox("Oat milk"));
                         extraPanel.add(new JCheckBox("Less sugar"));
@@ -239,8 +259,11 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Order");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // ค่าเริ่ม 2, ต่ำสุด 1, สูงสุด 20, เพิ่มทีละ 1
                         JSpinner qty = new JSpinner(new SpinnerNumberModel(2, 1, 20, 1));
+                        // ต่ำสุด 0, สูงสุด 100, เริ่มที่ 50
                         JSlider sweet = new JSlider(0, 100, 50);
+                        // ขีดหลักทุก 25
                         sweet.setMajorTickSpacing(25);
                         sweet.setPaintTicks(true);
                         sweet.setPaintLabels(true);
@@ -280,13 +303,17 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("BorderLayout");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // เว้นระยะระหว่างส่วน 4 พิกเซล
                         JPanel p = new JPanel(new BorderLayout(4, 4));
+                        // ตำแหน่งที่วาง: NORTH
                         p.add(new JButton("NORTH"), BorderLayout.NORTH);
                         p.add(new JButton("SOUTH"), BorderLayout.SOUTH);
                         p.add(new JButton("WEST"), BorderLayout.WEST);
                         p.add(new JButton("EAST"), BorderLayout.EAST);
+                        // CENTER ขยายรับพื้นที่ที่เหลือ
                         p.add(new JButton("CENTER"), BorderLayout.CENTER);
                         frame.setContentPane(p);
+                        // ขยายหน้าต่างแล้ว CENTER โตตาม
                         frame.setSize(340, 200);
                         frame.setVisible(true);
                     });
@@ -304,8 +331,10 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("GridLayout");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // 0 แถว = เพิ่มแถวตามจำนวน, 3 คอลัมน์
                         JPanel grid = new JPanel(new GridLayout(0, 3, 5, 5));
                         grid.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                        // ทุกช่องขนาดเท่ากัน
                         for (int i = 1; i <= 8; i++) {
                             grid.add(new JButton("Seat " + i));
                         }
@@ -328,18 +357,23 @@ export default {
                         JFrame frame = new JFrame("Settings");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JPanel box = new JPanel();
+                        // เรียงจากบนลงล่าง
                         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
                         box.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
                         JLabel title = new JLabel("Notifications");
+                        // ตัวหนา ขนาด 15
                         title.setFont(title.getFont().deriveFont(Font.BOLD, 15f));
                         box.add(title);
+                        // ช่องว่างแนวตั้ง 8 พิกเซล
                         box.add(Box.createVerticalStrut(8));
                         box.add(new JCheckBox("Email me when grades are posted", true));
                         box.add(new JCheckBox("Remind me before deadlines", true));
                         box.add(new JCheckBox("Weekly summary"));
                         box.add(Box.createVerticalStrut(12));
                         box.add(new JButton("Save"));
+                        // จัดชิดซ้ายทุก component
                         for (Component c : box.getComponents()) {
+                            // แปลงเป็น JComponent เพื่อเรียก setAlignmentX
                             ((JComponent) c).setAlignmentX(Component.LEFT_ALIGNMENT);
                         }
                         frame.setContentPane(box);
@@ -360,13 +394,17 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Confirm");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // ข้อความกึ่งกลาง
                         JLabel msg = new JLabel("Save changes before closing?", SwingConstants.CENTER);
                         msg.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+                        // ปุ่มชิดขวา
                         JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
                         buttons.add(new JButton("Don't save"));
                         buttons.add(new JButton("Cancel"));
                         buttons.add(new JButton("Save"));
+                        // ข้อความอยู่ตรงกลาง
                         frame.add(msg, BorderLayout.CENTER);
+                        // แถวปุ่มอยู่ล่าง
                         frame.add(buttons, BorderLayout.SOUTH);
                         frame.pack();
                         frame.setVisible(true);
@@ -395,14 +433,17 @@ export default {
 
             public class RegistrationForm {
                 public static void main(String[] args) {
+                    // เรียกเมธอด show บน EDT
                     SwingUtilities.invokeLater(RegistrationForm::show);
                 }
 
                 static void show() {
                     JFrame frame = new JFrame("Registration");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // layout หลักของหน้าต่าง
                     JPanel root = new JPanel(new BorderLayout(8, 8));
                     root.setBorder(BorderFactory.createEmptyBorder(10, 12, 10, 12));
+                    // แต่ละส่วนสร้างจากเมธอดของตัวเอง
                     root.add(buildHeader(), BorderLayout.NORTH);
                     root.add(buildForm(), BorderLayout.CENTER);
                     root.add(buildButtons(), BorderLayout.SOUTH);
@@ -418,17 +459,21 @@ export default {
                 }
 
                 static JComponent buildForm() {
+                    // แผงซ้อนแผง
                     JPanel form = new JPanel(new BorderLayout(6, 6));
+                    // ป้าย + ช่องกรอก 3 คู่
                     JPanel fields = new JPanel(new GridLayout(3, 2, 6, 6));
                     fields.add(new JLabel("Full name:"));
                     fields.add(new JTextField(16));
                     fields.add(new JLabel("Email:"));
                     fields.add(new JTextField(16));
                     fields.add(new JLabel("Session:"));
+                    // ตัวเลือกจากอาเรย์
                     fields.add(new JComboBox<>(new String[]{"Morning", "Afternoon", "Evening"}));
                     form.add(fields, BorderLayout.NORTH);
                     JTextArea note = new JTextArea(3, 20);
                     note.setLineWrap(true);
+                    // ห่อด้วย JScrollPane
                     JScrollPane scroll = new JScrollPane(note);
                     scroll.setBorder(BorderFactory.createTitledBorder("Note"));
                     form.add(scroll, BorderLayout.CENTER);
@@ -436,6 +481,7 @@ export default {
                 }
 
                 static JComponent buildButtons() {
+                    // ชิดขวา เว้นระยะ 6
                     JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
                     buttons.add(new JButton("Clear"));
                     buttons.add(new JButton("Submit"));
@@ -455,18 +501,24 @@ export default {
                         JFrame frame = new JFrame("Class Chat");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+                        // รายการข้อความสำหรับ JList
                         DefaultListModel<String> messages = new DefaultListModel<>();
                         messages.addElement("Mali: Has anyone finished lab 15?");
                         messages.addElement("Beam: Almost, stuck on BoxLayout");
                         messages.addElement("Nida: Remember setAlignmentX!");
+                        // JList แสดงรายการจาก model
                         JList<String> list = new JList<>(messages);
 
+                        // ช่องพิมพ์ + ปุ่มส่ง
                         JPanel inputBar = new JPanel(new BorderLayout(6, 0));
+                        // ช่องพิมพ์ยืดเต็มความกว้าง
                         inputBar.add(new JTextField(), BorderLayout.CENTER);
+                        // ปุ่มชิดขวา
                         inputBar.add(new JButton("Send"), BorderLayout.EAST);
 
                         JPanel root = new JPanel(new BorderLayout(0, 8));
                         root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                        // รายการข้อความเลื่อนดูได้
                         root.add(new JScrollPane(list), BorderLayout.CENTER);
                         root.add(inputBar, BorderLayout.SOUTH);
                         frame.setContentPane(root);
@@ -495,9 +547,10 @@ export default {
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JPanel panel = new JPanel();
                     JLabel title = new JLabel("Student Profile");
+                    // ฟอนต์ตัวหนาขนาด 16
                     title.setFont(new Font("SansSerif", Font.BOLD, 16));
                     JButton delete = new JButton("Delete");
-                    delete.setEnabled(false);
+                    delete.setEnabled(false);  // ปิดใช้งานปุ่ม
                     panel.add(title);
                     panel.add(new JButton("Edit"));
                     panel.add(delete);
@@ -519,11 +572,13 @@ export default {
                     JFrame frame = new JFrame("Feedback");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JTextArea area = new JTextArea(6, 30);
-                    area.setLineWrap(true);
+                    area.setLineWrap(true);  // ตัดบรรทัดอัตโนมัติ
                     area.setWrapStyleWord(true);
                     JPanel root = new JPanel(new BorderLayout(6, 6));
                     root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                    // ป้ายด้านบน
                     root.add(new JLabel("Your comments:"), BorderLayout.NORTH);
+                    // กล่องข้อความเลื่อนได้ตรงกลาง
                     root.add(new JScrollPane(area), BorderLayout.CENTER);
                     root.add(new JButton("Send"), BorderLayout.SOUTH);
                     frame.setContentPane(root);
@@ -545,14 +600,18 @@ export default {
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JPanel sizes = new JPanel();
                     sizes.setBorder(BorderFactory.createTitledBorder("Size"));
+                    // เลือกขนาดได้ทีละหนึ่ง
                     ButtonGroup group = new ButtonGroup();
+                    // สร้าง radio button ด้วยลูป
                     for (String s : new String[]{"S", "M", "L", "XL"}) {
+                        // M ถูกเลือกไว้ก่อน
                         JRadioButton r = new JRadioButton(s, s.equals("M"));
                         group.add(r);
                         sizes.add(r);
                     }
                     JPanel colorPanel = new JPanel();
                     colorPanel.add(new JLabel("Color:"));
+                    // ตัวเลือกสี
                     colorPanel.add(new JComboBox<>(new String[]{"White", "Black", "Navy", "Red"}));
                     frame.add(sizes, BorderLayout.NORTH);
                     frame.add(colorPanel, BorderLayout.SOUTH);
@@ -572,6 +631,7 @@ export default {
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Contact");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // 0 แถว = ไม่จำกัด, 2 คอลัมน์
                     JPanel form = new JPanel(new GridLayout(0, 2, 8, 6));
                     form.add(new JLabel("Name:"));
                     form.add(new JTextField(14));
@@ -582,12 +642,14 @@ export default {
                     form.add(new JLabel("Province:"));
                     form.add(new JComboBox<>(new String[]{"Bangkok", "Chiang Mai", "Khon Kaen", "Phuket", "Songkhla"}));
 
+                    // ปุ่มชิดขวา
                     JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 6, 0));
                     buttons.add(new JButton("Cancel"));
                     buttons.add(new JButton("Save"));
 
                     JPanel root = new JPanel(new BorderLayout(0, 10));
                     root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+                    // ฟอร์มตรงกลาง ปุ่มด้านล่าง
                     root.add(form, BorderLayout.CENTER);
                     root.add(buttons, BorderLayout.SOUTH);
                     frame.setContentPane(root);
@@ -608,13 +670,17 @@ export default {
                     JFrame frame = new JFrame("Preferences");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JPanel box = new JPanel();
+                    // เรียงจากบนลงล่าง
                     box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
                     box.setBorder(BorderFactory.createEmptyBorder(12, 14, 12, 14));
+                    // เรียกเมธอดสร้างหัวข้อ
                     box.add(heading("Display"));
                     box.add(new JCheckBox("Dark mode"));
                     box.add(new JCheckBox("Show line numbers", true));
+                    // ช่องว่างแนวตั้ง
                     box.add(Box.createVerticalStrut(10));
                     box.add(heading("Font size"));
+                    // ต่ำสุด 10, สูงสุด 24, เริ่มที่ 14
                     JSlider size = new JSlider(10, 24, 14);
                     size.setMajorTickSpacing(2);
                     size.setPaintTicks(true);
@@ -622,6 +688,7 @@ export default {
                     box.add(size);
                     box.add(Box.createVerticalStrut(10));
                     box.add(new JButton("Apply"));
+                    // จัดชิดซ้ายทุกชิ้น
                     for (Component c : box.getComponents()) {
                         ((JComponent) c).setAlignmentX(Component.LEFT_ALIGNMENT);
                     }
@@ -631,6 +698,7 @@ export default {
                 });
             }
 
+            // เมธอดสร้างหัวข้อตัวหนา
             static JLabel heading(String text) {
                 JLabel l = new JLabel(text);
                 l.setFont(l.getFont().deriveFont(Font.BOLD));
@@ -647,20 +715,27 @@ export default {
 
         public class SeatMap {
             public static void main(String[] args) {
+                // ที่นั่งที่ถูกจองแล้ว
                 List<String> booked = Arrays.asList("A3", "A4", "C5", "E1");
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Seat Map");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JLabel screen = new JLabel("SCREEN", SwingConstants.CENTER);
+                    // ต้อง setOpaque ก่อน สีพื้นหลังจึงแสดง
                     screen.setOpaque(true);
                     screen.setBackground(Color.DARK_GRAY);
                     screen.setForeground(Color.WHITE);
+                    // 5 แถว 8 คอลัมน์
                     JPanel seats = new JPanel(new GridLayout(5, 8, 3, 3));
+                    // วนตัวอักษรแถว A ถึง E
                     for (char row = 'A'; row <= 'E'; row++) {
                         for (int n = 1; n <= 8; n++) {
+                            // "" + ทำให้ char ต่อกับตัวเลขเป็นข้อความ
                             String code = "" + row + n;
                             JButton b = new JButton(code);
+                            // ลดระยะขอบในปุ่ม
                             b.setMargin(new Insets(2, 4, 2, 4));
+                            // ที่นั่งที่จองแล้วกดไม่ได้
                             if (booked.contains(code)) b.setEnabled(false);
                             seats.add(b);
                         }
@@ -683,6 +758,7 @@ export default {
 
         public class FoodOrderScreen {
             public static void main(String[] args) {
+                // เรียกเมธอด show บน EDT
                 SwingUtilities.invokeLater(FoodOrderScreen::show);
             }
 
@@ -690,38 +766,44 @@ export default {
                 JFrame frame = new JFrame("Order");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JPanel root = new JPanel(new BorderLayout(8, 8));
+                // แต่ละส่วนของหน้าจอสร้างจากเมธอดแยก
                 root.add(header(), BorderLayout.NORTH);
                 root.add(menu(), BorderLayout.WEST);
                 root.add(options(), BorderLayout.CENTER);
                 root.add(footer(), BorderLayout.SOUTH);
                 frame.setContentPane(root);
-                frame.setSize(560, 360);
+                frame.setSize(560, 360);  // กำหนดขนาดหน้าต่างเอง
                 frame.setVisible(true);
             }
 
             static JComponent header() {
                 JLabel title = new JLabel("  Java Pizza House");
-                title.setOpaque(true);
+                title.setOpaque(true);  // ให้สีพื้นหลังแสดง
                 title.setBackground(new Color(32, 44, 40));
                 title.setForeground(Color.WHITE);
                 title.setFont(title.getFont().deriveFont(Font.BOLD, 18f));
+                // สูง 40 พิกเซล (ความกว้างให้ layout กำหนด)
                 title.setPreferredSize(new Dimension(0, 40));
                 return title;
             }
 
             static JComponent menu() {
                 String[] items = {"Margherita", "Pepperoni", "Hawaiian", "Seafood", "Veggie", "Four Cheese", "BBQ Chicken"};
+                // รายการเมนูเลื่อนดูได้
                 JScrollPane scroll = new JScrollPane(new JList<>(items));
                 scroll.setBorder(BorderFactory.createTitledBorder("Menu"));
+                // กว้าง 160 พิกเซล
                 scroll.setPreferredSize(new Dimension(160, 0));
                 return scroll;
             }
 
             static JComponent options() {
                 JPanel p = new JPanel();
+                // เรียงส่วนต่าง ๆ จากบนลงล่าง
                 p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
                 JPanel size = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 size.setBorder(BorderFactory.createTitledBorder("Size"));
+                // เลือกขนาดได้ทีละหนึ่ง
                 ButtonGroup g = new ButtonGroup();
                 for (String s : new String[]{"Small", "Medium", "Large"}) {
                     JRadioButton r = new JRadioButton(s, s.equals("Medium"));
@@ -735,6 +817,7 @@ export default {
                 extras.add(new JCheckBox("Spicy"));
                 JPanel qty = new JPanel(new FlowLayout(FlowLayout.LEFT));
                 qty.add(new JLabel("Quantity:"));
+                // เลือกจำนวน 1-10
                 qty.add(new JSpinner(new SpinnerNumberModel(1, 1, 10, 1)));
                 JScrollPane note = new JScrollPane(new JTextArea(3, 20));
                 note.setBorder(BorderFactory.createTitledBorder("Note"));
@@ -742,6 +825,7 @@ export default {
                 p.add(extras);
                 p.add(qty);
                 p.add(note);
+                // จัดชิดซ้ายทุกส่วน
                 for (Component c : p.getComponents()) ((JComponent) c).setAlignmentX(Component.LEFT_ALIGNMENT);
                 return p;
             }
@@ -749,6 +833,7 @@ export default {
             static JComponent footer() {
                 JPanel p = new JPanel(new BorderLayout());
                 p.setBorder(BorderFactory.createEmptyBorder(0, 8, 8, 8));
+                // ยอดรวมชิดซ้าย ปุ่มชิดขวา
                 p.add(new JLabel("Total: 0.00 baht"), BorderLayout.WEST);
                 p.add(new JButton("Add to cart"), BorderLayout.EAST);
                 return p;
@@ -766,19 +851,24 @@ export default {
                     JFrame frame = new JFrame("Calculator");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+                    // ช่องแสดงผล
                     JTextField display = new JTextField("128", 10);
+                    // อ่านอย่างเดียว
                     display.setEditable(false);
                     display.setHorizontalAlignment(JTextField.RIGHT);
                     display.setFont(new Font("Monospaced", Font.BOLD, 22));
 
                     String[] keys = {"7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"};
+                    // ปุ่ม 4×4
                     JPanel pad = new JPanel(new GridLayout(4, 4, 4, 4));
                     for (String k : keys) {
                         JButton b = new JButton(k);
+                        // ปุ่มเครื่องหมายใช้สีต่าง
                         if ("/*-+=".contains(k)) b.setBackground(new Color(217, 243, 243));
                         pad.add(b);
                     }
 
+                    // ประวัติการคำนวณ 6 แถว
                     JTextArea history = new JTextArea("12 * 8 = 96\n96 + 32 = 128\n128 / 4 = 32", 6, 12);
                     history.setEditable(false);
                     JScrollPane historyPane = new JScrollPane(history);
@@ -790,9 +880,13 @@ export default {
 
                     JPanel root = new JPanel(new BorderLayout(6, 6));
                     root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                    // จอด้านบน
                     root.add(display, BorderLayout.NORTH);
+                    // ปุ่มตรงกลาง
                     root.add(pad, BorderLayout.CENTER);
+                    // ประวัติด้านขวา
                     root.add(historyPane, BorderLayout.EAST);
+                    // ปุ่มล้างด้านล่าง
                     root.add(bottom, BorderLayout.SOUTH);
                     frame.setContentPane(root);
                     frame.pack();

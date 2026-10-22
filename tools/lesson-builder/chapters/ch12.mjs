@@ -44,25 +44,28 @@ export default {
                 public static void main(String[] args) {
                     Account acc = new Account("Mali");
                     acc.deposit(500);
-                    acc.deposit(-100);
-                    acc.withdraw(800);
+                    acc.deposit(-100);  // ค่าติดลบถูกปฏิเสธ
+                    acc.withdraw(800);  // ถอนเกินยอด ถูกปฏิเสธ
                     acc.withdraw(200);
+                    // อ่าน field private ผ่าน getter
                     System.out.println(acc.getOwner() + " balance: " + acc.getBalance());
                 }
             }
 
             class Account {
-                private String owner;
+                private String owner;  // private: ภายนอกคลาสเข้าถึงไม่ได้
                 private double balance;
 
                 public Account(String owner) {
                     this.owner = owner;
                 }
 
+                // public: ทางเดียวที่ภายนอกใช้แก้ยอดเงิน
                 public void deposit(double amount) {
+                    // ตรวจข้อมูลก่อนแก้ field
                     if (amount <= 0) {
                         System.out.println("Deposit must be positive");
-                        return;
+                        return;  // ออกจากเมธอด ไม่แก้ balance
                     }
                     balance += amount;
                 }
@@ -75,6 +78,7 @@ export default {
                     balance -= amount;
                 }
 
+                // getter แบบบรรทัดเดียว
                 public String getOwner() { return owner; }
                 public double getBalance() { return balance; }
             }`,
@@ -91,16 +95,18 @@ export default {
           code: j`
             public class GetterSetter {
                 public static void main(String[] args) {
+                    // ใช้ constructor กำหนดรหัสและชื่อ
                     Student s = new Student("6601", "Mali");
                     s.setScore(85);
                     System.out.println(s.getId() + " " + s.getName() + " " + s.getScore());
-                    s.setScore(150);
+                    s.setScore(150);  // setter ปฏิเสธค่าที่ผิด
                     s.setName("  ");
                     System.out.println(s.getId() + " " + s.getName() + " " + s.getScore());
                 }
             }
 
             class Student {
+                // final: กำหนดได้ครั้งเดียวใน constructor
                 private final String id;
                 private String name;
                 private int score;
@@ -110,20 +116,23 @@ export default {
                     this.name = name;
                 }
 
+                // มีแต่ getter ไม่มี setter → แก้ id ไม่ได้
                 public String getId() { return id; }
                 public String getName() { return name; }
                 public int getScore() { return score; }
 
                 public void setName(String name) {
+                    // isBlank: ว่างหรือมีแต่ช่องว่าง
                     if (name == null || name.isBlank()) {
                         System.out.println("Name cannot be blank");
                         return;
                     }
+                    // เก็บค่าที่ผ่านการตรวจแล้วเท่านั้น
                     this.name = name.trim();
                 }
 
                 public void setScore(int score) {
-                    if (score < 0 || score > 100) {
+                    if (score < 0 || score > 100) {  // อนุญาตเฉพาะ 0-100
                         System.out.println("Score must be 0-100");
                         return;
                     }
@@ -137,7 +146,7 @@ export default {
             public class HiddenRepresentation {
                 public static void main(String[] args) {
                     Duration d = new Duration(1, 50);
-                    d.addMinutes(25);
+                    d.addMinutes(25);  // ภายนอกไม่รู้ว่าข้างในเก็บเป็นนาทีรวม
                     System.out.println(d.getHours() + " h " + d.getMinutes() + " min");
                     System.out.println("Total minutes: " + d.getTotalMinutes());
                     System.out.println(d);
@@ -145,19 +154,22 @@ export default {
             }
 
             class Duration {
-                private int totalMinutes;
+                private int totalMinutes;  // เก็บค่าเดียว: นาทีทั้งหมด
 
                 public Duration(int hours, int minutes) {
+                    // แปลงชั่วโมง + นาทีเป็นนาทีรวม
                     totalMinutes = hours * 60 + minutes;
                 }
 
                 public void addMinutes(int m) { totalMinutes += m; }
+                // คำนวณจากนาทีรวมทุกครั้งที่ถาม
                 public int getHours() { return totalMinutes / 60; }
                 public int getMinutes() { return totalMinutes % 60; }
                 public int getTotalMinutes() { return totalMinutes; }
 
                 @Override
                 public String toString() {
+                    // %02d เติม 0 ให้ครบ 2 หลัก
                     return String.format("%d:%02d", getHours(), getMinutes());
                 }
             }`,
@@ -176,14 +188,18 @@ export default {
                 public static void main(String[] args) {
                     Product p = new Product("Pen", 12, 50);
                     try {
-                        p.sell(20);
+                        p.sell(20);  // ขายได้ตามปกติ
                         System.out.println("Sold 20, stock = " + p.getStock());
+                        // ขายเกินสต็อก → โยน exception
                         p.sell(40);
+                        // ถูกข้าม เพราะกระโดดไป catch
                         System.out.println("This line is skipped");
+                    // จับ exception ที่ถูกโยนมา
                     } catch (IllegalArgumentException e) {
                         System.out.println("Error: " + e.getMessage());
                     }
                     try {
+                        // ข้อมูลผิดตั้งแต่ตอนสร้าง
                         Product bad = new Product("", -5, 10);
                     } catch (IllegalArgumentException e) {
                         System.out.println("Error: " + e.getMessage());
@@ -198,6 +214,7 @@ export default {
                 private int stock;
 
                 public Product(String name, double price, int stock) {
+                    // throw: หยุดเมธอดและแจ้งข้อผิดพลาดทันที
                     if (name.isBlank()) throw new IllegalArgumentException("name is required");
                     if (price < 0) throw new IllegalArgumentException("price must not be negative");
                     if (stock < 0) throw new IllegalArgumentException("stock must not be negative");
@@ -208,7 +225,9 @@ export default {
 
                 public void sell(int qty) {
                     if (qty <= 0) throw new IllegalArgumentException("qty must be positive");
+                    // getMessage() จะได้ข้อความนี้
                     if (qty > stock) throw new IllegalArgumentException("only " + stock + " left");
+                    // ผ่านทุกเงื่อนไขแล้วจึงแก้ค่า
                     stock -= qty;
                 }
 
@@ -225,7 +244,7 @@ export default {
                     r.setMax(90);
                     System.out.println(r);
                     try {
-                        r.setMin(95);
+                        r.setMin(95);  // ทำให้ min > max → ถูกปฏิเสธ
                     } catch (IllegalArgumentException e) {
                         System.out.println("Rejected: " + e.getMessage());
                     }
@@ -238,15 +257,18 @@ export default {
                 private int max;
 
                 public ScoreRange(int min, int max) {
-                    check(min, max);
+                    check(min, max);  // ตรวจก่อนกำหนดค่า
                     this.min = min;
                     this.max = max;
                 }
 
+                // private static: ใช้ภายในคลาสเท่านั้น
                 private static void check(int min, int max) {
+                    // เงื่อนไขที่ต้องจริงเสมอ: min ≤ max
                     if (min > max) throw new IllegalArgumentException("min " + min + " > max " + max);
                 }
 
+                // ตรวจกับ max ปัจจุบันก่อนแก้
                 public void setMin(int min) { check(min, max); this.min = min; }
                 public void setMax(int max) { check(min, max); this.max = max; }
                 public boolean contains(int x) { return x >= min && x <= max; }
@@ -272,11 +294,12 @@ export default {
             public class CompositionDemo {
                 public static void main(String[] args) {
                     Customer c = new Customer("Mali", true);
-                    OrderLine[] lines = {
+                    OrderLine[] lines = {  // อาเรย์ของออบเจ็กต์ OrderLine
                         new OrderLine("Latte", 55, 2),
                         new OrderLine("Croissant", 45, 1),
                         new OrderLine("Water", 15, 3)
                     };
+                    // Order ประกอบด้วย Customer และ OrderLine
                     Order order = new Order(c, lines);
                     order.printReceipt();
                 }
@@ -306,15 +329,18 @@ export default {
                     this.qty = qty;
                 }
 
+                // ยอดของรายการนี้
                 public double subtotal() { return price * qty; }
 
                 @Override
                 public String toString() {
+                    // String.format จัดรูปแบบเหมือน printf
                     return String.format("%-10s %3d x %6.2f = %7.2f", item, qty, price, subtotal());
                 }
             }
 
             class Order {
+                // field เป็นออบเจ็กต์ของคลาสอื่น (has-a)
                 private final Customer customer;
                 private final OrderLine[] lines;
 
@@ -325,12 +351,15 @@ export default {
 
                 public double total() {
                     double sum = 0;
+                    // ให้แต่ละรายการคำนวณยอดของตัวเอง
                     for (OrderLine line : lines) sum += line.subtotal();
+                    // สมาชิกลด 10%
                     return customer.isMember() ? sum * 0.9 : sum;
                 }
 
                 public void printReceipt() {
                     System.out.println("Customer: " + customer.getName() + (customer.isMember() ? " (member -10%)" : ""));
+                    // println เรียก toString() ของ line
                     for (OrderLine line : lines) System.out.println("  " + line);
                     System.out.printf("Total: %.2f%n", total());
                 }
@@ -361,16 +390,17 @@ export default {
             public class InheritanceDemo {
                 public static void main(String[] args) {
                     Employee e = new Employee("Beam", 25000);
+                    // Manager เป็น Employee ชนิดหนึ่ง
                     Manager m = new Manager("Mali", 40000, 8000);
                     System.out.println(e.describe());
                     System.out.println(m.describe());
-                    m.raise(10);
+                    m.raise(10);  // raise สืบทอดมาจาก Employee
                     System.out.println(m.describe());
                 }
             }
 
             class Employee {
-                protected String name;
+                protected String name;  // protected: คลาสลูกเข้าถึงได้
                 protected double baseSalary;
 
                 public Employee(String name, double baseSalary) {
@@ -387,20 +417,25 @@ export default {
                 }
 
                 public String describe() {
+                    // getClass().getSimpleName() = ชื่อคลาสจริง
                     return String.format("%-6s %-8s %,10.2f", name, getClass().getSimpleName(), monthlyPay());
                 }
             }
 
+            // extends: สืบทอด field และเมธอดทั้งหมด
             class Manager extends Employee {
+                // field เพิ่มเติมเฉพาะ Manager
                 private double bonus;
 
                 public Manager(String name, double baseSalary, double bonus) {
+                    // super(...) เรียก constructor ของคลาสแม่ ต้องอยู่บรรทัดแรก
                     super(name, baseSalary);
                     this.bonus = bonus;
                 }
 
-                @Override
+                @Override  // เขียนทับเมธอดของคลาสแม่
                 public double monthlyPay() {
+                    // เรียกเวอร์ชันของคลาสแม่แล้วบวกโบนัส
                     return super.monthlyPay() + bonus;
                 }
             }`,
@@ -440,6 +475,7 @@ export default {
           code: j`
             public class PolymorphismDemo {
                 public static void main(String[] args) {
+                    // ชนิดตัวแปรเป็น Shape แต่เก็บคลาสลูกต่าง ๆ ได้
                     Shape[] shapes = {
                         new Circle(1.5),
                         new Rectangle(4, 2.5),
@@ -447,6 +483,7 @@ export default {
                     };
                     double total = 0;
                     for (Shape s : shapes) {
+                        // เรียก area() ของคลาสจริงแต่ละตัว
                         System.out.printf("%-10s area = %6.2f%n", s.getName(), s.area());
                         total += s.area();
                     }
@@ -454,10 +491,13 @@ export default {
                 }
             }
 
+            // abstract class: สร้างออบเจ็กต์ตรง ๆ ไม่ได้
             abstract class Shape {
+                // abstract method: คลาสลูกต้องเขียนเอง
                 public abstract double area();
 
                 public String getName() {
+                    // ชื่อคลาสจริงของออบเจ็กต์
                     return getClass().getSimpleName();
                 }
             }
@@ -465,6 +505,7 @@ export default {
             class Circle extends Shape {
                 private final double r;
                 public Circle(double r) { this.r = r; }
+                // ทุกคลาสลูกต้อง override area()
                 @Override public double area() { return Math.PI * r * r; }
             }
 
@@ -478,7 +519,7 @@ export default {
                 private final double a, b, c;
                 public Triangle(double a, double b, double c) { this.a = a; this.b = b; this.c = c; }
                 @Override public double area() {
-                    double s = (a + b + c) / 2;
+                    double s = (a + b + c) / 2;  // สูตรเฮรอน
                     return Math.sqrt(s * (s - a) * (s - b) * (s - c));
                 }
             }`,
@@ -488,16 +529,19 @@ export default {
           code: j`
             public class InterfaceDemo {
                 public static void main(String[] args) {
-                    Payable[] bills = {
+                    Payable[] bills = {  // ตัวแปรชนิด interface
                         new Invoice("Internet", 599),
                         new Salary("Beam", 25000),
                         new Invoice("Electricity", 1240.5)
                     };
                     double sum = 0;
                     for (Payable p : bills) {
+                        // เรียกผ่าน interface ได้ทุกคลาส
                         System.out.printf("%-24s %,10.2f%n", p.describe(), p.amountDue());
                         sum += p.amountDue();
+                        // ตรวจชนิด และแปลงเป็นตัวแปร s ในคราวเดียว
                         if (p instanceof Salary s) {
+                            // tax() มีเฉพาะ Salary
                             System.out.println("   (tax withheld: " + s.tax() + ")");
                         }
                     }
@@ -505,11 +549,12 @@ export default {
                 }
             }
 
-            interface Payable {
+            interface Payable {  // interface: รายการเมธอดที่ต้องมี
                 double amountDue();
                 String describe();
             }
 
+            // implements: สัญญาว่าจะเขียนทุกเมธอด
             class Invoice implements Payable {
                 private final String service;
                 private final double amount;
@@ -523,6 +568,7 @@ export default {
                 private final double gross;
                 Salary(String employee, double gross) { this.employee = employee; this.gross = gross; }
                 public double tax() { return gross * 0.05; }
+                // หักภาษี 5%
                 public double amountDue() { return gross - tax(); }
                 public String describe() { return "Salary: " + employee; }
             }`,
@@ -540,6 +586,7 @@ export default {
             public static void main(String[] args) {
                 BankAccount acc = new BankAccount("001-2-34567", "Mali", 1000);
                 System.out.println("deposit 500: " + acc.deposit(500));
+                // ฝากติดลบ → false
                 System.out.println("deposit -50: " + acc.deposit(-50));
                 System.out.println("withdraw 2000: " + acc.withdraw(2000));
                 System.out.println("withdraw 300: " + acc.withdraw(300));
@@ -563,12 +610,14 @@ export default {
             public double getBalance() { return balance; }
 
             public boolean deposit(double amount) {
+                // คืน false เมื่อข้อมูลผิด
                 if (amount <= 0) return false;
                 balance += amount;
                 return true;
             }
 
             public boolean withdraw(double amount) {
+                // จำนวนผิด หรือเกินยอด
                 if (amount <= 0 || amount > balance) return false;
                 balance -= amount;
                 return true;
@@ -579,10 +628,11 @@ export default {
       solution: j`
         public class PersonApp {
             public static void main(String[] args) {
+                // ชื่อจะถูก trim ใน setter
                 Person p = new Person("  Mali ", 19);
                 System.out.println(p.getName() + ", " + p.getAge());
                 try {
-                    p.setAge(200);
+                    p.setAge(200);  // อายุผิดช่วง → exception
                 } catch (IllegalArgumentException e) {
                     System.out.println("Error: " + e.getMessage());
                 }
@@ -600,6 +650,7 @@ export default {
             private int age;
 
             public Person(String name, int age) {
+                // constructor เรียก setter เพื่อใช้การตรวจชุดเดียวกัน
                 setName(name);
                 setAge(age);
             }
@@ -608,6 +659,7 @@ export default {
             public int getAge() { return age; }
 
             public void setName(String name) {
+                // ข้อความอธิบายข้อผิดพลาด
                 if (name == null || name.isBlank()) throw new IllegalArgumentException("name must not be blank");
                 this.name = name.trim();
             }
@@ -623,11 +675,14 @@ export default {
         public class InventoryApp {
             public static void main(String[] args) {
                 Inventory inv = new Inventory("Paper A4", 20);
+                // บวก = รับเข้า, ลบ = จ่ายออก
                 int[] commands = {50, -45, -10, 990, 500, -3};
                 for (int cmd : commands) {
                     try {
                         if (cmd > 0) inv.add(cmd);
+                        // -cmd ทำให้เป็นจำนวนบวก
                         else inv.remove(-cmd);
+                        // %+5d แสดงเครื่องหมาย + หรือ -
                         System.out.printf("%+5d -> %3d%s%n", cmd, inv.getQuantity(), inv.isLow() ? "  LOW STOCK" : "");
                     } catch (IllegalArgumentException e) {
                         System.out.printf("%+5d -> rejected: %s%n", cmd, e.getMessage());
@@ -641,6 +696,7 @@ export default {
             private int quantity;
 
             public Inventory(String item, int quantity) {
+                // ตรวจตั้งแต่สร้าง
                 if (quantity < 0 || quantity > 999) throw new IllegalArgumentException("invalid start quantity");
                 this.item = item;
                 this.quantity = quantity;
@@ -650,16 +706,19 @@ export default {
 
             public void add(int qty) {
                 if (qty <= 0) throw new IllegalArgumentException("qty must be positive");
+                // ห้ามเกินความจุ 999
                 if (quantity + qty > 999) throw new IllegalArgumentException("would exceed 999");
                 quantity += qty;
             }
 
             public void remove(int qty) {
                 if (qty <= 0) throw new IllegalArgumentException("qty must be positive");
+                // ห้ามจ่ายเกินที่มี
                 if (qty > quantity) throw new IllegalArgumentException("only " + quantity + " left");
                 quantity -= qty;
             }
 
+            // ต่ำกว่า 10 ถือว่าใกล้หมด
             public boolean isLow() { return quantity < 10; }
         }` },
     { level: 2, title: "Composition: ห้องเรียนและนักศึกษา", html: `<p>สร้างคลาส <code>Student</code> (ชื่อ, คะแนน) และ <code>Classroom</code> ที่<strong>มี</strong>อาเรย์ <code>Student[]</code> ขนาดคงที่ (ความจุ) และตัวนับจำนวนคนปัจจุบัน มีเมธอด <code>enroll(Student s)</code> (คืน false ถ้าเต็ม), <code>average()</code>, <code>top()</code> (คืนออบเจ็กต์ Student ที่คะแนนสูงสุด) และ <code>printRoster()</code></p>`,
@@ -671,6 +730,7 @@ export default {
                 String[] names = {"Mali", "Beam", "Nida", "Ploy", "Tan"};
                 int[] scores = {78, 65, 92, 81, 70};
                 for (int i = 0; i < names.length; i++) {
+                    // เพิ่มนักเรียนจนเต็มความจุ
                     boolean ok = room.enroll(new Student(names[i], scores[i]));
                     System.out.println("enroll " + names[i] + ": " + (ok ? "OK" : "FULL"));
                 }
@@ -691,15 +751,18 @@ export default {
         class Classroom {
             private final String code;
             private final Student[] students;
-            private int count;
+            private int count;  // จำนวนที่ใช้จริงในอาเรย์
 
             public Classroom(String code, int capacity) {
                 this.code = code;
+                // อาเรย์ขนาดเท่าความจุ
                 this.students = new Student[capacity];
             }
 
             public boolean enroll(Student s) {
+                // เต็มแล้ว
                 if (count == students.length) return false;
+                // ใส่ช่องว่างถัดไป
                 students[count] = s;
                 count++;
                 return true;
@@ -708,6 +771,7 @@ export default {
             public double average() {
                 if (count == 0) return 0;
                 int sum = 0;
+                // รวมเฉพาะช่องที่มีข้อมูล
                 for (int i = 0; i < count; i++) sum += students[i].getScore();
                 return (double) sum / count;
             }
@@ -715,6 +779,7 @@ export default {
             public Student top() {
                 Student best = students[0];
                 for (int i = 1; i < count; i++) {
+                    // เจอคะแนนสูงกว่า → จำคนนี้
                     if (students[i].getScore() > best.getScore()) best = students[i];
                 }
                 return best;
@@ -732,7 +797,7 @@ export default {
       solution: j`
         public class ParkingLot {
             public static void main(String[] args) {
-                Vehicle[] lot = {
+                Vehicle[] lot = {  // อาเรย์ชนิดแม่ เก็บคลาสลูกได้
                     new Vehicle("1AB-234", 3),
                     new Motorcycle("9KK-11", 5),
                     new Truck("80-1234", 2),
@@ -740,6 +805,7 @@ export default {
                 };
                 double income = 0;
                 for (Vehicle v : lot) {
+                    // เรียก parkingFee() ของคลาสจริง
                     System.out.printf("%-10s %-10s %2d h %7.2f%n", v.getClass().getSimpleName(), v.plate, v.hours, v.parkingFee());
                     income += v.parkingFee();
                 }
@@ -751,16 +817,19 @@ export default {
             protected final String plate;
             protected final int hours;
             public Vehicle(String plate, int hours) { this.plate = plate; this.hours = hours; }
+            // รถยนต์ ชม.ละ 20
             public double parkingFee() { return hours * 20; }
         }
 
         class Motorcycle extends Vehicle {
             public Motorcycle(String plate, int hours) { super(plate, hours); }
+            // มอเตอร์ไซค์ถูกกว่า
             @Override public double parkingFee() { return hours * 10; }
         }
 
         class Truck extends Vehicle {
             public Truck(String plate, int hours) { super(plate, hours); }
+            // รถบรรทุกมีค่าแรกเข้า 100
             @Override public double parkingFee() { return hours * 50 + 100; }
         }` },
     { level: 2, title: "toString, equals และ super.toString()", html: `<p>สร้างคลาส <code>Book</code> (ISBN, ชื่อเรื่อง, ราคา) override <code>toString()</code> และ <code>equals(Object o)</code> โดยถือว่าหนังสือสองเล่มเท่ากันเมื่อ ISBN ตรงกัน จากนั้นสร้างคลาสลูก <code>EBook</code> เพิ่ม field ขนาดไฟล์ (MB) และ override toString() โดยเรียก <code>super.toString()</code> แล้วต่อท้ายข้อมูลขนาดไฟล์</p>`,
@@ -769,11 +838,14 @@ export default {
         public class BookEquality {
             public static void main(String[] args) {
                 Book a = new Book("978-1", "Java Basics", 350);
+                // ISBN เดียวกับ a แต่คนละออบเจ็กต์
                 Book b = new Book("978-1", "Java Basics (2nd print)", 360);
                 Book c = new EBook("978-2", "Swing in Action", 199, 12.5);
                 System.out.println(a);
                 System.out.println(c);
+                // คนละออบเจ็กต์ → false
                 System.out.println("a == b ? " + (a == b));
+                // equals ที่เราเขียน เทียบ ISBN
                 System.out.println("a.equals(b) ? " + a.equals(b));
                 System.out.println("a.equals(c) ? " + a.equals(c));
             }
@@ -791,12 +863,16 @@ export default {
             }
 
             @Override
+            // รับ Object เพื่อ override ให้ถูกต้อง
             public boolean equals(Object o) {
+                // ไม่ใช่ Book → ไม่เท่ากัน
                 if (!(o instanceof Book other)) return false;
+                // เท่ากันเมื่อ ISBN ตรงกัน
                 return isbn.equals(other.isbn);
             }
 
             @Override
+            // override hashCode คู่กับ equals เสมอ
             public int hashCode() { return isbn.hashCode(); }
 
             @Override
@@ -815,6 +891,7 @@ export default {
 
             @Override
             public String toString() {
+                // ต่อจาก toString ของคลาสแม่
                 return super.toString() + " (e-book, " + sizeMb + " MB)";
             }
         }`, explain: "เมื่อ override equals ควร override hashCode ด้วยเสมอ (จำเป็นเมื่อใช้กับ HashMap/HashSet ในอนาคต)" },
@@ -823,6 +900,7 @@ export default {
       solution: j`
         public class Payroll {
             public static void main(String[] args) {
+                // อาเรย์ชนิด Employee เก็บพนักงานทุกแบบ
                 Employee[] staff = {
                     new FullTime("E01", "Mali", 32000),
                     new PartTime("E02", "Beam", 120, 92),
@@ -833,6 +911,7 @@ export default {
                 Employee top = staff[0];
                 for (Employee e : staff) {
                     System.out.println(e.payslip());
+                    // monthlyPay ของแต่ละคลาส
                     total += e.monthlyPay();
                     if (e.monthlyPay() > top.monthlyPay()) top = e;
                 }
@@ -841,10 +920,12 @@ export default {
             }
         }
 
+        // abstract: ไม่มีพนักงานแบบ Employee ตรง ๆ
         abstract class Employee {
             private final String id;
             private final String name;
 
+            // protected: ให้คลาสลูกเรียกผ่าน super
             protected Employee(String id, String name) {
                 this.id = id;
                 this.name = name;
@@ -852,12 +933,14 @@ export default {
 
             public String getId() { return id; }
             public String getName() { return name; }
+            // คลาสลูกต้องกำหนดวิธีคิดเงินเดือน
             public abstract double monthlyPay();
 
             public String payslip() {
                 return String.format("%s %-5s %-12s %,12.2f", id, name, getClass().getSimpleName(), monthlyPay());
             }
 
+            // ตัวช่วยตรวจค่า ใช้ร่วมกันทุกคลาสลูก
             protected static void requireNonNegative(double v, String what) {
                 if (v < 0) throw new IllegalArgumentException(what + " must not be negative");
             }
@@ -884,8 +967,11 @@ export default {
                 this.hours = hours;
             }
             @Override public double monthlyPay() {
+                // 80 ชั่วโมงแรก
                 int normal = Math.min(hours, 80);
+                // ชั่วโมงที่เกิน 80
                 int extra = Math.max(0, hours - 80);
+                // ส่วนที่เกินได้ 1.5 เท่า
                 return normal * rate + extra * rate * 1.5;
             }
         }
@@ -900,6 +986,7 @@ export default {
                 this.base = base;
                 this.sales = sales;
             }
+            // ฐาน + ค่าคอมมิชชัน 3%
             @Override public double monthlyPay() { return base + sales * 0.03; }
         }` },
     { level: 3, title: "interface สำหรับสิ่งที่คิดภาษีได้", html: `<p>สร้าง interface <code>Taxable</code> มีเมธอด <code>double taxableAmount()</code> และ <code>default double tax()</code> ที่คืน 7% ของ taxableAmount() จากนั้นสร้างคลาสที่ไม่เกี่ยวข้องกัน 2 คลาส: <code>Product</code> (ราคา × จำนวน) และ <code>Service</code> (ชั่วโมง × อัตรา + ค่าเดินทาง แต่ค่าเดินทางไม่เสียภาษี) ที่ implements Taxable แล้วรวมภาษีทั้งหมดในใบแจ้งหนี้</p>`,
@@ -907,13 +994,14 @@ export default {
       solution: j`
         public class TaxInvoice {
             public static void main(String[] args) {
-                Taxable[] items = {
+                Taxable[] items = {  // อาเรย์ชนิด interface
                     new Product("Monitor", 4590, 2),
                     new Service("Installation", 3, 450, 300),
                     new Product("Cable", 120, 4)
                 };
                 double grand = 0, taxSum = 0;
                 for (Taxable t : items) {
+                    // tax() มาจาก default method
                     System.out.printf("%-14s taxable %,9.2f  tax %,8.2f%n", t.label(), t.taxableAmount(), t.tax());
                     taxSum += t.tax();
                     grand += t.total();
@@ -923,11 +1011,12 @@ export default {
             }
         }
 
-        interface Taxable {
+        interface Taxable {  // interface กำหนดเมธอดที่ต้องมี
             double taxableAmount();
             double total();
             String label();
 
+            // default: มีโค้ดให้แล้ว คลาสไม่ต้องเขียนเอง
             default double tax() {
                 return taxableAmount() * 0.07;
             }
@@ -950,6 +1039,7 @@ export default {
                 this.name = name; this.hours = hours; this.rate = rate; this.travel = travel;
             }
             public double taxableAmount() { return hours * rate; }
+            // ค่าเดินทางไม่คิด VAT
             public double total() { return taxableAmount() + travel + tax(); }
             public String label() { return name; }
         }`, explain: "default method ใน interface ให้พฤติกรรมเริ่มต้นแก่ทุกคลาสที่ implements โดยไม่ต้องเขียนซ้ำ" },
@@ -964,20 +1054,24 @@ export default {
                 Item b3 = new BookItem("B3", "Algorithms");
                 Member mali = new Member("Mali");
                 Member beam = new Member("Beam");
+                // lambda: ส่ง "งาน" ให้ run ทำ
                 run(() -> mali.borrow(b1));
                 run(() -> mali.borrow(d1));
                 run(() -> beam.borrow(b1));
                 run(() -> mali.borrow(b2));
                 run(() -> mali.borrow(b3));
+                // คืนสินค้าช้า → ค่าปรับ
                 run(() -> System.out.println("  fine = " + mali.giveBack(d1, 6)));
                 run(() -> System.out.println("  fine = " + mali.giveBack(b1, 10)));
                 run(() -> beam.giveBack(b2, 1));
                 run(() -> beam.borrow(b1));
             }
 
+            // Runnable คืองานที่สั่ง run() ได้
             static void run(Runnable action) {
                 try {
-                    action.run();
+                    action.run();  // ทำงานที่ส่งมา
+                // จับข้อผิดพลาดของทุกงานในที่เดียว
                 } catch (IllegalStateException e) {
                     System.out.println("  ERROR: " + e.getMessage());
                 }
@@ -987,12 +1081,14 @@ export default {
         abstract class Item {
             private final String code;
             private final String title;
-            private boolean onLoan;
+            private boolean onLoan;  // สถานะถูกยืมอยู่หรือไม่
 
             protected Item(String code, String title) { this.code = code; this.title = title; }
             public String getCode() { return code; }
             public boolean isOnLoan() { return onLoan; }
+            // ไม่มี public: ใช้ได้ในแพ็กเกจเดียวกัน
             void setOnLoan(boolean v) { onLoan = v; }
+            // แต่ละชนิดกำหนดจำนวนวันยืมเอง
             public abstract int loanDays();
             public abstract int finePerDay();
 
@@ -1014,6 +1110,7 @@ export default {
 
         class Member {
             private final String name;
+            // ยืมได้สูงสุด 3 ชิ้น
             private final Item[] items = new Item[3];
             private int count;
 
@@ -1021,8 +1118,11 @@ export default {
 
             public void borrow(Item item) {
                 System.out.println(name + " borrows " + item);
+                // ถูกยืมไปแล้ว
                 if (item.isOnLoan()) throw new IllegalStateException(item.getCode() + " is already on loan");
+                // ยืมครบ 3 ชิ้นแล้ว
                 if (count == items.length) throw new IllegalStateException(name + " already has 3 items");
+                // ใส่ช่อง count แล้วเพิ่ม count
                 items[count++] = item;
                 item.setOnLoan(true);
                 System.out.println("  OK (" + count + "/3)");
@@ -1031,14 +1131,18 @@ export default {
             public int giveBack(Item item, int daysKept) {
                 System.out.println(name + " returns " + item + " after " + daysKept + " days");
                 int index = -1;
+                // หาตำแหน่งของสินค้าที่ยืม
                 for (int i = 0; i < count; i++) {
+                    // == เทียบว่าเป็นออบเจ็กต์เดียวกัน
                     if (items[i] == item) index = i;
                 }
                 if (index == -1) throw new IllegalStateException(name + " did not borrow " + item.getCode());
+                // ย้ายตัวสุดท้ายมาแทนช่องที่ว่าง
                 items[index] = items[count - 1];
                 items[count - 1] = null;
                 count--;
                 item.setOnLoan(false);
+                // วันที่เกินกำหนด × ค่าปรับต่อวัน
                 return Math.max(0, daysKept - item.loanDays()) * item.finePerDay();
             }
         }`, explain: "เฉลยใช้ lambda <code>() -&gt; ...</code> ส่งงานแต่ละเหตุการณ์ให้เมธอด run ซึ่งรวม try-catch ไว้ที่เดียว (จะเรียน lambda ละเอียดในบทที่ 16) ถ้ายังไม่ถนัดให้เขียน try-catch แยกทุกเหตุการณ์ก็ได้" },

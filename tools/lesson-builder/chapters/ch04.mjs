@@ -32,7 +32,9 @@ export default {
           code: j`
             public class PrintExample {
                 public static void main(String[] args) {
+                    // print: ไม่ขึ้นบรรทัดใหม่
                     System.out.print("Good ");
+                    // ต่อบรรทัดเดิม แล้วขึ้นบรรทัดใหม่
                     System.out.println("morning");
                     System.out.println("Next line");
                 }
@@ -46,9 +48,13 @@ export default {
                     String name = "Mali";
                     int score = 87;
                     double average = 3.456;
+                    // %s = ข้อความ, %n = ขึ้นบรรทัดใหม่
                     System.out.printf("Student: %s%n", name);
+                    // %d = จำนวนเต็ม
                     System.out.printf("Score: %d points%n", score);
+                    // %.2f = ทศนิยม 2 ตำแหน่ง (ปัดเศษ)
                     System.out.printf("Average: %.2f%n", average);
+                    // ค่าเรียงตามลำดับของ % ในข้อความ
                     System.out.printf("%s got %d (avg %.1f)%n", name, score, average);
                 }
             }`,
@@ -61,11 +67,15 @@ export default {
                     int quantity = 3;
                     double unitPrice = 12.5;
                     double total = quantity * unitPrice;
+                    // println แสดงทศนิยมตามจริง
                     System.out.println("Total (println): " + total);
+                    // printf กำหนดจำนวนทศนิยมได้
                     System.out.printf("Total (printf): %.2f baht%n", total);
 
                     double salary = 1234567.891;
+                    // , ใส่ตัวคั่นหลักพัน
                     System.out.printf("Salary: %,.2f baht%n", salary);
+                    // %% แสดงเครื่องหมาย % หนึ่งตัว
                     System.out.printf("Discount: %d%%%n", 15);
                 }
             }`,
@@ -76,10 +86,12 @@ export default {
           code: j`
             public class AlignedTable {
                 public static void main(String[] args) {
+                    // - ชิดซ้าย, ตัวเลข = ความกว้างช่อง
                     System.out.printf("%-10s %5s %8s%n", "Item", "Qty", "Price");
                     System.out.printf("%-10s %5d %8.2f%n", "Pen", 12, 5.5);
                     System.out.printf("%-10s %5d %8.2f%n", "Notebook", 3, 45.0);
                     System.out.printf("%-10s %5d %8.2f%n", "Bag", 1, 399.75);
+                    // ทำซ้ำ "-" 25 ครั้ง
                     System.out.println("-".repeat(25));
                     System.out.printf("%-10s %14.2f%n", "Total", 12 * 5.5 + 3 * 45.0 + 399.75);
                 }
@@ -130,8 +142,11 @@ export default {
 
             public class AgeFromYear {
                 public static void main(String[] args) {
+                    // เตรียมอ่านข้อมูลจากคีย์บอร์ด
                     Scanner input = new Scanner(System.in);
+                    // print ให้เคอร์เซอร์รอท้ายข้อความ
                     System.out.print("Birth year (A.D.): ");
+                    // รอผู้ใช้พิมพ์จำนวนเต็ม
                     int birthYear = input.nextInt();
                     int age = 2026 - birthYear;
                     System.out.println("You are about " + age + " years old.");
@@ -148,10 +163,11 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Width: ");
-                    double width = input.nextDouble();
+                    double width = input.nextDouble();  // อ่านทศนิยม
                     System.out.print("Height: ");
                     double height = input.nextDouble();
                     double area = width * height;
+                    // วงเล็บบวกก่อนคูณ
                     double perimeter = 2 * (width + height);
                     System.out.printf("Area: %.2f%n", area);
                     System.out.printf("Perimeter: %.2f%n", perimeter);
@@ -168,11 +184,11 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Enter 3 scores: ");
-                    int a = input.nextInt();
+                    int a = input.nextInt();  // อ่านทีละค่า คั่นด้วยช่องว่างได้
                     int b = input.nextInt();
                     int c = input.nextInt();
                     int sum = a + b + c;
-                    double average = sum / 3.0;
+                    double average = sum / 3.0;  // 3.0 ทำให้ได้ทศนิยม
                     System.out.printf("Sum = %d, Average = %.2f%n", sum, average);
                 }
             }`,
@@ -217,7 +233,9 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Full name: ");
+                    // next(): อ่านแค่คำแรก
                     String first = input.next();
+                    // nextLine(): อ่านส่วนที่เหลือของบรรทัด
                     String rest = input.nextLine();
                     System.out.println("next()     = [" + first + "]");
                     System.out.println("nextLine() = [" + rest + "]");
@@ -233,8 +251,10 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Age: ");
+                    // อ่านตัวเลข แต่ Enter ยังค้างอยู่
                     int age = input.nextInt();
                     System.out.print("Full name: ");
+                    // ได้บรรทัดว่าง เพราะอ่าน Enter ที่ค้าง
                     String name = input.nextLine();
                     System.out.println("Name is [" + name + "]");
                 }
@@ -250,9 +270,9 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Age: ");
                     int age = input.nextInt();
-                    input.nextLine();               // เคลียร์ Enter ที่ค้าง
+                    input.nextLine();  // เคลียร์ Enter ที่ค้าง
                     System.out.print("Full name: ");
-                    String name = input.nextLine();
+                    String name = input.nextLine();  // ตอนนี้อ่านชื่อได้ถูกต้อง
                     System.out.println("Hello, " + name + "!");
                     System.out.println("Age: " + age);
                 }
@@ -267,10 +287,12 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Full name: ");
-                    String name = input.nextLine();
+                    String name = input.nextLine();  // อ่านทั้งบรรทัด
                     System.out.print("Age: ");
+                    // อ่านเป็นบรรทัด แล้วแปลงเป็น int
                     int age = Integer.parseInt(input.nextLine());
                     System.out.print("GPA: ");
+                    // แปลงข้อความเป็น double
                     double gpa = Double.parseDouble(input.nextLine());
                     System.out.printf("%s, %d years, GPA %.2f%n", name, age, gpa);
                 }
@@ -299,9 +321,10 @@ export default {
 
             public class CafeReceipt {
                 public static void main(String[] args) {
-                    final double VAT = 0.07;
+                    final double VAT = 0.07;  // ค่าคงที่ VAT 7%
                     Scanner input = new Scanner(System.in);
                     System.out.print("Menu name: ");
+                    // อ่านชื่อเมนูก่อนตัวเลข จึงไม่มี Enter ค้าง
                     String menu = input.nextLine();
                     System.out.print("Quantity: ");
                     int qty = input.nextInt();
@@ -313,7 +336,9 @@ export default {
                     double total = subtotal + vat;
 
                     System.out.println("=".repeat(28));
+                    // %-14s ชื่อชิดซ้าย กว้าง 14 ช่อง
                     System.out.printf("%-14s x%d%n", menu, qty);
+                    // %10.2f ตัวเลขชิดขวา กว้าง 10 ช่อง
                     System.out.printf("%-14s %10.2f%n", "Subtotal", subtotal);
                     System.out.printf("%-14s %10.2f%n", "VAT 7%", vat);
                     System.out.printf("%-14s %10.2f%n", "Total", total);
@@ -329,7 +354,7 @@ export default {
 
             public class CurrencyExchange {
                 public static void main(String[] args) {
-                    final double FEE_RATE = 0.015;
+                    final double FEE_RATE = 0.015;  // ค่าธรรมเนียม 1.5%
                     Scanner input = new Scanner(System.in);
                     System.out.print("Customer: ");
                     String customer = input.nextLine();
@@ -339,9 +364,11 @@ export default {
                     double rate = input.nextDouble();
 
                     double fee = baht * FEE_RATE;
+                    // หักค่าธรรมเนียมก่อนแลก
                     double usd = (baht - fee) / rate;
 
                     System.out.printf("Hello %s%n", customer);
+                    // %,10.2f มีตัวคั่นหลักพัน
                     System.out.printf("Amount : %,10.2f THB%n", baht);
                     System.out.printf("Fee    : %,10.2f THB%n", fee);
                     System.out.printf("You get: %,10.2f USD%n", usd);
@@ -359,9 +386,9 @@ export default {
             public static void main(String[] args) {
                 String name = "Beam";
                 int score = 91;
-                System.out.println("Student: " + name);
+                System.out.println("Student: " + name);  // println: ต่อข้อความด้วย +
                 System.out.println("Score: " + score + " points");
-                System.out.printf("Student: %s%n", name);
+                System.out.printf("Student: %s%n", name);  // printf: ใช้ %s แทนตำแหน่งค่า
                 System.out.printf("Score: %d points%n", score);
             }
         }` },
@@ -375,9 +402,10 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Nickname: ");
-                String nick = input.next();
+                String nick = input.next();  // next() อ่านคำเดียว
                 System.out.print("Birth year: ");
                 int year = input.nextInt();
+                // วงเล็บคำนวณอายุก่อนต่อข้อความ
                 System.out.println("Hi " + nick + "! You are about " + (2026 - year) + " years old.");
             }
         }` },
@@ -394,6 +422,7 @@ export default {
                 double w = input.nextDouble();
                 System.out.print("Length: ");
                 double l = input.nextDouble();
+                // คำนวณใน printf ได้เลย
                 System.out.printf("Area: %.2f%n", w * l);
                 System.out.printf("Perimeter: %.2f%n", 2 * (w + l));
             }
@@ -409,8 +438,8 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Celsius: ");
                 double c = input.nextDouble();
-                double f = c * 9 / 5 + 32;
-                double k = c + 273.15;
+                double f = c * 9 / 5 + 32;  // ×9 → ÷5 → +32
+                double k = c + 273.15;      // องศาเคลวิน
                 System.out.printf("%.1f C = %.1f F = %.1f K%n", c, f, k);
             }
         }` },
@@ -425,8 +454,9 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Age: ");
                 int age = input.nextInt();
-                input.nextLine();
+                input.nextLine();  // ทิ้ง Enter ที่ค้างจาก nextInt()
                 System.out.print("Full name: ");
+                // อ่านทั้งบรรทัด (มีช่องว่างได้)
                 String name = input.nextLine();
                 System.out.print("Faculty: ");
                 String faculty = input.nextLine();
@@ -443,6 +473,7 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Item: ");
+                // อ่านชื่อสินค้าก่อนตัวเลข
                 String item = input.nextLine();
                 System.out.print("Quantity: ");
                 int qty = input.nextInt();
@@ -453,6 +484,7 @@ export default {
                 System.out.printf("%-12s %10s%n", "Item", item);
                 System.out.printf("%-12s %10d%n", "Quantity", qty);
                 System.out.printf("%-12s %10.2f%n", "Unit price", price);
+                // %,10.2f มีตัวคั่นหลักพัน
                 System.out.printf("%-12s %,10.2f%n", "Total", total);
                 System.out.println("-".repeat(23));
             }
@@ -470,9 +502,12 @@ export default {
                 double distance = input.nextDouble();
                 System.out.print("Speed (km/h): ");
                 double speed = input.nextDouble();
+                // เวลา = ระยะทาง ÷ ความเร็ว
                 double hours = distance / speed;
+                // แปลงเป็นนาทีแล้วปัดเศษ
                 int totalMinutes = (int) Math.round(hours * 60);
                 System.out.printf("Time: %.2f hours%n", hours);
+                // / 60 = ชั่วโมง, % 60 = นาทีที่เหลือ
                 System.out.printf("Time: %d h %d min%n", totalMinutes / 60, totalMinutes % 60);
             }
         }` },
@@ -492,10 +527,14 @@ export default {
                 System.out.print("Tip (%): ");
                 double tipPercent = input.nextDouble();
 
+                // ทิปคิดเป็น % ของค่าอาหาร
                 double tip = food * tipPercent / 100;
                 double total = food + tip;
+                // ค่าที่แต่ละคนต้องจ่ายจริง
                 double each = total / people;
+                // ceil ปัดขึ้นเป็นจำนวนเต็ม
                 int eachRounded = (int) Math.ceil(each);
+                // เงินที่เก็บเกินมา
                 double extra = eachRounded * people - total;
 
                 System.out.printf("%-16s %10.2f%n", "Tip", tip);
@@ -519,6 +558,7 @@ export default {
                 System.out.print("Student: ");
                 String student = input.nextLine();
                 System.out.print("Scores (work mid final): ");
+                // 3 ค่าอยู่ในบรรทัดเดียวกันได้
                 double work = input.nextDouble();
                 double mid = input.nextDouble();
                 double fin = input.nextDouble();
@@ -527,6 +567,7 @@ export default {
                 System.out.println("=".repeat(36));
                 System.out.printf("%s%n%s%n", course, student);
                 System.out.println("-".repeat(36));
+                // %% ในข้อความ = เครื่องหมาย %
                 System.out.printf("%-8s %6.1f / 40  (%5.1f%%)%n", "Work", work, work / 40 * 100);
                 System.out.printf("%-8s %6.1f / 30  (%5.1f%%)%n", "Midterm", mid, mid / 30 * 100);
                 System.out.printf("%-8s %6.1f / 30  (%5.1f%%)%n", "Final", fin, fin / 30 * 100);
@@ -555,12 +596,16 @@ export default {
                 System.out.print("Interest per month (%): ");
                 double rate = input.nextDouble();
 
+                // เงินดาวน์
                 double down = price * downPercent / 100;
+                // ยอดที่ต้องผ่อน
                 double financed = price - down;
+                // ดอกเบี้ยคงที่ต่อเดือน × จำนวนเดือน
                 double interest = financed * rate / 100 * months;
+                // ค่างวดต่อเดือน
                 double monthly = (financed + interest) / months;
                 double paid = down + financed + interest;
-                double extra = paid - price;
+                double extra = paid - price;  // จ่ายเกินราคาเท่าไร
 
                 System.out.println("== " + product + " ==");
                 System.out.printf("Down payment : %,12.2f%n", down);

@@ -36,6 +36,7 @@ export default {
             public class ConsoleGreeting {
                 public static void main(String[] args) {
                     String name = "Mali";
+                    // โปรแกรม console: แสดงผลเป็นข้อความ
                     System.out.println("Welcome to Java GUI course");
                     System.out.println("Student: " + name);
                 }
@@ -44,18 +45,25 @@ export default {
         { type: "run", title: "เวอร์ชัน GUI: ข้อความเดียวกันในหน้าต่าง", level: "พื้นฐาน", gui: true,
           concept: "สร้าง JFrame ใส่ JLabel สองตัวลงใน JPanel แล้วแสดงหน้าต่าง — ข้อความอยู่ในหน้าต่างแทน console",
           code: j`
-            import javax.swing.*;
+            import javax.swing.*;  // * = import ทุกคลาสในแพ็กเกจ swing
 
             public class GuiGreeting {
                 public static void main(String[] args) {
+                    // สร้าง GUI บน Event Dispatch Thread
                     SwingUtilities.invokeLater(() -> {
+                        // หน้าต่างพร้อมชื่อบนแถบหัว
                         JFrame frame = new JFrame("Greeting");
+                        // ปิดหน้าต่างแล้วจบโปรแกรม
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // แผงสำหรับวาง component
                         JPanel panel = new JPanel();
+                        // ป้ายข้อความ
                         panel.add(new JLabel("Welcome to Java GUI course"));
                         panel.add(new JLabel("Student: Mali"));
-                        frame.add(panel);
+                        frame.add(panel);  // วางแผงลงในหน้าต่าง
+                        // ปรับขนาดหน้าต่างให้พอดีเนื้อหา
                         frame.pack();
+                        // แสดงหน้าต่าง (ต้องเรียกท้ายสุด)
                         frame.setVisible(true);
                     });
                 }
@@ -78,15 +86,18 @@ export default {
         { type: "run", title: "หน้าต่างขั้นต่ำด้วย setSize", level: "พื้นฐาน", gui: true,
           concept: "หน้าต่างว่างที่มีขนาดตามที่กำหนด — เป็นโครงเริ่มต้นของทุกโปรแกรม GUI",
           code: j`
-            import javax.swing.JFrame;
+            import javax.swing.JFrame;  // import ทีละคลาส
             import javax.swing.SwingUtilities;
 
             public class FirstWindow {
                 public static void main(String[] args) {
+                    // ส่งงานสร้าง GUI ให้ EDT
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("My First GUI");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // กว้าง 360 สูง 160 พิกเซล
                         frame.setSize(360, 160);
+                        // null = กึ่งกลางจอ
                         frame.setLocationRelativeTo(null);
                         frame.setVisible(true);
                     });
@@ -106,7 +117,7 @@ export default {
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("This window is exactly as big as its content."));
                         frame.add(panel);
-                        frame.pack();
+                        frame.pack();  // ขนาดพอดีกับ label
                         frame.setLocationRelativeTo(null);
                         frame.setVisible(true);
                     });
@@ -118,19 +129,22 @@ export default {
           code: j`
             import javax.swing.*;
 
+            // extends JFrame: คลาสนี้คือหน้าต่าง
             public class ProfileWindow extends JFrame {
                 public ProfileWindow(String student) {
+                    // ชื่อหน้าต่าง ส่งให้ constructor ของ JFrame
                     super("Student Profile");
                     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JPanel panel = new JPanel();
                     panel.add(new JLabel("Name: " + student));
                     panel.add(new JLabel("Faculty: Science"));
-                    add(panel);
+                    add(panel);  // เรียก add ของตัวเองได้ตรง ๆ
                     setSize(320, 100);
                     setLocationRelativeTo(null);
                 }
 
                 public static void main(String[] args) {
+                    // สร้างและแสดงบน EDT
                     SwingUtilities.invokeLater(() -> new ProfileWindow("Mali").setVisible(true));
                 }
             }`,
@@ -153,10 +167,12 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Login");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // JPanel เรียง component ซ้ายไปขวา
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("Username:"));
+                        // ช่องกรอกกว้างประมาณ 10 ตัวอักษร
                         panel.add(new JTextField(10));
-                        panel.add(new JButton("Login"));
+                        panel.add(new JButton("Login"));  // ปุ่ม
                         frame.add(panel);
                         frame.pack();
                         frame.setVisible(true);
@@ -176,10 +192,14 @@ export default {
                         JFrame frame = new JFrame("Styled");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JPanel panel = new JPanel();
+                        // สีพื้นหลัง (R, G, B)
                         panel.setBackground(new Color(229, 244, 207));
+                        // ระยะขอบ บน ซ้าย ล่าง ขวา
                         panel.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
                         JLabel title = new JLabel("Java Cafe");
+                        // ฟอนต์ ตัวหนา ขนาด 22
                         title.setFont(new Font("SansSerif", Font.BOLD, 22));
+                        // สีตัวอักษร
                         title.setForeground(new Color(8, 125, 134));
                         panel.add(title);
                         frame.add(panel);
@@ -201,18 +221,20 @@ export default {
                         JFrame frame = new JFrame("Course Card");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                        JPanel header = new JPanel();
+                        JPanel header = new JPanel();  // แผงส่วนหัว
                         header.setBackground(new Color(32, 44, 40));
                         JLabel title = new JLabel("CS101 Programming");
                         title.setForeground(Color.WHITE);
                         header.add(title);
 
-                        JPanel body = new JPanel();
+                        JPanel body = new JPanel();  // แผงเนื้อหา
                         body.add(new JLabel("Credits: 3"));
                         body.add(new JLabel("Seats: 40"));
                         body.add(new JButton("Enroll"));
 
+                        // วางแผงหัวไว้ด้านบนของหน้าต่าง
                         frame.add(header, BorderLayout.NORTH);
+                        // แผงเนื้อหาอยู่ตรงกลาง
                         frame.add(body, BorderLayout.CENTER);
                         frame.pack();
                         frame.setVisible(true);
@@ -241,14 +263,17 @@ export default {
 
             public class WhichThread {
                 public static void main(String[] args) {
+                    // ชื่อ thread ที่รัน main
                     String mainThread = Thread.currentThread().getName();
                     SwingUtilities.invokeLater(() -> {
+                        // ชื่อ thread ภายใน invokeLater
                         String edt = Thread.currentThread().getName();
                         JFrame frame = new JFrame("Threads");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("main ran on: " + mainThread));
                         panel.add(new JLabel("GUI built on: " + edt));
+                        // true = ทำงานบน EDT
                         panel.add(new JLabel("isEDT = " + SwingUtilities.isEventDispatchThread()));
                         frame.add(panel);
                         frame.setSize(260, 110);
@@ -265,22 +290,28 @@ export default {
 
             public class GuiTemplate {
                 public static void main(String[] args) {
+                    // ส่งชื่อเมธอดให้ EDT เรียก
                     SwingUtilities.invokeLater(GuiTemplate::createAndShowGui);
                 }
 
+                // เมธอดสร้างหน้าต่าง
                 private static void createAndShowGui() {
                     JFrame frame = new JFrame("App Template");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // ใช้แผงที่สร้างจากอีกเมธอดเป็นเนื้อหา
                     frame.setContentPane(buildContent());
                     frame.pack();
                     frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
                 }
 
+                // เมธอดสร้างเนื้อหา แยกจากการสร้างหน้าต่าง
                 private static JPanel buildContent() {
+                    // BorderLayout เว้นระยะ 8 พิกเซล
                     JPanel panel = new JPanel(new BorderLayout(8, 8));
                     panel.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
                     panel.add(new JLabel("Header goes here"), BorderLayout.NORTH);
+                    // กล่องข้อความ 4 แถว 24 คอลัมน์
                     panel.add(new JTextArea("Main content area", 4, 24), BorderLayout.CENTER);
                     panel.add(new JButton("Action"), BorderLayout.SOUTH);
                     return panel;
@@ -306,7 +337,7 @@ export default {
                     JPanel panel = new JPanel();
                     panel.add(new JLabel("Name: Mali Jaidee"));
                     frame.add(panel);
-                    frame.setSize(400, 150);
+                    frame.setSize(400, 150);  // กำหนดขนาดเอง
                     frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
                 });
@@ -327,7 +358,7 @@ export default {
                     panel.add(new JLabel("v1.0"));
                     panel.add(new JLabel("by Mali"));
                     frame.add(panel);
-                    frame.pack();
+                    frame.pack();  // ปรับขนาดตามเนื้อหา
                     frame.setVisible(true);
                 });
             }
@@ -346,6 +377,7 @@ export default {
                     panel.add(new JLabel("Username:"));
                     panel.add(new JTextField(12));
                     panel.add(new JLabel("Password:"));
+                    // ช่องรหัสผ่าน แสดงเป็นจุด
                     panel.add(new JPasswordField(12));
                     panel.add(new JButton("Sign in"));
                     frame.add(panel);
@@ -366,6 +398,7 @@ export default {
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Business Card");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // GridLayout 2 แถว 1 คอลัมน์
                     JPanel card = new JPanel(new GridLayout(2, 1, 0, 6));
                     card.setBackground(new Color(32, 44, 40));
                     card.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -376,6 +409,7 @@ export default {
                     role.setForeground(new Color(180, 223, 57));
                     card.add(name);
                     card.add(role);
+                    // ใช้ card เป็นเนื้อหาทั้งหมดของหน้าต่าง
                     frame.setContentPane(card);
                     frame.pack();
                     frame.setVisible(true);
@@ -388,6 +422,7 @@ export default {
         import javax.swing.*;
 
         public class MessageWindow extends JFrame {
+            // ส่งชื่อหน้าต่างและข้อความผ่าน constructor
             public MessageWindow(String title, String message) {
                 super(title);
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -395,14 +430,17 @@ export default {
                 panel.setBorder(BorderFactory.createEmptyBorder(10, 16, 10, 16));
                 panel.add(new JLabel(message));
                 add(panel);
-                pack();
+                pack();  // ขนาดพอดีเนื้อหา
             }
 
             public static void main(String[] args) {
                 SwingUtilities.invokeLater(() -> {
+                    // สร้างหน้าต่างบานที่ 1
                     MessageWindow a = new MessageWindow("Reminder", "Submit lab 14 before Friday");
+                    // กำหนดตำแหน่งบนจอ
                     a.setLocation(100, 100);
                     a.setVisible(true);
+                    // คลาสเดียวสร้างได้หลายบาน
                     MessageWindow b = new MessageWindow("Tip", "Use pack() to fit content");
                     b.setLocation(100, 220);
                     b.setVisible(true);
@@ -420,22 +458,24 @@ export default {
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Dashboard");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    JPanel header = new JPanel();
+                    JPanel header = new JPanel();  // ส่วนหัว
                     header.setBackground(new Color(8, 125, 134));
                     JLabel appName = new JLabel("Study Tracker");
                     appName.setForeground(Color.WHITE);
                     appName.setFont(new Font("SansSerif", Font.BOLD, 16));
                     header.add(appName);
 
-                    JPanel center = new JPanel();
+                    JPanel center = new JPanel();  // ส่วนกลาง
                     center.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
                     center.add(new JLabel("Welcome back!"));
 
+                    // ส่วนท้าย: ปุ่มเรียงแถว
                     JPanel footer = new JPanel();
                     footer.add(new JButton("Home"));
                     footer.add(new JButton("Reports"));
                     footer.add(new JButton("Settings"));
 
+                    // BorderLayout: NORTH / CENTER / SOUTH
                     frame.add(header, BorderLayout.NORTH);
                     frame.add(center, BorderLayout.CENTER);
                     frame.add(footer, BorderLayout.SOUTH);
@@ -452,23 +492,28 @@ export default {
 
         public class TimetableGui {
             public static void main(String[] args) {
+                // ข้อมูลจากอาเรย์คู่ขนาน
                 String[] days = {"Mon", "Tue", "Wed", "Thu", "Sat"};
                 String[] subjects = {"Programming", "Calculus", "Physics", "English", "Lab (make-up)"};
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Timetable");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // 0 แถว = ไม่จำกัด, 2 คอลัมน์
                     JPanel grid = new JPanel(new GridLayout(0, 2, 12, 4));
                     grid.setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
                     JLabel h1 = new JLabel("Day");
                     JLabel h2 = new JLabel("Subject");
+                    // ฟอนต์ตัวหนาจากฟอนต์เดิม
                     Font bold = h1.getFont().deriveFont(Font.BOLD);
                     h1.setFont(bold);
                     h2.setFont(bold);
                     grid.add(h1);
                     grid.add(h2);
+                    // สร้าง label ทีละแถวจากอาเรย์
                     for (int i = 0; i < days.length; i++) {
                         JLabel d = new JLabel(days[i]);
                         JLabel s = new JLabel(subjects[i]);
+                        // วันหยุดเป็นสีแดง
                         if (days[i].equals("Sat") || days[i].equals("Sun")) {
                             d.setForeground(Color.RED);
                             s.setForeground(Color.RED);
@@ -493,20 +538,28 @@ export default {
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Keypad");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // ช่องแสดงผล ค่าเริ่มต้น "0"
                     JTextField display = new JTextField("0", 12);
+                    // อ่านอย่างเดียว
                     display.setEditable(false);
+                    // ชิดขวาเหมือนเครื่องคิดเลข
                     display.setHorizontalAlignment(JTextField.RIGHT);
                     display.setFont(new Font("Monospaced", Font.BOLD, 20));
 
+                    // ข้อความบนปุ่มเรียงทีละแถว
                     String[] keys = {"7", "8", "9", "/", "4", "5", "6", "*", "1", "2", "3", "-", "0", ".", "=", "+"};
+                    // ตาราง 4×4 เว้นระยะ 4 พิกเซล
                     JPanel pad = new JPanel(new GridLayout(4, 4, 4, 4));
+                    // สร้างปุ่มด้วยลูป
                     for (String k : keys) {
                         JButton b = new JButton(k);
                         if (k.equals("=")) {
+                            // ปุ่ม = สีเขียว
                             b.setBackground(new Color(180, 223, 57));
                         }
                         pad.add(b);
                     }
+                    // จอแสดงผลด้านบน ปุ่มตรงกลาง
                     JPanel root = new JPanel(new BorderLayout(6, 6));
                     root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
                     root.add(display, BorderLayout.NORTH);

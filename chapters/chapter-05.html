@@ -6,13 +6,44 @@
   <meta name="theme-color" content="#f5f7f4">
   <title>บทที่ 5: เงื่อนไขและการตัดสินใจ | Java programming by Prymania</title>
   <link rel="stylesheet" href="../assets/lesson.css">
+  <link rel="stylesheet" href="../assets/course-nav.css">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
   <a class="skip-link" href="#lesson-content">ข้ามไปเนื้อหาบทเรียน</a>
   <div class="lesson-shell">
     <aside class="lesson-sidebar" aria-label="เมนูบทเรียน">
       <a class="lesson-brand" href="../index.html"><span class="brand-mark" aria-hidden="true">&lt;/&gt;</span><span><span class="brand-title">Java programming<br>by Prymania</span><span class="brand-caption">LECTURE NOTES</span></span></a>
-      <nav class="lesson-toc" aria-label="สารบัญบทที่ 5"><p class="toc-label">บทที่ 5 · ให้โปรแกรมตัดสินใจ</p><a href="#topic-5-1"><span class="toc-number">5.1</span>ค่าจริงและการเปรียบเทียบ</a><a href="#topic-5-2"><span class="toc-number">5.2</span>ตัวดำเนินการตรรกะ</a><a href="#topic-5-3"><span class="toc-number">5.3</span>if, else if และ else</a><a href="#topic-5-4"><span class="toc-number">5.4</span>เลือกทางด้วย switch</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></nav>
+      <!-- course-nav -->
+<button class="nav-toggle" type="button" aria-expanded="false">☰ สารบัญทุกบท</button>
+<nav class="course-nav" aria-label="สารบัญรายวิชา">
+<p class="nav-label">เริ่มต้น</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">01</span><span class="nav-title">คิดเป็นขั้นตอน · Flowchart</span></summary><div class="nav-topics"><a href="chapter-01.html"><span class="toc-number">1</span>ภาพรวมของบท</a><a href="chapter-01.html#topic-1-1"><span class="toc-number">1.1</span>แยกโจทย์ด้วย IPO</a><a href="chapter-01.html#topic-1-2"><span class="toc-number">1.2</span>ขั้นตอนวิธีและรหัสเทียม</a><a href="chapter-01.html#topic-1-3"><span class="toc-number">1.3</span>สัญลักษณ์ Flowchart</a><a href="chapter-01.html#topic-1-4"><span class="toc-number">1.4</span>ทางเลือกและการทำซ้ำ</a><a href="chapter-01.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">02</span><span class="nav-title">รู้จัก Java</span></summary><div class="nav-topics"><a href="chapter-02.html"><span class="toc-number">2</span>ภาพรวมของบท</a><a href="chapter-02.html#topic-2-1"><span class="toc-number">2.1</span>JDK, JVM และ IDE</a><a href="chapter-02.html#topic-2-2"><span class="toc-number">2.2</span>โครงสร้างโปรแกรม Java</a><a href="chapter-02.html#topic-2-3"><span class="toc-number">2.3</span>คอมไพล์ รัน และอ่าน error</a><a href="chapter-02.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">03</span><span class="nav-title">ตัวแปรและชนิดข้อมูล</span></summary><div class="nav-topics"><a href="chapter-03.html"><span class="toc-number">3</span>ภาพรวมของบท</a><a href="chapter-03.html#topic-3-1"><span class="toc-number">3.1</span>ตัวแปรและการกำหนดค่า</a><a href="chapter-03.html#topic-3-2"><span class="toc-number">3.2</span>ชนิดข้อมูล</a><a href="chapter-03.html#topic-3-3"><span class="toc-number">3.3</span>ตัวดำเนินการ</a><a href="chapter-03.html#topic-3-4"><span class="toc-number">3.4</span>ค่าคงที่และการแปลงชนิด</a><a href="chapter-03.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">04</span><span class="nav-title">รับข้อมูลและแสดงผล</span></summary><div class="nav-topics"><a href="chapter-04.html"><span class="toc-number">4</span>ภาพรวมของบท</a><a href="chapter-04.html#topic-4-1"><span class="toc-number">4.1</span>print · println · printf</a><a href="chapter-04.html#topic-4-2"><span class="toc-number">4.2</span>Scanner</a><a href="chapter-04.html#topic-4-3"><span class="toc-number">4.3</span>ตัวเลขและข้อความ</a><a href="chapter-04.html#topic-4-4"><span class="toc-number">4.4</span>จัดการบรรทัดข้อมูล</a><a href="chapter-04.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">ฝึกเขียนโปรแกรม</p>
+<details class="nav-chapter" name="course-nav" open><summary aria-current="page"><span class="nav-number">05</span><span class="nav-title">เงื่อนไข</span></summary><div class="nav-topics"><a href="#lesson-content"><span class="toc-number">5</span>ภาพรวมของบท</a><a href="#topic-5-1"><span class="toc-number">5.1</span>ค่าจริงและการเปรียบเทียบ</a><a href="#topic-5-2"><span class="toc-number">5.2</span>ตัวดำเนินการตรรกะ</a><a href="#topic-5-3"><span class="toc-number">5.3</span>if, else if และ else</a><a href="#topic-5-4"><span class="toc-number">5.4</span>เลือกทางด้วย switch</a><a href="#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">06</span><span class="nav-title">การทำซ้ำ</span></summary><div class="nav-topics"><a href="chapter-06.html"><span class="toc-number">6</span>ภาพรวมของบท</a><a href="chapter-06.html#topic-6-1"><span class="toc-number">6.1</span>while และการอัปเดตค่า</a><a href="chapter-06.html#topic-6-2"><span class="toc-number">6.2</span>for เมื่อรู้จำนวนรอบ</a><a href="chapter-06.html#topic-6-3"><span class="toc-number">6.3</span>do-while และ sentinel</a><a href="chapter-06.html#topic-6-4"><span class="toc-number">6.4</span>ลูปซ้อนและคำสั่งควบคุม</a><a href="chapter-06.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">07</span><span class="nav-title">เมธอด</span></summary><div class="nav-topics"><a href="chapter-07.html"><span class="toc-number">7</span>ภาพรวมของบท</a><a href="chapter-07.html#topic-7-1"><span class="toc-number">7.1</span>ประกาศและเรียกเมธอด</a><a href="chapter-07.html#topic-7-2"><span class="toc-number">7.2</span>พารามิเตอร์และ argument</a><a href="chapter-07.html#topic-7-3"><span class="toc-number">7.3</span>return value</a><a href="chapter-07.html#topic-7-4"><span class="toc-number">7.4</span>scope และ overload</a><a href="chapter-07.html#topic-7-5"><span class="toc-number">7.5</span>ประกอบโปรแกรมจากเมธอด</a><a href="chapter-07.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">08</span><span class="nav-title">อาเรย์</span></summary><div class="nav-topics"><a href="chapter-08.html"><span class="toc-number">8</span>ภาพรวมของบท</a><a href="chapter-08.html#topic-8-1"><span class="toc-number">8.1</span>สร้างและเข้าถึงอาเรย์</a><a href="chapter-08.html#topic-8-2"><span class="toc-number">8.2</span>วนอ่าน รวม และค้นหา</a><a href="chapter-08.html#topic-8-3"><span class="toc-number">8.3</span>อาเรย์สองมิติ</a><a href="chapter-08.html#topic-8-4"><span class="toc-number">8.4</span>อาเรย์กับเมธอด</a><a href="chapter-08.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">09</span><span class="nav-title">ข้อความและ String</span></summary><div class="nav-topics"><a href="chapter-09.html"><span class="toc-number">9</span>ภาพรวมของบท</a><a href="chapter-09.html#topic-9-1"><span class="toc-number">9.1</span>เปรียบเทียบและต่อข้อความ</a><a href="chapter-09.html#topic-9-2"><span class="toc-number">9.2</span>ค้นหาและตัดข้อความ</a><a href="chapter-09.html#topic-9-3"><span class="toc-number">9.3</span>แปลงข้อความเป็นตัวเลข</a><a href="chapter-09.html#topic-9-4"><span class="toc-number">9.4</span>char และ Character</a><a href="chapter-09.html#topic-9-5"><span class="toc-number">9.5</span>StringBuilder</a><a href="chapter-09.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">ต่อยอดด้วย Java</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">10</span><span class="nav-title">ทดสอบและแก้บั๊ก</span></summary><div class="nav-topics"><a href="chapter-10.html"><span class="toc-number">10</span>ภาพรวมของบท</a><a href="chapter-10.html#topic-10-1"><span class="toc-number">10.1</span>จำแนก error</a><a href="chapter-10.html#topic-10-2"><span class="toc-number">10.2</span>อ่าน compiler diagnostics</a><a href="chapter-10.html#topic-10-3"><span class="toc-number">10.3</span>trace และ debugger</a><a href="chapter-10.html#topic-10-4"><span class="toc-number">10.4</span>ออกแบบ test case</a><a href="chapter-10.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">11</span><span class="nav-title">คลาสและออบเจ็กต์</span></summary><div class="nav-topics"><a href="chapter-11.html"><span class="toc-number">11</span>ภาพรวมของบท</a><a href="chapter-11.html#topic-11-1"><span class="toc-number">11.1</span>class เป็นพิมพ์เขียว</a><a href="chapter-11.html#topic-11-2"><span class="toc-number">11.2</span>สร้าง object ด้วย new</a><a href="chapter-11.html#topic-11-3"><span class="toc-number">11.3</span>constructor และ this</a><a href="chapter-11.html#topic-11-4"><span class="toc-number">11.4</span>หลาย object หลาย state</a><a href="chapter-11.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">12</span><span class="nav-title">จัดระเบียบโค้ด</span></summary><div class="nav-topics"><a href="chapter-12.html"><span class="toc-number">12</span>ภาพรวมของบท</a><a href="chapter-12.html#topic-12-1"><span class="toc-number">12.1</span>access modifier</a><a href="chapter-12.html#topic-12-2"><span class="toc-number">12.2</span>encapsulation</a><a href="chapter-12.html#topic-12-3"><span class="toc-number">12.3</span>validation และ invariant</a><a href="chapter-12.html#topic-12-4"><span class="toc-number">12.4</span>composition</a><a href="chapter-12.html#topic-12-5"><span class="toc-number">12.5</span>inheritance และ override</a><a href="chapter-12.html#topic-12-6"><span class="toc-number">12.6</span>polymorphism</a><a href="chapter-12.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">13</span><span class="nav-title">ArrayList</span></summary><div class="nav-topics"><a href="chapter-13.html"><span class="toc-number">13</span>ภาพรวมของบท</a><a href="chapter-13.html#topic-13-1"><span class="toc-number">13.1</span>Array หรือ ArrayList</a><a href="chapter-13.html#topic-13-2"><span class="toc-number">13.2</span>Generic type</a><a href="chapter-13.html#topic-13-3"><span class="toc-number">13.3</span>เพิ่ม อ่าน แก้ข้อมูล</a><a href="chapter-13.html#topic-13-4"><span class="toc-number">13.4</span>ลบและ index ที่เลื่อน</a><a href="chapter-13.html#topic-13-5"><span class="toc-number">13.5</span>วนอ่านรายการ</a><a href="chapter-13.html#topic-13-6"><span class="toc-number">13.6</span>เก็บ object ในรายการ</a><a href="chapter-13.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">14</span><span class="nav-title">เริ่มต้นกับ Swing</span></summary><div class="nav-topics"><a href="chapter-14.html"><span class="toc-number">14</span>ภาพรวมของบท</a><a href="chapter-14.html#topic-14-1"><span class="toc-number">14.1</span>Console กับ GUI</a><a href="chapter-14.html#topic-14-2"><span class="toc-number">14.2</span>สร้าง JFrame</a><a href="chapter-14.html#topic-14-3"><span class="toc-number">14.3</span>Container และ JPanel</a><a href="chapter-14.html#topic-14-4"><span class="toc-number">14.4</span>Event Dispatch Thread</a><a href="chapter-14.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">15</span><span class="nav-title">Components และ Layout</span></summary><div class="nav-topics"><a href="chapter-15.html"><span class="toc-number">15</span>ภาพรวมของบท</a><a href="chapter-15.html#topic-15-1"><span class="toc-number">15.1</span>Label, Button และ Panel</a><a href="chapter-15.html#topic-15-2"><span class="toc-number">15.2</span>รับและแสดงข้อความ</a><a href="chapter-15.html#topic-15-3"><span class="toc-number">15.3</span>ComboBox</a><a href="chapter-15.html#topic-15-4"><span class="toc-number">15.4</span>Layout Manager</a><a href="chapter-15.html#topic-15-5"><span class="toc-number">15.5</span>ประกอบหลาย Panel</a><a href="chapter-15.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">16</span><span class="nav-title">เหตุการณ์และปุ่ม</span></summary><div class="nav-topics"><a href="chapter-16.html"><span class="toc-number">16</span>ภาพรวมของบท</a><a href="chapter-16.html#topic-16-1"><span class="toc-number">16.1</span>Event source และ listener</a><a href="chapter-16.html#topic-16-2"><span class="toc-number">16.2</span>ActionListener</a><a href="chapter-16.html#topic-16-3"><span class="toc-number">16.3</span>Lambda และ callback</a><a href="chapter-16.html#topic-16-4"><span class="toc-number">16.4</span>อัปเดต UI บน EDT</a><a href="chapter-16.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">17</span><span class="nav-title">ฟอร์มและตรวจข้อมูล</span></summary><div class="nav-topics"><a href="chapter-17.html"><span class="toc-number">17</span>ภาพรวมของบท</a><a href="chapter-17.html#topic-17-1"><span class="toc-number">17.1</span>อ่านค่าจาก component</a><a href="chapter-17.html#topic-17-2"><span class="toc-number">17.2</span>ตรวจข้อมูลว่างและรูปแบบ</a><a href="chapter-17.html#topic-17-3"><span class="toc-number">17.3</span>แจ้ง error ให้ผู้ใช้</a><a href="chapter-17.html#topic-17-4"><span class="toc-number">17.4</span>แยก validation เป็น method</a><a href="chapter-17.html#topic-17-5"><span class="toc-number">17.5</span>ล้างและ reset form</a><a href="chapter-17.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">18</span><span class="nav-title">หลายหน้าจอ</span></summary><div class="nav-topics"><a href="chapter-18.html"><span class="toc-number">18</span>ภาพรวมของบท</a><a href="chapter-18.html#topic-18-1"><span class="toc-number">18.1</span>ออกแบบหน้าจอแยกกัน</a><a href="chapter-18.html#topic-18-2"><span class="toc-number">18.2</span>CardLayout</a><a href="chapter-18.html#topic-18-3"><span class="toc-number">18.3</span>ปุ่มนำทาง</a><a href="chapter-18.html#topic-18-4"><span class="toc-number">18.4</span>แชร์ state ระหว่างหน้า</a><a href="chapter-18.html#topic-18-5"><span class="toc-number">18.5</span>CardLayout หรือหลาย JFrame</a><a href="chapter-18.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">19</span><span class="nav-title">โปรเจกต์ GUI</span></summary><div class="nav-topics"><a href="chapter-19.html"><span class="toc-number">19</span>ภาพรวมของบท</a><a href="chapter-19.html#topic-19-1"><span class="toc-number">19.1</span>กำหนดขอบเขตและ flow</a><a href="chapter-19.html#topic-19-2"><span class="toc-number">19.2</span>วาง model และ class</a><a href="chapter-19.html#topic-19-3"><span class="toc-number">19.3</span>สร้าง layout</a><a href="chapter-19.html#topic-19-4"><span class="toc-number">19.4</span>ต่อ event และ validation</a><a href="chapter-19.html#topic-19-5"><span class="toc-number">19.5</span>ทดสอบและขยายงาน</a><a href="chapter-19.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<p class="nav-label">บทเสริม · เลือกอ่าน</p>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">+</span><span class="nav-title">Random และเกมทายเลข</span></summary><div class="nav-topics"><a href="side-quest-random.html"><span class="toc-number">S1</span>ภาพรวมของบท</a><a href="side-quest-random.html#topic-S1-1"><span class="toc-number">S1.1</span>สุ่มค่าด้วย Math.random</a><a href="side-quest-random.html#topic-S1-2"><span class="toc-number">S1.2</span>ใช้ java.util.Random</a><a href="side-quest-random.html#topic-S1-3"><span class="toc-number">S1.3</span>เกมทายตัวเลข</a><a href="side-quest-random.html#topic-S1-4"><span class="toc-number">S1.4</span>จำนวนครั้งและทดสอบ</a><a href="side-quest-random.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+<details class="nav-chapter" name="course-nav"><summary><span class="nav-number">+</span><span class="nav-title">Timer และ Thread</span></summary><div class="nav-topics"><a href="side-quest-timer.html"><span class="toc-number">S2</span>ภาพรวมของบท</a><a href="side-quest-timer.html#topic-S2-1"><span class="toc-number">S2.1</span>Event Dispatch Thread</a><a href="side-quest-timer.html#topic-S2-2"><span class="toc-number">S2.2</span>Swing Timer</a><a href="side-quest-timer.html#topic-S2-3"><span class="toc-number">S2.3</span>งานเบื้องหลัง</a><a href="side-quest-timer.html#topic-S2-4"><span class="toc-number">S2.4</span>เลือกเครื่องมือและทดสอบ</a><a href="side-quest-timer.html#chapter-exercises"><span class="toc-number">ฝึก</span>แบบฝึกหัดท้ายบท</a></div></details>
+</nav>
+<!-- /course-nav -->
       <div class="sidebar-bottom">เงื่อนไขเปลี่ยนข้อมูลให้เป็นการตัดสินใจ</div>
     </aside>
     <main class="lesson-main" id="lesson-content">
@@ -26,54 +57,62 @@
 <h3>5.1 boolean และตัวดำเนินการเปรียบเทียบ</h3>
 <p><code>boolean</code> เก็บได้เพียง <code>true</code> หรือ <code>false</code> นิพจน์เปรียบเทียบ เช่น <code>score &gt;= 50</code> จะ<em>คำนวณ</em>ออกมาเป็นค่า boolean ที่นำไปเก็บในตัวแปรหรือใช้ใน if ได้</p>
 <table class="comparison-table"><thead><tr><th>ตัวดำเนินการ</th><th>ความหมาย</th><th>ตัวอย่าง (x = 7)</th><th>ผล</th></tr></thead><tbody><tr><td><code>==</code></td><td>เท่ากับ</td><td><code>x == 7</code></td><td>true</td></tr><tr><td><code>!=</code></td><td>ไม่เท่ากับ</td><td><code>x != 7</code></td><td>false</td></tr><tr><td><code>&gt;</code></td><td>มากกว่า</td><td><code>x &gt; 10</code></td><td>false</td></tr><tr><td><code>&lt;</code></td><td>น้อยกว่า</td><td><code>x &lt; 10</code></td><td>true</td></tr><tr><td><code>&gt;=</code></td><td>มากกว่าหรือเท่ากับ</td><td><code>x &gt;= 7</code></td><td>true</td></tr><tr><td><code>&lt;=</code></td><td>น้อยกว่าหรือเท่ากับ</td><td><code>x &lt;= 6</code></td><td>false</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 5.1.1 · นิพจน์เปรียบเทียบให้ค่า boolean <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เปรียบเทียบได้ผลเป็นค่า true/false ที่เก็บในตัวแปรหรือพิมพ์ออกมาได้เหมือนค่าอื่น</p><div class="source-example-grid"><div class="source-field"><span>Java source · Comparisons.java</span><pre class="source-code">public class Comparisons {
-    public static void main(String[] args) {
-        int score = 72;
-        boolean passed = score &gt;= 50;
-        boolean perfect = score == 100;
-        System.out.println("passed = " + passed);
-        System.out.println("perfect = " + perfect);
-        System.out.println("score &lt; 80 ? " + (score &lt; 80));
-        System.out.println("score != 72 ? " + (score != 72));
+<div class="source-example"><h4>ตัวอย่าง 5.1.1 · นิพจน์เปรียบเทียบให้ค่า boolean <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เปรียบเทียบได้ผลเป็นค่า true/false ที่เก็บในตัวแปรหรือพิมพ์ออกมาได้เหมือนค่าอื่น</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Comparisons.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Comparisons</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> score = <span class="tok-num">72</span>;
+        <span class="tok-com">// ผลการเปรียบเทียบเป็น boolean</span>
+        <span class="tok-kw">boolean</span> passed = score &gt;= <span class="tok-num">50</span>;
+        <span class="tok-com">// == คือเปรียบเทียบ (= คือกำหนดค่า)</span>
+        <span class="tok-kw">boolean</span> perfect = score == <span class="tok-num">100</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"passed = "</span> + passed);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"perfect = "</span> + perfect);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"score &lt; 80 ? "</span> + (score &lt; <span class="tok-num">80</span>));
+        <span class="tok-com">// != แปลว่า "ไม่เท่ากับ"</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"score != 72 ? "</span> + (score != <span class="tok-num">72</span>));
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>passed = true
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>passed = true
 perfect = false
 score &lt; 80 ? true
 score != 72 ? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>72 ≥ 50 → true</li><li>72 == 100 → false</li><li>ต้องมีวงเล็บรอบนิพจน์เปรียบเทียบเมื่อต่อข้อความ</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 5.1.2 · ใช้ = แทน == <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>=</code> คือการกำหนดค่า ส่วน <code>==</code> คือการเปรียบเทียบ if ต้องการค่า boolean จึงคอมไพล์ไม่ผ่าน</p><div class="source-example-grid"><div class="source-field"><span>Java source · AssignInIf.java</span><pre class="source-code">public class AssignInIf {
-    public static void main(String[] args) {
-        int score = 72;
-        if (score = 100) {
-            System.out.println("Perfect!");
+<div class="source-example"><h4>ทดลอง error 5.1.2 · ใช้ = แทน == <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>=</code> คือการกำหนดค่า ส่วน <code>==</code> คือการเปรียบเทียบ if ต้องการค่า boolean จึงคอมไพล์ไม่ผ่าน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AssignInIf.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AssignInIf</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> score = <span class="tok-num">72</span>;
+        <span class="tok-kw">if</span> (score = <span class="tok-num">100</span>) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Perfect!"</span>);
         }
     }
-}</pre></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>AssignInIf.java:4: error: incompatible types: int cannot be converted to boolean
+}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>AssignInIf.java:4: error: incompatible types: int cannot be converted to boolean
         if (score = 100) {
                   ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>score = 100</code> มีชนิดเป็น int</li><li>if ต้องการ boolean → <code>int cannot be converted to boolean</code></li><li>แก้เป็น <code>score == 100</code></li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.1.3 · เปรียบเทียบ String ต้องใช้ equals <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>==</code> กับ String เปรียบเทียบว่าเป็น<em>ออบเจ็กต์เดียวกัน</em>หรือไม่ ไม่ใช่เนื้อหา ต้องใช้ <code>.equals()</code> (หรือ <code>.equalsIgnoreCase()</code> ถ้าไม่สนตัวพิมพ์)</p><div class="source-example-grid"><div class="source-field"><span>Java source · StringCompare.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 5.1.3 · เปรียบเทียบ String ต้องใช้ equals <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>==</code> กับ String เปรียบเทียบว่าเป็น<em>ออบเจ็กต์เดียวกัน</em>หรือไม่ ไม่ใช่เนื้อหา ต้องใช้ <code>.equals()</code> (หรือ <code>.equalsIgnoreCase()</code> ถ้าไม่สนตัวพิมพ์)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StringCompare.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class StringCompare {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Username: ");
-        String user = input.next();
-        System.out.println("user == \"admin\"      -&gt; " + (user == "admin"));
-        System.out.println("user.equals(\"admin\") -&gt; " + user.equals("admin"));
-        System.out.println("equalsIgnoreCase(\"ADMIN\") -&gt; " + user.equalsIgnoreCase("ADMIN"));
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StringCompare</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Username: "</span>);
+        <span class="tok-type">String</span> user = input.<span class="tok-fn">next</span>();
+        <span class="tok-com">// == เทียบว่าเป็นออบเจ็กต์เดียวกัน ไม่ใช่เนื้อหา</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"user == \"admin\"      -&gt; "</span> + (user == <span class="tok-str">"admin"</span>));
+        <span class="tok-com">// equals เทียบเนื้อหาข้อความ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"user.equals(\"admin\") -&gt; "</span> + user.<span class="tok-fn">equals</span>(<span class="tok-str">"admin"</span>));
+        <span class="tok-com">// ไม่สนตัวพิมพ์เล็ก/ใหญ่</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"equalsIgnoreCase(\"ADMIN\") -&gt; "</span> + user.<span class="tok-fn">equalsIgnoreCase</span>(<span class="tok-str">"ADMIN"</span>));
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Username: <b class="stdin">admin</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Username: <b class="stdin">admin</b>
 user == "admin"      -&gt; false
 user.equals("admin") -&gt; true
 equalsIgnoreCase("ADMIN") -&gt; true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ผู้ใช้พิมพ์ admin</li><li><code>==</code> ได้ false เพราะ String ที่อ่านจาก Scanner เป็นคนละออบเจ็กต์กับ "admin" ในโค้ด</li><li><code>equals</code> เปรียบเทียบตัวอักษร → true</li><li>จำไว้: <strong>String ใช้ equals เสมอ</strong></li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.1.4 · เปรียบเทียบ double อย่างปลอดภัย <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> double เก็บค่าแบบประมาณ ห้ามใช้ <code>==</code> ตรง ๆ ให้ตรวจว่า “ต่างกันน้อยมาก” ด้วย <code>Math.abs(a - b) &lt; 1e-9</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · DoubleCompare.java</span><pre class="source-code">public class DoubleCompare {
-    public static void main(String[] args) {
-        double a = 0.1 + 0.2;
-        double b = 0.3;
-        System.out.println("a = " + a);
-        System.out.println("a == b ? " + (a == b));
-        System.out.println("close enough ? " + (Math.abs(a - b) &lt; 1e-9));
+<div class="source-example"><h4>ตัวอย่าง 5.1.4 · เปรียบเทียบ double อย่างปลอดภัย <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> double เก็บค่าแบบประมาณ ห้ามใช้ <code>==</code> ตรง ๆ ให้ตรวจว่า “ต่างกันน้อยมาก” ด้วย <code>Math.abs(a - b) &lt; 1e-9</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DoubleCompare.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DoubleCompare</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">double</span> a = <span class="tok-num">0.1</span> + <span class="tok-num">0.2</span>;  <span class="tok-com">// ทศนิยมฐานสองคลาดเคลื่อนเล็กน้อย</span>
+        <span class="tok-kw">double</span> b = <span class="tok-num">0.3</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a = "</span> + a);
+        <span class="tok-com">// จึงไม่ควรใช้ == กับ double</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"a == b ? "</span> + (a == b));
+        <span class="tok-com">// ถือว่าเท่ากันเมื่อต่างกันน้อยมาก</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"close enough ? "</span> + (<span class="tok-type">Math</span>.<span class="tok-fn">abs</span>(a - b) &lt; <span class="tok-num">1e-9</span>));
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>a = 0.30000000000000004
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>a = 0.30000000000000004
 a == b ? false
 close enough ? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>0.1 + 0.2 ได้ 0.30000000000000004</li><li><code>==</code> จึงได้ false</li><li>ผลต่าง 0.00000000000000004 น้อยกว่า 0.000000001 → ถือว่าเท่ากัน</li></ol></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · ผลของนิพจน์</strong><div><p>ถ้า <code>int a = 5, b = 8;</code> ผลของ <code>a * 2 &gt; b</code>, <code>a + 3 == b</code>, <code>b % a != 3</code> คืออะไร</p></div><details><summary>ดูคำตอบ</summary><div><p>10 &gt; 8 → <strong>true</strong>; 8 == 8 → <strong>true</strong>; 8 % 5 = 3, 3 != 3 → <strong>false</strong></p></div></details></div>
@@ -82,55 +121,65 @@ close enough ? true</pre></div></div><div class="walkthrough"><strong>อธิ�
 <h3>5.2 รวมเงื่อนไขด้วย AND, OR และ NOT</h3>
 <p><code>&amp;&amp;</code> (AND) เป็นจริงเมื่อ<strong>ทั้งสอง</strong>เงื่อนไขเป็นจริง, <code>||</code> (OR) เป็นจริงเมื่อ<strong>อย่างน้อยหนึ่ง</strong>เงื่อนไขเป็นจริง และ <code>!</code> (NOT) กลับค่าจริงเป็นเท็จ</p>
 <table class="comparison-table"><thead><tr><th>A</th><th>B</th><th>A &amp;&amp; B</th><th>A || B</th><th>!A</th></tr></thead><tbody><tr><td>true</td><td>true</td><td>true</td><td>true</td><td>false</td></tr><tr><td>true</td><td>false</td><td>false</td><td>true</td><td>false</td></tr><tr><td>false</td><td>true</td><td>false</td><td>true</td><td>true</td></tr><tr><td>false</td><td>false</td><td>false</td><td>false</td><td>true</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 5.2.1 · ตรวจช่วงตัวเลขด้วย && <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ภาษาคณิตศาสตร์เขียน 18 ≤ age ≤ 25 ได้ แต่ Java ต้องแยกเป็นสองเงื่อนไขแล้วเชื่อมด้วย <code>&amp;&amp;</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · RangeCheck.java</span><pre class="source-code">public class RangeCheck {
-    public static void main(String[] args) {
-        int age = 19;
-        boolean inRange = age &gt;= 18 &amp;&amp; age &lt;= 25;
-        boolean outOfRange = age &lt; 18 || age &gt; 25;
-        System.out.println("18-25? " + inRange);
-        System.out.println("outside? " + outOfRange);
-        System.out.println("not in range? " + !inRange);
+<div class="source-example"><h4>ตัวอย่าง 5.2.1 · ตรวจช่วงตัวเลขด้วย && <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ภาษาคณิตศาสตร์เขียน 18 ≤ age ≤ 25 ได้ แต่ Java ต้องแยกเป็นสองเงื่อนไขแล้วเชื่อมด้วย <code>&amp;&amp;</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RangeCheck.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RangeCheck</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> age = <span class="tok-num">19</span>;
+        <span class="tok-com">// &amp;&amp; ต้องจริงทั้งสองข้าง</span>
+        <span class="tok-kw">boolean</span> inRange = age &gt;= <span class="tok-num">18</span> &amp;&amp; age &lt;= <span class="tok-num">25</span>;
+        <span class="tok-com">// || จริงข้างเดียวก็พอ</span>
+        <span class="tok-kw">boolean</span> outOfRange = age &lt; <span class="tok-num">18</span> || age &gt; <span class="tok-num">25</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"18-25? "</span> + inRange);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"outside? "</span> + outOfRange);
+        <span class="tok-com">// ! กลับค่าจริงเป็นเท็จ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"not in range? "</span> + !inRange);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>18-25? true
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>18-25? true
 outside? false
 not in range? false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>19 ≥ 18 true และ 19 ≤ 25 true → true</li><li>นอกช่วงคือ “น้อยกว่า 18 <em>หรือ</em> มากกว่า 25” → false</li><li><code>!inRange</code> ให้ผลเท่ากับ outOfRange</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.2.2 · สิทธิ์ส่วนลด: ผสม && กับ || <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>&amp;&amp;</code> ทำก่อน <code>||</code> เสมอ ใช้วงเล็บเพื่อบอกความหมายให้ชัด</p><div class="source-example-grid"><div class="source-field"><span>Java source · DiscountRule.java</span><pre class="source-code">public class DiscountRule {
-    public static void main(String[] args) {
-        boolean isStudent = false;
-        boolean hasPass = true;
-        int age = 16;
+<div class="source-example"><h4>ตัวอย่าง 5.2.2 · สิทธิ์ส่วนลด: ผสม && กับ || <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>&amp;&amp;</code> ทำก่อน <code>||</code> เสมอ ใช้วงเล็บเพื่อบอกความหมายให้ชัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DiscountRule.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DiscountRule</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">boolean</span> isStudent = <span class="tok-num">false</span>;
+        <span class="tok-kw">boolean</span> hasPass = <span class="tok-num">true</span>;
+        <span class="tok-kw">int</span> age = <span class="tok-num">16</span>;
 
-        boolean ruleA = (isStudent || hasPass) &amp;&amp; age &gt;= 18;
-        boolean ruleB = isStudent || hasPass &amp;&amp; age &gt;= 18;
-        boolean ruleC = isStudent || (hasPass &amp;&amp; age &gt;= 18);
+        <span class="tok-com">// วงเล็บทำให้ || ทำก่อน</span>
+        <span class="tok-kw">boolean</span> ruleA = (isStudent || hasPass) &amp;&amp; age &gt;= <span class="tok-num">18</span>;
+        <span class="tok-com">// &amp;&amp; ทำก่อน || (เหมือน C)</span>
+        <span class="tok-kw">boolean</span> ruleB = isStudent || hasPass &amp;&amp; age &gt;= <span class="tok-num">18</span>;
+        <span class="tok-com">// เขียนวงเล็บให้ชัดเหมือน B</span>
+        <span class="tok-kw">boolean</span> ruleC = isStudent || (hasPass &amp;&amp; age &gt;= <span class="tok-num">18</span>);
 
-        System.out.println("A = " + ruleA);
-        System.out.println("B = " + ruleB);
-        System.out.println("C = " + ruleC);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"A = "</span> + ruleA);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"B = "</span> + ruleB);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"C = "</span> + ruleC);
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>A = false
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>A = false
 B = false
 C = false</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>A: (false || true) = true, && (16 ≥ 18 false) → false</li><li>B: ไม่มีวงเล็บ && ทำก่อน → false || (true && false) → false</li><li>C: เขียนวงเล็บแบบเดียวกับ B จึงได้ผลเท่ากัน</li><li>ลอง isStudent = true: A เป็น false (อายุไม่ถึง) แต่ B, C เป็น true — ความหมายต่างกันจริง</li></ol></div><p class="try-it">เปลี่ยน isStudent = true แล้วดูว่า A กับ B ต่างกันอย่างไร</p></div>
-<div class="source-example"><h4>ตัวอย่าง 5.2.3 · Short-circuit: หยุดตรวจเมื่อรู้คำตอบแล้ว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าด้านซ้ายของ <code>&amp;&amp;</code> เป็น false Java ไม่ตรวจด้านขวาเลย ใช้ป้องกันการหารด้วยศูนย์ได้</p><div class="source-example-grid"><div class="source-field"><span>Java source · ShortCircuit.java</span><pre class="source-code">public class ShortCircuit {
-    public static void main(String[] args) {
-        int total = 100;
-        int count = 0;
-        if (count != 0 &amp;&amp; total / count &gt; 10) {
-            System.out.println("Average above 10");
-        } else {
-            System.out.println("No data or average too low");
+<div class="source-example"><h4>ตัวอย่าง 5.2.3 · Short-circuit: หยุดตรวจเมื่อรู้คำตอบแล้ว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าด้านซ้ายของ <code>&amp;&amp;</code> เป็น false Java ไม่ตรวจด้านขวาเลย ใช้ป้องกันการหารด้วยศูนย์ได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ShortCircuit.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ShortCircuit</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> total = <span class="tok-num">100</span>;
+        <span class="tok-kw">int</span> count = <span class="tok-num">0</span>;
+        <span class="tok-com">// ถ้า count เป็น 0 จะไม่หารเลย (short-circuit)</span>
+        <span class="tok-kw">if</span> (count != <span class="tok-num">0</span> &amp;&amp; total / count &gt; <span class="tok-num">10</span>) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Average above 10"</span>);
+        } <span class="tok-kw">else</span> {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"No data or average too low"</span>);
         }
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>No data or average too low</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>count != 0</code> เป็น false</li><li>เนื่องจาก false && อะไรก็ได้ = false Java จึงข้าม <code>total / count</code></li><li>ไม่เกิด ArithmeticException</li><li>ถ้าสลับเป็น <code>total / count &gt; 10 &amp;&amp; count != 0</code> จะ error ทันที</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.2.4 · ปีอธิกสุรทิน: เงื่อนไขซับซ้อน <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ปีอธิกสุรทิน = หารด้วย 4 ลงตัว <em>และ</em> ไม่ลงตัวด้วย 100 <em>หรือ</em> หารด้วย 400 ลงตัว</p><div class="source-example-grid"><div class="source-field"><span>Java source · LeapYear.java</span><pre class="source-code">public class LeapYear {
-    public static void main(String[] args) {
-        int[] years = {2024, 2025, 1900, 2000};
-        for (int year : years) {
-            boolean leap = (year % 4 == 0 &amp;&amp; year % 100 != 0) || year % 400 == 0;
-            System.out.println(year + " leap? " + leap);
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>No data or average too low</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>count != 0</code> เป็น false</li><li>เนื่องจาก false && อะไรก็ได้ = false Java จึงข้าม <code>total / count</code></li><li>ไม่เกิด ArithmeticException</li><li>ถ้าสลับเป็น <code>total / count &gt; 10 &amp;&amp; count != 0</code> จะ error ทันที</li></ol></div></div>
+<div class="source-example"><h4>ตัวอย่าง 5.2.4 · ปีอธิกสุรทิน: เงื่อนไขซับซ้อน <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ปีอธิกสุรทิน = หารด้วย 4 ลงตัว <em>และ</em> ไม่ลงตัวด้วย 100 <em>หรือ</em> หารด้วย 400 ลงตัว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LeapYear.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LeapYear</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// ปีตัวอย่างหลายค่า</span>
+        <span class="tok-kw">int</span>[] years = {<span class="tok-num">2024</span>, <span class="tok-num">2025</span>, <span class="tok-num">1900</span>, <span class="tok-num">2000</span>};
+        <span class="tok-com">// วนทีละปี (เรียนในบทที่ 6)</span>
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> year : years) {
+            <span class="tok-com">// หาร 4 ลงตัวแต่ไม่ลงตัว 100 หรือหาร 400 ลงตัว</span>
+            <span class="tok-kw">boolean</span> leap = (year % <span class="tok-num">4</span> == <span class="tok-num">0</span> &amp;&amp; year % <span class="tok-num">100</span> != <span class="tok-num">0</span>) || year % <span class="tok-num">400</span> == <span class="tok-num">0</span>;
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(year + <span class="tok-str">" leap? "</span> + leap);
         }
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>2024 leap? true
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>2024 leap? true
 2025 leap? false
 1900 leap? false
 2000 leap? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>2024: หาร 4 ลงตัว ไม่ลงตัวด้วย 100 → true</li><li>2025: หาร 4 ไม่ลงตัว และไม่ลงตัวด้วย 400 → false</li><li>1900: หาร 100 ลงตัว ทำให้วงเล็บแรก false และ 1900 % 400 ≠ 0 → false</li><li>2000: หาร 400 ลงตัว → true</li></ol></div><p>ตัวอย่างนี้ใช้อาเรย์และลูปวนทดสอบหลายปี (จะเรียนในบทที่ 6 และ 8) เพื่อให้เห็นทุกกรณีพร้อมกัน ตอนนี้ให้โฟกัสที่บรรทัด boolean leap</p></div>
@@ -146,98 +195,102 @@ C = false</pre></div></div><div class="walkthrough"><strong>อธิบาย�
 ① ทางเลือกเดียว             ② สองทาง                         ทำเมื่อไม่ตรงข้อใด
                                                          }
                                                          ③ หลายทาง</code></pre><p>if-else if ตรวจ<strong>จากบนลงล่าง</strong> และทำเฉพาะกรณีแรกที่เป็นจริง กรณีที่เหลือถูกข้ามทั้งหมด</p></div>
-<div class="source-example"><h4>ตัวอย่าง 5.3.1 · if อย่างเดียว: แจ้งเตือนเมื่อเกินกำหนด <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อต้องทำอะไรเพิ่ม<em>เฉพาะบางกรณี</em> และกรณีอื่นไม่ต้องทำอะไร ใช้ if อย่างเดียว</p><div class="source-example-grid"><div class="source-field"><span>Java source · FeverAlert.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 5.3.1 · if อย่างเดียว: แจ้งเตือนเมื่อเกินกำหนด <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อต้องทำอะไรเพิ่ม<em>เฉพาะบางกรณี</em> และกรณีอื่นไม่ต้องทำอะไร ใช้ if อย่างเดียว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FeverAlert.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class FeverAlert {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Temperature: ");
-        double temp = input.nextDouble();
-        if (temp &gt;= 37.5) {
-            System.out.println("Warning: fever!");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FeverAlert</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Temperature: "</span>);
+        <span class="tok-kw">double</span> temp = input.<span class="tok-fn">nextDouble</span>();
+        <span class="tok-kw">if</span> (temp &gt;= <span class="tok-num">37.5</span>) {  <span class="tok-com">// เงื่อนไขจริง → ทำในวงเล็บปีกกา</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Warning: fever!"</span>);
         }
-        System.out.println("Recorded " + temp);
+        <span class="tok-com">// ทำเสมอ ไม่ว่าเงื่อนไขเป็นอะไร</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Recorded "</span> + temp);
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Temperature: <b class="stdin">38.2</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Temperature: <b class="stdin">38.2</b>
 Warning: fever!
 Recorded 38.2</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>38.2 ≥ 37.5 → true → พิมพ์ Warning</li><li>บรรทัด Recorded อยู่นอก if จึงทำทุกครั้ง</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.3.2 · if-else: คู่หรือคี่ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สองทางที่ไม่ซ้อนทับกัน — ทำทางใดทางหนึ่งเสมอ</p><div class="source-example-grid"><div class="source-field"><span>Java source · EvenOdd.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 5.3.2 · if-else: คู่หรือคี่ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สองทางที่ไม่ซ้อนทับกัน — ทำทางใดทางหนึ่งเสมอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">EvenOdd.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class EvenOdd {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Number: ");
-        int n = input.nextInt();
-        if (n % 2 == 0) {
-            System.out.println(n + " is even");
-        } else {
-            System.out.println(n + " is odd");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">EvenOdd</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Number: "</span>);
+        <span class="tok-kw">int</span> n = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">if</span> (n % <span class="tok-num">2</span> == <span class="tok-num">0</span>) {  <span class="tok-com">// เศษจากหาร 2 เป็น 0 = เลขคู่</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">" is even"</span>);
+        } <span class="tok-kw">else</span> {  <span class="tok-com">// มิฉะนั้นเป็นเลขคี่</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">" is odd"</span>);
         }
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Number: <b class="stdin">17</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Number: <b class="stdin">17</b>
 17 is odd</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>17 % 2 = 1 ไม่เท่ากับ 0</li><li>ไปทาง else → odd</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.3.3 · else-if: ตัดเกรดและลำดับเงื่อนไข <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตรวจจากคะแนนสูงลงต่ำ แต่ละขั้นจึงไม่ต้องเขียนขอบบน (เพราะกรณีที่สูงกว่าถูกดักไปแล้ว)</p><div class="source-example-grid"><div class="source-field"><span>Java source · GradeIf.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 5.3.3 · else-if: ตัดเกรดและลำดับเงื่อนไข <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตรวจจากคะแนนสูงลงต่ำ แต่ละขั้นจึงไม่ต้องเขียนขอบบน (เพราะกรณีที่สูงกว่าถูกดักไปแล้ว)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GradeIf.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class GradeIf {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Score: ");
-        int score = input.nextInt();
-        String grade;
-        if (score &gt;= 80) {
-            grade = "A";
-        } else if (score &gt;= 70) {
-            grade = "B";
-        } else if (score &gt;= 60) {
-            grade = "C";
-        } else if (score &gt;= 50) {
-            grade = "D";
-        } else {
-            grade = "F";
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GradeIf</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Score: "</span>);
+        <span class="tok-kw">int</span> score = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-com">// ประกาศไว้ก่อน แล้วกำหนดค่าในแต่ละทาง</span>
+        <span class="tok-type">String</span> grade;
+        <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">80</span>) {  <span class="tok-com">// ตรวจจากช่วงสูงสุดลงมา</span>
+            grade = <span class="tok-str">"A"</span>;
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">70</span>) {  <span class="tok-com">// มาถึงนี่แปลว่า score &lt; 80</span>
+            grade = <span class="tok-str">"B"</span>;
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">60</span>) {
+            grade = <span class="tok-str">"C"</span>;
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">50</span>) {
+            grade = <span class="tok-str">"D"</span>;
+        } <span class="tok-kw">else</span> {  <span class="tok-com">// ไม่ตรงเงื่อนไขใดเลย</span>
+            grade = <span class="tok-str">"F"</span>;
         }
-        System.out.println("Grade: " + grade);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Grade: "</span> + grade);
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score: <b class="stdin">85</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score: <b class="stdin">85</b>
 Grade: A</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>85 ≥ 80 → grade = A แล้วข้ามทั้งหมด</li><li>ถ้าเรียง score ≥ 50 ไว้ก่อน คะแนน 85 จะได้ D ทันที เพราะ 85 ≥ 50 เป็นจริงก่อน</li><li>else สุดท้ายรับทุกกรณีที่เหลือ ตัวแปร grade จึงมีค่าแน่นอน</li></ol></div></div>
-<div class="source-example"><h4>ทดลองบั๊ก 5.3.4 · เงื่อนไขเรียงผิด: กรณีสำคัญถูกบัง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่ให้ผลผิด (logic error) เพราะเงื่อนไขที่กว้างกว่าถูกตรวจก่อน</p><div class="source-example-grid"><div class="source-field"><span>Java source · WrongOrder.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ทดลองบั๊ก 5.3.4 · เงื่อนไขเรียงผิด: กรณีสำคัญถูกบัง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่ให้ผลผิด (logic error) เพราะเงื่อนไขที่กว้างกว่าถูกตรวจก่อน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongOrder.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class WrongOrder {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Score: ");
-        int score = input.nextInt();
-        if (score &gt;= 50) {
-            System.out.println("Pass");
-        } else if (score &gt;= 90) {
-            System.out.println("Excellent");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongOrder</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Score: "</span>);
+        <span class="tok-kw">int</span> score = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">50</span>) {  <span class="tok-com">// คะแนน ≥ 50 ทุกค่าเข้าทางนี้ก่อน</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Pass"</span>);
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">90</span>) {  <span class="tok-com">// จึงไม่มีวันมาถึงเงื่อนไขนี้</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Excellent"</span>);
         }
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score: <b class="stdin">92</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score: <b class="stdin">92</b>
 Pass</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>92 ≥ 50 เป็นจริงตั้งแต่เงื่อนไขแรก → Pass</li><li>เงื่อนไข ≥ 90 ไม่มีทางถูกตรวจเลย</li><li>แก้: ย้าย ≥ 90 ขึ้นก่อน</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.3.5 · if ซ้อน และตัวดำเนินการ ?: <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> if ซ้อน (nested) ใช้เมื่อการตัดสินใจชั้นที่สองขึ้นกับชั้นแรก ส่วน <code>เงื่อนไข ? ค่า1 : ค่า2</code> (ternary) ใช้เลือก<em>ค่า</em>สั้น ๆ</p><div class="source-example-grid"><div class="source-field"><span>Java source · ShippingFee.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 5.3.5 · if ซ้อน และตัวดำเนินการ ?: <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> if ซ้อน (nested) ใช้เมื่อการตัดสินใจชั้นที่สองขึ้นกับชั้นแรก ส่วน <code>เงื่อนไข ? ค่า1 : ค่า2</code> (ternary) ใช้เลือก<em>ค่า</em>สั้น ๆ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ShippingFee.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class ShippingFee {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Order total: ");
-        double total = input.nextDouble();
-        System.out.print("Member (y/n): ");
-        String member = input.next();
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ShippingFee</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Order total: "</span>);
+        <span class="tok-kw">double</span> total = input.<span class="tok-fn">nextDouble</span>();
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Member (y/n): "</span>);
+        <span class="tok-type">String</span> member = input.<span class="tok-fn">next</span>();
 
-        double shipping;
-        if (total &gt;= 1000) {
-            shipping = 0;
-        } else {
-            if (member.equals("y")) {
-                shipping = 20;
-            } else {
-                shipping = 50;
+        <span class="tok-kw">double</span> shipping;
+        <span class="tok-kw">if</span> (total &gt;= <span class="tok-num">1000</span>) {  <span class="tok-com">// ยอดถึง 1000 ส่งฟรี</span>
+            shipping = <span class="tok-num">0</span>;
+        } <span class="tok-kw">else</span> {
+            <span class="tok-com">// if ซ้อน: ตรวจสมาชิกเฉพาะยอดไม่ถึง 1000</span>
+            <span class="tok-kw">if</span> (member.<span class="tok-fn">equals</span>(<span class="tok-str">"y"</span>)) {
+                shipping = <span class="tok-num">20</span>;
+            } <span class="tok-kw">else</span> {
+                shipping = <span class="tok-num">50</span>;
             }
         }
-        String label = shipping == 0 ? "FREE" : shipping + " baht";
-        System.out.println("Shipping: " + label);
+        <span class="tok-com">// ตัวดำเนินการ ?: เลือกค่าตามเงื่อนไข</span>
+        <span class="tok-type">String</span> label = shipping == <span class="tok-num">0</span> ? <span class="tok-str">"FREE"</span> : shipping + <span class="tok-str">" baht"</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Shipping: "</span> + label);
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Order total: <b class="stdin">1200</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Order total: <b class="stdin">1200</b>
 Member (y/n): <b class="stdin">y</b>
 Shipping: FREE</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ยอด 1200 ≥ 1000 → ส่งฟรี ไม่ต้องดูสถานะสมาชิกเลย</li><li>ถ้ายอดไม่ถึง จึงค่อยตรวจสมาชิก (if ชั้นใน)</li><li>ternary เลือกข้อความ: 0 → "FREE"</li></ol></div><p class="try-it">ป้อน 800 และ y → 20 baht, ป้อน 800 และ n → 50 baht</p></div>
 <div class="note-box"><span class="box-title">ใส่วงเล็บปีกกาเสมอ และอย่าใส่ ; หลัง if</span><pre><code>if (score &gt;= 50);              // ← ; ทำให้ if ไม่มีผลต่อบรรทัดถัดไป
@@ -261,87 +314,97 @@ else System.out.println("D");</code></pre></div><details><summary>ดูคำ�
     default:
         name = "?";
 }</code></pre></div>
-<div class="source-example"><h4>ตัวอย่าง 5.4.1 · switch แบบดั้งเดิม: ชื่อวัน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java กระโดดไปที่ case ที่ค่าตรงกัน ทำคำสั่งจนเจอ <code>break</code> ถ้าไม่มี case ใดตรงจะไป <code>default</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · DayName.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 5.4.1 · switch แบบดั้งเดิม: ชื่อวัน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java กระโดดไปที่ case ที่ค่าตรงกัน ทำคำสั่งจนเจอ <code>break</code> ถ้าไม่มี case ใดตรงจะไป <code>default</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DayName.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class DayName {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Day (1-7): ");
-        int day = input.nextInt();
-        String name;
-        switch (day) {
-            case 1: name = "Monday"; break;
-            case 2: name = "Tuesday"; break;
-            case 3: name = "Wednesday"; break;
-            case 4: name = "Thursday"; break;
-            case 5: name = "Friday"; break;
-            case 6: name = "Saturday"; break;
-            case 7: name = "Sunday"; break;
-            default: name = "Unknown day";
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DayName</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Day (1-7): "</span>);
+        <span class="tok-kw">int</span> day = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-type">String</span> name;
+        <span class="tok-com">// เลือกทางตามค่าของ day</span>
+        <span class="tok-kw">switch</span> (day) {
+            <span class="tok-com">// break: ออกจาก switch</span>
+            <span class="tok-kw">case</span> <span class="tok-num">1</span>: name = <span class="tok-str">"Monday"</span>; <span class="tok-kw">break</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">2</span>: name = <span class="tok-str">"Tuesday"</span>; <span class="tok-kw">break</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">3</span>: name = <span class="tok-str">"Wednesday"</span>; <span class="tok-kw">break</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">4</span>: name = <span class="tok-str">"Thursday"</span>; <span class="tok-kw">break</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">5</span>: name = <span class="tok-str">"Friday"</span>; <span class="tok-kw">break</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">6</span>: name = <span class="tok-str">"Saturday"</span>; <span class="tok-kw">break</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">7</span>: name = <span class="tok-str">"Sunday"</span>; <span class="tok-kw">break</span>;
+            <span class="tok-com">// default: ไม่ตรง case ใดเลย</span>
+            <span class="tok-kw">default</span>: name = <span class="tok-str">"Unknown day"</span>;
         }
-        System.out.println(name);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name);
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Day (1-7): <b class="stdin">3</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Day (1-7): <b class="stdin">3</b>
 Wednesday</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>day = 3 → กระโดดไป case 3</li><li>name = "Wednesday" แล้ว break ออกจาก switch</li></ol></div></div>
-<div class="source-example"><h4>ทดลองบั๊ก 5.4.2 · ลืม break: fall-through <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าไม่มี break จะ “ไหล” ไปทำ case ถัดไปทั้งหมดจนจบหรือเจอ break</p><div class="source-example-grid"><div class="source-field"><span>Java source · FallThrough.java</span><pre class="source-code">public class FallThrough {
-    public static void main(String[] args) {
-        int level = 2;
-        switch (level) {
-            case 1:
-                System.out.println("Bronze");
-            case 2:
-                System.out.println("Silver");
-            case 3:
-                System.out.println("Gold");
-            default:
-                System.out.println("End");
+<div class="source-example"><h4>ทดลองบั๊ก 5.4.2 · ลืม break: fall-through <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าไม่มี break จะ “ไหล” ไปทำ case ถัดไปทั้งหมดจนจบหรือเจอ break</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FallThrough.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FallThrough</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-kw">int</span> level = <span class="tok-num">2</span>;
+        <span class="tok-kw">switch</span> (level) {  <span class="tok-com">// ไม่มี break ทุก case</span>
+            <span class="tok-kw">case</span> <span class="tok-num">1</span>:
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Bronze"</span>);
+            <span class="tok-kw">case</span> <span class="tok-num">2</span>:  <span class="tok-com">// เข้าที่ case 2 แล้วไหลลงต่อ</span>
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Silver"</span>);
+            <span class="tok-kw">case</span> <span class="tok-num">3</span>:
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Gold"</span>);
+            <span class="tok-kw">default</span>:
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"End"</span>);
         }
     }
-}</pre></div><div class="source-output"><span>Output</span><pre>Silver
+}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Silver
 Gold
 End</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เริ่มที่ case 2 พิมพ์ Silver</li><li>ไม่มี break ไหลไป case 3 พิมพ์ Gold</li><li>ไหลต่อไป default พิมพ์ End</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.4.3 · ใช้ fall-through อย่างตั้งใจ: จัดกลุ่ม case <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หลาย case ที่ให้ผลเหมือนกันวางเรียงกันได้ — ในแบบลูกศรเขียน <code>case 12, 1, 2 -&gt;</code></p><div class="source-example-grid"><div class="source-field"><span>Java source · Season.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 5.4.3 · ใช้ fall-through อย่างตั้งใจ: จัดกลุ่ม case <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หลาย case ที่ให้ผลเหมือนกันวางเรียงกันได้ — ในแบบลูกศรเขียน <code>case 12, 1, 2 -&gt;</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Season.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class Season {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Month (1-12): ");
-        int month = input.nextInt();
-        String season = switch (month) {
-            case 3, 4, 5 -&gt; "Summer";
-            case 6, 7, 8, 9, 10 -&gt; "Rainy";
-            case 11, 12, 1, 2 -&gt; "Winter";
-            default -&gt; "Invalid month";
-        };
-        System.out.println("Season: " + season);
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Season</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Month (1-12): "</span>);
+        <span class="tok-kw">int</span> month = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-com">// switch แบบลูกศร คืนค่าได้</span>
+        <span class="tok-type">String</span> season = <span class="tok-kw">switch</span> (month) {
+            <span class="tok-com">// หลายค่าใน case เดียว คั่นด้วย ,</span>
+            <span class="tok-kw">case</span> <span class="tok-num">3</span>, <span class="tok-num">4</span>, <span class="tok-num">5</span> -&gt; <span class="tok-str">"Summer"</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">6</span>, <span class="tok-num">7</span>, <span class="tok-num">8</span>, <span class="tok-num">9</span>, <span class="tok-num">10</span> -&gt; <span class="tok-str">"Rainy"</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">11</span>, <span class="tok-num">12</span>, <span class="tok-num">1</span>, <span class="tok-num">2</span> -&gt; <span class="tok-str">"Winter"</span>;
+            <span class="tok-kw">default</span> -&gt; <span class="tok-str">"Invalid month"</span>;
+        };  <span class="tok-com">// มี ; ปิดท้าย เพราะเป็นนิพจน์</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Season: "</span> + season);
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Month (1-12): <b class="stdin">4</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Month (1-12): <b class="stdin">4</b>
 Season: Summer</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เดือน 4 ตรงกับ case 3, 4, 5</li><li>switch แบบลูกศรคืนค่าได้ (switch expression) จึงเขียน <code>String season = switch ...;</code> (มี ; ปิดท้าย)</li><li>ไม่ต้องมี break</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 5.4.4 · switch กับ char: เครื่องคิดเลขขนาดเล็ก <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รับนิพจน์ <code>ตัวเลข ตัวดำเนินการ ตัวเลข</code> แล้วเลือกคำนวณตามตัวดำเนินการ พร้อมดักการหารด้วยศูนย์</p><div class="source-example-grid"><div class="source-field"><span>Java source · MiniCalculator.java</span><pre class="source-code">import java.util.Scanner;
+<div class="source-example"><h4>ตัวอย่าง 5.4.4 · switch กับ char: เครื่องคิดเลขขนาดเล็ก <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รับนิพจน์ <code>ตัวเลข ตัวดำเนินการ ตัวเลข</code> แล้วเลือกคำนวณตามตัวดำเนินการ พร้อมดักการหารด้วยศูนย์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MiniCalculator.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class MiniCalculator {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Expression (a op b): ");
-        double a = input.nextDouble();
-        char op = input.next().charAt(0);
-        double b = input.nextDouble();
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MiniCalculator</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Expression (a op b): "</span>);
+        <span class="tok-kw">double</span> a = input.<span class="tok-fn">nextDouble</span>();
+        <span class="tok-com">// อ่านคำแล้วเอาตัวอักษรแรก</span>
+        <span class="tok-kw">char</span> op = input.<span class="tok-fn">next</span>().<span class="tok-fn">charAt</span>(<span class="tok-num">0</span>);
+        <span class="tok-kw">double</span> b = input.<span class="tok-fn">nextDouble</span>();
 
-        switch (op) {
-            case '+' -&gt; System.out.println("= " + (a + b));
-            case '-' -&gt; System.out.println("= " + (a - b));
-            case '*', 'x' -&gt; System.out.println("= " + (a * b));
-            case '/' -&gt; {
-                if (b == 0) {
-                    System.out.println("Cannot divide by zero");
-                } else {
-                    System.out.println("= " + (a / b));
+        <span class="tok-kw">switch</span> (op) {
+            <span class="tok-com">// แบบลูกศรไม่ต้อง break</span>
+            <span class="tok-kw">case</span> <span class="tok-str">'+'</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a + b));
+            <span class="tok-kw">case</span> <span class="tok-str">'-'</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a - b));
+            <span class="tok-com">// รองรับทั้ง * และ x</span>
+            <span class="tok-kw">case</span> <span class="tok-str">'*'</span>, <span class="tok-str">'x'</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a * b));
+            <span class="tok-com">// หลายคำสั่ง → ใช้ { }</span>
+            <span class="tok-kw">case</span> <span class="tok-str">'/'</span> -&gt; {
+                <span class="tok-com">// ป้องกันการหารด้วย 0</span>
+                <span class="tok-kw">if</span> (b == <span class="tok-num">0</span>) {
+                    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Cannot divide by zero"</span>);
+                } <span class="tok-kw">else</span> {
+                    <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"= "</span> + (a / b));
                 }
             }
-            default -&gt; System.out.println("Unknown operator: " + op);
+            <span class="tok-kw">default</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Unknown operator: "</span> + op);
         }
     }
-}</pre></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Expression (a op b): <b class="stdin">12 * 4</b>
+}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Expression (a op b): <b class="stdin">12 * 4</b>
 = 48.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่าน 12, "*" และ 4</li><li><code>.charAt(0)</code> ดึงอักขระแรกจาก String เป็น char</li><li>case '*' ทำงาน → 48.0</li><li>case '/' มีหลายคำสั่งจึงใช้ <code>{ }</code></li></ol></div></div>
 <h4>เลือก if หรือ switch</h4><table class="comparison-table"><thead><tr><th>สถานการณ์</th><th>ควรใช้</th></tr></thead><tbody><tr><td>ตรวจช่วงค่า (≥, &lt;)</td><td>if-else if</td></tr><tr><td>เงื่อนไขหลายตัวแปรรวมกัน (&amp;&amp;, ||)</td><td>if</td></tr><tr><td>ค่าเดียวเทียบกับค่าคงที่หลายค่า</td><td>switch</td></tr><tr><td>เมนูตัวเลข/ตัวอักษร</td><td>switch</td></tr></tbody></table>
 <div class="quick-check"><strong>ลองคิดก่อน · switch output</strong><div><pre><code>int n = 1;
@@ -359,82 +422,83 @@ switch (n) {
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 5.1</span>บวก ลบ หรือศูนย์<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับจำนวนเต็มหนึ่งจำนวน แล้วแสดงว่าเป็น <code>positive</code>, <code>negative</code> หรือ <code>zero</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ if – else if – else</li><li>ทดสอบทั้ง 3 กรณี</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Number: <b class="stdin">15</b>
 positive</pre></div><div><small>ครั้งที่ 2</small><pre>Number: <b class="stdin">-4</b>
 negative</pre></div><div><small>ครั้งที่ 3</small><pre>Number: <b class="stdin">0</b>
-zero</pre></div></div></div><div class="answer-gate" data-answer-id="5.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+zero</pre></div></div></div><div class="answer-gate" data-answer-id="5.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">SignCheck.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class SignCheck {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Number: ");
-        int n = input.nextInt();
-        if (n &gt; 0) {
-            System.out.println("positive");
-        } else if (n &lt; 0) {
-            System.out.println("negative");
-        } else {
-            System.out.println("zero");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SignCheck</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Number: "</span>);
+        <span class="tok-kw">int</span> n = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">if</span> (n &gt; <span class="tok-num">0</span>) {  <span class="tok-com">// มากกว่า 0</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"positive"</span>);
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (n &lt; <span class="tok-num">0</span>) {  <span class="tok-com">// น้อยกว่า 0</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"negative"</span>);
+        } <span class="tok-kw">else</span> {  <span class="tok-com">// ที่เหลือคือ 0</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"zero"</span>);
         }
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 5.2</span>ค่าสัมบูรณ์โดยไม่ใช้ Math.abs<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>รับจำนวนเต็ม แล้วแสดงค่าสัมบูรณ์ โดย<strong>ห้ามใช้</strong> <code>Math.abs</code> ให้ใช้ if แทน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ถ้าค่าน้อยกว่า 0 ให้คูณด้วย −1</li><li>แสดงผลรูปแบบ <code>|x| = y</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Number: <b class="stdin">-27</b>
 |-27| = 27</pre></div><div><small>ครั้งที่ 2</small><pre>Number: <b class="stdin">8</b>
-|8| = 8</pre></div></div></div><div class="answer-gate" data-answer-id="5.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+|8| = 8</pre></div></div></div><div class="answer-gate" data-answer-id="5.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">AbsoluteValue.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class AbsoluteValue {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Number: ");
-        int x = input.nextInt();
-        int result = x;
-        if (x &lt; 0) {
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AbsoluteValue</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Number: "</span>);
+        <span class="tok-kw">int</span> x = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">int</span> result = x;  <span class="tok-com">// เริ่มจากค่าเดิม</span>
+        <span class="tok-kw">if</span> (x &lt; <span class="tok-num">0</span>) {     <span class="tok-com">// ถ้าติดลบ จึงกลับเครื่องหมาย</span>
             result = -x;
         }
-        System.out.println("|" + x + "| = " + result);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"|"</span> + x + <span class="tok-str">"| = "</span> + result);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 5.3</span>เลือกเครื่องดื่ม<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>แสดงเมนู 1 = Tea, 2 = Coffee, 3 = Water รับหมายเลขเมนู แล้วแสดงชื่อเครื่องดื่มและราคา (25, 40, 10 บาท) ถ้าเป็นเลขอื่นให้แสดง <code>Invalid menu</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ switch</li><li>มี default สำหรับเลขที่ไม่ถูกต้อง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>1) Tea  2) Coffee  3) Water
 Choose: <b class="stdin">2</b>
 Coffee - 40 baht</pre></div><div><small>ครั้งที่ 2</small><pre>1) Tea  2) Coffee  3) Water
 Choose: <b class="stdin">9</b>
-Invalid menu</pre></div></div></div><div class="answer-gate" data-answer-id="5.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Invalid menu</pre></div></div></div><div class="answer-gate" data-answer-id="5.3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">DrinkMenu.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class DrinkMenu {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.println("1) Tea  2) Coffee  3) Water");
-        System.out.print("Choose: ");
-        int choice = input.nextInt();
-        switch (choice) {
-            case 1 -&gt; System.out.println("Tea - 25 baht");
-            case 2 -&gt; System.out.println("Coffee - 40 baht");
-            case 3 -&gt; System.out.println("Water - 10 baht");
-            default -&gt; System.out.println("Invalid menu");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DrinkMenu</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"1) Tea  2) Coffee  3) Water"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Choose: "</span>);
+        <span class="tok-kw">int</span> choice = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">switch</span> (choice) {  <span class="tok-com">// เลือกเมนูตามหมายเลข</span>
+            <span class="tok-kw">case</span> <span class="tok-num">1</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Tea - 25 baht"</span>);
+            <span class="tok-kw">case</span> <span class="tok-num">2</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Coffee - 40 baht"</span>);
+            <span class="tok-kw">case</span> <span class="tok-num">3</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Water - 10 baht"</span>);
+            <span class="tok-com">// เลขที่ไม่มีในเมนู</span>
+            <span class="tok-kw">default</span> -&gt; <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Invalid menu"</span>);
         }
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 5.4</span>ตรวจช่วงอายุและสิทธิ์<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับอายุ แล้วแสดงประเภทตั๋ว: อายุต่ำกว่า 0 หรือเกิน 120 แสดง <code>Invalid age</code>, 0–3 ปี <code>Free</code>, 4–12 ปี <code>Child 60 baht</code>, 13–59 ปี <code>Adult 120 baht</code>, 60 ปีขึ้นไป <code>Senior 70 baht</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ตรวจกรณีข้อมูลผิดก่อน</li><li>ใช้ else-if เรียงช่วงอย่างถูกต้อง</li><li>ทดสอบค่าขอบ 3, 4, 12, 13, 59, 60</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Age: <b class="stdin">3</b>
 Free</pre></div><div><small>ครั้งที่ 2</small><pre>Age: <b class="stdin">13</b>
 Adult 120 baht</pre></div><div><small>ครั้งที่ 3</small><pre>Age: <b class="stdin">60</b>
 Senior 70 baht</pre></div><div><small>ครั้งที่ 4</small><pre>Age: <b class="stdin">-5</b>
-Invalid age</pre></div></div></div><div class="answer-gate" data-answer-id="5.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Invalid age</pre></div></div></div><div class="answer-gate" data-answer-id="5.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">TicketType.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class TicketType {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Age: ");
-        int age = input.nextInt();
-        if (age &lt; 0 || age &gt; 120) {
-            System.out.println("Invalid age");
-        } else if (age &lt;= 3) {
-            System.out.println("Free");
-        } else if (age &lt;= 12) {
-            System.out.println("Child 60 baht");
-        } else if (age &lt;= 59) {
-            System.out.println("Adult 120 baht");
-        } else {
-            System.out.println("Senior 70 baht");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TicketType</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Age: "</span>);
+        <span class="tok-kw">int</span> age = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">if</span> (age &lt; <span class="tok-num">0</span> || age &gt; <span class="tok-num">120</span>) {  <span class="tok-com">// ตรวจค่าผิดปกติก่อน</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Invalid age"</span>);
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (age &lt;= <span class="tok-num">3</span>) {  <span class="tok-com">// ตรวจช่วงอายุจากน้อยไปมาก</span>
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Free"</span>);
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (age &lt;= <span class="tok-num">12</span>) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Child 60 baht"</span>);
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (age &lt;= <span class="tok-num">59</span>) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Adult 120 baht"</span>);
+        } <span class="tok-kw">else</span> {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Senior 70 baht"</span>);
         }
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 5.5</span>ส่วนลดตามยอดซื้อและบัตรสมาชิก<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับยอดซื้อและสถานะสมาชิก (y/n) คิดส่วนลดดังนี้: ยอดตั้งแต่ 2000 ลด 15%, ตั้งแต่ 1000 ลด 10%, ต่ำกว่านั้นไม่ลด และ<strong>สมาชิกได้ลดเพิ่มอีก 5%</strong> (บวกกับเปอร์เซ็นต์ข้างต้น) แสดงเปอร์เซ็นต์ส่วนลด จำนวนเงินที่ลด และยอดสุทธิ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>หาเปอร์เซ็นต์ส่วนลดจากยอดก่อน แล้วค่อยบวกส่วนของสมาชิก</li><li>เปรียบเทียบ String ด้วย <code>equalsIgnoreCase</code></li><li>แสดงเงินทศนิยม 2 ตำแหน่ง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Total: <b class="stdin">2500</b>
 Member (y/n): <b class="stdin">y</b>
 Discount 20% = 500.00
@@ -444,78 +508,82 @@ Discount 5% = 40.00
 Net = 760.00</pre></div><div><small>ครั้งที่ 3</small><pre>Total: <b class="stdin">1500</b>
 Member (y/n): <b class="stdin">n</b>
 Discount 10% = 150.00
-Net = 1350.00</pre></div></div></div><div class="answer-gate" data-answer-id="5.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Net = 1350.00</pre></div></div></div><div class="answer-gate" data-answer-id="5.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">MemberDiscount.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class MemberDiscount {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Total: ");
-        double total = input.nextDouble();
-        System.out.print("Member (y/n): ");
-        String member = input.next();
-        int percent;
-        if (total &gt;= 2000) {
-            percent = 15;
-        } else if (total &gt;= 1000) {
-            percent = 10;
-        } else {
-            percent = 0;
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MemberDiscount</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Total: "</span>);
+        <span class="tok-kw">double</span> total = input.<span class="tok-fn">nextDouble</span>();
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Member (y/n): "</span>);
+        <span class="tok-type">String</span> member = input.<span class="tok-fn">next</span>();
+        <span class="tok-kw">int</span> percent;
+        <span class="tok-kw">if</span> (total &gt;= <span class="tok-num">2000</span>) {  <span class="tok-com">// ส่วนลดตามยอดซื้อ</span>
+            percent = <span class="tok-num">15</span>;
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (total &gt;= <span class="tok-num">1000</span>) {
+            percent = <span class="tok-num">10</span>;
+        } <span class="tok-kw">else</span> {
+            percent = <span class="tok-num">0</span>;
         }
-        if (member.equalsIgnoreCase("y")) {
-            percent += 5;
+        <span class="tok-com">// if แยก: สมาชิกได้เพิ่มอีก 5%</span>
+        <span class="tok-kw">if</span> (member.<span class="tok-fn">equalsIgnoreCase</span>(<span class="tok-str">"y"</span>)) {
+            percent += <span class="tok-num">5</span>;
         }
-        double discount = total * percent / 100;
-        System.out.printf("Discount %d%% = %.2f%n", percent, discount);
-        System.out.printf("Net = %.2f%n", total - discount);
+        <span class="tok-com">// คิดส่วนลดจากเปอร์เซ็นต์รวม</span>
+        <span class="tok-kw">double</span> discount = total * percent / <span class="tok-num">100</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Discount %d%% = %.2f%n"</span>, percent, discount);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Net = %.2f%n"</span>, total - discount);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 5.6</span>ค่าที่มากที่สุดจาก 3 จำนวน<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับจำนวนเต็ม 3 จำนวน แล้วแสดงค่าที่มากที่สุดและน้อยที่สุด โดย<strong>ห้ามใช้</strong> Math.max/Math.min</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>สมมติให้ค่าแรกเป็นค่ามากสุด แล้วเทียบกับค่าที่เหลือทีละค่า</li><li>ทำแบบเดียวกันกับค่าน้อยสุด</li><li>ทดสอบกรณีมีค่าซ้ำ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Enter 3 numbers: <b class="stdin">12 45 7</b>
 Max = 45
 Min = 7</pre></div><div><small>ครั้งที่ 2</small><pre>Enter 3 numbers: <b class="stdin">9 9 3</b>
 Max = 9
-Min = 3</pre></div></div></div><div class="answer-gate" data-answer-id="5.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Min = 3</pre></div></div></div><div class="answer-gate" data-answer-id="5.6"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.6<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">MaxMinOfThree.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class MaxMinOfThree {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Enter 3 numbers: ");
-        int a = input.nextInt(), b = input.nextInt(), c = input.nextInt();
-        int max = a;
-        if (b &gt; max) max = b;
-        if (c &gt; max) max = c;
-        int min = a;
-        if (b &lt; min) min = b;
-        if (c &lt; min) min = c;
-        System.out.println("Max = " + max);
-        System.out.println("Min = " + min);
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MaxMinOfThree</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Enter 3 numbers: "</span>);
+        <span class="tok-kw">int</span> a = input.<span class="tok-fn">nextInt</span>(), b = input.<span class="tok-fn">nextInt</span>(), c = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">int</span> max = a;           <span class="tok-com">// สมมติว่าตัวแรกมากที่สุด</span>
+        <span class="tok-kw">if</span> (b &gt; max) max = b;  <span class="tok-com">// เจอค่าที่มากกว่า → เปลี่ยน</span>
+        <span class="tok-kw">if</span> (c &gt; max) max = c;
+        <span class="tok-kw">int</span> min = a;  <span class="tok-com">// ทำแบบเดียวกันกับค่าน้อยสุด</span>
+        <span class="tok-kw">if</span> (b &lt; min) min = b;
+        <span class="tok-kw">if</span> (c &lt; min) min = c;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Max = "</span> + max);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Min = "</span> + min);
     }
-}</code></pre><p>ใช้ if แยกกัน (ไม่ใช่ else if) เพราะต้องเทียบทุกค่า</p></div></div></article>
+}</code></pre></div><p>ใช้ if แยกกัน (ไม่ใช่ else if) เพราะต้องเทียบทุกค่า</p></div></div></article>
 <article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 5.7</span>ตรวจรหัสผ่านและชื่อผู้ใช้<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับชื่อผู้ใช้และรหัสผ่าน (คำเดียว) ระบบมีบัญชีเดียวคือ <code>student</code> / <code>java2026</code> แสดงผลดังนี้</p><ul><li>ถูกทั้งคู่ → <code>Login successful</code></li><li>ชื่อถูก รหัสผิด → <code>Wrong password</code></li><li>ชื่อผิด → <code>User not found</code></li></ul></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เปรียบเทียบด้วย equals (ชื่อผู้ใช้ไม่สนตัวพิมพ์ ใช้ equalsIgnoreCase)</li><li>ใช้ if ซ้อนหรือ else-if ก็ได้</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Username: <b class="stdin">Student</b>
 Password: <b class="stdin">java2026</b>
 Login successful</pre></div><div><small>ครั้งที่ 2</small><pre>Username: <b class="stdin">student</b>
 Password: <b class="stdin">1234</b>
 Wrong password</pre></div><div><small>ครั้งที่ 3</small><pre>Username: <b class="stdin">teacher</b>
 Password: <b class="stdin">java2026</b>
-User not found</pre></div></div></div><div class="answer-gate" data-answer-id="5.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+User not found</pre></div></div></div><div class="answer-gate" data-answer-id="5.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">LoginCheck.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class LoginCheck {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Username: ");
-        String user = input.next();
-        System.out.print("Password: ");
-        String pass = input.next();
-        if (user.equalsIgnoreCase("student")) {
-            if (pass.equals("java2026")) {
-                System.out.println("Login successful");
-            } else {
-                System.out.println("Wrong password");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LoginCheck</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Username: "</span>);
+        <span class="tok-type">String</span> user = input.<span class="tok-fn">next</span>();
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Password: "</span>);
+        <span class="tok-type">String</span> pass = input.<span class="tok-fn">next</span>();
+        <span class="tok-com">// ตรวจชื่อผู้ใช้ก่อน</span>
+        <span class="tok-kw">if</span> (user.<span class="tok-fn">equalsIgnoreCase</span>(<span class="tok-str">"student"</span>)) {
+            <span class="tok-com">// ชื่อถูกจึงตรวจรหัสผ่าน</span>
+            <span class="tok-kw">if</span> (pass.<span class="tok-fn">equals</span>(<span class="tok-str">"java2026"</span>)) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Login successful"</span>);
+            } <span class="tok-kw">else</span> {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Wrong password"</span>);
             }
-        } else {
-            System.out.println("User not found");
+        } <span class="tok-kw">else</span> {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"User not found"</span>);
         }
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 5.8</span>ค่าไฟฟ้าแบบอัตราก้าวหน้า<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>คิดค่าไฟตามจำนวนหน่วยแบบขั้นบันได: 150 หน่วยแรก หน่วยละ 3.25 บาท, หน่วยที่ 151–400 หน่วยละ 4.22 บาท, ส่วนที่เกิน 400 หน่วยละ 4.42 บาท บวกค่าบริการ 38.22 บาท แล้วบวก VAT 7% ของยอดทั้งหมด</p><p>เช่น 450 หน่วย = 150×3.25 + 250×4.22 + 50×4.42</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แยกคิดตามช่วงด้วย if-else if (ระวัง: ไม่ใช่คิดทุกหน่วยด้วยอัตราสูงสุด)</li><li>แสดงค่าไฟก่อน VAT, VAT และยอดสุทธิ ทศนิยม 2 ตำแหน่ง</li><li>ทดสอบ 120, 300 และ 450 หน่วย</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Units: <b class="stdin">120</b>
 Energy charge: 390.00
 Before VAT: 428.22
@@ -528,137 +596,152 @@ Total: 1239.83</pre></div><div><small>ครั้งที่ 3</small><pre>Uni
 Energy charge: 1763.50
 Before VAT: 1801.72
 VAT: 126.12
-Total: 1927.84</pre></div></div></div><div class="answer-gate" data-answer-id="5.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Total: 1927.84</pre></div></div></div><div class="answer-gate" data-answer-id="5.8"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.8<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ElectricBill.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class ElectricBill {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Units: ");
-        int units = input.nextInt();
-        double energy;
-        if (units &lt;= 150) {
-            energy = units * 3.25;
-        } else if (units &lt;= 400) {
-            energy = 150 * 3.25 + (units - 150) * 4.22;
-        } else {
-            energy = 150 * 3.25 + 250 * 4.22 + (units - 400) * 4.42;
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ElectricBill</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Units: "</span>);
+        <span class="tok-kw">int</span> units = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-kw">double</span> energy;
+        <span class="tok-kw">if</span> (units &lt;= <span class="tok-num">150</span>) {  <span class="tok-com">// ขั้นที่ 1: 150 หน่วยแรก</span>
+            energy = units * <span class="tok-num">3.25</span>;
+        } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (units &lt;= <span class="tok-num">400</span>) {  <span class="tok-com">// ขั้นที่ 2: หน่วยที่ 151-400</span>
+            energy = <span class="tok-num">150</span> * <span class="tok-num">3.25</span> + (units - <span class="tok-num">150</span>) * <span class="tok-num">4.22</span>;
+        } <span class="tok-kw">else</span> {  <span class="tok-com">// ขั้นที่ 3: เกิน 400 หน่วย</span>
+            energy = <span class="tok-num">150</span> * <span class="tok-num">3.25</span> + <span class="tok-num">250</span> * <span class="tok-num">4.22</span> + (units - <span class="tok-num">400</span>) * <span class="tok-num">4.42</span>;
         }
-        double beforeVat = energy + 38.22;
-        double vat = beforeVat * 0.07;
-        System.out.printf("Energy charge: %.2f%n", energy);
-        System.out.printf("Before VAT: %.2f%n", beforeVat);
-        System.out.printf("VAT: %.2f%n", vat);
-        System.out.printf("Total: %.2f%n", beforeVat + vat);
+        <span class="tok-com">// บวกค่าบริการรายเดือน</span>
+        <span class="tok-kw">double</span> beforeVat = energy + <span class="tok-num">38.22</span>;
+        <span class="tok-kw">double</span> vat = beforeVat * <span class="tok-num">0.07</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Energy charge: %.2f%n"</span>, energy);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Before VAT: %.2f%n"</span>, beforeVat);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"VAT: %.2f%n"</span>, vat);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Total: %.2f%n"</span>, beforeVat + vat);
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 5.9</span>ประเภทสามเหลี่ยม<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับความยาวด้าน 3 ด้าน (จำนวนเต็ม) ตรวจก่อนว่าประกอบเป็นสามเหลี่ยมได้หรือไม่ (ผลบวกของสองด้านใด ๆ ต้องมากกว่าด้านที่เหลือ และทุกด้านต้องมากกว่า 0) ถ้าได้ ให้บอกว่าเป็น <code>Equilateral</code> (ด้านเท่า), <code>Isosceles</code> (หน้าจั่ว) หรือ <code>Scalene</code> (ด้านไม่เท่า) และบอกเพิ่มว่าเป็น<strong>สามเหลี่ยมมุมฉาก</strong>หรือไม่ (a² + b² = c² เมื่อ c เป็นด้านยาวสุด)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ && และ || รวมเงื่อนไข</li><li>หาด้านที่ยาวที่สุดก่อนตรวจมุมฉาก</li><li>ทดสอบ 3 4 5, 5 5 5, 2 2 3, 1 2 3</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Sides: <b class="stdin">3 4 5</b>
 Scalene
 Right triangle: yes</pre></div><div><small>ครั้งที่ 2</small><pre>Sides: <b class="stdin">5 5 5</b>
 Equilateral
 Right triangle: no</pre></div><div><small>ครั้งที่ 3</small><pre>Sides: <b class="stdin">1 2 3</b>
-Not a triangle</pre></div></div></div><div class="answer-gate" data-answer-id="5.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Not a triangle</pre></div></div></div><div class="answer-gate" data-answer-id="5.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">TriangleType.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class TriangleType {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Sides: ");
-        int a = input.nextInt(), b = input.nextInt(), c = input.nextInt();
-        boolean valid = a &gt; 0 &amp;&amp; b &gt; 0 &amp;&amp; c &gt; 0 &amp;&amp; a + b &gt; c &amp;&amp; a + c &gt; b &amp;&amp; b + c &gt; a;
-        if (!valid) {
-            System.out.println("Not a triangle");
-        } else {
-            if (a == b &amp;&amp; b == c) {
-                System.out.println("Equilateral");
-            } else if (a == b || b == c || a == c) {
-                System.out.println("Isosceles");
-            } else {
-                System.out.println("Scalene");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TriangleType</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Sides: "</span>);
+        <span class="tok-kw">int</span> a = input.<span class="tok-fn">nextInt</span>(), b = input.<span class="tok-fn">nextInt</span>(), c = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-com">// ทุกด้านเป็นบวก และผลรวม 2 ด้านยาวกว่าด้านที่เหลือ</span>
+        <span class="tok-kw">boolean</span> valid = a &gt; <span class="tok-num">0</span> &amp;&amp; b &gt; <span class="tok-num">0</span> &amp;&amp; c &gt; <span class="tok-num">0</span> &amp;&amp; a + b &gt; c &amp;&amp; a + c &gt; b &amp;&amp; b + c &gt; a;
+        <span class="tok-kw">if</span> (!valid) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Not a triangle"</span>);
+        } <span class="tok-kw">else</span> {
+            <span class="tok-kw">if</span> (a == b &amp;&amp; b == c) {  <span class="tok-com">// เท่ากันทั้ง 3 ด้าน</span>
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Equilateral"</span>);
+            <span class="tok-com">// เท่ากันบางคู่</span>
+            } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (a == b || b == c || a == c) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Isosceles"</span>);
+            } <span class="tok-kw">else</span> {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Scalene"</span>);
             }
-            int longest = Math.max(a, Math.max(b, c));
-            int sumSquares = a * a + b * b + c * c - longest * longest;
-            if (sumSquares == longest * longest) {
-                System.out.println("Right triangle: yes");
-            } else {
-                System.out.println("Right triangle: no");
+            <span class="tok-com">// ด้านยาวที่สุด</span>
+            <span class="tok-kw">int</span> longest = <span class="tok-type">Math</span>.<span class="tok-fn">max</span>(a, <span class="tok-type">Math</span>.<span class="tok-fn">max</span>(b, c));
+            <span class="tok-kw">int</span> sumSquares = a * a + b * b + c * c - longest * longest;
+            <span class="tok-com">// ตรวจตามทฤษฎีบทพีทาโกรัส</span>
+            <span class="tok-kw">if</span> (sumSquares == longest * longest) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Right triangle: yes"</span>);
+            } <span class="tok-kw">else</span> {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Right triangle: no"</span>);
             }
         }
     }
-}</code></pre><p>ผลรวมกำลังสองของสองด้านสั้น = ผลรวมกำลังสองทั้งหมด − กำลังสองของด้านยาวสุด วิธีนี้ไม่ต้องรู้ว่าด้านไหนยาวสุด</p></div></div></article>
+}</code></pre></div><p>ผลรวมกำลังสองของสองด้านสั้น = ผลรวมกำลังสองทั้งหมด − กำลังสองของด้านยาวสุด วิธีนี้ไม่ต้องรู้ว่าด้านไหนยาวสุด</p></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 5.10</span>เครื่องคิดเลข BMI พร้อมคำแนะนำ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับเพศ (M/F) น้ำหนัก (กก.) และส่วนสูง (ซม.) คำนวณ BMI แล้วจัดกลุ่มตามเกณฑ์เอเชีย: ต่ำกว่า 18.5 <code>Underweight</code>, 18.5–22.9 <code>Normal</code>, 23–24.9 <code>Overweight</code>, 25–29.9 <code>Obese I</code>, ตั้งแต่ 30 <code>Obese II</code></p><p>นอกจากนี้ให้คำนวณ<strong>น้ำหนักที่ควรลด/เพิ่ม</strong>เพื่อให้ BMI อยู่ในช่วงปกติ (ใช้ขอบ 18.5 หรือ 22.9) และถ้าข้อมูลไม่สมเหตุสมผล (น้ำหนัก ≤ 0, ส่วนสูง &lt; 50 หรือ &gt; 250, เพศไม่ใช่ M/F) ให้แสดง <code>Invalid input</code> แล้วไม่คำนวณต่อ</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ตรวจความถูกต้องของข้อมูลก่อน</li><li>เพศใช้ <code>char</code> ผ่าน <code>next().toUpperCase().charAt(0)</code></li><li>น้ำหนักเป้าหมาย = BMI ขอบ × (ส่วนสูงเมตร)²</li><li>แสดงผลทศนิยม 1–2 ตำแหน่งตามตัวอย่าง</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Gender weight height: <b class="stdin">F 52 160</b>
 BMI = 20.31 (Normal)
 Keep it up!</pre></div><div><small>ครั้งที่ 2</small><pre>Gender weight height: <b class="stdin">M 92 175</b>
 BMI = 30.04 (Obese II)
 Lose about 21.9 kg</pre></div><div><small>ครั้งที่ 3</small><pre>Gender weight height: <b class="stdin">X 60 170</b>
-Invalid input</pre></div></div></div><div class="answer-gate" data-answer-id="5.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Invalid input</pre></div></div></div><div class="answer-gate" data-answer-id="5.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">BmiAdvisor.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class BmiAdvisor {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Gender weight height: ");
-        char gender = input.next().toUpperCase().charAt(0);
-        double weight = input.nextDouble();
-        double heightCm = input.nextDouble();
-        if ((gender != 'M' &amp;&amp; gender != 'F') || weight &lt;= 0 || heightCm &lt; 50 || heightCm &gt; 250) {
-            System.out.println("Invalid input");
-        } else {
-            double h = heightCm / 100;
-            double bmi = weight / (h * h);
-            String group;
-            if (bmi &lt; 18.5) group = "Underweight";
-            else if (bmi &lt; 23) group = "Normal";
-            else if (bmi &lt; 25) group = "Overweight";
-            else if (bmi &lt; 30) group = "Obese I";
-            else group = "Obese II";
-            System.out.printf("BMI = %.2f (%s)%n", bmi, group);
-            if (bmi &lt; 18.5) {
-                System.out.printf("Gain about %.1f kg%n", 18.5 * h * h - weight);
-            } else if (bmi &gt;= 23) {
-                System.out.printf("Lose about %.1f kg%n", weight - 22.9 * h * h);
-            } else {
-                System.out.println("Keep it up!");
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BmiAdvisor</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Gender weight height: "</span>);
+        <span class="tok-com">// แปลงเป็นตัวใหญ่แล้วเอาตัวแรก</span>
+        <span class="tok-kw">char</span> gender = input.<span class="tok-fn">next</span>().<span class="tok-fn">toUpperCase</span>().<span class="tok-fn">charAt</span>(<span class="tok-num">0</span>);
+        <span class="tok-kw">double</span> weight = input.<span class="tok-fn">nextDouble</span>();
+        <span class="tok-kw">double</span> heightCm = input.<span class="tok-fn">nextDouble</span>();
+        <span class="tok-com">// ตรวจข้อมูลผิดก่อนคำนวณ</span>
+        <span class="tok-kw">if</span> ((gender != <span class="tok-str">'M'</span> &amp;&amp; gender != <span class="tok-str">'F'</span>) || weight &lt;= <span class="tok-num">0</span> || heightCm &lt; <span class="tok-num">50</span> || heightCm &gt; <span class="tok-num">250</span>) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Invalid input"</span>);
+        } <span class="tok-kw">else</span> {
+            <span class="tok-com">// แปลงเซนติเมตรเป็นเมตร</span>
+            <span class="tok-kw">double</span> h = heightCm / <span class="tok-num">100</span>;
+            <span class="tok-kw">double</span> bmi = weight / (h * h);
+            <span class="tok-type">String</span> group;
+            <span class="tok-com">// ไม่มี { } ได้เมื่อมีคำสั่งเดียว</span>
+            <span class="tok-kw">if</span> (bmi &lt; <span class="tok-num">18.5</span>) group = <span class="tok-str">"Underweight"</span>;
+            <span class="tok-kw">else</span> <span class="tok-kw">if</span> (bmi &lt; <span class="tok-num">23</span>) group = <span class="tok-str">"Normal"</span>;
+            <span class="tok-kw">else</span> <span class="tok-kw">if</span> (bmi &lt; <span class="tok-num">25</span>) group = <span class="tok-str">"Overweight"</span>;
+            <span class="tok-kw">else</span> <span class="tok-kw">if</span> (bmi &lt; <span class="tok-num">30</span>) group = <span class="tok-str">"Obese I"</span>;
+            <span class="tok-kw">else</span> group = <span class="tok-str">"Obese II"</span>;
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"BMI = %.2f (%s)%n"</span>, bmi, group);
+            <span class="tok-kw">if</span> (bmi &lt; <span class="tok-num">18.5</span>) {
+                <span class="tok-com">// น้ำหนักที่ควรเพิ่มให้ถึง 18.5</span>
+                <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Gain about %.1f kg%n"</span>, <span class="tok-num">18.5</span> * h * h - weight);
+            } <span class="tok-kw">else</span> <span class="tok-kw">if</span> (bmi &gt;= <span class="tok-num">23</span>) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Lose about %.1f kg%n"</span>, weight - <span class="tok-num">22.9</span> * h * h);
+            } <span class="tok-kw">else</span> {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Keep it up!"</span>);
             }
         }
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 5.11</span>วันถัดไปในปฏิทิน<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รับวัน เดือน ปี (ค.ศ.) แล้วแสดง<strong>วันถัดไป</strong> โดยคำนึงถึงจำนวนวันในแต่ละเดือนและปีอธิกสุรทิน (กุมภาพันธ์มี 29 วัน) ถ้าวันที่ไม่มีจริง (เช่น 31/4 หรือ 29/2/2025) ให้แสดง <code>Invalid date</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>หาจำนวนวันของเดือนด้วย switch (เดือน 4, 6, 9, 11 มี 30 วัน, เดือน 2 ขึ้นกับปีอธิกสุรทิน, ที่เหลือ 31)</li><li>ตรวจความถูกต้องของวันที่ก่อน</li><li>จัดการกรณีขึ้นเดือนใหม่และขึ้นปีใหม่</li><li>ทดสอบ 28/2/2024, 28/2/2025, 31/12/2025, 31/4/2025</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Date (d m y): <b class="stdin">28 2 2024</b>
 Next day: 29/2/2024</pre></div><div><small>ครั้งที่ 2</small><pre>Date (d m y): <b class="stdin">28 2 2025</b>
 Next day: 1/3/2025</pre></div><div><small>ครั้งที่ 3</small><pre>Date (d m y): <b class="stdin">31 12 2025</b>
 Next day: 1/1/2026</pre></div><div><small>ครั้งที่ 4</small><pre>Date (d m y): <b class="stdin">31 4 2025</b>
-Invalid date</pre></div></div></div><div class="answer-gate" data-answer-id="5.11"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.11<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><pre><code>import java.util.Scanner;
+Invalid date</pre></div></div></div><div class="answer-gate" data-answer-id="5.11"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 5.11<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">NextDay.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
-public class NextDay {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        System.out.print("Date (d m y): ");
-        int d = input.nextInt(), m = input.nextInt(), y = input.nextInt();
-        boolean leap = (y % 4 == 0 &amp;&amp; y % 100 != 0) || y % 400 == 0;
-        int daysInMonth = switch (m) {
-            case 4, 6, 9, 11 -&gt; 30;
-            case 2 -&gt; leap ? 29 : 28;
-            case 1, 3, 5, 7, 8, 10, 12 -&gt; 31;
-            default -&gt; 0;
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NextDay</span> {
+    <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Date (d m y): "</span>);
+        <span class="tok-kw">int</span> d = input.<span class="tok-fn">nextInt</span>(), m = input.<span class="tok-fn">nextInt</span>(), y = input.<span class="tok-fn">nextInt</span>();
+        <span class="tok-com">// เงื่อนไขปีอธิกสุรทิน</span>
+        <span class="tok-kw">boolean</span> leap = (y % <span class="tok-num">4</span> == <span class="tok-num">0</span> &amp;&amp; y % <span class="tok-num">100</span> != <span class="tok-num">0</span>) || y % <span class="tok-num">400</span> == <span class="tok-num">0</span>;
+        <span class="tok-com">// จำนวนวันของแต่ละเดือน</span>
+        <span class="tok-kw">int</span> daysInMonth = <span class="tok-kw">switch</span> (m) {
+            <span class="tok-kw">case</span> <span class="tok-num">4</span>, <span class="tok-num">6</span>, <span class="tok-num">9</span>, <span class="tok-num">11</span> -&gt; <span class="tok-num">30</span>;
+            <span class="tok-com">// กุมภาพันธ์ขึ้นกับปีอธิกสุรทิน</span>
+            <span class="tok-kw">case</span> <span class="tok-num">2</span> -&gt; leap ? <span class="tok-num">29</span> : <span class="tok-num">28</span>;
+            <span class="tok-kw">case</span> <span class="tok-num">1</span>, <span class="tok-num">3</span>, <span class="tok-num">5</span>, <span class="tok-num">7</span>, <span class="tok-num">8</span>, <span class="tok-num">10</span>, <span class="tok-num">12</span> -&gt; <span class="tok-num">31</span>;
+            <span class="tok-kw">default</span> -&gt; <span class="tok-num">0</span>;
         };
-        if (daysInMonth == 0 || d &lt; 1 || d &gt; daysInMonth) {
-            System.out.println("Invalid date");
-        } else {
+        <span class="tok-com">// ตรวจวันที่ไม่ถูกต้อง</span>
+        <span class="tok-kw">if</span> (daysInMonth == <span class="tok-num">0</span> || d &lt; <span class="tok-num">1</span> || d &gt; daysInMonth) {
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Invalid date"</span>);
+        } <span class="tok-kw">else</span> {
             d++;
-            if (d &gt; daysInMonth) {
-                d = 1;
+            <span class="tok-com">// เกินจำนวนวัน → ขึ้นเดือนใหม่</span>
+            <span class="tok-kw">if</span> (d &gt; daysInMonth) {
+                d = <span class="tok-num">1</span>;
                 m++;
-                if (m &gt; 12) {
-                    m = 1;
+                <span class="tok-kw">if</span> (m &gt; <span class="tok-num">12</span>) {  <span class="tok-com">// เกินเดือน 12 → ขึ้นปีใหม่</span>
+                    m = <span class="tok-num">1</span>;
                     y++;
                 }
             }
-            System.out.println("Next day: " + d + "/" + m + "/" + y);
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Next day: "</span> + d + <span class="tok-str">"/"</span> + m + <span class="tok-str">"/"</span> + y);
         }
     }
-}</code></pre></div></div></article>
+}</code></pre></div></div></div></article>
       </section>
       <nav class="lesson-pager" aria-label="นำทางบทเรียน"><a class="pager-link secondary" href="chapter-04.html">← บทที่ 4</a><a class="pager-link" href="chapter-06.html">บทที่ 6: การทำซ้ำ →</a></nav>
       <footer class="lesson-footer">Java programming by Prymania · บทที่ 5 · ทดสอบค่าขอบทุกเงื่อนไข</footer>
     </main>
   </div>
-  <script src="../password.js"></script><script src="../assets/lesson.js"></script>
+  <script src="../password.js"></script><script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
 </body>
 </html>

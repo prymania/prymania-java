@@ -21,23 +21,28 @@ export default {
           concept: "สร้าง Thread ด้วย lambda แล้ว <code>start()</code> — main และ worker ทำงานคู่ขนาน <code>join()</code> รอให้ worker จบก่อนทำต่อ",
           code: j`
             public class TwoThreads {
+                // join() อาจโยน InterruptedException
                 public static void main(String[] args) throws InterruptedException {
+                    // สร้าง thread ใหม่ พร้อมงานที่จะทำ
                     Thread worker = new Thread(() -> {
                         for (int i = 1; i <= 3; i++) {
                             System.out.println("worker step " + i);
-                            sleep(120);
+                            sleep(120);  // หยุดรอ 120 มิลลิวินาที
                         }
                     });
+                    // เริ่มทำงานคู่ขนานกับ main
                     worker.start();
+                    // main ทำงานของตัวเองต่อไป
                     for (int i = 1; i <= 3; i++) {
                         System.out.println("main step " + i);
                         sleep(100);
                     }
-                    worker.join();
+                    worker.join();  // รอให้ worker ทำเสร็จ
                     System.out.println("both finished");
                 }
 
                 static void sleep(int ms) {
+                    // Thread.sleep บังคับให้จัดการ InterruptedException
                     try { Thread.sleep(ms); } catch (InterruptedException e) { }
                 }
             }`,
@@ -56,10 +61,13 @@ export default {
                         JLabel status = new JLabel("Idle", SwingConstants.CENTER);
                         JButton start = new JButton("Start (blocking)");
                         start.addActionListener(e -> {
+                            // ข้อความนี้ยังไม่ทันแสดง
                             status.setText("Working...");
                             try {
+                                // หยุด EDT 2 วินาที → หน้าจอค้าง
                                 Thread.sleep(2000);
                             } catch (InterruptedException ex) { }
+                            // หน้าจอเห็นแค่ข้อความสุดท้าย
                             status.setText("Done");
                         });
                         frame.add(status, BorderLayout.CENTER);
@@ -84,7 +92,7 @@ export default {
             import java.awt.*;
 
             public class Countdown {
-                private static int seconds = 10;
+                private static int seconds = 10;  // วินาทีที่เหลือ
 
                 public static void main(String[] args) {
                     SwingUtilities.invokeLater(() -> {
@@ -93,21 +101,24 @@ export default {
                         JLabel label = new JLabel("10", SwingConstants.CENTER);
                         label.setFont(new Font("SansSerif", Font.BOLD, 40));
                         JButton start = new JButton("Start");
+                        // javax.swing.Timer: ทำงานทุก 1000 ms บน EDT
                         Timer timer = new Timer(1000, null);
+                        // โค้ดที่ทำทุกครั้งที่ Timer ครบรอบ
                         timer.addActionListener(e -> {
                             seconds--;
+                            // แก้ UI ได้ปลอดภัย เพราะอยู่บน EDT
                             label.setText(String.valueOf(seconds));
                             if (seconds == 0) {
-                                timer.stop();
+                                timer.stop();  // ครบเวลา → หยุด Timer
                                 label.setText("Time's up!");
                                 start.setEnabled(true);
                             }
                         });
                         start.addActionListener(e -> {
-                            seconds = 10;
+                            seconds = 10;  // รีเซ็ตก่อนเริ่มใหม่
                             label.setText("10");
                             start.setEnabled(false);
-                            timer.start();
+                            timer.start();  // เริ่มนับ
                         });
                         frame.add(label, BorderLayout.CENTER);
                         frame.add(start, BorderLayout.SOUTH);
@@ -124,7 +135,9 @@ export default {
             import java.awt.*;
 
             public class Stopwatch {
+                // เวลาที่กด Start ล่าสุด
                 private static long startMillis;
+                // เวลาสะสมจากรอบก่อน ๆ
                 private static long accumulated = 0;
 
                 public static void main(String[] args) {
@@ -133,7 +146,9 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JLabel display = new JLabel("0.0 s", SwingConstants.CENTER);
                         display.setFont(new Font("Monospaced", Font.BOLD, 32));
+                        // อัปเดตทุก 100 ms
                         Timer timer = new Timer(100, e -> {
+                            // เวลาสะสม + เวลาของรอบนี้
                             long elapsed = accumulated + System.currentTimeMillis() - startMillis;
                             display.setText(String.format("%.1f s", elapsed / 1000.0));
                         });
@@ -141,6 +156,7 @@ export default {
                         JButton stop = new JButton("Stop");
                         JButton reset = new JButton("Reset");
                         start.addActionListener(e -> {
+                            // กันกด Start ซ้ำขณะเดินอยู่
                             if (!timer.isRunning()) {
                                 startMillis = System.currentTimeMillis();
                                 timer.start();
@@ -149,6 +165,7 @@ export default {
                         stop.addActionListener(e -> {
                             if (timer.isRunning()) {
                                 timer.stop();
+                                // เก็บเวลาของรอบนี้ไว้
                                 accumulated += System.currentTimeMillis() - startMillis;
                             }
                         });
@@ -180,15 +197,20 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Loading");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                        // ค่าต่ำสุด 0, สูงสุด 100
                         JProgressBar bar = new JProgressBar(0, 100);
+                        // แสดงเปอร์เซ็นต์บนแถบ
                         bar.setStringPainted(true);
                         JLabel status = new JLabel("Starting...", SwingConstants.CENTER);
+                        // ทำทุก 50 ms
                         Timer timer = new Timer(50, null);
                         timer.addActionListener(e -> {
-                            int v = bar.getValue() + 2;
+                            int v = bar.getValue() + 2;  // เพิ่มทีละ 2%
                             bar.setValue(v);
+                            // เปลี่ยนสีตามช่วง
                             bar.setForeground(v < 40 ? new Color(200, 80, 60) : v < 80 ? new Color(230, 160, 30) : new Color(60, 160, 60));
                             status.setText(v < 100 ? "Loading course data..." : "Ready!");
+                            // ครบ 100% → หยุด
                             if (v >= 100) timer.stop();
                         });
                         timer.start();
@@ -235,21 +257,27 @@ export default {
                         JLabel result = new JLabel("Primes below 2,000,000: ?", SwingConstants.CENTER);
                         JButton go = new JButton("Count primes");
                         go.addActionListener(e -> {
+                            // กันกดซ้ำระหว่างทำงาน
                             go.setEnabled(false);
+                            // <ผลลัพธ์, ค่าระหว่างทาง>
                             SwingWorker<Integer, Void> worker = new SwingWorker<>() {
                                 @Override
+                                // ทำใน background thread ไม่ใช่ EDT
                                 protected Integer doInBackground() {
                                     int limit = 2_000_000, count = 0;
                                     for (int n = 2; n < limit; n++) {
                                         if (isPrime(n)) count++;
+                                        // รายงานความคืบหน้า 0-100
                                         if (n % 20_000 == 0) setProgress(n * 100 / limit);
                                     }
-                                    return count;
+                                    return count;  // ผลลัพธ์ส่งต่อให้ done()
                                 }
 
                                 @Override
+                                // done() ทำงานบน EDT แก้ UI ได้
                                 protected void done() {
                                     try {
+                                        // get() ดึงผลจาก doInBackground
                                         result.setText(String.format("Primes below 2,000,000: %,d", get()));
                                     } catch (Exception ex) {
                                         result.setText("Error: " + ex.getMessage());
@@ -258,10 +286,11 @@ export default {
                                     go.setEnabled(true);
                                 }
                             };
+                            // รับการแจ้งเปลี่ยนค่า progress
                             worker.addPropertyChangeListener(ev -> {
                                 if ("progress".equals(ev.getPropertyName())) bar.setValue((Integer) ev.getNewValue());
                             });
-                            worker.execute();
+                            worker.execute();  // เริ่มทำงานใน background
                         });
                         JPanel p = new JPanel(new GridLayout(3, 1, 6, 6));
                         p.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -275,6 +304,7 @@ export default {
                 }
 
                 static boolean isPrime(int n) {
+                    // (long) กัน d * d ล้นช่วง int
                     for (int d = 2; (long) d * d <= n; d++) if (n % d == 0) return false;
                     return true;
                 }
@@ -295,12 +325,16 @@ export default {
                         JButton download = new JButton("Download");
                         download.addActionListener(e -> {
                             download.setEnabled(false);
-                            new Thread(() -> {
+                            new Thread(() -> {  // thread ที่สร้างเอง
                                 for (int part = 1; part <= 4; part++) {
+                                    // จำลองการดาวน์โหลดทีละส่วน
                                     try { Thread.sleep(250); } catch (InterruptedException ex) { return; }
+                                    // lambda ใช้ได้เฉพาะตัวแปรที่ไม่เปลี่ยนค่า
                                     final int p = part;
+                                    // ส่งงานแก้ UI กลับไปทำบน EDT
                                     SwingUtilities.invokeLater(() -> log.addElement("received part " + p + "/4"));
                                 }
+                                // เสร็จแล้วแจ้ง UI อีกครั้ง
                                 SwingUtilities.invokeLater(() -> {
                                     log.addElement("download complete");
                                     download.setEnabled(true);
@@ -331,29 +365,32 @@ export default {
           code: j`
             public class CountdownModelTest {
                 public static void main(String[] args) {
+                    // ทดสอบ model โดยไม่ต้องรอเวลาจริง
                     CountdownModel m = new CountdownModel(3);
                     System.out.println("start: " + m.display() + " finished=" + m.isFinished());
                     for (int i = 0; i < 5; i++) {
-                        m.tick();
+                        m.tick();  // เรียก tick เองแทน Timer
                         System.out.println("tick " + (i + 1) + ": " + m.display() + " finished=" + m.isFinished());
                     }
+                    // ทดสอบการแสดงเกิน 1 นาที
                     CountdownModel long1 = new CountdownModel(125);
                     System.out.println("125 s shows " + long1.display());
                 }
             }
 
-            class CountdownModel {
+            class CountdownModel {  // logic การนับถอยหลัง ไม่มีโค้ด Swing
                 private int remaining;
 
                 CountdownModel(int seconds) { remaining = seconds; }
 
                 void tick() {
-                    if (remaining > 0) remaining--;
+                    if (remaining > 0) remaining--;  // ไม่ให้ติดลบ
                 }
 
                 boolean isFinished() { return remaining == 0; }
 
                 String display() {
+                    // นาที:วินาที เติม 0 ให้ครบ 2 หลัก
                     return String.format("%02d:%02d", remaining / 60, remaining % 60);
                 }
             }`,
@@ -370,10 +407,13 @@ export default {
         public class BlockingDemo {
             public static void main(String[] args) throws InterruptedException {
                 System.out.println("== single thread ==");
+                // งานยาวทำก่อน
                 longWork();
+                // "วาดจอ" ได้หลังงานยาวจบเท่านั้น
                 for (int i = 0; i < 3; i++) System.out.println("refresh (late)");
 
                 System.out.println("== two threads ==");
+                // thread แยกทำหน้าที่ "วาดจอ"
                 Thread ui = new Thread(() -> {
                     for (int i = 0; i < 6; i++) {
                         System.out.println("refresh");
@@ -381,11 +421,11 @@ export default {
                     }
                 });
                 ui.start();
-                longWork();
-                ui.join();
+                longWork();  // งานยาวทำบน main thread
+                ui.join();   // รอ thread ui จบ
             }
 
-            static void longWork() {
+            static void longWork() {  // จำลองงานที่ใช้เวลานาน
                 for (int i = 1; i <= 3; i++) {
                     System.out.println("working " + i);
                     pause(200);
@@ -410,12 +450,18 @@ export default {
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Clock");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // เวลา
                     JLabel time = new JLabel("", SwingConstants.CENTER);
                     time.setFont(new Font("Monospaced", Font.BOLD, 36));
+                    // วันที่ปัจจุบัน
                     JLabel date = new JLabel(LocalDate.now().toString(), SwingConstants.CENTER);
+                    // รูปแบบ ชั่วโมง:นาที:วินาที
                     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("HH:mm:ss");
+                    // งานอัปเดตเวลา
                     Runnable update = () -> time.setText(LocalTime.now().format(fmt));
+                    // แสดงเวลาทันทีไม่ต้องรอ 1 วินาที
                     update.run();
+                    // อัปเดตทุก 1 วินาที
                     new Timer(1000, e -> update.run()).start();
                     frame.add(time, BorderLayout.CENTER);
                     frame.add(date, BorderLayout.SOUTH);
@@ -431,6 +477,7 @@ export default {
         import java.awt.*;
 
         public class CustomCountdown {
+            // model ปัจจุบัน สร้างใหม่ทุกครั้งที่กด Start
             private static CountdownModel model;
 
             public static void main(String[] args) {
@@ -443,10 +490,14 @@ export default {
                     pause.setEnabled(false);
                     JLabel display = new JLabel("--:--", SwingConstants.CENTER);
                     display.setFont(new Font("Monospaced", Font.BOLD, 34));
+                    // กำหนด listener ภายหลัง
                     Timer timer = new Timer(1000, null);
                     timer.addActionListener(e -> {
+                        // ให้ model นับ
                         model.tick();
+                        // แสดงค่าจาก model
                         display.setText(model.display());
+                        // หมดเวลา
                         if (model.isFinished()) {
                             timer.stop();
                             display.setText("Time's up!");
@@ -458,7 +509,9 @@ export default {
                     start.addActionListener(e -> {
                         try {
                             int s = Integer.parseInt(input.getText().trim());
+                            // รับ 1-3600 วินาทีเท่านั้น
                             if (s < 1 || s > 3600) throw new NumberFormatException();
+                            // สร้าง model ใหม่ตามค่าที่กรอก
                             model = new CountdownModel(s);
                             display.setForeground(Color.BLACK);
                             display.setText(model.display());
@@ -472,7 +525,9 @@ export default {
                         }
                     });
                     pause.addActionListener(e -> {
+                        // หยุดชั่วคราว
                         if (timer.isRunning()) { timer.stop(); pause.setText("Resume"); }
+                        // เดินต่อจากเดิม
                         else { timer.start(); pause.setText("Pause"); }
                     });
                     JPanel top = new JPanel();
@@ -488,7 +543,7 @@ export default {
             }
         }
 
-        class CountdownModel {
+        class CountdownModel {  // model เดียวกับที่ทดสอบไว้
             private int remaining;
             CountdownModel(int seconds) { remaining = seconds; }
             void tick() { if (remaining > 0) remaining--; }
@@ -502,10 +557,14 @@ export default {
         import java.awt.*;
 
         public class TrafficLight {
+            // 0 = เขียว, 1 = เหลือง, 2 = แดง
             private static int state = 0;
+            // วินาทีที่เหลือของสถานะปัจจุบัน
             private static int remaining = 3;
             static final String[] NAMES = {"GREEN", "YELLOW", "RED"};
+            // ระยะเวลาแต่ละสถานะ
             static final int[] DURATION = {3, 1, 3};
+            // สีของไฟที่ติด
             static final Color[] ON = {new Color(40, 180, 70), new Color(240, 200, 30), new Color(220, 50, 40)};
 
             public static void main(String[] args) {
@@ -518,21 +577,26 @@ export default {
                     pole.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
                     for (int i = 2; i >= 0; i--) {
                         lamps[i] = new JLabel();
+                        // ต้อง setOpaque สีพื้นหลังจึงแสดง
                         lamps[i].setOpaque(true);
                         lamps[i].setPreferredSize(new Dimension(50, 40));
                     }
-                    pole.add(lamps[2]);
+                    pole.add(lamps[2]);  // ไฟแดงอยู่บนสุด
                     pole.add(lamps[1]);
                     pole.add(lamps[0]);
                     JLabel status = new JLabel("", SwingConstants.CENTER);
+                    // วาดหลอดไฟตามสถานะ
                     Runnable paint = () -> {
+                        // หลอดที่ไม่ติดเป็นสีเทา
                         for (int i = 0; i < 3; i++) lamps[i].setBackground(i == state ? ON[i] : new Color(60, 60, 60));
                         status.setText(NAMES[state] + " (" + remaining + "s)");
                     };
                     paint.run();
-                    new Timer(1000, e -> {
+                    new Timer(1000, e -> {  // เดินทุก 1 วินาที
                         remaining--;
+                        // หมดเวลา → สถานะถัดไป
                         if (remaining == 0) {
+                            // % 3 วนกลับไปเขียว
                             state = (state + 1) % 3;
                             remaining = DURATION[state];
                         }
@@ -553,9 +617,12 @@ export default {
         import java.util.Random;
 
         public class ReactionTest {
+            // enum: ค่าที่เป็นไปได้มีแค่ 3 แบบ
             private enum State { IDLE, WAITING, GO }
             private static State state = State.IDLE;
+            // เวลาที่ไฟเขียวติด
             private static long goTime;
+            // เวลาที่ดีที่สุด เริ่มที่ค่ามากสุด
             private static long best = Long.MAX_VALUE;
 
             public static void main(String[] args) {
@@ -568,28 +635,35 @@ export default {
                     screen.setFont(screen.getFont().deriveFont(Font.BOLD, 20f));
                     JLabel stats = new JLabel("Best: -");
                     Random rng = new Random();
+                    // Timer ครบเวลา → ขึ้นสีเขียว
                     Timer delay = new Timer(1000, e -> {
                         state = State.GO;
+                        // nanoTime วัดช่วงเวลาได้ละเอียด
                         goTime = System.nanoTime();
                         screen.setBackground(new Color(60, 180, 75));
                         screen.setText("CLICK!");
                     });
-                    delay.setRepeats(false);
+                    delay.setRepeats(false);  // ทำครั้งเดียว ไม่วนซ้ำ
                     JButton ready = new JButton("Ready");
                     JButton click = new JButton("Click");
                     ready.addActionListener(e -> {
                         state = State.WAITING;
                         screen.setBackground(new Color(200, 60, 50));
                         screen.setText("Wait for green...");
+                        // สุ่มเวลารอ 1-3 วินาที
                         delay.setInitialDelay(1000 + rng.nextInt(2000));
+                        // เริ่มนับเวลาใหม่
                         delay.restart();
                     });
                     click.addActionListener(e -> {
+                        // กดก่อนไฟเขียว
                         if (state == State.WAITING) {
+                            // ยกเลิก Timer ที่รออยู่
                             delay.stop();
                             screen.setBackground(Color.ORANGE);
                             screen.setText("Too early!");
                         } else if (state == State.GO) {
+                            // นาโนวินาที → มิลลิวินาที
                             long ms = (System.nanoTime() - goTime) / 1_000_000;
                             best = Math.min(best, ms);
                             screen.setBackground(Color.LIGHT_GRAY);
@@ -617,6 +691,7 @@ export default {
         import java.util.List;
 
         public class CancellableWorker {
+            // <ผลลัพธ์, ข้อความระหว่างทาง>
             private static SwingWorker<Integer, String> worker;
             private static int processed = 0;
 
@@ -624,6 +699,7 @@ export default {
                 SwingUtilities.invokeLater(() -> {
                     JFrame frame = new JFrame("Processor");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    // ช่วง 0-50 รายการ
                     JProgressBar bar = new JProgressBar(0, 50);
                     bar.setStringPainted(true);
                     JTextArea log = new JTextArea(6, 22);
@@ -638,17 +714,21 @@ export default {
                         start.setEnabled(false);
                         cancel.setEnabled(true);
                         status.setText("Working...");
+                        // สร้าง worker ใหม่ทุกครั้ง (ใช้ซ้ำไม่ได้)
                         worker = new SwingWorker<>() {
                             @Override
                             protected Integer doInBackground() throws Exception {
+                                // หยุดเมื่อถูกยกเลิก
                                 for (int i = 1; i <= 50 && !isCancelled(); i++) {
                                     Thread.sleep(40);
+                                    // ส่งข้อความระหว่างทางไปที่ process()
                                     publish("item " + i + " ok");
                                 }
                                 return 50;
                             }
 
                             @Override
+                            // ทำบน EDT รับข้อความเป็นชุด
                             protected void process(List<String> chunks) {
                                 for (String s : chunks) {
                                     log.append(s + "\n");
@@ -659,6 +739,7 @@ export default {
 
                             @Override
                             protected void done() {
+                                // ตรวจว่าถูกยกเลิกหรือทำครบ
                                 status.setText(isCancelled() ? "Cancelled after " + processed + " items" : "Completed");
                                 start.setEnabled(true);
                                 cancel.setEnabled(false);
@@ -666,6 +747,7 @@ export default {
                         };
                         worker.execute();
                     });
+                    // true = ขัดจังหวะ sleep ที่กำลังรอ
                     cancel.addActionListener(e -> worker.cancel(true));
                     JPanel top = new JPanel();
                     top.add(start);

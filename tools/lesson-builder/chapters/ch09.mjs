@@ -35,11 +35,14 @@ export default {
             public class StringBasics {
                 public static void main(String[] args) {
                     String name = "  Mali Jaidee  ";
+                    // length() นับช่องว่างด้วย
                     System.out.println("[" + name + "] length " + name.length());
+                    // String เปลี่ยนไม่ได้: ผลลัพธ์ถูกทิ้ง
                     name.trim();
                     System.out.println("after name.trim(): [" + name + "]");
-                    name = name.trim();
+                    name = name.trim();  // ต้องเก็บผลลัพธ์กลับเข้าตัวแปร
                     System.out.println("after name = name.trim(): [" + name + "]");
+                    // คืนสตริงใหม่ ตัวเดิมไม่เปลี่ยน
                     System.out.println(name.toUpperCase());
                     System.out.println(name.toLowerCase());
                     System.out.println("name still: " + name);
@@ -56,11 +59,14 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Continue? ");
                     String answer = input.next();
+                    // ตัวพิมพ์ต้องตรงทุกตัว
                     System.out.println("equals(\"YES\")           : " + answer.equals("YES"));
+                    // ไม่สนตัวพิมพ์เล็ก/ใหญ่
                     System.out.println("equalsIgnoreCase(\"YES\") : " + answer.equalsIgnoreCase("YES"));
 
                     System.out.print("A fruit: ");
                     String fruit = input.next();
+                    // ติดลบ = มาก่อน, 0 = เท่ากัน, บวก = มาทีหลัง
                     int result = fruit.compareTo("cherry");
                     System.out.println("compareTo(\"cherry\") = " + result);
                     if (result < 0) System.out.println(fruit + " comes before cherry");
@@ -79,15 +85,18 @@ export default {
                     int age = 19;
                     double gpa = 3.456;
 
-                    String full = first + " " + last;
+                    String full = first + " " + last;  // + ต่อข้อความ
                     String info = full + " (" + age + ")";
+                    // จัดรูปแบบเหมือน printf แต่ได้เป็น String
                     String card = String.format("%-12s GPA %.2f", full, gpa);
+                    // ต่อหลายคำด้วยตัวคั่น
                     String joined = String.join(", ", "Math", "Science", "English");
 
                     System.out.println(full);
                     System.out.println(info);
                     System.out.println("[" + card + "]");
                     System.out.println(joined);
+                    // ทำซ้ำข้อความ 3 ครั้ง
                     System.out.println("Ha".repeat(3));
                 }
             }`,
@@ -132,12 +141,19 @@ export default {
             public class FindAndCut {
                 public static void main(String[] args) {
                     String s = "banana";
+                    // อักขระตัวแรก (index 0)
                     System.out.println("charAt(0) = " + s.charAt(0));
+                    // อักขระตัวสุดท้าย
                     System.out.println("charAt(last) = " + s.charAt(s.length() - 1));
+                    // ตำแหน่งแรกที่พบ
                     System.out.println("indexOf(\"an\") = " + s.indexOf("an"));
+                    // ตำแหน่งสุดท้ายที่พบ
                     System.out.println("lastIndexOf(\"an\") = " + s.lastIndexOf("an"));
+                    // ไม่พบ → -1
                     System.out.println("indexOf(\"x\") = " + s.indexOf("x"));
+                    // ตั้งแต่ index 1 ถึงก่อน 4
                     System.out.println("substring(1, 4) = " + s.substring(1, 4));
+                    // ตั้งแต่ index 3 ถึงท้าย
                     System.out.println("substring(3) = " + s.substring(3));
                     System.out.println("contains(\"nan\") = " + s.contains("nan"));
                 }
@@ -152,16 +168,20 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Full name: ");
+                    // อ่านทั้งบรรทัดแล้วตัดช่องว่างหัวท้าย
                     String full = input.nextLine().trim();
+                    // ตำแหน่งช่องว่างระหว่างชื่อกับนามสกุล
                     int space = full.indexOf(' ');
+                    // ก่อนช่องว่าง
                     String first = full.substring(0, space);
+                    // หลังช่องว่าง
                     String last = full.substring(space + 1);
                     System.out.println("First: " + first + ", Last: " + last);
                     System.out.println("Initials: " + first.charAt(0) + "." + last.charAt(0) + ".");
 
                     System.out.print("Email: ");
                     String email = input.nextLine().trim();
-                    int at = email.indexOf('@');
+                    int at = email.indexOf('@');  // ตำแหน่งของ @
                     System.out.println("User: " + email.substring(0, at));
                     System.out.println("Domain: " + email.substring(at + 1));
                     System.out.println("Ends with .th? " + email.endsWith(".th"));
@@ -178,12 +198,14 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("CSV: ");
                     String line = input.nextLine();
+                    // แยกด้วย , ได้อาเรย์ของ String
                     String[] parts = line.split(",");
                     System.out.println("Fields: " + parts.length);
                     for (int i = 0; i < parts.length; i++) {
                         System.out.println("  [" + i + "] " + parts[i]);
                     }
                     String sentence = "  Java   is   really fun  ";
+                    // \\s+ = ช่องว่างตั้งแต่ 1 ตัวขึ้นไป
                     String[] words = sentence.trim().split("\\s+");
                     System.out.println("Word count: " + words.length);
                 }
@@ -203,13 +225,16 @@ export default {
                     String word = input.nextLine();
 
                     int count = 0;
+                    // ตำแหน่งแรกที่พบ (-1 = ไม่พบ)
                     int pos = text.indexOf(word);
-                    while (pos != -1) {
+                    while (pos != -1) {  // วนจนกว่าจะไม่พบอีก
                         System.out.println("found at " + pos);
                         count++;
+                        // ค้นต่อจากหลังคำที่เพิ่งพบ
                         pos = text.indexOf(word, pos + word.length());
                     }
                     System.out.println("Total: " + count);
+                    // แทนที่ทุกตำแหน่ง
                     System.out.println(text.replace(word, word.toUpperCase()));
                 }
             }`,
@@ -244,14 +269,19 @@ export default {
                 public static void main(String[] args) {
                     String a = "10";
                     String b = "20";
+                    // String + String = ต่อข้อความ
                     System.out.println("a + b (String) = " + a + b);
+                    // แปลงข้อความเป็น int
                     int x = Integer.parseInt(a);
                     int y = Integer.parseInt(b);
+                    // ตอนนี้บวกเป็นตัวเลข
                     System.out.println("x + y (int) = " + (x + y));
 
+                    // แปลงข้อความเป็น double
                     double price = Double.parseDouble("49.75");
                     System.out.println("price * 2 = " + price * 2);
 
+                    // แปลงตัวเลขกลับเป็น String
                     String back = String.valueOf(x + y);
                     System.out.println("length of \"" + back + "\" = " + back.length());
                 }
@@ -266,8 +296,11 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     System.out.print("name,age,gpa: ");
+                    // แยกบรรทัดด้วย ,
                     String[] p = input.nextLine().split(",");
+                    // trim ตัดช่องว่างรอบแต่ละส่วน
                     String name = p[0].trim();
+                    // แปลงเป็นตัวเลขก่อนคำนวณ
                     int age = Integer.parseInt(p[1].trim());
                     double gpa = Double.parseDouble(p[2].trim());
                     System.out.printf("%s will be %d next year. GPA x 25 = %.1f%n", name, age + 1, gpa * 25);
@@ -293,13 +326,16 @@ export default {
             public class SafeParse {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
-                    int age = -1;
+                    int age = -1;  // -1 = ยังไม่ได้ค่าที่ถูกต้อง
                     while (age < 0) {
                         System.out.print("Age: ");
+                        // อ่านเป็นข้อความก่อน
                         String text = input.nextLine();
+                        // ลองแปลง ถ้าผิดจะไปที่ catch
                         try {
                             age = Integer.parseInt(text);
                             if (age < 0) System.out.println("  Age cannot be negative");
+                        // ข้อความไม่ใช่ตัวเลข
                         } catch (NumberFormatException e) {
                             System.out.println("  '" + text + "' is not a number");
                         }
@@ -327,13 +363,15 @@ export default {
                     System.out.print("Text: ");
                     String text = input.nextLine();
                     int letters = 0, digits = 0, spaces = 0, upper = 0, others = 0;
+                    // วนทีละอักขระ
                     for (int i = 0; i < text.length(); i++) {
                         char ch = text.charAt(i);
-                        if (Character.isLetter(ch)) {
+                        if (Character.isLetter(ch)) {  // ตัวอักษร
                             letters++;
                             if (Character.isUpperCase(ch)) upper++;
-                        } else if (Character.isDigit(ch)) {
+                        } else if (Character.isDigit(ch)) {  // ตัวเลข
                             digits++;
+                        // ช่องว่าง
                         } else if (Character.isWhitespace(ch)) {
                             spaces++;
                         } else {
@@ -353,12 +391,18 @@ export default {
             public class CharMath {
                 public static void main(String[] args) {
                     char c = 'C';
+                    // char เก็บเป็นรหัสตัวเลข
                     System.out.println("(int) 'C' = " + (int) c);
+                    // ระยะห่างจาก 'A' + 1
                     System.out.println("position in alphabet = " + (c - 'A' + 1));
+                    // รหัสถัดไป แล้วแปลงกลับเป็น char
                     System.out.println("next letter = " + (char) (c + 1));
+                    // ตัวเล็กอยู่ห่างตัวใหญ่ 32 รหัสเสมอ
                     System.out.println("lowercase = " + (char) (c + ('a' - 'A')));
                     char digit = '7';
+                    // แปลงอักขระตัวเลขเป็นค่า int
                     System.out.println("'7' - '0' = " + (digit - '0'));
+                    // วนตัวอักษรได้เหมือนตัวเลข
                     for (char ch = 'a'; ch <= 'e'; ch++) {
                         System.out.print(ch + " ");
                     }
@@ -380,19 +424,21 @@ export default {
                     int k = input.nextInt();
                     String encoded = shift(text, k);
                     System.out.println("Encoded: " + encoded);
+                    // เลื่อนอีก 26 - k ตัว = ถอดรหัส
                     System.out.println("Decoded: " + shift(encoded, 26 - k));
                 }
 
                 static String shift(String s, int k) {
-                    String result = "";
+                    String result = "";  // ผลลัพธ์สะสมทีละอักขระ
                     for (int i = 0; i < s.length(); i++) {
                         char ch = s.charAt(i);
                         if (Character.isUpperCase(ch)) {
+                            // ตำแหน่งใหม่ วนกลับด้วย % 26
                             ch = (char) ('A' + (ch - 'A' + k) % 26);
                         } else if (Character.isLowerCase(ch)) {
                             ch = (char) ('a' + (ch - 'a' + k) % 26);
                         }
-                        result += ch;
+                        result += ch;  // ต่อท้ายผลลัพธ์
                     }
                     return result;
                 }
@@ -410,13 +456,15 @@ export default {
           code: j`
             public class BuilderBasics {
                 public static void main(String[] args) {
+                    // ข้อความที่แก้ไขได้
                     StringBuilder sb = new StringBuilder();
                     for (int i = 1; i <= 5; i++) {
-                        sb.append(i);
-                        if (i < 5) {
+                        sb.append(i);  // ต่อท้าย ไม่สร้าง String ใหม่ทุกครั้ง
+                        if (i < 5) {   // ไม่ใส่ลูกศรหลังตัวสุดท้าย
                             sb.append(" -> ");
                         }
                     }
+                    // แปลงเป็น String เมื่อเสร็จ
                     String result = sb.toString();
                     System.out.println(result);
                     System.out.println("length = " + sb.length());
@@ -429,14 +477,14 @@ export default {
             public class BuilderEdit {
                 public static void main(String[] args) {
                     StringBuilder sb = new StringBuilder("Java");
-                    sb.reverse();
+                    sb.reverse();  // กลับลำดับในตัวเดิม
                     System.out.println("reverse     : " + sb);
                     sb.reverse();
-                    sb.insert(0, "I love ");
+                    sb.insert(0, "I love ");  // แทรกที่ตำแหน่ง 0
                     System.out.println("insert      : " + sb);
-                    sb.setCharAt(0, 'U');
+                    sb.setCharAt(0, 'U');  // แก้อักขระตำแหน่ง 0
                     System.out.println("setCharAt   : " + sb);
-                    sb.deleteCharAt(sb.length() - 1);
+                    sb.deleteCharAt(sb.length() - 1);  // ลบอักขระตัวสุดท้าย
                     System.out.println("deleteCharAt: " + sb);
                     sb.append("!!!");
                     System.out.println("append      : " + sb);
@@ -454,12 +502,16 @@ export default {
                     System.out.print("Text: ");
                     String text = input.nextLine();
                     StringBuilder clean = new StringBuilder();
+                    // toCharArray: วน for-each ทีละอักขระ
                     for (char ch : text.toCharArray()) {
+                        // เก็บเฉพาะตัวอักษรและตัวเลข
                         if (Character.isLetterOrDigit(ch)) {
+                            // ทำเป็นตัวเล็กทั้งหมด
                             clean.append(Character.toLowerCase(ch));
                         }
                     }
                     String forward = clean.toString();
+                    // reverse แก้ clean ด้วย จึงเก็บ forward ไว้ก่อน
                     String backward = clean.reverse().toString();
                     System.out.println("Cleaned : " + forward);
                     System.out.println("Reversed: " + backward);
@@ -478,10 +530,13 @@ export default {
                     System.out.print("Number: ");
                     String digits = input.next();
                     StringBuilder sb = new StringBuilder(digits);
+                    // เริ่มจากขวา ถอยทีละ 3 หลัก
                     for (int i = sb.length() - 3; i > 0; i -= 3) {
+                        // แทรก , ที่ตำแหน่ง i
                         sb.insert(i, ',');
                     }
                     System.out.println("Formatted: " + sb);
+                    // %,d ใส่ตัวคั่นให้อัตโนมัติ
                     System.out.println("Check with printf: " + String.format("%,d", Long.parseLong(digits)));
                 }
             }`,
@@ -501,9 +556,10 @@ export default {
                 System.out.print("Text: ");
                 String text = input.nextLine();
                 System.out.println("Length: " + text.length());
+                // ตัวสุดท้ายคือ length() - 1
                 System.out.println("First: [" + text.charAt(0) + "], Last: [" + text.charAt(text.length() - 1) + "]");
                 System.out.println("Upper: [" + text.toUpperCase() + "]");
-                String trimmed = text.trim();
+                String trimmed = text.trim();  // ตัดช่องว่างหัวท้าย
                 System.out.println("Trimmed: [" + trimmed + "] length " + trimmed.length());
             }
         }` },
@@ -516,6 +572,7 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Do you like Java? ");
+                // ทำให้เป็นรูปแบบเดียวกันก่อนเทียบ
                 String ans = input.nextLine().trim().toLowerCase();
                 if (ans.equals("y") || ans.equals("yes")) {
                     System.out.println("Great!");
@@ -538,13 +595,14 @@ export default {
                 String text = input.nextLine().toLowerCase();
                 int a = 0, e = 0, i = 0, o = 0, u = 0;
                 for (int k = 0; k < text.length(); k++) {
+                    // เลือกตามอักขระที่ตำแหน่ง k
                     switch (text.charAt(k)) {
                         case 'a' -> a++;
                         case 'e' -> e++;
                         case 'i' -> i++;
                         case 'o' -> o++;
                         case 'u' -> u++;
-                        default -> { }
+                        default -> { }  // อักขระอื่นไม่ต้องทำอะไร
                     }
                 }
                 System.out.println("a=" + a + " e=" + e + " i=" + i + " o=" + o + " u=" + u);
@@ -560,17 +618,22 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Full name: ");
+                // แยกเป็นคำ (ช่องว่างกี่ตัวก็ได้)
                 String[] words = input.nextLine().trim().split("\\s+");
                 StringBuilder proper = new StringBuilder();
                 StringBuilder initials = new StringBuilder();
                 for (String w : words) {
+                    // ตัวแรกตัวใหญ่ ที่เหลือตัวเล็ก
                     String cap = w.substring(0, 1).toUpperCase() + w.substring(1).toLowerCase();
+                    // append ต่อกันเป็นทอดได้
                     proper.append(cap).append(" ");
                     initials.append(cap.charAt(0)).append(".");
                 }
+                // ตัดช่องว่างท้ายสุดออก
                 String formatted = proper.toString().trim();
                 String last = words[words.length - 1];
                 String lastCap = last.substring(0, 1).toUpperCase() + last.substring(1).toLowerCase();
+                // ทุกคำยกเว้นคำสุดท้าย
                 String firstPart = formatted.substring(0, formatted.lastIndexOf(' '));
                 System.out.println("Proper  : " + formatted);
                 System.out.println("Initials: " + initials);
@@ -588,13 +651,15 @@ export default {
                 System.out.print("Password: ");
                 String pw = input.nextLine();
                 boolean upper = false, lower = false, digit = false, special = false;
-                for (char ch : pw.toCharArray()) {
+                for (char ch : pw.toCharArray()) {  // ตรวจทีละอักขระ
                     if (Character.isUpperCase(ch)) upper = true;
                     else if (Character.isLowerCase(ch)) lower = true;
                     else if (Character.isDigit(ch)) digit = true;
                     else special = true;
                 }
+                // ความยาวอย่างน้อย 8
                 boolean longEnough = pw.length() >= 8;
+                // รวมผลตรวจไว้ในอาเรย์ เพื่อวนแสดงผล
                 boolean[] checks = {longEnough, upper, lower, digit, special};
                 String[] labels = {"8+ characters", "uppercase", "lowercase", "digit", "special char"};
                 int passed = 0;
@@ -602,6 +667,7 @@ export default {
                     System.out.println((checks[i] ? "✓ " : "✗ ") + labels[i]);
                     if (checks[i]) passed++;
                 }
+                // ?: ซ้อนกัน 2 ชั้น
                 String level = passed == 5 ? "Strong" : passed >= 3 ? "Medium" : "Weak";
                 System.out.println("Strength: " + level + " (" + passed + "/5)");
             }
@@ -615,12 +681,14 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Sentence: ");
+                // ลบเครื่องหมายวรรคตอน (regex)
                 String text = input.nextLine().replaceAll("[.,!?]", "").trim();
                 String[] words = text.split("\\s+");
-                String longest = words[0];
+                String longest = words[0];  // เริ่มจากคำแรก
                 int totalLetters = 0;
                 for (String w : words) {
                     totalLetters += w.length();
+                    // เจอคำที่ยาวกว่า → จำไว้
                     if (w.length() > longest.length()) longest = w;
                 }
                 System.out.println("Words: " + words.length);
@@ -637,16 +705,20 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("ID: ");
+                // ลบขีดออกก่อนตรวจ
                 String id = input.nextLine().trim().replace("-", "");
                 if (id.length() != 13 || !allDigits(id)) {
                     System.out.println("Invalid format");
-                    return;
+                    return;  // ข้อมูลผิด → จบ main ทันที
                 }
                 int sum = 0;
                 for (int i = 0; i < 12; i++) {
+                    // หลักที่ i คูณน้ำหนัก 13, 12, ..., 2
                     sum += (id.charAt(i) - '0') * (13 - i);
                 }
+                // สูตรหาหลักตรวจสอบ
                 int check = (11 - sum % 11) % 10;
+                // แปลงอักขระตัวสุดท้ายเป็นตัวเลข
                 int last = id.charAt(12) - '0';
                 System.out.println("Computed check digit: " + check);
                 System.out.println(check == last ? "Valid" : "Invalid checksum");
@@ -676,28 +748,33 @@ export default {
             }
 
             static String compress(String s) {
-                if (s.isEmpty()) return "";
+                if (s.isEmpty()) return "";  // สตริงว่าง → คืนสตริงว่าง
                 StringBuilder sb = new StringBuilder();
-                char current = s.charAt(0);
+                char current = s.charAt(0);  // อักขระที่กำลังนับ
                 int count = 1;
                 for (int i = 1; i < s.length(); i++) {
+                    // ซ้ำกับตัวก่อน → นับเพิ่ม
                     if (s.charAt(i) == current) {
                         count++;
                     } else {
+                        // เปลี่ยนอักขระ → บันทึกตัวเดิมกับจำนวน
                         sb.append(current).append(count);
                         current = s.charAt(i);
                         count = 1;
                     }
                 }
-                sb.append(current).append(count);
+                sb.append(current).append(count);  // บันทึกกลุ่มสุดท้าย
                 return sb.toString();
             }
 
             static String decompress(String s) {
                 StringBuilder sb = new StringBuilder();
+                // อ่านทีละคู่: อักขระ + จำนวน
                 for (int i = 0; i + 1 < s.length(); i += 2) {
                     char ch = s.charAt(i);
+                    // แปลงหลักตัวเลขเป็น int
                     int n = s.charAt(i + 1) - '0';
+                    // ทำซ้ำอักขระ n ครั้ง
                     sb.append(String.valueOf(ch).repeat(n));
                 }
                 return sb.toString();
@@ -712,13 +789,17 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 System.out.print("Expression: ");
+                // แยกเป็นตัวเลขและเครื่องหมาย
                 String[] t = input.nextLine().trim().split("\\s+");
+                // ต้องเป็น ตัวเลข op ตัวเลข ... (จำนวนคี่)
                 if (t.length % 2 == 0) {
                     System.out.println("Error: incomplete expression");
                     return;
                 }
                 try {
+                    // ตัวเลขแรก
                     int result = Integer.parseInt(t[0]);
+                    // อ่านทีละคู่: เครื่องหมาย + ตัวเลข
                     for (int i = 1; i < t.length; i += 2) {
                         String op = t[i];
                         int value = Integer.parseInt(t[i + 1]);
@@ -733,6 +814,7 @@ export default {
                         System.out.println("  " + op + " " + value + " -> " + result);
                     }
                     System.out.println("Result = " + result);
+                // มีส่วนที่ไม่ใช่ตัวเลข
                 } catch (NumberFormatException e) {
                     System.out.println("Error: not a number in " + e.getMessage());
                 }
@@ -744,8 +826,10 @@ export default {
         import java.util.Scanner;
 
         public class NumberToWords {
+            // คำอ่าน 0-19 (index = ตัวเลข)
             static final String[] ONES = {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
                 "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
+            // คำอ่านหลักสิบ
             static final String[] TENS = {"", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"};
 
             public static void main(String[] args) {
@@ -756,11 +840,11 @@ export default {
             }
 
             static String toWords(int n) {
-                if (n == 0) return "zero";
+                if (n == 0) return "zero";  // กรณีพิเศษ
                 StringBuilder sb = new StringBuilder();
-                if (n >= 1000) {
+                if (n >= 1000) {  // หลักพัน
                     sb.append(ONES[n / 1000]).append(" thousand ");
-                    n %= 1000;
+                    n %= 1000;  // เก็บเฉพาะส่วนที่เหลือ
                 }
                 if (n > 0) sb.append(below1000(n));
                 return sb.toString().trim();
@@ -768,7 +852,7 @@ export default {
 
             static String below1000(int n) {
                 StringBuilder sb = new StringBuilder();
-                if (n >= 100) {
+                if (n >= 100) {  // หลักร้อย
                     sb.append(ONES[n / 100]).append(" hundred ");
                     n %= 100;
                 }
@@ -777,8 +861,9 @@ export default {
             }
 
             static String below100(int n) {
-                if (n < 20) return ONES[n];
+                if (n < 20) return ONES[n];  // ต่ำกว่า 20 มีคำเฉพาะ
                 String word = TENS[n / 10];
+                // มีหลักหน่วย → ต่อด้วยขีด
                 if (n % 10 != 0) word += "-" + ONES[n % 10];
                 return word;
             }

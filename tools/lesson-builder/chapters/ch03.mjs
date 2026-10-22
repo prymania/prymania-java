@@ -26,11 +26,14 @@ export default {
           code: j`
             public class FirstVariables {
                 public static void main(String[] args) {
+                    // ประกาศตัวแปรชนิด int พร้อมค่าเริ่มต้น
                     int age = 19;
-                    String name = "Mali";
-                    System.out.println(name);
+                    String name = "Mali";      // ข้อความต้องอยู่ใน "..."
+                    System.out.println(name);  // ไม่มี "" → แสดงค่าในตัวแปร
                     System.out.println(age);
+                    // มี "" → แสดงคำว่า name ตรงตัว
                     System.out.println("name");
+                    // + ต่อข้อความกับค่าตัวแปร
                     System.out.println("Name: " + name + ", age " + age);
                 }
             }`,
@@ -40,13 +43,14 @@ export default {
           code: j`
             public class ChangingValues {
                 public static void main(String[] args) {
-                    int bookCount = 3;
+                    int bookCount = 3;  // ค่าเริ่มต้น 3
                     System.out.println("Start: " + bookCount);
+                    // อ่านค่าเดิม (3) + 2 แล้วเก็บกลับ
                     bookCount = bookCount + 2;
                     System.out.println("After +2: " + bookCount);
-                    bookCount = 10;
+                    bookCount = 10;  // เขียนทับค่าเดิม
                     System.out.println("Reset: " + bookCount);
-                    bookCount = bookCount * 2 - 1;
+                    bookCount = bookCount * 2 - 1;  // 10 * 2 - 1 = 19
                     System.out.println("Final: " + bookCount);
                 }
             }`,
@@ -57,13 +61,13 @@ export default {
           code: j`
             public class SwapValues {
                 public static void main(String[] args) {
-                    int a = 5;
+                    int a = 5;  // ค่าเริ่มต้นก่อนสลับ
                     int b = 8;
                     System.out.println("Before: a=" + a + ", b=" + b);
 
-                    int temp = a;   // เก็บค่า a ไว้ก่อน
-                    a = b;          // a ได้ 8
-                    b = temp;       // b ได้ค่าเดิมของ a คือ 5
+                    int temp = a;  // เก็บค่า a ไว้ก่อน
+                    a = b;         // a ได้ 8
+                    b = temp;      // b ได้ค่าเดิมของ a คือ 5
 
                     System.out.println("After:  a=" + a + ", b=" + b);
                 }
@@ -112,10 +116,12 @@ export default {
           code: j`
             public class StudentData {
                 public static void main(String[] args) {
-                    String name = "Nida";
-                    int age = 20;
-                    double gpa = 3.25;
+                    String name = "Nida";  // String: ข้อความ
+                    int age = 20;          // int: จำนวนเต็ม
+                    double gpa = 3.25;     // double: ทศนิยม
+                    // char: อักขระเดียว ใช้ '...'
                     char section = 'B';
+                    // boolean: true หรือ false
                     boolean registered = true;
 
                     System.out.println("Name: " + name);
@@ -131,12 +137,13 @@ export default {
           code: j`
             public class IntVsDouble {
                 public static void main(String[] args) {
-                    int whole = 5;
-                    double decimal = 5;       // int 5 ถูกขยายเป็น 5.0
-                    double price = 19.99;
+                    int whole = 5;         // int เก็บจำนวนเต็ม
+                    double decimal = 5;    // int 5 ถูกขยายเป็น 5.0
+                    double price = 19.99;  // double เก็บทศนิยมได้
                     System.out.println(whole);
                     System.out.println(decimal);
                     System.out.println(price);
+                    // ทศนิยมฐานสองคลาดเคลื่อนเล็กน้อย
                     System.out.println(0.1 + 0.2);
                 }
             }`,
@@ -167,13 +174,16 @@ export default {
           code: j`
             public class BasicOperators {
                 public static void main(String[] args) {
-                    int a = 17;
+                    int a = 17;  // ใช้ a, b ในทุกบรรทัดด้านล่าง
                     int b = 5;
                     System.out.println("a + b = " + (a + b));
                     System.out.println("a - b = " + (a - b));
                     System.out.println("a * b = " + (a * b));
+                    // int / int ตัดเศษทิ้ง
                     System.out.println("a / b = " + (a / b));
+                    // % ให้เศษจากการหาร
                     System.out.println("a % b = " + (a % b));
+                    // มี double ร่วมด้วย → ได้ทศนิยม
                     System.out.println("17.0 / 5 = " + (17.0 / 5));
                 }
             }`,
@@ -183,12 +193,15 @@ export default {
           code: j`
             public class Precedence {
                 public static void main(String[] args) {
-                    System.out.println(2 + 3 * 4);
-                    System.out.println((2 + 3) * 4);
+                    System.out.println(2 + 3 * 4);    // * ทำก่อน +
+                    System.out.println((2 + 3) * 4);  // วงเล็บทำก่อนเสมอ
                     System.out.println(20 - 6 / 2);
+                    // ลำดับเท่ากัน → ทำจากซ้ายไปขวา
                     System.out.println(20 / 4 * 2);
                     System.out.println(10 - 4 - 3);
+                    // ต่อข้อความทีละตัว → Sum: 23
                     System.out.println("Sum: " + 2 + 3);
+                    // วงเล็บบวกเลขก่อน → Sum: 5
                     System.out.println("Sum: " + (2 + 3));
                 }
             }`,
@@ -199,10 +212,11 @@ export default {
             public class DigitSplit {
                 public static void main(String[] args) {
                     int number = 4729;
-                    int ones = number % 10;
+                    int ones = number % 10;  // % 10 = หลักหน่วย
+                    // ตัดหลักหน่วยทิ้ง แล้วเอาหลักสุดท้าย
                     int tens = number / 10 % 10;
                     int hundreds = number / 100 % 10;
-                    int thousands = number / 1000;
+                    int thousands = number / 1000;  // / 1000 = หลักพัน
                     System.out.println("Thousands: " + thousands);
                     System.out.println("Hundreds: " + hundreds);
                     System.out.println("Tens: " + tens);
@@ -217,17 +231,17 @@ export default {
             public class CompoundAssign {
                 public static void main(String[] args) {
                     int points = 10;
-                    points += 5;    // 15
-                    points -= 3;    // 12
-                    points *= 2;    // 24
-                    points /= 5;    // 4
-                    points %= 3;    // 1
+                    points += 5;  // 15
+                    points -= 3;  // 12
+                    points *= 2;  // 24
+                    points /= 5;  // 4
+                    points %= 3;  // 1
                     System.out.println("points = " + points);
 
                     int count = 0;
+                    count++;  // เพิ่มทีละ 1
                     count++;
-                    count++;
-                    count--;
+                    count--;  // ลดทีละ 1
                     System.out.println("count = " + count);
                 }
             }`,
@@ -263,11 +277,13 @@ export default {
           code: j`
             public class TaxConstant {
                 public static void main(String[] args) {
+                    // final = ค่าคงที่ แก้ภายหลังไม่ได้
                     final double TAX_RATE = 0.07;
                     double price = 35.50;
                     int quantity = 3;
 
-                    double subtotal = price * quantity;
+                    double subtotal = price * quantity;  // 35.50 × 3
+                    // ใช้ค่าคงที่แทนการพิมพ์ 0.07 ตรง ๆ
                     double tax = subtotal * TAX_RATE;
                     double total = subtotal + tax;
 
@@ -286,9 +302,13 @@ export default {
                     int total = 7;
                     int count = 2;
 
+                    // int / int = 3 แล้วจึงแปลงเป็น 3.0
                     double wrong = total / count;
+                    // หารด้วย 2.0 → ได้ทศนิยม
                     double right1 = total / 2.0;
+                    // แปลง total เป็น double ก่อนหาร
                     double right2 = (double) total / count;
+                    // หารเสร็จ (3) แล้วค่อยแปลง → ยังผิด
                     double stillWrong = (double) (total / count);
 
                     System.out.println("wrong      = " + wrong);
@@ -304,14 +324,19 @@ export default {
             public class CastAndRound {
                 public static void main(String[] args) {
                     double price = 49.75;
+                    // (int) ตัดทศนิยมทิ้ง ไม่ปัดเศษ
                     int cut = (int) price;
+                    // ปัดเป็นจำนวนเต็มที่ใกล้ที่สุด
                     long rounded = Math.round(price);
+                    // เทคนิคปัดทศนิยม 2 ตำแหน่ง
                     double twoDecimals = Math.round(3.14159 * 100) / 100.0;
 
                     System.out.println("cast  : " + cut);
                     System.out.println("round : " + rounded);
                     System.out.println("2 dp  : " + twoDecimals);
+                    // รหัส 'A' + 1 แล้วแปลงกลับเป็น char
                     System.out.println("char 'A' + 1 = " + (char) ('A' + 1));
+                    // ดูรหัสตัวเลขของ 'A'
                     System.out.println("(int) 'A' = " + (int) 'A');
                 }
             }`,
@@ -322,14 +347,18 @@ export default {
             public class MathTools {
                 public static void main(String[] args) {
                     double radius = 3;
+                    // πr² ด้วย Math.pow
                     double area = Math.PI * Math.pow(radius, 2);
                     System.out.println("Circle area: " + area);
 
                     double a = 6, b = 8;
+                    // รากที่สองของ a² + b²
                     double hyp = Math.sqrt(a * a + b * b);
                     System.out.println("Hypotenuse: " + hyp);
 
+                    // ค่าสัมบูรณ์
                     System.out.println("abs(-12) = " + Math.abs(-12));
+                    // ค่าที่มากกว่า
                     System.out.println("max(7, 3) = " + Math.max(7, 3));
                     System.out.println("min(7, 3) = " + Math.min(7, 3));
                 }
@@ -347,9 +376,9 @@ export default {
             public static void main(String[] args) {
                 int books = 4;
                 System.out.println("Start: " + books);
-                books += 3;
+                books += 3;  // books = books + 3
                 System.out.println("After receiving: " + books);
-                books -= 2;
+                books -= 2;  // books = books - 2
                 System.out.println("After lending: " + books);
             }
         }` },
@@ -377,8 +406,8 @@ export default {
             public static void main(String[] args) {
                 int oranges = 23;
                 int friends = 4;
-                int each = oranges / friends;
-                int left = oranges % friends;
+                int each = oranges / friends;  // จำนวนเต็มที่แต่ละคนได้
+                int left = oranges % friends;  // เศษที่เหลือ
                 System.out.println("Each friend gets " + each + " oranges");
                 System.out.println("Left over: " + left);
             }
@@ -388,12 +417,13 @@ export default {
       solution: j`
         public class VatTotal {
             public static void main(String[] args) {
-                final double VAT = 0.07;
+                final double VAT = 0.07;  // ค่าคงที่ VAT 7%
                 double price = 35.50;
                 int qty = 3;
                 double subtotal = price * qty;
                 double vat = subtotal * VAT;
                 double total = subtotal + vat;
+                // ปัดทศนิยม 2 ตำแหน่ง
                 System.out.println("Subtotal: " + Math.round(subtotal * 100) / 100.0);
                 System.out.println("VAT 7%: " + Math.round(vat * 100) / 100.0);
                 System.out.println("Total: " + Math.round(total * 100) / 100.0);
@@ -405,10 +435,10 @@ export default {
         public class SecondsToTime {
             public static void main(String[] args) {
                 int total = 3665;
-                int hours = total / 3600;
-                int remain = total % 3600;
+                int hours = total / 3600;   // 3600 วินาที = 1 ชั่วโมง
+                int remain = total % 3600;  // วินาทีที่เหลือหลังหักชั่วโมง
                 int minutes = remain / 60;
-                int seconds = remain % 60;
+                int seconds = remain % 60;  // เศษจากนาที = วินาที
                 System.out.println(total + " seconds = " + hours + " h " + minutes + " m " + seconds + " s");
             }
         }` },
@@ -419,13 +449,14 @@ export default {
             public static void main(String[] args) {
                 int s1 = 8, s2 = 9, s3 = 10;
                 int sum = s1 + s2 + s3;
-                double wrong = sum / 3;
-                double right = sum / 3.0;
+                double wrong = sum / 3;    // int / int ตัดเศษ
+                double right = sum / 3.0;  // หารด้วย 3.0 ได้ทศนิยม
                 System.out.println("Sum = " + sum);
                 System.out.println("Wrong average = " + wrong);
                 System.out.println("Right average = " + right);
                 int t1 = 8, t2 = 9, t3 = 9;
                 int sum2 = t1 + t2 + t3;
+                // ชุดนี้หารไม่ลงตัว เห็นความต่างชัด
                 System.out.println("8,9,9 wrong = " + (sum2 / 3) + ", right = " + ((double) sum2 / 3));
             }
         }`, explain: "กับ 8, 9, 10 ผลรวม 27 หาร 3 ลงตัว ทั้งสองแบบจึงได้ 9 เท่ากัน — อย่าเชื่อการทดสอบชุดเดียว! กับ 8, 9, 9 แบบผิดได้ 8 แต่แบบถูกได้ 8.67" },
@@ -436,7 +467,9 @@ export default {
             public static void main(String[] args) {
                 double weight = 68.5;
                 int heightCm = 172;
+                // 100.0 ทำให้ได้ 1.72 ไม่ใช่ 1
                 double heightM = heightCm / 100.0;
+                // น้ำหนัก ÷ ส่วนสูง²
                 double bmi = weight / Math.pow(heightM, 2);
                 System.out.println("Height (m): " + heightM);
                 System.out.println("BMI: " + Math.round(bmi * 100) / 100.0);
@@ -448,9 +481,13 @@ export default {
         public class ReverseDigits {
             public static void main(String[] args) {
                 int number = 582;
+                // หลักร้อย
                 int hundreds = number / 100;
+                // หลักสิบ
                 int tens = number / 10 % 10;
+                // หลักหน่วย
                 int ones = number % 10;
+                // สลับตำแหน่งหลัก
                 int reversed = ones * 100 + tens * 10 + hundreds;
                 System.out.println("Digits: " + hundreds + ", " + tens + ", " + ones);
                 System.out.println("Reversed: " + reversed);
@@ -464,16 +501,17 @@ export default {
             public static void main(String[] args) {
                 int price = 1263;
                 int paid = 2000;
-                int change = paid - price;
+                int change = paid - price;  // 2000 - 1263 = 737
                 System.out.println("Change: " + change);
                 int remain = change;
+                // จำนวนใบ แล้วเก็บเศษไว้คิดต่อ
                 int b500 = remain / 500; remain %= 500;
                 int b100 = remain / 100; remain %= 100;
                 int b50 = remain / 50;   remain %= 50;
                 int b20 = remain / 20;   remain %= 20;
                 int c10 = remain / 10;   remain %= 10;
                 int c5 = remain / 5;     remain %= 5;
-                int c1 = remain;
+                int c1 = remain;  // ที่เหลือเป็นเหรียญ 1 บาท
                 System.out.println("500 x " + b500);
                 System.out.println("100 x " + b100);
                 System.out.println("50 x " + b50);
@@ -488,6 +526,7 @@ export default {
       solution: j`
         public class PhoneBill {
             public static void main(String[] args) {
+                // ค่าคงที่ทั้งหมดอยู่ด้านบน แก้ง่าย
                 final double BASE_FEE = 199;
                 final int FREE_MINUTES = 150;
                 final double PER_MINUTE = 1.50;
@@ -497,9 +536,11 @@ export default {
                 int minutesUsed = 237;
                 double gbUsed = 12.5;
 
+                // ไม่ให้ติดลบเมื่อใช้ไม่ถึง 150 นาที
                 int extraMinutes = Math.max(0, minutesUsed - FREE_MINUTES);
                 double callCharge = extraMinutes * PER_MINUTE;
                 double dataCharge = gbUsed * PER_GB;
+                // รวมก่อนคิด VAT
                 double beforeVat = BASE_FEE + callCharge + dataCharge;
                 double vat = beforeVat * VAT;
                 double total = beforeVat + vat;

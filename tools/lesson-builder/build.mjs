@@ -2,23 +2,30 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { buildChapter, allExerciseIds } from "./lib.mjs";
+import { syncCourseNav } from "./nav.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "../..");
 const CHAPTER_DATA = path.join(HERE, "chapters");
 const only = process.argv.slice(2);
-const files = fs.readdirSync(CHAPTER_DATA).filter((f) => /^ch.*\.mjs$/.test(f)).sort()
-  .filter((f) => !only.length || only.some((o) => f.includes(o)));
+const allFiles = fs.readdirSync(CHAPTER_DATA).filter((f) => /^ch.*\.mjs$/.test(f)).sort();
+const files = allFiles.filter((f) => !only.length || only.some((o) => f.includes(o)));
 if (!files.length) {
   console.error("No chapter data file matches: " + only.join(" "));
   process.exit(1);
 }
 
+// load every chapter (cheap: nothing runs until buildChapter) so the sidebar can list all of them
+const chapters = {};
+for (const f of allFiles) chapters[f] = (await import(pathToFileURL(path.join(CHAPTER_DATA, f)).href + `?t=${Date.now()}`)).default;
+
 for (const f of files) {
-  const ch = (await import(pathToFileURL(path.join(CHAPTER_DATA, f)).href + `?t=${Date.now()}`)).default;
-  const r = buildChapter(ch, path.join(ROOT, "chapters"));
+  const r = buildChapter(chapters[f], path.join(ROOT, "chapters"));
   console.log(`${r.file}: ${r.exercises} exercises, ${(r.bytes / 1024).toFixed(1)} KB`);
 }
+
+// sidebar menu: rewrite on every page (incl. index.html) so all pages stay in sync
+syncCourseNav(ROOT, Object.values(chapters));
 
 // merge passwords: keep existing entries, add/overwrite built ones (same pattern as before)
 const pwFile = path.join(ROOT, "password.js");

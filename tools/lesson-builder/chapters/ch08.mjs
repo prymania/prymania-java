@@ -30,15 +30,19 @@ export default {
           code: j`
             public class ArrayBasics {
                 public static void main(String[] args) {
+                    // สร้างอาเรย์พร้อมค่าเริ่มต้น 4 ช่อง
                     int[] scores = {80, 75, 92, 88};
+                    // index เริ่มที่ 0
                     System.out.println("First: " + scores[0]);
+                    // ช่องสุดท้ายคือ length - 1
                     System.out.println("Last: " + scores[3]);
                     System.out.println("Length: " + scores.length);
 
-                    scores[1] = 100;
+                    scores[1] = 100;  // เขียนทับค่าในช่อง index 1
                     scores[2] += 5;
                     System.out.println("scores[1] = " + scores[1]);
                     System.out.println("scores[2] = " + scores[2]);
+                    // ใช้ length หาช่องสุดท้ายได้เสมอ
                     System.out.println("Last via length-1: " + scores[scores.length - 1]);
                 }
             }`,
@@ -48,8 +52,11 @@ export default {
           code: j`
             public class NewArray {
                 public static void main(String[] args) {
+                    // new สร้างช่องว่าง 4 ช่อง ค่าเริ่มต้น 0.0
                     double[] prices = new double[4];
+                    // String เริ่มต้นเป็น null
                     String[] names = new String[3];
+                    // boolean เริ่มต้นเป็น false
                     boolean[] done = new boolean[2];
 
                     prices[0] = 19.5;
@@ -72,12 +79,16 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("How many days? ");
                     int n = input.nextInt();
+                    // ขนาดอาเรย์มาจากข้อมูลที่ผู้ใช้ป้อน
                     double[] temps = new double[n];
                     System.out.print("Temperatures: ");
+                    // i วิ่ง 0 ถึง length - 1
                     for (int i = 0; i < temps.length; i++) {
+                        // เก็บค่าที่อ่านลงช่องที่ i
                         temps[i] = input.nextDouble();
                     }
                     for (int i = 0; i < temps.length; i++) {
+                        // i + 1 เพื่อแสดงวันที่เริ่มจาก 1
                         System.out.println("Day " + (i + 1) + ": " + temps[i]);
                     }
                 }
@@ -111,9 +122,11 @@ export default {
             public class TwoLoops {
                 public static void main(String[] args) {
                     String[] fruits = {"Apple", "Banana", "Cherry"};
+                    // for แบบ index: รู้ตำแหน่ง
                     for (int i = 0; i < fruits.length; i++) {
                         System.out.println(i + ": " + fruits[i]);
                     }
+                    // for-each: อ่านทีละค่า ไม่ต้องใช้ index
                     for (String f : fruits) {
                         System.out.println("I like " + f);
                     }
@@ -128,12 +141,13 @@ export default {
                     int[] scores = {72, 45, 88, 91, 50, 39, 67};
                     int sum = 0;
                     int passed = 0;
-                    for (int s : scores) {
+                    for (int s : scores) {  // อ่านทุกค่าในอาเรย์
                         sum += s;
-                        if (s >= 50) {
+                        if (s >= 50) {  // นับเฉพาะค่าที่ผ่าน
                             passed++;
                         }
                     }
+                    // แปลงเป็น double ก่อนหาร
                     double average = (double) sum / scores.length;
                     System.out.println("Sum = " + sum);
                     System.out.printf("Average = %.2f%n", average);
@@ -147,12 +161,15 @@ export default {
             public class FindMax {
                 public static void main(String[] args) {
                     double[] sales = {1200.5, 980.0, 1530.25, 760.0, 1490.0};
-                    int maxIndex = 0;
+                    int maxIndex = 0;  // เก็บตำแหน่ง ไม่ใช่ค่า
                     int minIndex = 0;
+                    // เริ่มที่ 1 เพราะช่อง 0 เป็นค่าตั้งต้น
                     for (int i = 1; i < sales.length; i++) {
+                        // เจอค่าที่มากกว่า → จำตำแหน่งใหม่
                         if (sales[i] > sales[maxIndex]) maxIndex = i;
                         if (sales[i] < sales[minIndex]) minIndex = i;
                     }
+                    // + 1 เพื่อแสดงวันที่เริ่มจาก 1
                     System.out.println("Best day: " + (maxIndex + 1) + " (" + sales[maxIndex] + ")");
                     System.out.println("Worst day: " + (minIndex + 1) + " (" + sales[minIndex] + ")");
                 }
@@ -170,11 +187,12 @@ export default {
                     System.out.print("Search name: ");
                     String target = input.next();
 
-                    int found = -1;
+                    int found = -1;  // -1 = ยังไม่เจอ
                     for (int i = 0; i < students.length; i++) {
+                        // เทียบโดยไม่สนตัวพิมพ์เล็ก/ใหญ่
                         if (students[i].equalsIgnoreCase(target)) {
                             found = i;
-                            break;
+                            break;  // เจอแล้ว ไม่ต้องค้นต่อ
                         }
                     }
                     if (found >= 0) {
@@ -193,14 +211,17 @@ export default {
             public class ArrayReference {
                 public static void main(String[] args) {
                     int[] a = {1, 2, 3};
-                    int[] b = a;
+                    int[] b = a;  // b ชี้ไปที่อาเรย์เดียวกับ a
+                    // clone() สร้างอาเรย์ใหม่ที่ค่าเหมือนกัน
                     int[] c = a.clone();
-                    b[0] = 99;
+                    b[0] = 99;    // แก้ผ่าน b → a เปลี่ยนด้วย
                     System.out.println("a = " + Arrays.toString(a));
                     System.out.println("b = " + Arrays.toString(b));
                     System.out.println("c = " + Arrays.toString(c));
+                    // == เทียบว่าเป็นอาเรย์เดียวกันหรือไม่
                     System.out.println("a == b ? " + (a == b));
                     System.out.println("a == c ? " + (a == c));
+                    // equals เทียบค่าทุกช่อง
                     System.out.println("Arrays.equals(a, c) ? " + Arrays.equals(a, c));
                 }
             }`,
@@ -232,13 +253,17 @@ export default {
           code: j`
             public class Grid2D {
                 public static void main(String[] args) {
-                    int[][] scores = {
+                    int[][] scores = {  // อาเรย์ 2 มิติ: 2 แถว 3 คอลัมน์
                         {80, 75, 90},
                         {60, 85, 70}
                     };
+                    // length = จำนวนแถว, [0].length = จำนวนคอลัมน์
                     System.out.println("rows = " + scores.length + ", cols = " + scores[0].length);
+                    // [แถว][คอลัมน์]
                     System.out.println("scores[1][2] = " + scores[1][2]);
+                    // ลูปนอก: แถว
                     for (int r = 0; r < scores.length; r++) {
+                        // ลูปใน: คอลัมน์ของแถวนั้น
                         for (int c = 0; c < scores[r].length; c++) {
                             System.out.printf("%4d", scores[r][c]);
                         }
@@ -260,22 +285,24 @@ export default {
                         {95, 88, 92}
                     };
                     System.out.printf("%-6s", "");
+                    // หัวตาราง: ชื่อวิชา
                     for (String sub : subjects) System.out.printf("%6s", sub);
                     System.out.printf("%7s%n", "Total");
                     for (int r = 0; r < s.length; r++) {
-                        int rowSum = 0;
+                        int rowSum = 0;  // ผลรวมของแถวนี้ เริ่มใหม่ทุกแถว
                         System.out.printf("%-6s", students[r]);
                         for (int c = 0; c < s[r].length; c++) {
                             System.out.printf("%6d", s[r][c]);
-                            rowSum += s[r][c];
+                            rowSum += s[r][c];  // บวกตามแถว
                         }
                         System.out.printf("%7d%n", rowSum);
                     }
                     System.out.printf("%-6s", "Avg");
+                    // ลูปนอกเป็นคอลัมน์ เพื่อรวมตามวิชา
                     for (int c = 0; c < subjects.length; c++) {
                         int colSum = 0;
                         for (int r = 0; r < s.length; r++) {
-                            colSum += s[r][c];
+                            colSum += s[r][c];  // บวกลงตามคอลัมน์
                         }
                         System.out.printf("%6.1f", (double) colSum / s.length);
                     }
@@ -290,20 +317,22 @@ export default {
 
             public class SeatBooking {
                 public static void main(String[] args) {
+                    // 3 แถว 4 ที่นั่ง เริ่มต้นเป็น false ทั้งหมด
                     boolean[][] booked = new boolean[3][4];
                     Scanner input = new Scanner(System.in);
                     for (int k = 0; k < 3; k++) {
                         System.out.print("Book row col: ");
                         int r = input.nextInt(), c = input.nextInt();
-                        if (booked[r][c]) {
+                        if (booked[r][c]) {  // true = มีคนจองแล้ว
                             System.out.println("  Seat taken!");
                         } else {
-                            booked[r][c] = true;
+                            booked[r][c] = true;  // จองที่นั่ง
                             System.out.println("  Booked.");
                         }
                     }
                     for (int r = 0; r < booked.length; r++) {
                         for (int c = 0; c < booked[r].length; c++) {
+                            // ?: เลือกสัญลักษณ์ตามสถานะ
                             System.out.print(booked[r][c] ? "[X]" : "[ ]");
                         }
                         System.out.println();
@@ -328,13 +357,14 @@ export default {
                 public static void main(String[] args) {
                     int[] a = {4, 9, 1, 7};
                     int[] b = {10, 20};
+                    // ส่งอาเรย์เป็น argument ได้
                     System.out.println("sum(a) = " + sum(a) + ", max(a) = " + max(a));
                     System.out.println("sum(b) = " + sum(b) + ", max(b) = " + max(b));
-                    doubleAll(b);
+                    doubleAll(b);  // เมธอดแก้ค่าในอาเรย์เดิมได้
                     System.out.println("after doubleAll: b[0]=" + b[0] + ", b[1]=" + b[1]);
                 }
 
-                static int sum(int[] values) {
+                static int sum(int[] values) {  // รับอาเรย์เป็น parameter
                     int total = 0;
                     for (int v : values) total += v;
                     return total;
@@ -346,6 +376,7 @@ export default {
                     return best;
                 }
 
+                // void แต่แก้ค่าในอาเรย์ที่ส่งมาได้จริง
                 static void doubleAll(int[] values) {
                     for (int i = 0; i < values.length; i++) {
                         values[i] *= 2;
@@ -361,19 +392,24 @@ export default {
             public class ArraysUtility {
                 public static void main(String[] args) {
                     int[] nums = {42, 7, 19, 3, 25};
+                    // สำรองไว้ก่อนเรียง
                     int[] backup = Arrays.copyOf(nums, nums.length);
+                    // เรียงจากน้อยไปมาก (แก้อาเรย์เดิม)
                     Arrays.sort(nums);
+                    // toString แสดงทุกช่องในรูป [..]
                     System.out.println("sorted : " + Arrays.toString(nums));
                     System.out.println("backup : " + Arrays.toString(backup));
+                    // ค่ากลางหลังเรียง
                     System.out.println("median : " + nums[nums.length / 2]);
 
                     String[] names = {"Ploy", "Beam", "Mali"};
-                    Arrays.sort(names);
+                    Arrays.sort(names);  // ข้อความเรียงตามตัวอักษร
                     System.out.println("names  : " + Arrays.toString(names));
 
                     int[] zeros = new int[5];
-                    Arrays.fill(zeros, 7);
+                    Arrays.fill(zeros, 7);  // ใส่ 7 ทุกช่อง
                     System.out.println("filled : " + Arrays.toString(zeros));
+                    // ขยายเป็น 7 ช่อง ช่องที่เกินเป็น 0
                     int[] bigger = Arrays.copyOf(backup, 7);
                     System.out.println("bigger : " + Arrays.toString(bigger));
                 }
@@ -388,9 +424,13 @@ export default {
                 public static void main(String[] args) {
                     int[] a = {5, 2, 9, 1, 6};
                     System.out.println("start  " + Arrays.toString(a));
+                    // ทำ n - 1 รอบ
                     for (int pass = 0; pass < a.length - 1; pass++) {
+                        // ช่องท้ายที่เรียงแล้วไม่ต้องเทียบ
                         for (int i = 0; i < a.length - 1 - pass; i++) {
+                            // คู่ติดกันกลับลำดับ → สลับ
                             if (a[i] > a[i + 1]) {
+                                // สลับด้วยตัวแปรชั่วคราว
                                 int temp = a[i];
                                 a[i] = a[i + 1];
                                 a[i + 1] = temp;
@@ -411,7 +451,9 @@ export default {
         public class Temperatures {
             public static void main(String[] args) {
                 double[] temps = {29.5, 31.0, 30.2, 28.8, 32.1};
+                // index 1 คือวันที่ 2
                 System.out.println("Day 2: " + temps[1]);
+                // ช่องสุดท้ายคือ length - 1
                 System.out.println("Last day: " + temps[temps.length - 1]);
                 System.out.println("Days: " + temps.length);
             }
@@ -422,10 +464,11 @@ export default {
         public class PrintAll {
             public static void main(String[] args) {
                 int[] values = {4, 8, 12, 16, 20};
+                // for แบบ index
                 for (int i = 0; i < values.length; i++) {
                     System.out.println("[" + i + "] = " + values[i]);
                 }
-                for (int v : values) {
+                for (int v : values) {  // for-each
                     System.out.print(v + " ");
                 }
                 System.out.println();
@@ -442,13 +485,14 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("n = ");
                 int n = input.nextInt();
+                // สร้างอาเรย์ตามจำนวนที่ผู้ใช้ป้อน
                 int[] scores = new int[n];
                 System.out.print("Scores: ");
                 for (int i = 0; i < n; i++) {
-                    scores[i] = input.nextInt();
+                    scores[i] = input.nextInt();  // อ่านค่าลงช่องที่ i
                 }
                 int sum = 0;
-                for (int s : scores) sum += s;
+                for (int s : scores) sum += s;  // for-each รวมค่า
                 System.out.println("Scores: " + Arrays.toString(scores));
                 System.out.println("Sum: " + sum);
                 System.out.printf("Average: %.2f%n", (double) sum / n);
@@ -468,12 +512,14 @@ export default {
                 int sum = 0;
                 System.out.print("Scores: ");
                 for (int i = 0; i < n; i++) {
+                    // เก็บค่าไว้ก่อน เพื่อใช้เทียบภายหลัง
                     scores[i] = input.nextInt();
-                    sum += scores[i];
+                    sum += scores[i];  // รวมไปพร้อมกัน
                 }
                 double avg = (double) sum / n;
                 System.out.printf("Average = %.2f%n", avg);
                 int count = 0;
+                // วนรอบที่ 2: เทียบกับค่าเฉลี่ย
                 for (int i = 0; i < n; i++) {
                     if (scores[i] > avg) {
                         System.out.println("Student " + (i + 1) + ": " + scores[i]);
@@ -490,6 +536,7 @@ export default {
 
         public class PriceLookup {
             public static void main(String[] args) {
+                // อาเรย์คู่ขนาน: index เดียวกัน = สินค้าเดียวกัน
                 String[] items = {"Pen", "Pencil", "Eraser", "Ruler", "Notebook"};
                 double[] prices = {12, 6, 8.5, 15, 35};
                 Scanner input = new Scanner(System.in);
@@ -499,6 +546,7 @@ export default {
                 int qty = input.nextInt();
                 int found = -1;
                 for (int i = 0; i < items.length; i++) {
+                    // หาตำแหน่งของสินค้า
                     if (items[i].equalsIgnoreCase(name)) {
                         found = i;
                         break;
@@ -507,6 +555,7 @@ export default {
                 if (found == -1) {
                     System.out.println("Item not found");
                 } else {
+                    // ใช้ index เดียวกันดึงราคา
                     System.out.printf("%s x %d = %.2f baht%n", items[found], qty, prices[found] * qty);
                 }
             }
@@ -527,8 +576,11 @@ export default {
             }
 
             static void reverse(int[] a) {
+                // วนแค่ครึ่งเดียว
                 for (int i = 0; i < a.length / 2; i++) {
+                    // ตำแหน่งคู่จากด้านท้าย
                     int j = a.length - 1 - i;
+                    // สลับช่อง i กับ j
                     int temp = a[i];
                     a[i] = a[j];
                     a[j] = temp;
@@ -545,14 +597,16 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("n = ");
                 int n = input.nextInt();
+                // ช่อง 0-10 เก็บจำนวนครั้งของแต่ละคะแนน
                 int[] freq = new int[11];
                 System.out.print("Scores: ");
                 for (int i = 0; i < n; i++) {
                     int score = input.nextInt();
-                    freq[score]++;
+                    freq[score]++;  // ใช้คะแนนเป็น index แล้วนับเพิ่ม
                 }
                 for (int s = 0; s <= 10; s++) {
                     if (freq[s] > 0) {
+                        // repeat วาดแท่งตามความถี่
                         System.out.printf("%2d | %-6s (%d)%n", s, "*".repeat(freq[s]), freq[s]);
                     }
                 }
@@ -568,28 +622,31 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("students subjects: ");
                 int rows = input.nextInt(), cols = input.nextInt();
+                // ขนาดอาเรย์ 2 มิติจากผู้ใช้
                 int[][] scores = new int[rows][cols];
                 for (int r = 0; r < rows; r++) {
                     System.out.print("Student " + (r + 1) + ": ");
                     for (int c = 0; c < cols; c++) {
+                        // อ่านคะแนนลงตาราง
                         scores[r][c] = input.nextInt();
                     }
                 }
                 int bestRow = 0, bestTotal = -1;
                 for (int r = 0; r < rows; r++) {
-                    int total = 0;
+                    int total = 0;  // ผลรวมของนักเรียนคนนี้
                     System.out.printf("S%-3d", r + 1);
                     for (int c = 0; c < cols; c++) {
                         System.out.printf("%5d", scores[r][c]);
                         total += scores[r][c];
                     }
                     System.out.printf(" | %4d %6.2f%n", total, (double) total / cols);
-                    if (total > bestTotal) {
+                    if (total > bestTotal) {  // จำแถวที่คะแนนรวมสูงสุด
                         bestTotal = total;
                         bestRow = r;
                     }
                 }
                 System.out.print("Avg ");
+                // ค่าเฉลี่ยรายวิชา (ตามคอลัมน์)
                 for (int c = 0; c < cols; c++) {
                     int sum = 0;
                     for (int r = 0; r < rows; r++) sum += scores[r][c];
@@ -613,16 +670,22 @@ export default {
             }
 
             static int[] merge(int[] a, int[] b) {
+                // ขนาดผลลัพธ์ = ผลรวมความยาว
                 int[] result = new int[a.length + b.length];
+                // i ชี้ใน a, j ชี้ใน b, k ชี้ใน result
                 int i = 0, j = 0, k = 0;
+                // ทั้งสองอาเรย์ยังมีค่าเหลือ
                 while (i < a.length && j < b.length) {
+                    // เลือกค่าที่น้อยกว่าก่อน
                     if (a[i] <= b[j]) {
                         result[k++] = a[i++];
                     } else {
                         result[k++] = b[j++];
                     }
                 }
+                // คัดลอกค่าที่เหลือของ a
                 while (i < a.length) result[k++] = a[i++];
+                // คัดลอกค่าที่เหลือของ b
                 while (j < b.length) result[k++] = b[j++];
                 return result;
             }
@@ -635,16 +698,18 @@ export default {
         public class TicTacToe {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
-                char[][] board = new char[3][3];
+                char[][] board = new char[3][3];  // ตาราง 3×3
                 for (int r = 0; r < 3; r++) {
                     System.out.print("Row " + r + ": ");
                     String line = input.next();
+                    // แยกตัวอักษรแต่ละตัวลงช่อง
                     for (int c = 0; c < 3; c++) board[r][c] = line.charAt(c);
                 }
+                // for-each กับอาเรย์ 2 มิติ: ทีละแถว
                 for (char[] row : board) {
                     System.out.println(" " + row[0] + " | " + row[1] + " | " + row[2]);
                 }
-                char w = winner(board);
+                char w = winner(board);  // '-' หมายถึงยังไม่มีผู้ชนะ
                 if (w != '-') System.out.println("Winner: " + w);
                 else if (isFull(board)) System.out.println("Draw");
                 else System.out.println("Game continues");
@@ -652,14 +717,19 @@ export default {
 
             static char winner(char[][] b) {
                 for (int i = 0; i < 3; i++) {
+                    // แถวที่ i เหมือนกันทั้งแถว
                     if (b[i][0] != '.' && b[i][0] == b[i][1] && b[i][1] == b[i][2]) return b[i][0];
+                    // คอลัมน์ที่ i
                     if (b[0][i] != '.' && b[0][i] == b[1][i] && b[1][i] == b[2][i]) return b[0][i];
                 }
+                // แนวทแยง ซ้ายบน → ขวาล่าง
                 if (b[1][1] != '.' && b[0][0] == b[1][1] && b[1][1] == b[2][2]) return b[1][1];
+                // แนวทแยง ขวาบน → ซ้ายล่าง
                 if (b[1][1] != '.' && b[0][2] == b[1][1] && b[1][1] == b[2][0]) return b[1][1];
                 return '-';
             }
 
+            // มีช่องว่าง '.' เหลือ → ยังไม่เต็ม
             static boolean isFull(char[][] b) {
                 for (char[] row : b)
                     for (char cell : row)

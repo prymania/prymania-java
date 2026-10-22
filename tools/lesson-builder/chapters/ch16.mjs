@@ -39,6 +39,7 @@ export default {
             import javax.swing.*;
 
             public class ClickCounter {
+                // static: lambda แก้ค่าตัวแปรนี้ได้
                 private static int count = 0;
 
                 public static void main(String[] args) {
@@ -47,8 +48,11 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JLabel label = new JLabel("Clicks: 0");
                         JButton button = new JButton("Click me");
+                        // ลงทะเบียนงานที่ทำเมื่อคลิกปุ่ม
                         button.addActionListener(e -> {
+                            // โค้ดใน lambda ทำงานทุกครั้งที่คลิก
                             count++;
+                            // อัปเดตข้อความบนหน้าจอ
                             label.setText("Clicks: " + count);
                         });
                         JPanel panel = new JPanel();
@@ -68,10 +72,12 @@ export default {
             import java.awt.*;
 
             public class StepperApp {
-                private static int value = 0;
+                private static int value = 0;  // ค่าที่ปุ่มทุกปุ่มใช้ร่วมกัน
+                // เก็บเป็น field เพื่อให้ refresh() เข้าถึงได้
                 private static JLabel display;
 
                 public static void main(String[] args) {
+                    // ส่งเมธอด createGui ให้ EDT
                     SwingUtilities.invokeLater(StepperApp::createGui);
                 }
 
@@ -83,6 +89,7 @@ export default {
                     JButton minus = new JButton("-");
                     JButton plus = new JButton("+");
                     JButton reset = new JButton("Reset");
+                    // หลายคำสั่งใน lambda บรรทัดเดียว
                     minus.addActionListener(e -> { value--; refresh(); });
                     plus.addActionListener(e -> { value++; refresh(); });
                     reset.addActionListener(e -> { value = 0; refresh(); });
@@ -96,8 +103,9 @@ export default {
                     frame.setVisible(true);
                 }
 
-                private static void refresh() {
+                private static void refresh() {  // อัปเดตหน้าจอจากค่าปัจจุบัน
                     display.setText(String.valueOf(value));
+                    // ติดลบแสดงสีแดง
                     display.setForeground(value < 0 ? Color.RED : Color.BLACK);
                 }
             }`,
@@ -142,9 +150,12 @@ export default {
                         JTextField nameField = new JTextField(10);
                         JButton greet = new JButton("Greet");
                         JLabel result = new JLabel("Type your name");
+                        // anonymous class: วิธีเขียนแบบเต็มก่อนมี lambda
                         greet.addActionListener(new ActionListener() {
                             @Override
+                            // เมธอดที่ถูกเรียกเมื่อคลิก
                             public void actionPerformed(ActionEvent e) {
+                                // อ่านข้อความจากช่องกรอก
                                 String name = nameField.getText().trim();
                                 result.setText("Hello, " + name + "!");
                             }
@@ -175,8 +186,10 @@ export default {
                         JButton convert = new JButton("Convert");
                         JLabel output = new JLabel("? °F");
                         convert.addActionListener(e -> {
+                            // แปลงข้อความเป็นตัวเลขก่อนคำนวณ
                             double c = Double.parseDouble(celsius.getText().trim());
                             double f = c * 9 / 5 + 32;
+                            // จัดรูปแบบทศนิยม 1 ตำแหน่ง
                             output.setText(String.format("%.1f °F", f));
                         });
                         JPanel p = new JPanel(new FlowLayout());
@@ -205,7 +218,9 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JLabel question = new JLabel("Which keyword creates an object?  A) class  B) new  C) void");
                         JLabel feedback = new JLabel(" ");
+                        // listener ตัวเดียว ใช้กับหลายปุ่ม
                         ActionListener answer = e -> {
+                            // ข้อความบนปุ่มที่ถูกคลิก
                             String choice = e.getActionCommand();
                             if (choice.equals("B")) {
                                 feedback.setText("Correct! 'new' creates an object.");
@@ -214,11 +229,13 @@ export default {
                                 feedback.setText(choice + " is wrong, try again.");
                                 feedback.setForeground(Color.RED);
                             }
+                            // getSource() = ปุ่มที่ถูกคลิก
                             ((JButton) e.getSource()).setEnabled(false);
                         };
                         JPanel buttons = new JPanel();
                         for (String opt : new String[]{"A", "B", "C"}) {
                             JButton b = new JButton(opt);
+                            // ทุกปุ่มใช้ listener เดียวกัน
                             b.addActionListener(answer);
                             buttons.add(b);
                         }
@@ -266,18 +283,25 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JTextField input = new JTextField(14);
                         JButton add = new JButton("Add");
+                        // model เก็บข้อมูลของ JList
                         DefaultListModel<String> model = new DefaultListModel<>();
+                        // JList แสดงข้อมูลจาก model
                         JList<String> list = new JList<>(model);
 
+                        // เก็บ listener ไว้ในตัวแปร เพื่อใช้ซ้ำ
                         ActionListener addItem = e -> {
                             String text = input.getText().trim();
+                            // ไม่เพิ่มข้อความว่าง
                             if (!text.isEmpty()) {
+                                // เพิ่มใน model แล้ว JList อัปเดตเอง
                                 model.addElement((model.size() + 1) + ". " + text);
                                 input.setText("");
                             }
+                            // ให้เคอร์เซอร์กลับไปที่ช่องกรอก
                             input.requestFocusInWindow();
                         };
-                        add.addActionListener(addItem);
+                        add.addActionListener(addItem);  // คลิกปุ่ม Add
+                        // กด Enter ในช่องกรอก ทำงานเดียวกัน
                         input.addActionListener(addItem);
 
                         JPanel top = new JPanel(new BorderLayout(4, 0));
@@ -306,17 +330,22 @@ export default {
                         JFrame frame = new JFrame("Tip");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         double bill = 840.0;
+                        // ต่ำสุด 0, สูงสุด 25, เริ่มที่ 10
                         JSlider tip = new JSlider(0, 25, 10);
                         tip.setMajorTickSpacing(5);
                         tip.setPaintTicks(true);
                         tip.setPaintLabels(true);
                         JLabel result = new JLabel();
+                        // Runnable: งานที่สั่ง run() ได้
                         Runnable update = () -> {
+                            // อ่านค่าปัจจุบันของ slider
                             int percent = tip.getValue();
                             double t = bill * percent / 100;
                             result.setText(String.format("Bill 840.00 + tip %d%% = %.2f baht", percent, bill + t));
                         };
+                        // ChangeListener ทำงานทุกครั้งที่เลื่อน
                         tip.addChangeListener(e -> update.run());
+                        // เปลี่ยนค่า → listener ทำงานทันที
                         tip.setValue(15);
                         JPanel root = new JPanel(new BorderLayout(0, 8));
                         root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -337,6 +366,7 @@ export default {
 
             public class CourseInfo {
                 public static void main(String[] args) {
+                    // ข้อมูลอาเรย์คู่ขนาน
                     String[] names = {"Programming", "Physics", "Calculus", "English"};
                     int[] credits = {3, 4, 3, 2};
                     String[] rooms = {"Lab 2", "SC-101", "SC-204", "LA-310"};
@@ -345,10 +375,13 @@ export default {
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JComboBox<String> combo = new JComboBox<>(names);
                         JLabel detail = new JLabel();
+                        // ทำงานเมื่อเลือกรายการใหม่
                         combo.addActionListener(e -> {
+                            // ตำแหน่งที่เลือก ใช้ดึงข้อมูลจากทุกอาเรย์
                             int i = combo.getSelectedIndex();
                             detail.setText(names[i] + ": " + credits[i] + " credits, room " + rooms[i]);
                         });
+                        // เลือกตัวแรกเพื่อให้แสดงรายละเอียดตั้งแต่เริ่ม
                         combo.setSelectedIndex(0);
                         JPanel root = new JPanel(new GridLayout(2, 1, 4, 4));
                         root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
@@ -375,12 +408,14 @@ export default {
             import java.awt.*;
 
             public class PiggyBankApp {
+                // ส่วน logic แยกอยู่ในคลาส PiggyBank
                 private final PiggyBank bank = new PiggyBank();
                 private final JTextField amountField = new JTextField(8);
                 private final JLabel balanceLabel = new JLabel();
                 private final JLabel message = new JLabel(" ");
 
                 public static void main(String[] args) {
+                    // สร้างออบเจ็กต์ แล้วเรียก show บน EDT
                     SwingUtilities.invokeLater(() -> new PiggyBankApp().show());
                 }
 
@@ -389,7 +424,9 @@ export default {
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JButton deposit = new JButton("Deposit");
                     JButton withdraw = new JButton("Withdraw");
+                    // true = ฝาก
                     deposit.addActionListener(e -> act(true));
+                    // false = ถอน
                     withdraw.addActionListener(e -> act(false));
                     JPanel input = new JPanel();
                     input.add(new JLabel("Amount:"));
@@ -407,22 +444,27 @@ export default {
                     frame.setVisible(true);
                 }
 
+                // ทั้งสองปุ่มใช้เมธอดเดียวกัน
                 private void act(boolean isDeposit) {
                     try {
+                        // ข้อความที่ไม่ใช่ตัวเลข → NumberFormatException
                         double amount = Double.parseDouble(amountField.getText().trim());
+                        // PiggyBank โยน exception เมื่อข้อมูลผิด
                         if (isDeposit) bank.deposit(amount);
                         else bank.withdraw(amount);
                         message.setText((isDeposit ? "Deposited " : "Withdrew ") + amount);
                         message.setForeground(new Color(0, 110, 0));
+                    // กรอกไม่ใช่ตัวเลข
                     } catch (NumberFormatException ex) {
                         message.setText("Please enter a number");
                         message.setForeground(Color.RED);
+                    // ข้อความจาก PiggyBank
                     } catch (IllegalArgumentException ex) {
                         message.setText(ex.getMessage());
                         message.setForeground(Color.RED);
                     }
                     amountField.setText("");
-                    refresh();
+                    refresh();  // อัปเดตยอดทุกครั้ง
                 }
 
                 private void refresh() {
@@ -430,18 +472,20 @@ export default {
                 }
             }
 
-            class PiggyBank {
+            class PiggyBank {  // คลาส logic ไม่รู้จัก Swing เลย
                 private double balance;
 
                 double getBalance() { return balance; }
 
                 void deposit(double amount) {
+                    // ตรวจข้อมูลแล้วโยน exception
                     if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
                     balance += amount;
                 }
 
                 void withdraw(double amount) {
                     if (amount <= 0) throw new IllegalArgumentException("Amount must be positive");
+                    // ถอนเกินยอด
                     if (amount > balance) throw new IllegalArgumentException("Not enough money (have " + balance + ")");
                     balance -= amount;
                 }
@@ -454,7 +498,7 @@ export default {
             import java.awt.*;
 
             public class GuessGui {
-                private int secret = 37;
+                private int secret = 37;  // สถานะของเกมเก็บใน field
                 private int tries = 0;
                 private final JTextField input = new JTextField(5);
                 private final JButton guess = new JButton("Guess");
@@ -470,7 +514,8 @@ export default {
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     history.setEditable(false);
                     JButton restart = new JButton("New game");
-                    guess.addActionListener(e -> onGuess());
+                    guess.addActionListener(e -> onGuess());  // คลิกปุ่ม
+                    // กด Enter ในช่องกรอก
                     input.addActionListener(e -> onGuess());
                     restart.addActionListener(e -> restart());
                     JPanel top = new JPanel();
@@ -489,19 +534,22 @@ export default {
 
                 private void onGuess() {
                     int g;
-                    try {
+                    try {  // ตรวจก่อนว่ากรอกตัวเลข
                         g = Integer.parseInt(input.getText().trim());
                     } catch (NumberFormatException ex) {
                         status.setText("Numbers only!");
-                        return;
+                        return;  // ไม่ใช่ตัวเลข → ไม่นับครั้ง
                     }
                     tries++;
                     if (g == secret) {
+                        // append ต่อท้ายข้อความเดิม
                         history.append(g + " -> correct!\n");
                         status.setText("You got it in " + tries + " tries");
+                        // ทายถูกแล้ว ปิดปุ่มและช่องกรอก
                         guess.setEnabled(false);
                         input.setEnabled(false);
                     } else {
+                        // ?: เลือกคำใบ้
                         String hint = g > secret ? "too high" : "too low";
                         history.append(g + " -> " + hint + "\n");
                         status.setText("Try #" + (tries + 1));
@@ -510,7 +558,7 @@ export default {
                 }
 
                 private void restart() {
-                    tries = 0;
+                    tries = 0;  // เริ่มเกมใหม่: ล้างสถานะทั้งหมด
                     history.setText("");
                     status.setText("Guess a number 1-100");
                     guess.setEnabled(true);
@@ -542,7 +590,9 @@ export default {
                     JLabel label = new JLabel("Hello");
                     JButton en = new JButton("English");
                     JButton th = new JButton("Thai");
+                    // lambda บรรทัดเดียว
                     en.addActionListener(e -> label.setText("Hello"));
+                    // เปลี่ยนข้อความบน label เดิม
                     th.addActionListener(e -> label.setText("สวัสดี"));
                     JPanel p = new JPanel();
                     p.add(label);
@@ -561,6 +611,7 @@ export default {
         import java.awt.*;
 
         public class MultiCounter {
+            // field static เพื่อให้ lambda แก้ค่าได้
             private static int value = 0;
             private static JLabel display;
 
@@ -571,8 +622,10 @@ export default {
                     display = new JLabel("0", SwingConstants.CENTER);
                     display.setFont(new Font("SansSerif", Font.BOLD, 32));
                     JPanel buttons = new JPanel();
+                    // ส่ง "วิธีเปลี่ยนค่า" เป็น lambda
                     addButton(buttons, "+1", () -> value++);
                     addButton(buttons, "+5", () -> value += 5);
+                    // ไม่ให้ติดลบ
                     addButton(buttons, "-1", () -> value = Math.max(0, value - 1));
                     addButton(buttons, "Reset", () -> value = 0);
                     frame.add(display, BorderLayout.CENTER);
@@ -582,10 +635,13 @@ export default {
                 });
             }
 
+            // Runnable change = งานเฉพาะของแต่ละปุ่ม
             static void addButton(JPanel panel, String text, Runnable change) {
                 JButton b = new JButton(text);
                 b.addActionListener(e -> {
+                    // ทำงานของปุ่มนี้
                     change.run();
+                    // ส่วนที่ทุกปุ่มทำเหมือนกัน
                     display.setText(String.valueOf(value));
                 });
                 panel.add(b);
@@ -606,8 +662,10 @@ export default {
                     JButton eq = new JButton("=");
                     JLabel result = new JLabel("?");
                     eq.addActionListener(e -> {
+                        // อ่านค่าจากช่องกรอกตอนคลิก
                         double x = Double.parseDouble(a.getText().trim());
                         double y = Double.parseDouble(b.getText().trim());
+                        // วงเล็บให้บวกเลขก่อนต่อข้อความ
                         result.setText(x + " + " + y + " = " + (x + y));
                     });
                     JPanel p = new JPanel();
@@ -638,12 +696,16 @@ export default {
                     JTextField height = new JTextField(6);
                     JButton calc = new JButton("Calculate");
                     JLabel result = new JLabel(" ");
+                    // listener เดียว ใช้กับปุ่มและ Enter
                     ActionListener compute = e -> {
                         double w = Double.parseDouble(weight.getText().trim());
+                        // แปลงเซนติเมตรเป็นเมตร
                         double h = Double.parseDouble(height.getText().trim()) / 100;
                         double bmi = w / (h * h);
+                        // แยก logic ไปเป็นเมธอด
                         String cat = category(bmi);
                         result.setText(String.format("BMI %.2f - %s", bmi, cat));
+                        // switch แบบนิพจน์ เลือกสีตามกลุ่ม
                         result.setForeground(switch (cat) {
                             case "Underweight" -> Color.BLUE;
                             case "Normal" -> new Color(0, 128, 0);
@@ -651,7 +713,8 @@ export default {
                             default -> Color.RED;
                         });
                     };
-                    calc.addActionListener(compute);
+                    calc.addActionListener(compute);  // คลิกปุ่ม
+                    // กด Enter ในช่องส่วนสูง
                     height.addActionListener(compute);
                     JPanel form = new JPanel(new GridLayout(0, 2, 6, 6));
                     form.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -667,6 +730,7 @@ export default {
                 });
             }
 
+            // คืนชื่อกลุ่มตามช่วง BMI
             static String category(double bmi) {
                 if (bmi < 18.5) return "Underweight";
                 if (bmi < 23) return "Normal";
@@ -681,8 +745,10 @@ export default {
         import java.awt.*;
 
         public class DrinkPricing {
+            // เมนูและราคาเป็นอาเรย์คู่ขนาน
             static final String[] MENU = {"Espresso", "Latte", "Mocha"};
             static final int[] PRICE = {45, 55, 60};
+            // component เป็น field ให้ทุกเมธอดใช้ได้
             static JComboBox<String> menu;
             static JRadioButton s, m, l;
             static JCheckBox extra;
@@ -701,12 +767,15 @@ export default {
                 m = new JRadioButton("M");
                 l = new JRadioButton("L");
                 ButtonGroup g = new ButtonGroup();
-                g.add(s); g.add(m); g.add(l);
+                g.add(s); g.add(m); g.add(l);  // ขนาดเลือกได้ทีละหนึ่ง
                 extra = new JCheckBox("Extra shot +15");
                 qty = new JSpinner(new SpinnerNumberModel(1, 1, 10, 1));
                 total = new JLabel();
+                // ทุก component สั่งคำนวณราคาใหม่
                 menu.addActionListener(e -> updatePrice());
+                // AbstractButton = แม่ของ JRadioButton และ JCheckBox
                 for (AbstractButton b : new AbstractButton[]{s, m, l, extra}) b.addActionListener(e -> updatePrice());
+                // spinner ใช้ ChangeListener
                 qty.addChangeListener(e -> updatePrice());
 
                 JPanel row1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -716,16 +785,19 @@ export default {
                 JPanel root = new JPanel(new GridLayout(3, 1));
                 root.add(row1); root.add(row2); root.add(total);
                 root.setBorder(BorderFactory.createEmptyBorder(6, 8, 6, 8));
-                updatePrice();
+                updatePrice();  // คำนวณครั้งแรกตอนเปิด
                 frame.setContentPane(root);
                 frame.pack();
                 frame.setVisible(true);
             }
 
             static void updatePrice() {
+                // ราคาตามเมนูที่เลือก
                 int base = PRICE[menu.getSelectedIndex()];
+                // M +10, L +20
                 int size = m.isSelected() ? 10 : l.isSelected() ? 20 : 0;
                 int shot = extra.isSelected() ? 15 : 0;
+                // getValue() คืน Object จึงต้อง cast
                 int n = (int) qty.getValue();
                 total.setText(String.format("(%d + %d + %d) x %d = %d baht", base, size, shot, n, (base + size + shot) * n));
             }
@@ -749,12 +821,15 @@ export default {
                     JButton remove = new JButton("Remove selected");
                     JLabel status = new JLabel();
 
+                    // งานอัปเดตสถานะ ใช้ซ้ำหลายที่
                     Runnable updateStatus = () -> {
                         status.setText(model.size() + " task(s)");
+                        // เลือกรายการแล้วจึงลบได้
                         remove.setEnabled(list.getSelectedIndex() >= 0);
                     };
                     ActionListener addTask = e -> {
                         String t = input.getText().trim();
+                        // ไม่เพิ่มงานว่าง
                         if (!t.isEmpty()) model.addElement(t);
                         input.setText("");
                         updateStatus.run();
@@ -762,10 +837,12 @@ export default {
                     add.addActionListener(addTask);
                     input.addActionListener(addTask);
                     remove.addActionListener(e -> {
+                        // -1 = ไม่ได้เลือก
                         int i = list.getSelectedIndex();
                         if (i >= 0) model.remove(i);
                         updateStatus.run();
                     });
+                    // ทำงานเมื่อเลือกรายการใน JList
                     list.addListSelectionListener(e -> updateStatus.run());
 
                     JPanel top = new JPanel(new BorderLayout(4, 0));
@@ -794,8 +871,9 @@ export default {
         import java.awt.event.ActionListener;
 
         public class WorkingCalculator {
-            private double first = 0;
-            private String op = "";
+            private double first = 0;  // ตัวเลขแรกที่จำไว้
+            private String op = "";    // เครื่องหมายที่รอคำนวณ
+            // true = ตัวเลขถัดไปเริ่มใหม่
             private boolean startNew = true;
             private final JTextField display = new JTextField("0", 12);
 
@@ -809,16 +887,18 @@ export default {
                 display.setEditable(false);
                 display.setHorizontalAlignment(JTextField.RIGHT);
                 display.setFont(new Font("Monospaced", Font.BOLD, 20));
-                ActionListener digit = e -> {
+                ActionListener digit = e -> {  // ปุ่มตัวเลขและจุด
                     String d = e.getActionCommand();
-                    if (startNew) {
+                    if (startNew) {  // เริ่มตัวเลขใหม่แทนค่าเดิม
                         display.setText(d.equals(".") ? "0." : d);
                         startNew = false;
+                    // ห้ามมีจุดทศนิยมซ้ำ
                     } else if (!(d.equals(".") && display.getText().contains("."))) {
                         display.setText(display.getText() + d);
                     }
                 };
-                ActionListener operator = e -> {
+                ActionListener operator = e -> {  // ปุ่ม + - * /
+                    // คำนวณค่าที่ค้างอยู่ก่อน
                     calculate();
                     op = e.getActionCommand();
                     startNew = true;
@@ -827,12 +907,15 @@ export default {
                 JPanel pad = new JPanel(new GridLayout(4, 4, 4, 4));
                 for (String k : keys) {
                     JButton b = new JButton(k);
+                    // ปุ่ม = คำนวณแล้วล้างเครื่องหมาย
                     if (k.equals("=")) b.addActionListener(e -> { calculate(); op = ""; startNew = true; });
+                    // ตรวจว่าเป็นเครื่องหมายหรือไม่
                     else if ("/*-+".contains(k)) b.addActionListener(operator);
                     else b.addActionListener(digit);
                     pad.add(b);
                 }
                 JButton clear = new JButton("C");
+                // C ล้างทุกอย่าง
                 clear.addActionListener(e -> { first = 0; op = ""; startNew = true; display.setText("0"); });
                 JPanel root = new JPanel(new BorderLayout(4, 4));
                 root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
@@ -845,8 +928,10 @@ export default {
             }
 
             private void calculate() {
+                // อยู่ในสถานะ error ไม่คำนวณต่อ
                 if (display.getText().equals("Error")) return;
                 double current = Double.parseDouble(display.getText());
+                // ยังไม่มีเครื่องหมาย → จำเป็นตัวเลขแรก
                 if (op.isEmpty()) {
                     first = current;
                     return;
@@ -856,6 +941,7 @@ export default {
                     case "-" -> first -= current;
                     case "*" -> first *= current;
                     case "/" -> {
+                        // หารด้วย 0 → แสดง Error
                         if (current == 0) { display.setText("Error"); op = ""; return; }
                         first /= current;
                     }
@@ -864,6 +950,7 @@ export default {
             }
 
             private static String format(double v) {
+                // ไม่มีทศนิยมแสดงเป็นจำนวนเต็ม
                 return v == Math.rint(v) ? String.valueOf((long) v) : String.valueOf(v);
             }
         }` },
@@ -875,11 +962,15 @@ export default {
         import java.util.ArrayList;
 
         public class QuizGui {
+            // รายการคำถาม
             private final ArrayList<Question> questions = new ArrayList<>();
+            // ข้อที่กำลังทำ และคะแนน
             private int index = 0, score = 0;
             private boolean answered = false;
             private final JLabel prompt = new JLabel();
+            // ตัวเลือก 4 ข้อ
             private final JRadioButton[] options = new JRadioButton[4];
+            // เลือกได้ทีละข้อ
             private final ButtonGroup group = new ButtonGroup();
             private final JLabel feedback = new JLabel(" ");
             private final JButton submit = new JButton("Submit");
@@ -890,6 +981,7 @@ export default {
             }
 
             private void show() {
+                // คำถาม, ตัวเลือก, index คำตอบที่ถูก
                 questions.add(new Question("Which keyword creates an object?", new String[]{"class", "new", "void", "static"}, 1));
                 questions.add(new Question("Which type stores text?", new String[]{"char", "int", "String", "boolean"}, 2));
                 questions.add(new Question("First index of an array?", new String[]{"1", "-1", "length", "0"}, 3));
@@ -897,12 +989,14 @@ export default {
                 JFrame frame = new JFrame("Java Quiz");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 JPanel optionPanel = new JPanel(new GridLayout(4, 1));
+                // สร้าง radio button 4 ตัว
                 for (int i = 0; i < 4; i++) {
                     options[i] = new JRadioButton();
                     group.add(options[i]);
                     optionPanel.add(options[i]);
                 }
                 submit.addActionListener(e -> onSubmit());
+                // ไปข้อถัดไป
                 next.addActionListener(e -> { index++; showQuestion(); });
                 JPanel buttons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
                 buttons.add(submit);
@@ -916,15 +1010,17 @@ export default {
                 root.add(optionPanel, BorderLayout.CENTER);
                 root.add(south, BorderLayout.SOUTH);
                 frame.setContentPane(root);
-                showQuestion();
+                showQuestion();  // แสดงข้อแรก
                 frame.setSize(420, 230);
                 frame.setVisible(true);
             }
 
             private void showQuestion() {
-                Question q = questions.get(index);
+                Question q = questions.get(index);  // คำถามข้อปัจจุบัน
                 prompt.setText("Q" + (index + 1) + "/" + questions.size() + ": " + q.text);
+                // ใส่ข้อความตัวเลือกของข้อนี้
                 for (int i = 0; i < 4; i++) options[i].setText(q.choices[i]);
+                // ล้างตัวเลือกที่เลือกไว้
                 group.clearSelection();
                 answered = false;
                 feedback.setText(" ");
@@ -934,13 +1030,15 @@ export default {
 
             private void onSubmit() {
                 int chosen = -1;
+                // หาตัวเลือกที่ถูกเลือก
                 for (int i = 0; i < 4; i++) if (options[i].isSelected()) chosen = i;
+                // ยังไม่ได้เลือก
                 if (chosen == -1) {
                     feedback.setText("Choose an answer first");
                     return;
                 }
                 Question q = questions.get(index);
-                if (chosen == q.answer) {
+                if (chosen == q.answer) {  // เทียบกับ index คำตอบ
                     score++;
                     feedback.setText("Correct!");
                     feedback.setForeground(new Color(0, 128, 0));
@@ -949,16 +1047,19 @@ export default {
                     feedback.setForeground(Color.RED);
                 }
                 answered = true;
+                // ตอบแล้วส่งซ้ำไม่ได้
                 submit.setEnabled(false);
+                // ยังไม่ใช่ข้อสุดท้าย
                 if (index < questions.size() - 1) {
                     next.setEnabled(true);
                 } else {
+                    // ข้อสุดท้าย → แสดงคะแนนรวม
                     feedback.setText(feedback.getText() + "   Final score: " + score + "/" + questions.size());
                 }
             }
         }
 
-        class Question {
+        class Question {  // เก็บข้อมูลคำถามหนึ่งข้อ
             final String text;
             final String[] choices;
             final int answer;

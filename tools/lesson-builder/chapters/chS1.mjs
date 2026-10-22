@@ -31,7 +31,9 @@ export default {
             public class RawRandom {
                 public static void main(String[] args) {
                     for (int i = 1; i <= 5; i++) {
+                        // ค่าในช่วง [0, 1)
                         double r = Math.random();
+                        // ×6 ได้ [0, 6) → (int) ได้ 0-5 → +1 ได้ 1-6
                         System.out.printf("r = %.4f   r*6 = %.4f   (int)(r*6)+1 = %d%n", r, r * 6, (int) (r * 6) + 1);
                     }
                 }
@@ -42,12 +44,15 @@ export default {
           code: j`
             public class DiceFrequency {
                 public static void main(String[] args) {
-                    int[] count = new int[7];
+                    int[] count = new int[7];  // ใช้ช่อง 1-6 (ช่อง 0 ไม่ใช้)
                     for (int i = 0; i < 6000; i++) {
+                        // สุ่มลูกเต๋า 1-6
                         int roll = (int) (Math.random() * 6) + 1;
+                        // นับจำนวนครั้งของแต่ละหน้า
                         count[roll]++;
                     }
                     for (int face = 1; face <= 6; face++) {
+                        // # หนึ่งตัวแทน 50 ครั้ง
                         System.out.printf("%d: %4d %s%n", face, count[face], "#".repeat(count[face] / 50));
                     }
                 }
@@ -60,7 +65,9 @@ export default {
                 public static void main(String[] args) {
                     int min1 = 99, max1 = -1, min2 = 99, max2 = -1;
                     for (int i = 0; i < 10000; i++) {
+                        // วงเล็บ: คูณก่อนแล้วจึง cast
                         int a = (int) (Math.random() * 6);
+                        // cast ทำก่อน: (int) ของ [0,1) ได้ 0 เสมอ
                         int b = (int) Math.random() * 6;
                         min1 = Math.min(min1, a); max1 = Math.max(max1, a);
                         min2 = Math.min(min2, b); max2 = Math.max(max2, b);
@@ -87,12 +94,15 @@ export default {
 
             public class RandomRange {
                 public static void main(String[] args) {
-                    Random rng = new Random();
+                    Random rng = new Random();  // ตัวสุ่มของ java.util
                     for (int i = 0; i < 8; i++) {
+                        // nextInt(11) ได้ 0-10 → +20 ได้ 20-30
                         System.out.print((rng.nextInt(11) + 20) + " ");
                     }
                     System.out.println();
+                    // สุ่ม true/false
                     System.out.println("coin: " + (rng.nextBoolean() ? "heads" : "tails"));
+                    // กำหนดช่วง [1, 7) ได้ตรง ๆ
                     System.out.println("1-6 (Java 17+): " + rng.nextInt(1, 7));
                 }
             }`,
@@ -104,9 +114,10 @@ export default {
 
             public class SeededRandom {
                 public static void main(String[] args) {
+                    // seed เดียวกัน → ลำดับเลขสุ่มเหมือนกัน
                     Random a = new Random(42);
                     Random b = new Random(42);
-                    Random c = new Random(7);
+                    Random c = new Random(7);  // seed ต่าง → ลำดับต่าง
                     for (int i = 0; i < 6; i++) {
                         System.out.printf("a=%d  b=%d  c=%d%n", a.nextInt(100), b.nextInt(100), c.nextInt(100));
                     }
@@ -123,13 +134,16 @@ export default {
 
             public class PickAndShuffle {
                 public static void main(String[] args) {
+                    // ใส่ seed เพื่อให้ผลเหมือนเดิมทุกครั้ง
                     Random rng = new Random(2026);
                     String[] menu = {"Pad Thai", "Fried rice", "Som tam", "Khao man gai", "Noodle soup"};
+                    // สุ่ม index 0 ถึง length-1
                     System.out.println("Today's lunch: " + menu[rng.nextInt(menu.length)]);
 
                     List<String> students = new ArrayList<>(List.of("Mali", "Beam", "Nida", "Ploy", "Tan", "Pim"));
-                    Collections.shuffle(students, rng);
+                    Collections.shuffle(students, rng);  // สลับลำดับแบบสุ่ม
                     System.out.println("Shuffled: " + students);
+                    // subList(0, 3) = index 0-2
                     System.out.println("Team A: " + students.subList(0, 3));
                     System.out.println("Team B: " + students.subList(3, 6));
                 }
@@ -151,14 +165,15 @@ export default {
             public class GuessGame {
                 public static void main(String[] args) {
                     Random rng = new Random(7);
-                    int secret = rng.nextInt(100) + 1;
+                    int secret = rng.nextInt(100) + 1;  // สุ่มเลข 1-100
                     Scanner input = new Scanner(System.in);
                     int tries = 0;
                     int guess = 0;
-                    while (guess != secret) {
+                    while (guess != secret) {  // ทายจนกว่าจะถูก
                         System.out.print("Guess (1-100): ");
                         guess = input.nextInt();
                         tries++;
+                        // ใบ้ว่ามากไปหรือน้อยไป
                         if (guess > secret) System.out.println("  Too high");
                         else if (guess < secret) System.out.println("  Too low");
                     }
@@ -174,25 +189,28 @@ export default {
 
             public class LimitedGuess {
                 public static void main(String[] args) {
+                    // จำนวนครั้งสูงสุด
                     final int MAX_TRIES = 5;
+                    // สร้าง Random แล้วสุ่มในบรรทัดเดียว
                     int secret = new Random(99).nextInt(100) + 1;
                     Scanner input = new Scanner(System.in);
                     boolean won = false;
                     for (int t = 1; t <= MAX_TRIES; t++) {
                         System.out.print("Try " + t + "/" + MAX_TRIES + ": ");
                         int g = input.nextInt();
-                        if (g < 1 || g > 100) {
+                        if (g < 1 || g > 100) {  // ค่านอกช่วงไม่นับ
                             System.out.println("  Out of range, not counted");
-                            t--;
+                            t--;  // ลด t เพื่อชดเชย t++ ของลูป
                             continue;
                         }
-                        if (g == secret) {
+                        if (g == secret) {  // ทายถูก → ออกจากลูป
                             won = true;
                             System.out.println("  Correct!");
                             break;
                         }
                         System.out.println(g > secret ? "  Too high" : "  Too low");
                     }
+                    // ใช้ครบทุกครั้งแล้วยังไม่ถูก
                     if (!won) System.out.println("Out of tries. The number was " + secret);
                 }
             }`,
@@ -210,11 +228,15 @@ export default {
 
             public class RandomTesting {
                 public static void main(String[] args) {
+                    // ส่วนที่ไม่สุ่ม ทดสอบด้วยค่าที่กำหนด
                     System.out.println(hint(30, 42) + " / " + hint(50, 42) + " / " + hint(42, 42));
 
                     Random rng = new Random();
+                    // ค่าเริ่มที่ทำให้ค่าแรกชนะเสมอ
                     int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
+                    // จดว่าเคยสุ่มได้ค่าใดบ้าง
                     boolean[] seen = new boolean[11];
+                    // สุ่มหลายครั้งเพื่อตรวจช่วง
                     for (int i = 0; i < 10000; i++) {
                         int v = randomInRange(rng, 5, 10);
                         min = Math.min(min, v);
@@ -222,6 +244,7 @@ export default {
                         seen[v] = true;
                     }
                     boolean allSeen = true;
+                    // ต้องเคยเห็นครบทุกค่า 5-10
                     for (int v = 5; v <= 10; v++) allSeen &= seen[v];
                     System.out.println("range check: min=" + min + " max=" + max + " allValuesSeen=" + allSeen);
                 }
@@ -232,7 +255,9 @@ export default {
                     return "Correct";
                 }
 
+                // สุ่มช่วงปิด [min, max]
                 static int randomInRange(Random rng, int min, int max) {
+                    // max - min + 1 = จำนวนค่าที่เป็นไปได้
                     return min + rng.nextInt(max - min + 1);
                 }
             }`,
@@ -247,10 +272,12 @@ export default {
         public class TwoDigit {
             public static void main(String[] args) {
                 for (int i = 0; i < 10; i++) {
+                    // 10 + [0, 90) = 10-99
                     System.out.print(10 + (int) (Math.random() * 90) + " ");
                 }
                 System.out.println();
                 int min = 100, max = 0;
+                // สุ่มจำนวนมากเพื่อตรวจค่าต่ำสุด/สูงสุด
                 for (int i = 0; i < 100000; i++) {
                     int v = 10 + (int) (Math.random() * 90);
                     min = Math.min(min, v);
@@ -266,15 +293,18 @@ export default {
 
         public class CoinFlips {
             public static void main(String[] args) {
-                Random rng = new Random(5);
+                Random rng = new Random(5);  // seed ทำให้ผลคงที่
                 int heads = 0, longest = 0, run = 0;
-                char prev = ' ';
+                char prev = ' ';  // ' ' = ยังไม่มีผลก่อนหน้า
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < 20; i++) {
+                    // ?: สุ่มหัวหรือก้อย
                     char f = rng.nextBoolean() ? 'H' : 'T';
                     sb.append(f);
                     if (f == 'H') heads++;
+                    // เหมือนเดิม → ต่อยาว, ต่าง → เริ่มนับใหม่
                     run = (f == prev) ? run + 1 : 1;
+                    // จำความยาวที่มากที่สุด
                     longest = Math.max(longest, run);
                     prev = f;
                 }
@@ -290,6 +320,7 @@ export default {
         import java.util.Scanner;
 
         public class RockPaperScissors {
+            // index 0, 1, 2 แทนท่า
             static final String[] CHOICES = {"rock", "paper", "scissors"};
 
             public static void main(String[] args) {
@@ -299,13 +330,16 @@ export default {
                 while (true) {
                     System.out.print("Your move: ");
                     String move = in.next().toLowerCase();
+                    // พิมพ์ quit เพื่อออก
                     if (move.equals("quit")) break;
+                    // แปลงท่าเป็น index (-1 = ไม่ถูกต้อง)
                     int user = indexOf(move);
                     if (user < 0) {
                         System.out.println("  invalid move");
                         continue;
                     }
-                    int cpu = rng.nextInt(3);
+                    int cpu = rng.nextInt(3);  // คอมพิวเตอร์สุ่มท่า
+                    // 1 = ชนะ, -1 = แพ้, 0 = เสมอ
                     int r = judge(user, cpu);
                     System.out.println("  CPU: " + CHOICES[cpu] + " -> " + (r > 0 ? "you win" : r < 0 ? "you lose" : "draw"));
                     if (r > 0) win++; else if (r < 0) lose++; else draw++;
@@ -320,6 +354,7 @@ export default {
 
             static int judge(int user, int cpu) {
                 if (user == cpu) return 0;
+                // ท่าที่อยู่ถัดไปหนึ่งตำแหน่ง (วนรอบ) ชนะ
                 return (user - cpu + 3) % 3 == 1 ? 1 : -1;
             }
         }`, explain: "<code>(user − cpu + 3) % 3 == 1</code> คือผู้ใช้ชนะ เพราะในลำดับ rock(0) → paper(1) → scissors(2) ตัวที่อยู่ถัดไปหนึ่งตำแหน่ง (วนรอบ) ชนะตัวก่อนหน้า" },
@@ -332,6 +367,7 @@ export default {
         import java.util.Random;
 
         public class PasswordGenerator {
+            // ตัดตัวที่สับสนง่ายอย่าง O, I ออก
             static final String UPPER = "ABCDEFGHJKLMNPQRSTUVWXYZ", LOWER = "abcdefghijkmnopqrstuvwxyz",
                 DIGITS = "23456789", SPECIAL = "!@#$%";
 
@@ -345,9 +381,13 @@ export default {
 
             static String generatePassword(Random rng, int length) {
                 String all = UPPER + LOWER + DIGITS + SPECIAL;
+                // รายการอักขระ ยังสลับลำดับได้
                 List<Character> chars = new ArrayList<>();
+                // รับประกันว่ามีครบทุกกลุ่มอย่างน้อย 1 ตัว
                 for (String group : new String[]{UPPER, LOWER, DIGITS, SPECIAL}) chars.add(pick(rng, group));
+                // เติมจนครบความยาว
                 while (chars.size() < length) chars.add(pick(rng, all));
+                // สลับไม่ให้กลุ่มเรียงตามลำดับเดิม
                 Collections.shuffle(chars, rng);
                 StringBuilder sb = new StringBuilder();
                 for (char c : chars) sb.append(c);
@@ -355,10 +395,12 @@ export default {
             }
 
             static char pick(Random rng, String s) {
+                // สุ่มอักขระหนึ่งตัวจากข้อความ
                 return s.charAt(rng.nextInt(s.length()));
             }
 
             static boolean isValid(String pw) {
+                // ตรวจว่ามีครบทุกกลุ่ม
                 boolean u = false, l = false, d = false, s = false;
                 for (char c : pw.toCharArray()) {
                     if (Character.isUpperCase(c)) u = true;
@@ -378,6 +420,7 @@ export default {
             public static void main(String[] args) {
                 Random rng = new Random(1);
                 System.out.printf("%10s %10s %10s%n", "N", "estimate", "error");
+                // _ คั่นหลักให้อ่านง่าย
                 for (int n : new int[]{100, 10_000, 1_000_000}) {
                     double pi = estimatePi(rng, n);
                     System.out.printf("%,10d %10.5f %10.5f%n", n, pi, Math.abs(pi - Math.PI));
@@ -387,10 +430,12 @@ export default {
             static double estimatePi(Random rng, int n) {
                 int inside = 0;
                 for (int i = 0; i < n; i++) {
+                    // จุดสุ่มในสี่เหลี่ยม [0,1) × [0,1)
                     double x = rng.nextDouble(), y = rng.nextDouble();
+                    // อยู่ในวงกลมรัศมี 1
                     if (x * x + y * y <= 1) inside++;
                 }
-                return 4.0 * inside / n;
+                return 4.0 * inside / n;  // สัดส่วนในวง ≈ π/4
             }
         }`, explain: "พื้นที่วงกลมหนึ่งในสี่ = π/4 ของสี่เหลี่ยม สัดส่วนจุดที่ตกในวงจึงเข้าใกล้ π/4 เมื่อจำนวนจุดมากขึ้น (กฎของจำนวนมาก) — ความคลาดเคลื่อน<em>โดยเฉลี่ย</em>ลดลงตาม N แต่การรันครั้งหนึ่งอาจไม่ดีขึ้นทุกขั้น ดังที่เห็นในตัวอย่างว่า N = 1,000,000 คลาดเคลื่อนพอ ๆ กับ 10,000" },
     { level: 3, title: "เกมทายตัวเลขแบบหลายรอบพร้อมสถิติ", html: `<p>ขยายเกมทายตัวเลขให้เล่นได้หลายรอบ: แต่ละรอบสุ่มคำตอบใหม่ (ใช้ <code>new Random(11)</code> ตัวเดียวตลอดเกม) จำกัด 7 ครั้งต่อรอบ จบรอบแล้วถาม <code>Play again? (y/n)</code> เมื่อเลิกเล่นให้สรุป: จำนวนรอบ, ชนะกี่รอบ, จำนวนครั้งเฉลี่ยในรอบที่ชนะ และสถิติดีที่สุด</p>`,
@@ -404,27 +449,31 @@ export default {
             public static void main(String[] args) {
                 Random rng = new Random(11);
                 Scanner in = new Scanner(System.in);
+                // เก็บจำนวนครั้งของรอบที่ชนะ
                 ArrayList<Integer> wins = new ArrayList<>();
                 int rounds = 0;
                 String again;
-                do {
+                do {  // เล่นอย่างน้อย 1 รอบ
                     rounds++;
                     System.out.println("== Round " + rounds + " ==");
+                    // คืนจำนวนครั้งที่ใช้ หรือ -1 ถ้าแพ้
                     int result = playRound(in, rng.nextInt(100) + 1);
                     if (result > 0) wins.add(result);
                     System.out.print("Play again? (y/n) ");
                     again = in.next();
+                // ตอบ y จึงเล่นต่อ
                 } while (again.equalsIgnoreCase("y"));
                 System.out.println("Rounds: " + rounds + ", Wins: " + wins.size());
                 if (!wins.isEmpty()) {
                     int sum = 0, best = Integer.MAX_VALUE;
+                    // ผลรวมและค่าน้อยสุดในลูปเดียว
                     for (int w : wins) { sum += w; best = Math.min(best, w); }
                     System.out.printf("Average tries: %.2f, Best: %d%n", (double) sum / wins.size(), best);
                 }
             }
 
             static int playRound(Scanner in, int secret) {
-                for (int t = 1; t <= 7; t++) {
+                for (int t = 1; t <= 7; t++) {  // ทายได้รอบละ 7 ครั้ง
                     System.out.print("Guess " + t + ": ");
                     int g = in.nextInt();
                     if (g == secret) {

@@ -28,11 +28,12 @@ export default {
           code: j`
             public class CountUp {
                 public static void main(String[] args) {
-                    int number = 1;
-                    while (number <= 5) {
+                    int number = 1;        // ค่าเริ่มต้นของตัวนับ
+                    while (number <= 5) {  // ตรวจเงื่อนไขก่อนเข้าทุกรอบ
                         System.out.println(number);
-                        number++;
+                        number++;  // อัปเดต: ขาดบรรทัดนี้จะวนไม่รู้จบ
                     }
+                    // หลังออกจากลูป number = 6
                     System.out.println("After loop: number = " + number);
                 }
             }`,
@@ -43,9 +44,9 @@ export default {
             public class WhilePositive {
                 public static void main(String[] args) {
                     int i = 3;
-                    while (i > 0) {
+                    while (i > 0) {  // ลดค่าลงจึงใช้ > 0
                         System.out.println(i);
-                        i--;
+                        i--;  // ลดทีละ 1 จนเงื่อนไขเป็นเท็จ
                     }
                     System.out.println("Done");
                 }
@@ -58,9 +59,9 @@ export default {
                 public static void main(String[] args) {
                     int n = 5;
                     int number = 1;
-                    int sum = 0;
+                    int sum = 0;  // ตัวสะสมเริ่มที่ 0
                     while (number <= n) {
-                        sum += number;
+                        sum += number;  // บวกค่าของรอบนี้เข้าไป
                         System.out.println("add " + number + " -> sum = " + sum);
                         number++;
                     }
@@ -80,11 +81,11 @@ export default {
                     int n = input.nextInt();
                     int digits = 0;
                     int digitSum = 0;
-                    int temp = n;
+                    int temp = n;  // ใช้สำเนา เพื่อไม่ให้ค่า n เปลี่ยน
                     while (temp > 0) {
-                        digitSum += temp % 10;
-                        temp /= 10;
-                        digits++;
+                        digitSum += temp % 10;  // % 10 = หลักขวาสุด
+                        temp /= 10;             // ตัดหลักขวาสุดทิ้ง
+                        digits++;               // นับจำนวนหลัก
                     }
                     System.out.println(n + " has " + digits + " digits, digit sum = " + digitSum);
                 }
@@ -96,10 +97,10 @@ export default {
             public class WhileTrueBreak {
                 public static void main(String[] args) {
                     int attempt = 1;
-                    while (true) {
+                    while (true) {  // เงื่อนไขจริงเสมอ ต้องมี break
                         System.out.println("Attempt " + attempt);
                         if (attempt >= 3) {
-                            break;
+                            break;  // ออกจากลูปทันที
                         }
                         attempt++;
                     }
@@ -155,6 +156,7 @@ export default {
             public class ForFlow {
                 public static void main(String[] args) {
                     int sum = 0;
+                    // ค่าเริ่ม; เงื่อนไข; อัปเดต
                     for (int i = 1; i <= 3; i++) {
                         sum += i;
                         System.out.println("i=" + i + ", sum=" + sum);
@@ -169,19 +171,19 @@ export default {
             public class ForSteps {
                 public static void main(String[] args) {
                     System.out.print("Even: ");
-                    for (int i = 2; i <= 10; i += 2) {
+                    for (int i = 2; i <= 10; i += 2) {  // เพิ่มทีละ 2
                         System.out.print(i + " ");
                     }
                     System.out.println();
 
                     System.out.print("Countdown: ");
-                    for (int i = 5; i >= 1; i--) {
+                    for (int i = 5; i >= 1; i--) {  // นับถอยหลัง
                         System.out.print(i + " ");
                     }
                     System.out.println("Go!");
 
                     System.out.print("Powers of 2: ");
-                    for (int p = 1; p <= 100; p *= 2) {
+                    for (int p = 1; p <= 100; p *= 2) {  // คูณ 2 ทุกรอบ
                         System.out.print(p + " ");
                     }
                     System.out.println();
@@ -198,7 +200,9 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("Table of: ");
                     int n = input.nextInt();
+                    // m = 1 ถึง 12
                     for (int m = 1; m <= 12; m++) {
+                        // %2d %3d จัดตัวเลขให้ตรงคอลัมน์
                         System.out.printf("%d x %2d = %3d%n", n, m, n * m);
                     }
                 }
@@ -215,14 +219,17 @@ export default {
                     System.out.print("How many scores? ");
                     int n = input.nextInt();
                     System.out.print("Scores: ");
+                    // ค่าแรกเป็นทั้ง max, min และผลรวมเริ่มต้น
                     int first = input.nextInt();
                     int max = first, min = first, sum = first;
+                    // เริ่มรอบที่ 2 เพราะอ่านค่าแรกไปแล้ว
                     for (int i = 2; i <= n; i++) {
                         int score = input.nextInt();
                         sum += score;
                         if (score > max) max = score;
                         if (score < min) min = score;
                     }
+                    // แปลงเป็น double ก่อนหาร
                     System.out.printf("Max=%d Min=%d Avg=%.2f%n", max, min, (double) sum / n);
                 }
             }`,
@@ -232,7 +239,9 @@ export default {
           code: j`
             public class EmptyForBody {
                 public static void main(String[] args) {
+                    // ; ท้าย for ทำให้ลูปไม่มี body
                     for (int i = 1; i <= 3; i++);
+                    // บล็อกนี้ไม่ได้อยู่ในลูป ทำงานครั้งเดียว
                     {
                         System.out.println("Hello");
                     }
@@ -257,13 +266,13 @@ export default {
             public class DoWhileOnce {
                 public static void main(String[] args) {
                     int count = 10;
-                    do {
+                    do {  // ทำ body ก่อน แล้วค่อยตรวจเงื่อนไข
                         System.out.println("do-while body, count = " + count);
                         count++;
-                    } while (count <= 3);
+                    } while (count <= 3);  // มี ; ปิดท้าย do-while
 
                     int k = 10;
-                    while (k <= 3) {
+                    while (k <= 3) {  // while ตรวจก่อน → ไม่เข้าเลย
                         System.out.println("while body");
                         k++;
                     }
@@ -280,12 +289,13 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     int score;
-                    do {
+                    do {  // ถามซ้ำอย่างน้อย 1 ครั้ง
                         System.out.print("Score (0-100): ");
                         score = input.nextInt();
                         if (score < 0 || score > 100) {
                             System.out.println("  Invalid, try again.");
                         }
+                    // ค่าผิดช่วง → วนกลับไปถามใหม่
                     } while (score < 0 || score > 100);
                     System.out.println("Accepted: " + score);
                 }
@@ -299,17 +309,19 @@ export default {
             public class SentinelSum {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
-                    int sum = 0, count = 0;
+                    int sum = 0, count = 0;  // ตัวสะสมและตัวนับ
                     System.out.print("Number (0 to stop): ");
-                    int number = input.nextInt();
+                    int number = input.nextInt();  // รับค่าแรกก่อนเข้าลูป
+                    // 0 คือค่าหยุด (sentinel)
                     while (number != 0) {
                         sum += number;
                         count++;
                         System.out.print("Number (0 to stop): ");
+                        // รับค่าใหม่ก่อนตรวจเงื่อนไขรอบถัดไป
                         number = input.nextInt();
                     }
                     System.out.println("Count = " + count + ", Sum = " + sum);
-                    if (count > 0) {
+                    if (count > 0) {  // ป้องกันการหารด้วย 0
                         System.out.printf("Average = %.2f%n", (double) sum / count);
                     }
                 }
@@ -325,11 +337,11 @@ export default {
                     Scanner input = new Scanner(System.in);
                     double balance = 1000;
                     int choice;
-                    do {
+                    do {  // แสดงเมนูอย่างน้อย 1 ครั้ง
                         System.out.println("[1] Deposit [2] Withdraw [3] Balance [0] Exit");
                         System.out.print("Choice: ");
                         choice = input.nextInt();
-                        switch (choice) {
+                        switch (choice) {  // เลือกงานตามเมนู
                             case 1 -> {
                                 System.out.print("Amount: ");
                                 balance += input.nextDouble();
@@ -337,6 +349,7 @@ export default {
                             case 2 -> {
                                 System.out.print("Amount: ");
                                 double amount = input.nextDouble();
+                                // ถอนได้เมื่อเงินพอ
                                 if (amount <= balance) balance -= amount;
                                 else System.out.println("Insufficient funds");
                             }
@@ -344,7 +357,7 @@ export default {
                             case 0 -> System.out.println("Goodbye");
                             default -> System.out.println("Invalid choice");
                         }
-                    } while (choice != 0);
+                    } while (choice != 0);  // เลือก 0 จึงออก
                 }
             }`,
           steps: ["เมนูแสดงอย่างน้อยหนึ่งครั้งเสมอ", "ฝาก 500 → 1500, ถอน 200 → 1300", "เลือก 3 แสดงยอด", "เลือก 0 พิมพ์ Goodbye แล้วเงื่อนไข choice != 0 เป็น false → จบ"] },
@@ -378,6 +391,7 @@ export default {
           code: j`
             public class OneLoop {
                 public static void main(String[] args) {
+                    // ลูปเดียว ทำงาน 5 รอบ
                     for (int i = 1; i <= 5; i++) {
                         System.out.println(i);
                     }
@@ -389,11 +403,12 @@ export default {
           code: j`
             public class RepeatEachNumber {
                 public static void main(String[] args) {
-                    for (int i = 1; i <= 5; i++) {
+                    for (int i = 1; i <= 5; i++) {  // ลูปนอก: แถว
+                        // ลูปใน: วนครบ 10 รอบต่อ 1 แถว
                         for (int j = 1; j <= 10; j++) {
                             System.out.print(i + " ");
                         }
-                        System.out.println();
+                        System.out.println();  // จบแถวแล้วขึ้นบรรทัดใหม่
                     }
                 }
             }`,
@@ -404,7 +419,9 @@ export default {
             public class StarTriangle {
                 public static void main(String[] args) {
                     int height = 5;
+                    // ลูปนอก: แถวที่ 1 ถึง height
                     for (int row = 1; row <= height; row++) {
+                        // จำนวนดาว = เลขแถว
                         for (int col = 1; col <= row; col++) {
                             System.out.print("* ");
                         }
@@ -420,9 +437,11 @@ export default {
                 public static void main(String[] args) {
                     int height = 4;
                     for (int row = 1; row <= height; row++) {
+                        // เว้นวรรคลดลงทีละแถว
                         for (int s = 1; s <= height - row; s++) {
                             System.out.print(" ");
                         }
+                        // ดาวแถวละ 1, 3, 5, 7
                         for (int k = 1; k <= 2 * row - 1; k++) {
                             System.out.print("*");
                         }
@@ -439,11 +458,11 @@ export default {
             public class BreakContinue {
                 public static void main(String[] args) {
                     for (int number = 1; number <= 10; number++) {
-                        if (number % 2 == 0) {
-                            continue;
+                        if (number % 2 == 0) {  // เลขคู่ → ข้ามไปรอบถัดไป
+                            continue;           // ข้ามคำสั่งที่เหลือในรอบนี้
                         }
                         if (number == 7) {
-                            break;
+                            break;  // ออกจากลูปทั้งหมด
                         }
                         System.out.println(number);
                     }
@@ -458,11 +477,13 @@ export default {
                 public static void main(String[] args) {
                     int count = 0;
                     for (int n = 2; n <= 50; n++) {
+                        // สมมติว่าเป็นจำนวนเฉพาะก่อน
                         boolean isPrime = true;
+                        // ตรวจตัวหารถึงรากที่สองของ n พอ
                         for (int d = 2; d * d <= n; d++) {
                             if (n % d == 0) {
                                 isPrime = false;
-                                break;          // ออกเฉพาะลูป d
+                                break;  // ออกเฉพาะลูป d
                             }
                         }
                         if (isPrime) {
@@ -516,10 +537,11 @@ export default {
                 int n = input.nextInt();
                 int i = 1, sum = 0;
                 while (i <= n) {
-                    sum += i;
+                    sum += i;  // บวกสะสม
                     i++;
                 }
                 System.out.println("Loop sum = " + sum);
+                // สูตรตรวจคำตอบ
                 System.out.println("Formula  = " + n * (n + 1) / 2);
             }
         }` },
@@ -531,7 +553,7 @@ export default {
                 int i = 10;
                 while (i > 0) {
                     System.out.print(i + " ");
-                    i -= 2;
+                    i -= 2;  // ลดทีละ 2
                 }
                 System.out.println();
                 System.out.println("Lift off!");
@@ -547,7 +569,7 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("n rows: ");
                 int n = input.nextInt();
-                int rows = input.nextInt();
+                int rows = input.nextInt();  // รับ 2 ค่าในบรรทัดเดียว
                 for (int m = 1; m <= rows; m++) {
                     System.out.printf("%d x %2d = %3d%n", n, m, n * m);
                 }
@@ -563,10 +585,10 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("n = ");
                 int n = input.nextInt();
-                long fact = 1;
+                long fact = 1;  // long รองรับค่าใหญ่กว่า int
                 System.out.print(n + "! = 1");
                 for (int i = 2; i <= n; i++) {
-                    fact *= i;
+                    fact *= i;  // คูณสะสม
                     System.out.print(" x " + i);
                 }
                 System.out.println(" = " + fact);
@@ -585,10 +607,12 @@ export default {
                 do {
                     System.out.print("Score: ");
                     score = input.nextInt();
+                    // ค่าผิดช่วง → นับจำนวนครั้งที่ผิด
                     if (score < 0 || score > 100) {
                         System.out.println("Out of range!");
                         wrong++;
                     }
+                // วนจนกว่าจะได้ค่าในช่วง
                 } while (score < 0 || score > 100);
                 char grade;
                 if (score >= 80) grade = 'A';
@@ -608,18 +632,20 @@ export default {
             public static void main(String[] args) {
                 Scanner input = new Scanner(System.in);
                 int count = 0, sum = 0, passed = 0;
+                // ค่าเริ่มที่ทำให้ค่าแรกชนะเสมอ
                 int max = Integer.MIN_VALUE, min = Integer.MAX_VALUE;
                 System.out.print("Scores (-1 to stop): ");
                 int score = input.nextInt();
-                while (score != -1) {
+                while (score != -1) {  // -1 คือค่าหยุด
                     count++;
                     sum += score;
                     if (score > max) max = score;
                     if (score < min) min = score;
                     if (score >= 50) passed++;
+                    // อ่านค่าถัดไปก่อนตรวจเงื่อนไข
                     score = input.nextInt();
                 }
-                if (count == 0) {
+                if (count == 0) {  // ป้องกันการหารด้วย 0
                     System.out.println("No data");
                 } else {
                     System.out.println("Count: " + count);
@@ -641,10 +667,13 @@ export default {
                 int n = input.nextInt();
                 int temp = n, reversed = 0;
                 while (temp > 0) {
+                    // เลื่อนหลักเดิมไปซ้าย แล้วเติมหลักขวาสุดของ temp
                     reversed = reversed * 10 + temp % 10;
+                    // ตัดหลักขวาสุดทิ้ง
                     temp /= 10;
                 }
                 System.out.println("Reversed: " + reversed);
+                // ?: เลือกข้อความตามเงื่อนไข
                 System.out.println(n == reversed ? "Palindrome" : "Not palindrome");
             }
         }` },
@@ -658,20 +687,21 @@ export default {
                 Scanner input = new Scanner(System.in);
                 int secret = 37;
                 boolean found = false;
+                // ทายได้ไม่เกิน 6 ครั้ง
                 for (int attempt = 1; attempt <= 6; attempt++) {
                     System.out.print("Guess #" + attempt + ": ");
                     int guess = input.nextInt();
                     if (guess == secret) {
                         System.out.println("Correct! You used " + attempt + " guesses.");
                         found = true;
-                        break;
+                        break;  // ทายถูก → ออกจากลูป
                     } else if (guess > secret) {
                         System.out.println("Too high");
                     } else {
                         System.out.println("Too low");
                     }
                 }
-                if (!found) {
+                if (!found) {  // ใช้ครบ 6 ครั้งแล้วยังไม่ถูก
                     System.out.println("Out of guesses. The answer was " + secret);
                 }
             }
@@ -687,12 +717,13 @@ export default {
                 System.out.print("n = ");
                 int n = input.nextInt();
                 System.out.print("    |");
+                // หัวตาราง
                 for (int c = 1; c <= n; c++) System.out.printf("%4d", c);
                 System.out.println();
                 System.out.println("-".repeat(5 + 4 * n));
-                for (int r = 1; r <= n; r++) {
+                for (int r = 1; r <= n; r++) {  // ลูปนอก: แถว
                     System.out.printf("%3d |", r);
-                    for (int c = 1; c <= n; c++) {
+                    for (int c = 1; c <= n; c++) {  // ลูปใน: คอลัมน์
                         System.out.printf("%4d", r * c);
                     }
                     System.out.println();
@@ -709,13 +740,19 @@ export default {
                 Scanner input = new Scanner(System.in);
                 System.out.print("h = ");
                 int h = input.nextInt();
+                // ครึ่งบน: แถวยาวขึ้น
                 for (int k = 1; k <= h; k++) printRow(k, h);
+                // ครึ่งล่าง: แถวสั้นลง
                 for (int k = h - 1; k >= 1; k--) printRow(k, h);
             }
 
+            // เมธอดพิมพ์ 1 แถว (บทที่ 7)
             static void printRow(int k, int h) {
+                // เว้นวรรคด้านหน้า
                 for (int s = 1; s <= h - k; s++) System.out.print(" ");
+                // นับขึ้น 1..k
                 for (int i = 1; i <= k; i++) System.out.print(i);
+                // นับลง k-1..1
                 for (int i = k - 1; i >= 1; i--) System.out.print(i);
                 System.out.println();
             }
@@ -733,8 +770,9 @@ export default {
                 int primeCount = 0, perfectCount = 0;
                 System.out.print("Primes: ");
                 for (int n = a; n <= b; n++) {
-                    if (n < 2) continue;
+                    if (n < 2) continue;  // 0 และ 1 ไม่ใช่จำนวนเฉพาะ
                     boolean prime = true;
+                    // ตรวจตัวหารถึงรากที่สองของ n
                     for (int d = 2; d * d <= n; d++) {
                         if (n % d == 0) { prime = false; break; }
                     }
@@ -744,9 +782,11 @@ export default {
                 System.out.print("Perfect: ");
                 for (int n = Math.max(a, 2); n <= b; n++) {
                     int sum = 0;
+                    // ผลรวมตัวหารที่น้อยกว่า n
                     for (int d = 1; d < n; d++) {
                         if (n % d == 0) sum += d;
                     }
+                    // ผลรวมตัวหารเท่ากับตัวเอง = จำนวนสมบูรณ์
                     if (sum == n) { System.out.print(n + " "); perfectCount++; }
                 }
                 System.out.println("(" + perfectCount + ")");
@@ -771,12 +811,13 @@ export default {
                 double deposited = balance;
                 int year = 0;
                 System.out.printf("%4s %12s %12s%n", "Year", "Interest", "Balance");
-                while (balance < goal) {
+                while (balance < goal) {  // ทำซ้ำจนกว่าจะถึงเป้าหมาย
                     year++;
-                    if (year >= 2) {
+                    if (year >= 2) {  // ฝากเพิ่มตั้งแต่ปีที่ 2
                         balance += YEARLY_DEPOSIT;
                         deposited += YEARLY_DEPOSIT;
                     }
+                    // ดอกเบี้ยทบต้นจากยอดปัจจุบัน
                     double interest = balance * rate / 100;
                     balance += interest;
                     System.out.printf("%4d %,12.2f %,12.2f%n", year, interest, balance);
