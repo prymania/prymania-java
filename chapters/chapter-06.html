@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f5f7f4">
+  <meta name="theme-color" content="#ffffff">
   <title>บทที่ 6: การทำซ้ำด้วยลูป | Java programming by Prymania</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Bai+Jamjuree:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="../assets/lesson.css">
   <link rel="stylesheet" href="../assets/course-nav.css">
   <script>document.documentElement.classList.add("js");</script>
@@ -61,7 +64,7 @@
     <span class="tok-com">// คำสั่งที่ทำซ้ำ</span>
     <span class="tok-com">// เปลี่ยนค่าที่มีผลต่อ condition</span>
 }</code></pre></div><ol class="step-list"><li>ตรวจ <code>condition</code> ก่อนเข้ารอบ</li><li>ถ้าเป็น <code>true</code> ทำคำสั่งในวงเล็บปีกกา</li><li>จบรอบแล้วกลับไปตรวจ condition ใหม่</li><li>ถ้าเป็น <code>false</code> ข้าม body ไปทำคำสั่งถัดจากลูป</li></ol><p>ถ้า condition เป็น false ตั้งแต่ครั้งแรก body จะไม่ทำงานเลย (zero iterations)</p></div>
-<div class="source-example"><h4>ตัวอย่าง 6.1.1 · นับ 1 ถึง 5 <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวนับเริ่มที่ 1 เพิ่มทีละ 1 และหยุดเมื่อเกิน 5</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CountUp.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CountUp</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.1.1</span>นับ 1 ถึง 5</h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวนับเริ่มที่ 1 เพิ่มทีละ 1 และหยุดเมื่อเกิน 5</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CountUp.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CountUp</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> number = <span class="tok-num">1</span>;        <span class="tok-com">// ค่าเริ่มต้นของตัวนับ</span>
         <span class="tok-kw">while</span> (number &lt;= <span class="tok-num">5</span>) {  <span class="tok-com">// ตรวจเงื่อนไขก่อนเข้าทุกรอบ</span>
@@ -71,13 +74,13 @@
         <span class="tok-com">// หลังออกจากลูป number = 6</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"After loop: number = "</span> + number);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>1
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>1
 2
 3
 4
 5
 After loop: number = 6</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ตรวจ 1 ≤ 5 → พิมพ์ 1, number = 2</li><li>ทำต่อจนพิมพ์ 5 แล้ว number = 6</li><li>ตรวจ 6 ≤ 5 → false ออกจากลูป</li><li>หลังลูป number มีค่า 6 (ไม่ใช่ 5)</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.1.2 · นับถอยหลังด้วย while (i > 0) <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เงื่อนไขต้องสอดคล้องกับทิศทางการอัปเดต: ลดค่า → ใช้ &gt; หรือ &gt;=</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhilePositive.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WhilePositive</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.1.2</span>นับถอยหลังด้วย while (i > 0)</h4><p class="concept-line"><strong>แนวคิด:</strong> เงื่อนไขต้องสอดคล้องกับทิศทางการอัปเดต: ลดค่า → ใช้ &gt; หรือ &gt;=</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhilePositive.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WhilePositive</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> i = <span class="tok-num">3</span>;
         <span class="tok-kw">while</span> (i &gt; <span class="tok-num">0</span>) {  <span class="tok-com">// ลดค่าลงจึงใช้ &gt; 0</span>
@@ -86,11 +89,11 @@ After loop: number = 6</pre></div></div><div class="walkthrough"><strong>อธ�
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Done"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>3
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>3
 2
 1
 Done</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>3 > 0 → พิมพ์ 3, i = 2</li><li>2 > 0 → พิมพ์ 2, i = 1</li><li>1 > 0 → พิมพ์ 1, i = 0</li><li>0 > 0 false → ออก พิมพ์ Done</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.1.3 · สะสมผลรวม (accumulator) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบสำคัญที่สุดของลูป: ตัวแปรผลรวมเริ่มที่ 0 แล้วบวกค่าของแต่ละรอบเข้าไป</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SumToN.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SumToN</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.1.3</span>สะสมผลรวม (accumulator)</h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบสำคัญที่สุดของลูป: ตัวแปรผลรวมเริ่มที่ 0 แล้วบวกค่าของแต่ละรอบเข้าไป</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SumToN.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SumToN</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> n = <span class="tok-num">5</span>;
         <span class="tok-kw">int</span> number = <span class="tok-num">1</span>;
@@ -102,13 +105,13 @@ Done</pre></div></div><div class="walkthrough"><strong>อธิบายที�
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"1 + ... + "</span> + n + <span class="tok-str">" = "</span> + sum);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>add 1 -&gt; sum = 1
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>add 1 -&gt; sum = 1
 add 2 -&gt; sum = 3
 add 3 -&gt; sum = 6
 add 4 -&gt; sum = 10
 add 5 -&gt; sum = 15
 1 + ... + 5 = 15</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>sum เริ่ม 0 (ถ้าเริ่มค่าอื่นผลรวมจะผิด)</li><li>แต่ละรอบ sum += number</li><li>พิมพ์ระหว่างทางช่วยให้เห็นการเปลี่ยนแปลง (เทคนิค debug)</li><li>ผลรวม 15 ตรงกับสูตร n(n+1)/2</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.1.4 · ไม่รู้จำนวนรอบ: นับหลักของตัวเลข <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> จำนวนรอบขึ้นกับข้อมูล — หาร 10 ไปเรื่อย ๆ จนเหลือ 0 นี่คือจุดที่ while เหมาะกว่า for</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CountDigits.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.1.4</span>ไม่รู้จำนวนรอบ: นับหลักของตัวเลข</h4><p class="concept-line"><strong>แนวคิด:</strong> จำนวนรอบขึ้นกับข้อมูล — หาร 10 ไปเรื่อย ๆ จนเหลือ 0 นี่คือจุดที่ while เหมาะกว่า for</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CountDigits.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CountDigits</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -125,9 +128,9 @@ add 5 -&gt; sum = 15
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">" has "</span> + digits + <span class="tok-str">" digits, digit sum = "</span> + digitSum);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Number: <b class="stdin">907215</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Number: <b class="stdin">907215</b>
 907215 has 6 digits, digit sum = 24</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>temp = 907215 → หลักหน่วย 5, temp = 90721</li><li>ทำซ้ำ: 1, 2, 7, 0, 9</li><li>temp เป็น 0 → หยุด นับได้ 6 หลัก ผลรวม 24</li><li>ใช้ temp แทน n เพื่อเก็บค่าเดิมไว้แสดงผล</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.1.5 · while (true) กับ break <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> บางครั้งเขียนลูปที่ตั้งใจไม่หยุดเอง แล้วใช้ <code>break</code> ออกเมื่อถึงเงื่อนไข — ต้องแน่ใจว่า break ไปถึงได้จริง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhileTrueBreak.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WhileTrueBreak</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.1.5</span>while (true) กับ break</h4><p class="concept-line"><strong>แนวคิด:</strong> บางครั้งเขียนลูปที่ตั้งใจไม่หยุดเอง แล้วใช้ <code>break</code> ออกเมื่อถึงเงื่อนไข — ต้องแน่ใจว่า break ไปถึงได้จริง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhileTrueBreak.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WhileTrueBreak</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> attempt = <span class="tok-num">1</span>;
         <span class="tok-kw">while</span> (<span class="tok-num">true</span>) {  <span class="tok-com">// เงื่อนไขจริงเสมอ ต้องมี break</span>
@@ -139,11 +142,11 @@ add 5 -&gt; sum = 15
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Stopped safely"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Attempt 1
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Attempt 1
 Attempt 2
 Attempt 3
 Stopped safely</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลูปพิมพ์ Attempt 1, 2, 3</li><li>เมื่อ attempt = 3 เงื่อนไข if จริง → break</li><li>ไปทำคำสั่งหลังลูป</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 6.1.6 · assignment ไม่ใช่เงื่อนไข <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>while (i = 3)</code> เป็นการกำหนดค่า ได้ชนิด int ไม่ใช่ boolean</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhileConditionError.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WhileConditionError</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 6.1.6</span>assignment ไม่ใช่เงื่อนไข</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>while (i = 3)</code> เป็นการกำหนดค่า ได้ชนิด int ไม่ใช่ boolean</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhileConditionError.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WhileConditionError</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> i = <span class="tok-num">3</span>;
         <span class="tok-kw">while</span> (i = <span class="tok-num">3</span>) {
@@ -151,7 +154,7 @@ Stopped safely</pre></div></div><div class="walkthrough"><strong>อธิบา
             i--;
         }
     }
-}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WhileConditionError.java:4: error: incompatible types: int cannot be converted to boolean
+}</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>WhileConditionError.java:4: error: incompatible types: int cannot be converted to boolean
         while (i = 3) {
                  ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>compiler แจ้ง <code>int cannot be converted to boolean</code></li><li>ต้องการเปรียบเทียบใช้ <code>==</code> แต่ในกรณีนี้ควรเป็น <code>i &gt; 0</code></li></ol></div></div>
 <div class="note-box"><span class="box-title">Logic error: ลูปไม่รู้จบ (อย่ากด Run)</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> i = <span class="tok-num">3</span>;
@@ -178,7 +181,7 @@ Stopped safely</pre></div></div><div class="walkthrough"><strong>อธิบา
 <div class="concept-box"><span class="box-title">Syntax และ flow ของ for</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">for</span> (initialization; condition; update) {
     <span class="tok-com">// loop body</span>
 }</code></pre></div><ol class="step-list"><li>ทำ <code>initialization</code> ครั้งเดียวก่อนเริ่มลูป</li><li>ตรวจ <code>condition</code>; ถ้า false ออกจากลูป</li><li>ถ้า true ทำ body</li><li>ทำ <code>update</code> แล้วกลับไปข้อ 2</li></ol><p>ตัวแปรที่ประกาศในส่วนเริ่มต้น เช่น <code>int i</code> ใช้ได้เฉพาะภายในลูปนั้น</p></div>
-<div class="source-example"><h4>ตัวอย่าง 6.2.1 · อ่าน header ของ for ตามลำดับ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ก่อนรัน ให้ทำนายค่าเริ่มต้น จำนวนรอบ และผลรวม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForFlow.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForFlow</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.2.1</span>อ่าน header ของ for ตามลำดับ</h4><p class="concept-line"><strong>แนวคิด:</strong> ก่อนรัน ให้ทำนายค่าเริ่มต้น จำนวนรอบ และผลรวม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForFlow.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForFlow</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
         <span class="tok-com">// ค่าเริ่ม; เงื่อนไข; อัปเดต</span>
@@ -188,11 +191,11 @@ Stopped safely</pre></div></div><div class="walkthrough"><strong>อธิบา
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"After loop, sum="</span> + sum);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>i=1, sum=1
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>i=1, sum=1
 i=2, sum=3
 i=3, sum=6
 After loop, sum=6</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>i = 1 → ตรวจ 1 ≤ 3 → body → i++</li><li>i = 2, 3 ทำเช่นเดียวกัน</li><li>i = 4 → เงื่อนไข false → ออก</li><li><code>i</code> ใช้นอกลูปไม่ได้ เพราะประกาศใน header</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.2.2 · ขยับทีละมากกว่า 1 และนับถอยหลัง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ส่วน update เป็นนิพจน์ใดก็ได้ เช่น <code>i += 2</code>, <code>i--</code>, <code>i *= 2</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForSteps.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForSteps</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.2.2</span>ขยับทีละมากกว่า 1 และนับถอยหลัง</h4><p class="concept-line"><strong>แนวคิด:</strong> ส่วน update เป็นนิพจน์ใดก็ได้ เช่น <code>i += 2</code>, <code>i--</code>, <code>i *= 2</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForSteps.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForSteps</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Even: "</span>);
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">2</span>; i &lt;= <span class="tok-num">10</span>; i += <span class="tok-num">2</span>) {  <span class="tok-com">// เพิ่มทีละ 2</span>
@@ -212,10 +215,10 @@ After loop, sum=6</pre></div></div><div class="walkthrough"><strong>อธิบ
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Even: 2 4 6 8 10 
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Even: 2 4 6 8 10 
 Countdown: 5 4 3 2 1 Go!
 Powers of 2: 1 2 4 8 16 32 64</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>i += 2</code> → 2, 4, 6, 8, 10</li><li><code>i--</code> → 5, 4, 3, 2, 1</li><li><code>p *= 2</code> → 1, 2, 4, …, 64 (128 เกิน 100)</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.2.3 · ตารางสูตรคูณจากค่าที่ผู้ใช้ป้อน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รู้จำนวนรอบแน่นอน (12 แถว) → for เหมาะที่สุด ใช้ printf จัดคอลัมน์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiplicationTable.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.2.3</span>ตารางสูตรคูณจากค่าที่ผู้ใช้ป้อน</h4><p class="concept-line"><strong>แนวคิด:</strong> รู้จำนวนรอบแน่นอน (12 แถว) → for เหมาะที่สุด ใช้ printf จัดคอลัมน์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiplicationTable.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MultiplicationTable</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -228,7 +231,7 @@ Powers of 2: 1 2 4 8 16 32 64</pre></div></div><div class="walkthrough"><strong>
             <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%d x %2d = %3d%n"</span>, n, m, n * m);
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Table of: <b class="stdin">7</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Table of: <b class="stdin">7</b>
 7 x  1 =   7
 7 x  2 =  14
 7 x  3 =  21
@@ -241,7 +244,7 @@ Powers of 2: 1 2 4 8 16 32 64</pre></div></div><div class="walkthrough"><strong>
 7 x 10 =  70
 7 x 11 =  77
 7 x 12 =  84</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>m เดินจาก 1 ถึง 12</li><li><code>%2d</code> และ <code>%3d</code> ทำให้ตัวเลขชิดขวาตรงกัน</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.2.4 · หาค่ามาก/น้อยสุดและค่าเฉลี่ยจากข้อมูล n ค่า <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบ “ติดตามค่าที่ดีที่สุด”: กำหนดค่าเริ่มจากข้อมูลตัวแรก แล้วเทียบกับตัวถัดไปทีละตัว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MinMaxAverage.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.2.4</span>หาค่ามาก/น้อยสุดและค่าเฉลี่ยจากข้อมูล n ค่า</h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบ “ติดตามค่าที่ดีที่สุด”: กำหนดค่าเริ่มจากข้อมูลตัวแรก แล้วเทียบกับตัวถัดไปทีละตัว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MinMaxAverage.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MinMaxAverage</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -262,10 +265,10 @@ Powers of 2: 1 2 4 8 16 32 64</pre></div></div><div class="walkthrough"><strong>
         <span class="tok-com">// แปลงเป็น double ก่อนหาร</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Max=%d Min=%d Avg=%.2f%n"</span>, max, min, (<span class="tok-kw">double</span>) sum / n);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>How many scores? <b class="stdin">5</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>How many scores? <b class="stdin">5</b>
 Scores: <b class="stdin">72 88 65 91 79</b>
 Max=91 Min=65 Avg=79.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่านค่าแรก (72) ก่อนลูป ตั้งเป็น max, min, sum</li><li>ลูปเริ่ม i = 2 อ่านค่าที่เหลืออีก 4 ค่า</li><li>แต่ละรอบปรับ max/min ถ้าเจอค่าที่ดีกว่า</li><li>cast sum เป็น double ก่อนหาร</li></ol></div></div>
-<div class="source-example"><h4>ทดลองบั๊ก 6.2.5 · semicolon ทำให้ body ว่าง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่ <code>;</code> หลัง header ทำให้ลูปไม่มี body บล็อกถัดไปทำครั้งเดียว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">EmptyForBody.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">EmptyForBody</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 6.2.5</span>semicolon ทำให้ body ว่าง</h4><p class="concept-line"><strong>แนวคิด:</strong> โค้ดคอมไพล์ผ่าน แต่ <code>;</code> หลัง header ทำให้ลูปไม่มี body บล็อกถัดไปทำครั้งเดียว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">EmptyForBody.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">EmptyForBody</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ; ท้าย for ทำให้ลูปไม่มี body</span>
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">3</span>; i++);
@@ -274,7 +277,7 @@ Max=91 Min=65 Avg=79.00</pre></div></div><div class="walkthrough"><strong>อธ
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello"</span>);
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Hello</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลูปวน 3 รอบโดยไม่ทำอะไร</li><li>บล็อก { } เป็นบล็อกธรรมดาหลังลูป → พิมพ์ Hello ครั้งเดียว</li><li>แก้: ลบ ; หลังวงเล็บ</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Hello</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลูปวน 3 รอบโดยไม่ทำอะไร</li><li>บล็อก { } เป็นบล็อกธรรมดาหลังลูป → พิมพ์ Hello ครั้งเดียว</li><li>แก้: ลบ ; หลังวงเล็บ</li></ol></div></div>
 <div class="note-box"><span class="box-title">เลือก for หรือ while</span><p>ใช้ <code>for</code> เมื่อรู้ช่วงหรือจำนวนรอบชัดเจน (นับ 1–100, วนตามจำนวนข้อมูล) ใช้ <code>while</code> เมื่อทำซ้ำจนกว่าเหตุการณ์หนึ่งจะเกิด (ผู้ใช้ป้อน 0, ตัวเลขหารจนเหลือ 0) ทั้งคู่ทำงานแทนกันได้ แต่รูปแบบที่ตรงโจทย์อ่านง่ายกว่า</p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · นับรอบของ for</strong><div><p><code>for (int i = 10; i &lt; 50; i += 7)</code> ทำกี่รอบ และ i ค่าสุดท้ายที่เข้า body คือเท่าไร</p></div><details><summary>ดูคำตอบ</summary><div><p>i = 10, 17, 24, 31, 38, 45 → <strong>6 รอบ</strong> ค่าสุดท้ายคือ <strong>45</strong> (52 ไม่ผ่านเงื่อนไข)</p></div></details></div>
 </article>
@@ -284,7 +287,7 @@ Max=91 Min=65 Avg=79.00</pre></div></div><div class="walkthrough"><strong>อธ
 <div class="concept-box"><span class="box-title">Syntax และ flow ของ do-while</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">do</span> {
     <span class="tok-com">// คำสั่งที่ต้องทำอย่างน้อยหนึ่งครั้ง</span>
 } <span class="tok-kw">while</span> (condition);   <span class="tok-com">// ← มี ; ปิดท้าย</span></code></pre></div><ol class="step-list"><li>เข้าทำ body ทันทีโดยยังไม่ตรวจเงื่อนไข</li><li>ทำคำสั่งใน body และปรับค่าที่เกี่ยวข้อง</li><li>ตรวจ condition ที่ท้ายลูป</li><li>ถ้า true กลับไปเริ่ม body; ถ้า false ออกจากลูป</li></ol></div>
-<div class="source-example"><h4>ตัวอย่าง 6.3.1 · ทำอย่างน้อยหนึ่งครั้ง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> แม้เงื่อนไขเป็น false ตั้งแต่แรก body ก็ทำไปแล้วหนึ่งครั้ง — ต่างจาก while</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DoWhileOnce.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DoWhileOnce</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.3.1</span>ทำอย่างน้อยหนึ่งครั้ง</h4><p class="concept-line"><strong>แนวคิด:</strong> แม้เงื่อนไขเป็น false ตั้งแต่แรก body ก็ทำไปแล้วหนึ่งครั้ง — ต่างจาก while</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DoWhileOnce.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DoWhileOnce</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> count = <span class="tok-num">10</span>;
         <span class="tok-kw">do</span> {  <span class="tok-com">// ทำ body ก่อน แล้วค่อยตรวจเงื่อนไข</span>
@@ -299,9 +302,9 @@ Max=91 Min=65 Avg=79.00</pre></div></div><div class="walkthrough"><strong>อธ
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Finished"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>do-while body, count = 10
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>do-while body, count = 10
 Finished</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>do-while ทำ body ก่อน (count = 10) แล้วตรวจ 11 ≤ 3 → false จบ</li><li>while ตรวจ 10 ≤ 3 ก่อน → false ไม่ทำเลย</li><li>ผลจึงต่างกัน 1 รอบ</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.3.2 · บังคับป้อนค่าในช่วงที่ถูกต้อง (input validation) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ต้องถามอย่างน้อยหนึ่งครั้งเสมอ แล้วถามซ้ำถ้าค่าไม่ถูกต้อง → do-while พอดี</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ValidScore.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.3.2</span>บังคับป้อนค่าในช่วงที่ถูกต้อง (input validation)</h4><p class="concept-line"><strong>แนวคิด:</strong> ต้องถามอย่างน้อยหนึ่งครั้งเสมอ แล้วถามซ้ำถ้าค่าไม่ถูกต้อง → do-while พอดี</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ValidScore.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ValidScore</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -317,13 +320,13 @@ Finished</pre></div></div><div class="walkthrough"><strong>อธิบายท
         } <span class="tok-kw">while</span> (score &lt; <span class="tok-num">0</span> || score &gt; <span class="tok-num">100</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Accepted: "</span> + score);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Score (0-100): <b class="stdin">150</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Score (0-100): <b class="stdin">150</b>
   Invalid, try again.
 Score (0-100): <b class="stdin">-5</b>
   Invalid, try again.
 Score (0-100): <b class="stdin">87</b>
 Accepted: 87</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>150 นอกช่วง → แจ้งเตือนและวนใหม่</li><li>-5 นอกช่วง → วนใหม่</li><li>87 ในช่วง → เงื่อนไขท้าย false → ออก</li><li>ต้องใช้ <code>||</code> ไม่ใช่ <code>&amp;&amp;</code>: ไม่มีคะแนนใดน้อยกว่า 0 และมากกว่า 100 พร้อมกัน</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.3.3 · รวมค่าจนป้อน sentinel 0 <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> อ่านค่าก่อนตรวจ (priming read) แล้วอ่านค่าถัดไปที่ท้าย body — sentinel จะไม่ถูกบวกเข้าไป</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SentinelSum.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.3.3</span>รวมค่าจนป้อน sentinel 0</h4><p class="concept-line"><strong>แนวคิด:</strong> อ่านค่าก่อนตรวจ (priming read) แล้วอ่านค่าถัดไปที่ท้าย body — sentinel จะไม่ถูกบวกเข้าไป</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SentinelSum.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SentinelSum</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -344,13 +347,13 @@ Accepted: 87</pre></div></div><div class="walkthrough"><strong>อธิบา�
             <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Average = %.2f%n"</span>, (<span class="tok-kw">double</span>) sum / count);
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Number (0 to stop): <b class="stdin">12</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Number (0 to stop): <b class="stdin">12</b>
 Number (0 to stop): <b class="stdin">7</b>
 Number (0 to stop): <b class="stdin">30</b>
 Number (0 to stop): <b class="stdin">0</b>
 Count = 3, Sum = 49
 Average = 16.33</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่าน 12 ก่อนเข้าลูป</li><li>บวก 12, 7, 30 ตามลำดับ</li><li>อ่าน 0 → เงื่อนไข false ออกก่อนบวก</li><li>ตรวจ count > 0 ก่อนหาร ป้องกันการหารด้วยศูนย์</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.3.4 · เมนูวนซ้ำด้วย do-while + switch <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โครงสร้างพื้นฐานของโปรแกรมเมนู: แสดงเมนู → รับตัวเลือก → ทำตามตัวเลือก → วนจนกว่าจะเลือกออก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BankMenu.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.3.4</span>เมนูวนซ้ำด้วย do-while + switch</h4><p class="concept-line"><strong>แนวคิด:</strong> โครงสร้างพื้นฐานของโปรแกรมเมนู: แสดงเมนู → รับตัวเลือก → ทำตามตัวเลือก → วนจนกว่าจะเลือกออก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BankMenu.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BankMenu</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -379,7 +382,7 @@ Average = 16.33</pre></div></div><div class="walkthrough"><strong>อธิบ�
             }
         } <span class="tok-kw">while</span> (choice != <span class="tok-num">0</span>);  <span class="tok-com">// เลือก 0 จึงออก</span>
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>[1] Deposit [2] Withdraw [3] Balance [0] Exit
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>[1] Deposit [2] Withdraw [3] Balance [0] Exit
 Choice: <b class="stdin">1</b>
 Amount: <b class="stdin">500</b>
 [1] Deposit [2] Withdraw [3] Balance [0] Exit
@@ -391,7 +394,7 @@ Balance: 1300.00
 [1] Deposit [2] Withdraw [3] Balance [0] Exit
 Choice: <b class="stdin">0</b>
 Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เมนูแสดงอย่างน้อยหนึ่งครั้งเสมอ</li><li>ฝาก 500 → 1500, ถอน 200 → 1300</li><li>เลือก 3 แสดงยอด</li><li>เลือก 0 พิมพ์ Goodbye แล้วเงื่อนไข choice != 0 เป็น false → จบ</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 6.3.5 · do-while ขาด semicolon <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบ do-while ต้องลงท้าย <code>while (เงื่อนไข);</code> เสมอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DoWhileSyntaxError.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DoWhileSyntaxError</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 6.3.5</span>do-while ขาด semicolon</h4><p class="concept-line"><strong>แนวคิด:</strong> รูปแบบ do-while ต้องลงท้าย <code>while (เงื่อนไข);</code> เสมอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DoWhileSyntaxError.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DoWhileSyntaxError</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> count = <span class="tok-num">1</span>;
         <span class="tok-kw">do</span> {
@@ -399,7 +402,7 @@ Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายท�
             count++;
         } <span class="tok-kw">while</span> (count &lt;= <span class="tok-num">3</span>)
     }
-}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>DoWhileSyntaxError.java:7: error: ';' expected
+}</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>DoWhileSyntaxError.java:7: error: ';' expected
         } while (count &lt;= 3)
                             ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>compiler แจ้ง <code>';' expected</code> ที่ท้ายบรรทัด while</li><li>เติม ; แล้วโปรแกรมจะพิมพ์ 1, 2, 3</li></ol></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · do-while</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> n = <span class="tok-num">5</span>;
@@ -411,19 +414,19 @@ Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายท�
 <article class="subtopic" id="topic-6-4">
 <h3>6.4 ลูปซ้อน, break และ continue</h3>
 <p>ก่อนเขียน nested loop ให้เริ่มจากสิ่งที่ต้องการเห็น แล้วแบ่งงานเป็น<strong>รอบนอก</strong> (มักคุมแถว) กับ<strong>งานที่ทำซ้ำในแต่ละรอบ</strong> (มักคุมคอลัมน์) ลูปในจะทำครบทุกรอบก่อนที่ลูปนอกจะขยับหนึ่งครั้ง</p>
-<div class="source-example"><h4>ตัวอย่าง 6.4.1 · ลูปเดียว: หนึ่งรอบต่อหนึ่งตัวเลข <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โจทย์ตั้งต้น — แสดงเลข 1–5 บรรทัดละหนึ่งเลข ลูปเดียวพอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OneLoop.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OneLoop</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.4.1</span>ลูปเดียว: หนึ่งรอบต่อหนึ่งตัวเลข</h4><p class="concept-line"><strong>แนวคิด:</strong> โจทย์ตั้งต้น — แสดงเลข 1–5 บรรทัดละหนึ่งเลข ลูปเดียวพอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OneLoop.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OneLoop</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ลูปเดียว ทำงาน 5 รอบ</span>
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">5</span>; i++) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(i);
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>1
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>1
 2
 3
 4
 5</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>i เปลี่ยนจาก 1 ถึง 5</li><li>แต่ละรอบพิมพ์ i หนึ่งครั้งแล้วขึ้นบรรทัด</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.4.2 · เพิ่มความต้องการ: พิมพ์แต่ละเลขซ้ำ 10 ครั้ง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตอนนี้มีสองหน้าที่: i เลือกเลข (ลูปนอก) และ j นับจำนวนครั้งที่พิมพ์เลขนั้น (ลูปใน)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RepeatEachNumber.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RepeatEachNumber</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.4.2</span>เพิ่มความต้องการ: พิมพ์แต่ละเลขซ้ำ 10 ครั้ง</h4><p class="concept-line"><strong>แนวคิด:</strong> ตอนนี้มีสองหน้าที่: i เลือกเลข (ลูปนอก) และ j นับจำนวนครั้งที่พิมพ์เลขนั้น (ลูปใน)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RepeatEachNumber.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RepeatEachNumber</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= <span class="tok-num">5</span>; i++) {  <span class="tok-com">// ลูปนอก: แถว</span>
             <span class="tok-com">// ลูปใน: วนครบ 10 รอบต่อ 1 แถว</span>
@@ -433,12 +436,12 @@ Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายท�
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();  <span class="tok-com">// จบแถวแล้วขึ้นบรรทัดใหม่</span>
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>1 1 1 1 1 1 1 1 1 1 
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>1 1 1 1 1 1 1 1 1 1 
 2 2 2 2 2 2 2 2 2 2 
 3 3 3 3 3 3 3 3 3 3 
 4 4 4 4 4 4 4 4 4 4 
 5 5 5 5 5 5 5 5 5 5</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>i = 1: j วิ่ง 1–10 พิมพ์ 1 สิบครั้ง แล้ว println ขึ้นบรรทัด</li><li>i = 2: j เริ่มใหม่ที่ 1 อีกครั้ง</li><li>รวมทั้งหมด 5 × 10 = 50 ครั้ง</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.4.3 · สามเหลี่ยมดาว: ลูปในขึ้นกับลูปนอก <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> จำนวนรอบของลูปในไม่จำเป็นต้องคงที่ — ใช้ค่า row ของลูปนอกเป็นขอบเขต</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StarTriangle.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StarTriangle</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.4.3</span>สามเหลี่ยมดาว: ลูปในขึ้นกับลูปนอก</h4><p class="concept-line"><strong>แนวคิด:</strong> จำนวนรอบของลูปในไม่จำเป็นต้องคงที่ — ใช้ค่า row ของลูปนอกเป็นขอบเขต</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StarTriangle.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StarTriangle</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> height = <span class="tok-num">5</span>;
         <span class="tok-com">// ลูปนอก: แถวที่ 1 ถึง height</span>
@@ -450,12 +453,12 @@ Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายท�
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>* 
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>* 
 * * 
 * * * 
 * * * * 
 * * * * *</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>row 1 → ดาว 1 ดวง</li><li>row 2 → 2 ดวง … row 5 → 5 ดวง</li><li>เคล็ดลับ: เขียนตาราง “แถว → จำนวนดาว” ก่อน แล้วหาความสัมพันธ์</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.4.4 · พีระมิด: ช่องว่างลดลง ดาวเพิ่มขึ้น <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ในแต่ละแถวมีลูปในสองชุด: ชุดแรกพิมพ์ช่องว่าง (height − row) ชุดที่สองพิมพ์ดาว (2 × row − 1)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StarPyramid.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StarPyramid</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.4.4</span>พีระมิด: ช่องว่างลดลง ดาวเพิ่มขึ้น</h4><p class="concept-line"><strong>แนวคิด:</strong> ในแต่ละแถวมีลูปในสองชุด: ชุดแรกพิมพ์ช่องว่าง (height − row) ชุดที่สองพิมพ์ดาว (2 × row − 1)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StarPyramid.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StarPyramid</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> height = <span class="tok-num">4</span>;
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> row = <span class="tok-num">1</span>; row &lt;= height; row++) {
@@ -470,13 +473,13 @@ Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายท�
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>   *
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>   *
   ***
  *****
 *******</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>row 1: ช่องว่าง 3, ดาว 1</li><li>row 2: ช่องว่าง 2, ดาว 3</li><li>row 4: ช่องว่าง 0, ดาว 7</li></ol></div></div>
 <table class="comparison-table trace-table"><thead><tr><th>row</th><th>ช่องว่าง = 4 − row</th><th>ดาว = 2·row − 1</th></tr></thead><tbody><tr><td>1</td><td>3</td><td>1</td></tr><tr><td>2</td><td>2</td><td>3</td></tr><tr><td>3</td><td>1</td><td>5</td></tr><tr><td>4</td><td>0</td><td>7</td></tr></tbody></table>
 <div class="concept-box"><span class="box-title">break และ continue</span><ul><li><code>break;</code> ออกจากลูป<strong>ชั้นในสุด</strong>ที่กำลังทำ แล้วไปคำสั่งหลังลูปนั้น</li><li><code>continue;</code> ข้ามส่วนที่เหลือของรอบนี้ แล้วเริ่มรอบใหม่ — ใน for ส่วน update ยังทำงาน แต่ใน while ถ้า update อยู่หลัง continue จะถูกข้าม (เสี่ยงลูปไม่รู้จบ)</li></ul></div>
-<div class="source-example"><h4>ตัวอย่าง 6.4.5 · continue ข้ามเลขคู่, break ที่ 7 <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> continue ทำให้ข้ามการพิมพ์เลขคู่ ส่วน break ออกจากลูปเมื่อเจอ 7</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BreakContinue.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BreakContinue</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.4.5</span>continue ข้ามเลขคู่, break ที่ 7</h4><p class="concept-line"><strong>แนวคิด:</strong> continue ทำให้ข้ามการพิมพ์เลขคู่ ส่วน break ออกจากลูปเมื่อเจอ 7</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BreakContinue.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BreakContinue</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> number = <span class="tok-num">1</span>; number &lt;= <span class="tok-num">10</span>; number++) {
             <span class="tok-kw">if</span> (number % <span class="tok-num">2</span> == <span class="tok-num">0</span>) {  <span class="tok-com">// เลขคู่ → ข้ามไปรอบถัดไป</span>
@@ -489,11 +492,11 @@ Goodbye</pre></div></div><div class="walkthrough"><strong>อธิบายท�
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"After loop"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>1
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>1
 3
 5
 After loop</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>1 พิมพ์, 2 ข้าม, 3 พิมพ์, 4 ข้าม, 5 พิมพ์, 6 ข้าม</li><li>7 เป็นคี่ ผ่าน continue แต่ break ทำงาน → ออก</li><li>8–10 ไม่ถูกตรวจเลย</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 6.4.6 · หาจำนวนเฉพาะ: ลูปซ้อน + break <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สำหรับแต่ละ n ลองหารด้วย 2 ถึง √n ถ้าเจอตัวหารลงตัวก็ break ทันที (ไม่ต้องลองต่อ)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrimesUpTo50.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrimesUpTo50</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 6.4.6</span>หาจำนวนเฉพาะ: ลูปซ้อน + break</h4><p class="concept-line"><strong>แนวคิด:</strong> สำหรับแต่ละ n ลองหารด้วย 2 ถึง √n ถ้าเจอตัวหารลงตัวก็ break ทันที (ไม่ต้องลองต่อ)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrimesUpTo50.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrimesUpTo50</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> count = <span class="tok-num">0</span>;
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> n = <span class="tok-num">2</span>; n &lt;= <span class="tok-num">50</span>; n++) {
@@ -514,16 +517,16 @@ After loop</pre></div></div><div class="walkthrough"><strong>อธิบาย�
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total primes: "</span> + count);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 
 Total primes: 15</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลูปนอกเลือก n ทีละค่า</li><li>ตั้งสมมติฐาน isPrime = true แล้วพยายามหาตัวหาร (flag pattern)</li><li>break ออกเฉพาะลูปใน ลูปนอกยังทำ n ถัดไป</li><li><code>d * d &lt;= n</code> เทียบเท่า d ≤ √n ลดจำนวนรอบได้มาก</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 6.4.7 · unreachable statement <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งหลัง break ในบล็อกเดียวกันไม่มีทางทำงาน compiler จึงไม่ยอม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">UnreachableAfterBreak.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">UnreachableAfterBreak</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 6.4.7</span>unreachable statement</h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งหลัง break ในบล็อกเดียวกันไม่มีทางทำงาน compiler จึงไม่ยอม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">UnreachableAfterBreak.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">UnreachableAfterBreak</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">while</span> (<span class="tok-num">true</span>) {
             <span class="tok-kw">break</span>;
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Never reached"</span>);
         }
     }
-}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>UnreachableAfterBreak.java:5: error: unreachable statement
+}</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>UnreachableAfterBreak.java:5: error: unreachable statement
             System.out.println("Never reached");
             ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>unreachable statement</code> ชี้ที่ println</li><li>ย้าย println ไปหลังลูป หรือใส่ break ไว้ใน if</li></ol></div></div>
 <div class="note-box"><span class="box-title">Logic error: continue ข้าม update ใน while</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> i = <span class="tok-num">1</span>;

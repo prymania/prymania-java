@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f5f7f4">
+  <meta name="theme-color" content="#ffffff">
   <title>บทที่ 15: Components และ Layout | Java programming by Prymania</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Bai+Jamjuree:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="../assets/lesson.css">
   <link rel="stylesheet" href="../assets/course-nav.css">
   <script>document.documentElement.classList.add("js");</script>
@@ -56,7 +59,7 @@
 <article class="subtopic" id="topic-15-1">
 <h3>15.1 JLabel, JButton และ JPanel</h3>
 <table class="comparison-table"><thead><tr><th>Component</th><th>ใช้ทำอะไร</th><th>เมธอดที่ใช้บ่อย</th></tr></thead><tbody><tr><td><code>JLabel</code></td><td>แสดงข้อความ (ผู้ใช้แก้ไม่ได้)</td><td><code>setText</code>, <code>getText</code>, <code>setFont</code>, <code>setForeground</code></td></tr><tr><td><code>JButton</code></td><td>ปุ่มให้ผู้ใช้กด</td><td><code>setText</code>, <code>setEnabled</code>, <code>setToolTipText</code>, <code>addActionListener</code> (บทที่ 16)</td></tr><tr><td><code>JPanel</code></td><td>container จัดกลุ่ม</td><td><code>add</code>, <code>setLayout</code>, <code>setBorder</code>, <code>setBackground</code></td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 15.1.1 · label และปุ่มหลายสถานะ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ปุ่มที่ <code>setEnabled(false)</code> จะเป็นสีเทาและกดไม่ได้ ใช้บอกผู้ใช้ว่ายังทำขั้นนั้นไม่ได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LabelButtons.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.1.1</span>label และปุ่มหลายสถานะ</h4><p class="concept-line"><strong>แนวคิด:</strong> ปุ่มที่ <code>setEnabled(false)</code> จะเป็นสีเทาและกดไม่ได้ ใช้บอกผู้ใช้ว่ายังทำขั้นนั้นไม่ได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LabelButtons.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LabelButtons</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -78,7 +81,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Step 1 of 3</div><img src="../assets/gui/g2d069548ed-0.png" width="280" height="36" alt="ภาพหน้าต่าง Step 1 of 3" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Back ถูกปิดเพราะอยู่หน้าแรก</li><li>Next มี tooltip แสดงเมื่อเอาเมาส์ชี้</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.1.2 · label แบบ HTML และการจัดแนว <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> JLabel รับข้อความ HTML อย่างง่ายได้ (ขึ้นบรรทัดด้วย &lt;br&gt;, ตัวหนา, สี) และจัดแนวข้อความด้วย <code>SwingConstants</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">HtmlLabel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.1.2</span>label แบบ HTML และการจัดแนว</h4><p class="concept-line"><strong>แนวคิด:</strong> JLabel รับข้อความ HTML อย่างง่ายได้ (ขึ้นบรรทัดด้วย &lt;br&gt;, ตัวหนา, สี) และจัดแนวข้อความด้วย <code>SwingConstants</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">HtmlLabel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">HtmlLabel</span> {
@@ -103,7 +106,7 @@
 <article class="subtopic" id="topic-15-2">
 <h3>15.2 JTextField, JTextArea และ JScrollPane</h3>
 <p><code>JTextField</code> เหมาะกับข้อความบรรทัดเดียว เช่น ชื่อหรือรหัส; <code>JPasswordField</code> สำหรับรหัสผ่าน; <code>JTextArea</code> รับข้อความหลายบรรทัด และควรใส่ใน <code>JScrollPane</code> เพื่อเลื่อนดูเมื่อข้อความยาว ค่าที่อ่านได้จากช่องเหล่านี้เป็น <strong>String เสมอ</strong> (ตัวเลขต้อง parse แบบบทที่ 9)</p>
-<div class="source-example"><h4>ตัวอย่าง 15.2.1 · ช่องกรอกบรรทัดเดียวพร้อมข้อความที่ผู้ใช้พิมพ์ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> JTextField(คอลัมน์) กำหนดความกว้างโดยประมาณ ภาพนี้จำลองว่าผู้ใช้พิมพ์ข้อมูลลงไปแล้ว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TextFields.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.1</span>ช่องกรอกบรรทัดเดียวพร้อมข้อความที่ผู้ใช้พิมพ์</h4><p class="concept-line"><strong>แนวคิด:</strong> JTextField(คอลัมน์) กำหนดความกว้างโดยประมาณ ภาพนี้จำลองว่าผู้ใช้พิมพ์ข้อมูลลงไปแล้ว</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TextFields.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TextFields</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -122,7 +125,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Student</div><img src="../assets/gui/g06f2e0c2b3-0.png" width="292" height="30" alt="ภาพหน้าต่าง Student" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ช่องแรกกว้าง 12 คอลัมน์ ช่องที่สองกว้าง 7</li><li>ค่าที่พิมพ์อ่านได้ด้วย <code>getText()</code> (บทที่ 16–17)</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.2.2 · JTextArea ใน JScrollPane <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ตั้งจำนวนแถว/คอลัมน์ เปิดการตัดคำด้วย <code>setLineWrap(true)</code> และ <code>setWrapStyleWord(true)</code> แล้วห่อด้วย JScrollPane</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NotesArea.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.2</span>JTextArea ใน JScrollPane</h4><p class="concept-line"><strong>แนวคิด:</strong> ตั้งจำนวนแถว/คอลัมน์ เปิดการตัดคำด้วย <code>setLineWrap(true)</code> และ <code>setWrapStyleWord(true)</code> แล้วห่อด้วย JScrollPane</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NotesArea.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NotesArea</span> {
@@ -152,7 +155,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notes</div><img src="../assets/gui/ge21f7ab9a5-0.png" width="282" height="99" alt="ภาพหน้าต่าง Notes" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JTextArea(5, 24) แสดง 5 แถว กว้าง 24 คอลัมน์</li><li>ข้อความ 8 บรรทัดยาวเกิน จึงมี scrollbar</li><li><code>setCaretPosition(0)</code> เลื่อนไปบนสุด</li><li>ถ้าไม่ห่อด้วย JScrollPane หน้าต่างจะขยายหรือข้อความล้น</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.2.3 · ช่องอ่านอย่างเดียว ช่องรหัสผ่าน และการจัดแนว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>setEditable(false)</code> ใช้แสดงค่าที่คำนวณได้, JPasswordField แสดงจุดแทนตัวอักษร, <code>setHorizontalAlignment</code> จัดตัวเลขชิดขวา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FieldVariants.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.2.3</span>ช่องอ่านอย่างเดียว ช่องรหัสผ่าน และการจัดแนว</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>setEditable(false)</code> ใช้แสดงค่าที่คำนวณได้, JPasswordField แสดงจุดแทนตัวอักษร, <code>setHorizontalAlignment</code> จัดตัวเลขชิดขวา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FieldVariants.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FieldVariants</span> {
@@ -188,7 +191,7 @@
 <article class="subtopic" id="topic-15-3">
 <h3>15.3 ตัวเลือก: JComboBox, JCheckBox และ JRadioButton</h3>
 <table class="comparison-table"><thead><tr><th>Component</th><th>เหมาะกับ</th><th>อ่านค่า</th></tr></thead><tbody><tr><td><code>JComboBox&lt;String&gt;</code></td><td>เลือก 1 จากรายการยาว (เมนูดรอปดาวน์)</td><td><code>getSelectedItem()</code>, <code>getSelectedIndex()</code></td></tr><tr><td><code>JRadioButton</code> + <code>ButtonGroup</code></td><td>เลือก 1 จากตัวเลือกน้อย ๆ ที่อยากให้เห็นทั้งหมด</td><td><code>isSelected()</code></td></tr><tr><td><code>JCheckBox</code></td><td>เปิด/ปิดแต่ละตัวเลือกอิสระ (เลือกได้หลายอัน)</td><td><code>isSelected()</code></td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 15.3.1 · JComboBox จากอาเรย์ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง combo box จากอาเรย์ String ภาพจำลองว่าผู้ใช้เลือกรายการที่ index 2</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FacultyCombo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.1</span>JComboBox จากอาเรย์</h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง combo box จากอาเรย์ String ภาพจำลองว่าผู้ใช้เลือกรายการที่ index 2</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FacultyCombo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FacultyCombo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -208,7 +211,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Faculty</div><img src="../assets/gui/g8e99973dbd-0.png" width="153" height="35" alt="ภาพหน้าต่าง Faculty" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>JComboBox&lt;String&gt;</code> ใช้ generic เหมือน ArrayList</li><li>ค่าเริ่มต้นเลือกตัวแรก</li><li>อ่านค่าด้วย <code>(String) combo.getSelectedItem()</code></li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.3.2 · radio button ในกลุ่มเดียวกัน และ check box <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> radio ใน <code>ButtonGroup</code> เดียวกันเลือกได้ทีละอัน ส่วน check box เลือกได้อิสระ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DrinkOptions.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.2</span>radio button ในกลุ่มเดียวกัน และ check box</h4><p class="concept-line"><strong>แนวคิด:</strong> radio ใน <code>ButtonGroup</code> เดียวกันเลือกได้ทีละอัน ส่วน check box เลือกได้อิสระ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DrinkOptions.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DrinkOptions</span> {
@@ -247,7 +250,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Drink options</div><img src="../assets/gui/g3309713035-0.png" width="274" height="114" alt="ภาพหน้าต่าง Drink options" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เริ่มต้นเลือก Small (parameter true)</li><li>ภาพจำลองคลิก Large → Small ถูกยกเลิกอัตโนมัติเพราะอยู่กลุ่มเดียวกัน</li><li>เลือก Extra shot และ Oat milk พร้อมกันได้</li><li><code>createTitledBorder</code> วาดกรอบพร้อมหัวข้อ ช่วยจัดกลุ่มให้อ่านง่าย</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.3.3 · JSpinner และ JSlider สำหรับตัวเลขในช่วง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อค่าเป็นตัวเลขในช่วงจำกัด ใช้ spinner (ปุ่มขึ้นลง) หรือ slider (แถบเลื่อน) แทนช่องพิมพ์ ช่วยลดข้อมูลผิดรูปแบบ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NumberInputs.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.3.3</span>JSpinner และ JSlider สำหรับตัวเลขในช่วง</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อค่าเป็นตัวเลขในช่วงจำกัด ใช้ spinner (ปุ่มขึ้นลง) หรือ slider (แถบเลื่อน) แทนช่องพิมพ์ ช่วยลดข้อมูลผิดรูปแบบ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NumberInputs.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NumberInputs</span> {
@@ -280,7 +283,7 @@
 <article class="subtopic" id="topic-15-4">
 <h3>15.4 Layout Manager: Flow, Border, Grid และ Box</h3>
 <table class="comparison-table"><thead><tr><th>Layout</th><th>จัดอย่างไร</th><th>เหมาะกับ</th></tr></thead><tbody><tr><td><code>FlowLayout</code></td><td>เรียงซ้าย→ขวา ตัดบรรทัดเมื่อเต็ม ขนาดตาม preferred size</td><td>แถวปุ่ม, แถบเครื่องมือเล็ก ๆ</td></tr><tr><td><code>BorderLayout</code></td><td>5 พื้นที่: NORTH, SOUTH, EAST, WEST, CENTER (CENTER ยืดเต็มที่เหลือ)</td><td>โครงหน้าจอหลัก</td></tr><tr><td><code>GridLayout(r, c)</code></td><td>ตารางที่ทุกช่องขนาดเท่ากัน</td><td>ปุ่มเครื่องคิดเลข, ฟอร์มป้าย–ช่อง</td></tr><tr><td><code>BoxLayout</code></td><td>เรียงแนวตั้งหรือแนวนอนแถวเดียว ไม่ยืดเท่ากัน</td><td>รายการแนวตั้ง, ฟอร์มที่ต้องการระยะห่างอิสระ</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 15.4.1 · BorderLayout: 5 พื้นที่ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใส่ปุ่มทั้ง 5 ตำแหน่งให้เห็นว่าแต่ละพื้นที่ขยายตัวอย่างไร — CENTER ได้พื้นที่ที่เหลือทั้งหมด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BorderDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.1</span>BorderLayout: 5 พื้นที่</h4><p class="concept-line"><strong>แนวคิด:</strong> ใส่ปุ่มทั้ง 5 ตำแหน่งให้เห็นว่าแต่ละพื้นที่ขยายตัวอย่างไร — CENTER ได้พื้นที่ที่เหลือทั้งหมด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BorderDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BorderDemo</span> {
@@ -304,7 +307,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">BorderLayout</div><img src="../assets/gui/g93df1d4143-0.png" width="324" height="161" alt="ภาพหน้าต่าง BorderLayout" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>NORTH/SOUTH ยืดเต็มความกว้าง สูงเท่าที่จำเป็น</li><li>WEST/EAST ยืดเต็มความสูงที่เหลือ กว้างเท่าที่จำเป็น</li><li>CENTER ได้พื้นที่ที่เหลือทั้งหมด</li><li>BorderLayout(4, 4) เว้นช่องว่างระหว่างพื้นที่</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.4.2 · GridLayout: ทุกช่องเท่ากัน <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> GridLayout(แถว, คอลัมน์) — ใส่ 0 ที่แถวเพื่อให้เพิ่มแถวอัตโนมัติตามจำนวน component</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GridDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.2</span>GridLayout: ทุกช่องเท่ากัน</h4><p class="concept-line"><strong>แนวคิด:</strong> GridLayout(แถว, คอลัมน์) — ใส่ 0 ที่แถวเพื่อให้เพิ่มแถวอัตโนมัติตามจำนวน component</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GridDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GridDemo</span> {
@@ -325,7 +328,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">GridLayout</div><img src="../assets/gui/gd5df49cb8b-0.png" width="236" height="104" alt="ภาพหน้าต่าง GridLayout" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>3 คอลัมน์ แถวเพิ่มเองเป็น 3 แถวสำหรับ 8 ปุ่ม</li><li>ทุกปุ่มขนาดเท่ากัน (ตามปุ่มที่ใหญ่ที่สุด)</li><li>สร้างปุ่มด้วยลูป — ดีกว่าเขียนทีละบรรทัด</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.4.3 · BoxLayout แนวตั้งพร้อมระยะห่าง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> BoxLayout.Y_AXIS วางเป็นแนวตั้ง ใช้ <code>Box.createVerticalStrut(n)</code> เว้นระยะ และ <code>setAlignmentX</code> จัดชิดซ้าย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BoxDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.3</span>BoxLayout แนวตั้งพร้อมระยะห่าง</h4><p class="concept-line"><strong>แนวคิด:</strong> BoxLayout.Y_AXIS วางเป็นแนวตั้ง ใช้ <code>Box.createVerticalStrut(n)</code> เว้นระยะ และ <code>setAlignmentX</code> จัดชิดซ้าย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BoxDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BoxDemo</span> {
@@ -359,7 +362,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Settings</div><img src="../assets/gui/gdcaf4a670e-0.png" width="250" height="162" alt="ภาพหน้าต่าง Settings" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>component เรียงลงมาทีละแถว ขนาดตามธรรมชาติ (ไม่ยืดเท่ากันแบบ Grid)</li><li>strut เว้นระยะแนวตั้งคงที่</li><li>ทุก component ต้อง alignment เดียวกัน ไม่เช่นนั้นจะเยื้องกัน</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.4.4 · FlowLayout ชิดขวาสำหรับแถวปุ่ม <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>new FlowLayout(FlowLayout.RIGHT)</code> เหมาะกับแถวปุ่ม OK/Cancel ด้านล่างของฟอร์ม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ButtonBar.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.4.4</span>FlowLayout ชิดขวาสำหรับแถวปุ่ม</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>new FlowLayout(FlowLayout.RIGHT)</code> เหมาะกับแถวปุ่ม OK/Cancel ด้านล่างของฟอร์ม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ButtonBar.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ButtonBar</span> {
@@ -389,7 +392,7 @@
 <article class="subtopic" id="topic-15-5">
 <h3>15.5 ประกอบหลาย panel เป็นหน้าจอเดียว</h3>
 <div class="concept-box"><span class="box-title">ขั้นตอนออกแบบหน้าจอ</span><ol class="step-list"><li>ร่างหน้าจอบนกระดาษ แล้วตีกรอบเป็นสี่เหลี่ยมตามกลุ่มของข้อมูล</li><li>แต่ละกรอบคือ panel หนึ่งตัว เลือก layout ตามลักษณะของกรอบนั้น (ฟอร์ม → Grid, แถวปุ่ม → Flow, รายการ → Box)</li><li>panel ใหญ่ที่สุด (content pane) มักใช้ BorderLayout วางกรอบย่อยตามตำแหน่ง</li><li>แยกการสร้างแต่ละ panel เป็นเมธอด เช่น <code>buildForm()</code>, <code>buildButtons()</code></li><li>ทดสอบย่อ/ขยายหน้าต่าง ว่าส่วนที่ควรยืดยืดจริง</li></ol></div>
-<div class="source-example"><h4>ตัวอย่าง 15.5.1 · ฟอร์มลงทะเบียนจาก 3 panel <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หัวเรื่อง (NORTH) + ฟอร์ม GridLayout (CENTER) + แถวปุ่ม FlowLayout (SOUTH) แต่ละส่วนสร้างในเมธอดของตัวเอง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RegistrationForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.5.1</span>ฟอร์มลงทะเบียนจาก 3 panel</h4><p class="concept-line"><strong>แนวคิด:</strong> หัวเรื่อง (NORTH) + ฟอร์ม GridLayout (CENTER) + แถวปุ่ม FlowLayout (SOUTH) แต่ละส่วนสร้างในเมธอดของตัวเอง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RegistrationForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RegistrationForm</span> {
@@ -449,7 +452,7 @@
         <span class="tok-kw">return</span> buttons;
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Registration</div><img src="../assets/gui/gc43c59de16-0.png" width="390" height="247" alt="ภาพหน้าต่าง Registration" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>แต่ละเมธอดคืน component ที่ประกอบเสร็จ อ่านง่ายและแก้แยกได้</li><li>ฟอร์มซ้อน: GridLayout สำหรับป้าย–ช่อง ภายใน BorderLayout ที่มี Note ยืดตรงกลาง</li><li>ภาพจำลองการกรอกข้อมูลครบทุกช่อง</li><li>บทที่ 16–17 จะทำให้ Submit อ่านค่าและตรวจสอบได้</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 15.5.2 · หน้าจอแชตแบบ 2 ชั้นของ BorderLayout <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> BorderLayout ซ้อนกัน: ชั้นนอกวางรายการข้อความ (CENTER) กับแถบพิมพ์ (SOUTH), ชั้นในของแถบพิมพ์วางช่อง (CENTER) กับปุ่ม (EAST) ทำให้ช่องพิมพ์ยืดตามความกว้างหน้าต่าง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ChatLayout.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 15.5.2</span>หน้าจอแชตแบบ 2 ชั้นของ BorderLayout</h4><p class="concept-line"><strong>แนวคิด:</strong> BorderLayout ซ้อนกัน: ชั้นนอกวางรายการข้อความ (CENTER) กับแถบพิมพ์ (SOUTH), ชั้นในของแถบพิมพ์วางช่อง (CENTER) กับปุ่ม (EAST) ทำให้ช่องพิมพ์ยืดตามความกว้างหน้าต่าง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ChatLayout.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ChatLayout</span> {

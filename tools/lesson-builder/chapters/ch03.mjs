@@ -167,99 +167,107 @@ export default {
     {
       num: "3.3", toc: "ตัวดำเนินการ", title: "ตัวดำเนินการและลำดับการคำนวณ",
       blocks: [
-        { type: "p", html: `Java ใช้ <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> คำนวณเลข และ <code>%</code> (modulo) หาเศษจากการหาร วงเล็บช่วยกำหนดส่วนที่ต้องคำนวณก่อน` },
-        { type: "table", head: ["ลำดับ", "ตัวดำเนินการ", "ทิศทาง"], rows: [["1", "<code>( )</code> วงเล็บ", "ในสุดก่อน"], ["2", "<code>*</code> <code>/</code> <code>%</code>", "ซ้าย → ขวา"], ["3", "<code>+</code> <code>-</code>", "ซ้าย → ขวา"], ["4", "<code>=</code> <code>+=</code> <code>-=</code> …", "ทำสุดท้าย"]] },
-        { type: "run", title: "ตัวดำเนินการพื้นฐาน", level: "พื้นฐาน",
-          concept: "ลองทุกตัวดำเนินการกับตัวเลขชุดเดียวกัน สังเกต <code>/</code> และ <code>%</code> กับจำนวนเต็ม",
+        { type: "p", html: `ตัวดำเนินการ (operator) คือเครื่องหมายที่สั่งให้คำนวณ เช่น บวก ลบ คูณ หาร ส่วนที่มือใหม่พลาดบ่อยคือ <strong>การหารจำนวนเต็ม</strong> และ <strong>ลำดับการคำนวณ</strong>` },
+
+        { type: "h", text: "ตัวดำเนินการคณิตศาสตร์" },
+        { type: "table", head: ["ตัวดำเนินการ", "ความหมาย", "ตัวอย่าง", "ผลลัพธ์"], rows: [
+          ["<code>+</code>", "บวก", "<code>17 + 5</code>", "22"],
+          ["<code>-</code>", "ลบ", "<code>17 - 5</code>", "12"],
+          ["<code>*</code>", "คูณ", "<code>17 * 5</code>", "85"],
+          ["<code>/</code>", "หาร", "<code>17 / 5</code>", "3 (จำนวนเต็ม!)"],
+          ["<code>%</code>", "เศษจากการหาร (modulo)", "<code>17 % 5</code>", "2"],
+        ] },
+        { type: "run", title: "ลองทุกตัวดำเนินการ",
           code: j`
-            public class BasicOperators {
+            public class Arithmetic {
                 public static void main(String[] args) {
-                    int a = 17;  // ใช้ a, b ในทุกบรรทัดด้านล่าง
-                    int b = 5;
-                    System.out.println("a + b = " + (a + b));
-                    System.out.println("a - b = " + (a - b));
-                    System.out.println("a * b = " + (a * b));
-                    // int / int ตัดเศษทิ้ง
-                    System.out.println("a / b = " + (a / b));
-                    // % ให้เศษจากการหาร
-                    System.out.println("a % b = " + (a % b));
-                    // มี double ร่วมด้วย → ได้ทศนิยม
-                    System.out.println("17.0 / 5 = " + (17.0 / 5));
+                    int a = 17, b = 5;
+                    System.out.println(a + b);      // 22
+                    System.out.println(a - b);      // 12
+                    System.out.println(a * b);      // 85
+                    System.out.println(a / b);      // 3     int / int ได้ int (ตัดเศษทิ้ง)
+                    System.out.println(a % b);      // 2     เศษ: 17 - 5×3 = 2
+                    System.out.println(17.0 / 5);   // 3.4   มี double อย่างน้อยหนึ่งตัว
                 }
             }`,
-          steps: ["<code>17 / 5</code> เป็นจำนวนเต็มทั้งคู่ → ได้ 3 (ตัดเศษทิ้ง ไม่ปัดเศษ)", "<code>17 % 5</code> → เศษ 2 (เพราะ 5 × 3 = 15, 17 − 15 = 2)", "<code>17.0 / 5</code> มี double หนึ่งข้าง → ได้ 3.4", "ต้องใส่วงเล็บ <code>(a + b)</code> ไม่เช่นนั้น + จะต่อข้อความแทนการบวก"] },
-        { type: "run", title: "ลำดับการคำนวณและวงเล็บ", level: "ต่อยอด",
-          concept: "คูณ/หารก่อนบวก/ลบเสมอ ถ้าต้องการลำดับอื่นให้ใส่วงเล็บ",
+          },
+        { type: "tip", title: "จำง่าย ๆ", html: `จำนวนเต็มหารจำนวนเต็ม ได้จำนวนเต็มเสมอ Java <strong>ตัดเศษทิ้ง ไม่ปัดเศษ</strong> ถ้าต้องการทศนิยม ให้มีค่า <code>double</code> อย่างน้อยหนึ่งตัว เช่น <code>17.0 / 5</code>` },
+
+        { type: "h", text: "ลำดับการคำนวณ" },
+        { type: "p", html: `คูณ หาร และหารเอาเศษทำก่อนบวกลบ ถ้าระดับเท่ากันทำจากซ้ายไปขวา และวงเล็บทำก่อนเสมอ` },
+        { type: "table", head: ["ลำดับ", "ตัวดำเนินการ", "ทิศทาง"], rows: [["1", "<code>( )</code> วงเล็บ", "ในสุดก่อน"], ["2", "<code>*</code> <code>/</code> <code>%</code>", "ซ้าย → ขวา"], ["3", "<code>+</code> <code>-</code>", "ซ้าย → ขวา"], ["4", "<code>=</code> <code>+=</code> <code>-=</code> …", "ทำสุดท้าย"]] },
+        { type: "run", title: "คำนวณอะไรก่อน",
           code: j`
             public class Precedence {
                 public static void main(String[] args) {
-                    System.out.println(2 + 3 * 4);    // * ทำก่อน +
-                    System.out.println((2 + 3) * 4);  // วงเล็บทำก่อนเสมอ
-                    System.out.println(20 - 6 / 2);
-                    // ลำดับเท่ากัน → ทำจากซ้ายไปขวา
-                    System.out.println(20 / 4 * 2);
-                    System.out.println(10 - 4 - 3);
-                    // ต่อข้อความทีละตัว → Sum: 23
-                    System.out.println("Sum: " + 2 + 3);
-                    // วงเล็บบวกเลขก่อน → Sum: 5
-                    System.out.println("Sum: " + (2 + 3));
+                    System.out.println(2 + 3 * 4);          // 14        * ก่อน +
+                    System.out.println((2 + 3) * 4);        // 20        วงเล็บก่อนเสมอ
+                    System.out.println(20 / 4 * 2);         // 10        ระดับเท่ากัน ทำซ้าย → ขวา
+                    System.out.println("Sum: " + 2 + 3);    // Sum: 23   ต่อข้อความทีละตัว
+                    System.out.println("Sum: " + (2 + 3));  // Sum: 5    วงเล็บบวกเลขก่อน
                 }
             }`,
-          steps: ["<code>2 + 3 * 4</code> → 3 × 4 = 12 ก่อน แล้ว + 2 = 14", "<code>(2 + 3) * 4</code> → 20", "<code>20 / 4 * 2</code> ระดับเดียวกัน ทำซ้ายไปขวา → 5 × 2 = 10", "<code>\"Sum: \" + 2 + 3</code> ซ้ายไปขวา: ข้อความ + 2 = “Sum: 2” แล้ว + 3 = “Sum: 23” (ต่อข้อความ!)"] },
-        { type: "run", title: "ใช้ / และ % แยกหลักตัวเลข", level: "ประยุกต์",
-          concept: "<code>% 10</code> ได้หลักหน่วย และ <code>/ 10</code> ตัดหลักหน่วยทิ้ง ใช้ซ้ำเพื่อแยกทุกหลัก",
+          },
+        { type: "warn", html: `เมื่อด้านซ้ายของ <code>+</code> เป็นข้อความ (String) Java จะ<strong>ต่อข้อความ</strong>แทนการบวก <code>"Sum: " + 2 + 3</code> จึงได้ <code>Sum: 23</code> ใส่วงเล็บรอบการคำนวณทุกครั้งที่พิมพ์คู่กับข้อความ` },
+
+        { type: "h", text: "กำหนดค่าแบบย่อ และ ++ / --" },
+        { type: "p", html: `<code>x += 5</code> คือ <code>x = x + 5</code> แบบเขียนสั้น ส่วน <code>x++</code> เพิ่มทีละ 1 และ <code>x--</code> ลดทีละ 1 ใช้บ่อยมากในลูป (บทที่ 6)` },
+        { type: "run", title: "เขียนสั้นแต่ความหมายเดิม",
+          code: j`
+            public class Shorthand {
+                public static void main(String[] args) {
+                    int points = 10;
+                    points += 5;   // 15   points = points + 5
+                    points -= 3;   // 12
+                    points *= 2;   // 24
+                    points /= 5;   // 4    ยังเป็นการหาร int
+                    points %= 3;   // 1
+                    System.out.println("points = " + points);
+
+                    int count = 0;
+                    count++;       // 1
+                    count++;       // 2
+                    count--;       // 1
+                    System.out.println("count = " + count);
+                }
+            }`,
+          },
+        { type: "tip", html: `เขียน <code>count++;</code> เป็นคำสั่งเดี่ยวในบรรทัดของตัวเอง อย่านำไปปนในนิพจน์อื่น จะอ่านง่ายและไม่สับสน` },
+
+        { type: "h", text: "ใช้ / และ % แยกหลักตัวเลข" },
+        { type: "p", html: `<code>% 10</code> ได้หลักขวาสุด และ <code>/ 10</code> ตัดหลักขวาสุดทิ้ง ใช้สองตัวนี้คู่กันจะแยกตัวเลขได้ทีละหลัก` },
+        { type: "run", title: "แยก 4729 ทีละหลัก",
           code: j`
             public class DigitSplit {
                 public static void main(String[] args) {
                     int number = 4729;
-                    int ones = number % 10;  // % 10 = หลักหน่วย
-                    // ตัดหลักหน่วยทิ้ง แล้วเอาหลักสุดท้าย
-                    int tens = number / 10 % 10;
-                    int hundreds = number / 100 % 10;
-                    int thousands = number / 1000;  // / 1000 = หลักพัน
-                    System.out.println("Thousands: " + thousands);
-                    System.out.println("Hundreds: " + hundreds);
-                    System.out.println("Tens: " + tens);
-                    System.out.println("Ones: " + ones);
+                    int ones = number % 10;             // 9
+                    int tens = number / 10 % 10;        // 2    472 % 10
+                    int hundreds = number / 100 % 10;   // 7    47 % 10
+                    int thousands = number / 1000;      // 4
+                    System.out.println(thousands + " " + hundreds + " " + tens + " " + ones);
                     System.out.println("Digit sum: " + (thousands + hundreds + tens + ones));
                 }
             }`,
-          steps: ["4729 % 10 = 9", "4729 / 10 = 472 → 472 % 10 = 2", "4729 / 100 = 47 → 47 % 10 = 7", "4729 / 1000 = 4", "ผลรวมหลัก 4 + 7 + 2 + 9 = 22"] },
-        { type: "run", title: "ตัวดำเนินการแบบย่อและ ++ / --", level: "ประยุกต์",
-          concept: "<code>x += 5</code> คือ <code>x = x + 5</code> และ <code>x++</code> คือเพิ่มทีละ 1 ใช้บ่อยมากในลูป (บทที่ 6)",
-          code: j`
-            public class CompoundAssign {
-                public static void main(String[] args) {
-                    int points = 10;
-                    points += 5;  // 15
-                    points -= 3;  // 12
-                    points *= 2;  // 24
-                    points /= 5;  // 4
-                    points %= 3;  // 1
-                    System.out.println("points = " + points);
+          },
+        { type: "try", html: `เปลี่ยน <code>number</code> เป็น 9051 แล้วทำนายผลทั้งสองบรรทัดก่อนรัน` },
 
-                    int count = 0;
-                    count++;  // เพิ่มทีละ 1
-                    count++;
-                    count--;  // ลดทีละ 1
-                    System.out.println("count = " + count);
-                }
-            }`,
-          steps: ["10 → 15 → 12 → 24 → 4 (24/5 เป็นจำนวนเต็ม) → 1 (4 % 3)", "count: 0 → 1 → 2 → 1"] },
-        { type: "run", label: "ทดลอง error 3.3.5", title: "หารจำนวนเต็มด้วยศูนย์", level: "ท้าทาย", expect: "runtime-error",
-          concept: "โค้ดคอมไพล์ผ่าน แต่เมื่อรันถึงบรรทัดที่หารด้วย 0 โปรแกรมหยุดทันทีด้วย <code>ArithmeticException</code>",
-          code: j`
-            public class DivideByZero {
-                public static void main(String[] args) {
-                    int total = 100;
-                    int people = 0;
-                    System.out.println("Before division");
-                    int share = total / people;
-                    System.out.println("Share: " + share);
-                }
-            }`,
-          steps: ["บรรทัดแรกพิมพ์ได้ตามปกติ", "<code>100 / 0</code> กับจำนวนเต็ม → เกิด runtime error", "ข้อความ <code>/ by zero</code> และ <code>DivideByZero.java:6</code> บอกสาเหตุและบรรทัด", "บรรทัด Share ไม่ถูกทำเลย"],
-          after: "หมายเหตุ: ถ้าเป็น double เช่น <code>100.0 / 0</code> จะไม่ error แต่ได้ค่า <code>Infinity</code> ซึ่งก็ยังไม่ใช่คำตอบที่ต้องการ ในบทที่ 5 จะใช้ if ตรวจก่อนหาร" },
+        { type: "warn", title: "หารจำนวนเต็มด้วย 0", html: `<code>100 / 0</code> กับ <code>int</code> คอมไพล์ผ่าน แต่ตอนรันโปรแกรมจะหยุดทันทีด้วย <code>ArithmeticException: / by zero</code> (ถ้าเป็น <code>double</code> จะได้ <code>Infinity</code>) ในบทที่ 5 จะใช้ <code>if</code> ตรวจก่อนหาร` },
+        { type: "more", title: "ดูตัวอย่าง: โปรแกรมหยุดเมื่อหารด้วย 0", blocks: [
+          { type: "run", label: "ทดลอง error 3.3.5", title: "หารจำนวนเต็มด้วยศูนย์", expect: "runtime-error",
+            code: j`
+              public class DivideByZero {
+                  public static void main(String[] args) {
+                      int total = 100;
+                      int people = 0;
+                      System.out.println("Before division");
+                      int share = total / people;
+                      System.out.println("Share: " + share);
+                  }
+              }`,
+            after: "บรรทัดแรกพิมพ์ได้ตามปกติ แต่ถึงบรรทัดที่หารด้วย 0 โปรแกรมหยุด บรรทัด Share จึงไม่ถูกทำ ข้อความ <code>DivideByZero.java:6</code> บอกบรรทัดที่เกิดปัญหา" },
+        ] },
+
         { type: "check", title: "คำนวณในใจ", html: jpre(`
           System.out.println(7 + 8 / 3 * 2);
           System.out.println(25 % 7 + 1);

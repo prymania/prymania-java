@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f5f7f4">
+  <meta name="theme-color" content="#ffffff">
   <title>บทที่ 2: เริ่มต้นกับ Java | Java programming by Prymania</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Bai+Jamjuree:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="../assets/lesson.css">
   <link rel="stylesheet" href="../assets/course-nav.css">
   <script>document.documentElement.classList.add("js");</script>
@@ -71,25 +74,25 @@
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello, Java!"</span>);   <span class="tok-com">// ③ คำสั่ง: พิมพ์ข้อความแล้วขึ้นบรรทัดใหม่</span>
     }                                         <span class="tok-com">// ④ ปิดเมธอด main</span>
 }                                             <span class="tok-com">// ⑤ ปิดคลาส</span></code></pre></div><ul><li><code>public class Hello</code> — ชื่อคลาสต้องตรงกับชื่อไฟล์ <code>Hello.java</code> (ตัวพิมพ์เล็ก-ใหญ่ต้องตรงด้วย)</li><li><code>public static void main(String[] args)</code> — ต้องเขียนแบบนี้ทุกตัวอักษร ความหมายของแต่ละคำจะเรียนในบทเมธอดและคลาส</li><li><code>System.out.println(...)</code> — สั่งพิมพ์ค่าในวงเล็บไปที่ console</li><li>ข้อความ (String) ต้องอยู่ใน <code>" "</code> เครื่องหมายคำพูดคู่</li></ul></div>
-<div class="source-example"><h4>ตัวอย่าง 2.2.1 · โปรแกรมแรก: Hello, Java! <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมที่สั้นที่สุดที่มีครบทุกส่วน: คลาส → main → คำสั่งหนึ่งคำสั่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Hello.java</span></div><pre class="source-code"><code><span class="tok-com">// ชื่อคลาสต้องตรงกับชื่อไฟล์ Hello.java</span>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 2.2.1</span>โปรแกรมแรก: Hello, Java!</h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมที่สั้นที่สุดที่มีครบทุกส่วน: คลาส → main → คำสั่งหนึ่งคำสั่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Hello.java</span></div><pre class="source-code"><code><span class="tok-com">// ชื่อคลาสต้องตรงกับชื่อไฟล์ Hello.java</span>
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Hello</span> {
     <span class="tok-com">// จุดเริ่มทำงานของโปรแกรม</span>
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// แสดงข้อความแล้วขึ้นบรรทัดใหม่</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello, Java!"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Hello, Java!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JVM เริ่มที่ <code>main</code></li><li>ทำคำสั่ง println หนึ่งครั้ง พิมพ์ <code>Hello, Java!</code> และขึ้นบรรทัดใหม่</li><li>ถึง <code>}</code> ของ main → โปรแกรมจบ</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 2.2.2 · หลายคำสั่ง ทำงานจากบนลงล่าง <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งใน main ทำงานเรียงตามลำดับบรรทัด (sequence) ทีละคำสั่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AboutMe.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AboutMe</span> {  <span class="tok-com">// ไฟล์ AboutMe.java</span>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Hello, Java!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JVM เริ่มที่ <code>main</code></li><li>ทำคำสั่ง println หนึ่งครั้ง พิมพ์ <code>Hello, Java!</code> และขึ้นบรรทัดใหม่</li><li>ถึง <code>}</code> ของ main → โปรแกรมจบ</li></ol></div></div>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 2.2.2</span>หลายคำสั่ง ทำงานจากบนลงล่าง</h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งใน main ทำงานเรียงตามลำดับบรรทัด (sequence) ทีละคำสั่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AboutMe.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AboutMe</span> {  <span class="tok-com">// ไฟล์ AboutMe.java</span>
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ทำงานจากบนลงล่างทีละคำสั่ง</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name: Mali"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Major: Computer Science"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Year: 1"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Name: Mali
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Name: Mali
 Major: Computer Science
 Year: 1</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัดแรกพิมพ์ชื่อ</li><li>บรรทัดที่สองพิมพ์สาขา</li><li>บรรทัดที่สามพิมพ์ชั้นปี — ลำดับใน output ตรงกับลำดับในโค้ดเสมอ</li></ol></div><p class="try-it">สลับบรรทัด Name กับ Year แล้วดูว่า output เปลี่ยนตามหรือไม่</p></div>
-<div class="source-example"><h4>ตัวอย่าง 2.2.3 · print กับ println ต่างกันอย่างไร <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>print</code> พิมพ์แล้ว<strong>อยู่บรรทัดเดิม</strong> ส่วน <code>println</code> พิมพ์แล้ว<strong>ขึ้นบรรทัดใหม่</strong> และ <code>println()</code> เปล่า ๆ ใช้เว้นบรรทัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintVsPrintln.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintVsPrintln</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 2.2.3</span>print กับ println ต่างกันอย่างไร</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>print</code> พิมพ์แล้ว<strong>อยู่บรรทัดเดิม</strong> ส่วน <code>println</code> พิมพ์แล้ว<strong>ขึ้นบรรทัดใหม่</strong> และ <code>println()</code> เปล่า ๆ ใช้เว้นบรรทัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintVsPrintln.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintVsPrintln</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"A"</span>);  <span class="tok-com">// print: ไม่ขึ้นบรรทัดใหม่</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"B"</span>);  <span class="tok-com">// ต่อท้าย A ในบรรทัดเดียวกัน</span>
@@ -100,11 +103,11 @@ Year: 1</pre></div></div><div class="walkthrough"><strong>อธิบายท�
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"E "</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"F"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>ABC
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>ABC
 D
 
 E F</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>print A และ B ต่อกันในบรรทัดเดิม → <code>AB</code></li><li>println C ต่อท้ายแล้วขึ้นบรรทัด → บรรทัดแรกคือ <code>ABC</code></li><li>println D อยู่บรรทัดที่สอง</li><li><code>println()</code> ว่าง ทำให้เกิดบรรทัดว่าง</li><li>print "E " (มีช่องว่าง) แล้ว println F → <code>E F</code></li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 2.2.4 · Comment: ข้อความที่ compiler ไม่สนใจ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> comment ใช้อธิบายโค้ดให้คนอ่าน <code>//</code> ใช้บรรทัดเดียว <code>/* ... */</code> ใช้หลายบรรทัด โค้ดที่อยู่ใน comment จะไม่ทำงาน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CommentDemo.java</span></div><pre class="source-code"><code><span class="tok-com">/*
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 2.2.4</span>Comment: ข้อความที่ compiler ไม่สนใจ</h4><p class="concept-line"><strong>แนวคิด:</strong> comment ใช้อธิบายโค้ดให้คนอ่าน <code>//</code> ใช้บรรทัดเดียว <code>/* ... */</code> ใช้หลายบรรทัด โค้ดที่อยู่ใน comment จะไม่ทำงาน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CommentDemo.java</span></div><pre class="source-code"><code><span class="tok-com">/*
  * โปรแกรมนี้ใช้ทดลอง comment
  * ผู้เขียน: Mali
  */</span>
@@ -116,10 +119,10 @@ E F</pre></div></div><div class="walkthrough"><strong>อธิบายที�
         <span class="tok-com">// comment ท้ายบรรทัดก็ได้</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Line 3"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Line 1
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Line 1
 Line 3</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ส่วน <code>/* ... */</code> ด้านบนไม่ถูกคอมไพล์</li><li><code>Line 2</code> ไม่ถูกพิมพ์เพราะทั้งบรรทัดเป็น comment</li><li>comment ท้ายบรรทัดไม่กระทบคำสั่งก่อนหน้า</li></ol></div><p>เทคนิค “comment out” (ปิดบรรทัดชั่วคราว) มีประโยชน์มากเวลาหาว่าบรรทัดไหนทำให้เกิดปัญหา</p></div>
 <h4>Escape sequence: อักขระพิเศษในข้อความ</h4><table class="comparison-table"><thead><tr><th>เขียนว่า</th><th>ความหมาย</th><th>ตัวอย่าง</th><th>ผลลัพธ์</th></tr></thead><tbody><tr><td><code>\n</code></td><td>ขึ้นบรรทัดใหม่</td><td><code>"A\nB"</code></td><td>A<br>B</td></tr><tr><td><code>\t</code></td><td>แท็บ (เว้นช่องเป็นคอลัมน์)</td><td><code>"A\tB"</code></td><td>A&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B</td></tr><tr><td><code>\"</code></td><td>เครื่องหมาย " ในข้อความ</td><td><code>"Say \"Hi\""</code></td><td>Say "Hi"</td></tr><tr><td><code>\\</code></td><td>เครื่องหมาย \ หนึ่งตัว</td><td><code>"C:\\java"</code></td><td>C:\java</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 2.2.5 · จัดรูปแบบผลลัพธ์ด้วย escape sequence <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>\t</code> ทำตาราง ใช้ <code>\n</code> ขึ้นบรรทัดในคำสั่งเดียว และใช้ <code>\"</code> เมื่อต้องการแสดงเครื่องหมายคำพูด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReceiptHeader.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReceiptHeader</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 2.2.5</span>จัดรูปแบบผลลัพธ์ด้วย escape sequence</h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ <code>\t</code> ทำตาราง ใช้ <code>\n</code> ขึ้นบรรทัดในคำสั่งเดียว และใช้ <code>\"</code> เมื่อต้องการแสดงเครื่องหมายคำพูด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReceiptHeader.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReceiptHeader</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// \" แสดงเครื่องหมายคำพูด</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"==== \"Java Cafe\" ===="</span>);
@@ -132,7 +135,7 @@ Line 3</pre></div></div><div class="walkthrough"><strong>อธิบายท�
         <span class="tok-com">// \\ แสดง \ หนึ่งตัว</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Saved at C:\\receipts"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>==== "Java Cafe" ====
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>==== "Java Cafe" ====
 Item	Qty	Price
 Latte	2	90
 Cake	1	65
@@ -152,20 +155,20 @@ fun
 <div class="example-box"><span class="box-title">คำสั่งพื้นฐานบน command line</span><pre><code>javac Hello.java     ← คอมไพล์ ได้ไฟล์ Hello.class
 java Hello           ← รัน (ไม่ต้องเติม .class)</code></pre><p>ตั้งแต่ Java 11 สามารถรันไฟล์เดียวโดยตรงด้วย <code>java Hello.java</code> ได้ด้วย (คอมไพล์ในหน่วยความจำให้อัตโนมัติ)</p></div>
 <div class="concept-box"><span class="box-title">วิธีอ่าน error อย่างเป็นขั้นตอน</span><ol class="step-list"><li>อ่านบรรทัดแรกของ error: <code>Hello.java:3: error: ';' expected</code> → ไฟล์ Hello.java บรรทัด 3 ขาด <code>;</code></li><li>ดูบรรทัดที่ javac คัดลอกมาและเครื่องหมาย <code>^</code> ที่ชี้ตำแหน่ง</li><li>ตรวจบรรทัดนั้น <em>และบรรทัดก่อนหน้า</em> เพราะบางครั้งต้นเหตุอยู่ก่อนจุดที่ถูกชี้</li><li>แก้<strong>ทีละจุด</strong>โดยเริ่มจาก error แรก แล้วคอมไพล์ใหม่ — error ตัวหลัง ๆ มักเป็นผลพวงของตัวแรก</li></ol></div>
-<div class="source-example"><h4>ทดลอง error 2.3.1 · ลืม semicolon <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ทุกคำสั่งต้องจบด้วย <code>;</code> javac ชี้ตำแหน่งท้ายคำสั่งที่ขาด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingSemicolon.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingSemicolon</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 2.3.1</span>ลืม semicolon</h4><p class="concept-line"><strong>แนวคิด:</strong> ทุกคำสั่งต้องจบด้วย <code>;</code> javac ชี้ตำแหน่งท้ายคำสั่งที่ขาด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingSemicolon.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingSemicolon</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Start"</span>)
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"End"</span>);
     }
-}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingSemicolon.java:3: error: ';' expected
+}</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>MissingSemicolon.java:3: error: ';' expected
         System.out.println("Start")
                                    ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>MissingSemicolon.java:3</code> บอกว่าปัญหาอยู่บรรทัด 3</li><li><code>';' expected</code> บอกชนิดปัญหา: ขาด semicolon</li><li><code>^</code> ชี้ตำแหน่งท้าย <code>"Start")</code> → เติม <code>;</code> ตรงนั้น</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 2.3.2 · สะกดชื่อผิด (ตัวพิมพ์ใหญ่-เล็ก) <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Java แยกตัวพิมพ์ใหญ่-เล็ก (case-sensitive) <code>system</code> กับ <code>System</code> คือคนละชื่อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongCase.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongCase</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 2.3.2</span>สะกดชื่อผิด (ตัวพิมพ์ใหญ่-เล็ก)</h4><p class="concept-line"><strong>แนวคิด:</strong> Java แยกตัวพิมพ์ใหญ่-เล็ก (case-sensitive) <code>system</code> กับ <code>System</code> คือคนละชื่อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongCase.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongCase</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         system.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printn</span>(<span class="tok-str">"World"</span>);
     }
-}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>WrongCase.java:3: error: package system does not exist
+}</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>WrongCase.java:3: error: package system does not exist
         system.out.println("Hello");
               ^
 WrongCase.java:4: error: cannot find symbol
@@ -173,19 +176,19 @@ WrongCase.java:4: error: cannot find symbol
                   ^
   symbol:   method printn(String)
   location: variable out of type PrintStream</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>error แรก: <code>package system does not exist</code> — compiler ไม่รู้จัก <code>system</code> ตัวเล็ก ต้องเป็น <code>System</code></li><li>error ที่สอง: <code>cannot find symbol</code> ชี้ที่ <code>printn</code> — ไม่มีเมธอดชื่อนี้ ต้องเป็น <code>println</code></li><li><code>cannot find symbol</code> เป็น error ที่พบบ่อยที่สุด มักแปลว่า “สะกดผิด” หรือ “ยังไม่ได้ประกาศ”</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 2.3.3 · วงเล็บปีกกาไม่ครบคู่ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ทุก <code>{</code> ต้องมี <code>}</code> คู่กัน ถ้าขาด javac จะอ่านไปจนสุดไฟล์แล้วจึงแจ้ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingBrace.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingBrace</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 2.3.3</span>วงเล็บปีกกาไม่ครบคู่</h4><p class="concept-line"><strong>แนวคิด:</strong> ทุก <code>{</code> ต้องมี <code>}</code> คู่กัน ถ้าขาด javac จะอ่านไปจนสุดไฟล์แล้วจึงแจ้ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingBrace.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingBrace</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Open"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Close"</span>);
 
-}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>MissingBrace.java:6: error: reached end of file while parsing
+}</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>MissingBrace.java:6: error: reached end of file while parsing
 }
  ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>reached end of file while parsing</code> แปลว่าอ่านถึงท้ายไฟล์แล้วยังปิดบล็อกไม่ครบ</li><li>error ถูกรายงานที่บรรทัดสุดท้าย แต่จุดที่ต้องแก้คือ <code>}</code> ของ main ที่หายไป</li><li>การจัดย่อหน้า (indent) ให้สม่ำเสมอทำให้เห็นวงเล็บที่ขาดได้ง่าย</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 2.3.4 · ข้อความไม่ปิดเครื่องหมายคำพูด <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> String ต้องเปิดและปิดด้วย <code>"</code> ในบรรทัดเดียวกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">UnclosedString.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">UnclosedString</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 2.3.4</span>ข้อความไม่ปิดเครื่องหมายคำพูด</h4><p class="concept-line"><strong>แนวคิด:</strong> String ต้องเปิดและปิดด้วย <code>"</code> ในบรรทัดเดียวกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">UnclosedString.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">UnclosedString</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>("<span class="tok-type">Hello</span>);
     }
-}</code></pre></div></div><div class="source-output is-error"><span>Compile error (จาก javac จริง)</span><pre>UnclosedString.java:3: error: unclosed string literal
+}</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>UnclosedString.java:3: error: unclosed string literal
         System.out.println("Hello);
                            ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>unclosed string literal</code> → เปิด <code>"</code> แล้วไม่ปิด</li><li>compiler มองว่า <code>);</code> เป็นส่วนหนึ่งของข้อความ คำสั่งจึงไม่สมบูรณ์</li><li>แก้เป็น <code>"Hello");</code></li></ol></div></div>
 <h4>สรุป error ที่พบบ่อยในบทนี้</h4><table class="comparison-table"><thead><tr><th>ข้อความ error</th><th>สาเหตุที่เป็นไปได้</th><th>วิธีแก้</th></tr></thead><tbody><tr><td><code>';' expected</code></td><td>ลืม semicolon</td><td>เติม ; ท้ายคำสั่ง</td></tr><tr><td><code>cannot find symbol</code></td><td>สะกดชื่อผิด/ตัวพิมพ์ผิด</td><td>ตรวจตัวสะกด เช่น println, System</td></tr><tr><td><code>reached end of file while parsing</code></td><td>ขาด <code>}</code></td><td>นับคู่วงเล็บ จัด indent</td></tr><tr><td><code>unclosed string literal</code></td><td>ไม่ปิด <code>"</code></td><td>ปิดเครื่องหมายคำพูด</td></tr><tr><td><code>class X is public, should be declared in a file named X.java</code></td><td>ชื่อไฟล์ไม่ตรงชื่อคลาส</td><td>เปลี่ยนชื่อไฟล์หรือชื่อคลาสให้ตรงกัน</td></tr></tbody></table>

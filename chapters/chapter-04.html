@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f5f7f4">
+  <meta name="theme-color" content="#ffffff">
   <title>บทที่ 4: รับข้อมูลและแสดงผล | Java programming by Prymania</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Bai+Jamjuree:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="../assets/lesson.css">
   <link rel="stylesheet" href="../assets/course-nav.css">
   <script>document.documentElement.classList.add("js");</script>
@@ -57,7 +60,7 @@
 <h3>4.1 แสดงผลด้วย print, println และ printf</h3>
 <p><code>print</code> แสดงข้อความโดยไม่ขึ้นบรรทัดใหม่, <code>println</code> แสดงแล้วขึ้นบรรทัดใหม่ ส่วน <code>printf</code> (print formatted) ใช้<strong>แม่แบบ (format string)</strong> ที่มีช่องว่างให้เติมค่า เรียกว่า format specifier ทำให้กำหนดจำนวนทศนิยม ความกว้าง และการจัดชิดได้</p>
 <h4>Format specifier ที่ใช้บ่อย</h4><table class="comparison-table"><thead><tr><th>specifier</th><th>ใช้กับ</th><th>ตัวอย่าง</th><th>ผลลัพธ์</th></tr></thead><tbody><tr><td><code>%d</code></td><td>จำนวนเต็ม (int, long)</td><td><code>printf("%d", 42)</code></td><td>42</td></tr><tr><td><code>%f</code></td><td>ทศนิยม (double) ค่าเริ่มต้น 6 ตำแหน่ง</td><td><code>printf("%f", 3.5)</code></td><td>3.500000</td></tr><tr><td><code>%.2f</code></td><td>ทศนิยม 2 ตำแหน่ง (ปัดเศษ)</td><td><code>printf("%.2f", 3.456)</code></td><td>3.46</td></tr><tr><td><code>%s</code></td><td>ข้อความ (String)</td><td><code>printf("%s", "Mali")</code></td><td>Mali</td></tr><tr><td><code>%c</code></td><td>อักขระ (char)</td><td><code>printf("%c", 'A')</code></td><td>A</td></tr><tr><td><code>%n</code></td><td>ขึ้นบรรทัดใหม่</td><td><code>printf("A%nB")</code></td><td>A↵B</td></tr><tr><td><code>%,d</code></td><td>จำนวนเต็มมีจุลภาคคั่นหลักพัน</td><td><code>printf("%,d", 1500000)</code></td><td>1,500,000</td></tr><tr><td><code>%8d</code> / <code>%-8s</code></td><td>กว้าง 8 ช่อง ชิดขวา / ชิดซ้าย (มี -)</td><td><code>printf("[%5d]", 42)</code></td><td>[&nbsp;&nbsp;&nbsp;42]</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 4.1.1 · print ต่อกับ println <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> print ไม่ขึ้นบรรทัด จึงใช้ทำ prompt ที่ให้ผู้ใช้พิมพ์ต่อท้ายในบรรทัดเดียวกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintExample.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintExample</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.1.1</span>print ต่อกับ println</h4><p class="concept-line"><strong>แนวคิด:</strong> print ไม่ขึ้นบรรทัด จึงใช้ทำ prompt ที่ให้ผู้ใช้พิมพ์ต่อท้ายในบรรทัดเดียวกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintExample.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintExample</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// print: ไม่ขึ้นบรรทัดใหม่</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Good "</span>);
@@ -65,9 +68,9 @@
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"morning"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Next line"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Good morning
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Good morning
 Next line</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>print "Good " แล้วเคอร์เซอร์รออยู่บรรทัดเดิม</li><li>println "morning" ต่อท้าย แล้วขึ้นบรรทัด</li><li>"Next line" อยู่บรรทัดใหม่</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 4.1.2 · printf กับ specifier พื้นฐาน <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนแม่แบบหนึ่งชุด แล้วส่งค่าตามลำดับ specifier ตัวที่ 1 ได้ค่าแรก ตัวที่ 2 ได้ค่าที่สอง …</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintfBasics.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintfBasics</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.1.2</span>printf กับ specifier พื้นฐาน</h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนแม่แบบหนึ่งชุด แล้วส่งค่าตามลำดับ specifier ตัวที่ 1 ได้ค่าแรก ตัวที่ 2 ได้ค่าที่สอง …</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintfBasics.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintfBasics</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">String</span> name = <span class="tok-str">"Mali"</span>;
         <span class="tok-kw">int</span> score = <span class="tok-num">87</span>;
@@ -81,11 +84,11 @@ Next line</pre></div></div><div class="walkthrough"><strong>อธิบาย�
         <span class="tok-com">// ค่าเรียงตามลำดับของ % ในข้อความ</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%s got %d (avg %.1f)%n"</span>, name, score, average);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Student: Mali
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Student: Mali
 Score: 87 points
 Average: 3.46
 Mali got 87 (avg 3.5)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>%s</code> ถูกแทนด้วย Mali</li><li><code>%d</code> ถูกแทนด้วย 87</li><li><code>%.2f</code> ปัด 3.456 → 3.46</li><li>บรรทัดสุดท้ายมี 3 specifier จับคู่กับ name, score, average ตามลำดับ</li><li><code>%n</code> ขึ้นบรรทัด (printf ไม่ขึ้นบรรทัดเองเหมือน println)</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 4.1.3 · จัดรูปแบบราคารวม <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เงินควรแสดง 2 ตำแหน่งเสมอ และตัวเลขใหญ่ควรมีจุลภาคคั่นหลักพัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintTotal.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintTotal</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.1.3</span>จัดรูปแบบราคารวม</h4><p class="concept-line"><strong>แนวคิด:</strong> เงินควรแสดง 2 ตำแหน่งเสมอ และตัวเลขใหญ่ควรมีจุลภาคคั่นหลักพัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintTotal.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintTotal</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> quantity = <span class="tok-num">3</span>;
         <span class="tok-kw">double</span> unitPrice = <span class="tok-num">12.5</span>;
@@ -101,11 +104,11 @@ Mali got 87 (avg 3.5)</pre></div></div><div class="walkthrough"><strong>อธ�
         <span class="tok-com">// %% แสดงเครื่องหมาย % หนึ่งตัว</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Discount: %d%%%n"</span>, <span class="tok-num">15</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Total (println): 37.5
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Total (println): 37.5
 Total (printf): 37.50 baht
 Salary: 1,234,567.89 baht
 Discount: 15%</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>println แสดง 37.5 (ทศนิยมตามค่าจริง)</li><li>printf <code>%.2f</code> แสดง 37.50</li><li><code>%,.2f</code> → 1,234,567.89</li><li>ถ้าต้องการแสดงเครื่องหมาย % ให้เขียน <code>%%</code></li></ol></div><p class="try-it">เปลี่ยน %.2f เป็น %.1f หรือ %.0f แล้วเปรียบเทียบผล</p></div>
-<div class="source-example"><h4>ตัวอย่าง 4.1.4 · ตารางที่คอลัมน์ตรงกันด้วยความกว้าง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ใส่ตัวเลขความกว้างหน้า specifier: <code>%-10s</code> ข้อความกว้าง 10 ชิดซ้าย, <code>%5d</code> ตัวเลขกว้าง 5 ชิดขวา, <code>%8.2f</code> กว้าง 8 ทศนิยม 2</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AlignedTable.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AlignedTable</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.1.4</span>ตารางที่คอลัมน์ตรงกันด้วยความกว้าง</h4><p class="concept-line"><strong>แนวคิด:</strong> ใส่ตัวเลขความกว้างหน้า specifier: <code>%-10s</code> ข้อความกว้าง 10 ชิดซ้าย, <code>%5d</code> ตัวเลขกว้าง 5 ชิดขวา, <code>%8.2f</code> กว้าง 8 ทศนิยม 2</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AlignedTable.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AlignedTable</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// - ชิดซ้าย, ตัวเลข = ความกว้างช่อง</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-10s %5s %8s%n"</span>, <span class="tok-str">"Item"</span>, <span class="tok-str">"Qty"</span>, <span class="tok-str">"Price"</span>);
@@ -116,19 +119,19 @@ Discount: 15%</pre></div></div><div class="walkthrough"><strong>อธิบา�
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"-"</span>.<span class="tok-fn">repeat</span>(<span class="tok-num">25</span>));
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-10s %14.2f%n"</span>, <span class="tok-str">"Total"</span>, <span class="tok-num">12</span> * <span class="tok-num">5.5</span> + <span class="tok-num">3</span> * <span class="tok-num">45.0</span> + <span class="tok-num">399.75</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Item         Qty    Price
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Item         Qty    Price
 Pen           12     5.50
 Notebook       3    45.00
 Bag            1   399.75
 -------------------------
 Total              600.75</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ชื่อสินค้าชิดซ้ายกว้าง 10 ช่อง ไม่ว่าชื่อยาวเท่าไร คอลัมน์ถัดไปก็เริ่มที่เดียวกัน</li><li>ตัวเลขชิดขวา หลักหน่วยจึงตรงกัน อ่านง่าย</li><li><code>"-".repeat(25)</code> สร้างเส้น 25 ตัว</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 4.1.5 · specifier ไม่ตรงชนิด <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> printf ตรวจชนิดตอน<strong>รัน</strong> ไม่ใช่ตอนคอมไพล์ ถ้าใช้ <code>%d</code> กับ double โปรแกรมจะหยุดด้วย <code>IllegalFormatConversionException</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongSpecifier.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongSpecifier</span> {
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 4.1.5</span>specifier ไม่ตรงชนิด</h4><p class="concept-line"><strong>แนวคิด:</strong> printf ตรวจชนิดตอน<strong>รัน</strong> ไม่ใช่ตอนคอมไพล์ ถ้าใช้ <code>%d</code> กับ double โปรแกรมจะหยุดด้วย <code>IllegalFormatConversionException</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongSpecifier.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongSpecifier</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">double</span> price = <span class="tok-num">19.5</span>;
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Price: %.2f%n"</span>, price);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Price: %d%n"</span>, price);
     }
-}</code></pre></div></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Price: 19.50
+}</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>Price: 19.50
 Price:
 Exception in thread "main" java.util.IllegalFormatConversionException: d != java.lang.Double
 	at WrongSpecifier.main(WrongSpecifier.java:5)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัดแรกถูกต้อง พิมพ์ 19.50</li><li>บรรทัดที่สองใช้ %d กับ double → <code>d != java.lang.Double</code></li><li>จำคู่: %d ↔ int, %f ↔ double, %s ↔ String</li></ol></div></div>
@@ -142,7 +145,7 @@ Exception in thread "main" java.util.IllegalFormatConversionException: d != java
 <h3>4.2 รับข้อมูลตัวเลขด้วย Scanner</h3>
 <div class="concept-box"><span class="box-title">ขั้นตอนใช้ Scanner</span><ol class="step-list"><li>นำเข้าคลาสไว้บนสุดของไฟล์: <code>import java.util.Scanner;</code></li><li>สร้างออบเจ็กต์หนึ่งครั้งใน main: <code>Scanner input = new Scanner(System.in);</code></li><li>พิมพ์ prompt ด้วย <code>print</code> เพื่อบอกผู้ใช้ว่าต้องป้อนอะไร</li><li>เรียกเมธอดอ่านให้ตรงกับชนิด แล้วเก็บในตัวแปร: <code>int age = input.nextInt();</code></li><li>นำค่าไปคำนวณและแสดงผล</li></ol></div>
 <table class="comparison-table"><thead><tr><th>เมธอด</th><th>อ่านอะไร</th><th>เก็บใน</th></tr></thead><tbody><tr><td><code>nextInt()</code></td><td>จำนวนเต็มหนึ่งค่า (token)</td><td><code>int</code></td></tr><tr><td><code>nextDouble()</code></td><td>ทศนิยมหนึ่งค่า (รับ 2 ก็ได้ จะกลายเป็น 2.0)</td><td><code>double</code></td></tr><tr><td><code>next()</code></td><td>ข้อความหนึ่งคำ (จนถึงช่องว่าง)</td><td><code>String</code></td></tr><tr><td><code>nextLine()</code></td><td>ข้อความทั้งบรรทัด (รวมช่องว่าง)</td><td><code>String</code></td></tr><tr><td><code>nextBoolean()</code></td><td>true หรือ false</td><td><code>boolean</code></td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 4.2.1 · รับจำนวนเต็มหนึ่งค่า <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมหยุดรอที่ <code>nextInt()</code> จนผู้ใช้พิมพ์แล้วกด Enter</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AgeFromYear.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.2.1</span>รับจำนวนเต็มหนึ่งค่า</h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมหยุดรอที่ <code>nextInt()</code> จนผู้ใช้พิมพ์แล้วกด Enter</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AgeFromYear.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AgeFromYear</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -155,9 +158,9 @@ Exception in thread "main" java.util.IllegalFormatConversionException: d != java
         <span class="tok-kw">int</span> age = <span class="tok-num">2026</span> - birthYear;
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"You are about "</span> + age + <span class="tok-str">" years old."</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Birth year (A.D.): <b class="stdin">2007</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Birth year (A.D.): <b class="stdin">2007</b>
 You are about 19 years old.</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>พิมพ์ prompt แล้วรอ</li><li>ผู้ใช้ป้อน 2007 → birthYear = 2007</li><li>age = 2026 − 2007 = 19</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 4.2.2 · รับทศนิยมสองค่าแล้วคำนวณ <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> ผู้ใช้ต้องป้อนตามลำดับที่โปรแกรมถาม และใช้จุดเป็นทศนิยม (4.5)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RectangleArea.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.2.2</span>รับทศนิยมสองค่าแล้วคำนวณ</h4><p class="concept-line"><strong>แนวคิด:</strong> ผู้ใช้ต้องป้อนตามลำดับที่โปรแกรมถาม และใช้จุดเป็นทศนิยม (4.5)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RectangleArea.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RectangleArea</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -172,11 +175,11 @@ You are about 19 years old.</pre></div></div><div class="walkthrough"><strong>�
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Area: %.2f%n"</span>, area);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Perimeter: %.2f%n"</span>, perimeter);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Width: <b class="stdin">4.5</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Width: <b class="stdin">4.5</b>
 Height: <b class="stdin">2</b>
 Area: 9.00
 Perimeter: 13.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>width = 4.5</li><li>height = 2 (nextDouble รับเลขจำนวนเต็มได้ กลายเป็น 2.0)</li><li>พื้นที่ 9.00 และเส้นรอบรูป 13.00</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 4.2.3 · ป้อนหลายค่าในบรรทัดเดียว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> nextInt/nextDouble อ่านทีละ <strong>token</strong> (คั่นด้วยช่องว่างหรือ Enter) ผู้ใช้จึงพิมพ์ <code>8 9 10</code> ในบรรทัดเดียวได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ThreeScores.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.2.3</span>ป้อนหลายค่าในบรรทัดเดียว</h4><p class="concept-line"><strong>แนวคิด:</strong> nextInt/nextDouble อ่านทีละ <strong>token</strong> (คั่นด้วยช่องว่างหรือ Enter) ผู้ใช้จึงพิมพ์ <code>8 9 10</code> ในบรรทัดเดียวได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ThreeScores.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ThreeScores</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -189,9 +192,9 @@ Perimeter: 13.00</pre></div></div><div class="walkthrough"><strong>อธิบ�
         <span class="tok-kw">double</span> average = sum / <span class="tok-num">3.0</span>;  <span class="tok-com">// 3.0 ทำให้ได้ทศนิยม</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Sum = %d, Average = %.2f%n"</span>, sum, average);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Enter 3 scores: <b class="stdin">8 9 10</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Enter 3 scores: <b class="stdin">8 9 10</b>
 Sum = 27, Average = 9.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>nextInt ครั้งแรกได้ 8 ส่วน "9 10" ยังค้างใน input</li><li>ครั้งที่สองได้ 9 และครั้งที่สามได้ 10 โดยไม่ต้องรอผู้ใช้อีก</li><li>หารด้วย 3.0 เพื่อให้ได้ทศนิยม</li></ol></div></div>
-<div class="source-example"><h4>ทดลอง error 4.2.4 · ป้อนชนิดข้อมูลไม่ตรง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมคาดว่าจะได้จำนวนเต็ม ถ้าผู้ใช้ป้อน 12.5 จะเกิด <code>InputMismatchException</code> ระหว่างรัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadInteger.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ทดลอง error 4.2.4</span>ป้อนชนิดข้อมูลไม่ตรง</h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรมคาดว่าจะได้จำนวนเต็ม ถ้าผู้ใช้ป้อน 12.5 จะเกิด <code>InputMismatchException</code> ระหว่างรัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadInteger.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReadInteger</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -200,7 +203,7 @@ Sum = 27, Average = 9.00</pre></div></div><div class="walkthrough"><strong>อ�
         <span class="tok-kw">int</span> value = input.<span class="tok-fn">nextInt</span>();
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Value: "</span> + value);
     }
-}</code></pre></div></div><div class="source-output is-error"><span>Output + Runtime error</span><pre>Enter an integer: <b class="stdin">12.5</b>
+}</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>Enter an integer: <b class="stdin">12.5</b>
 Exception in thread "main" java.util.InputMismatchException
 	at ReadInteger.main(ReadInteger.java:7)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>nextInt พบ token "12.5" ซึ่งไม่ใช่จำนวนเต็ม</li><li>โปรแกรมหยุดทันที บรรทัด Value ไม่ทำงาน</li><li>แก้: ป้อน 12 หรือเปลี่ยนเป็น <code>double</code> + <code>nextDouble()</code> (บทที่ 10 จะสอนดักจับ error แบบนี้)</li></ol></div></div>
 <div class="note-box"><span class="box-title">ใช้ Scanner ตัวเดียวทั้งโปรแกรม</span><p>สร้าง <code>new Scanner(System.in)</code> เพียงครั้งเดียวแล้วใช้ซ้ำ ไม่ต้องสร้างใหม่ทุกครั้งที่จะอ่าน และไม่ต้องเรียก <code>close()</code> กับ Scanner ของ System.in ในโปรแกรมฝึกหัด</p></div>
@@ -216,7 +219,7 @@ Exception in thread "main" java.util.InputMismatchException
 แก้: เรียก <span class="tok-fn">nextLine</span>() ทิ้งหนึ่งครั้งหลัง <span class="tok-fn">nextInt</span>()
 <span class="tok-fn">nextLine</span>() <span class="tok-arrow">→</span>  ทิ้ง <span class="tok-arrow">⏎</span>            เหลือ:  <span class="tok-type">M</span> a l i <span class="tok-arrow">␣</span> <span class="tok-type">N</span> i d a <span class="tok-arrow">⏎</span>
 <span class="tok-fn">nextLine</span>() <span class="tok-arrow">→</span>  <span class="tok-str">"Mali Nida"</span>  ✔</code></pre></div></div>
-<div class="source-example"><h4>ตัวอย่าง 4.3.1 · next() อ่านแค่คำแรก <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อชื่อมีช่องว่าง next() จะได้แค่คำแรก ส่วนที่เหลือค้างอยู่</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NextWord.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.3.1</span>next() อ่านแค่คำแรก</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อชื่อมีช่องว่าง next() จะได้แค่คำแรก ส่วนที่เหลือค้างอยู่</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NextWord.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NextWord</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -229,10 +232,10 @@ Exception in thread "main" java.util.InputMismatchException
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"next()     = ["</span> + first + <span class="tok-str">"]"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"nextLine() = ["</span> + rest + <span class="tok-str">"]"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Full name: <b class="stdin">Mali Nida</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Full name: <b class="stdin">Mali Nida</b>
 next()     = [Mali]
 nextLine() = [ Nida]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>next() ได้ "Mali"</li><li>nextLine() อ่านส่วนที่เหลือของบรรทัดคือ " Nida" (มีช่องว่างนำหน้า)</li><li>วงเล็บ [ ] ช่วยให้เห็นช่องว่างชัดเจน</li></ol></div></div>
-<div class="source-example"><h4>ทดลองบั๊ก 4.3.2 · อ่านชื่อได้ค่าว่าง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> nextLine() ต่อจาก nextInt() ทันที จะอ่านได้ Enter ที่ค้าง → ค่าว่าง และโปรแกรมไม่รอให้ผู้ใช้พิมพ์ชื่อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">EmptyNameBug.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 4.3.2</span>อ่านชื่อได้ค่าว่าง</h4><p class="concept-line"><strong>แนวคิด:</strong> nextLine() ต่อจาก nextInt() ทันที จะอ่านได้ Enter ที่ค้าง → ค่าว่าง และโปรแกรมไม่รอให้ผู้ใช้พิมพ์ชื่อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">EmptyNameBug.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">EmptyNameBug</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -245,9 +248,9 @@ nextLine() = [ Nida]</pre></div></div><div class="walkthrough"><strong>อธิ
         <span class="tok-type">String</span> name = input.<span class="tok-fn">nextLine</span>();
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name is ["</span> + name + <span class="tok-str">"]"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Age: <b class="stdin">20</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Age: <b class="stdin">20</b>
 Full name: Name is []</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>nextInt อ่าน 20 แต่ไม่อ่าน Enter</li><li>nextLine อ่านถึง Enter ที่ค้าง → "" ทันที</li><li>Output เห็น "Full name: " ตามด้วย "Name is []" โดยที่ชื่อ Mali ไม่ถูกอ่านเลย</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 4.3.3 · แก้บั๊กด้วย nextLine() ทิ้งหนึ่งครั้ง <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> หลังอ่านตัวเลข ให้เรียก <code>input.nextLine();</code> เปล่า ๆ เพื่อเคลียร์ Enter ก่อนอ่านข้อความทั้งบรรทัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FullName.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.3.3</span>แก้บั๊กด้วย nextLine() ทิ้งหนึ่งครั้ง</h4><p class="concept-line"><strong>แนวคิด:</strong> หลังอ่านตัวเลข ให้เรียก <code>input.nextLine();</code> เปล่า ๆ เพื่อเคลียร์ Enter ก่อนอ่านข้อความทั้งบรรทัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FullName.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FullName</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -260,11 +263,11 @@ Full name: Name is []</pre></div></div><div class="walkthrough"><strong>อธ�
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello, "</span> + name + <span class="tok-str">"!"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Age: "</span> + age);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Age: <b class="stdin">20</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Age: <b class="stdin">20</b>
 Full name: <b class="stdin">Mali Nida</b>
 Hello, Mali Nida!
 Age: 20</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>nextInt อ่าน 20</li><li>nextLine แรกทิ้ง Enter</li><li>nextLine ที่สองอ่าน "Mali Nida" ครบพร้อมช่องว่าง</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 4.3.4 · อีกทางเลือก: อ่านทุกอย่างเป็นบรรทัดแล้วแปลง <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> อ่านทุกค่าด้วย nextLine() แล้วแปลงเป็นตัวเลขด้วย <code>Integer.parseInt</code> / <code>Double.parseDouble</code> — ไม่มีปัญหา Enter ค้างเลย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadAllLines.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.3.4</span>อีกทางเลือก: อ่านทุกอย่างเป็นบรรทัดแล้วแปลง</h4><p class="concept-line"><strong>แนวคิด:</strong> อ่านทุกค่าด้วย nextLine() แล้วแปลงเป็นตัวเลขด้วย <code>Integer.parseInt</code> / <code>Double.parseDouble</code> — ไม่มีปัญหา Enter ค้างเลย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadAllLines.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReadAllLines</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -279,7 +282,7 @@ Age: 20</pre></div></div><div class="walkthrough"><strong>อธิบายท�
         <span class="tok-kw">double</span> gpa = <span class="tok-type">Double</span>.<span class="tok-fn">parseDouble</span>(input.<span class="tok-fn">nextLine</span>());
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%s, %d years, GPA %.2f%n"</span>, name, age, gpa);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Full name: <b class="stdin">Mali Nida</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Full name: <b class="stdin">Mali Nida</b>
 Age: <b class="stdin">20</b>
 GPA: <b class="stdin">3.75</b>
 Mali Nida, 20 years, GPA 3.75</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ทุกคำสั่งอ่านใช้ nextLine() จึงกิน Enter ทุกครั้ง</li><li><code>Integer.parseInt("20")</code> แปลงข้อความเป็น int 20</li><li><code>Double.parseDouble("3.75")</code> แปลงเป็น double</li></ol></div><p>วิธีนี้จะใช้มากในบทที่ 9 (String) และในโปรแกรม GUI ที่ช่องกรอกข้อมูลให้ค่าเป็นข้อความเสมอ</p></div>
@@ -289,7 +292,7 @@ Mali Nida, 20 years, GPA 3.75</pre></div></div><div class="walkthrough"><strong>
 <article class="subtopic" id="topic-4-4">
 <h3>4.4 รวมทุกอย่าง: ออกแบบโปรแกรมโต้ตอบที่สมบูรณ์</h3>
 <div class="concept-box"><span class="box-title">ขั้นตอนเขียนโปรแกรมรับ-คำนวณ-แสดงผล</span><ol class="step-list"><li>เขียน IPO: ต้องถามอะไรบ้าง ชนิดอะไร ต้องแสดงอะไร</li><li>ตัดสินใจลำดับการถาม — ถ้ามีทั้งข้อความยาวและตัวเลข ให้ระวัง Enter ค้าง</li><li>เขียน prompt ที่บอกหน่วย เช่น <code>Weight (kg): </code></li><li>คำนวณโดยระวังการหารจำนวนเต็ม</li><li>แสดงผลด้วย printf พร้อมหน่วยและจำนวนทศนิยมที่เหมาะสม</li><li>ทดสอบด้วยข้อมูลอย่างน้อย 2 ชุดที่คำนวณคำตอบด้วยมือไว้แล้ว</li></ol></div>
-<div class="source-example"><h4>ตัวอย่าง 4.4.1 · ใบเสร็จร้านกาแฟ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รับชื่อสินค้า (มีช่องว่าง) จำนวน และราคา แล้วคิด VAT 7% แสดงเป็นตาราง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CafeReceipt.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.4.1</span>ใบเสร็จร้านกาแฟ</h4><p class="concept-line"><strong>แนวคิด:</strong> รับชื่อสินค้า (มีช่องว่าง) จำนวน และราคา แล้วคิด VAT 7% แสดงเป็นตาราง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CafeReceipt.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CafeReceipt</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -316,7 +319,7 @@ Mali Nida, 20 years, GPA 3.75</pre></div></div><div class="walkthrough"><strong>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-14s %10.2f%n"</span>, <span class="tok-str">"Total"</span>, total);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"="</span>.<span class="tok-fn">repeat</span>(<span class="tok-num">28</span>));
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Menu name: <b class="stdin">Iced Latte</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Menu name: <b class="stdin">Iced Latte</b>
 Quantity: <b class="stdin">2</b>
 Price per cup: <b class="stdin">65</b>
 ============================
@@ -325,7 +328,7 @@ Subtotal           130.00
 VAT 7%               9.10
 Total              139.10
 ============================</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่านชื่อเมนูก่อนด้วย nextLine() — ยังไม่มีตัวเลขมาก่อน จึงไม่มี Enter ค้าง</li><li>อ่านจำนวนและราคาด้วย nextInt/nextDouble</li><li>คำนวณ 2 × 65 = 130, VAT 9.10, รวม 139.10</li><li>จัดคอลัมน์ด้วย %-14s และ %10.2f</li></ol></div><p>สังเกต <code>"VAT 7%"</code> ถูกส่งเป็น<em>ค่า</em>ให้ %s จึงไม่ต้องเขียน %% — ต้องใช้ %% เฉพาะเมื่อ % อยู่ใน format string</p></div>
-<div class="source-example"><h4>ตัวอย่าง 4.4.2 · แปลงสกุลเงินพร้อมค่าธรรมเนียม <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> โจทย์หลายขั้น: คำนวณค่าธรรมเนียม 1.5% ก่อน แล้วจึงแปลงเงินที่เหลือ แสดงผลทั้งจำนวนเต็มคั่นหลักพันและทศนิยม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CurrencyExchange.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 4.4.2</span>แปลงสกุลเงินพร้อมค่าธรรมเนียม</h4><p class="concept-line"><strong>แนวคิด:</strong> โจทย์หลายขั้น: คำนวณค่าธรรมเนียม 1.5% ก่อน แล้วจึงแปลงเงินที่เหลือ แสดงผลทั้งจำนวนเต็มคั่นหลักพันและทศนิยม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CurrencyExchange.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CurrencyExchange</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -348,7 +351,7 @@ Total              139.10
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Fee    : %,10.2f THB%n"</span>, fee);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"You get: %,10.2f USD%n"</span>, usd);
     }
-}</code></pre></div></div><div class="source-output"><span>Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</span><pre>Customer: <b class="stdin">Nida</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Customer: <b class="stdin">Nida</b>
 Thai baht: <b class="stdin">5000</b>
 Rate (THB per USD): <b class="stdin">35.42</b>
 Hello Nida

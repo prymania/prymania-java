@@ -242,7 +242,28 @@ const blockRenderers = {
   check: (b) => `<div class="quick-check"><strong>ลองคิดก่อน · ${b.title}</strong><div>${b.html}</div><details><summary>ดูคำตอบ</summary><div>${b.answer}</div></details></div>`,
   run: renderRun,
   practice: renderPractice,
+  h: (b) => `<h4 class="sub">${b.text}</h4>`,
+  cells: renderCells,
+  tip: (b) => `<div class="callout tip"><span class="box-title">${b.title || "คำแนะนำ"}</span>${para(b.html)}</div>`,
+  warn: (b) => `<div class="callout warn"><span class="box-title">${b.title || "ข้อผิดพลาดที่พบบ่อย"}</span>${para(b.html)}</div>`,
+  try: (b) => `<div class="callout try"><span class="box-title">${b.title || "ลองทำดู"}</span>${para(b.html)}</div>`,
+  more: (b, ctx) => `<details class="more-examples"><summary>${b.title || "ตัวอย่างเพิ่มเติม"}</summary><div class="more-body">${renderBlocks(b.blocks, ctx)}</div></details>`,
 };
+
+// array diagram: values = [..] (1-D) or [[..], [..]] (2-D); index labels above / beside each slot
+function renderCells(b) {
+  const twoD = Array.isArray(b.values[0]);
+  const cell = (v, label) => `<div class="cell"><small>${label}</small><b>${v}</b></div>`;
+  let body;
+  if (!twoD) {
+    body = `<div class="cells-row">${b.values.map((v, i) => cell(v, `[${i}]`)).join("")}</div>`;
+  } else {
+    const cols = b.values[0].length;
+    const head = `<div class="cells-row is-head"><span class="row-label"></span>${Array.from({ length: cols }, (_, c) => `<div class="cell col-label"><small>[${c}]</small></div>`).join("")}</div>`;
+    body = head + b.values.map((row, r) => `<div class="cells-row"><span class="row-label">[${r}]</span>${row.map((v) => `<div class="cell"><b>${v}</b></div>`).join("")}</div>`).join("");
+  }
+  return `<figure class="cells${twoD ? " is-2d" : ""}">${b.name ? `<figcaption><code>${b.name}</code>${b.caption ? ` ${b.caption}` : ""}</figcaption>` : ""}${body}</figure>`;
+}
 
 let exampleCounter = {};
 function renderRun(b, ctx) {
@@ -259,11 +280,11 @@ function renderRun(b, ctx) {
     const res = runJava(code, { stdin: b.stdin ? b.stdin + "\n" : "", expect });
     let text = res.text;
     if (expect === "compile-error") text = text.replace(/\s*\n\d+ errors?$/, "");
-    const lbl = b.outputLabel || (expect === "compile-error" ? "Compile error (จาก javac จริง)" : expect === "runtime-error" ? "Output + Runtime error" : b.stdin ? "Output (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)" : "Output");
+    const lbl = b.outputLabel || (expect === "compile-error" ? "ข้อความ error จาก javac" : expect === "runtime-error" ? "ผลลัพธ์ + runtime error" : b.stdin ? "ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์" : "ผลลัพธ์");
     outputBlock = `<div class="source-output${expect !== "ok" ? " is-error" : ""}"><span>${lbl}</span><pre>${outputHtml(text) || "(ไม่มีผลลัพธ์)"}</pre></div>`;
   }
   const steps = b.steps ? `<div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol>${b.steps.map((s) => `<li>${s}</li>`).join("")}</ol></div>` : "";
-  return `<div class="source-example"><h4>${label} · ${b.title}${b.level ? ` <span class="example-level">${b.level}</span>` : ""}</h4>`
+  return `<div class="source-example"><h4><span class="ex-num">${label}</span>${b.title}</h4>`
     + (b.concept ? `<p class="concept-line"><strong>แนวคิด:</strong> ${b.concept}</p>` : "")
     + `<div class="source-example-grid"><div class="source-field">${codeBlock(code)}</div>${outputBlock}</div>`
     + steps + (b.after ? para(b.after) : "") + (b.tryIt ? `<p class="try-it">${b.tryIt}</p>` : "") + `</div>`;
@@ -336,8 +357,11 @@ ${renderBlocks(t.blocks, { topic: t.num, practicePassPrefix: ch.practicePassPref
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f5f7f4">
+  <meta name="theme-color" content="#ffffff">
   <title>${ch.pageTitle} | Java programming by Prymania</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Bai+Jamjuree:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="../assets/lesson.css">
   <link rel="stylesheet" href="../assets/course-nav.css">
   <script>document.documentElement.classList.add("js");</script>

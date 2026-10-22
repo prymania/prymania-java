@@ -3,8 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f5f7f4">
+  <meta name="theme-color" content="#ffffff">
   <title>บทที่ 17: ฟอร์มและการตรวจสอบข้อมูล | Java programming by Prymania</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Bai+Jamjuree:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
   <link rel="stylesheet" href="../assets/lesson.css">
   <link rel="stylesheet" href="../assets/course-nav.css">
   <script>document.documentElement.classList.add("js");</script>
@@ -57,7 +60,7 @@
 <article class="subtopic" id="topic-17-1">
 <h3>17.1 อ่านค่าจาก component</h3>
 <table class="comparison-table"><thead><tr><th>Component</th><th>อ่านค่า</th><th>ชนิดที่ได้</th></tr></thead><tbody><tr><td>JTextField / JTextArea</td><td><code>getText()</code></td><td>String</td></tr><tr><td>JPasswordField</td><td><code>getPassword()</code></td><td>char[] → <code>new String(...)</code></td></tr><tr><td>JComboBox&lt;String&gt;</td><td><code>getSelectedItem()</code> / <code>getSelectedIndex()</code></td><td>Object (cast เป็น String) / int</td></tr><tr><td>JRadioButton / JCheckBox</td><td><code>isSelected()</code></td><td>boolean</td></tr><tr><td>JSpinner (ตัวเลข)</td><td><code>(int) spinner.getValue()</code></td><td>Integer</td></tr><tr><td>JSlider</td><td><code>getValue()</code></td><td>int</td></tr><tr><td>JList</td><td><code>getSelectedValue()</code> / <code>getSelectedValuesList()</code></td><td>E / List&lt;E&gt;</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 17.1.1 · อ่านทุกช่องแล้วสรุปใน text area <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อคลิก Preview โปรแกรมอ่านค่าจาก component ทุกชนิดแล้วแสดงรวมกัน — ยังไม่ตรวจความถูกต้อง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.1.1</span>อ่านทุกช่องแล้วสรุปใน text area</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อคลิก Preview โปรแกรมอ่านค่าจาก component ทุกชนิดแล้วแสดงรวมกัน — ยังไม่ตรวจความถูกต้อง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReadForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReadForm</span> {
@@ -111,7 +114,7 @@
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกข้อมูลแล้วคลิก Preview</p><figure class="gui-shot"><div class="gui-titlebar">Read values</div><img src="../assets/gui/g7e4aed6668-0.png" width="305" height="251" alt="ภาพหน้าต่าง Read values" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>getText() ได้ String</li><li>getSelectedItem() ได้ Object ซึ่งเป็น "Year 2"</li><li>radio ต้องเช็ค isSelected ทีละปุ่ม — ถ้าไม่เลือกเลยต้องจัดการกรณีนี้</li><li>spinner คืน Integer cast เป็น int</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 17.1.2 · อ่านรายการที่เลือกหลายรายการจาก JList <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> JList เลือกได้หลายรายการ (กด Ctrl ค้าง) อ่านด้วย <code>getSelectedValuesList()</code> ได้ List — ตัวอย่างตั้งค่าเลือกไว้ล่วงหน้าด้วย setSelectedIndices</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiSelect.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.1.2</span>อ่านรายการที่เลือกหลายรายการจาก JList</h4><p class="concept-line"><strong>แนวคิด:</strong> JList เลือกได้หลายรายการ (กด Ctrl ค้าง) อ่านด้วย <code>getSelectedValuesList()</code> ได้ List — ตัวอย่างตั้งค่าเลือกไว้ล่วงหน้าด้วย setSelectedIndices</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiSelect.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
 
@@ -148,7 +151,7 @@
 <article class="subtopic" id="topic-17-2">
 <h3>17.2 ตรวจข้อมูลว่าง รูปแบบ และช่วงค่า</h3>
 <h4>การตรวจที่พบบ่อย</h4><table class="comparison-table"><thead><tr><th>ตรวจ</th><th>วิธี</th></tr></thead><tbody><tr><td>ว่าง</td><td><code>text.trim().isEmpty()</code> หรือ <code>text.isBlank()</code></td></tr><tr><td>เป็นจำนวนเต็ม/ทศนิยม</td><td><code>Integer.parseInt</code> / <code>Double.parseDouble</code> ใน try-catch</td></tr><tr><td>ช่วงค่า</td><td><code>value &gt;= min &amp;&amp; value &lt;= max</code></td></tr><tr><td>ความยาว</td><td><code>text.length() &gt;= 8</code></td></tr><tr><td>รูปแบบ (เช่น อีเมล, เบอร์โทร)</td><td><code>text.matches("regex")</code></td></tr><tr><td>เลือกแล้วหรือยัง</td><td><code>combo.getSelectedIndex() &gt; 0</code> (ถ้ารายการแรกคือ “-- เลือก --”), radio ใด isSelected</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 17.2.1 · ฟังก์ชันตรวจข้อมูลทดสอบได้โดยไม่ต้องมีหน้าจอ <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนการตรวจเป็นเมธอด static ที่รับ String และคืนข้อความ error (หรือ null ถ้าถูกต้อง) แล้วทดสอบใน console ก่อนนำไปใช้กับ GUI</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Validators.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Validators</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.1</span>ฟังก์ชันตรวจข้อมูลทดสอบได้โดยไม่ต้องมีหน้าจอ</h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนการตรวจเป็นเมธอด static ที่รับ String และคืนข้อความ error (หรือ null ถ้าถูกต้อง) แล้วทดสอบใน console ก่อนนำไปใช้กับ GUI</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Validators.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Validators</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// รวมกรณีว่าง ไม่ใช่ตัวเลข และนอกช่วง</span>
         <span class="tok-type">String</span>[] ages = {<span class="tok-str">"20"</span>, <span class="tok-str">""</span>, <span class="tok-str">"  "</span>, <span class="tok-str">"abc"</span>, <span class="tok-str">"-3"</span>, <span class="tok-str">"150"</span>, <span class="tok-str">" 45 "</span>};
@@ -173,14 +176,14 @@
         <span class="tok-kw">if</span> (age &lt; <span class="tok-num">1</span> || age &gt; <span class="tok-num">120</span>) <span class="tok-kw">return</span> <span class="tok-str">"Age must be between 1 and 120"</span>;
         <span class="tok-kw">return</span> <span class="tok-num">null</span>;
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>"20"     -&gt; OK
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>"20"     -&gt; OK
 ""       -&gt; Age is required
 "  "     -&gt; Age is required
 "abc"    -&gt; Age must be a whole number
 "-3"     -&gt; Age must be between 1 and 120
 "150"    -&gt; Age must be between 1 and 120
 " 45 "   -&gt; OK</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ตรวจตามลำดับ: ว่าง → แปลงชนิด → ช่วงค่า</li><li>คืน null หมายถึงผ่าน</li><li>" 45 " ผ่านเพราะ trim ก่อน parse</li><li>ทดสอบได้ครบทุกกรณีโดยไม่ต้องคลิกหน้าจอ (บทที่ 10)</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 17.2.2 · ตรวจรูปแบบด้วย regular expression <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>String.matches(regex)</code> ตรวจว่าข้อความทั้งก้อนตรงกับรูปแบบ — ใช้กับอีเมล รหัสนักศึกษา เบอร์โทร</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PatternCheck.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PatternCheck</span> {
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.2</span>ตรวจรูปแบบด้วย regular expression</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>String.matches(regex)</code> ตรวจว่าข้อความทั้งก้อนตรงกับรูปแบบ — ใช้กับอีเมล รหัสนักศึกษา เบอร์โทร</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PatternCheck.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PatternCheck</span> {
     <span class="tok-com">// regex อีเมล: ชื่อ@โดเมน.นามสกุล</span>
     <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">EMAIL</span> = <span class="tok-str">"[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+"</span>;
     <span class="tok-com">// 0 ตามด้วยเลข 1-2 หลัก ขีดใส่หรือไม่ก็ได้</span>
@@ -201,7 +204,7 @@
             <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-6s %-18s %s%n"</span>, label, s, s.<span class="tok-fn">matches</span>(regex) ? <span class="tok-str">"valid"</span> : <span class="tok-str">"INVALID"</span>);
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>email  mali@mail.com      valid
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>email  mali@mail.com      valid
 email  mali.j@uni.ac.th   valid
 email  mali@              INVALID
 email  @mail.com          INVALID
@@ -212,7 +215,7 @@ phone  81234              INVALID
 id     66012345           valid
 id     65012345           INVALID
 id     6601234            INVALID</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>\\w</code> = ตัวอักษร/ตัวเลข/_, <code>+</code> = หนึ่งตัวขึ้นไป, <code>\\d{3}</code> = ตัวเลข 3 ตัว, <code>-?</code> = มีขีดหรือไม่ก็ได้</li><li>รหัสนักศึกษาต้องขึ้นต้น 66 ตามด้วยตัวเลข 6 ตัวพอดี</li><li>regex สำหรับอีเมลแบบง่ายนี้พอสำหรับฟอร์มทั่วไป (ไม่ครอบคลุมทุกกรณีตามมาตรฐาน)</li><li><code>String...</code> คือ varargs: ส่ง argument กี่ตัวก็ได้ ได้เป็นอาเรย์</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 17.2.3 · ตรวจหลายช่องแล้วแสดง error ทั้งหมดในครั้งเดียว <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> รวบรวม error ทุกช่องใส่ list แล้วแสดงพร้อมกัน ผู้ใช้แก้ได้ในรอบเดียว — ดีกว่าบอกทีละข้อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiFieldValidation.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.2.3</span>ตรวจหลายช่องแล้วแสดง error ทั้งหมดในครั้งเดียว</h4><p class="concept-line"><strong>แนวคิด:</strong> รวบรวม error ทุกช่องใส่ list แล้วแสดงพร้อมกัน ผู้ใช้แก้ได้ในรอบเดียว — ดีกว่าบอกทีละข้อ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiFieldValidation.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
@@ -270,7 +273,7 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
 <article class="subtopic" id="topic-17-3">
 <h3>17.3 แจ้ง error ให้ผู้ใช้: JOptionPane และข้อความในฟอร์ม</h3>
 <table class="comparison-table"><thead><tr><th>เมธอด</th><th>ใช้เมื่อ</th><th>คืนค่า</th></tr></thead><tbody><tr><td><code>showMessageDialog(parent, msg, title, type)</code></td><td>แจ้งข้อมูล/คำเตือน/error</td><td>-</td></tr><tr><td><code>showConfirmDialog(parent, msg, title, options)</code></td><td>ถามยืนยัน Yes/No(/Cancel)</td><td>int เช่น YES_OPTION</td></tr><tr><td><code>showInputDialog(parent, msg)</code></td><td>ถามข้อความสั้น ๆ หนึ่งค่า</td><td>String หรือ null ถ้ากด Cancel</td></tr></tbody></table>
-<div class="source-example"><h4>ตัวอย่าง 17.3.1 · dialog แจ้ง error <span class="example-level">พื้นฐาน</span></h4><p class="concept-line"><strong>แนวคิด:</strong> <code>JOptionPane.ERROR_MESSAGE</code> แสดงไอคอน error — dialog เป็น modal: ผู้ใช้ต้องกด OK ก่อนจึงกลับไปที่หน้าต่างหลักได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ErrorDialog.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.1</span>dialog แจ้ง error</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>JOptionPane.ERROR_MESSAGE</code> แสดงไอคอน error — dialog เป็น modal: ผู้ใช้ต้องกด OK ก่อนจึงกลับไปที่หน้าต่างหลักได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ErrorDialog.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ErrorDialog</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -305,7 +308,7 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Quantity</div><img src="../assets/gui/g8f46056775-0.png" width="210" height="36" alt="ภาพหน้าต่าง Quantity" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Invalid quantity</div><img src="../assets/gui/g8f46056775-1.png" width="262" height="90" alt="ภาพหน้าต่าง Invalid quantity" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>parent = frame ทำให้ dialog อยู่กลางหน้าต่างหลัก</li><li>ภาพแสดงทั้งหน้าต่างหลักและ dialog ที่เปิดขึ้น</li><li>หลังปิด dialog: โฟกัสกลับไปที่ช่องและเลือกข้อความทั้งหมด ผู้ใช้พิมพ์ทับได้ทันที</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 17.3.2 · ยืนยันก่อนลบด้วย showConfirmDialog <span class="example-level">ต่อยอด</span></h4><p class="concept-line"><strong>แนวคิด:</strong> การกระทำที่ย้อนกลับไม่ได้ควรถามยืนยัน ตรวจค่าที่คืนกับ <code>JOptionPane.YES_OPTION</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConfirmDelete.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.2</span>ยืนยันก่อนลบด้วย showConfirmDialog</h4><p class="concept-line"><strong>แนวคิด:</strong> การกระทำที่ย้อนกลับไม่ได้ควรถามยืนยัน ตรวจค่าที่คืนกับ <code>JOptionPane.YES_OPTION</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConfirmDelete.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConfirmDelete</span> {
@@ -335,7 +338,7 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
         });
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Notes</div><img src="../assets/gui/g03ec2c3c16-0.png" width="244" height="121" alt="ภาพหน้าต่าง Notes" loading="lazy"></figure><figure class="gui-shot is-dialog"><div class="gui-titlebar">Confirm delete</div><img src="../assets/gui/g03ec2c3c16-1.png" width="305" height="90" alt="ภาพหน้าต่าง Confirm delete" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ข้อความบอกผลกระทบชัดเจน (จำนวนที่จะลบ, ย้อนกลับไม่ได้)</li><li>WARNING_MESSAGE แสดงไอคอนเตือน</li><li>ลบเฉพาะเมื่อผู้ใช้กด Yes — กด No หรือปิด dialog จะไม่ลบ</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 17.3.3 · แสดง error ข้างช่องและเปลี่ยนสีขอบ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> dialog ขัดจังหวะผู้ใช้ทุกครั้ง ฟอร์มยาวนิยมแสดง error <strong>ข้างช่องที่ผิด</strong>และไฮไลต์ขอบสีแดงแทน — ผู้ใช้เห็นทุกปัญหาพร้อมกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InlineErrors.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.3</span>แสดง error ข้างช่องและเปลี่ยนสีขอบ</h4><p class="concept-line"><strong>แนวคิด:</strong> dialog ขัดจังหวะผู้ใช้ทุกครั้ง ฟอร์มยาวนิยมแสดง error <strong>ข้างช่องที่ผิด</strong>และไฮไลต์ขอบสีแดงแทน — ผู้ใช้เห็นทุกปัญหาพร้อมกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">InlineErrors.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">InlineErrors</span> {
@@ -395,7 +398,7 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
         <span class="tok-kw">return</span> <span class="tok-num">false</span>;
     }
 }</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Sign up</div><img src="../assets/gui/gd4d6c1de22-0.png" width="440" height="110" alt="ภาพหน้าต่าง Sign up" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>เมธอด mark() ทำงานสองทาง: ถ้า error เป็น null คืนสภาพปกติ ถ้าไม่ใช่ทำขอบแดง+ข้อความ</li><li><code>ok &amp;= ...</code> ทำให้ตรวจทุกช่องแม้ช่องแรกผิด</li><li><code>".*\\d.*"</code> = มีตัวเลขอย่างน้อยหนึ่งตัวที่ใดก็ได้</li><li>อ่านรหัสผ่านด้วย getPassword() แล้วแปลงเป็น String</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 17.3.4 · showInputDialog ถามค่าเดียวพร้อมตรวจซ้ำ <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> showInputDialog คืน String หรือ <code>null</code> เมื่อผู้ใช้กด Cancel — ต้องจัดการทั้งสองกรณี และวนถามใหม่เมื่อค่าไม่ถูกต้อง ภาพแสดง dialog error หลังป้อน −50</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BudgetPrompt.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.3.4</span>showInputDialog ถามค่าเดียวพร้อมตรวจซ้ำ</h4><p class="concept-line"><strong>แนวคิด:</strong> showInputDialog คืน String หรือ <code>null</code> เมื่อผู้ใช้กด Cancel — ต้องจัดการทั้งสองกรณี และวนถามใหม่เมื่อค่าไม่ถูกต้อง ภาพแสดง dialog error หลังป้อน −50</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BudgetPrompt.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BudgetPrompt</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -443,7 +446,7 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
 <article class="subtopic" id="topic-17-4">
 <h3>17.4 แยก validation เป็นเมธอดและคลาส</h3>
 <p>เมื่อฟอร์มใหญ่ขึ้น listener ที่อ่าน-ตรวจ-บันทึกในที่เดียวจะยาวและทดสอบยาก แนวทางที่ดีคือ (1) อ่านค่าจากหน้าจอเป็นออบเจ็กต์ข้อมูล (2) ส่งให้เมธอด/คลาส validator คืนรายการ error (3) listener มีหน้าที่แค่เชื่อมสองส่วนและแสดงผล</p>
-<div class="source-example"><h4>ตัวอย่าง 17.4.1 · Validator แยกจาก UI พร้อมชุดทดสอบ <span class="example-level">ประยุกต์</span></h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>BookingValidator</code> ไม่รู้จัก Swing เลย จึงทดสอบด้วย console ได้ทุกกรณี แล้วค่อยนำไปใช้ในฟอร์ม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingValidatorTest.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.4.1</span>Validator แยกจาก UI พร้อมชุดทดสอบ</h4><p class="concept-line"><strong>แนวคิด:</strong> คลาส <code>BookingValidator</code> ไม่รู้จัก Swing เลย จึงทดสอบด้วย console ได้ทุกกรณี แล้วค่อยนำไปใช้ในฟอร์ม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingValidatorTest.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookingValidatorTest</span> {
@@ -490,12 +493,12 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             <span class="tok-kw">return</span> <span class="tok-num">null</span>;
         }
     }
-}</code></pre></div></div><div class="source-output"><span>Output</span><pre>Mali  g=2   n=3   -&gt; OK
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Mali  g=2   n=3   -&gt; OK
       g=2   n=3   -&gt; [name required]
 Beam  g=0   n=3   -&gt; [guests must be 1-10]
 Nida  g=5   n=x   -&gt; [nights must be a number]
 Ploy  g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>parseInRange ใช้ซ้ำได้กับทุกช่องตัวเลข และเพิ่ม error ลงรายการที่ส่งมา</li><li>คืน Integer (null เมื่อผิด) เพื่อให้ตรวจกฎข้ามช่องได้เฉพาะเมื่อทั้งคู่ถูก</li><li>กฎข้ามช่อง: guests × nights ไม่เกิน 60</li><li>ชุดทดสอบครอบคลุมกรณีปกติ ว่าง ค่าขอบ รูปแบบผิด และกฎข้ามช่อง</li></ol></div></div>
-<div class="source-example"><h4>ตัวอย่าง 17.4.2 · ใช้ validator ในฟอร์มจองห้องพัก <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> listener สั้นลงมาก: อ่านค่า → เรียก validate → แสดง error หรือคำนวณราคา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.4.2</span>ใช้ validator ในฟอร์มจองห้องพัก</h4><p class="concept-line"><strong>แนวคิด:</strong> listener สั้นลงมาก: อ่านค่า → เรียก validate → แสดง error หรือคำนวณราคา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
@@ -571,7 +574,7 @@ Ploy  g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></
 <article class="subtopic" id="topic-17-5">
 <h3>17.5 ล้างและ reset ฟอร์ม</h3>
 <p>หลังบันทึกสำเร็จ หรือเมื่อผู้ใช้กดปุ่ม Clear ควรคืนทุก component เป็นค่าเริ่มต้น: ช่องข้อความว่าง, combo กลับรายการแรก, radio กลับค่า default, check box ไม่ติ๊ก, ล้างข้อความ error และย้ายโฟกัสไปช่องแรก รวมไว้ในเมธอด <code>resetForm()</code> เดียวเพื่อไม่ลืมช่องใด</p>
-<div class="source-example"><h4>ตัวอย่าง 17.5.1 · บันทึกลงรายการแล้ว reset <span class="example-level">ท้าทาย</span></h4><p class="concept-line"><strong>แนวคิด:</strong> Save: ตรวจ → เพิ่มลง JList → ถ้าสำเร็จ resetForm() / Clear: resetForm() ทันที — ผู้ใช้กรอกคนถัดไปได้เลย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MemberEntry.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.5.1</span>บันทึกลงรายการแล้ว reset</h4><p class="concept-line"><strong>แนวคิด:</strong> Save: ตรวจ → เพิ่มลง JList → ถ้าสำเร็จ resetForm() / Clear: resetForm() ทันที — ผู้ใช้กรอกคนถัดไปได้เลย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MemberEntry.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MemberEntry</span> {

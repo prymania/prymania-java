@@ -16,61 +16,59 @@ export default {
     {
       num: "8.1", toc: "สร้างและเข้าถึงอาเรย์", title: "สร้างและเข้าถึงอาเรย์",
       blocks: [
-        { type: "p", html: `ชนิดอาเรย์เขียนเป็น <code>ชนิดข้อมูล[]</code> สมาชิกตัวแรกอยู่ที่ <strong>index 0</strong> ไม่ใช่ 1 อาเรย์ที่สร้างแล้วมี<strong>ขนาดคงที่</strong> และตรวจจำนวนสมาชิกได้ด้วย <code>ชื่ออาเรย์.length</code> (ไม่มีวงเล็บ)` },
-        { type: "concept", title: "Syntax: ประกาศ สร้าง และอ้างสมาชิก", html: jpre(`
-          int[] scores;                    // ① ประกาศตัวแปรอาเรย์ (ยังไม่มีช่อง)
-          scores = new int[3];             // ② สร้างพื้นที่ 3 ช่อง ค่าเริ่มต้นเป็น 0
-          scores[0] = 80;                  // ③ กำหนดค่าช่อง index 0
-          int[] other = {80, 75, 92};      // ประกาศ + สร้าง + กำหนดค่าในบรรทัดเดียว
-
-          index:     0    1    2
-          other:  [ 80 | 75 | 92 ]     other.length = 3`) + `<p>ค่าเริ่มต้นเมื่อใช้ <code>new</code>: ตัวเลข → 0, double → 0.0, boolean → false, char → '\\u0000', String/ออบเจ็กต์ → null</p>` },
-        { type: "run", title: "อ่านและแก้ค่าสมาชิก", level: "พื้นฐาน",
-          concept: "ใช้ <code>ชื่อ[index]</code> เหมือนตัวแปรปกติ ทั้งอ่านและกำหนดค่า",
+        { type: "p", html: `อาเรย์คือกล่องที่แบ่งเป็นช่องเรียงกัน ทุกช่องเก็บข้อมูล<strong>ชนิดเดียวกัน</strong> แต่ละช่องมีเลขประจำตำแหน่งเรียกว่า <strong>index</strong> ซึ่ง<strong>เริ่มที่ 0</strong> และอาเรย์มีขนาดคงที่หลังสร้าง` },
+        { type: "cells", name: "int[] scores = {80, 75, 92, 88};", caption: "→ 4 ช่อง index 0 ถึง 3", values: [80, 75, 92, 88] },
+        { type: "run", title: "อ่านและแก้ค่าในแต่ละช่อง",
           code: j`
             public class ArrayBasics {
                 public static void main(String[] args) {
-                    // สร้างอาเรย์พร้อมค่าเริ่มต้น 4 ช่อง
-                    int[] scores = {80, 75, 92, 88};
-                    // index เริ่มที่ 0
-                    System.out.println("First: " + scores[0]);
-                    // ช่องสุดท้ายคือ length - 1
-                    System.out.println("Last: " + scores[3]);
-                    System.out.println("Length: " + scores.length);
+                    int[] scores = {80, 75, 92, 88};       // สร้างพร้อมใส่ค่า 4 ช่อง
 
-                    scores[1] = 100;  // เขียนทับค่าในช่อง index 1
-                    scores[2] += 5;
-                    System.out.println("scores[1] = " + scores[1]);
-                    System.out.println("scores[2] = " + scores[2]);
-                    // ใช้ length หาช่องสุดท้ายได้เสมอ
-                    System.out.println("Last via length-1: " + scores[scores.length - 1]);
+                    System.out.println(scores[0]);           // 80    ช่องแรกคือ index 0
+                    System.out.println(scores[3]);           // 88    ช่องสุดท้ายคือ index 3
+                    System.out.println(scores.length);       // 4     length ไม่มีวงเล็บ
+
+                    scores[1] = 100;                         // เขียนทับช่อง index 1
+                    scores[2] += 5;                          // 92 + 5
+                    System.out.println(scores[1]);           // 100
+                    System.out.println(scores[2]);           // 97
+                    System.out.println(scores[scores.length - 1]);   // 88  ช่องสุดท้ายเสมอ
                 }
             }`,
-          steps: ["index 0 คือ 80, index 3 คือ 88", "length = 4 แต่ index สุดท้ายคือ 3", "แก้ช่อง 1 เป็น 100 และเพิ่มช่อง 2 อีก 5 → 97", "<code>scores[scores.length - 1]</code> เป็นวิธีอ้างตัวสุดท้ายที่ไม่ขึ้นกับขนาด"] },
-        { type: "run", title: "สร้างด้วย new แล้วเติมค่าภายหลัง", level: "ต่อยอด",
-          concept: "เมื่อรู้ขนาดแต่ยังไม่รู้ค่า ใช้ <code>new ชนิด[ขนาด]</code> แล้วค่อยกำหนดค่า ช่องที่ยังไม่กำหนดจะเป็นค่าเริ่มต้น",
+          },
+        { type: "tip", html: `ช่องสุดท้ายอยู่ที่ <code>length - 1</code> เสมอ เขียน <code>scores[scores.length - 1]</code> แทนเลขตายตัว โค้ดจะยังถูกแม้อาเรย์เปลี่ยนขนาด` },
+
+        { type: "h", text: "สร้างด้วย new แล้วใส่ค่าภายหลัง" },
+        { type: "p", html: `ถ้ารู้จำนวนช่องแต่ยังไม่รู้ค่า ให้ใช้ <code>new ชนิด[ขนาด]</code> ช่องที่ยังไม่ได้ใส่ค่าจะมี<strong>ค่าเริ่มต้น</strong>ตามชนิดข้อมูล` },
+        { type: "table", head: ["ชนิดสมาชิก", "ค่าเริ่มต้นเมื่อสร้างด้วย new"], rows: [
+          ["<code>int</code>, <code>long</code>, <code>short</code>, <code>byte</code>", "<code>0</code>"],
+          ["<code>double</code>, <code>float</code>", "<code>0.0</code>"],
+          ["<code>boolean</code>", "<code>false</code>"],
+          ["<code>char</code>", "<code>'\\u0000'</code> (อักขระว่าง)"],
+          ["<code>String</code> และออบเจ็กต์อื่น", "<code>null</code>"],
+        ] },
+        { type: "run", title: "ช่องที่ไม่ได้ใส่ค่าได้ค่าเริ่มต้น",
           code: j`
             public class NewArray {
                 public static void main(String[] args) {
-                    // new สร้างช่องว่าง 4 ช่อง ค่าเริ่มต้น 0.0
-                    double[] prices = new double[4];
-                    // String เริ่มต้นเป็น null
-                    String[] names = new String[3];
-                    // boolean เริ่มต้นเป็น false
-                    boolean[] done = new boolean[2];
+                    double[] prices = new double[4];    // 4 ช่อง ทุกช่องเป็น 0.0
+                    String[] names = new String[3];     // ทุกช่องเป็น null
+                    boolean[] done = new boolean[2];    // ทุกช่องเป็น false
 
                     prices[0] = 19.5;
                     prices[2] = 7.25;
                     names[0] = "Pen";
 
                     System.out.println(prices[0] + " " + prices[1] + " " + prices[2] + " " + prices[3]);
-                    System.out.println(names[0] + " " + names[1]);
-                    System.out.println(done[0]);
+                    System.out.println(names[0] + " " + names[1]);   // Pen null
+                    System.out.println(done[0]);                      // false
                 }
             }`,
-          steps: ["prices[1] และ prices[3] ยังไม่กำหนด → 0.0", "names[1] ยังไม่กำหนด → null", "boolean เริ่มต้นเป็น false"] },
-        { type: "run", title: "รับค่าจากผู้ใช้ใส่อาเรย์", level: "ประยุกต์", stdin: "4\n29.5 31 30.2 28.8",
-          concept: "ให้ผู้ใช้กำหนดขนาด แล้วใช้ลูปอ่านค่าลงแต่ละช่อง — รูปแบบนี้ใช้บ่อยที่สุด",
+          },
+
+        { type: "h", text: "รับค่าจากผู้ใช้ใส่อาเรย์" },
+        { type: "p", html: `ให้ผู้ใช้บอกขนาดก่อน แล้วใช้ลูปอ่านค่าลงทีละช่อง ตั้งแต่ index 0 ถึง <code>length - 1</code> รูปแบบนี้ใช้บ่อยที่สุด` },
+        { type: "run", title: "อ่านอุณหภูมิ n วัน", stdin: "4\n29.5 31 30.2 28.8",
           code: j`
             import java.util.Scanner;
 
@@ -79,33 +77,32 @@ export default {
                     Scanner input = new Scanner(System.in);
                     System.out.print("How many days? ");
                     int n = input.nextInt();
-                    // ขนาดอาเรย์มาจากข้อมูลที่ผู้ใช้ป้อน
-                    double[] temps = new double[n];
+                    double[] temps = new double[n];                 // ขนาดมาจากผู้ใช้
+
                     System.out.print("Temperatures: ");
-                    // i วิ่ง 0 ถึง length - 1
                     for (int i = 0; i < temps.length; i++) {
-                        // เก็บค่าที่อ่านลงช่องที่ i
-                        temps[i] = input.nextDouble();
+                        temps[i] = input.nextDouble();              // ใส่ทีละช่อง
                     }
                     for (int i = 0; i < temps.length; i++) {
-                        // i + 1 เพื่อแสดงวันที่เริ่มจาก 1
-                        System.out.println("Day " + (i + 1) + ": " + temps[i]);
+                        System.out.println("Day " + (i + 1) + ": " + temps[i]);   // คนอ่านนับจาก 1
                     }
                 }
             }`,
-          steps: ["สร้างอาเรย์ขนาด n = 4", "ลูปแรกอ่านค่าใส่ index 0–3", "ลูปที่สองแสดงผล โดยแสดงเลขวันเป็น i + 1 ให้คนอ่านเริ่มนับที่ 1"] },
-        { type: "run", label: "ทดลอง error 8.1.4", title: "index เกินขอบเขต", level: "ประยุกต์", expect: "runtime-error",
-          concept: "โปรแกรมคอมไพล์ผ่าน แต่ตอนรันจะเกิด <code>ArrayIndexOutOfBoundsException</code> เมื่ออ่านช่องที่ไม่มี",
-          code: j`
-            public class OutOfBounds {
-                public static void main(String[] args) {
-                    int[] scores = {80, 75, 92};
-                    for (int i = 0; i <= scores.length; i++) {
-                        System.out.println(scores[i]);
-                    }
-                }
-            }`,
-          steps: ["พิมพ์ 80, 75, 92 ได้ปกติ", "เงื่อนไข <code>&lt;=</code> ทำให้ i = 3 เข้าลูปด้วย", "<code>Index 3 out of bounds for length 3</code> บอกทั้ง index ที่ผิดและขนาดจริง", "แก้: ใช้ <code>i &lt; scores.length</code>"] },
+          },
+        { type: "warn", title: "index เกินขอบเขต", html: `index ที่ใช้ได้คือ 0 ถึง <code>length - 1</code> เท่านั้น ถ้าเขียนเงื่อนไขลูปเป็น <code>i &lt;= scores.length</code> รอบสุดท้ายจะอ่านช่องที่ไม่มี โปรแกรมหยุดด้วย <code>ArrayIndexOutOfBoundsException</code> ใช้ <code>i &lt; scores.length</code> เสมอ` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อ index เกิน", blocks: [
+          { type: "run", label: "ทดลอง error 8.1.4", title: "index เกินขอบเขต", expect: "runtime-error",
+            code: j`
+              public class OutOfBounds {
+                  public static void main(String[] args) {
+                      int[] scores = {80, 75, 92};
+                      for (int i = 0; i <= scores.length; i++) {
+                          System.out.println(scores[i]);
+                      }
+                  }
+              }`,
+            after: "พิมพ์ 80, 75, 92 ได้ปกติ แต่เงื่อนไข <code>&lt;=</code> ทำให้ i = 3 เข้าลูปด้วย ข้อความ <code>Index 3 out of bounds for length 3</code> บอกทั้ง index ที่ผิดและขนาดจริงของอาเรย์" },
+        ] },
         { type: "check", title: "trace อาเรย์", html: jpre(`
           int[] a = {5, 10, 15, 20};
           a[0] = a[3] - a[1];
@@ -115,68 +112,60 @@ export default {
     {
       num: "8.2", toc: "วนอ่าน รวม และค้นหา", title: "วนอ่าน รวม และค้นหาสมาชิก",
       blocks: [
-        { type: "p", html: `ใช้ลูป <code>for</code> ตั้งแต่ index 0 ถึง <code>length - 1</code> ถ้าต้องการแค่<em>ค่า</em>และไม่ต้องใช้ index ให้ใช้ <strong>enhanced for (for-each)</strong>: <code>for (int s : scores)</code> อ่านว่า “สำหรับ s แต่ละตัวใน scores”` },
-        { type: "run", title: "for ปกติ vs for-each", level: "พื้นฐาน",
-          concept: "for-each อ่านง่ายกว่าเมื่อไม่ต้องใช้ index แต่แก้ค่าในอาเรย์ไม่ได้และไม่รู้ตำแหน่ง",
+        { type: "p", html: `อ่านอาเรย์ทุกช่องด้วยลูปได้ 2 แบบ เลือกตามว่าต้องใช้ index หรือไม่` },
+        { type: "table", head: ["", "for ปกติ", "for-each"], rows: [
+          ["รูปแบบ", "<code>for (int i = 0; i &lt; a.length; i++)</code>", "<code>for (int x : a)</code>"],
+          ["รู้ index", "ได้", "ไม่ได้"],
+          ["แก้ค่าในช่อง", "ได้ (<code>a[i] = ...</code>)", "ไม่ได้"],
+          ["ใช้เมื่อ", "ต้องรู้ตำแหน่ง หรือต้องแก้ค่า", "อ่านอย่างเดียว"],
+        ] },
+        { type: "run", title: "วนอ่าน รวม และนับ",
           code: j`
-            public class TwoLoops {
-                public static void main(String[] args) {
-                    String[] fruits = {"Apple", "Banana", "Cherry"};
-                    // for แบบ index: รู้ตำแหน่ง
-                    for (int i = 0; i < fruits.length; i++) {
-                        System.out.println(i + ": " + fruits[i]);
-                    }
-                    // for-each: อ่านทีละค่า ไม่ต้องใช้ index
-                    for (String f : fruits) {
-                        System.out.println("I like " + f);
-                    }
-                }
-            }`,
-          steps: ["for ปกติรู้ทั้ง index และค่า", "for-each ได้ค่าทีละตัวในตัวแปร f"] },
-        { type: "run", title: "ผลรวม ค่าเฉลี่ย และนับตามเงื่อนไข", level: "ต่อยอด",
-          concept: "รวม (accumulate) และนับ (count) เป็นสองรูปแบบพื้นฐานที่ใช้กับอาเรย์เกือบทุกโจทย์",
-          code: j`
-            public class SumAndCount {
+            public class ArrayLoop {
                 public static void main(String[] args) {
                     int[] scores = {72, 45, 88, 91, 50, 39, 67};
-                    int sum = 0;
-                    int passed = 0;
-                    for (int s : scores) {  // อ่านทุกค่าในอาเรย์
-                        sum += s;
-                        if (s >= 50) {  // นับเฉพาะค่าที่ผ่าน
-                            passed++;
-                        }
+
+                    // for ปกติ: ได้ทั้ง index และค่า
+                    for (int i = 0; i < scores.length; i++) {
+                        System.out.print(i + ":" + scores[i] + " ");
                     }
-                    // แปลงเป็น double ก่อนหาร
-                    double average = (double) sum / scores.length;
-                    System.out.println("Sum = " + sum);
-                    System.out.printf("Average = %.2f%n", average);
-                    System.out.println("Passed = " + passed + " / " + scores.length);
+                    System.out.println();
+
+                    // for-each: อ่านทีละค่า เหมาะกับการรวมและนับ
+                    int sum = 0, passed = 0;
+                    for (int s : scores) {
+                        sum += s;                  // สะสมผลรวม
+                        if (s >= 50) passed++;     // นับเฉพาะที่ผ่าน
+                    }
+                    double avg = (double) sum / scores.length;     // หารด้วย length ไม่ใช่เลข 7
+                    System.out.printf("sum %d, avg %.2f, passed %d/%d%n", sum, avg, passed, scores.length);
                 }
             }`,
-          steps: ["sum สะสมทุกค่า = 452", "passed นับเฉพาะค่าที่ ≥ 50 = 5", "หารด้วย length ไม่ใช่เลขตายตัว — ถ้าอาเรย์เปลี่ยนขนาดโค้ดยังถูก"] },
-        { type: "run", title: "หาค่ามากสุด น้อยสุด และตำแหน่ง", level: "ต่อยอด",
-          concept: "เริ่มจากสมาชิกตัวแรก แล้วเทียบกับตัวที่เหลือ เก็บทั้ง<em>ค่า</em>และ <em>index</em> ที่พบ",
+          },
+        { type: "tip", html: `รวม (sum) และนับ (count) เป็นสองรูปแบบที่ใช้กับอาเรย์แทบทุกโจทย์: ตัวแปรเริ่มที่ 0 ก่อนลูป แล้วบวกหรือเพิ่มในลูป` },
+
+        { type: "h", text: "หาค่ามากสุด น้อยสุด และตำแหน่ง" },
+        { type: "p", html: `สมมติให้ช่องแรกเป็นทั้งค่ามากสุดและน้อยสุด แล้วเทียบกับช่องที่เหลือ เก็บ <strong>index</strong> ไว้แทนค่า จะได้รู้ทั้งตำแหน่งและค่า` },
+        { type: "run", title: "วันที่ขายดีที่สุดและแย่ที่สุด",
           code: j`
             public class FindMax {
                 public static void main(String[] args) {
                     double[] sales = {1200.5, 980.0, 1530.25, 760.0, 1490.0};
-                    int maxIndex = 0;  // เก็บตำแหน่ง ไม่ใช่ค่า
-                    int minIndex = 0;
-                    // เริ่มที่ 1 เพราะช่อง 0 เป็นค่าตั้งต้น
-                    for (int i = 1; i < sales.length; i++) {
-                        // เจอค่าที่มากกว่า → จำตำแหน่งใหม่
+                    int maxIndex = 0, minIndex = 0;            // เริ่มจากช่องแรก
+
+                    for (int i = 1; i < sales.length; i++) {   // เริ่ม i = 1
                         if (sales[i] > sales[maxIndex]) maxIndex = i;
                         if (sales[i] < sales[minIndex]) minIndex = i;
                     }
-                    // + 1 เพื่อแสดงวันที่เริ่มจาก 1
-                    System.out.println("Best day: " + (maxIndex + 1) + " (" + sales[maxIndex] + ")");
-                    System.out.println("Worst day: " + (minIndex + 1) + " (" + sales[minIndex] + ")");
+                    System.out.println("Best day: " + (maxIndex + 1) + " (" + sales[maxIndex] + ")");   // วันที่ 3
+                    System.out.println("Worst day: " + (minIndex + 1) + " (" + sales[minIndex] + ")");  // วันที่ 4
                 }
             }`,
-          steps: ["สมมติ index 0 เป็นทั้ง max และ min", "เริ่มเทียบที่ i = 1", "เก็บ index แทนค่า ทำให้รู้ทั้งตำแหน่งและค่า (sales[maxIndex])"] },
-        { type: "run", title: "ค้นหาแบบเชิงเส้น (linear search)", level: "ประยุกต์", stdin: "Nida",
-          concept: "ไล่ตรวจทีละตัวจนเจอ ถ้าไม่เจอให้ใช้ค่าพิเศษ เช่น −1 แทนตำแหน่ง",
+          },
+
+        { type: "h", text: "ค้นหาแบบเชิงเส้น (linear search)" },
+        { type: "p", html: `ไล่ตรวจทีละช่องจนเจอ ใช้ค่า <code>-1</code> แทนความหมายว่า “ยังไม่เจอ” และ <code>break</code> ออกจากลูปทันทีที่เจอ` },
+        { type: "run", title: "ค้นหาชื่อในรายชื่อ", stdin: "Nida",
           code: j`
             import java.util.Scanner;
 
@@ -187,45 +176,40 @@ export default {
                     System.out.print("Search name: ");
                     String target = input.next();
 
-                    int found = -1;  // -1 = ยังไม่เจอ
+                    int found = -1;                                     // -1 = ยังไม่เจอ
                     for (int i = 0; i < students.length; i++) {
-                        // เทียบโดยไม่สนตัวพิมพ์เล็ก/ใหญ่
                         if (students[i].equalsIgnoreCase(target)) {
                             found = i;
-                            break;  // เจอแล้ว ไม่ต้องค้นต่อ
+                            break;                                      // เจอแล้ว หยุดค้น
                         }
                     }
-                    if (found >= 0) {
-                        System.out.println(target + " is at index " + found);
-                    } else {
-                        System.out.println(target + " not found");
-                    }
+                    if (found >= 0) System.out.println(target + " is at index " + found);
+                    else System.out.println(target + " not found");
                 }
             }`,
-          steps: ["found = −1 หมายถึง “ยังไม่เจอ”", "เทียบ String ด้วย equalsIgnoreCase", "เจอที่ index 2 → break ไม่ต้องหาต่อ", "หลังลูปตรวจ found เพื่อเลือกข้อความ"] },
-        { type: "run", title: "กับดัก: = ไม่ได้คัดลอกอาเรย์", level: "ท้าทาย",
-          concept: "ตัวแปรอาเรย์เก็บ<strong>การอ้างอิง (reference)</strong> ไปยังข้อมูล <code>b = a</code> ทำให้สองชื่อชี้ข้อมูลชุดเดียวกัน ถ้าต้องการสำเนาจริงใช้ <code>a.clone()</code> หรือ <code>Arrays.copyOf</code>",
+          },
+
+        { type: "h", text: "= ไม่ได้คัดลอกอาเรย์" },
+        { type: "p", html: `ตัวแปรอาเรย์เก็บ<strong>ที่อยู่ (reference)</strong> ของข้อมูล ไม่ได้เก็บข้อมูลเอง <code>b = a</code> จึงทำให้ทั้งสองชื่อชี้ข้อมูลชุดเดียวกัน` },
+        { type: "run", title: "ชี้ชุดเดียวกัน vs สำเนาจริง",
           code: j`
             import java.util.Arrays;
 
             public class ArrayReference {
                 public static void main(String[] args) {
                     int[] a = {1, 2, 3};
-                    int[] b = a;  // b ชี้ไปที่อาเรย์เดียวกับ a
-                    // clone() สร้างอาเรย์ใหม่ที่ค่าเหมือนกัน
-                    int[] c = a.clone();
-                    b[0] = 99;    // แก้ผ่าน b → a เปลี่ยนด้วย
-                    System.out.println("a = " + Arrays.toString(a));
-                    System.out.println("b = " + Arrays.toString(b));
-                    System.out.println("c = " + Arrays.toString(c));
-                    // == เทียบว่าเป็นอาเรย์เดียวกันหรือไม่
-                    System.out.println("a == b ? " + (a == b));
-                    System.out.println("a == c ? " + (a == c));
-                    // equals เทียบค่าทุกช่อง
-                    System.out.println("Arrays.equals(a, c) ? " + Arrays.equals(a, c));
+                    int[] b = a;              // b ชี้ข้อมูลชุดเดียวกับ a
+                    int[] c = a.clone();      // c เป็นสำเนาใหม่
+                    b[0] = 99;                // แก้ผ่าน b
+
+                    System.out.println(Arrays.toString(a));        // [99, 2, 3]  a เปลี่ยนด้วย!
+                    System.out.println(Arrays.toString(c));        // [1, 2, 3]   สำเนาไม่เปลี่ยน
+                    System.out.println(a == b);                    // true   ชุดเดียวกัน
+                    System.out.println(Arrays.equals(a, c));       // false  ค่าในช่องต่างกันแล้ว
                 }
             }`,
-          steps: ["b = a → ชี้ข้อมูลเดียวกัน แก้ b[0] จึงเห็นใน a ด้วย", "c เป็นสำเนา ไม่ได้รับผลกระทบ", "<code>Arrays.toString</code> แสดงอาเรย์ทั้งชุด (ถ้า println(a) ตรง ๆ จะได้ข้อความแปลก ๆ เช่น [I@1b6d3586)", "<code>==</code> เทียบว่าเป็นชุดเดียวกันไหม, <code>Arrays.equals</code> เทียบเนื้อหา"] },
+          },
+        { type: "warn", html: `ถ้าต้องการสำเนาจริงให้ใช้ <code>a.clone()</code> หรือ <code>Arrays.copyOf(a, a.length)</code> และถ้าพิมพ์ <code>println(a)</code> ตรง ๆ จะได้ข้อความแปลก ๆ เช่น <code>[I@1b6d3586</code> ให้ใช้ <code>Arrays.toString(a)</code>` },
         { type: "check", title: "นับ", html: jpre(`
           int[] v = {3, 8, 2, 8, 5, 8};
           int count = 0, last = -1;
@@ -237,43 +221,33 @@ export default {
     {
       num: "8.3", toc: "อาเรย์สองมิติ", title: "อาเรย์สองมิติ",
       blocks: [
-        { type: "p", html: `อาเรย์สองมิติเก็บข้อมูลแบบ<strong>ตาราง</strong> (แถว × คอลัมน์) เช่น คะแนนนักศึกษาหลายคน หลายวิชา อ้างสมาชิกด้วย <code>ชื่อ[แถว][คอลัมน์]</code> จริง ๆ แล้วเป็น “อาเรย์ของอาเรย์”: <code>grid.length</code> คือจำนวนแถว และ <code>grid[r].length</code> คือจำนวนคอลัมน์ของแถว r` },
-        { type: "concept", title: "ภาพของอาเรย์ 2 มิติ", html: jpre(`
-          int[][] scores = {
-              {80, 75, 90},     // แถว 0 (นักศึกษาคนที่ 1)
-              {60, 85, 70}      // แถว 1 (นักศึกษาคนที่ 2)
-          };
-                      col 0  col 1  col 2
-          row 0   [   80  |  75  |  90  ]
-          row 1   [   60  |  85  |  70  ]
-
-          scores[1][2] = 70     scores.length = 2     scores[0].length = 3`) },
-        { type: "run", title: "อ่านทั้งตารางด้วยลูปซ้อน", level: "พื้นฐาน",
-          concept: "ลูปนอกวนแถว ลูปในวนคอลัมน์ — เหมือนการพิมพ์รูปทรงในบทที่ 6",
+        { type: "p", html: `อาเรย์สองมิติเก็บข้อมูลแบบ<strong>ตาราง</strong> (แถว × คอลัมน์) อ้างช่องด้วย <code>ชื่อ[แถว][คอลัมน์]</code> โดย <code>ชื่อ.length</code> คือจำนวนแถว และ <code>ชื่อ[r].length</code> คือจำนวนคอลัมน์ของแถว r` },
+        { type: "cells", name: "int[][] scores = {{80, 75, 90}, {60, 85, 70}};", caption: "→ 2 แถว 3 คอลัมน์ เช่น scores[1][2] = 70", values: [[80, 75, 90], [60, 85, 70]] },
+        { type: "run", title: "อ่านทั้งตารางด้วยลูปซ้อน",
           code: j`
             public class Grid2D {
                 public static void main(String[] args) {
-                    int[][] scores = {  // อาเรย์ 2 มิติ: 2 แถว 3 คอลัมน์
-                        {80, 75, 90},
-                        {60, 85, 70}
+                    int[][] scores = {
+                        {80, 75, 90},      // แถว 0
+                        {60, 85, 70}       // แถว 1
                     };
-                    // length = จำนวนแถว, [0].length = จำนวนคอลัมน์
-                    System.out.println("rows = " + scores.length + ", cols = " + scores[0].length);
-                    // [แถว][คอลัมน์]
-                    System.out.println("scores[1][2] = " + scores[1][2]);
-                    // ลูปนอก: แถว
-                    for (int r = 0; r < scores.length; r++) {
-                        // ลูปใน: คอลัมน์ของแถวนั้น
-                        for (int c = 0; c < scores[r].length; c++) {
+                    System.out.println(scores.length);      // 2    จำนวนแถว
+                    System.out.println(scores[0].length);   // 3    จำนวนคอลัมน์
+                    System.out.println(scores[1][2]);       // 70   แถว 1 คอลัมน์ 2
+
+                    for (int r = 0; r < scores.length; r++) {             // ลูปนอก: แถว
+                        for (int c = 0; c < scores[r].length; c++) {      // ลูปใน: คอลัมน์
                             System.out.printf("%4d", scores[r][c]);
                         }
-                        System.out.println();
+                        System.out.println();                             // จบแถว ขึ้นบรรทัดใหม่
                     }
                 }
             }`,
-          steps: ["scores.length = 2 แถว", "scores[0].length = 3 คอลัมน์", "ลูปซ้อนพิมพ์ทีละแถว"] },
-        { type: "run", title: "ผลรวมแต่ละแถวและแต่ละคอลัมน์", level: "ต่อยอด",
-          concept: "ผลรวมแถว: ลูปนอกคือแถว ผลรวมรีเซ็ตทุกแถว / ผลรวมคอลัมน์: สลับให้ลูปนอกเป็นคอลัมน์",
+          },
+
+        { type: "h", text: "ผลรวมแต่ละแถวและแต่ละคอลัมน์" },
+        { type: "p", html: `รวมตามแถว: ลูปนอกเป็นแถว และตั้งผลรวมเป็น 0 ใหม่ทุกแถว ส่วนรวมตามคอลัมน์ให้สลับลูปนอกเป็นคอลัมน์` },
+        { type: "run", title: "ตารางคะแนน: รวมรายคน เฉลี่ยรายวิชา",
           code: j`
             public class RowColSums {
                 public static void main(String[] args) {
@@ -285,61 +259,58 @@ export default {
                         {95, 88, 92}
                     };
                     System.out.printf("%-6s", "");
-                    // หัวตาราง: ชื่อวิชา
                     for (String sub : subjects) System.out.printf("%6s", sub);
                     System.out.printf("%7s%n", "Total");
+
                     for (int r = 0; r < s.length; r++) {
-                        int rowSum = 0;  // ผลรวมของแถวนี้ เริ่มใหม่ทุกแถว
+                        int rowSum = 0;                              // เริ่มใหม่ทุกแถว
                         System.out.printf("%-6s", students[r]);
                         for (int c = 0; c < s[r].length; c++) {
                             System.out.printf("%6d", s[r][c]);
-                            rowSum += s[r][c];  // บวกตามแถว
+                            rowSum += s[r][c];
                         }
                         System.out.printf("%7d%n", rowSum);
                     }
+
                     System.out.printf("%-6s", "Avg");
-                    // ลูปนอกเป็นคอลัมน์ เพื่อรวมตามวิชา
-                    for (int c = 0; c < subjects.length; c++) {
+                    for (int c = 0; c < subjects.length; c++) {      // ลูปนอกเป็นคอลัมน์
                         int colSum = 0;
-                        for (int r = 0; r < s.length; r++) {
-                            colSum += s[r][c];  // บวกลงตามคอลัมน์
-                        }
+                        for (int r = 0; r < s.length; r++) colSum += s[r][c];
                         System.out.printf("%6.1f", (double) colSum / s.length);
                     }
                     System.out.println();
                 }
             }`,
-          steps: ["อาเรย์ 1 มิติ students, subjects ใช้เป็นหัวแถว/หัวคอลัมน์ที่ index ตรงกับตาราง", "rowSum ประกาศ<em>ใน</em>ลูปนอก จึงเริ่มที่ 0 ทุกแถว", "ค่าเฉลี่ยคอลัมน์: ลูปนอกวน c ลูปในวน r"] },
-        { type: "run", title: "ที่นั่งโรงภาพยนตร์: แก้ไขค่าในตาราง", level: "ประยุกต์", stdin: "1 2\n0 0\n1 2",
-          concept: "ใช้ boolean[][] เก็บสถานะที่นั่ง จองแล้วเปลี่ยนเป็น true และตรวจว่าว่างก่อนจอง",
-          code: j`
-            import java.util.Scanner;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: จองที่นั่งด้วย boolean[][]", blocks: [
+          { type: "run", title: "ที่นั่งโรงภาพยนตร์", stdin: "1 2\n0 0\n1 2",
+            code: j`
+              import java.util.Scanner;
 
-            public class SeatBooking {
-                public static void main(String[] args) {
-                    // 3 แถว 4 ที่นั่ง เริ่มต้นเป็น false ทั้งหมด
-                    boolean[][] booked = new boolean[3][4];
-                    Scanner input = new Scanner(System.in);
-                    for (int k = 0; k < 3; k++) {
-                        System.out.print("Book row col: ");
-                        int r = input.nextInt(), c = input.nextInt();
-                        if (booked[r][c]) {  // true = มีคนจองแล้ว
-                            System.out.println("  Seat taken!");
-                        } else {
-                            booked[r][c] = true;  // จองที่นั่ง
-                            System.out.println("  Booked.");
-                        }
-                    }
-                    for (int r = 0; r < booked.length; r++) {
-                        for (int c = 0; c < booked[r].length; c++) {
-                            // ?: เลือกสัญลักษณ์ตามสถานะ
-                            System.out.print(booked[r][c] ? "[X]" : "[ ]");
-                        }
-                        System.out.println();
-                    }
-                }
-            }`,
-          steps: ["new boolean[3][4] → 3 แถว 4 คอลัมน์ ทุกช่องเป็น false", "จอง (1,2) และ (0,0) สำเร็จ", "จอง (1,2) ซ้ำ → พบว่าเป็น true แล้ว", "แสดงผัง X = จองแล้ว"] },
+              public class SeatBooking {
+                  public static void main(String[] args) {
+                      boolean[][] booked = new boolean[3][4];      // 3 แถว 4 ที่นั่ง ทุกช่องเป็น false
+                      Scanner input = new Scanner(System.in);
+                      for (int k = 0; k < 3; k++) {
+                          System.out.print("Book row col: ");
+                          int r = input.nextInt(), c = input.nextInt();
+                          if (booked[r][c]) {                       // true = มีคนจองแล้ว
+                              System.out.println("  Seat taken!");
+                          } else {
+                              booked[r][c] = true;
+                              System.out.println("  Booked.");
+                          }
+                      }
+                      for (int r = 0; r < booked.length; r++) {
+                          for (int c = 0; c < booked[r].length; c++) {
+                              System.out.print(booked[r][c] ? "[X]" : "[ ]");
+                          }
+                          System.out.println();
+                      }
+                  }
+              }`,
+            after: "จอง (1,2) และ (0,0) สำเร็จ พอจอง (1,2) ซ้ำจะพบว่าช่องนั้นเป็น <code>true</code> แล้ว" },
+        ] },
         { type: "check", title: "index 2 มิติ", html: jpre(`
           int[][] m = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
           int sum = 0;
@@ -349,22 +320,20 @@ export default {
     {
       num: "8.4", toc: "อาเรย์กับเมธอด", title: "อาเรย์กับเมธอด และคลาส Arrays",
       blocks: [
-        { type: "p", html: `อาเรย์ส่งเป็น argument และคืนจากเมธอดได้ เนื่องจากส่ง<strong>การอ้างอิง</strong> เมธอดที่แก้สมาชิกในอาเรย์จะทำให้ผู้เรียกเห็นการเปลี่ยนแปลงด้วย (ต่างจากตัวแปร int ในบทที่ 7) คลาส <code>java.util.Arrays</code> มีเมธอดสำเร็จรูป เช่น <code>toString</code>, <code>sort</code>, <code>fill</code>, <code>copyOf</code>` },
-        { type: "run", title: "เมธอดรับอาเรย์และคืนค่า", level: "ต่อยอด",
-          concept: "เขียนเมธอดที่ใช้ซ้ำได้กับอาเรย์ทุกขนาด เพราะใช้ <code>.length</code> แทนเลขตายตัว",
+        { type: "p", html: `ส่งอาเรย์ให้เมธอดได้เหมือนตัวแปรทั่วไป แต่สิ่งที่ส่งไปคือ<strong>ที่อยู่ของอาเรย์</strong> ถ้าเมธอดแก้ค่าในช่อง ผู้เรียกจะเห็นการเปลี่ยนแปลงด้วย (ต่างจาก <code>int</code> ในบทที่ 7)` },
+        { type: "run", title: "เมธอดที่ใช้ได้กับอาเรย์ทุกขนาด",
           code: j`
             public class ArrayMethods {
                 public static void main(String[] args) {
                     int[] a = {4, 9, 1, 7};
                     int[] b = {10, 20};
-                    // ส่งอาเรย์เป็น argument ได้
-                    System.out.println("sum(a) = " + sum(a) + ", max(a) = " + max(a));
-                    System.out.println("sum(b) = " + sum(b) + ", max(b) = " + max(b));
-                    doubleAll(b);  // เมธอดแก้ค่าในอาเรย์เดิมได้
-                    System.out.println("after doubleAll: b[0]=" + b[0] + ", b[1]=" + b[1]);
+                    System.out.println(sum(a) + " " + max(a));     // 21 9
+                    System.out.println(sum(b) + " " + max(b));     // 30 20
+                    doubleAll(b);
+                    System.out.println(b[0] + " " + b[1]);         // 20 40   b เปลี่ยนจริง
                 }
 
-                static int sum(int[] values) {  // รับอาเรย์เป็น parameter
+                static int sum(int[] values) {          // รับอาเรย์เป็น parameter
                     int total = 0;
                     for (int v : values) total += v;
                     return total;
@@ -376,71 +345,72 @@ export default {
                     return best;
                 }
 
-                // void แต่แก้ค่าในอาเรย์ที่ส่งมาได้จริง
-                static void doubleAll(int[] values) {
-                    for (int i = 0; i < values.length; i++) {
-                        values[i] *= 2;
-                    }
+                static void doubleAll(int[] values) {   // แก้ช่องในอาเรย์ที่ส่งมา
+                    for (int i = 0; i < values.length; i++) values[i] *= 2;
                 }
             }`,
-          steps: ["sum และ max ใช้ได้กับอาเรย์ทุกขนาด", "doubleAll แก้สมาชิกผ่านการอ้างอิง → b ใน main เปลี่ยนจริง", "doubleAll ต้องใช้ for ปกติ เพราะ for-each แก้ค่าในอาเรย์ไม่ได้"] },
-        { type: "run", title: "Arrays.sort, toString, fill, copyOf", level: "ประยุกต์",
-          concept: "ไม่ต้องเขียนการเรียงลำดับเองในงานทั่วไป — แต่ควรเข้าใจว่าเรียงแล้วอาเรย์เดิมถูกเปลี่ยน",
+          },
+        { type: "tip", html: `ใช้ <code>values.length</code> แทนเลขตายตัว เมธอดเดียวจึงใช้ได้กับอาเรย์ทุกขนาด และ <code>doubleAll</code> ต้องใช้ for ปกติ เพราะ for-each แก้ค่าในช่องไม่ได้` },
+
+        { type: "h", text: "คลาส java.util.Arrays" },
+        { type: "p", html: `Java มีเมธอดสำเร็จรูปสำหรับงานที่ทำกับอาเรย์บ่อย ๆ ต้อง <code>import java.util.Arrays;</code> ก่อนใช้` },
+        { type: "table", head: ["เมธอด", "ทำอะไร"], rows: [
+          ["<code>Arrays.toString(a)</code>", "แปลงทั้งอาเรย์เป็นข้อความ <code>[1, 2, 3]</code>"],
+          ["<code>Arrays.sort(a)</code>", "เรียงจากน้อยไปมาก (แก้อาเรย์เดิม)"],
+          ["<code>Arrays.copyOf(a, n)</code>", "สำเนา n ช่องแรก ถ้า n ใหญ่กว่าเดิม ช่องที่เกินเป็นค่าเริ่มต้น"],
+          ["<code>Arrays.fill(a, v)</code>", "ใส่ค่า v ทุกช่อง"],
+          ["<code>Arrays.equals(a, b)</code>", "เทียบค่าทุกช่องว่าเท่ากันหรือไม่"],
+        ] },
+        { type: "run", title: "ใช้เมธอดของ Arrays",
           code: j`
             import java.util.Arrays;
 
             public class ArraysUtility {
                 public static void main(String[] args) {
                     int[] nums = {42, 7, 19, 3, 25};
-                    // สำรองไว้ก่อนเรียง
-                    int[] backup = Arrays.copyOf(nums, nums.length);
-                    // เรียงจากน้อยไปมาก (แก้อาเรย์เดิม)
-                    Arrays.sort(nums);
-                    // toString แสดงทุกช่องในรูป [..]
-                    System.out.println("sorted : " + Arrays.toString(nums));
-                    System.out.println("backup : " + Arrays.toString(backup));
-                    // ค่ากลางหลังเรียง
-                    System.out.println("median : " + nums[nums.length / 2]);
+                    int[] backup = Arrays.copyOf(nums, nums.length);   // สำรองก่อนเรียง
+                    Arrays.sort(nums);                                  // เรียงน้อยไปมาก
+
+                    System.out.println(Arrays.toString(nums));          // [3, 7, 19, 25, 42]
+                    System.out.println(Arrays.toString(backup));        // [42, 7, 19, 3, 25]
+                    System.out.println(nums[nums.length / 2]);          // 19   ค่ากลาง
 
                     String[] names = {"Ploy", "Beam", "Mali"};
-                    Arrays.sort(names);  // ข้อความเรียงตามตัวอักษร
-                    System.out.println("names  : " + Arrays.toString(names));
+                    Arrays.sort(names);                                 // เรียงตามตัวอักษร
+                    System.out.println(Arrays.toString(names));         // [Beam, Mali, Ploy]
 
-                    int[] zeros = new int[5];
-                    Arrays.fill(zeros, 7);  // ใส่ 7 ทุกช่อง
-                    System.out.println("filled : " + Arrays.toString(zeros));
-                    // ขยายเป็น 7 ช่อง ช่องที่เกินเป็น 0
-                    int[] bigger = Arrays.copyOf(backup, 7);
-                    System.out.println("bigger : " + Arrays.toString(bigger));
+                    int[] filled = new int[5];
+                    Arrays.fill(filled, 7);
+                    System.out.println(Arrays.toString(filled));        // [7, 7, 7, 7, 7]
+                    int[] bigger = Arrays.copyOf(backup, 7);            // ช่องที่เกินเป็น 0
+                    System.out.println(Arrays.toString(bigger));        // [42, 7, 19, 3, 25, 0, 0]
                 }
             }`,
-          steps: ["copyOf ทำสำเนาก่อน sort เพื่อเก็บลำดับเดิม", "sort เรียงจากน้อยไปมาก (String เรียงตามตัวอักษร)", "หลังเรียง ค่ากลาง (median) อยู่ที่ index length/2", "copyOf ที่ขนาดใหญ่กว่าเดิมเติม 0 ให้ช่องใหม่"] },
-        { type: "run", title: "เรียงลำดับเองด้วย Bubble Sort", level: "ท้าทาย",
-          concept: "สลับคู่ที่ติดกันซึ่งเรียงผิด ทำซ้ำหลายรอบ ค่าที่มากที่สุดจะ “ลอย” ไปท้ายทีละตัว",
-          code: j`
-            import java.util.Arrays;
+          },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เขียนการเรียงลำดับเองด้วย Bubble Sort", blocks: [
+          { type: "p", html: `สลับคู่ที่ติดกันซึ่งเรียงผิด ทำซ้ำหลายรอบ ค่าที่มากที่สุดจะ “ลอย” ไปอยู่ท้ายทีละตัว` },
+          { type: "run", title: "Bubble Sort ทีละรอบ",
+            code: j`
+              import java.util.Arrays;
 
-            public class BubbleSort {
-                public static void main(String[] args) {
-                    int[] a = {5, 2, 9, 1, 6};
-                    System.out.println("start  " + Arrays.toString(a));
-                    // ทำ n - 1 รอบ
-                    for (int pass = 0; pass < a.length - 1; pass++) {
-                        // ช่องท้ายที่เรียงแล้วไม่ต้องเทียบ
-                        for (int i = 0; i < a.length - 1 - pass; i++) {
-                            // คู่ติดกันกลับลำดับ → สลับ
-                            if (a[i] > a[i + 1]) {
-                                // สลับด้วยตัวแปรชั่วคราว
-                                int temp = a[i];
-                                a[i] = a[i + 1];
-                                a[i + 1] = temp;
-                            }
-                        }
-                        System.out.println("pass " + (pass + 1) + " " + Arrays.toString(a));
-                    }
-                }
-            }`,
-          steps: ["แต่ละ pass เทียบคู่ (i, i+1) และสลับถ้าเรียงผิด — ใช้เทคนิค temp จากบทที่ 3", "หลัง pass 1 ค่า 9 ไปอยู่ท้ายสุดแล้ว", "จึงลดขอบเขตลูปในลง pass ละ 1 (<code>- pass</code>)", "n ค่าใช้ไม่เกิน n − 1 pass"] },
+              public class BubbleSort {
+                  public static void main(String[] args) {
+                      int[] a = {5, 2, 9, 1, 6};
+                      System.out.println("start  " + Arrays.toString(a));
+                      for (int pass = 0; pass < a.length - 1; pass++) {           // n - 1 รอบ
+                          for (int i = 0; i < a.length - 1 - pass; i++) {         // ช่องท้ายเรียงแล้ว ไม่ต้องเทียบ
+                              if (a[i] > a[i + 1]) {                              // คู่นี้เรียงผิด → สลับ
+                                  int temp = a[i];
+                                  a[i] = a[i + 1];
+                                  a[i + 1] = temp;
+                              }
+                          }
+                          System.out.println("pass " + (pass + 1) + " " + Arrays.toString(a));
+                      }
+                  }
+              }`,
+            after: "หลังรอบแรก 9 ไปอยู่ท้ายสุดแล้ว รอบถัดไปจึงเทียบน้อยลงรอบละ 1 คู่ (<code>- pass</code>)" },
+        ] },
       ],
     },
   ],
