@@ -191,7 +191,7 @@ Worst day: 4 (760.0)</pre></div></div></div>
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LinearSearch</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">String</span>[] students = {<span class="tok-str">"Mali"</span>, <span class="tok-str">"Beam"</span>, <span class="tok-str">"Nida"</span>, <span class="tok-str">"Ploy"</span>, <span class="tok-str">"Tan"</span>};
+        <span class="tok-type">String</span>[] students = {<span class="tok-str">"JHope"</span>, <span class="tok-str">"Suga"</span>, <span class="tok-str">"RM"</span>, <span class="tok-str">"Jungkook"</span>, <span class="tok-str">"Mark"</span>};
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Search name: "</span>);
         <span class="tok-type">String</span> target = input.<span class="tok-fn">next</span>();
@@ -206,8 +206,8 @@ Worst day: 4 (760.0)</pre></div></div></div>
         <span class="tok-kw">if</span> (found &gt;= <span class="tok-num">0</span>) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(target + <span class="tok-str">" is at index "</span> + found);
         <span class="tok-kw">else</span> <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(target + <span class="tok-str">" not found"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Search name: <b class="stdin">Nida</b>
-Nida is at index 2</pre></div></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Search name: <b class="stdin">RM</b>
+RM is at index 2</pre></div></div></div>
 <h4 class="sub">= ไม่ได้คัดลอกอาเรย์</h4>
 <p>ตัวแปรอาเรย์เก็บ<strong>ที่อยู่ (reference)</strong> ของข้อมูล ไม่ได้เก็บข้อมูลเอง <code>b = a</code> จึงทำให้ทั้งสองชื่อชี้ข้อมูลชุดเดียวกัน</p>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 8.2.4</span>ชี้ชุดเดียวกัน vs สำเนาจริง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ArrayReference.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Arrays</span>;
@@ -265,7 +265,7 @@ false</pre></div></div></div>
 <p>รวมตามแถว: ลูปนอกเป็นแถว และตั้งผลรวมเป็น 0 ใหม่ทุกแถว ส่วนรวมตามคอลัมน์ให้สลับลูปนอกเป็นคอลัมน์</p>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 8.3.2</span>ตารางคะแนน: รวมรายคน เฉลี่ยรายวิชา</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RowColSums.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RowColSums</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">String</span>[] students = {<span class="tok-str">"Mali"</span>, <span class="tok-str">"Beam"</span>, <span class="tok-str">"Nida"</span>};
+        <span class="tok-type">String</span>[] students = {<span class="tok-str">"JHope"</span>, <span class="tok-str">"Suga"</span>, <span class="tok-str">"RM"</span>};
         <span class="tok-type">String</span>[] subjects = {<span class="tok-str">"Math"</span>, <span class="tok-str">"Sci"</span>, <span class="tok-str">"Eng"</span>};
         <span class="tok-kw">int</span>[][] s = {
             {<span class="tok-num">78</span>, <span class="tok-num">85</span>, <span class="tok-num">90</span>},
@@ -295,9 +295,9 @@ false</pre></div></div></div>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>        Math   Sci   Eng  Total
-Mali      78    85    90    253
-Beam      62    70    58    190
-Nida      95    88    92    275
+JHope     78    85    90    253
+Suga      62    70    58    190
+RM        95    88    92    275
 Avg     78.3  81.0  80.0</pre></div></div></div>
 <details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: จองที่นั่งด้วย boolean[][]</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ตัวอย่าง 8.3.3</span>ที่นั่งโรงภาพยนตร์</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SeatBooking.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
@@ -382,9 +382,9 @@ Book row col: <b class="stdin">1 2</b>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(backup));        <span class="tok-com">// [42, 7, 19, 3, 25]</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(nums[nums.length / <span class="tok-num">2</span>]);          <span class="tok-com">// 19   ค่ากลาง</span>
 
-        <span class="tok-type">String</span>[] names = {<span class="tok-str">"Ploy"</span>, <span class="tok-str">"Beam"</span>, <span class="tok-str">"Mali"</span>};
+        <span class="tok-type">String</span>[] names = {<span class="tok-str">"Jungkook"</span>, <span class="tok-str">"Suga"</span>, <span class="tok-str">"JHope"</span>};
         <span class="tok-type">Arrays</span>.<span class="tok-fn">sort</span>(names);                                 <span class="tok-com">// เรียงตามตัวอักษร</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(names));         <span class="tok-com">// [Beam, Mali, Ploy]</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-type">Arrays</span>.<span class="tok-fn">toString</span>(names));         <span class="tok-com">// [JHope, Jungkook, Suga]</span>
 
         <span class="tok-kw">int</span>[] filled = <span class="tok-kw">new</span> <span class="tok-kw">int</span>[<span class="tok-num">5</span>];
         <span class="tok-type">Arrays</span>.<span class="tok-fn">fill</span>(filled, <span class="tok-num">7</span>);
@@ -395,7 +395,7 @@ Book row col: <b class="stdin">1 2</b>
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>[3, 7, 19, 25, 42]
 [42, 7, 19, 3, 25]
 19
-[Beam, Mali, Ploy]
+[JHope, Jungkook, Suga]
 [7, 7, 7, 7, 7]
 [42, 7, 19, 3, 25, 0, 0]</pre></div></div></div>
 <details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: เขียนการเรียงลำดับเองด้วย Bubble Sort</summary><div class="more-body"><p>สลับคู่ที่ติดกันซึ่งเรียงผิด ทำซ้ำหลายรอบ ค่าที่มากที่สุดจะ “ลอย” ไปอยู่ท้ายทีละตัว</p>

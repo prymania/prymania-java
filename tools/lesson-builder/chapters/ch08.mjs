@@ -165,13 +165,13 @@ export default {
 
         { type: "h", text: "ค้นหาแบบเชิงเส้น (linear search)" },
         { type: "p", html: `ไล่ตรวจทีละช่องจนเจอ ใช้ค่า <code>-1</code> แทนความหมายว่า “ยังไม่เจอ” และ <code>break</code> ออกจากลูปทันทีที่เจอ` },
-        { type: "run", title: "ค้นหาชื่อในรายชื่อ", stdin: "Nida",
+        { type: "run", title: "ค้นหาชื่อในรายชื่อ", stdin: "RM",
           code: j`
             import java.util.Scanner;
 
             public class LinearSearch {
                 public static void main(String[] args) {
-                    String[] students = {"Mali", "Beam", "Nida", "Ploy", "Tan"};
+                    String[] students = {"JHope", "Suga", "RM", "Jungkook", "Mark"};
                     Scanner input = new Scanner(System.in);
                     System.out.print("Search name: ");
                     String target = input.next();
@@ -251,7 +251,7 @@ export default {
           code: j`
             public class RowColSums {
                 public static void main(String[] args) {
-                    String[] students = {"Mali", "Beam", "Nida"};
+                    String[] students = {"JHope", "Suga", "RM"};
                     String[] subjects = {"Math", "Sci", "Eng"};
                     int[][] s = {
                         {78, 85, 90},
@@ -375,9 +375,9 @@ export default {
                     System.out.println(Arrays.toString(backup));        // [42, 7, 19, 3, 25]
                     System.out.println(nums[nums.length / 2]);          // 19   ค่ากลาง
 
-                    String[] names = {"Ploy", "Beam", "Mali"};
+                    String[] names = {"Jungkook", "Suga", "JHope"};
                     Arrays.sort(names);                                 // เรียงตามตัวอักษร
-                    System.out.println(Arrays.toString(names));         // [Beam, Mali, Ploy]
+                    System.out.println(Arrays.toString(names));         // [JHope, Jungkook, Suga]
 
                     int[] filled = new int[5];
                     Arrays.fill(filled, 7);

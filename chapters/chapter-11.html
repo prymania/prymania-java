@@ -72,7 +72,7 @@
         <span class="tok-com">// new สร้างออบเจ็กต์จากคลาส Book</span>
         <span class="tok-type">Book</span> b = <span class="tok-kw">new</span> <span class="tok-type">Book</span>();
         b.title = <span class="tok-str">"Java Basics"</span>;  <span class="tok-com">// กำหนดค่า field ผ่านจุด (.)</span>
-        b.author = <span class="tok-str">"Mali"</span>;
+        b.author = <span class="tok-str">"JHope"</span>;
         b.pages = <span class="tok-num">320</span>;
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(b.title + <span class="tok-str">" by "</span> + b.author + <span class="tok-str">", "</span> + b.pages + <span class="tok-str">" pages"</span>);
     }
@@ -82,7 +82,7 @@
     <span class="tok-type">String</span> title;  <span class="tok-com">// field: ข้อมูลที่ทุก Book มี</span>
     <span class="tok-type">String</span> author;
     <span class="tok-kw">int</span> pages;
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Java Basics by Mali, 320 pages</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>class Book</code> บอกว่าหนังสือมี title, author, pages</li><li><code>new Book()</code> สร้างออบเจ็กต์ใหม่ในหน่วยความจำ</li><li><code>b.title = ...</code> ใช้จุด (.) เข้าถึง field ของออบเจ็กต์ b</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Java Basics by JHope, 320 pages</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>class Book</code> บอกว่าหนังสือมี title, author, pages</li><li><code>new Book()</code> สร้างออบเจ็กต์ใหม่ในหน่วยความจำ</li><li><code>b.title = ...</code> ใช้จุด (.) เข้าถึง field ของออบเจ็กต์ b</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.1.2</span>เพิ่มพฤติกรรมด้วย method</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดในคลาสใช้ field ได้ทันทีโดยไม่ต้องส่งเป็น parameter เพราะรู้อยู่แล้วว่าเป็นของออบเจ็กต์ไหน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookMethods.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookMethods</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Book</span> b = <span class="tok-kw">new</span> <span class="tok-type">Book</span>();
@@ -234,12 +234,12 @@ x = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(); x.s
     }
 }
 
-<span class="tok-type">Student</span> s = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">85</span>);    <span class="tok-com">// argument ส่งไปยัง constructor</span></code></pre></div></div>
+<span class="tok-type">Student</span> s = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>);    <span class="tok-com">// argument ส่งไปยัง constructor</span></code></pre></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.3.1</span>constructor กำหนดค่าตั้งแต่สร้าง</h4><p class="concept-line"><strong>แนวคิด:</strong> สร้างและกำหนดค่าในบรรทัดเดียว ออบเจ็กต์ไม่มีช่วงที่ field เป็นค่าว่าง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConstructorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConstructorDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// constructor กำหนดค่าตอนสร้างเลย</span>
-        <span class="tok-type">Student</span> a = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">85</span>);
-        <span class="tok-type">Student</span> b = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Beam"</span>, <span class="tok-num">72</span>);
+        <span class="tok-type">Student</span> a = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>);
+        <span class="tok-type">Student</span> b = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">72</span>);
         a.<span class="tok-fn">describe</span>();
         b.<span class="tok-fn">describe</span>();
     }
@@ -259,11 +259,11 @@ x = <span class="tok-kw">new</span> <span class="tok-type">Product</span>(); x.s
     <span class="tok-kw">void</span> <span class="tok-fn">describe</span>() {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name + <span class="tok-str">" scored "</span> + score);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Mali scored 85
-Beam scored 72</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>new Student("Mali", 85) เรียก constructor</li><li>this.name = name เก็บ parameter ลง field</li><li>describe ใช้ field ได้ทันที</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>JHope scored 85
+Suga scored 72</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>new Student("JHope", 85) เรียก constructor</li><li>this.name = name เก็บ parameter ลง field</li><li>describe ใช้ field ได้ทันที</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 11.3.2</span>ลืม this: field ไม่ถูกกำหนดค่า</h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้าเขียน <code>name = name;</code> ทั้งสองฝั่งคือ parameter (ตัวที่ใกล้ที่สุด) field จึงยังเป็นค่าเริ่มต้น</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ForgotThis.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ForgotThis</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">Student</span> s = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">85</span>);
+        <span class="tok-type">Student</span> s = <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(s.name + <span class="tok-str">" "</span> + s.score);
     }
 }
@@ -364,13 +364,13 @@ distance = 4.47</pre></div></div><div class="walkthrough"><strong>อธิบ�
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.1</span>บัญชีธนาคารสองบัญชี</h4><p class="concept-line"><strong>แนวคิด:</strong> deposit/withdraw บนบัญชีหนึ่งไม่กระทบอีกบัญชี เพราะ balance เป็นของแต่ละออบเจ็กต์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TwoAccounts.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TwoAccounts</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ออบเจ็กต์ 2 ตัว ข้อมูลแยกกัน</span>
-        <span class="tok-type">BankAccount</span> mali = <span class="tok-kw">new</span> <span class="tok-type">BankAccount</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">1000</span>);
-        <span class="tok-type">BankAccount</span> beam = <span class="tok-kw">new</span> <span class="tok-type">BankAccount</span>(<span class="tok-str">"Beam"</span>, <span class="tok-num">500</span>);
-        mali.<span class="tok-fn">deposit</span>(<span class="tok-num">250</span>);
-        beam.<span class="tok-fn">withdraw</span>(<span class="tok-num">200</span>);
-        beam.<span class="tok-fn">withdraw</span>(<span class="tok-num">1000</span>);  <span class="tok-com">// ถอนเกินยอด</span>
-        mali.<span class="tok-fn">printBalance</span>();
-        beam.<span class="tok-fn">printBalance</span>();
+        <span class="tok-type">BankAccount</span> jhope = <span class="tok-kw">new</span> <span class="tok-type">BankAccount</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">1000</span>);
+        <span class="tok-type">BankAccount</span> suga = <span class="tok-kw">new</span> <span class="tok-type">BankAccount</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">500</span>);
+        jhope.<span class="tok-fn">deposit</span>(<span class="tok-num">250</span>);
+        suga.<span class="tok-fn">withdraw</span>(<span class="tok-num">200</span>);
+        suga.<span class="tok-fn">withdraw</span>(<span class="tok-num">1000</span>);  <span class="tok-com">// ถอนเกินยอด</span>
+        jhope.<span class="tok-fn">printBalance</span>();
+        suga.<span class="tok-fn">printBalance</span>();
     }
 }
 
@@ -399,16 +399,16 @@ distance = 4.47</pre></div></div><div class="walkthrough"><strong>อธิบ�
     <span class="tok-kw">void</span> <span class="tok-fn">printBalance</span>() {
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%s: %.2f%n"</span>, owner, balance);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Beam: insufficient funds for 1000.0
-Mali: 1250.00
-Beam: 300.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>mali ฝาก 250 → 1250</li><li>beam ถอน 200 → 300</li><li>beam ถอน 1000 เกินยอด → ปฏิเสธ (กฎอยู่ในคลาส ไม่ต้องเขียนซ้ำใน main)</li><li>ยอดของแต่ละคนแยกกัน</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Suga: insufficient funds for 1000.0
+JHope: 1250.00
+Suga: 300.00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>jhope ฝาก 250 → 1250</li><li>suga ถอน 200 → 300</li><li>suga ถอน 1000 เกินยอด → ปฏิเสธ (กฎอยู่ในคลาส ไม่ต้องเขียนซ้ำใน main)</li><li>ยอดของแต่ละคนแยกกัน</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.2</span>อาเรย์ของออบเจ็กต์</h4><p class="concept-line"><strong>แนวคิด:</strong> แทนอาเรย์คู่ขนานหลายชุด ใช้อาเรย์ของออบเจ็กต์ชุดเดียว — ข้อมูลของแต่ละคนอยู่ด้วยกันเสมอ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StudentArray.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StudentArray</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Student</span>[] list = {  <span class="tok-com">// อาเรย์ของออบเจ็กต์</span>
-            <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">85</span>),
-            <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Beam"</span>, <span class="tok-num">62</span>),
-            <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Nida"</span>, <span class="tok-num">91</span>),
-            <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Ploy"</span>, <span class="tok-num">48</span>)
+            <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">85</span>),
+            <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">62</span>),
+            <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"RM"</span>, <span class="tok-num">91</span>),
+            <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Jungkook"</span>, <span class="tok-num">48</span>)
         };
         <span class="tok-type">Student</span> best = list[<span class="tok-num">0</span>];  <span class="tok-com">// เริ่มจากคนแรก</span>
         <span class="tok-kw">int</span> passed = <span class="tok-num">0</span>;
@@ -438,13 +438,13 @@ Beam: 300.00</pre></div></div><div class="walkthrough"><strong>อธิบา�
     }
 
     <span class="tok-kw">public</span> <span class="tok-type">String</span> <span class="tok-fn">toString</span>() {  <span class="tok-com">// กำหนดรูปแบบตอนแสดงผล</span>
-        <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%-5s %3d %s"</span>, name, score, <span class="tok-fn">isPassed</span>() ? <span class="tok-str">"PASS"</span> : <span class="tok-str">"FAIL"</span>);
+        <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%-8s %3d %s"</span>, name, score, <span class="tok-fn">isPassed</span>() ? <span class="tok-str">"PASS"</span> : <span class="tok-str">"FAIL"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Mali   85 PASS
-Beam   62 PASS
-Nida   91 PASS
-Ploy   48 FAIL
-Top: Nida
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>JHope     85 PASS
+Suga      62 PASS
+RM        91 PASS
+Jungkook  48 FAIL
+Top: RM
 Passed: 3/4</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>สร้าง 4 ออบเจ็กต์ในอาเรย์ด้วย initializer</li><li>for-each ได้ทีละออบเจ็กต์ println เรียก toString</li><li>best เก็บการอ้างอิงไปยังนักศึกษาที่คะแนนสูงสุด</li><li>isPassed เป็นกฎของคลาส ใช้ซ้ำได้ทั้งใน toString และ main</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 11.4.3</span>static field: ข้อมูลที่ใช้ร่วมกันทั้งคลาส</h4><p class="concept-line"><strong>แนวคิด:</strong> field ที่เป็น static มีชุดเดียวสำหรับทั้งคลาส ใช้สร้างรหัสอัตโนมัติหรือนับจำนวนออบเจ็กต์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StaticCounter.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StaticCounter</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -718,13 +718,13 @@ tick -&gt; 00:01
         <span class="tok-kw">return</span> <span class="tok-type">String</span>.<span class="tok-fn">format</span>(<span class="tok-str">"%02d:%02d"</span>, hour, minute);
     }
 }</code></pre></div></div></div></article>
-<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 11.7</span>ทะเบียนนักศึกษาพร้อมรหัสอัตโนมัติ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างคลาส <code>Student</code> ที่มี static field <code>nextId</code> เริ่มที่ 6601 ทุกครั้งที่สร้างนักศึกษาใหม่ให้ได้รหัสถัดไปอัตโนมัติ มี field ชื่อและ GPA และ static method <code>count()</code> คืนจำนวนนักศึกษาที่สร้างแล้ว</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>constructor รับเฉพาะชื่อและ GPA</li><li>รหัสกำหนดจาก nextId แล้วเพิ่ม nextId</li><li>แสดงรายชื่อและจำนวนทั้งหมด</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>6601 Mali GPA 3.45
-6602 Beam GPA 2.8
-6603 Nida GPA 3.92
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 11.7</span>ทะเบียนนักศึกษาพร้อมรหัสอัตโนมัติ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>สร้างคลาส <code>Student</code> ที่มี static field <code>nextId</code> เริ่มที่ 6601 ทุกครั้งที่สร้างนักศึกษาใหม่ให้ได้รหัสถัดไปอัตโนมัติ มี field ชื่อและ GPA และ static method <code>count()</code> คืนจำนวนนักศึกษาที่สร้างแล้ว</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>constructor รับเฉพาะชื่อและ GPA</li><li>รหัสกำหนดจาก nextId แล้วเพิ่ม nextId</li><li>แสดงรายชื่อและจำนวนทั้งหมด</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>6601 JHope GPA 3.45
+6602 Suga GPA 2.8
+6603 RM GPA 3.92
 Total students: 3</pre></div><div class="answer-gate" data-answer-id="11.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 11.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">RegistryApp.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RegistryApp</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// รหัสออกให้อัตโนมัติ</span>
-        <span class="tok-type">Student</span>[] list = {<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">3.45</span>), <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Beam"</span>, <span class="tok-num">2.80</span>), <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Nida"</span>, <span class="tok-num">3.92</span>)};
+        <span class="tok-type">Student</span>[] list = {<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">3.45</span>), <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"Suga"</span>, <span class="tok-num">2.80</span>), <span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"RM"</span>, <span class="tok-num">3.92</span>)};
         <span class="tok-kw">for</span> (<span class="tok-type">Student</span> s : list) <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(s);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total students: "</span> + <span class="tok-type">Student</span>.<span class="tok-fn">count</span>());
     }

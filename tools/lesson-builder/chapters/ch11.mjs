@@ -34,7 +34,7 @@ export default {
                     // new สร้างออบเจ็กต์จากคลาส Book
                     Book b = new Book();
                     b.title = "Java Basics";  // กำหนดค่า field ผ่านจุด (.)
-                    b.author = "Mali";
+                    b.author = "JHope";
                     b.pages = 320;
                     System.out.println(b.title + " by " + b.author + ", " + b.pages + " pages");
                 }
@@ -216,15 +216,15 @@ export default {
               }
           }
 
-          Student s = new Student("Mali", 85);    // argument ส่งไปยัง constructor`) },
+          Student s = new Student("JHope", 85);    // argument ส่งไปยัง constructor`) },
         { type: "run", title: "constructor กำหนดค่าตั้งแต่สร้าง", level: "พื้นฐาน",
           concept: "สร้างและกำหนดค่าในบรรทัดเดียว ออบเจ็กต์ไม่มีช่วงที่ field เป็นค่าว่าง",
           code: j`
             public class ConstructorDemo {
                 public static void main(String[] args) {
                     // constructor กำหนดค่าตอนสร้างเลย
-                    Student a = new Student("Mali", 85);
-                    Student b = new Student("Beam", 72);
+                    Student a = new Student("JHope", 85);
+                    Student b = new Student("Suga", 72);
                     a.describe();
                     b.describe();
                 }
@@ -245,13 +245,13 @@ export default {
                     System.out.println(name + " scored " + score);
                 }
             }`,
-          steps: ["new Student(\"Mali\", 85) เรียก constructor", "this.name = name เก็บ parameter ลง field", "describe ใช้ field ได้ทันที"] },
+          steps: ["new Student(\"JHope\", 85) เรียก constructor", "this.name = name เก็บ parameter ลง field", "describe ใช้ field ได้ทันที"] },
         { type: "run", label: "ทดลองบั๊ก 11.3.2", title: "ลืม this: field ไม่ถูกกำหนดค่า", level: "ต่อยอด",
           concept: "ถ้าเขียน <code>name = name;</code> ทั้งสองฝั่งคือ parameter (ตัวที่ใกล้ที่สุด) field จึงยังเป็นค่าเริ่มต้น",
           code: j`
             public class ForgotThis {
                 public static void main(String[] args) {
-                    Student s = new Student("Mali", 85);
+                    Student s = new Student("JHope", 85);
                     System.out.println(s.name + " " + s.score);
                 }
             }
@@ -363,13 +363,13 @@ export default {
             public class TwoAccounts {
                 public static void main(String[] args) {
                     // ออบเจ็กต์ 2 ตัว ข้อมูลแยกกัน
-                    BankAccount mali = new BankAccount("Mali", 1000);
-                    BankAccount beam = new BankAccount("Beam", 500);
-                    mali.deposit(250);
-                    beam.withdraw(200);
-                    beam.withdraw(1000);  // ถอนเกินยอด
-                    mali.printBalance();
-                    beam.printBalance();
+                    BankAccount jhope = new BankAccount("JHope", 1000);
+                    BankAccount suga = new BankAccount("Suga", 500);
+                    jhope.deposit(250);
+                    suga.withdraw(200);
+                    suga.withdraw(1000);  // ถอนเกินยอด
+                    jhope.printBalance();
+                    suga.printBalance();
                 }
             }
 
@@ -399,17 +399,17 @@ export default {
                     System.out.printf("%s: %.2f%n", owner, balance);
                 }
             }`,
-          steps: ["mali ฝาก 250 → 1250", "beam ถอน 200 → 300", "beam ถอน 1000 เกินยอด → ปฏิเสธ (กฎอยู่ในคลาส ไม่ต้องเขียนซ้ำใน main)", "ยอดของแต่ละคนแยกกัน"] },
+          steps: ["jhope ฝาก 250 → 1250", "suga ถอน 200 → 300", "suga ถอน 1000 เกินยอด → ปฏิเสธ (กฎอยู่ในคลาส ไม่ต้องเขียนซ้ำใน main)", "ยอดของแต่ละคนแยกกัน"] },
         { type: "run", title: "อาเรย์ของออบเจ็กต์", level: "ประยุกต์",
           concept: "แทนอาเรย์คู่ขนานหลายชุด ใช้อาเรย์ของออบเจ็กต์ชุดเดียว — ข้อมูลของแต่ละคนอยู่ด้วยกันเสมอ",
           code: j`
             public class StudentArray {
                 public static void main(String[] args) {
                     Student[] list = {  // อาเรย์ของออบเจ็กต์
-                        new Student("Mali", 85),
-                        new Student("Beam", 62),
-                        new Student("Nida", 91),
-                        new Student("Ploy", 48)
+                        new Student("JHope", 85),
+                        new Student("Suga", 62),
+                        new Student("RM", 91),
+                        new Student("Jungkook", 48)
                     };
                     Student best = list[0];  // เริ่มจากคนแรก
                     int passed = 0;
@@ -439,7 +439,7 @@ export default {
                 }
 
                 public String toString() {  // กำหนดรูปแบบตอนแสดงผล
-                    return String.format("%-5s %3d %s", name, score, isPassed() ? "PASS" : "FAIL");
+                    return String.format("%-8s %3d %s", name, score, isPassed() ? "PASS" : "FAIL");
                 }
             }`,
           steps: ["สร้าง 4 ออบเจ็กต์ในอาเรย์ด้วย initializer", "for-each ได้ทีละออบเจ็กต์ println เรียก toString", "best เก็บการอ้างอิงไปยังนักศึกษาที่คะแนนสูงสุด", "isPassed เป็นกฎของคลาส ใช้ซ้ำได้ทั้งใน toString และ main"] },
@@ -719,7 +719,7 @@ export default {
         public class RegistryApp {
             public static void main(String[] args) {
                 // รหัสออกให้อัตโนมัติ
-                Student[] list = {new Student("Mali", 3.45), new Student("Beam", 2.80), new Student("Nida", 3.92)};
+                Student[] list = {new Student("JHope", 3.45), new Student("Suga", 2.80), new Student("RM", 3.92)};
                 for (Student s : list) System.out.println(s);
                 System.out.println("Total students: " + Student.count());
             }

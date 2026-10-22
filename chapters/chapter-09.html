@@ -63,7 +63,7 @@ index:   <span class="tok-num">0</span> <span class="tok-num">1</span> <span cla
 <table class="comparison-table"><thead><tr><th>เมธอด</th><th>ทำอะไร</th><th>ตัวอย่าง</th><th>ผล</th></tr></thead><tbody><tr><td><code>length()</code></td><td>จำนวนอักขระ</td><td><code>"Hello".length()</code></td><td>5</td></tr><tr><td><code>equals(s)</code></td><td>เนื้อหาเท่ากันไหม</td><td><code>"abc".equals("abc")</code></td><td>true</td></tr><tr><td><code>equalsIgnoreCase(s)</code></td><td>เท่ากันโดยไม่สนตัวพิมพ์</td><td><code>"Yes".equalsIgnoreCase("YES")</code></td><td>true</td></tr><tr><td><code>compareTo(s)</code></td><td>เทียบลำดับพจนานุกรม (&lt;0, 0, &gt;0)</td><td><code>"apple".compareTo("banana")</code></td><td>ค่าลบ</td></tr><tr><td><code>toUpperCase()</code> / <code>toLowerCase()</code></td><td>แปลงตัวพิมพ์</td><td><code>"Java".toUpperCase()</code></td><td>JAVA</td></tr><tr><td><code>trim()</code> / <code>strip()</code></td><td>ตัดช่องว่างหัวท้าย</td><td><code>"  hi  ".trim()</code></td><td>hi</td></tr><tr><td><code>isEmpty()</code> / <code>isBlank()</code></td><td>ว่างไหม / มีแต่ช่องว่างไหม</td><td><code>"  ".isBlank()</code></td><td>true</td></tr></tbody></table>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 9.1.1</span>เมธอดพื้นฐานและ immutability</h4><p class="concept-line"><strong>แนวคิด:</strong> เรียกเมธอดแล้วต้อง<strong>เก็บผลลัพธ์</strong> ไม่เช่นนั้นข้อความเดิมจะไม่เปลี่ยน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StringBasics.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StringBasics</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">String</span> name = <span class="tok-str">"  Mali Jaidee  "</span>;
+        <span class="tok-type">String</span> name = <span class="tok-str">"  JHope Jung  "</span>;
         <span class="tok-com">// length() นับช่องว่างด้วย</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"["</span> + name + <span class="tok-str">"] length "</span> + name.<span class="tok-fn">length</span>());
         <span class="tok-com">// String เปลี่ยนไม่ได้: ผลลัพธ์ถูกทิ้ง</span>
@@ -76,12 +76,12 @@ index:   <span class="tok-num">0</span> <span class="tok-num">1</span> <span cla
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name.<span class="tok-fn">toLowerCase</span>());
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"name still: "</span> + name);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>[  Mali Jaidee  ] length 15
-after name.trim(): [  Mali Jaidee  ]
-after name = name.trim(): [Mali Jaidee]
-MALI JAIDEE
-mali jaidee
-name still: Mali Jaidee</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ความยาวนับรวมช่องว่างหัวท้าย = 15</li><li><code>name.trim();</code> เฉย ๆ ไม่มีผล เพราะไม่ได้เก็บค่าที่คืน</li><li><code>name = name.trim();</code> จึงเปลี่ยน name ให้ชี้ข้อความใหม่</li><li>toUpperCase/toLowerCase คืนข้อความใหม่ name ยังเดิม</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>[  JHope Jung  ] length 14
+after name.trim(): [  JHope Jung  ]
+after name = name.trim(): [JHope Jung]
+JHOPE JUNG
+jhope jung
+name still: JHope Jung</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ความยาวนับรวมช่องว่างหัวท้าย = 15</li><li><code>name.trim();</code> เฉย ๆ ไม่มีผล เพราะไม่ได้เก็บค่าที่คืน</li><li><code>name = name.trim();</code> จึงเปลี่ยน name ให้ชี้ข้อความใหม่</li><li>toUpperCase/toLowerCase คืนข้อความใหม่ name ยังเดิม</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 9.1.2</span>equals, equalsIgnoreCase และ compareTo</h4><p class="concept-line"><strong>แนวคิด:</strong> ใช้ equals เทียบเนื้อหา ใช้ compareTo เมื่อต้องการรู้ว่าคำไหนมาก่อนตามลำดับตัวอักษร</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CompareStrings.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CompareStrings</span> {
@@ -111,8 +111,8 @@ compareTo("cherry") = -1
 banana comes before cherry</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>"yes".equals("YES") → false เพราะตัวพิมพ์ต่าง</li><li>equalsIgnoreCase → true</li><li>compareTo คืนค่าลบเมื่อคำแรกมาก่อน ('b' มาก่อน 'c')</li><li>ใช้เฉพาะเครื่องหมายของผลลัพธ์ ไม่ต้องสนใจตัวเลขจริง</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 9.1.3</span>ต่อข้อความ: + , concat และ String.format</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>+</code> ต่อได้ทุกชนิด, <code>String.format</code> ทำงานเหมือน printf แต่คืนเป็น String เก็บไว้ใช้ต่อได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">JoinStrings.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">JoinStrings</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">String</span> first = <span class="tok-str">"Mali"</span>;
-        <span class="tok-type">String</span> last = <span class="tok-str">"Jaidee"</span>;
+        <span class="tok-type">String</span> first = <span class="tok-str">"JHope"</span>;
+        <span class="tok-type">String</span> last = <span class="tok-str">"Jung"</span>;
         <span class="tok-kw">int</span> age = <span class="tok-num">19</span>;
         <span class="tok-kw">double</span> gpa = <span class="tok-num">3.456</span>;
 
@@ -130,21 +130,21 @@ banana comes before cherry</pre></div></div><div class="walkthrough"><strong>อ
         <span class="tok-com">// ทำซ้ำข้อความ 3 ครั้ง</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Ha"</span>.<span class="tok-fn">repeat</span>(<span class="tok-num">3</span>));
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Mali Jaidee
-Mali Jaidee (19)
-[Mali Jaidee  GPA 3.46]
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>JHope Jung
+JHope Jung (19)
+[JHope Jung   GPA 3.46]
 Math, Science, English
 HaHaHa</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>+ ต่อ String กับ int ได้อัตโนมัติ</li><li>String.format จัดรูปแบบแล้วเก็บในตัวแปร card</li><li>String.join ต่อหลายคำด้วยตัวคั่น</li><li>repeat ทำซ้ำข้อความ</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 9.1.4</span>NullPointerException กับ String</h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปร String ที่เป็น <code>null</code> (ไม่ได้ชี้ข้อความใด) เรียกเมธอดไม่ได้ วางค่าคงที่ไว้หน้า equals ช่วยป้องกันได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NullString.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NullString</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">String</span>[] names = <span class="tok-kw">new</span> <span class="tok-type">String</span>[<span class="tok-num">2</span>];
-        names[<span class="tok-num">0</span>] = <span class="tok-str">"Beam"</span>;
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"\"Beam\".equals(names[1]) = "</span> + <span class="tok-str">"Beam"</span>.<span class="tok-fn">equals</span>(names[<span class="tok-num">1</span>]));
+        names[<span class="tok-num">0</span>] = <span class="tok-str">"Suga"</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"\"Suga\".equals(names[1]) = "</span> + <span class="tok-str">"Suga"</span>.<span class="tok-fn">equals</span>(names[<span class="tok-num">1</span>]));
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(names[<span class="tok-num">1</span>].<span class="tok-fn">length</span>());
     }
-}</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>"Beam".equals(names[1]) = false
+}</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>"Suga".equals(names[1]) = false
 Exception in thread "main" java.lang.NullPointerException: Cannot invoke "String.length()" because "names[1]" is null
-	at NullString.main(NullString.java:6)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>names[1] ยังไม่กำหนด → null</li><li><code>"Beam".equals(null)</code> ปลอดภัย ได้ false</li><li><code>names[1].length()</code> → NullPointerException</li><li>ข้อความ error บอกชัดว่า <code>names[1]</code> is null</li></ol></div></div>
+	at NullString.main(NullString.java:6)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>names[1] ยังไม่กำหนด → null</li><li><code>"Suga".equals(null)</code> ปลอดภัย ได้ false</li><li><code>names[1].length()</code> → NullPointerException</li><li>ข้อความ error บอกชัดว่า <code>names[1]</code> is null</li></ol></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · immutable</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">String</span> s = <span class="tok-str">"hello"</span>;
 s.<span class="tok-fn">toUpperCase</span>();
 s = s + <span class="tok-str">"!"</span>;
@@ -204,13 +204,13 @@ contains("nan") = true</pre></div></div><div class="walkthrough"><strong>อธ�
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Domain: "</span> + email.<span class="tok-fn">substring</span>(at + <span class="tok-num">1</span>));
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Ends with .th? "</span> + email.<span class="tok-fn">endsWith</span>(<span class="tok-str">".th"</span>));
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Full name: <b class="stdin">Mali Jaidee</b>
-First: Mali, Last: Jaidee
-Initials: M.J.
-Email: <b class="stdin">mali.j@example.co.th</b>
-User: mali.j
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Full name: <b class="stdin">JHope Jung</b>
+First: JHope, Last: Jung
+Initials: J.J.
+Email: <b class="stdin">jhope.j@example.co.th</b>
+User: jhope.j
 Domain: example.co.th
-Ends with .th? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ช่องว่างอยู่ที่ index 4 → first = substring(0, 4) = "Mali"</li><li>last = substring(5) ตั้งแต่หลังช่องว่าง</li><li>อีเมล: ตัดซ้ายและขวาของ @</li><li>ถ้าชื่อไม่มีช่องว่าง indexOf คืน −1 แล้ว substring(0, −1) จะ error — ควรตรวจก่อน</li></ol></div></div>
+Ends with .th? true</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ช่องว่างอยู่ที่ index 4 → first = substring(0, 4) = "JHope"</li><li>last = substring(5) ตั้งแต่หลังช่องว่าง</li><li>อีเมล: ตัดซ้ายและขวาของ @</li><li>ถ้าชื่อไม่มีช่องว่าง indexOf คืน −1 แล้ว substring(0, −1) จะ error — ควรตรวจก่อน</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 9.2.3</span>split: แยกข้อมูลที่คั่นด้วยเครื่องหมาย</h4><p class="concept-line"><strong>แนวคิด:</strong> ข้อมูลแบบ CSV (คั่นด้วยจุลภาค) แยกได้ด้วย <code>split(",")</code> ได้อาเรย์ของ String</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SplitCsv.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SplitCsv</span> {
@@ -229,9 +229,9 @@ Ends with .th? true</pre></div></div><div class="walkthrough"><strong>อธิ�
         <span class="tok-type">String</span>[] words = sentence.<span class="tok-fn">trim</span>().<span class="tok-fn">split</span>(<span class="tok-str">"\\s+"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Word count: "</span> + words.length);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>CSV: <b class="stdin">Mali,19,3.45,Science</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>CSV: <b class="stdin">JHope,19,3.45,Science</b>
 Fields: 4
-  [0] Mali
+  [0] JHope
   [1] 19
   [2] 3.45
   [3] Science
@@ -319,8 +319,8 @@ length of "30" = 2</pre></div></div><div class="walkthrough"><strong>อธิ�
         <span class="tok-kw">double</span> gpa = <span class="tok-type">Double</span>.<span class="tok-fn">parseDouble</span>(p[<span class="tok-num">2</span>].<span class="tok-fn">trim</span>());
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%s will be %d next year. GPA x 25 = %.1f%n"</span>, name, age + <span class="tok-num">1</span>, gpa * <span class="tok-num">25</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>name,age,gpa: <b class="stdin">Mali,19,3.45</b>
-Mali will be 20 next year. GPA x 25 = 86.3</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>split ได้ {"Mali", "19", "3.45"}</li><li>trim แต่ละช่องเผื่อมีช่องว่าง</li><li>parse แล้วคำนวณ age + 1 และ gpa × 25</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>name,age,gpa: <b class="stdin">JHope,19,3.45</b>
+JHope will be 20 next year. GPA x 25 = 86.3</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>split ได้ {"JHope", "19", "3.45"}</li><li>trim แต่ละช่องเผื่อมีช่องว่าง</li><li>parse แล้วคำนวณ age + 1 และ gpa × 25</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ทดลอง error 9.3.3</span>NumberFormatException</h4><p class="concept-line"><strong>แนวคิด:</strong> parseInt กับข้อความที่ไม่ใช่จำนวนเต็ม (เช่นมีทศนิยม ตัวอักษร หรือว่าง) จะเกิด error ระหว่างรัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BadParse.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BadParse</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(<span class="tok-str">"123"</span>));
@@ -615,10 +615,10 @@ Total vowels: 13</pre></div><div class="answer-gate" data-answer-id="9.3"><butto
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total vowels: "</span> + (a + e + i + o + u));
     }
 }</code></pre></div></div></div></article>
-<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 9.4</span>ชื่อย่อและรูปแบบชื่อ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับชื่อเต็ม 2–3 คำ (เช่น ชื่อ ชื่อกลาง นามสกุล) ซึ่งผู้ใช้อาจพิมพ์ตัวพิมพ์ปนกันและมีช่องว่างหลายตัว แสดง (1) ชื่อที่จัดรูปแบบให้ขึ้นต้นตัวพิมพ์ใหญ่ทุกคำ (2) อักษรย่อ (3) รูปแบบ <code>นามสกุล, ชื่อ</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>trim().split("\\s+")</code> แยกคำ</li><li>ขึ้นต้นตัวใหญ่: <code>w.substring(0,1).toUpperCase() + w.substring(1).toLowerCase()</code></li><li>นามสกุลคือคำสุดท้ายของอาเรย์</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Full name: <b class="stdin">  mALI   jaidee </b>
-Proper  : Mali Jaidee
-Initials: M.J.
-Listing : Jaidee, Mali</pre></div><div><small>ครั้งที่ 2</small><pre>Full name: <b class="stdin">john ronald TOLKIEN</b>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 9.4</span>ชื่อย่อและรูปแบบชื่อ<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รับชื่อเต็ม 2–3 คำ (เช่น ชื่อ ชื่อกลาง นามสกุล) ซึ่งผู้ใช้อาจพิมพ์ตัวพิมพ์ปนกันและมีช่องว่างหลายตัว แสดง (1) ชื่อที่จัดรูปแบบให้ขึ้นต้นตัวพิมพ์ใหญ่ทุกคำ (2) อักษรย่อ (3) รูปแบบ <code>นามสกุล, ชื่อ</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ <code>trim().split("\\s+")</code> แยกคำ</li><li>ขึ้นต้นตัวใหญ่: <code>w.substring(0,1).toUpperCase() + w.substring(1).toLowerCase()</code></li><li>นามสกุลคือคำสุดท้ายของอาเรย์</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><div class="ex-runs"><div><small>ครั้งที่ 1</small><pre>Full name: <b class="stdin">  jHOPE   jung </b>
+Proper  : Jhope Jung
+Initials: J.J.
+Listing : Jung, Jhope</pre></div><div><small>ครั้งที่ 2</small><pre>Full name: <b class="stdin">john ronald TOLKIEN</b>
 Proper  : John Ronald Tolkien
 Initials: J.R.T.
 Listing : Tolkien, John Ronald</pre></div></div></div><div class="answer-gate" data-answer-id="9.4"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 9.4<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">NameFormat.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;

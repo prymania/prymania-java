@@ -21,7 +21,7 @@ export default {
           ["<code>%d</code>", "จำนวนเต็ม (int, long)", "<code>printf(\"%d\", 42)</code>", "42"],
           ["<code>%f</code>", "ทศนิยม (double) ค่าเริ่มต้น 6 ตำแหน่ง", "<code>printf(\"%f\", 3.5)</code>", "3.500000"],
           ["<code>%.2f</code>", "ทศนิยม 2 ตำแหน่ง (ปัดเศษ)", "<code>printf(\"%.2f\", 3.456)</code>", "3.46"],
-          ["<code>%s</code>", "ข้อความ (String)", "<code>printf(\"%s\", \"Mali\")</code>", "Mali"],
+          ["<code>%s</code>", "ข้อความ (String)", "<code>printf(\"%s\", \"JHope\")</code>", "JHope"],
           ["<code>%c</code>", "อักขระ (char)", "<code>printf(\"%c\", 'A')</code>", "A"],
           ["<code>%n</code>", "ขึ้นบรรทัดใหม่", "<code>printf(\"A%nB\")</code>", "A↵B"],
           ["<code>%,d</code>", "จำนวนเต็มมีจุลภาคคั่นหลักพัน", "<code>printf(\"%,d\", 1500000)</code>", "1,500,000"],
@@ -45,7 +45,7 @@ export default {
           code: j`
             public class PrintfBasics {
                 public static void main(String[] args) {
-                    String name = "Mali";
+                    String name = "JHope";
                     int score = 87;
                     double average = 3.456;
                     // %s = ข้อความ, %n = ขึ้นบรรทัดใหม่
@@ -58,7 +58,7 @@ export default {
                     System.out.printf("%s got %d (avg %.1f)%n", name, score, average);
                 }
             }`,
-          steps: ["<code>%s</code> ถูกแทนด้วย Mali", "<code>%d</code> ถูกแทนด้วย 87", "<code>%.2f</code> ปัด 3.456 → 3.46", "บรรทัดสุดท้ายมี 3 specifier จับคู่กับ name, score, average ตามลำดับ", "<code>%n</code> ขึ้นบรรทัด (printf ไม่ขึ้นบรรทัดเองเหมือน println)"] },
+          steps: ["<code>%s</code> ถูกแทนด้วย JHope", "<code>%d</code> ถูกแทนด้วย 87", "<code>%.2f</code> ปัด 3.456 → 3.46", "บรรทัดสุดท้ายมี 3 specifier จับคู่กับ name, score, average ตามลำดับ", "<code>%n</code> ขึ้นบรรทัด (printf ไม่ขึ้นบรรทัดเองเหมือน println)"] },
         { type: "run", title: "จัดรูปแบบราคารวม", level: "ต่อยอด",
           concept: "เงินควรแสดง 2 ตำแหน่งเสมอ และตัวเลขใหญ่ควรมีจุลภาคคั่นหลักพัน",
           code: j`
@@ -222,10 +222,10 @@ export default {
           ----------------------------------------------------------
           แก้: เรียก nextLine() ทิ้งหนึ่งครั้งหลัง nextInt()
           nextLine() →  ทิ้ง ⏎            เหลือ:  M a l i ␣ N i d a ⏎
-          nextLine() →  "Mali Nida"  ✔`) },
+          nextLine() →  "JHope RM"  ✔`) },
         { type: "run", title: "next() อ่านแค่คำแรก", level: "พื้นฐาน",
           concept: "เมื่อชื่อมีช่องว่าง next() จะได้แค่คำแรก ส่วนที่เหลือค้างอยู่",
-          stdin: "Mali Nida",
+          stdin: "JHope RM",
           code: j`
             import java.util.Scanner;
 
@@ -241,8 +241,8 @@ export default {
                     System.out.println("nextLine() = [" + rest + "]");
                 }
             }`,
-          steps: ["next() ได้ \"Mali\"", "nextLine() อ่านส่วนที่เหลือของบรรทัดคือ \" Nida\" (มีช่องว่างนำหน้า)", "วงเล็บ [ ] ช่วยให้เห็นช่องว่างชัดเจน"] },
-        { type: "run", label: "ทดลองบั๊ก 4.3.2", title: "อ่านชื่อได้ค่าว่าง", level: "ต่อยอด", stdin: "20\nMali",
+          steps: ["next() ได้ \"JHope\"", "nextLine() อ่านส่วนที่เหลือของบรรทัดคือ \" RM\" (มีช่องว่างนำหน้า)", "วงเล็บ [ ] ช่วยให้เห็นช่องว่างชัดเจน"] },
+        { type: "run", label: "ทดลองบั๊ก 4.3.2", title: "อ่านชื่อได้ค่าว่าง", level: "ต่อยอด", stdin: "20\nJHope",
           concept: "nextLine() ต่อจาก nextInt() ทันที จะอ่านได้ Enter ที่ค้าง → ค่าว่าง และโปรแกรมไม่รอให้ผู้ใช้พิมพ์ชื่อ",
           code: j`
             import java.util.Scanner;
@@ -259,8 +259,8 @@ export default {
                     System.out.println("Name is [" + name + "]");
                 }
             }`,
-          steps: ["nextInt อ่าน 20 แต่ไม่อ่าน Enter", "nextLine อ่านถึง Enter ที่ค้าง → \"\" ทันที", "Output เห็น \"Full name: \" ตามด้วย \"Name is []\" โดยที่ชื่อ Mali ไม่ถูกอ่านเลย"] },
-        { type: "run", title: "แก้บั๊กด้วย nextLine() ทิ้งหนึ่งครั้ง", level: "ต่อยอด", stdin: "20\nMali Nida",
+          steps: ["nextInt อ่าน 20 แต่ไม่อ่าน Enter", "nextLine อ่านถึง Enter ที่ค้าง → \"\" ทันที", "Output เห็น \"Full name: \" ตามด้วย \"Name is []\" โดยที่ชื่อ JHope ไม่ถูกอ่านเลย"] },
+        { type: "run", title: "แก้บั๊กด้วย nextLine() ทิ้งหนึ่งครั้ง", level: "ต่อยอด", stdin: "20\nJHope RM",
           concept: "หลังอ่านตัวเลข ให้เรียก <code>input.nextLine();</code> เปล่า ๆ เพื่อเคลียร์ Enter ก่อนอ่านข้อความทั้งบรรทัด",
           code: j`
             import java.util.Scanner;
@@ -277,8 +277,8 @@ export default {
                     System.out.println("Age: " + age);
                 }
             }`,
-          steps: ["nextInt อ่าน 20", "nextLine แรกทิ้ง Enter", "nextLine ที่สองอ่าน \"Mali Nida\" ครบพร้อมช่องว่าง"] },
-        { type: "run", title: "อีกทางเลือก: อ่านทุกอย่างเป็นบรรทัดแล้วแปลง", level: "ประยุกต์", stdin: "Mali Nida\n20\n3.75",
+          steps: ["nextInt อ่าน 20", "nextLine แรกทิ้ง Enter", "nextLine ที่สองอ่าน \"JHope RM\" ครบพร้อมช่องว่าง"] },
+        { type: "run", title: "อีกทางเลือก: อ่านทุกอย่างเป็นบรรทัดแล้วแปลง", level: "ประยุกต์", stdin: "JHope RM\n20\n3.75",
           concept: "อ่านทุกค่าด้วย nextLine() แล้วแปลงเป็นตัวเลขด้วย <code>Integer.parseInt</code> / <code>Double.parseDouble</code> — ไม่มีปัญหา Enter ค้างเลย",
           code: j`
             import java.util.Scanner;
@@ -347,7 +347,7 @@ export default {
             }`,
           steps: ["อ่านชื่อเมนูก่อนด้วย nextLine() — ยังไม่มีตัวเลขมาก่อน จึงไม่มี Enter ค้าง", "อ่านจำนวนและราคาด้วย nextInt/nextDouble", "คำนวณ 2 × 65 = 130, VAT 9.10, รวม 139.10", "จัดคอลัมน์ด้วย %-14s และ %10.2f"],
           after: "สังเกต <code>\"VAT 7%\"</code> ถูกส่งเป็น<em>ค่า</em>ให้ %s จึงไม่ต้องเขียน %% — ต้องใช้ %% เฉพาะเมื่อ % อยู่ใน format string" },
-        { type: "run", title: "แปลงสกุลเงินพร้อมค่าธรรมเนียม", level: "ท้าทาย", stdin: "Nida\n5000\n35.42",
+        { type: "run", title: "แปลงสกุลเงินพร้อมค่าธรรมเนียม", level: "ท้าทาย", stdin: "RM\n5000\n35.42",
           concept: "โจทย์หลายขั้น: คำนวณค่าธรรมเนียม 1.5% ก่อน แล้วจึงแปลงเงินที่เหลือ แสดงผลทั้งจำนวนเต็มคั่นหลักพันและทศนิยม",
           code: j`
             import java.util.Scanner;
@@ -379,12 +379,12 @@ export default {
     },
   ],
   exercises: [
-    { level: 1, title: "พิมพ์ผลคะแนนสองแบบ", html: `<p>มีชื่อนักศึกษา <code>Beam</code> และคะแนน <code>91</code> เก็บในตัวแปร จงแสดงผลสองบรรทัดด้วย <code>println</code> และแสดงซ้ำอีกสองบรรทัดด้วย <code>printf</code> ให้ได้ผลเหมือนกัน</p>`,
+    { level: 1, title: "พิมพ์ผลคะแนนสองแบบ", html: `<p>มีชื่อนักศึกษา <code>Suga</code> และคะแนน <code>91</code> เก็บในตัวแปร จงแสดงผลสองบรรทัดด้วย <code>println</code> และแสดงซ้ำอีกสองบรรทัดด้วย <code>printf</code> ให้ได้ผลเหมือนกัน</p>`,
       spec: ["ใช้ตัวแปร <code>String name</code> และ <code>int score</code>", "บรรทัด 1–2 ใช้ println กับการต่อข้อความ", "บรรทัด 3–4 ใช้ printf กับ %s และ %d"],
       solution: j`
         public class PrintScore {
             public static void main(String[] args) {
-                String name = "Beam";
+                String name = "Suga";
                 int score = 91;
                 System.out.println("Student: " + name);  // println: ต่อข้อความด้วย +
                 System.out.println("Score: " + score + " points");
@@ -394,7 +394,7 @@ export default {
         }` },
     { level: 1, title: "ทักทายตามชื่อ", html: `<p>รับชื่อเล่น (คำเดียว) และปีเกิด ค.ศ. จากผู้ใช้ แล้วแสดงคำทักทายพร้อมอายุโดยประมาณในปี 2026</p>`,
       spec: ["ใช้ <code>next()</code> อ่านชื่อเล่น และ <code>nextInt()</code> อ่านปีเกิด", "อายุ = 2026 − ปีเกิด", "ข้อความ prompt ต้องตรงตามตัวอย่าง"],
-      stdin: "Ploy\n2006",
+      stdin: "Jungkook\n2006",
       solution: j`
         import java.util.Scanner;
 
@@ -445,7 +445,7 @@ export default {
         }` },
     { level: 2, title: "บัตรแนะนำตัว", html: `<p>ถามอายุเป็นจำนวนเต็มก่อน แล้วถามชื่อเต็มที่มีช่องว่าง และคณะ (มีช่องว่างได้) แสดงประโยคแนะนำตัวที่มีทั้งชื่อ อายุ และคณะ</p>`,
       spec: ["ลำดับการถาม: อายุ → ชื่อเต็ม → คณะ", "ต้องจัดการ Enter ที่ค้างหลัง nextInt() ให้ถูกต้อง", "ชื่อและคณะต้องได้ครบทุกคำ"],
-      stdin: "19\nMali Jaidee\nFaculty of Science",
+      stdin: "19\nJHope Jung\nFaculty of Science",
       solution: j`
         import java.util.Scanner;
 
@@ -546,7 +546,7 @@ export default {
         }` },
     { level: 3, title: "สรุปผลการเรียนรายวิชา", html: `<p>รับชื่อวิชา (มีช่องว่าง) ชื่อนักศึกษา (มีช่องว่าง) และคะแนน 3 ส่วน: เก็บ (เต็ม 40) กลางภาค (เต็ม 30) ปลายภาค (เต็ม 30) คำนวณคะแนนรวม ร้อยละของแต่ละส่วนเทียบกับคะแนนเต็มของส่วนนั้น แล้วพิมพ์รายงานตามตัวอย่าง</p>`,
       spec: ["ลำดับการถาม: ชื่อวิชา → ชื่อนักศึกษา → คะแนน 3 ส่วนในบรรทัดเดียว", "ร้อยละ = คะแนน ÷ คะแนนเต็ม × 100 แสดงทศนิยม 1 ตำแหน่ง", "รายงานมีกรอบด้วย <code>=</code> และคอลัมน์ตรงกัน", "ใช้ <code>%%</code> แสดงเครื่องหมาย %"],
-      stdin: "Computer Programming\nMali Jaidee\n35 21.5 24",
+      stdin: "Computer Programming\nJHope Jung\n35 21.5 24",
       solution: j`
         import java.util.Scanner;
 

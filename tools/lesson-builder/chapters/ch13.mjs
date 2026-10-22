@@ -163,21 +163,21 @@ export default {
             public class AddSetGet {
                 public static void main(String[] args) {
                     ArrayList<String> queue = new ArrayList<>();
-                    queue.add("Mali");
-                    queue.add("Beam");
-                    queue.add("Nida");
+                    queue.add("JHope");
+                    queue.add("Suga");
+                    queue.add("RM");
                     System.out.println("start   " + queue);
                     // แทรกที่ index 1 ตัวที่เหลือเลื่อนไปขวา
-                    queue.add(1, "Ploy");
+                    queue.add(1, "Jungkook");
                     System.out.println("insert  " + queue);
                     // set แทนที่ และคืนค่าเดิม
-                    String old = queue.set(0, "Tan");
+                    String old = queue.set(0, "Mark");
                     System.out.println("set     " + queue + " (replaced " + old + ")");
                     System.out.println("get(2)  " + queue.get(2));
                     System.out.println("size    " + queue.size());
                 }
             }`,
-          steps: ["แทรก Ploy ที่ index 1 → Beam และ Nida เลื่อนไป index 2, 3", "set(0, \"Tan\") แทน Mali และคืนค่าเดิมกลับมา", "size เพิ่มจาก add แต่ไม่เพิ่มจาก set"] },
+          steps: ["แทรก Jungkook ที่ index 1 → Suga และ RM เลื่อนไป index 2, 3", "set(0, \"Mark\") แทน JHope และคืนค่าเดิมกลับมา", "size เพิ่มจาก add แต่ไม่เพิ่มจาก set"] },
         { type: "run", title: "contains และ indexOf", level: "ต่อยอด", stdin: "Banana\nMango",
           concept: "ค้นหาด้วยเมธอดสำเร็จรูป ซึ่งใช้ equals เปรียบเทียบ (ตรงตัวพิมพ์)",
           code: j`
@@ -242,12 +242,12 @@ export default {
             public class RemoveDemo {
                 public static void main(String[] args) {
                     ArrayList<String> names = new ArrayList<>();
-                    names.add("Mali"); names.add("Beam"); names.add("Nida"); names.add("Beam");
+                    names.add("JHope"); names.add("Suga"); names.add("RM"); names.add("Suga");
                     names.remove(0);  // remove(int) = ลบตาม index
                     System.out.println("remove(0)       " + names);
                     // remove(Object) = ลบตัวแรกที่เท่ากัน
-                    names.remove("Beam");
-                    System.out.println("remove(\"Beam\")  " + names);
+                    names.remove("Suga");
+                    System.out.println("remove(\"Suga\")  " + names);
 
                     ArrayList<Integer> nums = new ArrayList<>();
                     nums.add(5); nums.add(2); nums.add(9); nums.add(2);
@@ -258,7 +258,7 @@ export default {
                     System.out.println("remove(value 2) " + nums);
                 }
             }`,
-          steps: ["ลบ index 0 → Beam เลื่อนมาเป็น index 0", "remove(\"Beam\") ลบตัวแรกที่พบเท่านั้น", "nums.remove(2) ลบ index 2 (ค่า 9)", "remove(Integer.valueOf(2)) ลบค่า 2 ตัวแรก"] },
+          steps: ["ลบ index 0 → Suga เลื่อนมาเป็น index 0", "remove(\"Suga\") ลบตัวแรกที่พบเท่านั้น", "nums.remove(2) ลบ index 2 (ค่า 9)", "remove(Integer.valueOf(2)) ลบค่า 2 ตัวแรก"] },
         { type: "run", label: "ทดลองบั๊ก 13.4.2", title: "ลบในลูปแล้วข้ามสมาชิก", level: "ต่อยอด",
           concept: "ลบที่ index i แล้วสมาชิกถัดไปเลื่อนมาอยู่ที่ i แต่ลูปเพิ่ม i ไปแล้ว → ตัวที่เลื่อนมาถูกข้าม",
           code: j`
@@ -403,7 +403,7 @@ export default {
                     Collections.reverse(nums);  // กลับลำดับ
                     System.out.println("reversed " + nums);
 
-                    ArrayList<String> names = new ArrayList<>(List.of("ploy", "Beam", "mali", "Nida"));
+                    ArrayList<String> names = new ArrayList<>(List.of("jungkook", "Suga", "jhope", "RM"));
                     Collections.sort(names);  // ตัวใหญ่มาก่อนตัวเล็ก
                     System.out.println("sorted names           " + names);
                     // เรียงโดยไม่สนตัวพิมพ์
@@ -433,9 +433,9 @@ export default {
                     // รายการของออบเจ็กต์ Student
                     ArrayList<Student> list = new ArrayList<>();
                     // สร้างออบเจ็กต์แล้วเพิ่มในรายการ
-                    list.add(new Student("6601", "Mali", 78));
-                    list.add(new Student("6602", "Beam", 55));
-                    list.add(new Student("6603", "Nida", 91));
+                    list.add(new Student("6601", "JHope", 78));
+                    list.add(new Student("6602", "Suga", 55));
+                    list.add(new Student("6603", "RM", 91));
 
                     Student s = findById(list, "6602");  // ค้นด้วยรหัส
                     // ไม่พบจะได้ null จึงต้องตรวจก่อนใช้
@@ -584,16 +584,16 @@ export default {
         public class FriendList {
             public static void main(String[] args) {
                 ArrayList<String> friends = new ArrayList<>();
-                friends.add("Mali");
-                friends.add("Beam");
-                friends.add("Nida");
-                friends.add("Ploy");
+                friends.add("JHope");
+                friends.add("Suga");
+                friends.add("RM");
+                friends.add("Jungkook");
                 // แสดงรายการพร้อมจำนวน
                 System.out.println(friends + " (" + friends.size() + ")");
                 // แทรกหน้าสุด
-                friends.add(0, "Tan");
+                friends.add(0, "Mark");
                 // แทนตัวสุดท้าย
-                friends.set(friends.size() - 1, "Pim");
+                friends.set(friends.size() - 1, "JayB");
                 System.out.println(friends + " (" + friends.size() + ")");
                 System.out.println("First: " + friends.get(0) + ", Last: " + friends.get(friends.size() - 1));
             }
@@ -710,7 +710,7 @@ export default {
             }
         }`, explain: "เมื่อเรียน HashMap ในวิชาถัดไป งานแบบนี้จะเขียนได้สั้นกว่า แต่หลักการเหมือนกัน" },
     { level: 2, title: "คิวร้านอาหาร", html: `<p>จำลองคิวร้านอาหารด้วย ArrayList&lt;String&gt; รับคำสั่งทีละบรรทัด: <code>join ชื่อ</code> (ต่อท้ายคิว), <code>vip ชื่อ</code> (แทรกหน้าสุด), <code>serve</code> (เรียกคนแรกออกจากคิว), <code>leave ชื่อ</code> (ออกจากคิว), <code>show</code> (แสดงคิว), <code>end</code> (จบ) จัดการกรณีคิวว่างและชื่อที่ไม่อยู่ในคิว</p>`,
-      spec: ["แยกคำสั่งกับชื่อด้วย split(\" \", 2)", "serve ใช้ remove(0)", "leave ใช้ remove(Object) ซึ่งคืน boolean"], stdin: "join Mali\njoin Beam\nvip Nida\nshow\nserve\nleave Tan\nleave Mali\nshow\nserve\nserve\nend",
+      spec: ["แยกคำสั่งกับชื่อด้วย split(\" \", 2)", "serve ใช้ remove(0)", "leave ใช้ remove(Object) ซึ่งคืน boolean"], stdin: "join JHope\njoin Suga\nvip RM\nshow\nserve\nleave Mark\nleave JHope\nshow\nserve\nserve\nend",
       solution: j`
         import java.util.ArrayList;
         import java.util.Scanner;
@@ -753,14 +753,14 @@ export default {
             public static void main(String[] args) {
                 ContactBook book = new ContactBook();
                 // add คืนข้อความผลลัพธ์
-                System.out.println(book.add(new Contact("Nida", "081-111-2222", "nida@mail.com")));
-                System.out.println(book.add(new Contact("beam", "089-333-4444", "beam@work.co.th")));
-                System.out.println(book.add(new Contact("Mali", "086-555-6666", "mali@mail.com")));
+                System.out.println(book.add(new Contact("RM", "081-111-2222", "rm@mail.com")));
+                System.out.println(book.add(new Contact("suga", "089-333-4444", "suga@work.co.th")));
+                System.out.println(book.add(new Contact("JHope", "086-555-6666", "jhope@mail.com")));
                 // ชื่อซ้ำ (ไม่สนตัวพิมพ์)
-                System.out.println(book.add(new Contact("NIDA", "080-000-0000", "x@x.com")));
-                System.out.println("Find Mali: " + book.findByName("mali"));
+                System.out.println(book.add(new Contact("rm", "080-000-0000", "x@x.com")));
+                System.out.println("Find JHope: " + book.findByName("jhope"));
                 System.out.println("Search 'mail': " + book.search("mail"));
-                System.out.println("Remove Beam: " + book.remove("Beam"));
+                System.out.println("Remove Suga: " + book.remove("Suga"));
                 System.out.println("Sorted: " + book.listSorted());
             }
         }

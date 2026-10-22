@@ -26,7 +26,7 @@ export default {
           ["JSlider", "<code>getValue()</code>", "int"],
           ["JList", "<code>getSelectedValue()</code> / <code>getSelectedValuesList()</code>", "E / List&lt;E&gt;"],
         ] },
-        { type: "run", title: "อ่านทุกช่องแล้วสรุปใน text area", level: "พื้นฐาน", gui: true, actions: "type field:0 Mali Jaidee\nselect combo:0 1\nclick Female\ncheck Newsletter\nclick Preview\nshot", captions: ["กรอกข้อมูลแล้วคลิก Preview"],
+        { type: "run", title: "อ่านทุกช่องแล้วสรุปใน text area", level: "พื้นฐาน", gui: true, actions: "type field:0 JHope Jung\nselect combo:0 1\nclick Female\ncheck Newsletter\nclick Preview\nshot", captions: ["กรอกข้อมูลแล้วคลิก Preview"],
           concept: "เมื่อคลิก Preview โปรแกรมอ่านค่าจาก component ทุกชนิดแล้วแสดงรวมกัน — ยังไม่ตรวจความถูกต้อง",
           code: j`
             import javax.swing.*;
@@ -176,7 +176,7 @@ export default {
                 static final String STUDENT_ID = "66\\d{6}";
 
                 public static void main(String[] args) {
-                    test("email", EMAIL, "mali@mail.com", "mali.j@uni.ac.th", "mali@", "@mail.com");
+                    test("email", EMAIL, "jhope@mail.com", "jhope.j@uni.ac.th", "jhope@", "@mail.com");
                     test("phone", PHONE, "081-234-5678", "0812345678", "02-123-4567", "81234");
                     test("id", STUDENT_ID, "66012345", "65012345", "6601234");
                 }
@@ -190,7 +190,7 @@ export default {
                 }
             }`,
           steps: ["<code>\\\\w</code> = ตัวอักษร/ตัวเลข/_, <code>+</code> = หนึ่งตัวขึ้นไป, <code>\\\\d{3}</code> = ตัวเลข 3 ตัว, <code>-?</code> = มีขีดหรือไม่ก็ได้", "รหัสนักศึกษาต้องขึ้นต้น 66 ตามด้วยตัวเลข 6 ตัวพอดี", "regex สำหรับอีเมลแบบง่ายนี้พอสำหรับฟอร์มทั่วไป (ไม่ครอบคลุมทุกกรณีตามมาตรฐาน)", "<code>String...</code> คือ varargs: ส่ง argument กี่ตัวก็ได้ ได้เป็นอาเรย์"] },
-        { type: "run", title: "ตรวจหลายช่องแล้วแสดง error ทั้งหมดในครั้งเดียว", level: "ประยุกต์", gui: true, actions: "type field:0 \ntype field:1 mali@\ntype field:2 abc\nclick Register\nshot\ntype field:0 Mali\ntype field:1 mali@mail.com\ntype field:2 19\nclick Register\nshot", captions: ["กรอกผิดทุกช่องแล้วคลิก Register", "แก้ให้ถูกแล้วคลิกอีกครั้ง"],
+        { type: "run", title: "ตรวจหลายช่องแล้วแสดง error ทั้งหมดในครั้งเดียว", level: "ประยุกต์", gui: true, actions: "type field:0 \ntype field:1 jhope@\ntype field:2 abc\nclick Register\nshot\ntype field:0 JHope\ntype field:1 jhope@mail.com\ntype field:2 19\nclick Register\nshot", captions: ["กรอกผิดทุกช่องแล้วคลิก Register", "แก้ให้ถูกแล้วคลิกอีกครั้ง"],
           concept: "รวบรวม error ทุกช่องใส่ list แล้วแสดงพร้อมกัน ผู้ใช้แก้ได้ในรอบเดียว — ดีกว่าบอกทีละข้อ",
           code: j`
             import javax.swing.*;
@@ -457,17 +457,17 @@ export default {
 
             public class BookingValidatorTest {
                 public static void main(String[] args) {
-                    test("Mali", "2", "3", true);  // ข้อมูลถูกต้อง
+                    test("JHope", "2", "3", true);  // ข้อมูลถูกต้อง
                     test("", "2", "3", true);
-                    test("Beam", "0", "3", false);  // guests = 0 นอกช่วง
-                    test("Nida", "5", "x", true);
-                    test("Ploy", "11", "31", false);
+                    test("Suga", "0", "3", false);  // guests = 0 นอกช่วง
+                    test("RM", "5", "x", true);
+                    test("Jungkook", "11", "31", false);
                 }
 
                 static void test(String name, String guests, String nights, boolean breakfast) {
                     // ตรวจโดยไม่ต้องเปิดหน้าจอ
                     List<String> errors = BookingValidator.validate(name, guests, nights);
-                    System.out.printf("%-5s g=%-3s n=%-3s -> %s%n", name, guests, nights, errors.isEmpty() ? "OK" : errors);
+                    System.out.printf("%-8s g=%-3s n=%-3s -> %s%n", name, guests, nights, errors.isEmpty() ? "OK" : errors);
                 }
             }
 
@@ -501,7 +501,7 @@ export default {
                 }
             }`,
           steps: ["parseInRange ใช้ซ้ำได้กับทุกช่องตัวเลข และเพิ่ม error ลงรายการที่ส่งมา", "คืน Integer (null เมื่อผิด) เพื่อให้ตรวจกฎข้ามช่องได้เฉพาะเมื่อทั้งคู่ถูก", "กฎข้ามช่อง: guests × nights ไม่เกิน 60", "ชุดทดสอบครอบคลุมกรณีปกติ ว่าง ค่าขอบ รูปแบบผิด และกฎข้ามช่อง"] },
-        { type: "run", title: "ใช้ validator ในฟอร์มจองห้องพัก", level: "ท้าทาย", gui: true, actions: "type field:0 Mali\ntype field:1 2\ntype field:2 3\nclick Book\nshot", captions: ["กรอกถูกต้องแล้วคลิก Book"],
+        { type: "run", title: "ใช้ validator ในฟอร์มจองห้องพัก", level: "ท้าทาย", gui: true, actions: "type field:0 JHope\ntype field:1 2\ntype field:2 3\nclick Book\nshot", captions: ["กรอกถูกต้องแล้วคลิก Book"],
           concept: "listener สั้นลงมาก: อ่านค่า → เรียก validate → แสดง error หรือคำนวณราคา",
           code: j`
             import javax.swing.*;
@@ -583,7 +583,7 @@ export default {
       num: "17.5", toc: "ล้างและ reset form", title: "ล้างและ reset ฟอร์ม",
       blocks: [
         { type: "p", html: `หลังบันทึกสำเร็จ หรือเมื่อผู้ใช้กดปุ่ม Clear ควรคืนทุก component เป็นค่าเริ่มต้น: ช่องข้อความว่าง, combo กลับรายการแรก, radio กลับค่า default, check box ไม่ติ๊ก, ล้างข้อความ error และย้ายโฟกัสไปช่องแรก รวมไว้ในเมธอด <code>resetForm()</code> เดียวเพื่อไม่ลืมช่องใด` },
-        { type: "run", title: "บันทึกลงรายการแล้ว reset", level: "ท้าทาย", gui: true, actions: "type field:0 Mali\nselect combo:0 2\nclick Gold\nclick Save\ntype field:0 Beam\nclick Save\nshot", captions: ["บันทึก Mali (Engineering, Gold) แล้วบันทึก Beam (ค่าเริ่มต้น)"],
+        { type: "run", title: "บันทึกลงรายการแล้ว reset", level: "ท้าทาย", gui: true, actions: "type field:0 JHope\nselect combo:0 2\nclick Gold\nclick Save\ntype field:0 Suga\nclick Save\nshot", captions: ["บันทึก JHope (Engineering, Gold) แล้วบันทึก Suga (ค่าเริ่มต้น)"],
           concept: "Save: ตรวจ → เพิ่มลง JList → ถ้าสำเร็จ resetForm() / Clear: resetForm() ทันที — ผู้ใช้กรอกคนถัดไปได้เลย",
           code: j`
             import javax.swing.*;
@@ -659,7 +659,7 @@ export default {
                     name.requestFocusInWindow();
                 }
             }`,
-          steps: ["Mali ถูกบันทึกพร้อม Engineering และ Gold", "resetForm() คืนทุกช่องเป็นค่าเริ่มต้นทันที", "Beam ถูกบันทึกด้วยค่าเริ่มต้น (Science, Basic) — พิสูจน์ว่า reset ทำงาน", "ไม่ล้างฟอร์มเมื่อบันทึกไม่สำเร็จ"] },
+          steps: ["JHope ถูกบันทึกพร้อม Engineering และ Gold", "resetForm() คืนทุกช่องเป็นค่าเริ่มต้นทันที", "Suga ถูกบันทึกด้วยค่าเริ่มต้น (Science, Basic) — พิสูจน์ว่า reset ทำงาน", "ไม่ล้างฟอร์มเมื่อบันทึกไม่สำเร็จ"] },
       ],
     },
   ],
@@ -817,7 +817,7 @@ export default {
             }
         }` },
     { level: 2, title: "ฟอร์มสมัครพร้อม error ข้างช่อง", html: `<p>ฟอร์มมีช่อง Username (4–12 ตัว ตัวอักษร/ตัวเลขเท่านั้น), Email (รูปแบบอีเมล), Phone (รูปแบบ 0XX-XXX-XXXX) และ check box “I accept the terms” (ต้องติ๊ก) แต่ละช่องมี label error สีแดงอยู่ทางขวา ปุ่ม Submit ตรวจทุกช่องพร้อมกัน แสดง error ทุกช่องที่ผิด และแสดง dialog “Registered!” เมื่อถูกทั้งหมด</p>`,
-      spec: ["ใช้ regex: <code>[A-Za-z0-9]{4,12}</code>, รูปแบบอีเมลจากหัวข้อ 17.2, <code>0\\\\d{2}-\\\\d{3}-\\\\d{4}</code>", "เขียนเมธอด <code>boolean show(JLabel err, String msg)</code> ที่ตั้งข้อความและคืนว่าผ่านหรือไม่", "ภาพตัวอย่าง: username สั้นเกิน, อีเมลถูก, เบอร์ผิด, ไม่ติ๊ก"], gui: true, actions: "type field:0 ab\ntype field:1 nida@mail.com\ntype field:2 0812345678\nclick Submit\nshot",
+      spec: ["ใช้ regex: <code>[A-Za-z0-9]{4,12}</code>, รูปแบบอีเมลจากหัวข้อ 17.2, <code>0\\\\d{2}-\\\\d{3}-\\\\d{4}</code>", "เขียนเมธอด <code>boolean show(JLabel err, String msg)</code> ที่ตั้งข้อความและคืนว่าผ่านหรือไม่", "ภาพตัวอย่าง: username สั้นเกิน, อีเมลถูก, เบอร์ผิด, ไม่ติ๊ก"], gui: true, actions: "type field:0 ab\ntype field:1 rm@mail.com\ntype field:2 0812345678\nclick Submit\nshot",
       solution: j`
         import javax.swing.*;
         import java.awt.*;

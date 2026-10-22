@@ -186,24 +186,24 @@ int a == b   ? true</pre></div></div><div class="walkthrough"><strong>อธิ�
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AddSetGet</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; queue = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
-        queue.<span class="tok-fn">add</span>(<span class="tok-str">"Mali"</span>);
-        queue.<span class="tok-fn">add</span>(<span class="tok-str">"Beam"</span>);
-        queue.<span class="tok-fn">add</span>(<span class="tok-str">"Nida"</span>);
+        queue.<span class="tok-fn">add</span>(<span class="tok-str">"JHope"</span>);
+        queue.<span class="tok-fn">add</span>(<span class="tok-str">"Suga"</span>);
+        queue.<span class="tok-fn">add</span>(<span class="tok-str">"RM"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"start   "</span> + queue);
         <span class="tok-com">// แทรกที่ index 1 ตัวที่เหลือเลื่อนไปขวา</span>
-        queue.<span class="tok-fn">add</span>(<span class="tok-num">1</span>, <span class="tok-str">"Ploy"</span>);
+        queue.<span class="tok-fn">add</span>(<span class="tok-num">1</span>, <span class="tok-str">"Jungkook"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"insert  "</span> + queue);
         <span class="tok-com">// set แทนที่ และคืนค่าเดิม</span>
-        <span class="tok-type">String</span> old = queue.<span class="tok-fn">set</span>(<span class="tok-num">0</span>, <span class="tok-str">"Tan"</span>);
+        <span class="tok-type">String</span> old = queue.<span class="tok-fn">set</span>(<span class="tok-num">0</span>, <span class="tok-str">"Mark"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"set     "</span> + queue + <span class="tok-str">" (replaced "</span> + old + <span class="tok-str">")"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"get(2)  "</span> + queue.<span class="tok-fn">get</span>(<span class="tok-num">2</span>));
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"size    "</span> + queue.<span class="tok-fn">size</span>());
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>start   [Mali, Beam, Nida]
-insert  [Mali, Ploy, Beam, Nida]
-set     [Tan, Ploy, Beam, Nida] (replaced Mali)
-get(2)  Beam
-size    4</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>แทรก Ploy ที่ index 1 → Beam และ Nida เลื่อนไป index 2, 3</li><li>set(0, "Tan") แทน Mali และคืนค่าเดิมกลับมา</li><li>size เพิ่มจาก add แต่ไม่เพิ่มจาก set</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>start   [JHope, Suga, RM]
+insert  [JHope, Jungkook, Suga, RM]
+set     [Mark, Jungkook, Suga, RM] (replaced JHope)
+get(2)  Suga
+size    4</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>แทรก Jungkook ที่ index 1 → Suga และ RM เลื่อนไป index 2, 3</li><li>set(0, "Mark") แทน JHope และคืนค่าเดิมกลับมา</li><li>size เพิ่มจาก add แต่ไม่เพิ่มจาก set</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.3.2</span>contains และ indexOf</h4><p class="concept-line"><strong>แนวคิด:</strong> ค้นหาด้วยเมธอดสำเร็จรูป ซึ่งใช้ equals เปรียบเทียบ (ตรงตัวพิมพ์)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SearchList.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
@@ -260,12 +260,12 @@ a.<span class="tok-fn">set</span>(<span class="tok-num">2</span>, <span class="t
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RemoveDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; names = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
-        names.<span class="tok-fn">add</span>(<span class="tok-str">"Mali"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"Beam"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"Nida"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"Beam"</span>);
+        names.<span class="tok-fn">add</span>(<span class="tok-str">"JHope"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"Suga"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"RM"</span>); names.<span class="tok-fn">add</span>(<span class="tok-str">"Suga"</span>);
         names.<span class="tok-fn">remove</span>(<span class="tok-num">0</span>);  <span class="tok-com">// remove(int) = ลบตาม index</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"remove(0)       "</span> + names);
         <span class="tok-com">// remove(Object) = ลบตัวแรกที่เท่ากัน</span>
-        names.<span class="tok-fn">remove</span>(<span class="tok-str">"Beam"</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"remove(\"Beam\")  "</span> + names);
+        names.<span class="tok-fn">remove</span>(<span class="tok-str">"Suga"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"remove(\"Suga\")  "</span> + names);
 
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Integer</span>&gt; nums = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         nums.<span class="tok-fn">add</span>(<span class="tok-num">5</span>); nums.<span class="tok-fn">add</span>(<span class="tok-num">2</span>); nums.<span class="tok-fn">add</span>(<span class="tok-num">9</span>); nums.<span class="tok-fn">add</span>(<span class="tok-num">2</span>);
@@ -275,10 +275,10 @@ a.<span class="tok-fn">set</span>(<span class="tok-num">2</span>, <span class="t
         nums.<span class="tok-fn">remove</span>(<span class="tok-type">Integer</span>.<span class="tok-fn">valueOf</span>(<span class="tok-num">2</span>));
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"remove(value 2) "</span> + nums);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>remove(0)       [Beam, Nida, Beam]
-remove("Beam")  [Nida, Beam]
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>remove(0)       [Suga, RM, Suga]
+remove("Suga")  [RM, Suga]
 remove(2)       [5, 2, 2]
-remove(value 2) [5, 2]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลบ index 0 → Beam เลื่อนมาเป็น index 0</li><li>remove("Beam") ลบตัวแรกที่พบเท่านั้น</li><li>nums.remove(2) ลบ index 2 (ค่า 9)</li><li>remove(Integer.valueOf(2)) ลบค่า 2 ตัวแรก</li></ol></div></div>
+remove(value 2) [5, 2]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ลบ index 0 → Suga เลื่อนมาเป็น index 0</li><li>remove("Suga") ลบตัวแรกที่พบเท่านั้น</li><li>nums.remove(2) ลบ index 2 (ค่า 9)</li><li>remove(Integer.valueOf(2)) ลบค่า 2 ตัวแรก</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ทดลองบั๊ก 13.4.2</span>ลบในลูปแล้วข้ามสมาชิก</h4><p class="concept-line"><strong>แนวคิด:</strong> ลบที่ index i แล้วสมาชิกถัดไปเลื่อนมาอยู่ที่ i แต่ลูปเพิ่ม i ไปแล้ว → ตัวที่เลื่อนมาถูกข้าม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RemoveSkipBug.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RemoveSkipBug</span> {
@@ -407,7 +407,7 @@ Hot days (&gt;= 33): [33.2, 35.1, 34.0] -&gt; 3 days</pre></div></div><div class
         <span class="tok-type">Collections</span>.<span class="tok-fn">reverse</span>(nums);  <span class="tok-com">// กลับลำดับ</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"reversed "</span> + nums);
 
-        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; names = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-str">"ploy"</span>, <span class="tok-str">"Beam"</span>, <span class="tok-str">"mali"</span>, <span class="tok-str">"Nida"</span>));
+        <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; names = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;(<span class="tok-type">List</span>.<span class="tok-fn">of</span>(<span class="tok-str">"jungkook"</span>, <span class="tok-str">"Suga"</span>, <span class="tok-str">"jhope"</span>, <span class="tok-str">"RM"</span>));
         <span class="tok-type">Collections</span>.<span class="tok-fn">sort</span>(names);  <span class="tok-com">// ตัวใหญ่มาก่อนตัวเล็ก</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"sorted names           "</span> + names);
         <span class="tok-com">// เรียงโดยไม่สนตัวพิมพ์</span>
@@ -418,8 +418,8 @@ Hot days (&gt;= 33): [33.2, 35.1, 34.0] -&gt; 3 days</pre></div></div><div class
 frequency of 7: 3
 sorted   [3, 7, 7, 7, 19, 25, 42]
 reversed [42, 25, 19, 7, 7, 7, 3]
-sorted names           [Beam, Nida, mali, ploy]
-case-insensitive order [Beam, mali, Nida, ploy]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>max/min/frequency ไม่ต้องเขียนลูปเอง</li><li>sort เรียงในรายการเดิม</li><li>String เรียงตามรหัสอักขระ: ตัวใหญ่มาก่อนตัวเล็ก</li><li><code>String.CASE_INSENSITIVE_ORDER</code> เรียงโดยไม่สนตัวพิมพ์</li></ol></div></div>
+sorted names           [RM, Suga, jhope, jungkook]
+case-insensitive order [jhope, jungkook, RM, Suga]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>max/min/frequency ไม่ต้องเขียนลูปเอง</li><li>sort เรียงในรายการเดิม</li><li>String เรียงตามรหัสอักขระ: ตัวใหญ่มาก่อนตัวเล็ก</li><li><code>String.CASE_INSENSITIVE_ORDER</code> เรียงโดยไม่สนตัวพิมพ์</li></ol></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · กรอง</strong><div><p>มี <code>ArrayList&lt;String&gt; words</code> จะสร้างรายการใหม่ที่มีเฉพาะคำยาวกว่า 4 ตัวอักษรได้อย่างไร</p></div><details><summary>ดูคำตอบ</summary><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; longWords = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
 <span class="tok-kw">for</span> (<span class="tok-type">String</span> w : words) {
     <span class="tok-kw">if</span> (w.<span class="tok-fn">length</span>() &gt; <span class="tok-num">4</span>) longWords.<span class="tok-fn">add</span>(w);
@@ -435,9 +435,9 @@ case-insensitive order [Beam, mali, Nida, ploy]</pre></div></div><div class="wal
         <span class="tok-com">// รายการของออบเจ็กต์ Student</span>
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">Student</span>&gt; list = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
         <span class="tok-com">// สร้างออบเจ็กต์แล้วเพิ่มในรายการ</span>
-        list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6601"</span>, <span class="tok-str">"Mali"</span>, <span class="tok-num">78</span>));
-        list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6602"</span>, <span class="tok-str">"Beam"</span>, <span class="tok-num">55</span>));
-        list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6603"</span>, <span class="tok-str">"Nida"</span>, <span class="tok-num">91</span>));
+        list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6601"</span>, <span class="tok-str">"JHope"</span>, <span class="tok-num">78</span>));
+        list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6602"</span>, <span class="tok-str">"Suga"</span>, <span class="tok-num">55</span>));
+        list.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Student</span>(<span class="tok-str">"6603"</span>, <span class="tok-str">"RM"</span>, <span class="tok-num">91</span>));
 
         <span class="tok-type">Student</span> s = <span class="tok-fn">findById</span>(list, <span class="tok-str">"6602"</span>);  <span class="tok-com">// ค้นด้วยรหัส</span>
         <span class="tok-com">// ไม่พบจะได้ null จึงต้องตรวจก่อนใช้</span>
@@ -478,9 +478,9 @@ case-insensitive order [Beam, mali, Nida, ploy]</pre></div></div><div class="wal
         <span class="tok-kw">return</span> id + <span class="tok-str">" "</span> + name + <span class="tok-str">" "</span> + score;
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>null
-6601 Mali 78
-6602 Beam 65
-6603 Nida 91</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>findById คืนออบเจ็กต์ที่พบ หรือ null</li><li>s ชี้ออบเจ็กต์เดียวกับในรายการ → setScore มีผลจริง</li><li>ผู้เรียกต้องตรวจ null ก่อนใช้</li></ol></div></div>
+6601 JHope 78
+6602 Suga 65
+6603 RM 91</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>findById คืนออบเจ็กต์ที่พบ หรือ null</li><li>s ชี้ออบเจ็กต์เดียวกับในรายการ → setScore มีผลจริง</li><li>ผู้เรียกต้องตรวจ null ก่อนใช้</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 13.6.2</span>เรียงออบเจ็กต์ด้วย Comparator</h4><p class="concept-line"><strong>แนวคิด:</strong> บอกวิธีเรียงด้วย <code>Comparator.comparing(...)</code> — เรียงตามคะแนน, ตามชื่อ, หรือกลับลำดับด้วย <code>.reversed()</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SortObjects.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">Comparator</span>;
 
@@ -594,23 +594,23 @@ Bye</pre></div></div><div class="walkthrough"><strong>อธิบายที�
         <h2 id="end-heading">แบบฝึกหัดท้ายบท</h2>
         <p>ทำตามลำดับจากง่ายไปยาก อ่านโจทย์และตัวอย่างผลลัพธ์ให้ครบก่อนเริ่มเขียน แล้วจึงเปิดเฉลยเพื่อเทียบแนวคิด</p>
         <div class="level-legend">ระดับความยาก: <span class="level level-1">★ ง่าย</span><span class="level level-2">★★ ปานกลาง</span><span class="level level-3">★★★ ท้าทาย</span></div>
-<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 13.1</span>รายชื่อเพื่อน<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้าง <code>ArrayList&lt;String&gt;</code> เพิ่มชื่อเพื่อน 4 คน แล้ว (1) แสดงทั้งรายการและจำนวน (2) แทรกชื่อใหม่ที่ตำแหน่งแรก (3) เปลี่ยนชื่อคนสุดท้าย (4) แสดงผลอีกครั้ง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ add, add(0, x), set, size, get</li><li>ตำแหน่งสุดท้ายใช้ <code>size() - 1</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[Mali, Beam, Nida, Ploy] (4)
-[Tan, Mali, Beam, Nida, Pim] (5)
-First: Tan, Last: Pim</pre></div><div class="answer-gate" data-answer-id="13.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">FriendList.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 13.1</span>รายชื่อเพื่อน<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>สร้าง <code>ArrayList&lt;String&gt;</code> เพิ่มชื่อเพื่อน 4 คน แล้ว (1) แสดงทั้งรายการและจำนวน (2) แทรกชื่อใหม่ที่ตำแหน่งแรก (3) เปลี่ยนชื่อคนสุดท้าย (4) แสดงผลอีกครั้ง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ add, add(0, x), set, size, get</li><li>ตำแหน่งสุดท้ายใช้ <code>size() - 1</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>[JHope, Suga, RM, Jungkook] (4)
+[Mark, JHope, Suga, RM, JayB] (5)
+First: Mark, Last: JayB</pre></div><div class="answer-gate" data-answer-id="13.1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">FriendList.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FriendList</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">ArrayList</span>&lt;<span class="tok-type">String</span>&gt; friends = <span class="tok-kw">new</span> <span class="tok-type">ArrayList</span>&lt;&gt;();
-        friends.<span class="tok-fn">add</span>(<span class="tok-str">"Mali"</span>);
-        friends.<span class="tok-fn">add</span>(<span class="tok-str">"Beam"</span>);
-        friends.<span class="tok-fn">add</span>(<span class="tok-str">"Nida"</span>);
-        friends.<span class="tok-fn">add</span>(<span class="tok-str">"Ploy"</span>);
+        friends.<span class="tok-fn">add</span>(<span class="tok-str">"JHope"</span>);
+        friends.<span class="tok-fn">add</span>(<span class="tok-str">"Suga"</span>);
+        friends.<span class="tok-fn">add</span>(<span class="tok-str">"RM"</span>);
+        friends.<span class="tok-fn">add</span>(<span class="tok-str">"Jungkook"</span>);
         <span class="tok-com">// แสดงรายการพร้อมจำนวน</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(friends + <span class="tok-str">" ("</span> + friends.<span class="tok-fn">size</span>() + <span class="tok-str">")"</span>);
         <span class="tok-com">// แทรกหน้าสุด</span>
-        friends.<span class="tok-fn">add</span>(<span class="tok-num">0</span>, <span class="tok-str">"Tan"</span>);
+        friends.<span class="tok-fn">add</span>(<span class="tok-num">0</span>, <span class="tok-str">"Mark"</span>);
         <span class="tok-com">// แทนตัวสุดท้าย</span>
-        friends.<span class="tok-fn">set</span>(friends.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>, <span class="tok-str">"Pim"</span>);
+        friends.<span class="tok-fn">set</span>(friends.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>, <span class="tok-str">"JayB"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(friends + <span class="tok-str">" ("</span> + friends.<span class="tok-fn">size</span>() + <span class="tok-str">")"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"First: "</span> + friends.<span class="tok-fn">get</span>(<span class="tok-num">0</span>) + <span class="tok-str">", Last: "</span> + friends.<span class="tok-fn">get</span>(friends.<span class="tok-fn">size</span>() - <span class="tok-num">1</span>));
     }
@@ -731,20 +731,20 @@ Most frequent: the</pre></div><div class="answer-gate" data-answer-id="13.5"><bu
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Most frequent: "</span> + words.<span class="tok-fn">get</span>(best));
     }
 }</code></pre></div><p>เมื่อเรียน HashMap ในวิชาถัดไป งานแบบนี้จะเขียนได้สั้นกว่า แต่หลักการเหมือนกัน</p></div></div></article>
-<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 13.6</span>คิวร้านอาหาร<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>จำลองคิวร้านอาหารด้วย ArrayList&lt;String&gt; รับคำสั่งทีละบรรทัด: <code>join ชื่อ</code> (ต่อท้ายคิว), <code>vip ชื่อ</code> (แทรกหน้าสุด), <code>serve</code> (เรียกคนแรกออกจากคิว), <code>leave ชื่อ</code> (ออกจากคิว), <code>show</code> (แสดงคิว), <code>end</code> (จบ) จัดการกรณีคิวว่างและชื่อที่ไม่อยู่ในคิว</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แยกคำสั่งกับชื่อด้วย split(" ", 2)</li><li>serve ใช้ remove(0)</li><li>leave ใช้ remove(Object) ซึ่งคืน boolean</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>&gt; <b class="stdin">join Mali</b>
-&gt; <b class="stdin">join Beam</b>
-&gt; <b class="stdin">vip Nida</b>
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 13.6</span>คิวร้านอาหาร<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>จำลองคิวร้านอาหารด้วย ArrayList&lt;String&gt; รับคำสั่งทีละบรรทัด: <code>join ชื่อ</code> (ต่อท้ายคิว), <code>vip ชื่อ</code> (แทรกหน้าสุด), <code>serve</code> (เรียกคนแรกออกจากคิว), <code>leave ชื่อ</code> (ออกจากคิว), <code>show</code> (แสดงคิว), <code>end</code> (จบ) จัดการกรณีคิวว่างและชื่อที่ไม่อยู่ในคิว</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>แยกคำสั่งกับชื่อด้วย split(" ", 2)</li><li>serve ใช้ remove(0)</li><li>leave ใช้ remove(Object) ซึ่งคืน boolean</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์ (ตัวที่ขีดเส้นใต้ = ค่าที่ผู้ใช้พิมพ์)</strong><pre>&gt; <b class="stdin">join JHope</b>
+&gt; <b class="stdin">join Suga</b>
+&gt; <b class="stdin">vip RM</b>
 &gt; <b class="stdin">show</b>
-  [Nida, Mali, Beam]
+  [RM, JHope, Suga]
 &gt; <b class="stdin">serve</b>
-  serving Nida
-&gt; <b class="stdin">leave Tan</b>
-  Tan is not in queue
-&gt; <b class="stdin">leave Mali</b>
+  serving RM
+&gt; <b class="stdin">leave Mark</b>
+  Mark is not in queue
+&gt; <b class="stdin">leave JHope</b>
 &gt; <b class="stdin">show</b>
-  [Beam]
+  [Suga]
 &gt; <b class="stdin">serve</b>
-  serving Beam
+  serving Suga
 &gt; <b class="stdin">serve</b>
   queue is empty
 &gt; <b class="stdin">end</b>
@@ -779,28 +779,28 @@ Remaining: 0</pre></div><div class="answer-gate" data-answer-id="13.6"><button c
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Remaining: "</span> + queue.<span class="tok-fn">size</span>());
     }
 }</code></pre></div></div></div></article>
-<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 13.7</span>สมุดรายชื่อติดต่อ (Contact Book)<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างคลาส <code>Contact</code> (ชื่อ, เบอร์โทร, อีเมล) และคลาส <code>ContactBook</code> ที่<strong>มี</strong> <code>ArrayList&lt;Contact&gt;</code> พร้อมเมธอด: <code>add(Contact)</code> (ปฏิเสธชื่อซ้ำ ไม่สนตัวพิมพ์), <code>findByName(String)</code>, <code>search(String keyword)</code> (คืนรายการที่ชื่อหรืออีเมลมีคำค้น), <code>remove(String name)</code> และ <code>listSorted()</code> (เรียงตามชื่อ) แล้วสาธิตทุกเมธอดใน main</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>field ใน Contact เป็น private + getter + toString</li><li>search คืน <code>ArrayList&lt;Contact&gt;</code> ใหม่</li><li>เรียงด้วย <code>Comparator.comparing(Contact::getName, String.CASE_INSENSITIVE_ORDER)</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Added: Nida
-Added: beam
-Added: Mali
-Duplicate: NIDA
-Find Mali: Mali (086-555-6666)
-Search 'mail': [Nida (081-111-2222), Mali (086-555-6666)]
-Remove Beam: true
-Sorted: [Mali (086-555-6666), Nida (081-111-2222)]</pre></div><div class="answer-gate" data-answer-id="13.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ContactApp.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
+<article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 13.7</span>สมุดรายชื่อติดต่อ (Contact Book)<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างคลาส <code>Contact</code> (ชื่อ, เบอร์โทร, อีเมล) และคลาส <code>ContactBook</code> ที่<strong>มี</strong> <code>ArrayList&lt;Contact&gt;</code> พร้อมเมธอด: <code>add(Contact)</code> (ปฏิเสธชื่อซ้ำ ไม่สนตัวพิมพ์), <code>findByName(String)</code>, <code>search(String keyword)</code> (คืนรายการที่ชื่อหรืออีเมลมีคำค้น), <code>remove(String name)</code> และ <code>listSorted()</code> (เรียงตามชื่อ) แล้วสาธิตทุกเมธอดใน main</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>field ใน Contact เป็น private + getter + toString</li><li>search คืน <code>ArrayList&lt;Contact&gt;</code> ใหม่</li><li>เรียงด้วย <code>Comparator.comparing(Contact::getName, String.CASE_INSENSITIVE_ORDER)</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Added: RM
+Added: suga
+Added: JHope
+Duplicate: rm
+Find JHope: JHope (086-555-6666)
+Search 'mail': [RM (081-111-2222), JHope (086-555-6666)]
+Remove Suga: true
+Sorted: [JHope (086-555-6666), RM (081-111-2222)]</pre></div><div class="answer-gate" data-answer-id="13.7"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 13.7<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">ContactApp.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">Comparator</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ContactApp</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">ContactBook</span> book = <span class="tok-kw">new</span> <span class="tok-type">ContactBook</span>();
         <span class="tok-com">// add คืนข้อความผลลัพธ์</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(book.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Contact</span>(<span class="tok-str">"Nida"</span>, <span class="tok-str">"081-111-2222"</span>, <span class="tok-str">"nida@mail.com"</span>)));
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(book.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Contact</span>(<span class="tok-str">"beam"</span>, <span class="tok-str">"089-333-4444"</span>, <span class="tok-str">"beam@work.co.th"</span>)));
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(book.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Contact</span>(<span class="tok-str">"Mali"</span>, <span class="tok-str">"086-555-6666"</span>, <span class="tok-str">"mali@mail.com"</span>)));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(book.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Contact</span>(<span class="tok-str">"RM"</span>, <span class="tok-str">"081-111-2222"</span>, <span class="tok-str">"rm@mail.com"</span>)));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(book.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Contact</span>(<span class="tok-str">"suga"</span>, <span class="tok-str">"089-333-4444"</span>, <span class="tok-str">"suga@work.co.th"</span>)));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(book.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Contact</span>(<span class="tok-str">"JHope"</span>, <span class="tok-str">"086-555-6666"</span>, <span class="tok-str">"jhope@mail.com"</span>)));
         <span class="tok-com">// ชื่อซ้ำ (ไม่สนตัวพิมพ์)</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(book.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Contact</span>(<span class="tok-str">"NIDA"</span>, <span class="tok-str">"080-000-0000"</span>, <span class="tok-str">"x@x.com"</span>)));
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Find Mali: "</span> + book.<span class="tok-fn">findByName</span>(<span class="tok-str">"mali"</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(book.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">Contact</span>(<span class="tok-str">"rm"</span>, <span class="tok-str">"080-000-0000"</span>, <span class="tok-str">"x@x.com"</span>)));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Find JHope: "</span> + book.<span class="tok-fn">findByName</span>(<span class="tok-str">"jhope"</span>));
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Search 'mail': "</span> + book.<span class="tok-fn">search</span>(<span class="tok-str">"mail"</span>));
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Remove Beam: "</span> + book.<span class="tok-fn">remove</span>(<span class="tok-str">"Beam"</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Remove Suga: "</span> + book.<span class="tok-fn">remove</span>(<span class="tok-str">"Suga"</span>));
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Sorted: "</span> + book.<span class="tok-fn">listSorted</span>());
     }
 }

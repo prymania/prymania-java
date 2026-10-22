@@ -28,7 +28,7 @@ export default {
                 public static void main(String[] args) {
                     // ประกาศตัวแปรชนิด int พร้อมค่าเริ่มต้น
                     int age = 19;
-                    String name = "Mali";      // ข้อความต้องอยู่ใน "..."
+                    String name = "JHope";      // ข้อความต้องอยู่ใน "..."
                     System.out.println(name);  // ไม่มี "" → แสดงค่าในตัวแปร
                     System.out.println(age);
                     // มี "" → แสดงคำว่า name ตรงตัว
@@ -37,7 +37,7 @@ export default {
                     System.out.println("Name: " + name + ", age " + age);
                 }
             }`,
-          steps: ["<code>println(name)</code> พิมพ์ค่า Mali", "<code>println(\"name\")</code> มีเครื่องหมายคำพูด จึงพิมพ์คำว่า name ตรงตัว", "<code>+</code> ระหว่างข้อความกับค่า คือการ<strong>ต่อข้อความ</strong>"] },
+          steps: ["<code>println(name)</code> พิมพ์ค่า JHope", "<code>println(\"name\")</code> มีเครื่องหมายคำพูด จึงพิมพ์คำว่า name ตรงตัว", "<code>+</code> ระหว่างข้อความกับค่า คือการ<strong>ต่อข้อความ</strong>"] },
         { type: "run", title: "ค่าเปลี่ยนได้ตามลำดับคำสั่ง", level: "ต่อยอด",
           concept: "ตัวแปรเก็บได้ทีละค่า ค่าใหม่จะเขียนทับค่าเก่า ต้องไล่ค่าตามลำดับบรรทัด",
           code: j`
@@ -103,7 +103,7 @@ export default {
           ["<code>double</code>", "<code>double height = 165.5;</code>", "ตัวเลขทศนิยม เช่น ส่วนสูง ราคา", "ความละเอียดประมาณ 15 หลัก"],
           ["<code>char</code>", "<code>char grade = 'A';</code>", "อักขระหนึ่งตัว", "ใช้ single quote <code>' '</code>"],
           ["<code>boolean</code>", "<code>boolean isReady = true;</code>", "สถานะจริง/เท็จ", "มีแค่ true, false"],
-          ["<code>String</code>", "<code>String name = \"Mali\";</code>", "ข้อความ", "ใช้ double quote <code>\" \"</code>"],
+          ["<code>String</code>", "<code>String name = \"JHope\";</code>", "ข้อความ", "ใช้ double quote <code>\" \"</code>"],
         ] },
         { type: "steps", title: "เลือกชนิดข้อมูลด้วยคำถาม 4 ข้อ", items: [
           "เป็นข้อความหรือไม่? → <code>String</code> (ถ้าตัวอักษรเดียวและต้องการแบบอักขระ → <code>char</code>)",
@@ -116,7 +116,7 @@ export default {
           code: j`
             public class StudentData {
                 public static void main(String[] args) {
-                    String name = "Nida";  // String: ข้อความ
+                    String name = "RM";  // String: ข้อความ
                     int age = 20;          // int: จำนวนเต็ม
                     double gpa = 3.25;     // double: ทศนิยม
                     // char: อักขระเดียว ใช้ '...'
@@ -390,12 +390,12 @@ export default {
                 System.out.println("After lending: " + books);
             }
         }` },
-    { level: 1, title: "ประกาศข้อมูลนักศึกษา", html: `<p>เลือกชนิดข้อมูลให้เหมาะสมและประกาศตัวแปรสำหรับ: ชื่อ <code>Nida</code>, อายุ 20 ปี, คะแนนเฉลี่ย 3.25, เพศ <code>F</code> (อักขระเดียว) และสถานะ “ลงทะเบียนแล้ว” แล้วแสดงผลตามตัวอย่าง</p>`,
+    { level: 1, title: "ประกาศข้อมูลนักศึกษา", html: `<p>เลือกชนิดข้อมูลให้เหมาะสมและประกาศตัวแปรสำหรับ: ชื่อ <code>RM</code>, อายุ 20 ปี, คะแนนเฉลี่ย 3.25, เพศ <code>F</code> (อักขระเดียว) และสถานะ “ลงทะเบียนแล้ว” แล้วแสดงผลตามตัวอย่าง</p>`,
       spec: ["ใช้ชนิดข้อมูลครบ 5 ชนิด: String, int, double, char, boolean", "ตั้งชื่อตัวแปรแบบ camelCase", "แสดงผลในรูปแบบ <code>ชื่อหัวข้อ: ค่า</code>"],
       solution: j`
         public class StudentInfo {
             public static void main(String[] args) {
-                String name = "Nida";
+                String name = "RM";
                 int age = 20;
                 double gpa = 3.25;
                 char gender = 'F';

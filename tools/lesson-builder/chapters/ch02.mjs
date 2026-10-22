@@ -65,7 +65,7 @@ export default {
             public class AboutMe {  // ไฟล์ AboutMe.java
                 public static void main(String[] args) {
                     // ทำงานจากบนลงล่างทีละคำสั่ง
-                    System.out.println("Name: Mali");
+                    System.out.println("Name: JHope");
                     System.out.println("Major: Computer Science");
                     System.out.println("Year: 1");
                 }
@@ -93,7 +93,7 @@ export default {
           code: j`
             /*
              * โปรแกรมนี้ใช้ทดลอง comment
-             * ผู้เขียน: Mali
+             * ผู้เขียน: JHope
              */
             public class CommentDemo {
                 public static void main(String[] args) {
@@ -225,7 +225,7 @@ export default {
             public static void main(String[] args) {
                 // แสดงป้ายต้อนรับ 3 บรรทัด
                 System.out.println("Computer Programming 1");  // println ทีละบรรทัด
-                System.out.println("Mali Jaidee");
+                System.out.println("JHope Jung");
                 System.out.println("Ready to learn Java");
             }
         }` },
@@ -319,9 +319,9 @@ export default {
         public class BusinessCard {
             public static void main(String[] args) {
                 System.out.println("+------------------------------+");
-                System.out.println("| Mali Jaidee                  |");
+                System.out.println("| JHope Jung                  |");
                 System.out.println("| Junior Java Developer        |");
-                System.out.println("| mali@example.com             |");
+                System.out.println("| jhope@example.com             |");
                 System.out.println("|                              |");
                 // \" ใช้ 2 ตัวอักษรในโค้ด แต่แสดง 1 ตัว
                 System.out.println("| \"Code a little every day.\"   |");
@@ -332,7 +332,7 @@ export default {
         public class report {
             public static void main(String[] args) {
                 System.out.println("Student Report")
-                System.out.println("Name:\tMali");
+                System.out.println("Name:\tJHope");
                 System.out.printline("Score:\t85");
                 System.out.println("Status: "Pass"");
         }`),
@@ -341,7 +341,7 @@ export default {
         public class Report {
             public static void main(String[] args) {
                 System.out.println("Student Report");
-                System.out.println("Name:\tMali");  // \t เว้นระยะหลังหัวข้อ
+                System.out.println("Name:\tJHope");  // \t เว้นระยะหลังหัวข้อ
                 System.out.println("Score:\t85");
                 System.out.println("Status: \"Pass\"");  // \" ครอบคำว่า Pass
             }

@@ -113,7 +113,7 @@
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกข้อมูลแล้วคลิก Preview</p><figure class="gui-shot"><div class="gui-titlebar">Read values</div><img src="../assets/gui/g7e4aed6668-0.png" width="305" height="251" alt="ภาพหน้าต่าง Read values" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>getText() ได้ String</li><li>getSelectedItem() ได้ Object ซึ่งเป็น "Year 2"</li><li>radio ต้องเช็ค isSelected ทีละปุ่ม — ถ้าไม่เลือกเลยต้องจัดการกรณีนี้</li><li>spinner คืน Integer cast เป็น int</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกข้อมูลแล้วคลิก Preview</p><figure class="gui-shot"><div class="gui-titlebar">Read values</div><img src="../assets/gui/gf994f15aa5-0.png" width="305" height="251" alt="ภาพหน้าต่าง Read values" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>getText() ได้ String</li><li>getSelectedItem() ได้ Object ซึ่งเป็น "Year 2"</li><li>radio ต้องเช็ค isSelected ทีละปุ่ม — ถ้าไม่เลือกเลยต้องจัดการกรณีนี้</li><li>spinner คืน Integer cast เป็น int</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.1.2</span>อ่านรายการที่เลือกหลายรายการจาก JList</h4><p class="concept-line"><strong>แนวคิด:</strong> JList เลือกได้หลายรายการ (กด Ctrl ค้าง) อ่านด้วย <code>getSelectedValuesList()</code> ได้ List — ตัวอย่างตั้งค่าเลือกไว้ล่วงหน้าด้วย setSelectedIndices</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MultiSelect.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">List</span>;
@@ -192,7 +192,7 @@
     <span class="tok-kw">static</span> <span class="tok-kw">final</span> <span class="tok-type">String</span> <span class="tok-const">STUDENT_ID</span> = <span class="tok-str">"66\\d{6}"</span>;
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-fn">test</span>(<span class="tok-str">"email"</span>, <span class="tok-const">EMAIL</span>, <span class="tok-str">"mali@mail.com"</span>, <span class="tok-str">"mali.j@uni.ac.th"</span>, <span class="tok-str">"mali@"</span>, <span class="tok-str">"@mail.com"</span>);
+        <span class="tok-fn">test</span>(<span class="tok-str">"email"</span>, <span class="tok-const">EMAIL</span>, <span class="tok-str">"jhope@mail.com"</span>, <span class="tok-str">"jhope.j@uni.ac.th"</span>, <span class="tok-str">"jhope@"</span>, <span class="tok-str">"@mail.com"</span>);
         <span class="tok-fn">test</span>(<span class="tok-str">"phone"</span>, <span class="tok-const">PHONE</span>, <span class="tok-str">"081-234-5678"</span>, <span class="tok-str">"0812345678"</span>, <span class="tok-str">"02-123-4567"</span>, <span class="tok-str">"81234"</span>);
         <span class="tok-fn">test</span>(<span class="tok-str">"id"</span>, <span class="tok-const">STUDENT_ID</span>, <span class="tok-str">"66012345"</span>, <span class="tok-str">"65012345"</span>, <span class="tok-str">"6601234"</span>);
     }
@@ -204,9 +204,9 @@
             <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-6s %-18s %s%n"</span>, label, s, s.<span class="tok-fn">matches</span>(regex) ? <span class="tok-str">"valid"</span> : <span class="tok-str">"INVALID"</span>);
         }
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>email  mali@mail.com      valid
-email  mali.j@uni.ac.th   valid
-email  mali@              INVALID
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>email  jhope@mail.com     valid
+email  jhope.j@uni.ac.th  valid
+email  jhope@             INVALID
 email  @mail.com          INVALID
 phone  081-234-5678       valid
 phone  0812345678         valid
@@ -267,7 +267,7 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกผิดทุกช่องแล้วคลิก Register</p><figure class="gui-shot"><div class="gui-titlebar">Register</div><img src="../assets/gui/g84b2f5b48c-0.png" width="342" height="182" alt="ภาพหน้าต่าง Register" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">แก้ให้ถูกแล้วคลิกอีกครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Register</div><img src="../assets/gui/g84b2f5b48c-1.png" width="342" height="150" alt="ภาพหน้าต่าง Register" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ตรวจทุกช่องโดยไม่หยุดที่ error แรก</li><li>แสดง error หลายบรรทัดด้วย HTML &lt;br&gt; ใน JLabel</li><li>frame.pack() ปรับขนาดหน้าต่างตามข้อความใหม่</li><li>เมื่อถูกทั้งหมดแสดงข้อความสีเขียว</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกผิดทุกช่องแล้วคลิก Register</p><figure class="gui-shot"><div class="gui-titlebar">Register</div><img src="../assets/gui/ga3083dc97e-0.png" width="342" height="182" alt="ภาพหน้าต่าง Register" loading="lazy"></figure></div><div class="gui-group"><p class="gui-caption">แก้ให้ถูกแล้วคลิกอีกครั้ง</p><figure class="gui-shot"><div class="gui-titlebar">Register</div><img src="../assets/gui/ga3083dc97e-1.png" width="342" height="150" alt="ภาพหน้าต่าง Register" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ตรวจทุกช่องโดยไม่หยุดที่ error แรก</li><li>แสดง error หลายบรรทัดด้วย HTML &lt;br&gt; ใน JLabel</li><li>frame.pack() ปรับขนาดหน้าต่างตามข้อความใหม่</li><li>เมื่อถูกทั้งหมดแสดงข้อความสีเขียว</li></ol></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · ลำดับการตรวจ</strong><div><p>ทำไมต้องตรวจ “ว่าง” ก่อน “แปลงเป็นตัวเลข” และตรวจ “แปลงได้” ก่อน “ช่วงค่า”</p></div><details><summary>ดูคำตอบ</summary><div><p>เพื่อให้ข้อความ error ตรงกับปัญหาจริง (ช่องว่างควรได้ “กรุณากรอก” ไม่ใช่ “ไม่ใช่ตัวเลข”) และการตรวจช่วงค่าทำได้ก็ต่อเมื่อมีตัวเลขแล้วเท่านั้น</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-17-3">
@@ -451,17 +451,17 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BookingValidatorTest</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-fn">test</span>(<span class="tok-str">"Mali"</span>, <span class="tok-str">"2"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">true</span>);  <span class="tok-com">// ข้อมูลถูกต้อง</span>
+        <span class="tok-fn">test</span>(<span class="tok-str">"JHope"</span>, <span class="tok-str">"2"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">true</span>);  <span class="tok-com">// ข้อมูลถูกต้อง</span>
         <span class="tok-fn">test</span>(<span class="tok-str">""</span>, <span class="tok-str">"2"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">true</span>);
-        <span class="tok-fn">test</span>(<span class="tok-str">"Beam"</span>, <span class="tok-str">"0"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">false</span>);  <span class="tok-com">// guests = 0 นอกช่วง</span>
-        <span class="tok-fn">test</span>(<span class="tok-str">"Nida"</span>, <span class="tok-str">"5"</span>, <span class="tok-str">"x"</span>, <span class="tok-num">true</span>);
-        <span class="tok-fn">test</span>(<span class="tok-str">"Ploy"</span>, <span class="tok-str">"11"</span>, <span class="tok-str">"31"</span>, <span class="tok-num">false</span>);
+        <span class="tok-fn">test</span>(<span class="tok-str">"Suga"</span>, <span class="tok-str">"0"</span>, <span class="tok-str">"3"</span>, <span class="tok-num">false</span>);  <span class="tok-com">// guests = 0 นอกช่วง</span>
+        <span class="tok-fn">test</span>(<span class="tok-str">"RM"</span>, <span class="tok-str">"5"</span>, <span class="tok-str">"x"</span>, <span class="tok-num">true</span>);
+        <span class="tok-fn">test</span>(<span class="tok-str">"Jungkook"</span>, <span class="tok-str">"11"</span>, <span class="tok-str">"31"</span>, <span class="tok-num">false</span>);
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">test</span>(<span class="tok-type">String</span> name, <span class="tok-type">String</span> guests, <span class="tok-type">String</span> nights, <span class="tok-kw">boolean</span> breakfast) {
         <span class="tok-com">// ตรวจโดยไม่ต้องเปิดหน้าจอ</span>
         <span class="tok-type">List</span>&lt;<span class="tok-type">String</span>&gt; errors = <span class="tok-type">BookingValidator</span>.<span class="tok-fn">validate</span>(name, guests, nights);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-5s g=%-3s n=%-3s -&gt; %s%n"</span>, name, guests, nights, errors.<span class="tok-fn">isEmpty</span>() ? <span class="tok-str">"OK"</span> : errors);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-8s g=%-3s n=%-3s -&gt; %s%n"</span>, name, guests, nights, errors.<span class="tok-fn">isEmpty</span>() ? <span class="tok-str">"OK"</span> : errors);
     }
 }
 
@@ -493,11 +493,11 @@ id     6601234            INVALID</pre></div></div><div class="walkthrough"><str
             <span class="tok-kw">return</span> <span class="tok-num">null</span>;
         }
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Mali  g=2   n=3   -&gt; OK
-      g=2   n=3   -&gt; [name required]
-Beam  g=0   n=3   -&gt; [guests must be 1-10]
-Nida  g=5   n=x   -&gt; [nights must be a number]
-Ploy  g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>parseInRange ใช้ซ้ำได้กับทุกช่องตัวเลข และเพิ่ม error ลงรายการที่ส่งมา</li><li>คืน Integer (null เมื่อผิด) เพื่อให้ตรวจกฎข้ามช่องได้เฉพาะเมื่อทั้งคู่ถูก</li><li>กฎข้ามช่อง: guests × nights ไม่เกิน 60</li><li>ชุดทดสอบครอบคลุมกรณีปกติ ว่าง ค่าขอบ รูปแบบผิด และกฎข้ามช่อง</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>JHope    g=2   n=3   -&gt; OK
+         g=2   n=3   -&gt; [name required]
+Suga     g=0   n=3   -&gt; [guests must be 1-10]
+RM       g=5   n=x   -&gt; [nights must be a number]
+Jungkook g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>parseInRange ใช้ซ้ำได้กับทุกช่องตัวเลข และเพิ่ม error ลงรายการที่ส่งมา</li><li>คืน Integer (null เมื่อผิด) เพื่อให้ตรวจกฎข้ามช่องได้เฉพาะเมื่อทั้งคู่ถูก</li><li>กฎข้ามช่อง: guests × nights ไม่เกิน 60</li><li>ชุดทดสอบครอบคลุมกรณีปกติ ว่าง ค่าขอบ รูปแบบผิด และกฎข้ามช่อง</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 17.4.2</span>ใช้ validator ในฟอร์มจองห้องพัก</h4><p class="concept-line"><strong>แนวคิด:</strong> listener สั้นลงมาก: อ่านค่า → เรียก validate → แสดง error หรือคำนวณราคา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">BookingForm.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 <span class="tok-kw">import</span> java.util.<span class="tok-type">ArrayList</span>;
@@ -569,7 +569,7 @@ Ploy  g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></
         <span class="tok-com">// อาหารเช้าคิดต่อคนต่อคืน</span>
         <span class="tok-kw">return</span> room + (breakfast ? <span class="tok-num">250.0</span> * guests * nights : <span class="tok-num">0</span>);
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกถูกต้องแล้วคลิก Book</p><figure class="gui-shot"><div class="gui-titlebar">Hotel booking</div><img src="../assets/gui/gf41e0af5d4-0.png" width="404" height="151" alt="ภาพหน้าต่าง Hotel booking" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>BookingRules รวมกฎทั้งหมด (ตรวจ + คิดราคา) ไม่มีโค้ด Swing</li><li>ห้องพักได้ 2 คน: จำนวนห้อง = ceil(guests / 2)</li><li>2 คน 3 คืน = 1 ห้อง × 3 คืน × 1200 = 3,600</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">กรอกถูกต้องแล้วคลิก Book</p><figure class="gui-shot"><div class="gui-titlebar">Hotel booking</div><img src="../assets/gui/g7683f74930-0.png" width="404" height="151" alt="ภาพหน้าต่าง Hotel booking" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>BookingRules รวมกฎทั้งหมด (ตรวจ + คิดราคา) ไม่มีโค้ด Swing</li><li>ห้องพักได้ 2 คน: จำนวนห้อง = ceil(guests / 2)</li><li>2 คน 3 คืน = 1 ห้อง × 3 คืน × 1200 = 3,600</li></ol></div></div>
 </article>
 <article class="subtopic" id="topic-17-5">
 <h3>17.5 ล้างและ reset ฟอร์ม</h3>
@@ -646,7 +646,7 @@ Ploy  g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></
         error.<span class="tok-fn">setText</span>(<span class="tok-str">" "</span>);
         name.<span class="tok-fn">requestFocusInWindow</span>();
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">บันทึก Mali (Engineering, Gold) แล้วบันทึก Beam (ค่าเริ่มต้น)</p><figure class="gui-shot"><div class="gui-titlebar">Members</div><img src="../assets/gui/g8d493ae936-0.png" width="520" height="152" alt="ภาพหน้าต่าง Members" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>Mali ถูกบันทึกพร้อม Engineering และ Gold</li><li>resetForm() คืนทุกช่องเป็นค่าเริ่มต้นทันที</li><li>Beam ถูกบันทึกด้วยค่าเริ่มต้น (Science, Basic) — พิสูจน์ว่า reset ทำงาน</li><li>ไม่ล้างฟอร์มเมื่อบันทึกไม่สำเร็จ</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><p class="gui-caption">บันทึก JHope (Engineering, Gold) แล้วบันทึก Suga (ค่าเริ่มต้น)</p><figure class="gui-shot"><div class="gui-titlebar">Members</div><img src="../assets/gui/g7d1acb7b4c-0.png" width="520" height="152" alt="ภาพหน้าต่าง Members" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JHope ถูกบันทึกพร้อม Engineering และ Gold</li><li>resetForm() คืนทุกช่องเป็นค่าเริ่มต้นทันที</li><li>Suga ถูกบันทึกด้วยค่าเริ่มต้น (Science, Basic) — พิสูจน์ว่า reset ทำงาน</li><li>ไม่ล้างฟอร์มเมื่อบันทึกไม่สำเร็จ</li></ol></div></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
@@ -799,7 +799,7 @@ Ploy  g=11  n=31  -&gt; [guests must be 1-10, nights must be 1-30]</pre></div></
         });
     }
 }</code></pre></div></div></div></article>
-<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 17.5</span>ฟอร์มสมัครพร้อม error ข้างช่อง<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>ฟอร์มมีช่อง Username (4–12 ตัว ตัวอักษร/ตัวเลขเท่านั้น), Email (รูปแบบอีเมล), Phone (รูปแบบ 0XX-XXX-XXXX) และ check box “I accept the terms” (ต้องติ๊ก) แต่ละช่องมี label error สีแดงอยู่ทางขวา ปุ่ม Submit ตรวจทุกช่องพร้อมกัน แสดง error ทุกช่องที่ผิด และแสดง dialog “Registered!” เมื่อถูกทั้งหมด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ regex: <code>[A-Za-z0-9]{4,12}</code>, รูปแบบอีเมลจากหัวข้อ 17.2, <code>0\\d{2}-\\d{3}-\\d{4}</code></li><li>เขียนเมธอด <code>boolean show(JLabel err, String msg)</code> ที่ตั้งข้อความและคืนว่าผ่านหรือไม่</li><li>ภาพตัวอย่าง: username สั้นเกิน, อีเมลถูก, เบอร์ผิด, ไม่ติ๊ก</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Sign up</div><img src="../assets/gui/g565bc43611-0.png" width="440" height="174" alt="ภาพหน้าต่าง Sign up" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="17.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 17.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">SignupForm.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<article class="end-exercise" data-level="2"><h3><span class="exercise-id">Exercise 17.5</span>ฟอร์มสมัครพร้อม error ข้างช่อง<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>ฟอร์มมีช่อง Username (4–12 ตัว ตัวอักษร/ตัวเลขเท่านั้น), Email (รูปแบบอีเมล), Phone (รูปแบบ 0XX-XXX-XXXX) และ check box “I accept the terms” (ต้องติ๊ก) แต่ละช่องมี label error สีแดงอยู่ทางขวา ปุ่ม Submit ตรวจทุกช่องพร้อมกัน แสดง error ทุกช่องที่ผิด และแสดง dialog “Registered!” เมื่อถูกทั้งหมด</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ regex: <code>[A-Za-z0-9]{4,12}</code>, รูปแบบอีเมลจากหัวข้อ 17.2, <code>0\\d{2}-\\d{3}-\\d{4}</code></li><li>เขียนเมธอด <code>boolean show(JLabel err, String msg)</code> ที่ตั้งข้อความและคืนว่าผ่านหรือไม่</li><li>ภาพตัวอย่าง: username สั้นเกิน, อีเมลถูก, เบอร์ผิด, ไม่ติ๊ก</li></ol></div><div class="ex-sample"><strong>ตัวอย่างหน้าจอ (ภาพจากโปรแกรมเฉลย)</strong><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Sign up</div><img src="../assets/gui/g5cef91caa2-0.png" width="440" height="174" alt="ภาพหน้าต่าง Sign up" loading="lazy"></figure></div></div></div><div class="answer-gate" data-answer-id="17.5"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 17.5<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">SignupForm.java</span></div><pre class="answer-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SignupForm</span> {

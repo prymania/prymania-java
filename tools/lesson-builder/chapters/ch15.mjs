@@ -78,7 +78,7 @@ export default {
       num: "15.2", toc: "รับและแสดงข้อความ", title: "JTextField, JTextArea และ JScrollPane",
       blocks: [
         { type: "p", html: `<code>JTextField</code> เหมาะกับข้อความบรรทัดเดียว เช่น ชื่อหรือรหัส; <code>JPasswordField</code> สำหรับรหัสผ่าน; <code>JTextArea</code> รับข้อความหลายบรรทัด และควรใส่ใน <code>JScrollPane</code> เพื่อเลื่อนดูเมื่อข้อความยาว ค่าที่อ่านได้จากช่องเหล่านี้เป็น <strong>String เสมอ</strong> (ตัวเลขต้อง parse แบบบทที่ 9)` },
-        { type: "run", title: "ช่องกรอกบรรทัดเดียวพร้อมข้อความที่ผู้ใช้พิมพ์", level: "พื้นฐาน", gui: true, actions: "type field:0 Mali Jaidee\ntype field:1 6601234",
+        { type: "run", title: "ช่องกรอกบรรทัดเดียวพร้อมข้อความที่ผู้ใช้พิมพ์", level: "พื้นฐาน", gui: true, actions: "type field:0 JHope Jung\ntype field:1 6601234",
           concept: "JTextField(คอลัมน์) กำหนดความกว้างโดยประมาณ ภาพนี้จำลองว่าผู้ใช้พิมพ์ข้อมูลลงไปแล้ว",
           code: j`
             import javax.swing.*;
@@ -425,7 +425,7 @@ export default {
           "แยกการสร้างแต่ละ panel เป็นเมธอด เช่น <code>buildForm()</code>, <code>buildButtons()</code>",
           "ทดสอบย่อ/ขยายหน้าต่าง ว่าส่วนที่ควรยืดยืดจริง",
         ] },
-        { type: "run", title: "ฟอร์มลงทะเบียนจาก 3 panel", level: "ประยุกต์", gui: true, actions: "type field:0 Mali Jaidee\ntype field:1 mali@mail.com\nselect combo:0 1\ntype area:0 Interested in GUI programming.",
+        { type: "run", title: "ฟอร์มลงทะเบียนจาก 3 panel", level: "ประยุกต์", gui: true, actions: "type field:0 JHope Jung\ntype field:1 jhope@mail.com\nselect combo:0 1\ntype area:0 Interested in GUI programming.",
           concept: "หัวเรื่อง (NORTH) + ฟอร์ม GridLayout (CENTER) + แถวปุ่ม FlowLayout (SOUTH) แต่ละส่วนสร้างในเมธอดของตัวเอง",
           code: j`
             import javax.swing.*;
@@ -503,9 +503,9 @@ export default {
 
                         // รายการข้อความสำหรับ JList
                         DefaultListModel<String> messages = new DefaultListModel<>();
-                        messages.addElement("Mali: Has anyone finished lab 15?");
-                        messages.addElement("Beam: Almost, stuck on BoxLayout");
-                        messages.addElement("Nida: Remember setAlignmentX!");
+                        messages.addElement("JHope: Has anyone finished lab 15?");
+                        messages.addElement("Suga: Almost, stuck on BoxLayout");
+                        messages.addElement("RM: Remember setAlignmentX!");
                         // JList แสดงรายการจาก model
                         JList<String> list = new JList<>(messages);
 
@@ -621,7 +621,7 @@ export default {
             }
         }`, explain: "ภาพตัวอย่างจำลองการเลือก XL และสี Navy" },
     { level: 2, title: "ฟอร์มข้อมูลติดต่อด้วย GridLayout", html: `<p>สร้างฟอร์ม <code>Contact</code> ที่มีป้ายกับช่องเป็นคู่ 4 แถว: Name, Phone, Email, Province (combo box 5 จังหวัด) ใช้ <code>GridLayout(0, 2, 8, 6)</code> และมีแถวปุ่ม Cancel/Save ชิดขวาด้านล่าง</p>`,
-      spec: ["ฟอร์มกับแถวปุ่มเป็นคนละ panel", "content pane ใช้ BorderLayout", "เว้นขอบ 10 พิกเซลด้วย EmptyBorder"], gui: true, actions: "type field:0 Nida\ntype field:1 081-234-5678\ntype field:2 nida@mail.com\nselect combo:0 3",
+      spec: ["ฟอร์มกับแถวปุ่มเป็นคนละ panel", "content pane ใช้ BorderLayout", "เว้นขอบ 10 พิกเซลด้วย EmptyBorder"], gui: true, actions: "type field:0 RM\ntype field:1 081-234-5678\ntype field:2 rm@mail.com\nselect combo:0 3",
       solution: j`
         import javax.swing.*;
         import java.awt.*;

@@ -35,7 +35,7 @@ export default {
           code: j`
             public class ConsoleGreeting {
                 public static void main(String[] args) {
-                    String name = "Mali";
+                    String name = "JHope";
                     // โปรแกรม console: แสดงผลเป็นข้อความ
                     System.out.println("Welcome to Java GUI course");
                     System.out.println("Student: " + name);
@@ -59,7 +59,7 @@ export default {
                         JPanel panel = new JPanel();
                         // ป้ายข้อความ
                         panel.add(new JLabel("Welcome to Java GUI course"));
-                        panel.add(new JLabel("Student: Mali"));
+                        panel.add(new JLabel("Student: JHope"));
                         frame.add(panel);  // วางแผงลงในหน้าต่าง
                         // ปรับขนาดหน้าต่างให้พอดีเนื้อหา
                         frame.pack();
@@ -145,7 +145,7 @@ export default {
 
                 public static void main(String[] args) {
                     // สร้างและแสดงบน EDT
-                    SwingUtilities.invokeLater(() -> new ProfileWindow("Mali").setVisible(true));
+                    SwingUtilities.invokeLater(() -> new ProfileWindow("JHope").setVisible(true));
                 }
             }`,
           steps: ["<code>super(\"Student Profile\")</code> ส่งชื่อหน้าต่างให้ constructor ของ JFrame", "เรียก setSize, add ได้ตรง ๆ เพราะเป็นเมธอดที่สืบทอดมา", "constructor รับ parameter ได้ ทำให้สร้างหน้าต่างหลายแบบจากคลาสเดียว", "main เหลือบรรทัดเดียว"] },
@@ -335,7 +335,7 @@ export default {
                     JFrame frame = new JFrame("Student Profile");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JPanel panel = new JPanel();
-                    panel.add(new JLabel("Name: Mali Jaidee"));
+                    panel.add(new JLabel("Name: JHope Jung"));
                     frame.add(panel);
                     frame.setSize(400, 150);  // กำหนดขนาดเอง
                     frame.setLocationRelativeTo(null);
@@ -356,7 +356,7 @@ export default {
                     JPanel panel = new JPanel();
                     panel.add(new JLabel("Grade Calculator"));
                     panel.add(new JLabel("v1.0"));
-                    panel.add(new JLabel("by Mali"));
+                    panel.add(new JLabel("by JHope"));
                     frame.add(panel);
                     frame.pack();  // ปรับขนาดตามเนื้อหา
                     frame.setVisible(true);
@@ -364,7 +364,7 @@ export default {
             }
         }`, explain: "ถ้าต้องการให้แต่ละ label อยู่คนละบรรทัด ใช้ layout อื่น เช่น <code>new JPanel(new GridLayout(0, 1))</code> หรือ BoxLayout (บทที่ 15)" },
     { level: 1, title: "หน้าต่างล็อกอิน (ยังไม่ทำงาน)", html: `<p>สร้างหน้าต่าง <code>Login</code> ที่มี JLabel “Username:”, JTextField กว้าง 12, JLabel “Password:”, <code>JPasswordField</code> กว้าง 12 และปุ่ม <code>Sign in</code> ปรับความกว้างหน้าต่างให้ช่องเรียงเป็น 2 แถวตามภาพ</p>`,
-      spec: ["JPasswordField แสดงจุดแทนตัวอักษร", "ใช้ setSize ให้แคบพอที่ FlowLayout จะตัดขึ้นแถวใหม่ (ประมาณ 300 × 130)", "ยังไม่ต้องมี event"], gui: true, actions: "type field:0 mali\ntype field:1 secret",
+      spec: ["JPasswordField แสดงจุดแทนตัวอักษร", "ใช้ setSize ให้แคบพอที่ FlowLayout จะตัดขึ้นแถวใหม่ (ประมาณ 300 × 130)", "ยังไม่ต้องมี event"], gui: true, actions: "type field:0 jhope\ntype field:1 secret",
       solution: j`
         import javax.swing.*;
 
@@ -402,7 +402,7 @@ export default {
                     JPanel card = new JPanel(new GridLayout(2, 1, 0, 6));
                     card.setBackground(new Color(32, 44, 40));
                     card.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-                    JLabel name = new JLabel("Mali Jaidee");
+                    JLabel name = new JLabel("JHope Jung");
                     name.setFont(new Font("SansSerif", Font.BOLD, 20));
                     name.setForeground(Color.WHITE);
                     JLabel role = new JLabel("Junior Java Developer");

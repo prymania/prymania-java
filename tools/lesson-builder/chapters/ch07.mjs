@@ -135,18 +135,18 @@ export default {
         { type: "p", html: `<strong>parameter</strong> คือตัวแปรที่ประกาศในวงเล็บของเมธอดเพื่อรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก เมื่อเรียก Java จะคัดลอกค่า argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em>` },
         { type: "concept", title: "parameter vs argument", html: jpre(`
           static void greet(String name, int times) { ... }   // name, times = parameter
-          greet("Mali", 3);                                  // "Mali", 3   = argument
+          greet("JHope", 3);                                  // "JHope", 3   = argument
                   │      └──→ times = 3
-                  └──────────→ name  = "Mali"`) + `<ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul>` },
+                  └──────────→ name  = "JHope"`) + `<ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul>` },
         { type: "run", title: "parameter หนึ่งตัว", level: "พื้นฐาน",
           concept: "เมธอดเดียวทำงานกับข้อมูลต่างกันได้ ขึ้นอยู่กับ argument ที่ส่งมา",
           code: j`
             public class GreetParam {
                 public static void main(String[] args) {
-                    // ส่ง argument "Mali" เข้า parameter name
-                    greet("Mali");
-                    greet("Beam");
-                    String friend = "Nida";
+                    // ส่ง argument "JHope" เข้า parameter name
+                    greet("JHope");
+                    greet("Suga");
+                    String friend = "RM";
                     greet(friend);  // ส่งค่าในตัวแปรก็ได้
                 }
 
@@ -154,7 +154,7 @@ export default {
                     System.out.println("Hello, " + name + "!");
                 }
             }`,
-          steps: ["ครั้งแรก name = \"Mali\"", "ครั้งที่สอง name = \"Beam\"", "ครั้งที่สามส่งตัวแปร friend → name ได้ค่า \"Nida\""] },
+          steps: ["ครั้งแรก name = \"JHope\"", "ครั้งที่สอง name = \"Suga\"", "ครั้งที่สามส่งตัวแปร friend → name ได้ค่า \"RM\""] },
         { type: "run", title: "หลาย parameter และลูปในเมธอด", level: "ต่อยอด",
           concept: "parameter ใช้ได้เหมือนตัวแปรปกติภายในเมธอด รวมถึงเป็นขอบเขตของลูป",
           code: j`
@@ -540,7 +540,7 @@ export default {
           "เขียน main ให้เรียกเมธอดตามลำดับเหมือนสารบัญ",
           "เขียนและทดสอบเมธอดทีละตัว โดยเรียกจาก main ด้วยค่าที่รู้คำตอบ",
         ] },
-        { type: "run", title: "เครื่องคำนวณเกรดจากเมธอดหลายตัว", level: "ประยุกต์", stdin: "Mali\n32 24 27",
+        { type: "run", title: "เครื่องคำนวณเกรดจากเมธอดหลายตัว", level: "ประยุกต์", stdin: "JHope\n32 24 27",
           concept: "main ประสานงาน ส่วนเมธอดแต่ละตัวทำหน้าที่เดียว: รวมคะแนน ตัดเกรด และพิมพ์รายงาน",
           code: j`
             import java.util.Scanner;

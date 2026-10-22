@@ -85,11 +85,11 @@
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 2.2.2</span>หลายคำสั่ง ทำงานจากบนลงล่าง</h4><p class="concept-line"><strong>แนวคิด:</strong> คำสั่งใน main ทำงานเรียงตามลำดับบรรทัด (sequence) ทีละคำสั่ง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AboutMe.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AboutMe</span> {  <span class="tok-com">// ไฟล์ AboutMe.java</span>
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ทำงานจากบนลงล่างทีละคำสั่ง</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name: Mali"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name: JHope"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Major: Computer Science"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Year: 1"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Name: Mali
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Name: JHope
 Major: Computer Science
 Year: 1</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัดแรกพิมพ์ชื่อ</li><li>บรรทัดที่สองพิมพ์สาขา</li><li>บรรทัดที่สามพิมพ์ชั้นปี — ลำดับใน output ตรงกับลำดับในโค้ดเสมอ</li></ol></div><p class="try-it">สลับบรรทัด Name กับ Year แล้วดูว่า output เปลี่ยนตามหรือไม่</p></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 2.2.3</span>print กับ println ต่างกันอย่างไร</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>print</code> พิมพ์แล้ว<strong>อยู่บรรทัดเดิม</strong> ส่วน <code>println</code> พิมพ์แล้ว<strong>ขึ้นบรรทัดใหม่</strong> และ <code>println()</code> เปล่า ๆ ใช้เว้นบรรทัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintVsPrintln.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintVsPrintln</span> {
@@ -109,7 +109,7 @@ D
 E F</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>print A และ B ต่อกันในบรรทัดเดิม → <code>AB</code></li><li>println C ต่อท้ายแล้วขึ้นบรรทัด → บรรทัดแรกคือ <code>ABC</code></li><li>println D อยู่บรรทัดที่สอง</li><li><code>println()</code> ว่าง ทำให้เกิดบรรทัดว่าง</li><li>print "E " (มีช่องว่าง) แล้ว println F → <code>E F</code></li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 2.2.4</span>Comment: ข้อความที่ compiler ไม่สนใจ</h4><p class="concept-line"><strong>แนวคิด:</strong> comment ใช้อธิบายโค้ดให้คนอ่าน <code>//</code> ใช้บรรทัดเดียว <code>/* ... */</code> ใช้หลายบรรทัด โค้ดที่อยู่ใน comment จะไม่ทำงาน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CommentDemo.java</span></div><pre class="source-code"><code><span class="tok-com">/*
  * โปรแกรมนี้ใช้ทดลอง comment
- * ผู้เขียน: Mali
+ * ผู้เขียน: JHope
  */</span>
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CommentDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -210,12 +210,12 @@ WrongCase.java:4: error: cannot find symbol
     }
 }</code></pre></div><p>ชื่อไฟล์ต้องเป็น <code>Greeting.java</code> ให้ตรงกับชื่อคลาส public</p></div></div></article>
 <article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 2.2</span>ป้ายต้อนรับ 3 บรรทัด<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>แสดงข้อความ 3 บรรทัด: ชื่อวิชา, ชื่อของคุณ และ <code>Ready to learn Java</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ println 3 คำสั่ง</li><li>ใส่ comment บรรทัดบนสุดของ main ว่าโปรแกรมนี้ทำอะไร</li><li>ข้อความในบรรทัดที่ 1–2 เปลี่ยนเป็นของตนเองได้</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Computer Programming 1
-Mali Jaidee
+JHope Jung
 Ready to learn Java</pre></div><div class="answer-gate" data-answer-id="2.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Welcome.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Welcome</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// แสดงป้ายต้อนรับ 3 บรรทัด</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Computer Programming 1"</span>);  <span class="tok-com">// println ทีละบรรทัด</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Mali Jaidee"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"JHope Jung"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Ready to learn Java"</span>);
     }
 }</code></pre></div></div></div></article>
@@ -308,17 +308,17 @@ Thank you!</pre></div><div class="answer-gate" data-answer-id="2.7"><button clas
     }
 }</code></pre></div><p>ในโค้ด <code>\\</code> สองตัวแสดงผลเป็น <code>\</code> ตัวเดียว บรรทัดในโค้ดจึงยาวกว่าผลลัพธ์หนึ่งตัวอักษร</p></div></div></article>
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 2.9</span>นามบัตรในกรอบ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>สร้างนามบัตรในกรอบที่ทำจาก <code>+</code>, <code>-</code> และ <code>|</code> ภายในมีชื่อ ตำแหน่ง อีเมล และคำคมในเครื่องหมายคำพูด ทุกบรรทัดต้องกว้างเท่ากัน (ขอบขวาตรงกัน)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ภาษาอังกฤษในการ์ดเพื่อให้นับความกว้างได้ง่าย</li><li>บรรทัดคำคมต้องมีเครื่องหมาย <code>"</code> ครอบ</li><li>นับจำนวนตัวอักษรแต่ละบรรทัดให้เท่ากัน (ในตัวอย่างกว้าง 32 ตัวอักษร)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>+------------------------------+
-| Mali Jaidee                  |
+| JHope Jung                  |
 | Junior Java Developer        |
-| mali@example.com             |
+| jhope@example.com             |
 |                              |
 | "Code a little every day."   |
 +------------------------------+</pre></div><div class="answer-gate" data-answer-id="2.9"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.9<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">BusinessCard.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BusinessCard</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"+------------------------------+"</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| Mali Jaidee                  |"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| JHope Jung                  |"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| Junior Java Developer        |"</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| mali@example.com             |"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| jhope@example.com             |"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"|                              |"</span>);
         <span class="tok-com">// \" ใช้ 2 ตัวอักษรในโค้ด แต่แสดง 1 ตัว</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"| \"Code a little every day.\"   |"</span>);
@@ -328,16 +328,16 @@ Thank you!</pre></div><div class="answer-gate" data-answer-id="2.7"><button clas
 <article class="end-exercise" data-level="3"><h3><span class="exercise-id">Exercise 2.10</span>แก้โปรแกรมที่มีหลาย error<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>โค้ดนี้บันทึกในไฟล์ <code>Report.java</code> แต่มีข้อผิดพลาด<strong>อย่างน้อย 4 จุด</strong> ให้คอมไพล์ อ่าน error ทีละตัว แก้ทีละจุดจนรันได้ผลตามตัวอย่าง และบันทึกว่าแก้อะไรตามลำดับ</p><div class="code-block"><div class="code-head"><span class="code-file">report.java</span></div><pre class="copyable"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> report {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Student Report"</span>)
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name:	Mali"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name:	JHope"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printline</span>(<span class="tok-str">"Score:	85"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Status: "</span><span class="tok-type">Pass</span><span class="tok-str">""</span>);
 }</code></pre></div></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>เริ่มแก้จาก error แรกที่ javac รายงาน แล้วคอมไพล์ใหม่ทุกครั้ง</li><li>ผลลัพธ์บรรทัดสุดท้ายต้องมีเครื่องหมายคำพูดรอบคำว่า Pass</li><li>เขียนสรุปว่าแต่ละ error มีข้อความว่าอะไร</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Student Report
-Name:	Mali
+Name:	JHope
 Score:	85
 Status: "Pass"</pre></div><div class="answer-gate" data-answer-id="2.10"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 2.10<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Report.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Report</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Student Report"</span>);
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name:\tMali"</span>);  <span class="tok-com">// \t เว้นระยะหลังหัวข้อ</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name:\tJHope"</span>);  <span class="tok-com">// \t เว้นระยะหลังหัวข้อ</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Score:\t85"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Status: \"Pass\""</span>);  <span class="tok-com">// \" ครอบคำว่า Pass</span>
     }

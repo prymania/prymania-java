@@ -34,7 +34,7 @@ export default {
           code: j`
             public class StringBasics {
                 public static void main(String[] args) {
-                    String name = "  Mali Jaidee  ";
+                    String name = "  JHope Jung  ";
                     // length() นับช่องว่างด้วย
                     System.out.println("[" + name + "] length " + name.length());
                     // String เปลี่ยนไม่ได้: ผลลัพธ์ถูกทิ้ง
@@ -80,8 +80,8 @@ export default {
           code: j`
             public class JoinStrings {
                 public static void main(String[] args) {
-                    String first = "Mali";
-                    String last = "Jaidee";
+                    String first = "JHope";
+                    String last = "Jung";
                     int age = 19;
                     double gpa = 3.456;
 
@@ -107,12 +107,12 @@ export default {
             public class NullString {
                 public static void main(String[] args) {
                     String[] names = new String[2];
-                    names[0] = "Beam";
-                    System.out.println("\"Beam\".equals(names[1]) = " + "Beam".equals(names[1]));
+                    names[0] = "Suga";
+                    System.out.println("\"Suga\".equals(names[1]) = " + "Suga".equals(names[1]));
                     System.out.println(names[1].length());
                 }
             }`,
-          steps: ["names[1] ยังไม่กำหนด → null", "<code>\"Beam\".equals(null)</code> ปลอดภัย ได้ false", "<code>names[1].length()</code> → NullPointerException", "ข้อความ error บอกชัดว่า <code>names[1]</code> is null"] },
+          steps: ["names[1] ยังไม่กำหนด → null", "<code>\"Suga\".equals(null)</code> ปลอดภัย ได้ false", "<code>names[1].length()</code> → NullPointerException", "ข้อความ error บอกชัดว่า <code>names[1]</code> is null"] },
         { type: "check", title: "immutable", html: jpre(`
           String s = "hello";
           s.toUpperCase();
@@ -159,7 +159,7 @@ export default {
                 }
             }`,
           steps: ["ตัวสุดท้ายคือ index length − 1 = 5", "\"an\" พบครั้งแรกที่ 1 และครั้งสุดท้ายที่ 3", "ไม่พบ → −1", "substring(1, 4) = index 1, 2, 3 → \"ana\""] },
-        { type: "run", title: "แยกชื่อ-นามสกุลและอีเมล", level: "ต่อยอด", stdin: "Mali Jaidee\nmali.j@example.co.th",
+        { type: "run", title: "แยกชื่อ-นามสกุลและอีเมล", level: "ต่อยอด", stdin: "JHope Jung\njhope.j@example.co.th",
           concept: "ใช้ indexOf หาตำแหน่งตัวคั่น แล้วใช้ substring ตัดส่วนซ้ายและขวาของตัวคั่น",
           code: j`
             import java.util.Scanner;
@@ -187,8 +187,8 @@ export default {
                     System.out.println("Ends with .th? " + email.endsWith(".th"));
                 }
             }`,
-          steps: ["ช่องว่างอยู่ที่ index 4 → first = substring(0, 4) = \"Mali\"", "last = substring(5) ตั้งแต่หลังช่องว่าง", "อีเมล: ตัดซ้ายและขวาของ @", "ถ้าชื่อไม่มีช่องว่าง indexOf คืน −1 แล้ว substring(0, −1) จะ error — ควรตรวจก่อน"] },
-        { type: "run", title: "split: แยกข้อมูลที่คั่นด้วยเครื่องหมาย", level: "ประยุกต์", stdin: "Mali,19,3.45,Science",
+          steps: ["ช่องว่างอยู่ที่ index 4 → first = substring(0, 4) = \"JHope\"", "last = substring(5) ตั้งแต่หลังช่องว่าง", "อีเมล: ตัดซ้ายและขวาของ @", "ถ้าชื่อไม่มีช่องว่าง indexOf คืน −1 แล้ว substring(0, −1) จะ error — ควรตรวจก่อน"] },
+        { type: "run", title: "split: แยกข้อมูลที่คั่นด้วยเครื่องหมาย", level: "ประยุกต์", stdin: "JHope,19,3.45,Science",
           concept: "ข้อมูลแบบ CSV (คั่นด้วยจุลภาค) แยกได้ด้วย <code>split(\",\")</code> ได้อาเรย์ของ String",
           code: j`
             import java.util.Scanner;
@@ -287,7 +287,7 @@ export default {
                 }
             }`,
           steps: ["ต่อข้อความ → \"1020\"", "parseInt แล้วบวก → 30", "String.valueOf แปลงกลับเป็น String เพื่อใช้เมธอดของ String เช่น length"] },
-        { type: "run", title: "แยก CSV แล้วแปลงแต่ละช่อง", level: "ต่อยอด", stdin: "Mali,19,3.45",
+        { type: "run", title: "แยก CSV แล้วแปลงแต่ละช่อง", level: "ต่อยอด", stdin: "JHope,19,3.45",
           concept: "รวม split กับ parse: ช่องที่เป็นตัวเลขต้อง parse ก่อนนำไปใช้",
           code: j`
             import java.util.Scanner;
@@ -306,7 +306,7 @@ export default {
                     System.out.printf("%s will be %d next year. GPA x 25 = %.1f%n", name, age + 1, gpa * 25);
                 }
             }`,
-          steps: ["split ได้ {\"Mali\", \"19\", \"3.45\"}", "trim แต่ละช่องเผื่อมีช่องว่าง", "parse แล้วคำนวณ age + 1 และ gpa × 25"] },
+          steps: ["split ได้ {\"JHope\", \"19\", \"3.45\"}", "trim แต่ละช่องเผื่อมีช่องว่าง", "parse แล้วคำนวณ age + 1 และ gpa × 25"] },
         { type: "run", label: "ทดลอง error 9.3.3", title: "NumberFormatException", level: "ประยุกต์", expect: "runtime-error",
           concept: "parseInt กับข้อความที่ไม่ใช่จำนวนเต็ม (เช่นมีทศนิยม ตัวอักษร หรือว่าง) จะเกิด error ระหว่างรัน",
           code: j`
@@ -610,7 +610,7 @@ export default {
             }
         }` },
     { level: 2, title: "ชื่อย่อและรูปแบบชื่อ", html: `<p>รับชื่อเต็ม 2–3 คำ (เช่น ชื่อ ชื่อกลาง นามสกุล) ซึ่งผู้ใช้อาจพิมพ์ตัวพิมพ์ปนกันและมีช่องว่างหลายตัว แสดง (1) ชื่อที่จัดรูปแบบให้ขึ้นต้นตัวพิมพ์ใหญ่ทุกคำ (2) อักษรย่อ (3) รูปแบบ <code>นามสกุล, ชื่อ</code></p>`,
-      spec: ["ใช้ <code>trim().split(\"\\\\s+\")</code> แยกคำ", "ขึ้นต้นตัวใหญ่: <code>w.substring(0,1).toUpperCase() + w.substring(1).toLowerCase()</code>", "นามสกุลคือคำสุดท้ายของอาเรย์"], runs: ["  mALI   jaidee ", "john ronald TOLKIEN"],
+      spec: ["ใช้ <code>trim().split(\"\\\\s+\")</code> แยกคำ", "ขึ้นต้นตัวใหญ่: <code>w.substring(0,1).toUpperCase() + w.substring(1).toLowerCase()</code>", "นามสกุลคือคำสุดท้ายของอาเรย์"], runs: ["  jHOPE   jung ", "john ronald TOLKIEN"],
       solution: j`
         import java.util.Scanner;
 

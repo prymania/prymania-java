@@ -66,7 +66,7 @@
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ประกาศตัวแปรชนิด int พร้อมค่าเริ่มต้น</span>
         <span class="tok-kw">int</span> age = <span class="tok-num">19</span>;
-        <span class="tok-type">String</span> name = <span class="tok-str">"Mali"</span>;      <span class="tok-com">// ข้อความต้องอยู่ใน "..."</span>
+        <span class="tok-type">String</span> name = <span class="tok-str">"JHope"</span>;      <span class="tok-com">// ข้อความต้องอยู่ใน "..."</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(name);  <span class="tok-com">// ไม่มี "" → แสดงค่าในตัวแปร</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(age);
         <span class="tok-com">// มี "" → แสดงคำว่า name ตรงตัว</span>
@@ -74,10 +74,10 @@
         <span class="tok-com">// + ต่อข้อความกับค่าตัวแปร</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Name: "</span> + name + <span class="tok-str">", age "</span> + age);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Mali
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>JHope
 19
 name
-Name: Mali, age 19</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>println(name)</code> พิมพ์ค่า Mali</li><li><code>println("name")</code> มีเครื่องหมายคำพูด จึงพิมพ์คำว่า name ตรงตัว</li><li><code>+</code> ระหว่างข้อความกับค่า คือการ<strong>ต่อข้อความ</strong></li></ol></div></div>
+Name: JHope, age 19</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>println(name)</code> พิมพ์ค่า JHope</li><li><code>println("name")</code> มีเครื่องหมายคำพูด จึงพิมพ์คำว่า name ตรงตัว</li><li><code>+</code> ระหว่างข้อความกับค่า คือการ<strong>ต่อข้อความ</strong></li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 3.1.2</span>ค่าเปลี่ยนได้ตามลำดับคำสั่ง</h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรเก็บได้ทีละค่า ค่าใหม่จะเขียนทับค่าเก่า ต้องไล่ค่าตามลำดับบรรทัด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ChangingValues.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ChangingValues</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> bookCount = <span class="tok-num">3</span>;  <span class="tok-com">// ค่าเริ่มต้น 3</span>
@@ -127,11 +127,11 @@ y = y - <span class="tok-num">1</span>;</code></pre></div><p>สุดท้า�
 <article class="subtopic" id="topic-3-2">
 <h3>3.2 ชนิดข้อมูลพื้นฐาน</h3>
 <p>เลือกชนิดข้อมูลจากลักษณะของค่า: <code>int</code> สำหรับจำนวนเต็ม, <code>double</code> สำหรับทศนิยม, <code>char</code> สำหรับอักขระหนึ่งตัว และ <code>boolean</code> เก็บ <code>true</code> หรือ <code>false</code> ส่วน <code>String</code> ใช้เก็บข้อความและไม่ใช่ชนิด primitive (เป็นคลาส จึงขึ้นต้นด้วยตัวใหญ่)</p>
-<table class="comparison-table"><thead><tr><th>ชนิด</th><th>ตัวอย่าง</th><th>เหมาะกับ</th><th>ช่วงค่า/หมายเหตุ</th></tr></thead><tbody><tr><td><code>int</code></td><td><code>int age = 19;</code></td><td>จำนวนเต็ม เช่น อายุ จำนวนชิ้น</td><td>ประมาณ ±2,100 ล้าน</td></tr><tr><td><code>long</code></td><td><code>long population = 66000000L;</code></td><td>จำนวนเต็มขนาดใหญ่</td><td>ลงท้ายด้วย L</td></tr><tr><td><code>double</code></td><td><code>double height = 165.5;</code></td><td>ตัวเลขทศนิยม เช่น ส่วนสูง ราคา</td><td>ความละเอียดประมาณ 15 หลัก</td></tr><tr><td><code>char</code></td><td><code>char grade = 'A';</code></td><td>อักขระหนึ่งตัว</td><td>ใช้ single quote <code>' '</code></td></tr><tr><td><code>boolean</code></td><td><code>boolean isReady = true;</code></td><td>สถานะจริง/เท็จ</td><td>มีแค่ true, false</td></tr><tr><td><code>String</code></td><td><code>String name = "Mali";</code></td><td>ข้อความ</td><td>ใช้ double quote <code>" "</code></td></tr></tbody></table>
+<table class="comparison-table"><thead><tr><th>ชนิด</th><th>ตัวอย่าง</th><th>เหมาะกับ</th><th>ช่วงค่า/หมายเหตุ</th></tr></thead><tbody><tr><td><code>int</code></td><td><code>int age = 19;</code></td><td>จำนวนเต็ม เช่น อายุ จำนวนชิ้น</td><td>ประมาณ ±2,100 ล้าน</td></tr><tr><td><code>long</code></td><td><code>long population = 66000000L;</code></td><td>จำนวนเต็มขนาดใหญ่</td><td>ลงท้ายด้วย L</td></tr><tr><td><code>double</code></td><td><code>double height = 165.5;</code></td><td>ตัวเลขทศนิยม เช่น ส่วนสูง ราคา</td><td>ความละเอียดประมาณ 15 หลัก</td></tr><tr><td><code>char</code></td><td><code>char grade = 'A';</code></td><td>อักขระหนึ่งตัว</td><td>ใช้ single quote <code>' '</code></td></tr><tr><td><code>boolean</code></td><td><code>boolean isReady = true;</code></td><td>สถานะจริง/เท็จ</td><td>มีแค่ true, false</td></tr><tr><td><code>String</code></td><td><code>String name = "JHope";</code></td><td>ข้อความ</td><td>ใช้ double quote <code>" "</code></td></tr></tbody></table>
 <div class="concept-box"><span class="box-title">เลือกชนิดข้อมูลด้วยคำถาม 4 ข้อ</span><ol class="step-list"><li>เป็นข้อความหรือไม่? → <code>String</code> (ถ้าตัวอักษรเดียวและต้องการแบบอักขระ → <code>char</code>)</li><li>เป็นใช่/ไม่ใช่หรือไม่? → <code>boolean</code></li><li>มีทศนิยมได้หรือไม่? → <code>double</code></li><li>เป็นจำนวนนับ/จำนวนเต็มเสมอ → <code>int</code> (ถ้าใหญ่มาก → <code>long</code>)</li></ol></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 3.2.1</span>ข้อมูลนักศึกษาหลายชนิด</h4><p class="concept-line"><strong>แนวคิด:</strong> ข้อมูลแต่ละอย่างมีลักษณะต่างกัน จึงใช้ชนิดต่างกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StudentData.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StudentData</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">String</span> name = <span class="tok-str">"Nida"</span>;  <span class="tok-com">// String: ข้อความ</span>
+        <span class="tok-type">String</span> name = <span class="tok-str">"RM"</span>;  <span class="tok-com">// String: ข้อความ</span>
         <span class="tok-kw">int</span> age = <span class="tok-num">20</span>;          <span class="tok-com">// int: จำนวนเต็ม</span>
         <span class="tok-kw">double</span> gpa = <span class="tok-num">3.25</span>;     <span class="tok-com">// double: ทศนิยม</span>
         <span class="tok-com">// char: อักขระเดียว ใช้ '...'</span>
@@ -145,7 +145,7 @@ y = y - <span class="tok-num">1</span>;</code></pre></div><p>สุดท้า�
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Section: "</span> + section);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Registered: "</span> + registered);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Name: Nida
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Name: RM
 Age: 20
 GPA: 3.25
 Section: B
@@ -390,13 +390,13 @@ After lending: 5</pre></div><div class="answer-gate" data-answer-id="3.1"><butto
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"After lending: "</span> + books);
     }
 }</code></pre></div></div></div></article>
-<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 3.2</span>ประกาศข้อมูลนักศึกษา<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>เลือกชนิดข้อมูลให้เหมาะสมและประกาศตัวแปรสำหรับ: ชื่อ <code>Nida</code>, อายุ 20 ปี, คะแนนเฉลี่ย 3.25, เพศ <code>F</code> (อักขระเดียว) และสถานะ “ลงทะเบียนแล้ว” แล้วแสดงผลตามตัวอย่าง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ชนิดข้อมูลครบ 5 ชนิด: String, int, double, char, boolean</li><li>ตั้งชื่อตัวแปรแบบ camelCase</li><li>แสดงผลในรูปแบบ <code>ชื่อหัวข้อ: ค่า</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Name: Nida
+<article class="end-exercise" data-level="1"><h3><span class="exercise-id">Exercise 3.2</span>ประกาศข้อมูลนักศึกษา<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>เลือกชนิดข้อมูลให้เหมาะสมและประกาศตัวแปรสำหรับ: ชื่อ <code>RM</code>, อายุ 20 ปี, คะแนนเฉลี่ย 3.25, เพศ <code>F</code> (อักขระเดียว) และสถานะ “ลงทะเบียนแล้ว” แล้วแสดงผลตามตัวอย่าง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ใช้ชนิดข้อมูลครบ 5 ชนิด: String, int, double, char, boolean</li><li>ตั้งชื่อตัวแปรแบบ camelCase</li><li>แสดงผลในรูปแบบ <code>ชื่อหัวข้อ: ค่า</code></li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Name: RM
 Age: 20
 GPA: 3.25
 Gender: F
 Registered: true</pre></div><div class="answer-gate" data-answer-id="3.2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 3.2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">StudentInfo.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StudentInfo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">String</span> name = <span class="tok-str">"Nida"</span>;
+        <span class="tok-type">String</span> name = <span class="tok-str">"RM"</span>;
         <span class="tok-kw">int</span> age = <span class="tok-num">20</span>;
         <span class="tok-kw">double</span> gpa = <span class="tok-num">3.25</span>;
         <span class="tok-kw">char</span> gender = <span class="tok-str">'F'</span>;

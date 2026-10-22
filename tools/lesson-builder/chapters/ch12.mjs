@@ -42,7 +42,7 @@ export default {
           code: j`
             public class PublicMethods {
                 public static void main(String[] args) {
-                    Account acc = new Account("Mali");
+                    Account acc = new Account("JHope");
                     acc.deposit(500);
                     acc.deposit(-100);  // ค่าติดลบถูกปฏิเสธ
                     acc.withdraw(800);  // ถอนเกินยอด ถูกปฏิเสธ
@@ -96,7 +96,7 @@ export default {
             public class GetterSetter {
                 public static void main(String[] args) {
                     // ใช้ constructor กำหนดรหัสและชื่อ
-                    Student s = new Student("6601", "Mali");
+                    Student s = new Student("6601", "JHope");
                     s.setScore(85);
                     System.out.println(s.getId() + " " + s.getName() + " " + s.getScore());
                     s.setScore(150);  // setter ปฏิเสธค่าที่ผิด
@@ -293,7 +293,7 @@ export default {
           code: j`
             public class CompositionDemo {
                 public static void main(String[] args) {
-                    Customer c = new Customer("Mali", true);
+                    Customer c = new Customer("JHope", true);
                     OrderLine[] lines = {  // อาเรย์ของออบเจ็กต์ OrderLine
                         new OrderLine("Latte", 55, 2),
                         new OrderLine("Croissant", 45, 1),
@@ -389,9 +389,9 @@ export default {
           code: j`
             public class InheritanceDemo {
                 public static void main(String[] args) {
-                    Employee e = new Employee("Beam", 25000);
+                    Employee e = new Employee("Suga", 25000);
                     // Manager เป็น Employee ชนิดหนึ่ง
-                    Manager m = new Manager("Mali", 40000, 8000);
+                    Manager m = new Manager("JHope", 40000, 8000);
                     System.out.println(e.describe());
                     System.out.println(m.describe());
                     m.raise(10);  // raise สืบทอดมาจาก Employee
@@ -531,7 +531,7 @@ export default {
                 public static void main(String[] args) {
                     Payable[] bills = {  // ตัวแปรชนิด interface
                         new Invoice("Internet", 599),
-                        new Salary("Beam", 25000),
+                        new Salary("Suga", 25000),
                         new Invoice("Electricity", 1240.5)
                     };
                     double sum = 0;
@@ -584,7 +584,7 @@ export default {
       solution: j`
         public class BankApp {
             public static void main(String[] args) {
-                BankAccount acc = new BankAccount("001-2-34567", "Mali", 1000);
+                BankAccount acc = new BankAccount("001-2-34567", "JHope", 1000);
                 System.out.println("deposit 500: " + acc.deposit(500));
                 // ฝากติดลบ → false
                 System.out.println("deposit -50: " + acc.deposit(-50));
@@ -629,7 +629,7 @@ export default {
         public class PersonApp {
             public static void main(String[] args) {
                 // ชื่อจะถูก trim ใน setter
-                Person p = new Person("  Mali ", 19);
+                Person p = new Person("  JHope ", 19);
                 System.out.println(p.getName() + ", " + p.getAge());
                 try {
                     p.setAge(200);  // อายุผิดช่วง → exception
@@ -727,7 +727,7 @@ export default {
         public class ClassroomApp {
             public static void main(String[] args) {
                 Classroom room = new Classroom("CS101", 4);
-                String[] names = {"Mali", "Beam", "Nida", "Ploy", "Tan"};
+                String[] names = {"JHope", "Suga", "RM", "Jungkook", "Mark"};
                 int[] scores = {78, 65, 92, 81, 70};
                 for (int i = 0; i < names.length; i++) {
                     // เพิ่มนักเรียนจนเต็มความจุ
@@ -788,7 +788,7 @@ export default {
             public void printRoster() {
                 System.out.println("== " + code + " (" + count + "/" + students.length + ") ==");
                 for (int i = 0; i < count; i++) {
-                    System.out.printf("%d. %-5s %3d%n", i + 1, students[i].getName(), students[i].getScore());
+                    System.out.printf("%d. %-8s %3d%n", i + 1, students[i].getName(), students[i].getScore());
                 }
             }
         }` },
@@ -902,10 +902,10 @@ export default {
             public static void main(String[] args) {
                 // อาเรย์ชนิด Employee เก็บพนักงานทุกแบบ
                 Employee[] staff = {
-                    new FullTime("E01", "Mali", 32000),
-                    new PartTime("E02", "Beam", 120, 92),
-                    new SalesPerson("E03", "Nida", 15000, 480000),
-                    new PartTime("E04", "Tan", 150, 40)
+                    new FullTime("E01", "JHope", 32000),
+                    new PartTime("E02", "Suga", 120, 92),
+                    new SalesPerson("E03", "RM", 15000, 480000),
+                    new PartTime("E04", "Mark", 150, 40)
                 };
                 double total = 0;
                 Employee top = staff[0];
@@ -937,7 +937,7 @@ export default {
             public abstract double monthlyPay();
 
             public String payslip() {
-                return String.format("%s %-5s %-12s %,12.2f", id, name, getClass().getSimpleName(), monthlyPay());
+                return String.format("%s %-8s %-12s %,12.2f", id, name, getClass().getSimpleName(), monthlyPay());
             }
 
             // ตัวช่วยตรวจค่า ใช้ร่วมกันทุกคลาสลูก
@@ -1052,19 +1052,19 @@ export default {
                 Item b2 = new BookItem("B2", "Data Structures");
                 Item d1 = new DvdItem("D1", "Coding Movie");
                 Item b3 = new BookItem("B3", "Algorithms");
-                Member mali = new Member("Mali");
-                Member beam = new Member("Beam");
+                Member jhope = new Member("JHope");
+                Member suga = new Member("Suga");
                 // lambda: ส่ง "งาน" ให้ run ทำ
-                run(() -> mali.borrow(b1));
-                run(() -> mali.borrow(d1));
-                run(() -> beam.borrow(b1));
-                run(() -> mali.borrow(b2));
-                run(() -> mali.borrow(b3));
+                run(() -> jhope.borrow(b1));
+                run(() -> jhope.borrow(d1));
+                run(() -> suga.borrow(b1));
+                run(() -> jhope.borrow(b2));
+                run(() -> jhope.borrow(b3));
                 // คืนสินค้าช้า → ค่าปรับ
-                run(() -> System.out.println("  fine = " + mali.giveBack(d1, 6)));
-                run(() -> System.out.println("  fine = " + mali.giveBack(b1, 10)));
-                run(() -> beam.giveBack(b2, 1));
-                run(() -> beam.borrow(b1));
+                run(() -> System.out.println("  fine = " + jhope.giveBack(d1, 6)));
+                run(() -> System.out.println("  fine = " + jhope.giveBack(b1, 10)));
+                run(() -> suga.giveBack(b2, 1));
+                run(() -> suga.borrow(b1));
             }
 
             // Runnable คืองานที่สั่ง run() ได้

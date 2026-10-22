@@ -140,7 +140,7 @@ export default {
                     // สุ่ม index 0 ถึง length-1
                     System.out.println("Today's lunch: " + menu[rng.nextInt(menu.length)]);
 
-                    List<String> students = new ArrayList<>(List.of("Mali", "Beam", "Nida", "Ploy", "Tan", "Pim"));
+                    List<String> students = new ArrayList<>(List.of("JHope", "Suga", "RM", "Jungkook", "Mark", "JayB"));
                     Collections.shuffle(students, rng);  // สลับลำดับแบบสุ่ม
                     System.out.println("Shuffled: " + students);
                     // subList(0, 3) = index 0-2

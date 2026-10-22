@@ -135,7 +135,7 @@ export default {
 
           // (3) lambda — เขียนเฉพาะ parameter และ body
           button.addActionListener(e -> label.setText("Hi"));`) },
-        { type: "run", title: "อ่านค่าจากช่องกรอกแล้วแสดงผล", level: "พื้นฐาน", gui: true, actions: "type field:0 Mali\nshot\nclick Greet\nshot", captions: BA,
+        { type: "run", title: "อ่านค่าจากช่องกรอกแล้วแสดงผล", level: "พื้นฐาน", gui: true, actions: "type field:0 JHope\nshot\nclick Greet\nshot", captions: BA,
           concept: "รูปแบบพื้นฐานที่สุดของ GUI: เมื่อคลิก → <code>getText()</code> จากช่อง → ประมวลผล → <code>setText()</code> ให้ label",
           code: j`
             import javax.swing.*;

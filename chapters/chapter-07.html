@@ -174,24 +174,24 @@ Thank you!
 <h3>7.2 พารามิเตอร์และ argument</h3>
 <p><strong>parameter</strong> คือตัวแปรที่ประกาศในวงเล็บของเมธอดเพื่อรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก เมื่อเรียก Java จะคัดลอกค่า argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em></p>
 <div class="concept-box"><span class="box-title">parameter vs argument</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">greet</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> times) { ... }   <span class="tok-com">// name, times = parameter</span>
-<span class="tok-fn">greet</span>(<span class="tok-str">"Mali"</span>, <span class="tok-num">3</span>);                                  <span class="tok-com">// "Mali", 3   = argument</span>
+<span class="tok-fn">greet</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">3</span>);                                  <span class="tok-com">// "JHope", 3   = argument</span>
         │      └──→ times = <span class="tok-num">3</span>
-        └──────────→ name  = <span class="tok-str">"Mali"</span></code></pre></div><ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul></div>
+        └──────────→ name  = <span class="tok-str">"JHope"</span></code></pre></div><ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.2.1</span>parameter หนึ่งตัว</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดเดียวทำงานกับข้อมูลต่างกันได้ ขึ้นอยู่กับ argument ที่ส่งมา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GreetParam.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GreetParam</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ส่ง argument "Mali" เข้า parameter name</span>
-        <span class="tok-fn">greet</span>(<span class="tok-str">"Mali"</span>);
-        <span class="tok-fn">greet</span>(<span class="tok-str">"Beam"</span>);
-        <span class="tok-type">String</span> friend = <span class="tok-str">"Nida"</span>;
+        <span class="tok-com">// ส่ง argument "JHope" เข้า parameter name</span>
+        <span class="tok-fn">greet</span>(<span class="tok-str">"JHope"</span>);
+        <span class="tok-fn">greet</span>(<span class="tok-str">"Suga"</span>);
+        <span class="tok-type">String</span> friend = <span class="tok-str">"RM"</span>;
         <span class="tok-fn">greet</span>(friend);  <span class="tok-com">// ส่งค่าในตัวแปรก็ได้</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">greet</span>(<span class="tok-type">String</span> name) {  <span class="tok-com">// parameter รับค่าที่ส่งมา</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello, "</span> + name + <span class="tok-str">"!"</span>);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Hello, Mali!
-Hello, Beam!
-Hello, Nida!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ครั้งแรก name = "Mali"</li><li>ครั้งที่สอง name = "Beam"</li><li>ครั้งที่สามส่งตัวแปร friend → name ได้ค่า "Nida"</li></ol></div></div>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Hello, JHope!
+Hello, Suga!
+Hello, RM!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ครั้งแรก name = "JHope"</li><li>ครั้งที่สอง name = "Suga"</li><li>ครั้งที่สามส่งตัวแปร friend → name ได้ค่า "RM"</li></ol></div></div>
 <div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.2.2</span>หลาย parameter และลูปในเมธอด</h4><p class="concept-line"><strong>แนวคิด:</strong> parameter ใช้ได้เหมือนตัวแปรปกติภายในเมธอด รวมถึงเป็นขอบเขตของลูป</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DrawLine.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DrawLine</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-com">// ลำดับ argument ต้องตรงกับ parameter</span>
@@ -587,10 +587,10 @@ Box 2x3x4         : 24.00</pre></div><div class="answer-gate" data-answer-id="7.
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-8s %s%n"</span>, <span class="tok-str">"Result"</span>, grade == <span class="tok-str">'F'</span> ? <span class="tok-str">"Fail"</span> : <span class="tok-str">"Pass"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"-"</span>.<span class="tok-fn">repeat</span>(<span class="tok-num">24</span>));
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Name: <b class="stdin">Mali</b>
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>Name: <b class="stdin">JHope</b>
 Work Mid Final: <b class="stdin">32 24 27</b>
 ------------------------
-Name     Mali
+Name     JHope
 Total    83.0
 Grade    A
 Result   Pass

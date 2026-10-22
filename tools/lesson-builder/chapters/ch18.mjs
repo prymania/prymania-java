@@ -44,7 +44,7 @@ export default {
                         JPanel both = new JPanel(new GridLayout(1, 2, 10, 0));
                         // แต่ละหน้าจอเป็นออบเจ็กต์ของคลาสตัวเอง
                         both.add(new HomeScreen());
-                        both.add(new ProfileScreen("Mali", "Science"));
+                        both.add(new ProfileScreen("JHope", "Science"));
                         frame.setContentPane(both);
                         frame.pack();
                         frame.setVisible(true);
@@ -219,7 +219,7 @@ export default {
                         // หน้าแต่ละหน้ารู้จัก Navigator
                         nav.add(Navigator.HOME, new SimplePage("Home", nav, "Start", Navigator.MENU));
                         nav.add(Navigator.MENU, new SimplePage("Menu", nav, "About", Navigator.ABOUT));
-                        nav.add(Navigator.ABOUT, new SimplePage("About: v1.0 by Mali", nav, "Home", Navigator.HOME));
+                        nav.add(Navigator.ABOUT, new SimplePage("About: v1.0 by JHope", nav, "Home", Navigator.HOME));
                         frame.add(nav.getContainer(), BorderLayout.CENTER);
                         frame.add(nav.getStatusBar(), BorderLayout.SOUTH);
                         frame.setSize(300, 150);
@@ -337,7 +337,7 @@ export default {
       num: "18.4", toc: "แชร์ state ระหว่างหน้า", title: "แชร์ state ระหว่างหน้า",
       blocks: [
         { type: "p", html: `ข้อมูลที่ผู้ใช้กรอกในหน้าหนึ่งมักต้องใช้ในอีกหน้า เช่น ฟอร์ม → สรุป วิธีที่ปลอดภัยคือมี <strong>model ออบเจ็กต์เดียว</strong>ที่ทุกหน้าอ้างถึง: หน้าฟอร์มเขียนลง model ก่อนเปลี่ยนหน้า และหน้าสรุปอ่านจาก model ทุกครั้งที่ถูกแสดง (ไม่ใช่ตอนสร้างครั้งแรกเท่านั้น)` },
-        { type: "run", title: "ฟอร์ม → สรุป ผ่าน model เดียวกัน", level: "ประยุกต์", gui: true, actions: "type field:0 Mali Jaidee\nselect combo:0 2\nclick Next\nshot\nclick Edit\ntype field:0 Beam\nclick Next\nshot", captions: ["กรอก Mali แล้ว Next → หน้าสรุป", "กลับไปแก้เป็น Beam แล้ว Next อีกครั้ง"],
+        { type: "run", title: "ฟอร์ม → สรุป ผ่าน model เดียวกัน", level: "ประยุกต์", gui: true, actions: "type field:0 JHope Jung\nselect combo:0 2\nclick Next\nshot\nclick Edit\ntype field:0 Suga\nclick Next\nshot", captions: ["กรอก JHope แล้ว Next → หน้าสรุป", "กลับไปแก้เป็น Suga แล้ว Next อีกครั้ง"],
           concept: "<code>Registration</code> คือ model — FormPage เขียนลง model, SummaryPage มีเมธอด <code>refresh()</code> ที่อ่าน model ใหม่ทุกครั้งก่อนแสดง",
           code: j`
             import javax.swing.*;
@@ -590,7 +590,7 @@ export default {
             }
         }` },
     { level: 2, title: "วิซาร์ดสมัครสมาชิก 3 ขั้นพร้อมตรวจข้อมูล", html: `<p>วิซาร์ด 3 ขั้น: (1) ชื่อและอีเมล (2) เลือกแพ็กเกจด้วย radio: Free / Pro 99 / Team 299 (3) สรุปข้อมูลทั้งหมด ปุ่ม Back/Next ด้านล่าง ปุ่ม Next ในขั้นที่ 1 ต้องตรวจว่าชื่อไม่ว่างและอีเมลมี @ ก่อนไปต่อ ถ้าผิดให้แสดงข้อความสีแดง ขั้นสุดท้ายปุ่ม Next เปลี่ยนเป็น Finish</p>`,
-      spec: ["เก็บหมายเลขขั้นในตัวแปร", "สร้างข้อความสรุปใหม่ทุกครั้งที่เข้าขั้นที่ 3", "ภาพตัวอย่าง: กด Next โดยอีเมลผิด, แก้แล้ว Next, เลือก Pro, Next"], gui: true, actions: "type field:0 Nida\ntype field:1 nida.mail.com\nclick Next\nshot\ntype field:1 nida@mail.com\nclick Next\nclick Pro (99)\nclick Next\nshot", captions: ["อีเมลไม่มี @ แล้วกด Next", "แก้อีเมล → เลือก Pro → หน้าสรุป"],
+      spec: ["เก็บหมายเลขขั้นในตัวแปร", "สร้างข้อความสรุปใหม่ทุกครั้งที่เข้าขั้นที่ 3", "ภาพตัวอย่าง: กด Next โดยอีเมลผิด, แก้แล้ว Next, เลือก Pro, Next"], gui: true, actions: "type field:0 RM\ntype field:1 rm.mail.com\nclick Next\nshot\ntype field:1 rm@mail.com\nclick Next\nclick Pro (99)\nclick Next\nshot", captions: ["อีเมลไม่มี @ แล้วกด Next", "แก้อีเมล → เลือก Pro → หน้าสรุป"],
       solution: j`
         import javax.swing.*;
         import java.awt.*;
@@ -886,15 +886,15 @@ export default {
             // ยอดคงเหลือ
             double balance() { return totalIncome() - totalExpense(); }
         }` },
-    { level: 3, title: "ล็อกอินด้วย JDialog ก่อนเข้าแอป", html: `<p>เมื่อเปิดโปรแกรม ให้แสดง <strong>JDialog modal</strong> สำหรับล็อกอิน (username, password, ปุ่ม Login/Cancel) ก่อนหน้าต่างหลักจะทำงาน บัญชีที่ถูกต้องเก็บในอาเรย์ <code>{"mali", "beam"}</code> รหัสผ่าน <code>{"java1234", "swing5678"}</code> ล็อกอินผิดให้แสดงข้อความสีแดงใน dialog และนับครั้ง ผิดครบ 3 ครั้งให้ปิดโปรแกรม ถ้าสำเร็จ หน้าต่างหลักแสดง “Welcome, ชื่อ” และปุ่ม Logout ที่เปิด dialog ล็อกอินใหม่</p>`,
-      spec: ["คลาส LoginDialog extends JDialog มี getUser() คืน null ถ้ายกเลิก", "ตรวจรหัสผ่านด้วย <code>new String(pass.getPassword())</code>", "ภาพตัวอย่าง: ใส่รหัสผิด 1 ครั้ง (dialog ยังเปิดอยู่)"], gui: true, actions: "type field:0 mali\ntype field:1 wrong\nclick Login",
+    { level: 3, title: "ล็อกอินด้วย JDialog ก่อนเข้าแอป", html: `<p>เมื่อเปิดโปรแกรม ให้แสดง <strong>JDialog modal</strong> สำหรับล็อกอิน (username, password, ปุ่ม Login/Cancel) ก่อนหน้าต่างหลักจะทำงาน บัญชีที่ถูกต้องเก็บในอาเรย์ <code>{"jhope", "suga"}</code> รหัสผ่าน <code>{"java1234", "swing5678"}</code> ล็อกอินผิดให้แสดงข้อความสีแดงใน dialog และนับครั้ง ผิดครบ 3 ครั้งให้ปิดโปรแกรม ถ้าสำเร็จ หน้าต่างหลักแสดง “Welcome, ชื่อ” และปุ่ม Logout ที่เปิด dialog ล็อกอินใหม่</p>`,
+      spec: ["คลาส LoginDialog extends JDialog มี getUser() คืน null ถ้ายกเลิก", "ตรวจรหัสผ่านด้วย <code>new String(pass.getPassword())</code>", "ภาพตัวอย่าง: ใส่รหัสผิด 1 ครั้ง (dialog ยังเปิดอยู่)"], gui: true, actions: "type field:0 jhope\ntype field:1 wrong\nclick Login",
       solution: j`
         import javax.swing.*;
         import java.awt.*;
 
         public class LoginFirstApp {
             // ผู้ใช้และรหัสผ่านเป็นอาเรย์คู่ขนาน
-            static final String[] USERS = {"mali", "beam"};
+            static final String[] USERS = {"jhope", "suga"};
             static final String[] PASSWORDS = {"java1234", "swing5678"};
 
             public static void main(String[] args) {
