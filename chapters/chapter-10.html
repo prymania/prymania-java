@@ -59,32 +59,39 @@
 <div class="concept-box"><span class="box-title">วงจรการแก้บั๊ก</span><ol class="step-list"><li><strong>ทำให้เกิดซ้ำได้</strong> — หา input ที่ทำให้ผิดทุกครั้ง</li><li><strong>จำกัดขอบเขต</strong> — หาว่าผิดตั้งแต่บรรทัดไหน (อ่าน error, พิมพ์ค่า, ใช้ debugger)</li><li><strong>ตั้งสมมติฐาน</strong> — “น่าจะเพราะ…” แล้วแก้ทีละจุด</li><li><strong>ทดสอบซ้ำ</strong> — ทั้ง input ที่เคยผิดและ input อื่นที่เคยถูก</li></ol></div>
 <article class="subtopic" id="topic-10-1">
 <h3>10.1 จำแนกชนิดของ error</h3>
+<p>ก่อนแก้บั๊ก ให้ถามก่อนว่า error เกิด<strong>ตอนไหน</strong> คำตอบบอกชนิดของปัญหาและบอกว่าควรหาเบาะแสจากที่ใด</p>
 <table class="comparison-table"><thead><tr><th>ชนิด</th><th>เกิดเมื่อ</th><th>ใครเป็นคนบอก</th><th>ตัวอย่าง</th></tr></thead><tbody><tr><td><strong>Syntax / compile error</strong></td><td>ตอนคอมไพล์</td><td>javac (โปรแกรมยังไม่ได้รัน)</td><td>ขาด ;, สะกดผิด, ชนิดไม่ตรง</td></tr><tr><td><strong>Runtime error (exception)</strong></td><td>ระหว่างรัน</td><td>JVM แสดง stack trace แล้วหยุด</td><td>หารด้วย 0, index เกิน, parse ผิด</td></tr><tr><td><strong>Logic error</strong></td><td>รันจบแต่ผลผิด</td><td>ไม่มีใครบอก! ต้องทดสอบเอง</td><td>ใช้ &gt; แทน &gt;=, หาร int, ลืมรีเซ็ตตัวแปร</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.1.1</span>Compile error: compiler หยุดตั้งแต่ก่อนรัน</h4><p class="concept-line"><strong>แนวคิด:</strong> ไม่มี output ใด ๆ จากโปรแกรมเลย แม้บรรทัดแรกจะถูกต้อง เพราะคอมไพล์ไม่ผ่านทั้งไฟล์</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CompileErrorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CompileErrorDemo</span> {
+<h4 class="sub">Compile error: ไม่ได้รันเลยสักบรรทัด</h4>
+<p>ถ้าคอมไพล์ไม่ผ่าน จะไม่มีไฟล์ .class ให้รัน บรรทัดที่ถูกต้องก็ไม่ถูกพิมพ์</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.1.1</span>ชนิดข้อมูลไม่ตรง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CompileErrorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CompileErrorDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Line 1 is fine"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Line 1 is fine"</span>);    <span class="tok-com">// ไม่ถูกพิมพ์ เพราะคอมไพล์ไม่ผ่านทั้งไฟล์</span>
         <span class="tok-kw">int</span> total = <span class="tok-str">"100"</span>;
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total: "</span> + total);
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>CompileErrorDemo.java:4: error: incompatible types: String cannot be converted to int
         int total = "100";
-                    ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>javac พบชนิดไม่ตรงที่บรรทัด 4</li><li>"Line 1 is fine" ไม่ถูกพิมพ์ เพราะไม่ได้สร้าง .class</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.1.2</span>Runtime error: ทำงานไปบางส่วนแล้วหยุด</h4><p class="concept-line"><strong>แนวคิด:</strong> บรรทัดก่อนจุดผิดทำงานตามปกติ เมื่อถึงบรรทัดที่เกิด exception โปรแกรมหยุดทันที</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RuntimeErrorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RuntimeErrorDemo</span> {
+                    ^</pre></div></div></div>
+<h4 class="sub">Runtime error: ทำไปบางส่วนแล้วหยุด</h4>
+<p>คอมไพล์ผ่านแล้ว บรรทัดก่อนจุดผิดทำงานตามปกติ เมื่อถึงคำสั่งที่เกิด exception โปรแกรมหยุดทันที บรรทัดหลังจากนั้นไม่ได้ทำ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.1.2</span>index เกินในรอบสุดท้าย</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">RuntimeErrorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RuntimeErrorDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span>[] data = {<span class="tok-num">10</span>, <span class="tok-num">20</span>, <span class="tok-num">30</span>};
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Start"</span>);
-        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt;= data.length; i++) {
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt;= data.length; i++) {          <span class="tok-com">// &lt;= ทำให้ i ไปถึง 3</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"data["</span> + i + <span class="tok-str">"] = "</span> + data[i]);
         }
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"End"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"End"</span>);                        <span class="tok-com">// ไม่ถูกพิมพ์</span>
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>Start
 data[0] = 10
 data[1] = 20
 data[2] = 30
 Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3
-	at RuntimeErrorDemo.main(RuntimeErrorDemo.java:6)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>พิมพ์ Start และ 3 ค่าแรกได้</li><li>i = 3 → ArrayIndexOutOfBoundsException</li><li>End ไม่ถูกพิมพ์</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.1.3</span>Logic error: เงียบแต่ผิด</h4><p class="concept-line"><strong>แนวคิด:</strong> รันจบโดยไม่มี error แต่คำตอบไม่ถูก — อันตรายที่สุดเพราะไม่มีสัญญาณเตือน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LogicErrorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LogicErrorDemo</span> {
+	at RuntimeErrorDemo.main(RuntimeErrorDemo.java:6)</pre></div></div></div>
+<h4 class="sub">Logic error: เงียบแต่ผิด</h4>
+<p>โปรแกรมรันจบโดยไม่มีข้อความเตือน แต่คำตอบผิด เป็นชนิดที่อันตรายที่สุด ต้องรู้คำตอบที่ถูกไว้ก่อนแล้วเทียบเอง โปรแกรมนี้ควรได้ (80 + 90 + 85) / 3 = 85.0</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.1.3</span>หาค่าเฉลี่ยผิด (มีบั๊ก 2 จุด)</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LogicErrorDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LogicErrorDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span>[] scores = {<span class="tok-num">80</span>, <span class="tok-num">90</span>, <span class="tok-num">85</span>};
         <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
@@ -94,30 +101,28 @@ Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 3 out
         <span class="tok-kw">double</span> average = sum / scores.length;
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Average = "</span> + average);
     }
-}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Average = 58.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>คำตอบที่ถูกคือ (80 + 90 + 85) / 3 = 85.0</li><li>บั๊กที่ 1: ลูปเริ่ม i = 1 ข้าม scores[0]</li><li>บั๊กที่ 2: หาร int ด้วย int ตัดทศนิยม</li><li>ได้ 175 / 3 = 58 → 58.0 ซึ่งผิด แต่ไม่มีใครเตือน</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.1.4</span>ดักจับ exception ด้วย try-catch</h4><p class="concept-line"><strong>แนวคิด:</strong> runtime error บางชนิดคาดการณ์ได้ (ผู้ใช้ป้อนผิด) ใช้ <code>try-catch</code> จัดการให้โปรแกรมทำงานต่อได้ แทนการหยุดทันที</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TryCatchDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+}</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Average = 58.0</pre></div></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · หาบั๊กได้ไหม</strong><div><p>ผลลัพธ์คือ 58.0 แทน 85.0 บั๊กอยู่ที่บรรทัดไหนบ้าง</p></div><details><summary>ดูคำตอบ</summary><div><p>(1) ลูปเริ่ม <code>i = 1</code> ข้าม scores[0] ผลรวมจึงเป็น 175 (2) <code>sum / scores.length</code> เป็น int ÷ int ตัดทศนิยม ได้ 58 ก่อนจะเก็บลง double แก้: เริ่ม <code>i = 0</code> และเขียน <code>(double) sum / scores.length</code></p></div></details></div>
+<h4 class="sub">จัดการ exception ที่คาดได้ด้วย try-catch</h4>
+<p>runtime error บางชนิดคาดได้ล่วงหน้า เช่น ผู้ใช้พิมพ์ข้อมูลผิด ใส่คำสั่งที่เสี่ยงไว้ใน <code>try</code> และเขียนวิธีจัดการไว้ใน <code>catch</code> โปรแกรมจะทำงานต่อได้แทนการหยุด</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.1.4</span>ดักจับ exception หลายชนิด</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TryCatchDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TryCatchDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">Scanner</span> input = <span class="tok-kw">new</span> <span class="tok-type">Scanner</span>(<span class="tok-type">System</span>.in);
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> round = <span class="tok-num">1</span>; round &lt;= <span class="tok-num">3</span>; round++) {
-            <span class="tok-kw">try</span> {  <span class="tok-com">// คำสั่งที่อาจเกิด exception อยู่ใน try</span>
+            <span class="tok-kw">try</span> {
                 <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"a b: "</span>);
-                <span class="tok-com">// ข้อความที่ไม่ใช่ตัวเลข → NumberFormatException</span>
-                <span class="tok-kw">int</span> a = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(input.<span class="tok-fn">next</span>());
+                <span class="tok-kw">int</span> a = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(input.<span class="tok-fn">next</span>());     <span class="tok-com">// "abc" → NumberFormatException</span>
                 <span class="tok-kw">int</span> b = <span class="tok-type">Integer</span>.<span class="tok-fn">parseInt</span>(input.<span class="tok-fn">next</span>());
-                <span class="tok-com">// หารด้วย 0 → ArithmeticException</span>
-                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  a / b = "</span> + (a / b));
-            <span class="tok-com">// จับเฉพาะกรณีหารด้วย 0</span>
-            } <span class="tok-kw">catch</span> (<span class="tok-type">ArithmeticException</span> e) {
+                <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  a / b = "</span> + (a / b)); <span class="tok-com">// b = 0 → ArithmeticException</span>
+            } <span class="tok-kw">catch</span> (<span class="tok-type">ArithmeticException</span> e) {               <span class="tok-com">// รอบ 1 มาที่นี่</span>
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  Cannot divide by zero"</span>);
-            <span class="tok-com">// จับกรณีแปลงตัวเลขไม่ได้</span>
-            } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> e) {
+            } <span class="tok-kw">catch</span> (<span class="tok-type">NumberFormatException</span> e) {             <span class="tok-com">// รอบ 2 มาที่นี่</span>
                 <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  Not a number: "</span> + e.<span class="tok-fn">getMessage</span>());
             }
         }
-        <span class="tok-com">// โปรแกรมไม่หยุดกลางทาง</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Program finished normally"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Program finished normally"</span>);    <span class="tok-com">// ไม่หยุดกลางทาง</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์ · ตัวที่ขีดเส้นใต้คือค่าที่ผู้ใช้พิมพ์</span><pre>a b: <b class="stdin">10</b>
 <b class="stdin">0</b>
@@ -128,12 +133,14 @@ a b: <b class="stdin">10</b>
 a b: <b class="stdin">10</b>
 <b class="stdin">4</b>
   a / b = 2
-Program finished normally</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>รอบ 1: 10 / 0 → ArithmeticException → ไปที่ catch แรก</li><li>รอบ 2: "abc" → NumberFormatException → catch ที่สอง</li><li>รอบ 3: 10 / 4 = 2 ปกติ</li><li>โปรแกรมไม่หยุดกลางคัน</li></ol></div><p>ใช้ try-catch กับสถานการณ์ที่ควบคุมไม่ได้ (ข้อมูลจากผู้ใช้ ไฟล์ เครือข่าย) ไม่ใช่ใช้กลบบั๊กในโค้ดของเราเอง เช่น index เกิน ควรแก้เงื่อนไขลูปแทน</p></div>
+Program finished normally</pre></div></div></div>
+<div class="callout warn"><span class="box-title">อย่าใช้ try-catch กลบบั๊ก</span><p>ใช้ try-catch กับสิ่งที่ควบคุมไม่ได้ (ข้อมูลจากผู้ใช้ ไฟล์ เครือข่าย) ส่วนบั๊กในโค้ดของเราเอง เช่น index เกิน ให้แก้เงื่อนไขลูปแทน</p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · จำแนก</strong><div><p>จัดประเภท: (ก) <code>Strin name;</code> (ข) <code>Integer.parseInt("")</code> (ค) คำนวณพื้นที่วงกลมด้วย <code>2 * Math.PI * r</code></p></div><details><summary>ดูคำตอบ</summary><div><p>(ก) compile error — cannot find symbol (ข) runtime error — NumberFormatException (ค) logic error — นั่นคือสูตรเส้นรอบวง</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-10-2">
 <h3>10.2 อ่าน compiler diagnostics และ stack trace</h3>
-<div class="concept-box"><span class="box-title">กายวิภาคของข้อความ error</span><pre><code>Compile error:
+<p>ข้อความ error มีโครงสร้างตายตัว อ่านเป็นแล้วจะรู้ทันทีว่าไฟล์ไหน บรรทัดไหน ปัญหาชนิดใด</p>
+<div class="concept-box"><span class="box-title">อ่านข้อความ error ทีละส่วน</span><pre><code>Compile error:
 Score.java:7: error: cannot find symbol
 ─────┬──── ┬        ────────┬────────
    ไฟล์   บรรทัด         ชนิดปัญหา
@@ -148,20 +155,25 @@ Exception in thread "main" java.lang.ArithmeticException: / by zero
                               ชนิด exception              รายละเอียด
     at Stats.average(Stats.java:12)      ← เกิดจริงที่นี่ (อ่านบรรทัดบนสุดก่อน)
     at Stats.main(Stats.java:5)          ← เรียกมาจากที่นี่</code></pre></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.2.1</span>หลาย error พร้อมกัน — แก้ตัวแรกก่อน</h4><p class="concept-line"><strong>แนวคิด:</strong> javac รายงานหลาย error ในครั้งเดียว แก้จากบนลงล่างทีละตัวแล้วคอมไพล์ใหม่</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Score.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Score</span> {
+<h4 class="sub">หลาย error: แก้จากบนลงล่าง แล้วคอมไพล์ใหม่</h4>
+<p>javac ตรวจเป็นรอบ: syntax ก่อน แล้วจึงตรวจชื่อและชนิด โปรแกรมนี้มี error 3 จุด แต่รอบแรกจะเห็นแค่ <code>';' expected</code></p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.2.1</span>เห็น error แค่จุดเดียวก่อน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Score.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Score</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span>[] scores = {<span class="tok-num">7</span>, <span class="tok-num">9</span>, <span class="tok-num">8</span>};
         <span class="tok-kw">int</span> total = <span class="tok-num">0</span>;
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> s : scores) {
-            totl += s;
+            totl += s;                                <span class="tok-com">// สะกดผิด (ยังไม่ถูกรายงานรอบนี้)</span>
         }
-        <span class="tok-type">String</span> result = total;
+        <span class="tok-type">String</span> result = total;                        <span class="tok-com">// ชนิดไม่ตรง (ยังไม่ถูกรายงานรอบนี้)</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Total: "</span> + result)
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>Score.java:9: error: ';' expected
         System.out.println("Total: " + result)
-                                              ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>javac รายงาน <code>';' expected</code> (บรรทัด 9) <em>ก่อน</em> — syntax error ถูกตรวจในรอบแรก ก่อนตรวจชื่อและชนิด</li><li>เมื่อเติม ; แล้วคอมไพล์ใหม่ จะเห็น error ใหม่: <code>cannot find symbol: totl</code> และ <code>int cannot be converted to String</code></li><li>บทเรียน: จำนวน error ที่เห็นอาจไม่ใช่ทั้งหมด แก้แล้วต้องคอมไพล์ซ้ำเสมอ</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.2.2</span>error ชี้ผิดที่: ต้นเหตุอยู่บรรทัดก่อนหน้า</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อวงเล็บไม่ครบ compiler อาจแจ้งที่บรรทัดหลัง ๆ เพราะเพิ่งรู้ตัวว่าโครงสร้างผิด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongPlace.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongPlace</span> {
+                                              ^</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>เติม ; แล้วคอมไพล์ใหม่ จะเห็น <code>cannot find symbol: totl</code> และ <code>int cannot be converted to String</code> ตามมา จำนวน error ที่เห็นจึงอาจไม่ใช่ทั้งหมด แก้แล้วต้องคอมไพล์ซ้ำเสมอ</p></div>
+<h4 class="sub">error ชี้ผิดที่: ต้นเหตุอยู่บรรทัดก่อนหน้า</h4>
+<p>เมื่อวงเล็บไม่ครบ compiler อาจแจ้งที่บรรทัดหลัง ๆ เพราะเพิ่งรู้ว่าโครงสร้างผิด ถ้าบรรทัดที่ถูกแจ้งดูถูกต้อง ให้ย้อนดูบรรทัดก่อนหน้า ตัวอย่างนี้ถูกแจ้งที่ else แต่ต้นเหตุคือขาด <code>}</code> ปิด if</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.2.2</span>'else' without 'if'</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongPlace.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongPlace</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> x = <span class="tok-num">5</span>;
         <span class="tok-kw">if</span> (x &gt; <span class="tok-num">3</span>) {
@@ -175,28 +187,32 @@ Exception in thread "main" java.lang.ArithmeticException: / by zero
         ^
 WrongPlace.java:10: error: reached end of file while parsing
 }
- ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>javac แจ้ง <code>'else' without 'if'</code> ที่บรรทัด 6</li><li>สาเหตุจริงคือบรรทัด 5–6 ขาด <code>}</code> ปิด if ก่อน else</li><li>error ที่สอง <code>reached end of file</code> เป็นผลพวงจากวงเล็บที่ขาดตัวเดียวกัน — แก้จุดเดียวหายทั้งสอง</li><li>เคล็ดลับ: ใช้ IDE จัดย่อหน้าอัตโนมัติ (Format) วงเล็บที่ขาดจะเห็นชัด</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.2.3</span>อ่าน stack trace ข้ามหลายเมธอด</h4><p class="concept-line"><strong>แนวคิด:</strong> stack trace แสดงลำดับการเรียกเมธอด บรรทัดแรกที่เป็นโค้ดของเราคือจุดเกิดเหตุ บรรทัดล่างบอกว่าใครเรียกมา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StackTraceDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StackTraceDemo</span> {
+ ^</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>error ที่สอง <code>reached end of file while parsing</code> มาจาก } ตัวเดียวกันที่ขาด แก้จุดเดียวหายทั้งสอง ใช้คำสั่ง Format ของ IDE จัดย่อหน้า วงเล็บที่ขาดจะเห็นชัดขึ้น</p></div>
+<h4 class="sub">อ่าน stack trace ข้ามหลายเมธอด</h4>
+<p>stack trace เรียงจาก<strong>จุดที่เกิดเหตุ</strong> (บนสุด) ไปหา<strong>ผู้เรียก</strong> (ล่างสุด) อ่านบรรทัดบนสุดที่เป็นโค้ดของเราก่อน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.2.3</span>หาค่าเฉลี่ยของอาเรย์ว่าง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StackTraceDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StackTraceDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span>[] empty = {};
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Report:"</span>);
-        <span class="tok-fn">printAverage</span>(empty);
+        <span class="tok-fn">printAverage</span>(empty);                      <span class="tok-com">// บรรทัด 5: main เรียก printAverage</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printAverage</span>(<span class="tok-kw">int</span>[] values) {
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Average = "</span> + <span class="tok-fn">average</span>(values));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Average = "</span> + <span class="tok-fn">average</span>(values));   <span class="tok-com">// บรรทัด 9: เรียก average</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">average</span>(<span class="tok-kw">int</span>[] values) {
         <span class="tok-kw">int</span> sum = <span class="tok-num">0</span>;
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> v : values) sum += v;
-        <span class="tok-kw">return</span> sum / values.length;
+        <span class="tok-kw">return</span> sum / values.length;               <span class="tok-com">// บรรทัด 15: length = 0 → หารด้วย 0</span>
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ผลลัพธ์ + runtime error</span><pre>Report:
 Exception in thread "main" java.lang.ArithmeticException: / by zero
 	at StackTraceDemo.average(StackTraceDemo.java:15)
 	at StackTraceDemo.printAverage(StackTraceDemo.java:9)
-	at StackTraceDemo.main(StackTraceDemo.java:5)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่านจากบน: เกิดใน <code>average</code> บรรทัด 15 (หารด้วย length = 0)</li><li><code>average</code> ถูกเรียกจาก <code>printAverage</code> บรรทัด 9</li><li>ซึ่งถูกเรียกจาก <code>main</code> บรรทัด 5</li><li>แก้ที่ต้นเหตุ: ตรวจ <code>values.length == 0</code> ใน average</li></ol></div></div>
+	at StackTraceDemo.main(StackTraceDemo.java:5)</pre></div></div></div>
+<p>แก้ที่ต้นเหตุ: ใน <code>average</code> ตรวจ <code>values.length == 0</code> ก่อนหาร</p>
 <h4>Exception ที่พบบ่อยและความหมาย</h4><table class="comparison-table"><thead><tr><th>Exception</th><th>สาเหตุที่พบบ่อย</th></tr></thead><tbody><tr><td><code>ArithmeticException: / by zero</code></td><td>หาร int ด้วย 0</td></tr><tr><td><code>ArrayIndexOutOfBoundsException</code></td><td>index &lt; 0 หรือ ≥ length (มัก <code>&lt;=</code> ในลูป)</td></tr><tr><td><code>StringIndexOutOfBoundsException</code></td><td>charAt/substring เกินความยาว</td></tr><tr><td><code>NullPointerException</code></td><td>เรียกเมธอดบนตัวแปรที่เป็น null</td></tr><tr><td><code>NumberFormatException</code></td><td>parseInt/parseDouble กับข้อความที่ไม่ใช่ตัวเลข</td></tr><tr><td><code>InputMismatchException</code></td><td>Scanner.nextInt() เจอข้อมูลที่ไม่ใช่จำนวนเต็ม</td></tr></tbody></table>
 <div class="quick-check"><strong>ลองคิดก่อน · อ่าน stack trace</strong><div><pre><code>Exception in thread "main" java.lang.NullPointerException
     at Shop.totalPrice(Shop.java:21)
@@ -205,14 +221,17 @@ Exception in thread "main" java.lang.ArithmeticException: / by zero
 </article>
 <article class="subtopic" id="topic-10-3">
 <h3>10.3 trace ค่าตัวแปร และใช้ debugger</h3>
-<p>เมื่อเจอ logic error ให้หาจุดที่<strong>ค่าจริงเริ่มต่างจากค่าที่คาด</strong> มี 3 วิธีที่ใช้ร่วมกัน: (1) trace table ด้วยมือ (2) พิมพ์ค่ากลางทาง (print debugging) (3) debugger ใน IDE</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.3.1</span>print debugging: หาว่าผิดตั้งแต่รอบไหน</h4><p class="concept-line"><strong>แนวคิด:</strong> เพิ่ม println ชั่วคราวในลูปแสดงค่าตัวแปรสำคัญทุกรอบ แล้วเทียบกับ trace table ที่ทำด้วยมือ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DebugFactorial.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DebugFactorial</span> {
+<p>logic error ไม่มีข้อความบอก ต้องหาจุดที่<strong>ค่าจริงเริ่มต่างจากค่าที่คาด</strong> มี 3 วิธีที่ใช้ร่วมกันได้</p>
+<table class="comparison-table"><thead><tr><th>วิธี</th><th>ทำอย่างไร</th><th>เหมาะกับ</th></tr></thead><tbody><tr><td>trace table</td><td>เขียนค่าตัวแปรทุกรอบด้วยมือ</td><td>รู้ว่า<em>ควร</em>ได้อะไร</td></tr><tr><td>print debugging</td><td>เพิ่ม println ชั่วคราวพิมพ์ค่ากลางทาง</td><td>ดูค่าจริงทุกรอบอย่างรวดเร็ว</td></tr><tr><td>debugger</td><td>หยุดโปรแกรมที่ breakpoint แล้วดูค่าตัวแปร</td><td>โปรแกรมใหญ่ ลูปหลายรอบ</td></tr></tbody></table>
+<h4 class="sub">print debugging: ผิดตั้งแต่รอบไหน</h4>
+<p>โปรแกรมนี้ควรได้ 5! = 120 ลองเพิ่มบรรทัด DEBUG พิมพ์ค่าทุกรอบ แล้วเทียบกับที่คาด</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.3.1</span>factorial ที่ได้ 0</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DebugFactorial.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DebugFactorial</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> n = <span class="tok-num">5</span>;
         <span class="tok-kw">int</span> result = <span class="tok-num">0</span>;
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= n; i++) {
             result *= i;
-            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"DEBUG i="</span> + i + <span class="tok-str">" result="</span> + result);
+            <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"DEBUG i="</span> + i + <span class="tok-str">" result="</span> + result);   <span class="tok-com">// บรรทัดชั่วคราว</span>
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">"! = "</span> + result);
     }
@@ -221,27 +240,31 @@ DEBUG i=2 result=0
 DEBUG i=3 result=0
 DEBUG i=4 result=0
 DEBUG i=5 result=0
-5! = 0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>คาดว่า i=1 → result=1, i=2 → 2, … i=5 → 120</li><li>แต่ DEBUG แสดง result = 0 ตั้งแต่รอบแรก</li><li>จึงรู้ว่าปัญหาอยู่ที่ค่าเริ่มต้น: ผลคูณต้องเริ่มที่ 1</li><li>แก้แล้วลบบรรทัด DEBUG ออก</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.3.2</span>แก้แล้ว: เทียบ trace ที่คาดกับผลจริง</h4><p class="concept-line"><strong>แนวคิด:</strong> หลังแก้ ให้รันพร้อม trace อีกครั้งเพื่อยืนยันว่าทุกรอบตรงกับที่คาด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DebugFactorialFixed.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DebugFactorialFixed</span> {
+5! = 0</pre></div></div></div>
+<table class="comparison-table trace-table"><thead><tr><th>i</th><th>result ที่คาด</th><th>ผลจริง</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>0</td></tr><tr><td>2</td><td>2</td><td>0</td></tr><tr><td>3</td><td>6</td><td>0</td></tr><tr><td>4</td><td>24</td><td>0</td></tr><tr><td>5</td><td>120</td><td>0</td></tr></tbody></table>
+<p>ต่างกันตั้งแต่รอบแรก ปัญหาจึงอยู่<em>ก่อน</em>ลูป: ผลคูณที่เริ่มจาก 0 คูณอะไรก็ได้ 0 ต้องเริ่มที่ 1</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.3.2</span>แก้แล้ว รันตรวจอีกครั้ง</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DebugFactorialFixed.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DebugFactorialFixed</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> n = <span class="tok-num">5</span>;
-        <span class="tok-kw">int</span> result = <span class="tok-num">1</span>;  <span class="tok-com">// ผลคูณต้องเริ่มที่ 1</span>
+        <span class="tok-kw">int</span> result = <span class="tok-num">1</span>;                                     <span class="tok-com">// ผลคูณเริ่มที่ 1</span>
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= n; i++) {
             result *= i;
-            <span class="tok-com">// พิมพ์ค่าระหว่างทางเพื่อตรวจ</span>
-            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"i=%d result=%d%n"</span>, i, result);
+            <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"i=%d result=%d%n"</span>, i, result);   <span class="tok-com">// ตรงกับคอลัมน์ "ที่คาด"</span>
         }
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">"! = "</span> + result);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(n + <span class="tok-str">"! = "</span> + result);            <span class="tok-com">// 120</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>i=1 result=1
 i=2 result=2
 i=3 result=6
 i=4 result=24
 i=5 result=120
-5! = 120</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ทุกรอบตรงกับ trace table ด้านล่าง</li><li>ผลลัพธ์ 120 ถูกต้อง</li></ol></div></div>
-<table class="comparison-table trace-table"><thead><tr><th>i</th><th>result ที่คาด</th><th>ผลจริง (ก่อนแก้)</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>0</td></tr><tr><td>2</td><td>2</td><td>0</td></tr><tr><td>3</td><td>6</td><td>0</td></tr><tr><td>4</td><td>24</td><td>0</td></tr><tr><td>5</td><td>120</td><td>0</td></tr></tbody></table>
-<div class="concept-box"><span class="box-title">ใช้ debugger ใน IDE (IntelliJ / VS Code / NetBeans)</span><ol class="step-list"><li><strong>ตั้ง breakpoint</strong>: คลิกที่ขอบซ้ายของบรรทัดที่สงสัย จะเกิดจุดสีแดง</li><li><strong>รันแบบ Debug</strong> (ไอคอนแมลง 🐞) โปรแกรมจะหยุดเมื่อถึง breakpoint</li><li><strong>ดูหน้าต่าง Variables</strong>: เห็นค่าของทุกตัวแปรในขณะนั้น</li><li><strong>Step Over (F8 / F10)</strong>: ทำบรรทัดปัจจุบันแล้วหยุดที่บรรทัดถัดไป</li><li><strong>Step Into (F7 / F11)</strong>: ถ้าบรรทัดนั้นเรียกเมธอด ให้เข้าไปดูข้างในเมธอด</li><li><strong>Resume</strong>: ทำต่อจนถึง breakpoint ถัดไป — ใช้ <em>conditional breakpoint</em> (เช่น หยุดเมื่อ i == 50) เมื่อลูปมีหลายรอบ</li></ol></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.3.3</span>บั๊กลูปซ้อน: ลืมรีเซ็ตตัวแปร</h4><p class="concept-line"><strong>แนวคิด:</strong> ผลรวมของแถวแรกถูก แต่แถวถัดไปผิดสะสม — สัญญาณว่าตัวแปรสะสมถูกประกาศนอกลูปนอก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ResetBug.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ResetBug</span> {
+5! = 120</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>ยืนยันว่าแก้ถูกแล้ว ให้ลบบรรทัด debug ออกก่อนส่งงาน</p></div>
+<h4 class="sub">ใช้ debugger ใน IDE</h4>
+<div class="concept-box"><span class="box-title">IntelliJ / VS Code / NetBeans ใช้หลักเดียวกัน</span><ol class="step-list"><li><strong>ตั้ง breakpoint</strong>: คลิกที่ขอบซ้ายของบรรทัดที่สงสัย จะเกิดจุดสีแดง</li><li><strong>รันแบบ Debug</strong> (ไอคอนแมลง 🐞) โปรแกรมจะหยุดเมื่อถึง breakpoint</li><li><strong>ดูหน้าต่าง Variables</strong>: เห็นค่าของทุกตัวแปรในขณะนั้น</li><li><strong>Step Over (F8 / F10)</strong>: ทำบรรทัดปัจจุบันแล้วหยุดที่บรรทัดถัดไป</li><li><strong>Step Into (F7 / F11)</strong>: ถ้าบรรทัดนั้นเรียกเมธอด ให้เข้าไปดูข้างในเมธอด</li><li><strong>Resume</strong>: ทำต่อจนถึง breakpoint ถัดไป — ใช้ <em>conditional breakpoint</em> (เช่น หยุดเมื่อ i == 50) เมื่อลูปมีหลายรอบ</li></ol></div>
+<h4 class="sub">ฝึกหาบั๊ก: ลูปซ้อน</h4>
+<p>ยอดขายแต่ละแถวควรได้ 10, 12 และ 7 ดูผลลัพธ์แล้วหาว่าผิดตรงไหน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.3.3</span>ยอดรวมแต่ละแถว</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ResetBug.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ResetBug</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span>[][] sales = {{<span class="tok-num">5</span>, <span class="tok-num">3</span>, <span class="tok-num">2</span>}, {<span class="tok-num">4</span>, <span class="tok-num">4</span>, <span class="tok-num">4</span>}, {<span class="tok-num">1</span>, <span class="tok-num">0</span>, <span class="tok-num">6</span>}};
         <span class="tok-kw">int</span> rowTotal = <span class="tok-num">0</span>;
@@ -254,32 +277,32 @@ i=5 result=120
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Row 0 total = 10
 Row 1 total = 22
-Row 2 total = 29</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>คาด: 10, 12, 7</li><li>ได้: 10, 22, 29 — แถว 1 เริ่มจาก 10 แทน 0</li><li>แก้: ย้าย <code>int rowTotal = 0;</code> เข้าไปไว้ต้นลูปนอก</li><li>ใน debugger จะเห็น rowTotal = 10 ตอนเริ่มแถว 1 ทันที</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.3.4</span>เมธอดตรวจสอบสมมติฐาน (assert-style)</h4><p class="concept-line"><strong>แนวคิด:</strong> เขียนเมธอดเล็ก ๆ ตรวจเงื่อนไขที่ “ต้องจริงเสมอ” และแจ้งเตือนทันทีเมื่อผิด ช่วยจับบั๊กใกล้จุดเกิดเหตุ</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CheckInvariant.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CheckInvariant</span> {
+Row 2 total = 29</pre></div></div></div>
+<div class="quick-check"><strong>ลองคิดก่อน · หาบั๊กได้ไหม</strong><div><p>แถวแรกถูก แต่แถวถัดไปค่าสะสมเพิ่มขึ้นเรื่อย ๆ เป็นเพราะอะไร</p></div><details><summary>ดูคำตอบ</summary><div><p><code>rowTotal</code> ประกาศไว้นอกลูปนอก จึงไม่ถูกตั้งเป็น 0 เมื่อขึ้นแถวใหม่ (แถว 1 เริ่มจาก 10) แก้โดยย้าย <code>int rowTotal = 0;</code> เข้าไปเป็นบรรทัดแรกในลูปนอก ถ้าใช้ debugger จะเห็น rowTotal = 10 ตอนเริ่มแถว 1 ทันที</p></div></details></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: เมธอดตรวจเงื่อนไขที่ต้องจริงเสมอ</summary><div class="more-body"><p>เขียนเมธอดเล็ก ๆ ตรวจกฎที่ “ต้องจริงเสมอ” เช่น สต็อกต้องไม่ติดลบ แล้วแจ้งเตือนทันทีเมื่อผิด จะจับบั๊กได้ใกล้จุดเกิดเหตุ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.3.4</span>ตรวจสต็อกหลังขาย</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CheckInvariant.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CheckInvariant</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span>[] stock = {<span class="tok-num">5</span>, <span class="tok-num">2</span>, <span class="tok-num">8</span>};
         <span class="tok-fn">sell</span>(stock, <span class="tok-num">0</span>, <span class="tok-num">3</span>);
-        <span class="tok-fn">sell</span>(stock, <span class="tok-num">1</span>, <span class="tok-num">5</span>);
+        <span class="tok-fn">sell</span>(stock, <span class="tok-num">1</span>, <span class="tok-num">5</span>);                      <span class="tok-com">// มีแค่ 2 แต่ขาย 5</span>
         <span class="tok-fn">sell</span>(stock, <span class="tok-num">2</span>, <span class="tok-num">8</span>);
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">sell</span>(<span class="tok-kw">int</span>[] stock, <span class="tok-kw">int</span> item, <span class="tok-kw">int</span> qty) {
-        <span class="tok-com">// ลดสต็อก</span>
         stock[item] -= qty;
-        <span class="tok-com">// ตรวจเงื่อนไขที่ต้องจริงเสมอ</span>
         <span class="tok-fn">check</span>(stock[item] &gt;= <span class="tok-num">0</span>, <span class="tok-str">"stock of item "</span> + item + <span class="tok-str">" became "</span> + stock[item]);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Sold "</span> + qty + <span class="tok-str">" of item "</span> + item + <span class="tok-str">", left "</span> + stock[item]);
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">check</span>(<span class="tok-kw">boolean</span> condition, <span class="tok-type">String</span> message) {
-        <span class="tok-kw">if</span> (!condition) {  <span class="tok-com">// เงื่อนไขเป็นเท็จ → แจ้งเตือน</span>
+        <span class="tok-kw">if</span> (!condition) {                       <span class="tok-com">// กฎไม่เป็นจริง → เตือน</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"!! CHECK FAILED: "</span> + message);
         }
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Sold 3 of item 0, left 2
 !! CHECK FAILED: stock of item 1 became -3
 Sold 5 of item 1, left -3
-Sold 8 of item 2, left 0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>กฎที่ต้องจริงเสมอ: สต็อกต้องไม่ติดลบ</li><li>ขายสินค้า 1 จำนวน 5 ทั้งที่มี 2 → check แจ้งเตือนทันที</li><li>ชี้ว่าบั๊กอยู่ที่ sell ไม่ได้ตรวจก่อนลด (ควรตรวจ qty ≤ stock ก่อน)</li></ol></div></div>
+Sold 8 of item 2, left 0</pre></div></div><p>check ชี้ว่าบั๊กอยู่ที่ sell ซึ่งลดสต็อกโดยไม่ตรวจก่อน ควรตรวจ qty ≤ stock[item] ก่อนลด</p></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · trace</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">int</span> a = <span class="tok-num">1</span>, b = <span class="tok-num">1</span>;
 <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; <span class="tok-num">4</span>; i++) {
     <span class="tok-kw">int</span> t = a + b;
@@ -289,19 +312,19 @@ Sold 8 of item 2, left 0</pre></div></div><div class="walkthrough"><strong>อ�
 </article>
 <article class="subtopic" id="topic-10-4">
 <h3>10.4 ออกแบบ test case</h3>
-<p>การทดสอบด้วยค่าที่ “คิดว่าน่าจะใช้” ค่าเดียวไม่พอ ควรเลือก test case ที่ครอบคลุม: <strong>กรณีปกติ</strong>, <strong>ค่าขอบ (boundary)</strong> และ<strong>กรณีผิดปกติ/ข้อมูลไม่ถูกต้อง</strong> แล้วเขียน “ผลที่คาด” ก่อนรันทุกครั้ง</p>
-<h4>ตัวอย่าง: test case ของฟังก์ชันตัดเกรด (A ≥ 80, B ≥ 70, C ≥ 60, D ≥ 50, F)</h4><table class="comparison-table"><thead><tr><th>ประเภท</th><th>input</th><th>ผลที่คาด</th><th>เหตุผล</th></tr></thead><tbody><tr><td>ปกติ</td><td>85, 65</td><td>A, C</td><td>ค่ากลางช่วง</td></tr><tr><td>ขอบ</td><td>80, 79</td><td>A, B</td><td>รอยต่อระหว่างเกรด</td></tr><tr><td>ขอบ</td><td>50, 49</td><td>D, F</td><td>ขอบผ่าน/ไม่ผ่าน</td></tr><tr><td>ขอบสุด</td><td>0, 100</td><td>F, A</td><td>ค่าต่ำ/สูงสุดที่ยอมรับ</td></tr><tr><td>ผิดปกติ</td><td>-1, 101</td><td>Invalid</td><td>นอกช่วง</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.4.1</span>เขียนโค้ดทดสอบแบบตาราง</h4><p class="concept-line"><strong>แนวคิด:</strong> เก็บ input และผลที่คาดในอาเรย์คู่ขนาน แล้ววนเรียกเมธอดเทียบผล — เพิ่ม test ใหม่ได้ง่าย</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GradeTests.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GradeTests</span> {
+<p>ทดสอบด้วยค่าเดียวที่ “น่าจะใช้” ไม่พอ ให้เลือก test case 3 กลุ่ม: <strong>กรณีปกติ</strong>, <strong>ค่าขอบ (boundary)</strong> และ<strong>ข้อมูลผิดปกติ</strong> และเขียน “ผลที่คาด” ไว้ก่อนรันทุกครั้ง</p>
+<h4>ตัวอย่าง: test case ของเมธอดตัดเกรด (A ≥ 80, B ≥ 70, C ≥ 60, D ≥ 50, F)</h4><table class="comparison-table"><thead><tr><th>ประเภท</th><th>input</th><th>ผลที่คาด</th><th>เหตุผล</th></tr></thead><tbody><tr><td>ปกติ</td><td>85, 65</td><td>A, C</td><td>ค่ากลางช่วง</td></tr><tr><td>ขอบ</td><td>80, 79</td><td>A, B</td><td>รอยต่อระหว่างเกรด</td></tr><tr><td>ขอบ</td><td>50, 49</td><td>D, F</td><td>ขอบผ่าน/ไม่ผ่าน</td></tr><tr><td>ขอบสุด</td><td>0, 100</td><td>F, A</td><td>ค่าต่ำ/สูงสุดที่ยอมรับ</td></tr><tr><td>ผิดปกติ</td><td>-1, 101</td><td>Invalid</td><td>นอกช่วง</td></tr></tbody></table>
+<div class="callout tip"><span class="box-title">ค่าขอบ</span><p>บั๊กมักซ่อนอยู่ตรงรอยต่อ เช่น เขียน <code>&gt;</code> แทน <code>&gt;=</code> ทดสอบทั้งค่าที่ขอบพอดีและค่าที่อยู่ติดขอบอีกด้าน (80 และ 79)</p></div>
+<h4 class="sub">เขียนโค้ดทดสอบแบบตาราง</h4>
+<p>เก็บ input และผลที่คาดไว้ในอาเรย์คู่กัน แล้ววนเรียกเมธอดเทียบผล เพิ่ม test ใหม่ได้แค่เติมค่าในอาเรย์ เมธอด grade ด้านล่างมีบั๊กซ่อนอยู่ 1 จุด</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.4.1</span>ทดสอบเมธอดตัดเกรด</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GradeTests.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GradeTests</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// รวมค่าขอบ (80, 79, 50, 49) และค่าผิด (-1, 101)</span>
         <span class="tok-kw">int</span>[] inputs = {<span class="tok-num">85</span>, <span class="tok-num">65</span>, <span class="tok-num">80</span>, <span class="tok-num">79</span>, <span class="tok-num">50</span>, <span class="tok-num">49</span>, <span class="tok-num">0</span>, <span class="tok-num">100</span>, -<span class="tok-num">1</span>, <span class="tok-num">101</span>};
-        <span class="tok-com">// คำตอบที่ควรได้ ตำแหน่งตรงกับ inputs</span>
-        <span class="tok-type">String</span>[] expected = {<span class="tok-str">"A"</span>, <span class="tok-str">"C"</span>, <span class="tok-str">"A"</span>, <span class="tok-str">"B"</span>, <span class="tok-str">"D"</span>, <span class="tok-str">"F"</span>, <span class="tok-str">"F"</span>, <span class="tok-str">"A"</span>, <span class="tok-str">"Invalid"</span>, <span class="tok-str">"Invalid"</span>};
+        <span class="tok-type">String</span>[] expected = {<span class="tok-str">"A"</span>, <span class="tok-str">"C"</span>, <span class="tok-str">"A"</span>, <span class="tok-str">"B"</span>, <span class="tok-str">"D"</span>, <span class="tok-str">"F"</span>, <span class="tok-str">"F"</span>, <span class="tok-str">"A"</span>, <span class="tok-str">"Invalid"</span>, <span class="tok-str">"Invalid"</span>};  <span class="tok-com">// คู่กับ inputs</span>
         <span class="tok-kw">int</span> passed = <span class="tok-num">0</span>;
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; inputs.length; i++) {
             <span class="tok-type">String</span> actual = <span class="tok-fn">grade</span>(inputs[i]);
-            <span class="tok-com">// เทียบผลจริงกับที่คาด</span>
-            <span class="tok-kw">boolean</span> ok = actual.<span class="tok-fn">equals</span>(expected[i]);
+            <span class="tok-kw">boolean</span> ok = actual.<span class="tok-fn">equals</span>(expected[i]);         <span class="tok-com">// เทียบผลจริงกับที่คาด</span>
             <span class="tok-kw">if</span> (ok) passed++;
             <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-4s grade(%d) = %s, expected %s%n"</span>, ok ? <span class="tok-str">"OK"</span> : <span class="tok-str">"FAIL"</span>, inputs[i], actual, expected[i]);
         }
@@ -310,7 +333,6 @@ Sold 8 of item 2, left 0</pre></div></div><div class="walkthrough"><strong>อ�
 
     <span class="tok-kw">static</span> <span class="tok-type">String</span> <span class="tok-fn">grade</span>(<span class="tok-kw">int</span> score) {
         <span class="tok-kw">if</span> (score &lt; <span class="tok-num">0</span> || score &gt; <span class="tok-num">100</span>) <span class="tok-kw">return</span> <span class="tok-str">"Invalid"</span>;
-        <span class="tok-com">// ลองดูว่าค่าขอบ 80 ผ่านหรือไม่</span>
         <span class="tok-kw">if</span> (score &gt; <span class="tok-num">80</span>) <span class="tok-kw">return</span> <span class="tok-str">"A"</span>;
         <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">70</span>) <span class="tok-kw">return</span> <span class="tok-str">"B"</span>;
         <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">60</span>) <span class="tok-kw">return</span> <span class="tok-str">"C"</span>;
@@ -327,20 +349,21 @@ OK   grade(0) = F, expected F
 OK   grade(100) = A, expected A
 OK   grade(-1) = Invalid, expected Invalid
 OK   grade(101) = Invalid, expected Invalid
-9/10 tests passed</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>9 จาก 10 ผ่าน</li><li>FAIL ที่ grade(80) ได้ B — test ค่าขอบจับบั๊ก <code>&gt; 80</code> ที่ควรเป็น <code>&gt;= 80</code></li><li>ถ้าทดสอบแค่ 85 และ 65 จะไม่มีวันเจอบั๊กนี้</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.4.2</span>ทดสอบเมธอดที่คืน double</h4><p class="concept-line"><strong>แนวคิด:</strong> เทียบ double ด้วยค่าคลาดเคลื่อนที่ยอมรับได้ (epsilon) ไม่ใช่ <code>==</code> และทดสอบกรณีพิเศษ เช่น อาเรย์ว่าง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AverageTests.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AverageTests</span> {
+9/10 tests passed</pre></div></div></div>
+<p>test ค่าขอบจับได้ว่า <code>grade(80)</code> ได้ B เพราะเขียน <code>score &gt; 80</code> แทน <code>score &gt;= 80</code> ถ้าทดสอบแค่ 85 และ 65 จะไม่มีวันเจอบั๊กนี้</p>
+<h4 class="sub">ทดสอบเมธอดที่คืน double</h4>
+<p>double มีความคลาดเคลื่อนเล็กน้อย (0.1 + 0.2 ไม่เท่ากับ 0.3 พอดี) จึงเทียบด้วย “ห่างกันน้อยมาก” แทน <code>==</code> และอย่าลืมกรณีพิเศษ เช่น อาเรย์ว่าง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 10.4.2</span>เทียบด้วย epsilon</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">AverageTests.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">AverageTests</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// new double[]{...} สร้างอาเรย์ส่งเข้าเมธอดได้ทันที</span>
-        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{<span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">6</span>}, <span class="tok-num">4.0</span>);
-        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{<span class="tok-num">0.1</span>, <span class="tok-num">0.2</span>}, <span class="tok-num">0.15</span>);
-        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{-<span class="tok-num">5</span>, <span class="tok-num">5</span>}, <span class="tok-num">0.0</span>);
-        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{<span class="tok-num">7</span>}, <span class="tok-num">7.0</span>);
-        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{}, <span class="tok-num">0.0</span>);  <span class="tok-com">// กรณีขอบ: อาเรย์ว่าง</span>
+        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{<span class="tok-num">2</span>, <span class="tok-num">4</span>, <span class="tok-num">6</span>}, <span class="tok-num">4.0</span>);                  <span class="tok-com">// ปกติ</span>
+        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{<span class="tok-num">0.1</span>, <span class="tok-num">0.2</span>}, <span class="tok-num">0.15</span>);                <span class="tok-com">// ทศนิยม</span>
+        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{-<span class="tok-num">5</span>, <span class="tok-num">5</span>}, <span class="tok-num">0.0</span>);                    <span class="tok-com">// ค่าลบ</span>
+        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{<span class="tok-num">7</span>}, <span class="tok-num">7.0</span>);                        <span class="tok-com">// สมาชิกเดียว</span>
+        <span class="tok-fn">test</span>(<span class="tok-kw">new</span> <span class="tok-kw">double</span>[]{}, <span class="tok-num">0.0</span>);                         <span class="tok-com">// อาเรย์ว่าง</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">average</span>(<span class="tok-kw">double</span>[] values) {
-        <span class="tok-com">// ป้องกันการหารด้วย 0</span>
-        <span class="tok-kw">if</span> (values.length == <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">0.0</span>;
+        <span class="tok-kw">if</span> (values.length == <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">0.0</span>;                <span class="tok-com">// ตัดสินใจไว้ก่อนว่าว่างแล้วคืน 0.0</span>
         <span class="tok-kw">double</span> sum = <span class="tok-num">0</span>;
         <span class="tok-kw">for</span> (<span class="tok-kw">double</span> v : values) sum += v;
         <span class="tok-kw">return</span> sum / values.length;
@@ -348,15 +371,14 @@ OK   grade(101) = Invalid, expected Invalid
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">test</span>(<span class="tok-kw">double</span>[] values, <span class="tok-kw">double</span> expected) {
         <span class="tok-kw">double</span> actual = <span class="tok-fn">average</span>(values);
-        <span class="tok-com">// double เทียบด้วยระยะห่างที่น้อยมาก</span>
-        <span class="tok-kw">boolean</span> ok = <span class="tok-type">Math</span>.<span class="tok-fn">abs</span>(actual - expected) &lt; <span class="tok-num">1e-9</span>;
+        <span class="tok-kw">boolean</span> ok = <span class="tok-type">Math</span>.<span class="tok-fn">abs</span>(actual - expected) &lt; <span class="tok-num">1e-9</span>;   <span class="tok-com">// ห่างกันไม่เกิน 0.000000001</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%s n=%d actual=%.4f expected=%.4f%n"</span>, ok ? <span class="tok-str">"OK  "</span> : <span class="tok-str">"FAIL"</span>, values.length, actual, expected);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>OK   n=3 actual=4.0000 expected=4.0000
 OK   n=2 actual=0.1500 expected=0.1500
 OK   n=2 actual=0.0000 expected=0.0000
 OK   n=1 actual=7.0000 expected=7.0000
-OK   n=0 actual=0.0000 expected=0.0000</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>กรณีปกติ, ทศนิยม, ค่าลบ, สมาชิกเดียว, อาเรย์ว่าง</li><li>0.1 + 0.2 ไม่เท่ากับ 0.3 พอดี จึงใช้ epsilon</li><li>กรณีว่างต้องตัดสินใจล่วงหน้าว่าควรคืนอะไร (ที่นี่คืน 0.0)</li></ol></div></div>
+OK   n=0 actual=0.0000 expected=0.0000</pre></div></div></div>
 <div class="note-box"><span class="box-title">Checklist ก่อนส่งงาน</span><ul><li>ทดสอบตัวอย่างในโจทย์ทุกตัว และเทียบ output ทีละตัวอักษร (ช่องว่าง ตัวพิมพ์)</li><li>ทดสอบค่าขอบทุกเงื่อนไข (=, ค่าก่อน และค่าหลังขอบ)</li><li>ทดสอบ 0, ค่าติดลบ, ข้อมูลว่าง, ข้อมูลตัวเดียว</li><li>ลบ println ที่ใช้ debug ออก</li><li>ตั้งชื่อตัวแปรและจัดย่อหน้าให้อ่านง่าย</li></ul></div>
 <div class="quick-check"><strong>ลองคิดก่อน · เลือก test case</strong><div><p>เมธอด <code>isTeen(int age)</code> คืน true เมื่ออายุ 13–19 ควรทดสอบด้วยค่าใดบ้างอย่างน้อย</p></div><details><summary>ดูคำตอบ</summary><div><p>12, 13, 19, 20 (ค่าขอบสองด้าน) + ค่ากลางเช่น 16 + ค่าผิดปกติเช่น −1 — ผลที่คาด: false, true, true, false, true, false</p></div></details></div>
 </article>

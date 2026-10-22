@@ -17,38 +17,45 @@ export default {
     {
       num: "10.1", toc: "จำแนก error", title: "จำแนกชนิดของ error",
       blocks: [
+        { type: "p", html: `ก่อนแก้บั๊ก ให้ถามก่อนว่า error เกิด<strong>ตอนไหน</strong> คำตอบบอกชนิดของปัญหาและบอกว่าควรหาเบาะแสจากที่ใด` },
         { type: "table", head: ["ชนิด", "เกิดเมื่อ", "ใครเป็นคนบอก", "ตัวอย่าง"], rows: [
           ["<strong>Syntax / compile error</strong>", "ตอนคอมไพล์", "javac (โปรแกรมยังไม่ได้รัน)", "ขาด ;, สะกดผิด, ชนิดไม่ตรง"],
           ["<strong>Runtime error (exception)</strong>", "ระหว่างรัน", "JVM แสดง stack trace แล้วหยุด", "หารด้วย 0, index เกิน, parse ผิด"],
           ["<strong>Logic error</strong>", "รันจบแต่ผลผิด", "ไม่มีใครบอก! ต้องทดสอบเอง", "ใช้ &gt; แทน &gt;=, หาร int, ลืมรีเซ็ตตัวแปร"],
         ] },
-        { type: "run", label: "ตัวอย่าง 10.1.1", title: "Compile error: compiler หยุดตั้งแต่ก่อนรัน", level: "พื้นฐาน", expect: "compile-error",
-          concept: "ไม่มี output ใด ๆ จากโปรแกรมเลย แม้บรรทัดแรกจะถูกต้อง เพราะคอมไพล์ไม่ผ่านทั้งไฟล์",
+
+        { type: "h", text: "Compile error: ไม่ได้รันเลยสักบรรทัด" },
+        { type: "p", html: `ถ้าคอมไพล์ไม่ผ่าน จะไม่มีไฟล์ .class ให้รัน บรรทัดที่ถูกต้องก็ไม่ถูกพิมพ์` },
+        { type: "run", title: "ชนิดข้อมูลไม่ตรง", expect: "compile-error",
           code: j`
             public class CompileErrorDemo {
                 public static void main(String[] args) {
-                    System.out.println("Line 1 is fine");
+                    System.out.println("Line 1 is fine");    // ไม่ถูกพิมพ์ เพราะคอมไพล์ไม่ผ่านทั้งไฟล์
                     int total = "100";
                     System.out.println("Total: " + total);
                 }
             }`,
-          steps: ["javac พบชนิดไม่ตรงที่บรรทัด 4", "\"Line 1 is fine\" ไม่ถูกพิมพ์ เพราะไม่ได้สร้าง .class"] },
-        { type: "run", label: "ตัวอย่าง 10.1.2", title: "Runtime error: ทำงานไปบางส่วนแล้วหยุด", level: "พื้นฐาน", expect: "runtime-error",
-          concept: "บรรทัดก่อนจุดผิดทำงานตามปกติ เมื่อถึงบรรทัดที่เกิด exception โปรแกรมหยุดทันที",
+          },
+
+        { type: "h", text: "Runtime error: ทำไปบางส่วนแล้วหยุด" },
+        { type: "p", html: `คอมไพล์ผ่านแล้ว บรรทัดก่อนจุดผิดทำงานตามปกติ เมื่อถึงคำสั่งที่เกิด exception โปรแกรมหยุดทันที บรรทัดหลังจากนั้นไม่ได้ทำ` },
+        { type: "run", title: "index เกินในรอบสุดท้าย", expect: "runtime-error",
           code: j`
             public class RuntimeErrorDemo {
                 public static void main(String[] args) {
                     int[] data = {10, 20, 30};
                     System.out.println("Start");
-                    for (int i = 0; i <= data.length; i++) {
+                    for (int i = 0; i <= data.length; i++) {          // <= ทำให้ i ไปถึง 3
                         System.out.println("data[" + i + "] = " + data[i]);
                     }
-                    System.out.println("End");
+                    System.out.println("End");                        // ไม่ถูกพิมพ์
                 }
             }`,
-          steps: ["พิมพ์ Start และ 3 ค่าแรกได้", "i = 3 → ArrayIndexOutOfBoundsException", "End ไม่ถูกพิมพ์"] },
-        { type: "run", label: "ตัวอย่าง 10.1.3", title: "Logic error: เงียบแต่ผิด", level: "ต่อยอด",
-          concept: "รันจบโดยไม่มี error แต่คำตอบไม่ถูก — อันตรายที่สุดเพราะไม่มีสัญญาณเตือน",
+          },
+
+        { type: "h", text: "Logic error: เงียบแต่ผิด" },
+        { type: "p", html: `โปรแกรมรันจบโดยไม่มีข้อความเตือน แต่คำตอบผิด เป็นชนิดที่อันตรายที่สุด ต้องรู้คำตอบที่ถูกไว้ก่อนแล้วเทียบเอง โปรแกรมนี้ควรได้ (80 + 90 + 85) / 3 = 85.0` },
+        { type: "run", title: "หาค่าเฉลี่ยผิด (มีบั๊ก 2 จุด)",
           code: j`
             public class LogicErrorDemo {
                 public static void main(String[] args) {
@@ -61,9 +68,12 @@ export default {
                     System.out.println("Average = " + average);
                 }
             }`,
-          steps: ["คำตอบที่ถูกคือ (80 + 90 + 85) / 3 = 85.0", "บั๊กที่ 1: ลูปเริ่ม i = 1 ข้าม scores[0]", "บั๊กที่ 2: หาร int ด้วย int ตัดทศนิยม", "ได้ 175 / 3 = 58 → 58.0 ซึ่งผิด แต่ไม่มีใครเตือน"] },
-        { type: "run", label: "ตัวอย่าง 10.1.4", title: "ดักจับ exception ด้วย try-catch", level: "ประยุกต์", stdin: "10\n0\n10\nabc\n10\n4",
-          concept: "runtime error บางชนิดคาดการณ์ได้ (ผู้ใช้ป้อนผิด) ใช้ <code>try-catch</code> จัดการให้โปรแกรมทำงานต่อได้ แทนการหยุดทันที",
+          },
+        { type: "check", title: "หาบั๊กได้ไหม", html: `<p>ผลลัพธ์คือ 58.0 แทน 85.0 บั๊กอยู่ที่บรรทัดไหนบ้าง</p>`, answer: `<p>(1) ลูปเริ่ม <code>i = 1</code> ข้าม scores[0] ผลรวมจึงเป็น 175 (2) <code>sum / scores.length</code> เป็น int ÷ int ตัดทศนิยม ได้ 58 ก่อนจะเก็บลง double แก้: เริ่ม <code>i = 0</code> และเขียน <code>(double) sum / scores.length</code></p>` },
+
+        { type: "h", text: "จัดการ exception ที่คาดได้ด้วย try-catch" },
+        { type: "p", html: `runtime error บางชนิดคาดได้ล่วงหน้า เช่น ผู้ใช้พิมพ์ข้อมูลผิด ใส่คำสั่งที่เสี่ยงไว้ใน <code>try</code> และเขียนวิธีจัดการไว้ใน <code>catch</code> โปรแกรมจะทำงานต่อได้แทนการหยุด` },
+        { type: "run", title: "ดักจับ exception หลายชนิด", stdin: "10\n0\n10\nabc\n10\n4",
           code: j`
             import java.util.Scanner;
 
@@ -71,34 +81,30 @@ export default {
                 public static void main(String[] args) {
                     Scanner input = new Scanner(System.in);
                     for (int round = 1; round <= 3; round++) {
-                        try {  // คำสั่งที่อาจเกิด exception อยู่ใน try
+                        try {
                             System.out.print("a b: ");
-                            // ข้อความที่ไม่ใช่ตัวเลข → NumberFormatException
-                            int a = Integer.parseInt(input.next());
+                            int a = Integer.parseInt(input.next());     // "abc" → NumberFormatException
                             int b = Integer.parseInt(input.next());
-                            // หารด้วย 0 → ArithmeticException
-                            System.out.println("  a / b = " + (a / b));
-                        // จับเฉพาะกรณีหารด้วย 0
-                        } catch (ArithmeticException e) {
+                            System.out.println("  a / b = " + (a / b)); // b = 0 → ArithmeticException
+                        } catch (ArithmeticException e) {               // รอบ 1 มาที่นี่
                             System.out.println("  Cannot divide by zero");
-                        // จับกรณีแปลงตัวเลขไม่ได้
-                        } catch (NumberFormatException e) {
+                        } catch (NumberFormatException e) {             // รอบ 2 มาที่นี่
                             System.out.println("  Not a number: " + e.getMessage());
                         }
                     }
-                    // โปรแกรมไม่หยุดกลางทาง
-                    System.out.println("Program finished normally");
+                    System.out.println("Program finished normally");    // ไม่หยุดกลางทาง
                 }
             }`,
-          steps: ["รอบ 1: 10 / 0 → ArithmeticException → ไปที่ catch แรก", "รอบ 2: \"abc\" → NumberFormatException → catch ที่สอง", "รอบ 3: 10 / 4 = 2 ปกติ", "โปรแกรมไม่หยุดกลางคัน"],
-          after: "ใช้ try-catch กับสถานการณ์ที่ควบคุมไม่ได้ (ข้อมูลจากผู้ใช้ ไฟล์ เครือข่าย) ไม่ใช่ใช้กลบบั๊กในโค้ดของเราเอง เช่น index เกิน ควรแก้เงื่อนไขลูปแทน" },
+          },
+        { type: "warn", title: "อย่าใช้ try-catch กลบบั๊ก", html: `ใช้ try-catch กับสิ่งที่ควบคุมไม่ได้ (ข้อมูลจากผู้ใช้ ไฟล์ เครือข่าย) ส่วนบั๊กในโค้ดของเราเอง เช่น index เกิน ให้แก้เงื่อนไขลูปแทน` },
         { type: "check", title: "จำแนก", html: `<p>จัดประเภท: (ก) <code>Strin name;</code> (ข) <code>Integer.parseInt("")</code> (ค) คำนวณพื้นที่วงกลมด้วย <code>2 * Math.PI * r</code></p>`, answer: `<p>(ก) compile error — cannot find symbol (ข) runtime error — NumberFormatException (ค) logic error — นั่นคือสูตรเส้นรอบวง</p>` },
       ],
     },
     {
       num: "10.2", toc: "อ่าน compiler diagnostics", title: "อ่าน compiler diagnostics และ stack trace",
       blocks: [
-        { type: "concept", title: "กายวิภาคของข้อความ error", html: pre(`
+        { type: "p", html: `ข้อความ error มีโครงสร้างตายตัว อ่านเป็นแล้วจะรู้ทันทีว่าไฟล์ไหน บรรทัดไหน ปัญหาชนิดใด` },
+        { type: "concept", title: "อ่านข้อความ error ทีละส่วน", html: pre(`
           Compile error:
           Score.java:7: error: cannot find symbol
           ─────┬──── ┬        ────────┬────────
@@ -114,23 +120,28 @@ export default {
                                         ชนิด exception              รายละเอียด
               at Stats.average(Stats.java:12)      ← เกิดจริงที่นี่ (อ่านบรรทัดบนสุดก่อน)
               at Stats.main(Stats.java:5)          ← เรียกมาจากที่นี่`) },
-        { type: "run", label: "ตัวอย่าง 10.2.1", title: "หลาย error พร้อมกัน — แก้ตัวแรกก่อน", level: "พื้นฐาน", expect: "compile-error",
-          concept: "javac รายงานหลาย error ในครั้งเดียว แก้จากบนลงล่างทีละตัวแล้วคอมไพล์ใหม่",
+
+        { type: "h", text: "หลาย error: แก้จากบนลงล่าง แล้วคอมไพล์ใหม่" },
+        { type: "p", html: `javac ตรวจเป็นรอบ: syntax ก่อน แล้วจึงตรวจชื่อและชนิด โปรแกรมนี้มี error 3 จุด แต่รอบแรกจะเห็นแค่ <code>';' expected</code>` },
+        { type: "run", title: "เห็น error แค่จุดเดียวก่อน", expect: "compile-error",
           code: j`
             public class Score {
                 public static void main(String[] args) {
                     int[] scores = {7, 9, 8};
                     int total = 0;
                     for (int s : scores) {
-                        totl += s;
+                        totl += s;                                // สะกดผิด (ยังไม่ถูกรายงานรอบนี้)
                     }
-                    String result = total;
+                    String result = total;                        // ชนิดไม่ตรง (ยังไม่ถูกรายงานรอบนี้)
                     System.out.println("Total: " + result)
                 }
             }`,
-          steps: ["javac รายงาน <code>';' expected</code> (บรรทัด 9) <em>ก่อน</em> — syntax error ถูกตรวจในรอบแรก ก่อนตรวจชื่อและชนิด", "เมื่อเติม ; แล้วคอมไพล์ใหม่ จะเห็น error ใหม่: <code>cannot find symbol: totl</code> และ <code>int cannot be converted to String</code>", "บทเรียน: จำนวน error ที่เห็นอาจไม่ใช่ทั้งหมด แก้แล้วต้องคอมไพล์ซ้ำเสมอ"] },
-        { type: "run", label: "ตัวอย่าง 10.2.2", title: "error ชี้ผิดที่: ต้นเหตุอยู่บรรทัดก่อนหน้า", level: "ต่อยอด", expect: "compile-error",
-          concept: "เมื่อวงเล็บไม่ครบ compiler อาจแจ้งที่บรรทัดหลัง ๆ เพราะเพิ่งรู้ตัวว่าโครงสร้างผิด",
+          },
+        { type: "tip", html: `เติม ; แล้วคอมไพล์ใหม่ จะเห็น <code>cannot find symbol: totl</code> และ <code>int cannot be converted to String</code> ตามมา จำนวน error ที่เห็นจึงอาจไม่ใช่ทั้งหมด แก้แล้วต้องคอมไพล์ซ้ำเสมอ` },
+
+        { type: "h", text: "error ชี้ผิดที่: ต้นเหตุอยู่บรรทัดก่อนหน้า" },
+        { type: "p", html: `เมื่อวงเล็บไม่ครบ compiler อาจแจ้งที่บรรทัดหลัง ๆ เพราะเพิ่งรู้ว่าโครงสร้างผิด ถ้าบรรทัดที่ถูกแจ้งดูถูกต้อง ให้ย้อนดูบรรทัดก่อนหน้า ตัวอย่างนี้ถูกแจ้งที่ else แต่ต้นเหตุคือขาด <code>}</code> ปิด if` },
+        { type: "run", title: "'else' without 'if'", expect: "compile-error",
           code: j`
             public class WrongPlace {
                 public static void main(String[] args) {
@@ -142,28 +153,32 @@ export default {
                     }
                 }
             }`,
-          steps: ["javac แจ้ง <code>'else' without 'if'</code> ที่บรรทัด 6", "สาเหตุจริงคือบรรทัด 5–6 ขาด <code>}</code> ปิด if ก่อน else", "error ที่สอง <code>reached end of file</code> เป็นผลพวงจากวงเล็บที่ขาดตัวเดียวกัน — แก้จุดเดียวหายทั้งสอง", "เคล็ดลับ: ใช้ IDE จัดย่อหน้าอัตโนมัติ (Format) วงเล็บที่ขาดจะเห็นชัด"] },
-        { type: "run", label: "ตัวอย่าง 10.2.3", title: "อ่าน stack trace ข้ามหลายเมธอด", level: "ประยุกต์", expect: "runtime-error",
-          concept: "stack trace แสดงลำดับการเรียกเมธอด บรรทัดแรกที่เป็นโค้ดของเราคือจุดเกิดเหตุ บรรทัดล่างบอกว่าใครเรียกมา",
+          },
+        { type: "tip", html: `error ที่สอง <code>reached end of file while parsing</code> มาจาก } ตัวเดียวกันที่ขาด แก้จุดเดียวหายทั้งสอง ใช้คำสั่ง Format ของ IDE จัดย่อหน้า วงเล็บที่ขาดจะเห็นชัดขึ้น` },
+
+        { type: "h", text: "อ่าน stack trace ข้ามหลายเมธอด" },
+        { type: "p", html: `stack trace เรียงจาก<strong>จุดที่เกิดเหตุ</strong> (บนสุด) ไปหา<strong>ผู้เรียก</strong> (ล่างสุด) อ่านบรรทัดบนสุดที่เป็นโค้ดของเราก่อน` },
+        { type: "run", title: "หาค่าเฉลี่ยของอาเรย์ว่าง", expect: "runtime-error",
           code: j`
             public class StackTraceDemo {
                 public static void main(String[] args) {
                     int[] empty = {};
                     System.out.println("Report:");
-                    printAverage(empty);
+                    printAverage(empty);                      // บรรทัด 5: main เรียก printAverage
                 }
 
                 static void printAverage(int[] values) {
-                    System.out.println("Average = " + average(values));
+                    System.out.println("Average = " + average(values));   // บรรทัด 9: เรียก average
                 }
 
                 static int average(int[] values) {
                     int sum = 0;
                     for (int v : values) sum += v;
-                    return sum / values.length;
+                    return sum / values.length;               // บรรทัด 15: length = 0 → หารด้วย 0
                 }
             }`,
-          steps: ["อ่านจากบน: เกิดใน <code>average</code> บรรทัด 15 (หารด้วย length = 0)", "<code>average</code> ถูกเรียกจาก <code>printAverage</code> บรรทัด 9", "ซึ่งถูกเรียกจาก <code>main</code> บรรทัด 5", "แก้ที่ต้นเหตุ: ตรวจ <code>values.length == 0</code> ใน average"] },
+          },
+        { type: "p", html: `แก้ที่ต้นเหตุ: ใน <code>average</code> ตรวจ <code>values.length == 0</code> ก่อนหาร` },
         { type: "table", title: "Exception ที่พบบ่อยและความหมาย", head: ["Exception", "สาเหตุที่พบบ่อย"], rows: [
           ["<code>ArithmeticException: / by zero</code>", "หาร int ด้วย 0"],
           ["<code>ArrayIndexOutOfBoundsException</code>", "index &lt; 0 หรือ ≥ length (มัก <code>&lt;=</code> ในลูป)"],
@@ -182,9 +197,16 @@ export default {
     {
       num: "10.3", toc: "trace และ debugger", title: "trace ค่าตัวแปร และใช้ debugger",
       blocks: [
-        { type: "p", html: `เมื่อเจอ logic error ให้หาจุดที่<strong>ค่าจริงเริ่มต่างจากค่าที่คาด</strong> มี 3 วิธีที่ใช้ร่วมกัน: (1) trace table ด้วยมือ (2) พิมพ์ค่ากลางทาง (print debugging) (3) debugger ใน IDE` },
-        { type: "run", label: "ตัวอย่าง 10.3.1", title: "print debugging: หาว่าผิดตั้งแต่รอบไหน", level: "พื้นฐาน",
-          concept: "เพิ่ม println ชั่วคราวในลูปแสดงค่าตัวแปรสำคัญทุกรอบ แล้วเทียบกับ trace table ที่ทำด้วยมือ",
+        { type: "p", html: `logic error ไม่มีข้อความบอก ต้องหาจุดที่<strong>ค่าจริงเริ่มต่างจากค่าที่คาด</strong> มี 3 วิธีที่ใช้ร่วมกันได้` },
+        { type: "table", head: ["วิธี", "ทำอย่างไร", "เหมาะกับ"], rows: [
+          ["trace table", "เขียนค่าตัวแปรทุกรอบด้วยมือ", "รู้ว่า<em>ควร</em>ได้อะไร"],
+          ["print debugging", "เพิ่ม println ชั่วคราวพิมพ์ค่ากลางทาง", "ดูค่าจริงทุกรอบอย่างรวดเร็ว"],
+          ["debugger", "หยุดโปรแกรมที่ breakpoint แล้วดูค่าตัวแปร", "โปรแกรมใหญ่ ลูปหลายรอบ"],
+        ] },
+
+        { type: "h", text: "print debugging: ผิดตั้งแต่รอบไหน" },
+        { type: "p", html: `โปรแกรมนี้ควรได้ 5! = 120 ลองเพิ่มบรรทัด DEBUG พิมพ์ค่าทุกรอบ แล้วเทียบกับที่คาด` },
+        { type: "run", title: "factorial ที่ได้ 0",
           code: j`
             public class DebugFactorial {
                 public static void main(String[] args) {
@@ -192,30 +214,32 @@ export default {
                     int result = 0;
                     for (int i = 1; i <= n; i++) {
                         result *= i;
-                        System.out.println("DEBUG i=" + i + " result=" + result);
+                        System.out.println("DEBUG i=" + i + " result=" + result);   // บรรทัดชั่วคราว
                     }
                     System.out.println(n + "! = " + result);
                 }
             }`,
-          steps: ["คาดว่า i=1 → result=1, i=2 → 2, … i=5 → 120", "แต่ DEBUG แสดง result = 0 ตั้งแต่รอบแรก", "จึงรู้ว่าปัญหาอยู่ที่ค่าเริ่มต้น: ผลคูณต้องเริ่มที่ 1", "แก้แล้วลบบรรทัด DEBUG ออก"] },
-        { type: "run", label: "ตัวอย่าง 10.3.2", title: "แก้แล้ว: เทียบ trace ที่คาดกับผลจริง", level: "ต่อยอด",
-          concept: "หลังแก้ ให้รันพร้อม trace อีกครั้งเพื่อยืนยันว่าทุกรอบตรงกับที่คาด",
+          },
+        { type: "table", cls: "trace-table", head: ["i", "result ที่คาด", "ผลจริง"], rows: [["1", "1", "0"], ["2", "2", "0"], ["3", "6", "0"], ["4", "24", "0"], ["5", "120", "0"]] },
+        { type: "p", html: `ต่างกันตั้งแต่รอบแรก ปัญหาจึงอยู่<em>ก่อน</em>ลูป: ผลคูณที่เริ่มจาก 0 คูณอะไรก็ได้ 0 ต้องเริ่มที่ 1` },
+        { type: "run", title: "แก้แล้ว รันตรวจอีกครั้ง",
           code: j`
             public class DebugFactorialFixed {
                 public static void main(String[] args) {
                     int n = 5;
-                    int result = 1;  // ผลคูณต้องเริ่มที่ 1
+                    int result = 1;                                     // ผลคูณเริ่มที่ 1
                     for (int i = 1; i <= n; i++) {
                         result *= i;
-                        // พิมพ์ค่าระหว่างทางเพื่อตรวจ
-                        System.out.printf("i=%d result=%d%n", i, result);
+                        System.out.printf("i=%d result=%d%n", i, result);   // ตรงกับคอลัมน์ "ที่คาด"
                     }
-                    System.out.println(n + "! = " + result);
+                    System.out.println(n + "! = " + result);            // 120
                 }
             }`,
-          steps: ["ทุกรอบตรงกับ trace table ด้านล่าง", "ผลลัพธ์ 120 ถูกต้อง"] },
-        { type: "table", cls: "trace-table", head: ["i", "result ที่คาด", "ผลจริง (ก่อนแก้)"], rows: [["1", "1", "0"], ["2", "2", "0"], ["3", "6", "0"], ["4", "24", "0"], ["5", "120", "0"]] },
-        { type: "steps", title: "ใช้ debugger ใน IDE (IntelliJ / VS Code / NetBeans)", items: [
+          },
+        { type: "tip", html: `ยืนยันว่าแก้ถูกแล้ว ให้ลบบรรทัด debug ออกก่อนส่งงาน` },
+
+        { type: "h", text: "ใช้ debugger ใน IDE" },
+        { type: "steps", title: "IntelliJ / VS Code / NetBeans ใช้หลักเดียวกัน", items: [
           "<strong>ตั้ง breakpoint</strong>: คลิกที่ขอบซ้ายของบรรทัดที่สงสัย จะเกิดจุดสีแดง",
           "<strong>รันแบบ Debug</strong> (ไอคอนแมลง 🐞) โปรแกรมจะหยุดเมื่อถึง breakpoint",
           "<strong>ดูหน้าต่าง Variables</strong>: เห็นค่าของทุกตัวแปรในขณะนั้น",
@@ -223,8 +247,10 @@ export default {
           "<strong>Step Into (F7 / F11)</strong>: ถ้าบรรทัดนั้นเรียกเมธอด ให้เข้าไปดูข้างในเมธอด",
           "<strong>Resume</strong>: ทำต่อจนถึง breakpoint ถัดไป — ใช้ <em>conditional breakpoint</em> (เช่น หยุดเมื่อ i == 50) เมื่อลูปมีหลายรอบ",
         ] },
-        { type: "run", label: "ตัวอย่าง 10.3.3", title: "บั๊กลูปซ้อน: ลืมรีเซ็ตตัวแปร", level: "ประยุกต์",
-          concept: "ผลรวมของแถวแรกถูก แต่แถวถัดไปผิดสะสม — สัญญาณว่าตัวแปรสะสมถูกประกาศนอกลูปนอก",
+
+        { type: "h", text: "ฝึกหาบั๊ก: ลูปซ้อน" },
+        { type: "p", html: `ยอดขายแต่ละแถวควรได้ 10, 12 และ 7 ดูผลลัพธ์แล้วหาว่าผิดตรงไหน` },
+        { type: "run", title: "ยอดรวมแต่ละแถว",
           code: j`
             public class ResetBug {
                 public static void main(String[] args) {
@@ -238,33 +264,35 @@ export default {
                     }
                 }
             }`,
-          steps: ["คาด: 10, 12, 7", "ได้: 10, 22, 29 — แถว 1 เริ่มจาก 10 แทน 0", "แก้: ย้าย <code>int rowTotal = 0;</code> เข้าไปไว้ต้นลูปนอก", "ใน debugger จะเห็น rowTotal = 10 ตอนเริ่มแถว 1 ทันที"] },
-        { type: "run", label: "ตัวอย่าง 10.3.4", title: "เมธอดตรวจสอบสมมติฐาน (assert-style)", level: "ท้าทาย",
-          concept: "เขียนเมธอดเล็ก ๆ ตรวจเงื่อนไขที่ “ต้องจริงเสมอ” และแจ้งเตือนทันทีเมื่อผิด ช่วยจับบั๊กใกล้จุดเกิดเหตุ",
-          code: j`
-            public class CheckInvariant {
-                public static void main(String[] args) {
-                    int[] stock = {5, 2, 8};
-                    sell(stock, 0, 3);
-                    sell(stock, 1, 5);
-                    sell(stock, 2, 8);
-                }
+          },
+        { type: "check", title: "หาบั๊กได้ไหม", html: `<p>แถวแรกถูก แต่แถวถัดไปค่าสะสมเพิ่มขึ้นเรื่อย ๆ เป็นเพราะอะไร</p>`, answer: `<p><code>rowTotal</code> ประกาศไว้นอกลูปนอก จึงไม่ถูกตั้งเป็น 0 เมื่อขึ้นแถวใหม่ (แถว 1 เริ่มจาก 10) แก้โดยย้าย <code>int rowTotal = 0;</code> เข้าไปเป็นบรรทัดแรกในลูปนอก ถ้าใช้ debugger จะเห็น rowTotal = 10 ตอนเริ่มแถว 1 ทันที</p>` },
 
-                static void sell(int[] stock, int item, int qty) {
-                    // ลดสต็อก
-                    stock[item] -= qty;
-                    // ตรวจเงื่อนไขที่ต้องจริงเสมอ
-                    check(stock[item] >= 0, "stock of item " + item + " became " + stock[item]);
-                    System.out.println("Sold " + qty + " of item " + item + ", left " + stock[item]);
-                }
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: เมธอดตรวจเงื่อนไขที่ต้องจริงเสมอ", blocks: [
+          { type: "p", html: `เขียนเมธอดเล็ก ๆ ตรวจกฎที่ “ต้องจริงเสมอ” เช่น สต็อกต้องไม่ติดลบ แล้วแจ้งเตือนทันทีเมื่อผิด จะจับบั๊กได้ใกล้จุดเกิดเหตุ` },
+          { type: "run", title: "ตรวจสต็อกหลังขาย",
+            code: j`
+              public class CheckInvariant {
+                  public static void main(String[] args) {
+                      int[] stock = {5, 2, 8};
+                      sell(stock, 0, 3);
+                      sell(stock, 1, 5);                      // มีแค่ 2 แต่ขาย 5
+                      sell(stock, 2, 8);
+                  }
 
-                static void check(boolean condition, String message) {
-                    if (!condition) {  // เงื่อนไขเป็นเท็จ → แจ้งเตือน
-                        System.out.println("!! CHECK FAILED: " + message);
-                    }
-                }
-            }`,
-          steps: ["กฎที่ต้องจริงเสมอ: สต็อกต้องไม่ติดลบ", "ขายสินค้า 1 จำนวน 5 ทั้งที่มี 2 → check แจ้งเตือนทันที", "ชี้ว่าบั๊กอยู่ที่ sell ไม่ได้ตรวจก่อนลด (ควรตรวจ qty ≤ stock ก่อน)"] },
+                  static void sell(int[] stock, int item, int qty) {
+                      stock[item] -= qty;
+                      check(stock[item] >= 0, "stock of item " + item + " became " + stock[item]);
+                      System.out.println("Sold " + qty + " of item " + item + ", left " + stock[item]);
+                  }
+
+                  static void check(boolean condition, String message) {
+                      if (!condition) {                       // กฎไม่เป็นจริง → เตือน
+                          System.out.println("!! CHECK FAILED: " + message);
+                      }
+                  }
+              }`,
+            after: "check ชี้ว่าบั๊กอยู่ที่ sell ซึ่งลดสต็อกโดยไม่ตรวจก่อน ควรตรวจ qty ≤ stock[item] ก่อนลด" },
+        ] },
         { type: "check", title: "trace", html: jpre(`
           int a = 1, b = 1;
           for (int i = 0; i < 4; i++) {
@@ -277,24 +305,24 @@ export default {
     {
       num: "10.4", toc: "ออกแบบ test case", title: "ออกแบบ test case",
       blocks: [
-        { type: "p", html: `การทดสอบด้วยค่าที่ “คิดว่าน่าจะใช้” ค่าเดียวไม่พอ ควรเลือก test case ที่ครอบคลุม: <strong>กรณีปกติ</strong>, <strong>ค่าขอบ (boundary)</strong> และ<strong>กรณีผิดปกติ/ข้อมูลไม่ถูกต้อง</strong> แล้วเขียน “ผลที่คาด” ก่อนรันทุกครั้ง` },
-        { type: "table", title: "ตัวอย่าง: test case ของฟังก์ชันตัดเกรด (A ≥ 80, B ≥ 70, C ≥ 60, D ≥ 50, F)", head: ["ประเภท", "input", "ผลที่คาด", "เหตุผล"], rows: [
+        { type: "p", html: `ทดสอบด้วยค่าเดียวที่ “น่าจะใช้” ไม่พอ ให้เลือก test case 3 กลุ่ม: <strong>กรณีปกติ</strong>, <strong>ค่าขอบ (boundary)</strong> และ<strong>ข้อมูลผิดปกติ</strong> และเขียน “ผลที่คาด” ไว้ก่อนรันทุกครั้ง` },
+        { type: "table", title: "ตัวอย่าง: test case ของเมธอดตัดเกรด (A ≥ 80, B ≥ 70, C ≥ 60, D ≥ 50, F)", head: ["ประเภท", "input", "ผลที่คาด", "เหตุผล"], rows: [
           ["ปกติ", "85, 65", "A, C", "ค่ากลางช่วง"], ["ขอบ", "80, 79", "A, B", "รอยต่อระหว่างเกรด"], ["ขอบ", "50, 49", "D, F", "ขอบผ่าน/ไม่ผ่าน"], ["ขอบสุด", "0, 100", "F, A", "ค่าต่ำ/สูงสุดที่ยอมรับ"], ["ผิดปกติ", "-1, 101", "Invalid", "นอกช่วง"],
         ] },
-        { type: "run", label: "ตัวอย่าง 10.4.1", title: "เขียนโค้ดทดสอบแบบตาราง", level: "ต่อยอด",
-          concept: "เก็บ input และผลที่คาดในอาเรย์คู่ขนาน แล้ววนเรียกเมธอดเทียบผล — เพิ่ม test ใหม่ได้ง่าย",
+        { type: "tip", title: "ค่าขอบ", html: `บั๊กมักซ่อนอยู่ตรงรอยต่อ เช่น เขียน <code>&gt;</code> แทน <code>&gt;=</code> ทดสอบทั้งค่าที่ขอบพอดีและค่าที่อยู่ติดขอบอีกด้าน (80 และ 79)` },
+
+        { type: "h", text: "เขียนโค้ดทดสอบแบบตาราง" },
+        { type: "p", html: `เก็บ input และผลที่คาดไว้ในอาเรย์คู่กัน แล้ววนเรียกเมธอดเทียบผล เพิ่ม test ใหม่ได้แค่เติมค่าในอาเรย์ เมธอด grade ด้านล่างมีบั๊กซ่อนอยู่ 1 จุด` },
+        { type: "run", title: "ทดสอบเมธอดตัดเกรด",
           code: j`
             public class GradeTests {
                 public static void main(String[] args) {
-                    // รวมค่าขอบ (80, 79, 50, 49) และค่าผิด (-1, 101)
                     int[] inputs = {85, 65, 80, 79, 50, 49, 0, 100, -1, 101};
-                    // คำตอบที่ควรได้ ตำแหน่งตรงกับ inputs
-                    String[] expected = {"A", "C", "A", "B", "D", "F", "F", "A", "Invalid", "Invalid"};
+                    String[] expected = {"A", "C", "A", "B", "D", "F", "F", "A", "Invalid", "Invalid"};  // คู่กับ inputs
                     int passed = 0;
                     for (int i = 0; i < inputs.length; i++) {
                         String actual = grade(inputs[i]);
-                        // เทียบผลจริงกับที่คาด
-                        boolean ok = actual.equals(expected[i]);
+                        boolean ok = actual.equals(expected[i]);         // เทียบผลจริงกับที่คาด
                         if (ok) passed++;
                         System.out.printf("%-4s grade(%d) = %s, expected %s%n", ok ? "OK" : "FAIL", inputs[i], actual, expected[i]);
                     }
@@ -303,7 +331,6 @@ export default {
 
                 static String grade(int score) {
                     if (score < 0 || score > 100) return "Invalid";
-                    // ลองดูว่าค่าขอบ 80 ผ่านหรือไม่
                     if (score > 80) return "A";
                     if (score >= 70) return "B";
                     if (score >= 60) return "C";
@@ -311,23 +338,24 @@ export default {
                     return "F";
                 }
             }`,
-          steps: ["9 จาก 10 ผ่าน", "FAIL ที่ grade(80) ได้ B — test ค่าขอบจับบั๊ก <code>&gt; 80</code> ที่ควรเป็น <code>&gt;= 80</code>", "ถ้าทดสอบแค่ 85 และ 65 จะไม่มีวันเจอบั๊กนี้"] },
-        { type: "run", label: "ตัวอย่าง 10.4.2", title: "ทดสอบเมธอดที่คืน double", level: "ประยุกต์",
-          concept: "เทียบ double ด้วยค่าคลาดเคลื่อนที่ยอมรับได้ (epsilon) ไม่ใช่ <code>==</code> และทดสอบกรณีพิเศษ เช่น อาเรย์ว่าง",
+          },
+        { type: "p", html: `test ค่าขอบจับได้ว่า <code>grade(80)</code> ได้ B เพราะเขียน <code>score &gt; 80</code> แทน <code>score &gt;= 80</code> ถ้าทดสอบแค่ 85 และ 65 จะไม่มีวันเจอบั๊กนี้` },
+
+        { type: "h", text: "ทดสอบเมธอดที่คืน double" },
+        { type: "p", html: `double มีความคลาดเคลื่อนเล็กน้อย (0.1 + 0.2 ไม่เท่ากับ 0.3 พอดี) จึงเทียบด้วย “ห่างกันน้อยมาก” แทน <code>==</code> และอย่าลืมกรณีพิเศษ เช่น อาเรย์ว่าง` },
+        { type: "run", title: "เทียบด้วย epsilon",
           code: j`
             public class AverageTests {
                 public static void main(String[] args) {
-                    // new double[]{...} สร้างอาเรย์ส่งเข้าเมธอดได้ทันที
-                    test(new double[]{2, 4, 6}, 4.0);
-                    test(new double[]{0.1, 0.2}, 0.15);
-                    test(new double[]{-5, 5}, 0.0);
-                    test(new double[]{7}, 7.0);
-                    test(new double[]{}, 0.0);  // กรณีขอบ: อาเรย์ว่าง
+                    test(new double[]{2, 4, 6}, 4.0);                  // ปกติ
+                    test(new double[]{0.1, 0.2}, 0.15);                // ทศนิยม
+                    test(new double[]{-5, 5}, 0.0);                    // ค่าลบ
+                    test(new double[]{7}, 7.0);                        // สมาชิกเดียว
+                    test(new double[]{}, 0.0);                         // อาเรย์ว่าง
                 }
 
                 static double average(double[] values) {
-                    // ป้องกันการหารด้วย 0
-                    if (values.length == 0) return 0.0;
+                    if (values.length == 0) return 0.0;                // ตัดสินใจไว้ก่อนว่าว่างแล้วคืน 0.0
                     double sum = 0;
                     for (double v : values) sum += v;
                     return sum / values.length;
@@ -335,12 +363,11 @@ export default {
 
                 static void test(double[] values, double expected) {
                     double actual = average(values);
-                    // double เทียบด้วยระยะห่างที่น้อยมาก
-                    boolean ok = Math.abs(actual - expected) < 1e-9;
+                    boolean ok = Math.abs(actual - expected) < 1e-9;   // ห่างกันไม่เกิน 0.000000001
                     System.out.printf("%s n=%d actual=%.4f expected=%.4f%n", ok ? "OK  " : "FAIL", values.length, actual, expected);
                 }
             }`,
-          steps: ["กรณีปกติ, ทศนิยม, ค่าลบ, สมาชิกเดียว, อาเรย์ว่าง", "0.1 + 0.2 ไม่เท่ากับ 0.3 พอดี จึงใช้ epsilon", "กรณีว่างต้องตัดสินใจล่วงหน้าว่าควรคืนอะไร (ที่นี่คืน 0.0)"] },
+          },
         { type: "note", title: "Checklist ก่อนส่งงาน", html: `<ul><li>ทดสอบตัวอย่างในโจทย์ทุกตัว และเทียบ output ทีละตัวอักษร (ช่องว่าง ตัวพิมพ์)</li><li>ทดสอบค่าขอบทุกเงื่อนไข (=, ค่าก่อน และค่าหลังขอบ)</li><li>ทดสอบ 0, ค่าติดลบ, ข้อมูลว่าง, ข้อมูลตัวเดียว</li><li>ลบ println ที่ใช้ debug ออก</li><li>ตั้งชื่อตัวแปรและจัดย่อหน้าให้อ่านง่าย</li></ul>` },
         { type: "check", title: "เลือก test case", html: `<p>เมธอด <code>isTeen(int age)</code> คืน true เมื่ออายุ 13–19 ควรทดสอบด้วยค่าใดบ้างอย่างน้อย</p>`, answer: `<p>12, 13, 19, 20 (ค่าขอบสองด้าน) + ค่ากลางเช่น 16 + ค่าผิดปกติเช่น −1 — ผลที่คาด: false, true, true, false, true, false</p>` },
       ],
