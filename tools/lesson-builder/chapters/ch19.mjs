@@ -280,17 +280,21 @@ export default {
     {
       num: "19.1", toc: "กำหนดขอบเขตและ flow", title: "กำหนดความต้องการและ user flow",
       blocks: [
-        { type: "p", html: "เขียนสิ่งที่ผู้ใช้ทำได้ก่อนคิดเรื่องสีหรือ component วิธีนี้ช่วยตัดสินใจว่าต้องมีหน้าอะไรและข้อมูลใดต้องเก็บ" },
+        { type: "p", html: `เขียนสิ่งที่ผู้ใช้<strong>ทำได้</strong>ก่อนคิดเรื่องสีหรือ component รายการนี้บอกว่าต้องมีหน้าอะไรและต้องเก็บข้อมูลใด` },
         { type: "concept", title: "ขอบเขตเวอร์ชันแรก (requirements)", html: `<ol><li>หน้า <strong>Home</strong> แสดงจำนวนวิชาและหน่วยกิตรวม</li><li>หน้า <strong>Add Course</strong> รับรหัส ชื่อ และหน่วยกิต ตรวจ: ช่องว่าง, รูปแบบรหัส (เช่น CS101), หน่วยกิตเป็นจำนวนเต็ม 1–6, รหัสไม่ซ้ำ, หน่วยกิตรวมไม่เกิน 22</li><li>หน้า <strong>Course List</strong> แสดงรายการ เลือกวิชาแล้วลบได้ (ถามยืนยัน)</li><li>ข้อมูลอยู่ใน memory; ปิดโปรแกรมแล้วไม่ต้องคงข้อมูล</li></ol>` },
-        { type: "example", title: "เส้นทางผู้ใช้ (user flow)", html: fpre(`
+        { type: "h", text: "เส้นทางผู้ใช้ (user flow)" },
+        { type: "p", html: `เขียนทุกเส้นทางระหว่างหน้า รวมถึงกรณีข้อมูลไม่ผ่าน จะได้ไม่เผลอเปลี่ยนหน้าทั้งที่ข้อมูลยังผิด` },
+        { type: "example", title: "user flow", html: fpre(`
           HOME   --Add course-->   FORM
           HOME   --View list-->    LIST
           FORM   --Save (valid)--> LIST
           FORM   --Save (invalid)--> แสดง error, อยู่ที่ FORM เดิม
           FORM   --Cancel-->       HOME
           LIST   --Add another-->  FORM
-          LIST   --Home-->         HOME`) + `<p>การเขียน flow ให้เห็นเส้นทาง invalid ด้วย ช่วยไม่ให้หน้าเปลี่ยนทั้งที่ข้อมูลยังไม่ผ่าน</p>` },
-        { type: "table", title: "Acceptance criteria: เงื่อนไขที่ทดสอบได้", head: ["#", "เมื่อ…", "ผลที่ต้องเห็น"], rows: [
+          LIST   --Home-->         HOME`) },
+        { type: "h", text: "Acceptance criteria" },
+        { type: "p", html: `แปลง requirements เป็นเงื่อนไขที่<strong>ทดสอบได้</strong>: “เมื่อทำอย่างนี้ ต้องเห็นอย่างนี้” ตารางนี้จะใช้ทดสอบทั้ง model (19.2) และหน้าจอ (19.4)` },
+        { type: "table", head: ["#", "เมื่อ…", "ผลที่ต้องเห็น"], rows: [
           ["1", "กรอก CS101, Programming, 3 แล้ว Save", "ไปหน้า List เห็น CS101 และ Total 3 credits"],
           ["2", "เว้นชื่อว่างแล้ว Save", "อยู่หน้า Form เห็น “Please fill in every field”"],
           ["3", "หน่วยกิต “abc” หรือ 7", "error เรื่องหน่วยกิต ไม่บันทึก"],
@@ -304,13 +308,21 @@ export default {
     {
       num: "19.2", toc: "วาง model และ class", title: "ออกแบบ model และความรับผิดชอบของ class",
       blocks: [
+        { type: "p", html: `แบ่งงานเป็น 3 คลาส แต่ละคลาสรับผิดชอบเรื่องเดียว กฎทั้งหมดอยู่ใน model ซึ่งไม่รู้จัก Swing` },
         { type: "table", head: ["Class", "รับผิดชอบ", "ไม่ควรทำ"], rows: [
           ["<code>Course</code>", "ข้อมูลหนึ่งวิชา (immutable)", "รู้จัก Swing"],
           ["<code>CoursePlanner</code>", "เก็บรายการ + กฎทั้งหมด (validate, ห้ามซ้ำ, หน่วยกิตรวม)", "แสดง dialog หรือแก้ component"],
           ["<code>CoursePlannerApp</code>", "สร้างหน้าจอ เชื่อม event กับ planner นำทาง", "เก็บกฎธุรกิจไว้ใน listener"],
         ] },
-        { type: "run", title: "ทดสอบ model ใน console ก่อนมีหน้าจอ", level: "ต่อยอด",
-          concept: "model ไม่มีโค้ด Swing จึงทดสอบ acceptance criteria เกือบทั้งหมดได้ด้วย console ภายในไม่กี่วินาที — เมื่อผ่านแล้วจึงเริ่มทำ GUI",
+        { type: "table", title: "เมธอดหลักของ CoursePlanner", head: ["เมธอด", "หน้าที่"], rows: [
+          ["<code>validate(code, name, creditsText)</code>", "รับข้อความดิบจากฟอร์ม คืนข้อความ error หรือ <code>null</code> ถ้าผ่าน"],
+          ["<code>add(course)</code>", "เพิ่มวิชา โยน exception ถ้ารหัสซ้ำ"],
+          ["<code>remove(index)</code>", "ลบวิชาตามตำแหน่ง"],
+          ["<code>getTotalCredits()</code>", "หน่วยกิตรวม"],
+          ["<code>getCourses()</code>", "รายการแบบอ่านอย่างเดียว (unmodifiable)"],
+        ] },
+        { type: "p", html: `validate ตรวจตามลำดับ: ว่าง → รูปแบบรหัส → แปลงตัวเลข → ช่วง 1–6 → ซ้ำ → เพดาน 22 หน่วยกิต ทดสอบใน console ให้ผ่านก่อนเริ่มทำหน้าจอ (โค้ด Course และ CoursePlanner อยู่ท้ายไฟล์)` },
+        { type: "run", title: "ทดสอบ model ใน console ก่อนมีหน้าจอ",
           code: withModel(j`
             import java.util.ArrayList;
             import java.util.Collections;
@@ -318,87 +330,93 @@ export default {
 
             public class PlannerModelTest {
                 public static void main(String[] args) {
-                    // ทดสอบ model โดยไม่เปิดหน้าจอ
-                    CoursePlanner p = new CoursePlanner();
-                    check(p, "CS101", "Programming", "3");  // ข้อมูลถูกต้อง
+                    CoursePlanner p = new CoursePlanner();                    // ไม่ต้องเปิดหน้าจอ
+                    check(p, "CS101", "Programming", "3");                    // OK
                     p.add(new Course("CS101", "Programming", 3));
-                    // ชื่อว่าง
-                    check(p, "MA102", "", "3");
-                    // หน่วยกิตไม่ใช่ตัวเลข
-                    check(p, "MA102", "Calculus", "abc");
-                    // เกิน 6 หน่วยกิต
-                    check(p, "MA102", "Calculus", "7");
-                    // รหัสซ้ำ (ตัวพิมพ์ต่างกัน)
-                    check(p, "cs101", "Programming again", "3");
-                    // รูปแบบรหัสผิด
-                    check(p, "C1", "Bad code", "3");
-                    // อาเรย์ 2 มิติ: วิชาละแถว
+                    check(p, "MA102", "", "3");                               // ชื่อว่าง
+                    check(p, "MA102", "Calculus", "abc");                     // ไม่ใช่ตัวเลข
+                    check(p, "MA102", "Calculus", "7");                       // เกิน 6
+                    check(p, "cs101", "Programming again", "3");              // ซ้ำ (ตัวพิมพ์ต่าง)
+                    check(p, "C1", "Bad code", "3");                          // รูปแบบรหัสผิด
                     for (String[] c : new String[][]{{"MA102", "Calculus", "4"}, {"PH103", "Physics", "4"},
-                            {"EN104", "English", "3"}, {"SC105", "Science Lab", "6"}}) {
+                            {"EN104", "English", "3"}, {"SC105", "Science Lab", "6"}}) {   // วิชาละแถว
                         p.add(new Course(c[0], c[1], Integer.parseInt(c[2])));
                     }
-                    System.out.println("Total now: " + p.getTotalCredits());
-                    // รวมแล้ว 23 หน่วยกิต เกิน
-                    check(p, "AR106", "Art", "3");
-                    check(p, "AR106", "Art", "2");  // รวมแล้วพอดี 22
+                    System.out.println("Total now: " + p.getTotalCredits());  // 20
+                    check(p, "AR106", "Art", "3");                            // 23 เกิน
+                    check(p, "AR106", "Art", "2");                            // 22 พอดี
                     for (Course c : p.getCourses()) System.out.println("  " + c);
                 }
 
                 static void check(CoursePlanner p, String code, String name, String credits) {
                     String err = p.validate(code, name, credits);
-                    // ชื่อว่างแสดงเป็น ""
                     System.out.printf("validate(%s, %s, %s) -> %s%n", code, name.isEmpty() ? "\"\"" : name, credits, err == null ? "OK" : err);
                 }
             }
             `),
-          steps: ["validate รับข้อความดิบจากฟอร์ม คืนข้อความ error หรือ null", "ตรวจตามลำดับ: ว่าง → รูปแบบรหัส → แปลงตัวเลข → ช่วง → ซ้ำ → เพดานหน่วยกิต", "เพิ่มวิชาจนรวม 20 หน่วยกิต แล้ว AR106 3 หน่วยกิตเกิน 22 แต่ 2 หน่วยกิตผ่าน", "<code>getCourses()</code> คืน unmodifiable list — ผู้เรียกแก้รายการโดยไม่ผ่านกฎของ planner ไม่ได้"] },
-        { type: "note", title: "ทำไม add() ยังตรวจรหัสซ้ำอีกครั้ง", html: `<p>แม้ UI จะเรียก validate ก่อนเสมอ แต่ planner ไม่ควรเชื่อว่าผู้เรียกทุกคนจะทำเช่นนั้น การโยน exception ใน add() ปกป้อง invariant “ไม่มีรหัสซ้ำ” ไว้ในที่เดียว (บทที่ 12)</p>` },
+          },
+        { type: "tip", title: "ทำไม add() ยังตรวจรหัสซ้ำอีกครั้ง", html: `แม้ UI จะเรียก validate ก่อนเสมอ แต่ planner ไม่ควรเชื่อว่าผู้เรียกทุกคนจะทำเช่นนั้น การโยน exception ใน add() ปกป้อง invariant “ไม่มีรหัสซ้ำ” ไว้ในที่เดียว (บทที่ 12) และ <code>getCourses()</code> คืนรายการที่แก้ไม่ได้ ผู้เรียกจึงข้ามกฎของ planner ไม่ได้` },
       ],
     },
     {
       num: "19.3", toc: "สร้าง layout", title: "ประกอบหน้าด้วย layout manager",
       blocks: [
-        { type: "p", html: "วาง CardLayout เป็น content pane ของ JFrame เพื่อสลับ Home, Form และ List; ภายในแต่ละ panel ใช้ layout ที่เหมาะกับหน้าที่: BorderLayout สำหรับกรอบหลัก, GridLayout สำหรับคู่ป้าย–ช่อง, FlowLayout ชิดขวาสำหรับแถวปุ่ม" },
+        { type: "p", html: `ใช้ CardLayout เป็น content pane ของ JFrame เพื่อสลับ Home, Form และ List ภายในแต่ละหน้าเลือก layout ตามหน้าที่` },
+        { type: "table", head: ["ส่วน", "layout"], rows: [
+          ["กรอบหลักของแต่ละหน้า", "BorderLayout (หัว / เนื้อหา / ปุ่ม)"],
+          ["คู่ป้าย–ช่องในฟอร์ม", "GridLayout 3×2"],
+          ["แถวปุ่ม", "FlowLayout ชิดขวา"],
+          ["รายการวิชา", "JScrollPane(JList&lt;Course&gt;)"],
+        ] },
         { type: "example", title: "โครง container ของแอป", html: fpre(`
           JFrame "Course Planner"
           └── pages (CardLayout)
               ├── HOME  (BorderLayout: title / summary / buttons)
               ├── FORM  (BorderLayout: title / GridLayout 3x2 fields / error + buttons)
               └── LIST  (BorderLayout: JScrollPane(JList<Course>) / total + buttons)`) },
-        { type: "run", title: "หน้าตาของทั้ง 3 หน้า (แอปเต็ม)", level: "ประยุกต์", gui: true,
+        { type: "p", html: `โค้ดด้านล่างคือแอปเวอร์ชันแรกที่สมบูรณ์ ในหัวข้อนี้ให้ดูเมธอด <code>buildHome</code>, <code>buildForm</code> และ <code>buildList</code> ซึ่งแต่ละเมธอดคืน panel ของหนึ่งหน้า ส่วน event อธิบายในหัวข้อ 19.4` },
+        { type: "run", title: "หน้าตาของทั้ง 3 หน้า (แอปเต็ม)", gui: true,
           actions: "shot\nclick Add course\nshot\nclick Cancel\nclick View list\nshot", captions: ["HOME", "FORM (หลังคลิก Add course)", "LIST (ยังว่าง)"],
-          concept: "โค้ดนี้คือแอปเวอร์ชันแรกที่สมบูรณ์ ส่วน 19.3 ให้สังเกตเมธอด buildHome / buildForm / buildList ซึ่งแต่ละเมธอดคืน panel ของหนึ่งหน้า ส่วน event อธิบายใน 19.4",
-          code: FULL_APP,
-          steps: ["show() สร้างหน้าต่าง เพิ่ม 3 หน้าลง CardLayout แล้วไปหน้า HOME", "goTo(page) เรียก refresh() ก่อนแสดงทุกครั้ง — ทุกหน้าจึงแสดงข้อมูลล่าสุดจาก planner", "JList&lt;Course&gt; แสดงผลด้วย toString() ของ Course ใช้ฟอนต์ Monospaced ให้คอลัมน์ตรง", "component ที่ต้องอ่าน/แก้จากหลายเมธอดเป็น field ของคลาส"] },
+          code: FULL_APP },
+        { type: "table", title: "จุดที่ควรสังเกตในโค้ด", head: ["ส่วน", "ทำอะไร"], rows: [
+          ["<code>show()</code>", "สร้างหน้าต่าง เพิ่ม 3 หน้าลง CardLayout แล้วไปหน้า HOME"],
+          ["<code>goTo(page)</code>", "เรียก <code>refresh()</code> ก่อนแสดงทุกครั้ง ทุกหน้าจึงแสดงข้อมูลล่าสุดจาก planner"],
+          ["<code>JList&lt;Course&gt;</code>", "แสดงด้วย toString() ของ Course และใช้ฟอนต์ Monospaced ให้คอลัมน์ตรง"],
+          ["field ของคลาส", "component ที่ต้องอ่านหรือแก้จากหลายเมธอด"],
+        ] },
       ],
     },
     {
       num: "19.4", toc: "ต่อ event และ validation", title: "ต่อ event, validation และ model",
       blocks: [
-        { type: "steps", title: "ลำดับในเมธอด save() (เรียกจากปุ่ม Save และ Enter ในช่องหน่วยกิต)", items: [
+        { type: "p", html: `ปุ่ม Save และการกด Enter ในช่องหน่วยกิตเรียกเมธอด <code>save()</code> ตัวเดียวกัน listener จึงสั้น เพราะกฎทั้งหมดอยู่ใน planner` },
+        { type: "steps", title: "ลำดับในเมธอด save()", items: [
           "อ่านและ normalize: <code>trim()</code> ทุกช่อง",
           "ส่งให้ <code>planner.validate(...)</code> — กฎทั้งหมดอยู่ใน model",
           "ถ้ามี error: แสดงใน label สีแดงแล้ว <code>return</code> (ไม่เปลี่ยนหน้า ไม่แก้ model)",
           "ถ้าผ่าน: สร้าง Course (รหัสเป็นตัวพิมพ์ใหญ่) แล้ว <code>planner.add</code>",
           "ล้างฟอร์ม แล้ว <code>goTo(LIST)</code> ซึ่ง refresh รายการให้เอง",
         ] },
-        { type: "run", title: "ทดสอบตาม acceptance criteria ด้วยการจำลองผู้ใช้", level: "ท้าทาย", gui: true,
+        { type: "h", text: "ทดสอบตาม acceptance criteria" },
+        { type: "p", html: `ใช้โค้ดแอปเดียวกับ 19.3 แต่จำลองการใช้งานตามตาราง acceptance criteria: ชื่อว่าง → เติมชื่อแล้วบันทึก CS101 → เพิ่ม cs101 ซ้ำ → MA102 ผ่าน → PH103 หน่วยกิต 9 ผิดช่วง → แก้เป็น 4 รวม 11 หน่วยกิต ทุกภาพคือผลจริงจากโปรแกรม` },
+        { type: "run", title: "จำลองผู้ใช้ตาม criteria", gui: true,
           actions: ["click Add course", "type field:0 CS101\ntype field:1 \ntype field:2 3\nclick Save\nshot", "type field:1 Programming\nclick Save", "click Add another", addCourse("cs101", "Again", "3"), "shot", addCourse("MA102", "Calculus", "4"), "click Add another", addCourse("PH103", "Physics", "9"), "shot", "type field:2 4\nclick Save\nshot"].join("\n"),
           captions: ["criteria 2: ชื่อว่าง", "criteria 4: รหัสซ้ำ (cs101)", "criteria 3: หน่วยกิต 9", "แก้เป็น 4 แล้ว Save → หน้า LIST"],
-          concept: "ใช้โค้ดแอปเดียวกับ 19.3 แต่รอบนี้จำลองการใช้งานตามตาราง acceptance criteria — ทุกภาพคือผลจริงจากโปรแกรม",
-          code: FULL_APP,
-          steps: ["ชื่อว่าง → error และยังอยู่หน้า Form", "เติมชื่อแล้ว Save → บันทึก CS101 และไปหน้า List", "Add another → พิมพ์ cs101 → ซ้ำ (เทียบแบบไม่สนตัวพิมพ์)", "MA102 ผ่าน → PH103 หน่วยกิต 9 ผิดช่วง → แก้เป็น 4 → ผ่าน รวม 11 หน่วยกิต"] },
-        { type: "run", title: "ลบวิชาพร้อม dialog ยืนยัน", level: "ท้าทาย", gui: true,
+          code: FULL_APP },
+
+        { type: "h", text: "ลบวิชาพร้อมยืนยัน" },
+        { type: "p", html: `ปุ่ม Remove ถูกปิดจนกว่าจะเลือกรายการ (ListSelectionListener) เมื่อคลิก <code>removeSelected()</code> ถาม showConfirmDialog ก่อน กด Yes จึงเรียก <code>planner.remove</code> แล้ว refresh ภาพแสดง dialog ที่เปิดอยู่เหนือหน้า List` },
+        { type: "run", title: "ลบวิชาพร้อม dialog ยืนยัน", gui: true,
           actions: ["click Add course", addCourse("CS101", "Programming", "3"), "click Add another", addCourse("MA102", "Calculus", "4"), "select list:0 0", "click Remove selected"].join("\n"),
           captions: ["เลือก CS101 แล้วคลิก Remove selected"],
-          concept: "removeSelected() ถาม showConfirmDialog ก่อน ถ้ากด Yes จึงเรียก planner.remove แล้ว refresh — ภาพแสดง dialog ที่เปิดอยู่เหนือหน้า List",
-          code: FULL_APP,
-          steps: ["ปุ่ม Remove ถูกปิดจนกว่าจะเลือกรายการ (ListSelectionListener)", "index ที่เลือกใน JList ตรงกับ index ใน planner เพราะ refresh สร้างรายการจาก planner ตามลำดับ", "ข้อความยืนยันระบุรหัสวิชาที่จะลบ"] },
+          code: FULL_APP },
+        { type: "tip", html: `index ที่เลือกใน JList ตรงกับ index ใน planner เพราะ refresh() สร้างรายการจาก planner ตามลำดับเดียวกันทุกครั้ง` },
       ],
     },
     {
       num: "19.5", toc: "ทดสอบและขยายงาน", title: "ทดสอบและขยายงาน",
       blocks: [
+        { type: "p", html: `ก่อนส่งงานหรือก่อนเพิ่มฟีเจอร์ใหม่ ทดสอบให้ครบทุกกลุ่ม` },
         { type: "table", title: "Checklist ทดสอบก่อนส่ง", head: ["ประเภท", "กรณี"], rows: [
           ["ปกติ", "เพิ่ม 3–4 วิชา, ดูรายการ, กลับ Home เห็นจำนวน/หน่วยกิตถูก"],
           ["ข้อมูลผิด", "ช่องว่างแต่ละช่อง, รหัสผิดรูปแบบ, หน่วยกิต 0/7/abc/2.5, รหัสซ้ำตัวพิมพ์ต่าง"],
@@ -406,57 +424,53 @@ export default {
           ["การนำทาง", "Cancel ไม่บันทึกและล้างฟอร์ม, error เดิมหายเมื่อกลับมาหน้า Form"],
           ["ลบ", "ลบเมื่อไม่ได้เลือก (ปุ่มปิด), กด No แล้วไม่ลบ, ลบแล้ว Total ลด"],
         ] },
-        { type: "run", title: "ชุดทดสอบอัตโนมัติของ planner", level: "ท้าทาย",
-          concept: "เขียน test แบบตารางจากบทที่ 10 ให้ครอบคลุมกฎทุกข้อ รันได้ทุกครั้งที่แก้โค้ด เพื่อมั่นใจว่าการขยายฟีเจอร์ไม่ทำให้กฎเดิมพัง",
+        { type: "h", text: "ชุดทดสอบอัตโนมัติ" },
+        { type: "p", html: `ส่วนที่เป็น model เขียนเป็น test แบบบทที่ 10 ได้ แต่ละบรรทัด <code>expect</code> คือ acceptance criterion หนึ่งข้อ รันซ้ำได้ทุกครั้งที่แก้โค้ด เพื่อมั่นใจว่าฟีเจอร์ใหม่ไม่ทำให้กฎเดิมพัง` },
+        { type: "run", title: "ชุดทดสอบของ planner",
           code: withModel(j`
             import java.util.ArrayList;
             import java.util.Collections;
             import java.util.List;
 
             public class PlannerTests {
-                static int passed = 0, total = 0;  // ตัวนับผลการทดสอบ
+                static int passed = 0, total = 0;
 
                 public static void main(String[] args) {
                     CoursePlanner p = new CoursePlanner();
-                    // expect(เงื่อนไขที่ต้องจริง, ชื่อการทดสอบ)
                     expect(p.validate("CS101", "Programming", "3") == null, "valid course accepted");
                     p.add(new Course("CS101", "Programming", 3));
                     expect(p.getTotalCredits() == 3, "total is 3 after one course");
                     expect(p.validate("", "x", "3") != null, "empty code rejected");
                     expect(p.validate("CS102", "x", "0") != null, "0 credits rejected");
-                    // ค่าขอบบน
-                    expect(p.validate("CS102", "x", "6") == null, "6 credits accepted (boundary)");
+                    expect(p.validate("CS102", "x", "6") == null, "6 credits accepted (boundary)");      // ค่าขอบบน
                     expect(p.validate("CS102", "x", "2.5") != null, "2.5 credits rejected");
-                    // ซ้ำโดยตัวพิมพ์ต่าง
                     expect(p.validate("Cs101", "x", "3") != null, "duplicate with different case rejected");
                     p.add(new Course("MA201", "Math", 6));
                     p.add(new Course("PH201", "Physics", 6));
-                    p.add(new Course("EN201", "English", 4));
-                    // ค่าขอบ: รวมพอดี 22
-                    expect(p.validate("AR101", "Art", "3") == null, "exactly 22 credits accepted");
+                    p.add(new Course("EN201", "English", 4));                                         // รวม 19
+                    expect(p.validate("AR101", "Art", "3") == null, "exactly 22 credits accepted");    // 19 + 3
                     expect(p.validate("AR101", "Art", "4") != null, "23 credits rejected");
                     boolean threw = false;
                     try {
-                        // ต้องโยน exception
-                        p.add(new Course("CS101", "dup", 1));
+                        p.add(new Course("CS101", "dup", 1));                 // ไม่ผ่าน validate ก็ต้องโยน
                     } catch (IllegalArgumentException e) {
-                        threw = true;  // ถ้าโยนจริงจะมาที่นี่
+                        threw = true;
                     }
                     expect(threw, "add() throws on duplicate even without validate");
-                    p.remove(0);  // ลบตัวแรก (CS101)
+                    p.remove(0);                                              // ลบ CS101 → 16
                     expect(p.getTotalCredits() == 16 && !p.containsCode("CS101"), "remove updates list and total");
                     System.out.println(passed + "/" + total + " tests passed");
                 }
 
-                // ตัวช่วยทดสอบ นับผ่าน/ไม่ผ่าน
-                static void expect(boolean condition, String name) {
+                static void expect(boolean condition, String name) {         // นับและพิมพ์ผล
                     total++;
                     if (condition) passed++;
                     System.out.println((condition ? "PASS " : "FAIL ") + name);
                 }
             }
             `),
-          steps: ["แต่ละบรรทัด expect คือ acceptance criterion หนึ่งข้อที่เขียนเป็นโค้ด", "ทดสอบค่าขอบ 6 หน่วยกิต และรวม 22/23", "ทดสอบว่า add() ปกป้องกฎด้วยตัวเอง", "เมื่อเพิ่มฟีเจอร์ในแบบฝึกหัด ให้เพิ่ม test ในไฟล์นี้ด้วย"] },
+          },
+        { type: "tip", html: `เมื่อเพิ่มฟีเจอร์ในแบบฝึกหัด ให้เพิ่ม expect สำหรับกฎใหม่ในไฟล์นี้ด้วย` },
         { type: "note", title: "แนวทางขยายงาน (ใช้ในแบบฝึกหัด)", html: `<ul><li>แก้ไขวิชาที่มีอยู่ (ใช้ฟอร์มเดียวกับเพิ่ม)</li><li>เรียงรายการตามรหัส/หน่วยกิต และค้นหาด้วยคำค้น</li><li>ประเภทวิชา (บังคับ/เลือก) ด้วย JComboBox และสรุปหน่วยกิตแยกประเภท</li><li>วิชาบังคับก่อน (prerequisite) และตารางเรียนที่เวลาไม่ชนกัน</li><li>ส่งออกรายการเป็นข้อความเพื่อคัดลอก</li></ul>` },
       ],
     },
