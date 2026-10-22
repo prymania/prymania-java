@@ -88,18 +88,18 @@ export default {
           solution: j`
             public class MiniMartReceipt {
                 public static void main(String[] args) {
-                    printHeader();
+                    printHeader();  // main เรียกเมธอดตามลำดับของใบเสร็จ
                     printItems();
                     printTotal();
                     printFooter();
                 }
 
-                static void printDivider() {
+                static void printDivider() {  // เมธอดเส้นคั่น ใช้ซ้ำหลายที่
                     System.out.println("------------------------");
                 }
 
                 static void printHeader() {
-                    printDivider();
+                    printDivider();  // เมธอดเรียกเมธอดอื่นได้
                     System.out.println("     MINI MART");
                     printDivider();
                 }
@@ -110,7 +110,7 @@ export default {
                     System.out.println("Eggs          92");
                 }
 
-                static void printTotal() {
+                static void printTotal() {  // ยอดรวมมีเส้นคั่นด้านบน
                     printDivider();
                     System.out.println("TOTAL        155");
                 }
@@ -181,16 +181,19 @@ export default {
           solution: j`
             public class RepeatText {
                 public static void main(String[] args) {
+                    // ส่งข้อความและจำนวนครั้งเป็น argument
                     printRepeat("Hi", 3);
                     printRepeat("ab", 5);
                     printRepeat("=", 10);
                 }
 
+                // parameter 2 ตัว: ข้อความกับจำนวนครั้ง
                 static void printRepeat(String text, int times) {
                     for (int i = 0; i < times; i++) {
+                        // print ต่อกันในบรรทัดเดียว
                         System.out.print(text);
                     }
-                    System.out.println();
+                    System.out.println();  // จบแล้วขึ้นบรรทัดใหม่
                 }
             }` },
         { type: "practice", level: 1, title: "printCountdown(int from)",
@@ -199,13 +202,14 @@ export default {
           solution: j`
             public class Countdown {
                 public static void main(String[] args) {
-                    printCountdown(5);
+                    printCountdown(5);  // เรียกเมธอดเดิมด้วยค่าต่างกัน
                     printCountdown(3);
                     printCountdown(1);
                 }
 
+                // from = เลขเริ่มนับถอยหลัง
                 static void printCountdown(int from) {
-                    for (int i = from; i >= 1; i--) {
+                    for (int i = from; i >= 1; i--) {  // นับลงจนถึง 1
                         System.out.print(i + " ");
                     }
                     System.out.println("Go!");
@@ -219,16 +223,20 @@ export default {
             public class TriangleDrawer {
                 public static void main(String[] args) {
                     System.out.println("drawTriangle(1, 5):");
-                    drawTriangle(1, 5);
+                    drawTriangle(1, 5);  // แบบที่ 1: ชิดซ้าย
                     System.out.println();
                     System.out.println("drawTriangle(2, 4):");
-                    drawTriangle(2, 4);
+                    drawTriangle(2, 4);  // แบบที่ 2: ชิดขวา
                 }
 
+                // style เลือกรูปแบบ, length = จำนวนแถว
                 static void drawTriangle(int style, int length) {
                     for (int i = 1; i <= length; i++) {
+                        // เลข i ซ้ำ i ครั้ง
                         String digits = String.valueOf(i).repeat(i);
+                        // แบบที่ 2 เติมช่องว่างด้านหน้า
                         if (style == 2) {
+                            // ช่องว่างลดลงทีละแถว
                             System.out.print(" ".repeat(length - i));
                         }
                         System.out.println(digits);
@@ -369,6 +377,7 @@ export default {
                     int count = 0;
                     System.out.print("Leap years: ");
                     for (int year = 2000; year <= 2026; year++) {
+                        // ใช้เมธอดที่คืน boolean เป็นเงื่อนไข
                         if (isLeapYear(year)) {
                             System.out.print(year + " ");
                             count++;
@@ -379,8 +388,11 @@ export default {
                 }
 
                 static boolean isLeapYear(int year) {
+                    // หาร 4 ไม่ลงตัว → ไม่ใช่
                     if (year % 4 != 0) return false;
+                    // หาร 100 ลงตัวแต่ 400 ไม่ลงตัว → ไม่ใช่
                     if (year % 100 == 0 && year % 400 != 0) return false;
+                    // ผ่านทุกเงื่อนไข → เป็นปีอธิกสุรทิน
                     return true;
                 }
             }`,
@@ -486,15 +498,20 @@ export default {
           solution: j`
             public class VolumeOverload {
                 public static void main(String[] args) {
+                    // 1 argument → ลูกบาศก์
                     System.out.printf("Cube side=3       : %.2f%n", volumeOf(3));
+                    // 2 argument → ทรงกระบอก
                     System.out.printf("Cylinder r=2,h=5  : %.2f%n", volumeOf(2, 5));
+                    // 3 argument → กล่อง
                     System.out.printf("Box 2x3x4         : %.2f%n", volumeOf(2, 3, 4));
                 }
 
+                // ชื่อเดียวกัน ต่างกันที่จำนวน parameter
                 static double volumeOf(double side) {
                     return side * side * side;
                 }
 
+                // πr²h
                 static double volumeOf(double radius, double height) {
                     return Math.PI * radius * radius * height;
                 }
@@ -604,26 +621,31 @@ export default {
           solution: j`
             public class BmiCalculator {
                 public static void main(String[] args) {
-                    check(50, 1.70, "Underweight");
+                    check(50, 1.70, "Underweight");  // ทดสอบทุกกลุ่ม
                     check(65, 1.70, "Normal");
                     check(85, 1.70, "Overweight");
                     check(100, 1.70, "Obese");
                 }
 
+                // คำนวณอย่างเดียว คืนค่า BMI
                 static double bmiOf(double weightKg, double heightM) {
                     return weightKg / (heightM * heightM);
                 }
 
+                // แปลงค่า BMI เป็นชื่อกลุ่ม
                 static String categoryOf(double bmi) {
+                    // return แล้วจบเมธอดทันที
                     if (bmi < 18.5) return "Underweight";
                     if (bmi < 25) return "Normal";
                     if (bmi < 30) return "Overweight";
                     return "Obese";
                 }
 
+                // ตัวช่วยทดสอบ: เทียบผลจริงกับที่คาด
                 static void check(double weight, double height, String expected) {
                     double bmi = bmiOf(weight, height);
                     String actual = categoryOf(bmi);
+                    // ตรงกัน → PASS
                     String status = actual.equals(expected) ? "PASS" : "FAIL";
                     System.out.printf("%-4s weight=%.1f height=%.2f -> BMI=%.1f (%s, expected %s)%n", status, weight, height, bmi, actual, expected);
                 }

@@ -129,18 +129,18 @@ TOTAL        155
 Thank you!
 ------------------------</pre></div><div class="answer-gate" data-answer-id="7.1-P1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.1-P1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">MiniMartReceipt.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MiniMartReceipt</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-fn">printHeader</span>();
+        <span class="tok-fn">printHeader</span>();  <span class="tok-com">// main เรียกเมธอดตามลำดับของใบเสร็จ</span>
         <span class="tok-fn">printItems</span>();
         <span class="tok-fn">printTotal</span>();
         <span class="tok-fn">printFooter</span>();
     }
 
-    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printDivider</span>() {
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printDivider</span>() {  <span class="tok-com">// เมธอดเส้นคั่น ใช้ซ้ำหลายที่</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"------------------------"</span>);
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printHeader</span>() {
-        <span class="tok-fn">printDivider</span>();
+        <span class="tok-fn">printDivider</span>();  <span class="tok-com">// เมธอดเรียกเมธอดอื่นได้</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"     MINI MART"</span>);
         <span class="tok-fn">printDivider</span>();
     }
@@ -151,7 +151,7 @@ Thank you!
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Eggs          92"</span>);
     }
 
-    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printTotal</span>() {
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printTotal</span>() {  <span class="tok-com">// ยอดรวมมีเส้นคั่นด้านบน</span>
         <span class="tok-fn">printDivider</span>();
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"TOTAL        155"</span>);
     }
@@ -211,29 +211,33 @@ Hello, Nida!</pre></div></div><div class="walkthrough"><strong>อธิบา�
 ababababab
 ==========</pre></div><div class="answer-gate" data-answer-id="7.2-P1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.2-P1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">RepeatText.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RepeatText</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// ส่งข้อความและจำนวนครั้งเป็น argument</span>
         <span class="tok-fn">printRepeat</span>(<span class="tok-str">"Hi"</span>, <span class="tok-num">3</span>);
         <span class="tok-fn">printRepeat</span>(<span class="tok-str">"ab"</span>, <span class="tok-num">5</span>);
         <span class="tok-fn">printRepeat</span>(<span class="tok-str">"="</span>, <span class="tok-num">10</span>);
     }
 
+    <span class="tok-com">// parameter 2 ตัว: ข้อความกับจำนวนครั้ง</span>
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printRepeat</span>(<span class="tok-type">String</span> text, <span class="tok-kw">int</span> times) {
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; times; i++) {
+            <span class="tok-com">// print ต่อกันในบรรทัดเดียว</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(text);
         }
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();  <span class="tok-com">// จบแล้วขึ้นบรรทัดใหม่</span>
     }
 }</code></pre></div></div></div></article>
 <article class="end-exercise inline-exercise" data-level="1"><h3><span class="exercise-id">โจทย์ฝึก 7.2-P2</span>printCountdown(int from)<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>เขียนเมธอด <code>printCountdown(int from)</code> ที่พิมพ์ตัวเลขนับถอยหลังจาก <code>from</code> ลงมาถึง 1 คั่นด้วยช่องว่าง แล้วต่อท้ายด้วย <code>Go!</code> บนบรรทัดเดียวกัน</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>parameter เดียว: <code>from</code> (int) คือเลขเริ่มนับถอยหลัง</li><li>ลูปต้องเดิน<strong>ลดค่าลง</strong> (ตรงข้ามกับตัวอย่าง 7.2.2 ที่เพิ่มค่าขึ้น)</li><li>main เรียก printCountdown(5), printCountdown(3), printCountdown(1)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>5 4 3 2 1 Go!
 3 2 1 Go!
 1 Go!</pre></div><div class="answer-gate" data-answer-id="7.2-P2"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.2-P2<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">Countdown.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Countdown</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-fn">printCountdown</span>(<span class="tok-num">5</span>);
+        <span class="tok-fn">printCountdown</span>(<span class="tok-num">5</span>);  <span class="tok-com">// เรียกเมธอดเดิมด้วยค่าต่างกัน</span>
         <span class="tok-fn">printCountdown</span>(<span class="tok-num">3</span>);
         <span class="tok-fn">printCountdown</span>(<span class="tok-num">1</span>);
     }
 
+    <span class="tok-com">// from = เลขเริ่มนับถอยหลัง</span>
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printCountdown</span>(<span class="tok-kw">int</span> from) {
-        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = from; i &gt;= <span class="tok-num">1</span>; i--) {
+        <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = from; i &gt;= <span class="tok-num">1</span>; i--) {  <span class="tok-com">// นับลงจนถึง 1</span>
             <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(i + <span class="tok-str">" "</span>);
         }
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Go!"</span>);
@@ -253,16 +257,20 @@ drawTriangle(2, 4):
 4444</pre></div><div class="answer-gate" data-answer-id="7.2-P3"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.2-P3<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">TriangleDrawer.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TriangleDrawer</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"drawTriangle(1, 5):"</span>);
-        <span class="tok-fn">drawTriangle</span>(<span class="tok-num">1</span>, <span class="tok-num">5</span>);
+        <span class="tok-fn">drawTriangle</span>(<span class="tok-num">1</span>, <span class="tok-num">5</span>);  <span class="tok-com">// แบบที่ 1: ชิดซ้าย</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>();
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"drawTriangle(2, 4):"</span>);
-        <span class="tok-fn">drawTriangle</span>(<span class="tok-num">2</span>, <span class="tok-num">4</span>);
+        <span class="tok-fn">drawTriangle</span>(<span class="tok-num">2</span>, <span class="tok-num">4</span>);  <span class="tok-com">// แบบที่ 2: ชิดขวา</span>
     }
 
+    <span class="tok-com">// style เลือกรูปแบบ, length = จำนวนแถว</span>
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">drawTriangle</span>(<span class="tok-kw">int</span> style, <span class="tok-kw">int</span> length) {
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">1</span>; i &lt;= length; i++) {
+            <span class="tok-com">// เลข i ซ้ำ i ครั้ง</span>
             <span class="tok-type">String</span> digits = <span class="tok-type">String</span>.<span class="tok-fn">valueOf</span>(i).<span class="tok-fn">repeat</span>(i);
+            <span class="tok-com">// แบบที่ 2 เติมช่องว่างด้านหน้า</span>
             <span class="tok-kw">if</span> (style == <span class="tok-num">2</span>) {
+                <span class="tok-com">// ช่องว่างลดลงทีละแถว</span>
                 <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">" "</span>.<span class="tok-fn">repeat</span>(length - i));
             }
             <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(digits);
@@ -388,6 +396,7 @@ Count: 7</pre></div><div class="answer-gate" data-answer-id="7.3-P1"><button cla
         <span class="tok-kw">int</span> count = <span class="tok-num">0</span>;
         <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"Leap years: "</span>);
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> year = <span class="tok-num">2000</span>; year &lt;= <span class="tok-num">2026</span>; year++) {
+            <span class="tok-com">// ใช้เมธอดที่คืน boolean เป็นเงื่อนไข</span>
             <span class="tok-kw">if</span> (<span class="tok-fn">isLeapYear</span>(year)) {
                 <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(year + <span class="tok-str">" "</span>);
                 count++;
@@ -398,8 +407,11 @@ Count: 7</pre></div><div class="answer-gate" data-answer-id="7.3-P1"><button cla
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">boolean</span> <span class="tok-fn">isLeapYear</span>(<span class="tok-kw">int</span> year) {
+        <span class="tok-com">// หาร 4 ไม่ลงตัว → ไม่ใช่</span>
         <span class="tok-kw">if</span> (year % <span class="tok-num">4</span> != <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;
+        <span class="tok-com">// หาร 100 ลงตัวแต่ 400 ไม่ลงตัว → ไม่ใช่</span>
         <span class="tok-kw">if</span> (year % <span class="tok-num">100</span> == <span class="tok-num">0</span> &amp;&amp; year % <span class="tok-num">400</span> != <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;
+        <span class="tok-com">// ผ่านทุกเงื่อนไข → เป็นปีอธิกสุรทิน</span>
         <span class="tok-kw">return</span> <span class="tok-num">true</span>;
     }
 }</code></pre></div><p>จุดที่ยากกว่าตัวอย่าง: isPrime มีเงื่อนไขเดียวในลูป แต่ isLeapYear ต้องรวมสองเงื่อนไข (หาร 4 และข้อยกเว้นของหาร 100/400) ให้ครบในลำดับที่ return ค่าถูกทุกกรณี</p></div></div></article>
@@ -499,15 +511,20 @@ OutOfScope.java:7: error: cannot find symbol
 Cylinder r=2,h=5  : 62.83
 Box 2x3x4         : 24.00</pre></div><div class="answer-gate" data-answer-id="7.4-P1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.4-P1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">VolumeOverload.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">VolumeOverload</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
+        <span class="tok-com">// 1 argument → ลูกบาศก์</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Cube side=3       : %.2f%n"</span>, <span class="tok-fn">volumeOf</span>(<span class="tok-num">3</span>));
+        <span class="tok-com">// 2 argument → ทรงกระบอก</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Cylinder r=2,h=5  : %.2f%n"</span>, <span class="tok-fn">volumeOf</span>(<span class="tok-num">2</span>, <span class="tok-num">5</span>));
+        <span class="tok-com">// 3 argument → กล่อง</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"Box 2x3x4         : %.2f%n"</span>, <span class="tok-fn">volumeOf</span>(<span class="tok-num">2</span>, <span class="tok-num">3</span>, <span class="tok-num">4</span>));
     }
 
+    <span class="tok-com">// ชื่อเดียวกัน ต่างกันที่จำนวน parameter</span>
     <span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">volumeOf</span>(<span class="tok-kw">double</span> side) {
         <span class="tok-kw">return</span> side * side * side;
     }
 
+    <span class="tok-com">// πr²h</span>
     <span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">volumeOf</span>(<span class="tok-kw">double</span> radius, <span class="tok-kw">double</span> height) {
         <span class="tok-kw">return</span> <span class="tok-type">Math</span>.<span class="tok-const">PI</span> * radius * radius * height;
     }
@@ -609,26 +626,31 @@ PASS weight=65.0 height=1.70 -&gt; BMI=22.5 (Normal, expected Normal)
 PASS weight=85.0 height=1.70 -&gt; BMI=29.4 (Overweight, expected Overweight)
 PASS weight=100.0 height=1.70 -&gt; BMI=34.6 (Obese, expected Obese)</pre></div><div class="answer-gate" data-answer-id="7.5-P1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.5-P1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">BmiCalculator.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">BmiCalculator</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-fn">check</span>(<span class="tok-num">50</span>, <span class="tok-num">1.70</span>, <span class="tok-str">"Underweight"</span>);
+        <span class="tok-fn">check</span>(<span class="tok-num">50</span>, <span class="tok-num">1.70</span>, <span class="tok-str">"Underweight"</span>);  <span class="tok-com">// ทดสอบทุกกลุ่ม</span>
         <span class="tok-fn">check</span>(<span class="tok-num">65</span>, <span class="tok-num">1.70</span>, <span class="tok-str">"Normal"</span>);
         <span class="tok-fn">check</span>(<span class="tok-num">85</span>, <span class="tok-num">1.70</span>, <span class="tok-str">"Overweight"</span>);
         <span class="tok-fn">check</span>(<span class="tok-num">100</span>, <span class="tok-num">1.70</span>, <span class="tok-str">"Obese"</span>);
     }
 
+    <span class="tok-com">// คำนวณอย่างเดียว คืนค่า BMI</span>
     <span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">bmiOf</span>(<span class="tok-kw">double</span> weightKg, <span class="tok-kw">double</span> heightM) {
         <span class="tok-kw">return</span> weightKg / (heightM * heightM);
     }
 
+    <span class="tok-com">// แปลงค่า BMI เป็นชื่อกลุ่ม</span>
     <span class="tok-kw">static</span> <span class="tok-type">String</span> <span class="tok-fn">categoryOf</span>(<span class="tok-kw">double</span> bmi) {
+        <span class="tok-com">// return แล้วจบเมธอดทันที</span>
         <span class="tok-kw">if</span> (bmi &lt; <span class="tok-num">18.5</span>) <span class="tok-kw">return</span> <span class="tok-str">"Underweight"</span>;
         <span class="tok-kw">if</span> (bmi &lt; <span class="tok-num">25</span>) <span class="tok-kw">return</span> <span class="tok-str">"Normal"</span>;
         <span class="tok-kw">if</span> (bmi &lt; <span class="tok-num">30</span>) <span class="tok-kw">return</span> <span class="tok-str">"Overweight"</span>;
         <span class="tok-kw">return</span> <span class="tok-str">"Obese"</span>;
     }
 
+    <span class="tok-com">// ตัวช่วยทดสอบ: เทียบผลจริงกับที่คาด</span>
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">check</span>(<span class="tok-kw">double</span> weight, <span class="tok-kw">double</span> height, <span class="tok-type">String</span> expected) {
         <span class="tok-kw">double</span> bmi = <span class="tok-fn">bmiOf</span>(weight, height);
         <span class="tok-type">String</span> actual = <span class="tok-fn">categoryOf</span>(bmi);
+        <span class="tok-com">// ตรงกัน → PASS</span>
         <span class="tok-type">String</span> status = actual.<span class="tok-fn">equals</span>(expected) ? <span class="tok-str">"PASS"</span> : <span class="tok-str">"FAIL"</span>;
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-4s weight=%.1f height=%.2f -&gt; BMI=%.1f (%s, expected %s)%n"</span>, status, weight, height, bmi, actual, expected);
     }
