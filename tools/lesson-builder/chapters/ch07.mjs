@@ -16,72 +16,77 @@ export default {
     {
       num: "7.1", toc: "ประกาศและเรียกเมธอด", title: "ประกาศและเรียกใช้เมธอด",
       blocks: [
-        { type: "concept", title: "แยกส่วนของ method declaration", html: jpre(`
-          static  void  printWelcome  ( )  {
-            ①      ②         ③        ④   ⑤ body ...
-          }`) + `<ol><li><code>static</code> — เรียกผ่านคลาสได้โดยไม่ต้องสร้าง object (ใช้ในบทพื้นฐานนี้ ความหมายเต็มอยู่ในบทที่ 11–12)</li><li><code>void</code> — ชนิดผลลัพธ์: ไม่มีค่าคืนกลับ</li><li>ชื่อเมธอด — lowerCamelCase ขึ้นต้นด้วยคำกริยา เช่น <code>printReceipt</code>, <code>calculateTax</code></li><li><code>( )</code> — ตำแหน่ง parameter ตอนนี้ยังว่าง</li><li><code>{ }</code> — body คือคำสั่งที่ทำเมื่อถูกเรียก</li></ol><p>เมธอดประกาศ<strong>ภายในคลาส แต่นอกเมธอดอื่น</strong> (ไม่ซ้อนอยู่ใน main) และลำดับการประกาศไม่สำคัญ</p>` },
-        { type: "run", title: "แยกการแสดงข้อความออกจาก main", level: "พื้นฐาน",
-          concept: "ประกาศครั้งเดียว เรียกกี่ครั้งก็ได้ด้วยชื่อตามด้วย <code>()</code>",
+        { type: "p", html: `เมธอดคือชุดคำสั่งที่ตั้งชื่อไว้ทำงานหนึ่งอย่าง ประกาศ<strong>ในคลาส แต่นอกเมธอดอื่น</strong> (ไม่ซ้อนใน main) แล้วเรียกด้วยชื่อตามด้วย <code>()</code> กี่ครั้งก็ได้` },
+        { type: "table", head: ["ส่วน", "ความหมาย"], rows: [
+          ["<code>static</code>", "เรียกได้โดยไม่ต้องสร้าง object (ความหมายเต็มอยู่ในบทที่ 11–12)"],
+          ["<code>void</code>", "ชนิดผลลัพธ์: ไม่ส่งค่ากลับ"],
+          ["<code>printWelcome</code>", "ชื่อเมธอด lowerCamelCase ขึ้นต้นด้วยคำกริยา"],
+          ["<code>( )</code>", "parameter (ตอนนี้ยังว่าง)"],
+          ["<code>{ ... }</code>", "body: คำสั่งที่ทำเมื่อถูกเรียก"],
+        ] },
+        { type: "run", title: "แยกการแสดงข้อความออกจาก main",
           code: j`
             public class Welcome {
                 public static void main(String[] args) {
-                    // เรียกเมธอด → กระโดดไปทำ แล้วกลับมาบรรทัดถัดไป
-                    printWelcome();
+                    printWelcome();                           // กระโดดไปทำ แล้วกลับมาบรรทัดถัดไป
                     System.out.println("(main continues)");
-                    printWelcome();  // เรียกซ้ำได้หลายครั้ง
+                    printWelcome();                           // เรียกซ้ำได้
                 }
 
-                static void printWelcome() {  // static void: ไม่คืนค่า
+                static void printWelcome() {
                     System.out.println("Welcome to Java");
                 }
             }`,
-          steps: ["main เจอ <code>printWelcome()</code> จึงพัก main ชั่วคราวแล้วกระโดดไปที่เมธอด", "เมธอดพิมพ์ข้อความแล้วจบ body", "กลับมาที่ main บรรทัด<strong>ถัดจากจุดเรียก</strong>", "เรียกครั้งที่สองก็ทำซ้ำแบบเดิม"] },
-        { type: "run", title: "เมธอดเรียกเมธอดอื่นต่อได้", level: "ต่อยอด",
-          concept: "เมธอดหนึ่งเรียกเมธอดอื่นได้ โปรแกรมจะจำว่าต้องกลับไปที่ใด (call stack) ลองไล่ลำดับก่อนดู output",
+          },
+        { type: "h", text: "เมธอดเรียกเมธอดอื่นต่อได้" },
+        { type: "p", html: `โปรแกรมจำไว้เสมอว่าต้องกลับไปที่ใด เมื่อเมธอดทำงานจบจะกลับไปทำต่อที่บรรทัดถัดจากจุดที่เรียก` },
+        { type: "run", title: "ไล่ลำดับการเรียก",
           code: j`
             public class CallChain {
                 public static void main(String[] args) {
-                    System.out.println("main: start");
-                    printHeader();  // main เรียก printHeader
-                    System.out.println("main: end");
+                    System.out.println("main: start");      // 1
+                    printHeader();                          // 2 → ไปที่ printHeader
+                    System.out.println("main: end");        // 6
                 }
 
                 static void printHeader() {
-                    printLine();  // เมธอดเรียกเมธอดอื่นต่อได้
-                    System.out.println("  REPORT");
-                    printLine();
+                    printLine();                            // 3 → ไปที่ printLine
+                    System.out.println("  REPORT");         // 4
+                    printLine();                            // 5
                 }
 
                 static void printLine() {
                     System.out.println("==========");
                 }
             }`,
-          steps: ["main พิมพ์ start แล้วเรียก printHeader", "printHeader เรียก printLine → พิมพ์เส้น → กลับมา printHeader", "พิมพ์ REPORT แล้วเรียก printLine อีกครั้ง", "printHeader จบ → กลับมา main พิมพ์ end"] },
-        { type: "run", title: "แบ่ง main เป็นขั้นตอนที่มีชื่อ", level: "ประยุกต์",
-          concept: "main ที่ดีควรอ่านเหมือนสารบัญ: แต่ละบรรทัดบอกว่าทำอะไร รายละเอียดอยู่ในเมธอด",
-          code: j`
-            public class ShopSteps {
-                public static void main(String[] args) {
-                    showBanner();  // main อ่านเหมือนสารบัญของงาน
-                    showMenu();
-                    showFooter();
-                }
+          },
+        { type: "tip", html: `main ที่ดีอ่านเหมือนสารบัญ: แต่ละบรรทัดบอกว่าทำอะไร ส่วนรายละเอียดอยู่ในเมธอด ถ้าต้องแก้เมนูก็แก้เฉพาะเมธอดเมนู` },
+        { type: "more", title: "ตัวอย่างเพิ่มเติม: แบ่ง main เป็นขั้นตอนที่มีชื่อ", blocks: [
+          { type: "run", title: "เมนูร้านกาแฟ 3 ส่วน",
+            code: j`
+              public class ShopSteps {
+                  public static void main(String[] args) {
+                      showBanner();
+                      showMenu();
+                      showFooter();
+                  }
 
-                static void showBanner() {  // แต่ละเมธอดทำงานเดียว
-                    System.out.println("*** JAVA CAFE ***");
-                }
+                  static void showBanner() {
+                      System.out.println("*** JAVA CAFE ***");
+                  }
 
-                static void showMenu() {
-                    System.out.println("1. Espresso   45");
-                    System.out.println("2. Latte      55");
-                    System.out.println("3. Mocha      60");
-                }
+                  static void showMenu() {
+                      System.out.println("1. Espresso   45");
+                      System.out.println("2. Latte      55");
+                      System.out.println("3. Mocha      60");
+                  }
 
-                static void showFooter() {
-                    System.out.println("Open 8:00-18:00");
-                }
-            }`,
-          steps: ["อ่าน main แล้วรู้ทันทีว่าโปรแกรมมี 3 ส่วน", "ถ้าต้องแก้เมนู แก้เฉพาะ showMenu"] },
+                  static void showFooter() {
+                      System.out.println("Open 8:00-18:00");
+                  }
+              }`,
+            },
+        ] },
         { type: "practice", level: 2, title: "ใบเสร็จร้านมินิมาร์ท (เมธอดเรียกเมธอดซ้ำ)",
           html: `<p>รวมแนวคิดจากตัวอย่าง 7.1.2 (เมธอดเรียกเมธอดอื่นต่อ) และ 7.1.3 (แบ่ง main เป็นขั้นตอน) เข้าด้วยกัน: เขียนโปรแกรมพิมพ์ใบเสร็จร้านค้าที่ main เรียก 4 เมธอดตามลำดับคือ <code>printHeader()</code>, <code>printItems()</code>, <code>printTotal()</code>, <code>printFooter()</code> โดยให้ <code>printHeader()</code>, <code>printTotal()</code> และ <code>printFooter()</code> <strong>เรียกเมธอด <code>printDivider()</code> ซ้ำ</strong> เพื่อพิมพ์เส้นคั่น แทนการพิมพ์เส้นคั่นเองทุกครั้ง</p>`,
           spec: ["ทุกเมธอดเป็น static void ไม่มี parameter (เรายังไม่เรียนเรื่อง parameter ในหัวข้อนี้)", "printDivider() พิมพ์เส้นคั่นหนึ่งบรรทัด แล้วให้เมธอดอื่นเรียกใช้ซ้ำอย่างน้อย 3 ครั้งรวมกัน", "printItems() พิมพ์รายการสินค้า 3 บรรทัด", "printTotal() พิมพ์ยอดรวมของสินค้าทั้ง 3 รายการ"],
@@ -121,7 +126,7 @@ export default {
                 }
             }`,
           explain: "ข้อนี้ไม่มี parameter เลย เพราะหัวข้อ 7.1 ยังไม่สอนเรื่องนี้ — จุดที่ยากกว่าตัวอย่างคือต้องวางแผนว่าเมธอดไหน <em>ควรเรียก</em> printDivider() บ้าง แทนที่จะ copy โค้ดเส้นคั่นซ้ำ ๆ" },
-        { type: "note", title: "void ไม่ได้แปลว่าไม่มี output", html: `<p>เมธอด void พิมพ์ข้อความได้ตามปกติ “void” หมายถึงไม่<strong>ส่งค่ากลับ</strong>ไปให้ผู้เรียกนำไปใช้ต่อ การแสดงผล (print) กับการคืนค่า (return) เป็นคนละเรื่อง — จะเห็นชัดในหัวข้อ 7.3</p>` },
+        { type: "warn", title: "void ไม่ได้แปลว่าไม่มี output", html: `เมธอด void พิมพ์ข้อความได้ตามปกติ “void” หมายถึงไม่<strong>ส่งค่ากลับ</strong>ให้ผู้เรียกนำไปใช้ต่อ การแสดงผล (print) กับการคืนค่า (return) เป็นคนละเรื่อง จะเห็นชัดในหัวข้อ 7.3` },
         { type: "check", title: "ลำดับการเรียก", html: jpre(`
           static void a() { System.out.print("A"); b(); System.out.print("a"); }
           static void b() { System.out.print("B"); }
@@ -132,41 +137,38 @@ export default {
     {
       num: "7.2", toc: "พารามิเตอร์และ argument", title: "พารามิเตอร์และ argument",
       blocks: [
-        { type: "p", html: `<strong>parameter</strong> คือตัวแปรที่ประกาศในวงเล็บของเมธอดเพื่อรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก เมื่อเรียก Java จะคัดลอกค่า argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em>` },
-        { type: "concept", title: "parameter vs argument", html: jpre(`
+        { type: "p", html: `<strong>parameter</strong> คือตัวแปรในวงเล็บของเมธอดที่รอรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก Java คัดลอก argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em>` },
+        { type: "html", html: jpre(`
           static void greet(String name, int times) { ... }   // name, times = parameter
           greet("JHope", 3);                                  // "JHope", 3   = argument
                   │      └──→ times = 3
-                  └──────────→ name  = "JHope"`) + `<ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul>` },
-        { type: "run", title: "parameter หนึ่งตัว", level: "พื้นฐาน",
-          concept: "เมธอดเดียวทำงานกับข้อมูลต่างกันได้ ขึ้นอยู่กับ argument ที่ส่งมา",
+                  └──────────→ name  = "JHope"`) },
+        { type: "run", title: "เมธอดเดียว ใช้กับข้อมูลต่างกัน",
           code: j`
             public class GreetParam {
                 public static void main(String[] args) {
-                    // ส่ง argument "JHope" เข้า parameter name
-                    greet("JHope");
-                    greet("Suga");
+                    greet("JHope");                  // Hello, JHope!
+                    greet("Suga");                   // Hello, Suga!
                     String friend = "RM";
-                    greet(friend);  // ส่งค่าในตัวแปรก็ได้
+                    greet(friend);                   // ส่งค่าในตัวแปรก็ได้
                 }
 
-                static void greet(String name) {  // parameter รับค่าที่ส่งมา
+                static void greet(String name) {     // name รับค่าที่ส่งมา
                     System.out.println("Hello, " + name + "!");
                 }
             }`,
-          steps: ["ครั้งแรก name = \"JHope\"", "ครั้งที่สอง name = \"Suga\"", "ครั้งที่สามส่งตัวแปร friend → name ได้ค่า \"RM\""] },
-        { type: "run", title: "หลาย parameter และลูปในเมธอด", level: "ต่อยอด",
-          concept: "parameter ใช้ได้เหมือนตัวแปรปกติภายในเมธอด รวมถึงเป็นขอบเขตของลูป",
+          },
+        { type: "h", text: "หลาย parameter" },
+        { type: "p", html: `จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter และ argument เป็นนิพจน์ได้ ซึ่งจะคำนวณก่อนส่ง` },
+        { type: "run", title: "วาดเส้นด้วยอักขระและความยาวที่กำหนด",
           code: j`
             public class DrawLine {
                 public static void main(String[] args) {
-                    // ลำดับ argument ต้องตรงกับ parameter
-                    drawLine('*', 10);
-                    drawLine('-', 4);
-                    drawLine('=', 2 * 6);  // ส่งนิพจน์ได้ คำนวณก่อนส่ง
+                    drawLine('*', 10);               // **********
+                    drawLine('-', 4);                // ----
+                    drawLine('=', 2 * 6);            // 12 ตัว  (คำนวณ 2 * 6 ก่อนส่ง)
                 }
 
-                // parameter 2 ตัว: char กับ int
                 static void drawLine(char symbol, int length) {
                     for (int i = 0; i < length; i++) {
                         System.out.print(symbol);
@@ -174,7 +176,7 @@ export default {
                     System.out.println();
                 }
             }`,
-          steps: ["symbol = '*', length = 10 → ดาว 10 ตัว", "argument ที่สามเป็นนิพจน์ 2 * 6 คำนวณได้ 12 ก่อนส่ง", "ลำดับสำคัญ: <code>drawLine(10, '*')</code> จะคอมไพล์ไม่ผ่าน"] },
+          },
         { type: "practice", level: 1, title: "printRepeat(String text, int times)",
           html: `<p>เขียนเมธอด <code>printRepeat(String text, int times)</code> ที่พิมพ์ <code>text</code> ซ้ำกัน <code>times</code> ครั้งติดกันบนบรรทัดเดียว (ไม่มีช่องว่างคั่น) แล้วขึ้นบรรทัดใหม่ เหมือนตัวอย่าง 7.2.2 แต่เปลี่ยนจาก <code>char</code> เป็น <code>String</code></p>`,
           spec: ["parameter <code>text</code> (String) คือข้อความที่จะพิมพ์ซ้ำ, <code>times</code> (int) คือจำนวนครั้ง", "ต้องใช้ for loop พิมพ์ทีละครั้ง <strong>ห้ามใช้ <code>text.repeat(times)</code></strong> เพื่อฝึกเขียนลูปในเมธอดเอง", "main เรียก printRepeat(\"Hi\", 3), printRepeat(\"ab\", 5), printRepeat(\"=\", 10)"],
@@ -244,38 +246,38 @@ export default {
                 }
             }`,
           explain: "เพราะ <code>length - i</code> ลดลงทีละ 1 ขณะที่จำนวนหลักเพิ่มขึ้นทีละ 1 พอดี ขอบขวาของทุกแถวจึงตรงกันเสมอ (ช่องว่าง + ตัวเลข = length ทุกแถว)" },
-        { type: "run", title: "pass-by-value: เมธอดแก้ค่าตัวแปรของผู้เรียกไม่ได้", level: "ประยุกต์",
-          concept: "Java ส่ง<strong>สำเนาของค่า</strong> การเปลี่ยน parameter ภายในเมธอดไม่กระทบตัวแปรใน main",
+        { type: "h", text: "pass-by-value: ส่งสำเนาของค่า" },
+        { type: "p", html: `Java ส่ง<strong>สำเนาของค่า</strong>ให้ parameter การแก้ parameter ในเมธอดจึงไม่กระทบตัวแปรของผู้เรียก แม้ชื่อเหมือนกัน ถ้าต้องการผลลัพธ์กลับมาต้องใช้ return (หัวข้อถัดไป)` },
+        { type: "run", title: "เมธอดแก้ค่าตัวแปรของ main ไม่ได้",
           code: j`
             public class PassByValue {
                 public static void main(String[] args) {
                     int score = 50;
-                    // ส่งสำเนาของค่า 50 ไป
-                    addBonus(score);
-                    // ค่าใน main ไม่เปลี่ยน
-                    System.out.println("main: score = " + score);
+                    addBonus(score);                                   // ส่งสำเนาของ 50
+                    System.out.println("main: score = " + score);      // ยังเป็น 50
                 }
 
-                static void addBonus(int score) {
-                    score = score + 10;  // แก้ได้แค่สำเนาในเมธอดนี้
-                    System.out.println("addBonus: score = " + score);
+                static void addBonus(int score) {                      // คนละตัวกับ score ใน main
+                    score = score + 10;
+                    System.out.println("addBonus: score = " + score);  // 60
                 }
             }`,
-          steps: ["main ส่งค่า 50 ไป", "parameter score ในเมธอดเป็นตัวแปร<em>คนละตัว</em>แม้ชื่อเหมือนกัน", "เปลี่ยนเป็น 60 เฉพาะในเมธอด", "main ยังเป็น 50 — ถ้าต้องการผลลัพธ์ต้องใช้ return (หัวข้อถัดไป)"] },
-        { type: "run", label: "ทดลอง error 7.2.4", title: "argument ไม่ตรงกับ parameter", level: "ประยุกต์", expect: "compile-error",
-          concept: "compiler ตรวจจำนวนและชนิดของ argument ทุกครั้งที่เรียก",
-          code: j`
-            public class WrongArguments {
-                public static void main(String[] args) {
-                    drawLine(5, '*');
-                    drawLine('*');
-                }
+          },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อ argument ไม่ตรงกับ parameter", blocks: [
+          { type: "run", label: "ทดลอง error 7.2.4", title: "argument ไม่ตรงกับ parameter", expect: "compile-error",
+            code: j`
+              public class WrongArguments {
+                  public static void main(String[] args) {
+                      drawLine(5, '*');
+                      drawLine('*');
+                  }
 
-                static void drawLine(char symbol, int length) {
-                    System.out.println(String.valueOf(symbol).repeat(length));
-                }
-            }`,
-          steps: ["บรรทัด 3 สลับลำดับ: ส่ง 5 (int) ไปที่ parameter แรกซึ่งเป็น char → <code>possible lossy conversion from int to char</code>", "บรรทัด 4 ขาด argument → <code>cannot be applied to given types</code>", "<code>required: char,int</code> / <code>found: char</code> บอกว่าคาดหวังอะไรและได้อะไร", "แก้: <code>drawLine('*', 5);</code>"] },
+                  static void drawLine(char symbol, int length) {
+                      System.out.println(String.valueOf(symbol).repeat(length));
+                  }
+              }`,
+            after: "บรรทัด 3 สลับลำดับ ส่ง int ไปที่ parameter char และบรรทัด 4 ขาด argument ไปหนึ่งตัว ข้อความ <code>required: char,int</code> / <code>found: char</code> บอกว่าคาดหวังอะไรและได้อะไร แก้เป็น <code>drawLine('*', 5);</code>" },
+        ] },
         { type: "check", title: "ส่งค่า", html: jpre(`
           static void show(int a, int b) { System.out.println(a + "-" + b); }
           // main
@@ -287,43 +289,35 @@ export default {
     {
       num: "7.3", toc: "return value", title: "return value: เมธอดที่คืนผลลัพธ์",
       blocks: [
-        { type: "p", html: `เมื่อเมธอดคำนวณค่าที่ผู้เรียกต้องนำไปใช้ต่อ ให้ระบุ<strong>ชนิดผลลัพธ์</strong>แทน void แล้วใช้ <code>return ค่า;</code> ส่งค่ากลับ เมื่อเจอ return เมธอดจะจบทันที` },
-        { type: "concept", title: "โครงสร้างเมธอดที่คืนค่า", html: jpre(`
-          static double calculateArea(double width, double height) {
-              double area = width * height;
-              return area;                    // ส่งค่า area กลับไปยังจุดที่เรียก
-          }
-
-          double a = calculateArea(4, 2.5);   // นำค่าที่คืนมาเก็บในตัวแปร
-          System.out.println(calculateArea(3, 3) * 2);  // หรือใช้ในนิพจน์โดยตรง`) + `<p>คิดว่าการเรียกเมธอดที่คืนค่าคือ “นิพจน์” ที่ถูกแทนด้วยค่าที่ return ออกมา</p>` },
-        { type: "run", title: "คืนค่าแล้วนำไปใช้ต่อ", level: "พื้นฐาน",
-          concept: "ค่าที่คืนกลับมาเก็บในตัวแปร พิมพ์ หรือใช้คำนวณต่อได้",
+        { type: "p", html: `ถ้าเมธอดคำนวณค่าที่ผู้เรียกต้องใช้ต่อ ให้ระบุ<strong>ชนิดผลลัพธ์</strong>แทน void แล้วใช้ <code>return ค่า;</code> ส่งค่ากลับ เมื่อเจอ return เมธอดจบทันที การเรียกเมธอดจึงเหมือน “นิพจน์” ที่ถูกแทนด้วยค่าที่คืนมา` },
+        { type: "run", title: "คืนค่าแล้วนำไปใช้ต่อ",
           code: j`
             public class SquareReturn {
                 public static void main(String[] args) {
-                    int a = square(4);  // นำค่าที่คืนมาเก็บในตัวแปร
+                    int a = square(4);                                       // 16
                     System.out.println("square(4) = " + a);
-                    // ใช้ผลลัพธ์ในนิพจน์ได้ทันที
-                    System.out.println("square(3) + square(4) = " + (square(3) + square(4)));
-                    // ส่งผลลัพธ์เป็น argument ต่อได้
-                    System.out.println("square(square(2)) = " + square(square(2)));
+                    System.out.println("square(3) + square(4) = " + (square(3) + square(4)));   // 9 + 16 = 25
+                    System.out.println("square(square(2)) = " + square(square(2)));            // square(4) = 16
                 }
 
-                static int square(int n) {  // int หน้าชื่อ = ชนิดของค่าที่คืน
-                    return n * n;           // return ส่งค่ากลับไปยังจุดที่เรียก
+                static int square(int n) {        // int = ชนิดของค่าที่คืน
+                    return n * n;
                 }
             }`,
-          steps: ["square(4) คืน 16 เก็บใน a", "square(3) + square(4) = 9 + 16 = 25", "square(square(2)): ในสุดได้ 4 → square(4) = 16"] },
-        { type: "run", title: "print กับ return ต่างกันอย่างไร", level: "ต่อยอด",
-          concept: "เมธอดที่<em>พิมพ์</em>ผลลัพธ์ให้คนเห็น แต่โปรแกรมนำค่าไปใช้ต่อไม่ได้ เมธอดที่ <em>return</em> ให้ค่ากับโปรแกรม",
+          },
+        { type: "h", text: "print กับ return ต่างกันอย่างไร" },
+        { type: "table", head: ["", "เมธอดที่ print", "เมธอดที่ return"], rows: [
+          ["ใครได้ผลลัพธ์", "คนที่ดูหน้าจอ", "โปรแกรม (ผู้เรียก)"],
+          ["นำไปคำนวณต่อได้ไหม", "ไม่ได้", "ได้"],
+          ["ชนิดผลลัพธ์", "<code>void</code>", "<code>int</code>, <code>double</code>, ..."],
+        ] },
+        { type: "run", title: "ยอดรวมแล้วคิด VAT ต่อ",
           code: j`
             public class PrintVsReturn {
                 public static void main(String[] args) {
-                    // แสดงผลเอง นำค่าไปใช้ต่อไม่ได้
-                    printTotal(100, 3);
-                    // คืนค่า จึงนำไปคำนวณต่อได้
-                    double total = getTotal(100, 3);
-                    double withVat = total * 1.07;
+                    printTotal(100, 3);                       // แสดง Total: 300.0 แต่ main ไม่ได้ค่า
+                    double total = getTotal(100, 3);          // ได้ 300.0 กลับมา
+                    double withVat = total * 1.07;            // นำไปคำนวณต่อได้
                     System.out.println("With VAT: " + withVat);
                 }
 
@@ -335,13 +329,15 @@ export default {
                     return price * qty;
                 }
             }`,
-          steps: ["printTotal แสดง 300.0 แต่ main ไม่ได้ค่ากลับมา", "getTotal คืน 300.0 → main นำไปคูณ VAT ต่อได้", "แนวทาง: เมธอดคำนวณควร return ให้ main เป็นผู้ตัดสินใจว่าจะแสดงผลอย่างไร"] },
-        { type: "run", title: "return หลายจุด และคืน boolean", level: "ประยุกต์",
-          concept: "เมธอดอาจมี return หลายจุดตามเงื่อนไข แต่<strong>ทุกเส้นทาง</strong>ต้องคืนค่าเสมอ เมธอดที่คืน boolean นิยมตั้งชื่อขึ้นต้นด้วย is/has/can",
+          },
+        { type: "tip", html: `เมธอดที่คำนวณควร return ค่า แล้วให้ main เป็นผู้ตัดสินใจว่าจะแสดงผลอย่างไร เมธอดแบบนี้นำไปใช้ซ้ำและทดสอบได้ง่ายกว่า` },
+        { type: "h", text: "return หลายจุด" },
+        { type: "p", html: `เมธอดมี return ได้หลายจุดตามเงื่อนไข แต่<strong>ทุกเส้นทาง</strong>ต้องคืนค่า เมธอดที่คืน boolean นิยมตั้งชื่อขึ้นต้นด้วย is / has / can` },
+        { type: "run", title: "ตัดเกรด และตรวจจำนวนเฉพาะ",
           code: j`
             public class ReturnPaths {
                 public static void main(String[] args) {
-                    System.out.println(gradeOf(85) + " " + gradeOf(72) + " " + gradeOf(40));
+                    System.out.println(gradeOf(85) + " " + gradeOf(72) + " " + gradeOf(40));   // A B F
                     for (int n = 1; n <= 20; n++) {
                         if (isPrime(n)) {
                             System.out.print(n + " ");
@@ -351,23 +347,21 @@ export default {
                 }
 
                 static char gradeOf(int score) {
-                    // return แล้วจบเมธอดทันที
-                    if (score >= 80) return 'A';
+                    if (score >= 80) return 'A';          // return แล้วจบเมธอดทันที ไม่ต้องมี else
                     if (score >= 70) return 'B';
                     if (score >= 60) return 'C';
-                    return 'F';  // ไม่ตรงเงื่อนไขใดเลย
+                    return 'F';
                 }
 
                 static boolean isPrime(int n) {
-                    if (n < 2) return false;  // ออกก่อนได้เมื่อรู้คำตอบ
+                    if (n < 2) return false;
                     for (int d = 2; d * d <= n; d++) {
-                        // เจอตัวหาร → ไม่ใช่จำนวนเฉพาะ
-                        if (n % d == 0) return false;
+                        if (n % d == 0) return false;     // เจอตัวหาร → ตอบได้ทันที
                     }
-                    return true;  // ไม่เจอตัวหารเลย
+                    return true;                          // วนครบไม่เจอตัวหาร
                 }
             }`,
-          steps: ["gradeOf(85): เจอ return 'A' แล้วจบเมธอดทันที ไม่ตรวจบรรทัดล่าง", "ไม่ต้องใช้ else เพราะ return ออกไปแล้ว", "isPrime เจอตัวหารก็ return false ทันที (ไม่ต้องใช้ break หรือ flag)", "ถ้าวนครบโดยไม่เจอตัวหาร จึง return true"] },
+          },
         { type: "practice", level: 2, title: "isLeapYear(int year) และนับปีอธิกสุรทิน",
           html: `<p>เขียนเมธอด <code>boolean isLeapYear(int year)</code> ตรวจว่าปี ค.ศ. ที่รับมาเป็นปีอธิกสุรทินหรือไม่ (หารด้วย 4 ลงตัว <strong>และ</strong> ถ้าหารด้วย 100 ลงตัวต้องหารด้วย 400 ลงตัวด้วย) แล้วใน main ใช้เมธอดนี้ในลูปเพื่อแสดงรายการปีอธิกสุรทินช่วง 2000–2026 พร้อมนับจำนวน เหมือนวิธีที่ตัวอย่าง 7.3.3 ใช้ <code>isPrime</code> ในลูป</p>`,
           spec: ["parameter เดียว: <code>year</code> (int) คือปี ค.ศ. ที่ต้องตรวจ", "isLeapYear ต้องมี return มากกว่า 1 จุดเหมือนตัวอย่าง (ไม่ใช้ else)", "main ห้ามเขียนเงื่อนไขปีอธิกสุรทินเอง ต้องเรียก isLeapYear เท่านั้น", "แสดงปีที่เป็นอธิกสุรทินทั้งหมดในบรรทัดเดียว คั่นด้วยช่องว่าง แล้วแสดงจำนวนรวม"],
@@ -397,23 +391,25 @@ export default {
                 }
             }`,
           explain: "จุดที่ยากกว่าตัวอย่าง: isPrime มีเงื่อนไขเดียวในลูป แต่ isLeapYear ต้องรวมสองเงื่อนไข (หาร 4 และข้อยกเว้นของหาร 100/400) ให้ครบในลำดับที่ return ค่าถูกทุกกรณี" },
-        { type: "run", label: "ทดลอง error 7.3.4", title: "บางเส้นทางไม่มี return", level: "ท้าทาย", expect: "compile-error",
-          concept: "ถ้ามีกรณีที่เมธอดจบโดยไม่ return ค่า compiler จะไม่ยอม",
-          code: j`
-            public class MissingReturn {
-                public static void main(String[] args) {
-                    System.out.println(sign(5));
-                }
+        { type: "warn", title: "ทุกเส้นทางต้อง return", html: `ถ้ามีกรณีที่เมธอดจบโดยไม่ return ค่า เช่น if-else if ที่ไม่ครอบคลุม n == 0 compiler จะแจ้ง <code>missing return statement</code> แก้โดยเพิ่ม return ท้ายเมธอด` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อบางเส้นทางไม่มี return", blocks: [
+          { type: "run", label: "ทดลอง error 7.3.4", title: "บางเส้นทางไม่มี return", expect: "compile-error",
+            code: j`
+              public class MissingReturn {
+                  public static void main(String[] args) {
+                      System.out.println(sign(5));
+                  }
 
-                static String sign(int n) {
-                    if (n > 0) {
-                        return "positive";
-                    } else if (n < 0) {
-                        return "negative";
-                    }
-                }
-            }`,
-          steps: ["กรณี n == 0 หลุดออกจาก if ทั้งหมดโดยไม่มี return", "javac แจ้ง <code>missing return statement</code>", "แก้: เพิ่ม <code>return \"zero\";</code> ท้ายเมธอด"] },
+                  static String sign(int n) {
+                      if (n > 0) {
+                          return "positive";
+                      } else if (n < 0) {
+                          return "negative";
+                      }
+                  }
+              }`,
+            },
+        ] },
         { type: "check", title: "ค่าที่คืน", html: jpre(`
           static int f(int x) {
               if (x % 2 == 0) return x / 2;
@@ -425,52 +421,50 @@ export default {
     {
       num: "7.4", toc: "scope และ overload", title: "scope ของตัวแปร และ method overloading",
       blocks: [
-        { type: "p", html: `<strong>scope</strong> คือบริเวณที่ตัวแปรถูกมองเห็นและใช้งานได้ ตัวแปรที่ประกาศในบล็อก <code>{ }</code> ใดใช้ได้เฉพาะในบล็อกนั้น (local variable) parameter ก็เป็น local ของเมธอดนั้น ส่วน <strong>overloading</strong> คือการมีหลายเมธอดชื่อเดียวกันแต่ parameter ต่างกัน` },
-        { type: "run", title: "ตัวแปรชื่อเดียวกันในคนละเมธอด", level: "พื้นฐาน",
-          concept: "ตัวแปรในแต่ละเมธอดแยกกันโดยสิ้นเชิง แม้ชื่อเหมือนกัน",
+        { type: "p", html: `<strong>scope</strong> คือบริเวณที่ตัวแปรใช้งานได้ ตัวแปรที่ประกาศในบล็อก <code>{ }</code> ใดใช้ได้เฉพาะในบล็อกนั้น (local variable) parameter ก็เป็น local ของเมธอดนั้น` },
+        { type: "run", title: "ตัวแปรชื่อเดียวกันในคนละเมธอด",
           code: j`
             public class ScopeDemo {
                 public static void main(String[] args) {
-                    int count = 1;  // count ของ main
+                    int count = 1;                                  // count ของ main
                     helper();
-                    System.out.println("main count = " + count);
+                    System.out.println("main count = " + count);    // 1   helper แตะไม่ได้
                 }
 
                 static void helper() {
-                    int count = 99;  // ตัวแปรคนละตัวกับ count ใน main
+                    int count = 99;                                 // คนละตัวกับของ main
                     System.out.println("helper count = " + count);
                 }
             }`,
-          steps: ["count ใน main และใน helper เป็นคนละตัว", "helper ไม่เห็น count ของ main และแก้ไขไม่ได้"] },
-        { type: "run", label: "ทดลอง error 7.4.2", title: "ใช้ตัวแปรนอก scope", level: "ต่อยอด", expect: "compile-error",
-          concept: "ตัวแปรที่ประกาศใน for หรือใน if หายไปเมื่อออกจากบล็อก",
-          code: j`
-            public class OutOfScope {
-                public static void main(String[] args) {
-                    for (int i = 0; i < 3; i++) {
-                        int doubled = i * 2;
-                    }
-                    System.out.println(i);
-                    System.out.println(doubled);
-                }
-            }`,
-          steps: ["<code>i</code> ประกาศใน header ของ for ใช้ได้เฉพาะในลูป", "<code>doubled</code> ประกาศใน body ใช้ได้เฉพาะในรอบนั้น", "javac แจ้ง <code>cannot find symbol</code> ทั้งสองจุด", "แก้: ประกาศตัวแปรไว้ก่อนลูปถ้าต้องใช้หลังลูป"] },
-        { type: "run", title: "overloading: ชื่อเดียว หลายรูปแบบ", level: "ประยุกต์",
-          concept: "compiler เลือกเมธอดจาก<strong>จำนวนและชนิด</strong>ของ argument (เรียกว่า signature) — แบบเดียวกับ <code>println</code> ที่รับได้ทั้ง int, double, String",
+          },
+        { type: "warn", title: "ตัวแปรหายเมื่อออกจากบล็อก", html: `ตัวแปรที่ประกาศใน for (รวมถึง <code>int i</code> ใน header) หรือใน if ใช้หลังบล็อกไม่ได้ จะได้ <code>cannot find symbol</code> ถ้าต้องใช้หลังลูปให้ประกาศไว้ก่อนลูป` },
+        { type: "more", title: "ดูตัวอย่าง: error เมื่อใช้ตัวแปรนอก scope", blocks: [
+          { type: "run", label: "ทดลอง error 7.4.2", title: "ใช้ตัวแปรนอก scope", expect: "compile-error",
+            code: j`
+              public class OutOfScope {
+                  public static void main(String[] args) {
+                      for (int i = 0; i < 3; i++) {
+                          int doubled = i * 2;
+                      }
+                      System.out.println(i);
+                      System.out.println(doubled);
+                  }
+              }`,
+            },
+        ] },
+        { type: "h", text: "overloading: ชื่อเดียว หลายรูปแบบ" },
+        { type: "p", html: `หลายเมธอดชื่อเดียวกันได้ถ้า parameter ต่างกัน compiler เลือกตัวที่<strong>จำนวนและชนิด</strong>ของ argument ตรงกัน แบบเดียวกับ <code>println</code> ที่รับได้ทั้ง int, double และ String (ชนิดผลลัพธ์ต่างกันอย่างเดียวไม่นับ)` },
+        { type: "run", title: "max และ area หลายแบบ",
           code: j`
             public class OverloadDemo {
                 public static void main(String[] args) {
-                    // เรียก max(int, int)
-                    System.out.println(max(3, 9));
-                    // เรียก max(double, double)
-                    System.out.println(max(2.5, 1.75));
-                    // เรียก max แบบ 3 ตัว
-                    System.out.println(max(4, 11, 7));
-                    System.out.println(area(5));
-                    System.out.println(area(4, 6));
+                    System.out.println(max(3, 9));          // 9      max(int, int)
+                    System.out.println(max(2.5, 1.75));     // 2.5    max(double, double)
+                    System.out.println(max(4, 11, 7));      // 11     max(int, int, int)
+                    System.out.println(area(5));            // 25.0   สี่เหลี่ยมจัตุรัส
+                    System.out.println(area(4, 6));         // 24.0   สี่เหลี่ยมผืนผ้า
                 }
 
-                // ชื่อเดียวกัน ต่างกันที่ parameter (overloading)
                 static int max(int a, int b) {
                     return a > b ? a : b;
                 }
@@ -480,7 +474,7 @@ export default {
                 }
 
                 static int max(int a, int b, int c) {
-                    return max(max(a, b), c);  // เรียกเวอร์ชัน 2 ตัวซ้อนกัน
+                    return max(max(a, b), c);               // ใช้เวอร์ชัน 2 ตัวซ้อนกัน
                 }
 
                 static double area(double side) {
@@ -491,7 +485,7 @@ export default {
                     return width * height;
                 }
             }`,
-          steps: ["max(3, 9) → เวอร์ชัน int, int", "max(2.5, 1.75) → เวอร์ชัน double, double", "max(4, 11, 7) → เวอร์ชัน 3 parameter ซึ่งเรียกเวอร์ชัน 2 parameter ซ้ำ", "area(5) → สี่เหลี่ยมจัตุรัส, area(4, 6) → สี่เหลี่ยมผืนผ้า", "หมายเหตุ: ชนิดผลลัพธ์อย่างเดียวต่างกันไม่ถือเป็น overload"] },
+          },
         { type: "practice", level: 2, title: "overload เมธอด volumeOf",
           html: `<p>เขียนเมธอดชื่อ <code>volumeOf</code> สามแบบ (overload) เหมือนแนวคิดในตัวอย่าง 7.4.3 แต่คำนวณปริมาตรแทนพื้นที่: <code>volumeOf(double side)</code> ปริมาตรลูกบาศก์, <code>volumeOf(double radius, double height)</code> ปริมาตรทรงกระบอก และ <code>volumeOf(double length, double width, double height)</code> ปริมาตรกล่องสี่เหลี่ยม</p>`,
           spec: ["ทุกเวอร์ชัน return double", "ทรงกระบอกใช้ <code>Math.PI * radius * radius * height</code>", "เรียกทั้งสามแบบจาก main ด้วย volumeOf(3), volumeOf(2, 5), volumeOf(2, 3, 4) แสดงผลทศนิยม 2 ตำแหน่ง", "อธิบายในคำตอบว่า compiler แยกแต่ละเวอร์ชันได้อย่างไรทั้งที่ชื่อเดียวกัน"],
@@ -533,15 +527,8 @@ export default {
     {
       num: "7.5", toc: "ประกอบโปรแกรมจากเมธอด", title: "ประกอบโปรแกรมจากเมธอด",
       blocks: [
-        { type: "steps", title: "ขั้นตอนออกแบบโปรแกรมด้วยเมธอด (top-down)", items: [
-          "เขียนสิ่งที่โปรแกรมต้องทำเป็นข้อ ๆ ภาษาคน เช่น รับข้อมูล → คำนวณ → ตัดสิน → แสดงผล",
-          "แต่ละข้อที่ทำงานชัดเจนหนึ่งอย่าง → ตั้งเป็นเมธอดหนึ่งตัว ตั้งชื่อด้วยคำกริยา",
-          "กำหนดว่าแต่ละเมธอด <em>ต้องรู้อะไร</em> (parameter) และ <em>ให้อะไรกลับ</em> (return type)",
-          "เขียน main ให้เรียกเมธอดตามลำดับเหมือนสารบัญ",
-          "เขียนและทดสอบเมธอดทีละตัว โดยเรียกจาก main ด้วยค่าที่รู้คำตอบ",
-        ] },
-        { type: "run", title: "เครื่องคำนวณเกรดจากเมธอดหลายตัว", level: "ประยุกต์", stdin: "JHope\n32 24 27",
-          concept: "main ประสานงาน ส่วนเมธอดแต่ละตัวทำหน้าที่เดียว: รวมคะแนน ตัดเกรด และพิมพ์รายงาน",
+        { type: "p", html: `ออกแบบจากบนลงล่าง (top-down): เขียนงานเป็นข้อ ๆ ภาษาคน แต่ละข้อที่ทำงานเดียวกลายเป็นเมธอดหนึ่งตัว แล้วกำหนดว่าเมธอดต้องรู้อะไร (parameter) และให้อะไรกลับ (return type) สุดท้าย main เรียกตามลำดับเหมือนสารบัญ` },
+        { type: "run", title: "รายงานเกรดจากเมธอดหลายตัว", stdin: "JHope\n32 24 27",
           code: j`
             import java.util.Scanner;
 
@@ -555,18 +542,16 @@ export default {
                     double mid = input.nextDouble();
                     double fin = input.nextDouble();
 
-                    // แต่ละขั้นเรียกเมธอดที่ทำงานเดียว
-                    double total = totalScore(work, mid, fin);
-                    char grade = gradeOf(total);
-                    printReport(name, total, grade);
+                    double total = totalScore(work, mid, fin);   // รวม → 83.0
+                    char grade = gradeOf(total);                 // ตัดเกรด → A
+                    printReport(name, total, grade);             // แสดงผล
                 }
 
-                // รวมคะแนน
                 static double totalScore(double work, double mid, double fin) {
                     return work + mid + fin;
                 }
 
-                static char gradeOf(double total) {  // ตัดเกรด
+                static char gradeOf(double total) {
                     if (total >= 80) return 'A';
                     if (total >= 70) return 'B';
                     if (total >= 60) return 'C';
@@ -574,34 +559,31 @@ export default {
                     return 'F';
                 }
 
-                // แสดงรายงาน
-                static void printReport(String name, double total, char grade) {
+                static void printReport(String name, double total, char grade) {   // void: หน้าที่คือแสดงผล
                     System.out.println("-".repeat(24));
                     System.out.printf("%-8s %s%n", "Name", name);
                     System.out.printf("%-8s %.1f%n", "Total", total);
                     System.out.printf("%-8s %c%n", "Grade", grade);
-                    // ?: เลือกคำว่า Pass หรือ Fail
                     System.out.printf("%-8s %s%n", "Result", grade == 'F' ? "Fail" : "Pass");
                     System.out.println("-".repeat(24));
                 }
             }`,
-          steps: ["main อ่านแล้วเข้าใจทันที: รับข้อมูล → รวม → ตัดเกรด → รายงาน", "totalScore และ gradeOf คืนค่า → ทดสอบแยกได้ง่าย", "printReport เป็น void เพราะหน้าที่คือแสดงผล"] },
-        { type: "run", title: "ทดสอบเมธอดด้วยตารางค่าที่รู้คำตอบ", level: "ท้าทาย",
-          concept: "เมื่อเมธอด return ค่า เราเขียนโค้ดทดสอบอัตโนมัติได้: เรียกด้วย input ที่รู้คำตอบแล้วเทียบผล",
+          },
+        { type: "h", text: "ทดสอบเมธอดด้วยค่าที่รู้คำตอบ" },
+        { type: "p", html: `เมื่อเมธอด return ค่า เราเขียนโค้ดทดสอบได้: เรียกด้วย input ที่รู้คำตอบแล้วเทียบผล ควรทดสอบค่าขอบ เช่น 80 และ 79.9 ด้วย` },
+        { type: "run", title: "ชุดทดสอบ gradeOf",
           code: j`
             public class TestGradeOf {
                 public static void main(String[] args) {
-                    check(95, 'A');  // ทดสอบหลายค่า รวมค่าขอบ 80 และ 79.9
-                    check(80, 'A');
-                    check(79.9, 'B');
+                    check(95, 'A');
+                    check(80, 'A');                       // ค่าขอบ
+                    check(79.9, 'B');                     // ค่าขอบ
                     check(60, 'C');
                     check(49, 'F');
                 }
 
-                // ตัวช่วยทดสอบ: เทียบผลจริงกับที่คาด
                 static void check(double score, char expected) {
                     char actual = gradeOf(score);
-                    // ตรงกัน → PASS
                     String status = actual == expected ? "PASS" : "FAIL";
                     System.out.printf("%-4s gradeOf(%.1f) = %c (expected %c)%n", status, score, actual, expected);
                 }
@@ -614,7 +596,7 @@ export default {
                     return 'F';
                 }
             }`,
-          steps: ["check เรียก gradeOf แล้วเปรียบเทียบกับคำตอบที่คาด", "ทดสอบค่าขอบ 80 และ 79.9 ด้วย — จุดที่มักผิด", "บทที่ 10 จะขยายแนวคิดนี้เป็นการออกแบบ test case"] },
+          },
         { type: "practice", level: 3, title: "เครื่องคำนวณ BMI พร้อมชุดทดสอบ",
           html: `<p>รวมทุกแนวคิดของบทนี้: เขียนเมธอด <code>bmiOf(double weightKg, double heightM)</code> คืนค่าดัชนีมวลกาย (BMI = น้ำหนัก ÷ ส่วนสูง²) และ <code>categoryOf(double bmi)</code> คืนประเภทเป็น String (<code>"Underweight"</code> ถ้า BMI &lt; 18.5, <code>"Normal"</code> ถ้า &lt; 25, <code>"Overweight"</code> ถ้า &lt; 30, มิฉะนั้น <code>"Obese"</code>) จากนั้นเขียนเมธอด <code>check(double weight, double height, String expected)</code> ที่เรียกทั้งสองเมธอดต่อกันแล้วเทียบผลกับคำตอบที่คาด แบบเดียวกับตัวอย่าง 7.5.2 (เกณฑ์ตามมาตรฐาน WHO ใช้เพื่อฝึกเขียนโปรแกรมเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์)</p>`,
           spec: ["bmiOf และ categoryOf ต้อง return ค่า ห้ามพิมพ์เอง", "check() เป็น void เรียก bmiOf แล้วส่งผลต่อให้ categoryOf (เมธอดเรียกเมธอด ต่อด้วยอีกเมธอด)", "main เรียก check 4 ครั้งด้วยส่วนสูงคงที่ 1.70 แล้วไล่น้ำหนักให้ครอบคลุมทั้ง 4 ประเภท เพื่อทดสอบค่าขอบเขตเหมือนตัวอย่าง 7.5.2"],
@@ -651,7 +633,7 @@ export default {
                 }
             }`,
           explain: "ยากกว่า TestGradeOf เพราะ check() ต้องประสานสองเมธอดที่ return คนละชนิด (double แล้วต่อด้วย String) ก่อนจะเทียบผล — ถ้า bmiOf ผิดแม้เพียงเล็กน้อย categoryOf อาจจัดประเภทผิดไปทั้งหมด" },
-        { type: "note", title: "สัญญาณว่าควรแยกเมธอด", html: `<ul><li>มีโค้ดชุดเดิมซ้ำตั้งแต่ 2 ที่ขึ้นไป</li><li>main ยาวเกินหนึ่งหน้าจอ</li><li>ต้องเขียน comment อธิบายว่า “ส่วนนี้ทำ …” — ชื่อเมธอดทำหน้าที่แทน comment ได้</li><li>อยากทดสอบการคำนวณส่วนหนึ่งแยกจากส่วนรับข้อมูล</li></ul>` },
+        { type: "tip", title: "สัญญาณว่าควรแยกเมธอด", html: `มีโค้ดชุดเดิมซ้ำตั้งแต่ 2 ที่ขึ้นไป, main ยาวเกินหนึ่งหน้าจอ, ต้องเขียน comment อธิบายว่า “ส่วนนี้ทำ …” (ชื่อเมธอดทำหน้าที่แทนได้) หรืออยากทดสอบการคำนวณแยกจากการรับข้อมูล` },
       ],
     },
   ],

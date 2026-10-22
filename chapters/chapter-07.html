@@ -58,34 +58,34 @@
         <p><strong>เมธอด (method)</strong> คือชุดคำสั่งที่ตั้งชื่อไว้เพื่อทำงานหนึ่งอย่าง เช่น คำนวณราคา หรือพิมพ์ใบเสร็จ เมื่อโปรแกรมยาวขึ้น เราแยกงานเป็นเมธอดเล็ก ๆ เพื่อให้อ่านง่าย เรียกซ้ำได้ และตรวจข้อผิดพลาดทีละส่วนได้ จริง ๆ แล้วเราใช้เมธอดมาตั้งแต่บทแรก: <code>main</code>, <code>println</code>, <code>nextInt</code>, <code>Math.sqrt</code> ล้วนเป็นเมธอด บทนี้จะเขียนเมธอดของเราเอง</p>
 <article class="subtopic" id="topic-7-1">
 <h3>7.1 ประกาศและเรียกใช้เมธอด</h3>
-<div class="concept-box"><span class="box-title">แยกส่วนของ method declaration</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span>  <span class="tok-kw">void</span>  <span class="tok-fn">printWelcome</span>  ( )  {
-  ①      ②         ③        ④   ⑤ body ...
-}</code></pre></div><ol><li><code>static</code> — เรียกผ่านคลาสได้โดยไม่ต้องสร้าง object (ใช้ในบทพื้นฐานนี้ ความหมายเต็มอยู่ในบทที่ 11–12)</li><li><code>void</code> — ชนิดผลลัพธ์: ไม่มีค่าคืนกลับ</li><li>ชื่อเมธอด — lowerCamelCase ขึ้นต้นด้วยคำกริยา เช่น <code>printReceipt</code>, <code>calculateTax</code></li><li><code>( )</code> — ตำแหน่ง parameter ตอนนี้ยังว่าง</li><li><code>{ }</code> — body คือคำสั่งที่ทำเมื่อถูกเรียก</li></ol><p>เมธอดประกาศ<strong>ภายในคลาส แต่นอกเมธอดอื่น</strong> (ไม่ซ้อนอยู่ใน main) และลำดับการประกาศไม่สำคัญ</p></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.1.1</span>แยกการแสดงข้อความออกจาก main</h4><p class="concept-line"><strong>แนวคิด:</strong> ประกาศครั้งเดียว เรียกกี่ครั้งก็ได้ด้วยชื่อตามด้วย <code>()</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Welcome.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Welcome</span> {
+<p>เมธอดคือชุดคำสั่งที่ตั้งชื่อไว้ทำงานหนึ่งอย่าง ประกาศ<strong>ในคลาส แต่นอกเมธอดอื่น</strong> (ไม่ซ้อนใน main) แล้วเรียกด้วยชื่อตามด้วย <code>()</code> กี่ครั้งก็ได้</p>
+<table class="comparison-table"><thead><tr><th>ส่วน</th><th>ความหมาย</th></tr></thead><tbody><tr><td><code>static</code></td><td>เรียกได้โดยไม่ต้องสร้าง object (ความหมายเต็มอยู่ในบทที่ 11–12)</td></tr><tr><td><code>void</code></td><td>ชนิดผลลัพธ์: ไม่ส่งค่ากลับ</td></tr><tr><td><code>printWelcome</code></td><td>ชื่อเมธอด lowerCamelCase ขึ้นต้นด้วยคำกริยา</td></tr><tr><td><code>( )</code></td><td>parameter (ตอนนี้ยังว่าง)</td></tr><tr><td><code>{ ... }</code></td><td>body: คำสั่งที่ทำเมื่อถูกเรียก</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.1.1</span>แยกการแสดงข้อความออกจาก main</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">Welcome.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">Welcome</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// เรียกเมธอด → กระโดดไปทำ แล้วกลับมาบรรทัดถัดไป</span>
-        <span class="tok-fn">printWelcome</span>();
+        <span class="tok-fn">printWelcome</span>();                           <span class="tok-com">// กระโดดไปทำ แล้วกลับมาบรรทัดถัดไป</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"(main continues)"</span>);
-        <span class="tok-fn">printWelcome</span>();  <span class="tok-com">// เรียกซ้ำได้หลายครั้ง</span>
+        <span class="tok-fn">printWelcome</span>();                           <span class="tok-com">// เรียกซ้ำได้</span>
     }
 
-    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printWelcome</span>() {  <span class="tok-com">// static void: ไม่คืนค่า</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printWelcome</span>() {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Welcome to Java"</span>);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Welcome to Java
 (main continues)
-Welcome to Java</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main เจอ <code>printWelcome()</code> จึงพัก main ชั่วคราวแล้วกระโดดไปที่เมธอด</li><li>เมธอดพิมพ์ข้อความแล้วจบ body</li><li>กลับมาที่ main บรรทัด<strong>ถัดจากจุดเรียก</strong></li><li>เรียกครั้งที่สองก็ทำซ้ำแบบเดิม</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.1.2</span>เมธอดเรียกเมธอดอื่นต่อได้</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดหนึ่งเรียกเมธอดอื่นได้ โปรแกรมจะจำว่าต้องกลับไปที่ใด (call stack) ลองไล่ลำดับก่อนดู output</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CallChain.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CallChain</span> {
+Welcome to Java</pre></div></div></div>
+<h4 class="sub">เมธอดเรียกเมธอดอื่นต่อได้</h4>
+<p>โปรแกรมจำไว้เสมอว่าต้องกลับไปที่ใด เมื่อเมธอดทำงานจบจะกลับไปทำต่อที่บรรทัดถัดจากจุดที่เรียก</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.1.2</span>ไล่ลำดับการเรียก</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">CallChain.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">CallChain</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main: start"</span>);
-        <span class="tok-fn">printHeader</span>();  <span class="tok-com">// main เรียก printHeader</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main: end"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main: start"</span>);      <span class="tok-com">// 1</span>
+        <span class="tok-fn">printHeader</span>();                          <span class="tok-com">// 2 → ไปที่ printHeader</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main: end"</span>);        <span class="tok-com">// 6</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printHeader</span>() {
-        <span class="tok-fn">printLine</span>();  <span class="tok-com">// เมธอดเรียกเมธอดอื่นต่อได้</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  REPORT"</span>);
-        <span class="tok-fn">printLine</span>();
+        <span class="tok-fn">printLine</span>();                            <span class="tok-com">// 3 → ไปที่ printLine</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"  REPORT"</span>);         <span class="tok-com">// 4</span>
+        <span class="tok-fn">printLine</span>();                            <span class="tok-com">// 5</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printLine</span>() {
@@ -95,15 +95,16 @@ Welcome to Java</pre></div></div><div class="walkthrough"><strong>อธิบ�
 ==========
   REPORT
 ==========
-main: end</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main พิมพ์ start แล้วเรียก printHeader</li><li>printHeader เรียก printLine → พิมพ์เส้น → กลับมา printHeader</li><li>พิมพ์ REPORT แล้วเรียก printLine อีกครั้ง</li><li>printHeader จบ → กลับมา main พิมพ์ end</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.1.3</span>แบ่ง main เป็นขั้นตอนที่มีชื่อ</h4><p class="concept-line"><strong>แนวคิด:</strong> main ที่ดีควรอ่านเหมือนสารบัญ: แต่ละบรรทัดบอกว่าทำอะไร รายละเอียดอยู่ในเมธอด</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ShopSteps.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ShopSteps</span> {
+main: end</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>main ที่ดีอ่านเหมือนสารบัญ: แต่ละบรรทัดบอกว่าทำอะไร ส่วนรายละเอียดอยู่ในเมธอด ถ้าต้องแก้เมนูก็แก้เฉพาะเมธอดเมนู</p></div>
+<details class="more-examples"><summary>ตัวอย่างเพิ่มเติม: แบ่ง main เป็นขั้นตอนที่มีชื่อ</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.1.3</span>เมนูร้านกาแฟ 3 ส่วน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ShopSteps.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ShopSteps</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-fn">showBanner</span>();  <span class="tok-com">// main อ่านเหมือนสารบัญของงาน</span>
+        <span class="tok-fn">showBanner</span>();
         <span class="tok-fn">showMenu</span>();
         <span class="tok-fn">showFooter</span>();
     }
 
-    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">showBanner</span>() {  <span class="tok-com">// แต่ละเมธอดทำงานเดียว</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">showBanner</span>() {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"*** JAVA CAFE ***"</span>);
     }
 
@@ -120,7 +121,7 @@ main: end</pre></div></div><div class="walkthrough"><strong>อธิบาย�
 1. Espresso   45
 2. Latte      55
 3. Mocha      60
-Open 8:00-18:00</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>อ่าน main แล้วรู้ทันทีว่าโปรแกรมมี 3 ส่วน</li><li>ถ้าต้องแก้เมนู แก้เฉพาะ showMenu</li></ol></div></div>
+Open 8:00-18:00</pre></div></div></div></div></details>
 <article class="end-exercise inline-exercise" data-level="2"><h3><span class="exercise-id">โจทย์ฝึก 7.1-P1</span>ใบเสร็จร้านมินิมาร์ท (เมธอดเรียกเมธอดซ้ำ)<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>รวมแนวคิดจากตัวอย่าง 7.1.2 (เมธอดเรียกเมธอดอื่นต่อ) และ 7.1.3 (แบ่ง main เป็นขั้นตอน) เข้าด้วยกัน: เขียนโปรแกรมพิมพ์ใบเสร็จร้านค้าที่ main เรียก 4 เมธอดตามลำดับคือ <code>printHeader()</code>, <code>printItems()</code>, <code>printTotal()</code>, <code>printFooter()</code> โดยให้ <code>printHeader()</code>, <code>printTotal()</code> และ <code>printFooter()</code> <strong>เรียกเมธอด <code>printDivider()</code> ซ้ำ</strong> เพื่อพิมพ์เส้นคั่น แทนการพิมพ์เส้นคั่นเองทุกครั้ง</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ทุกเมธอดเป็น static void ไม่มี parameter (เรายังไม่เรียนเรื่อง parameter ในหัวข้อนี้)</li><li>printDivider() พิมพ์เส้นคั่นหนึ่งบรรทัด แล้วให้เมธอดอื่นเรียกใช้ซ้ำอย่างน้อย 3 ครั้งรวมกัน</li><li>printItems() พิมพ์รายการสินค้า 3 บรรทัด</li><li>printTotal() พิมพ์ยอดรวมของสินค้าทั้ง 3 รายการ</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>------------------------
      MINI MART
 ------------------------
@@ -164,7 +165,7 @@ Thank you!
         <span class="tok-fn">printDivider</span>();
     }
 }</code></pre></div><p>ข้อนี้ไม่มี parameter เลย เพราะหัวข้อ 7.1 ยังไม่สอนเรื่องนี้ — จุดที่ยากกว่าตัวอย่างคือต้องวางแผนว่าเมธอดไหน <em>ควรเรียก</em> printDivider() บ้าง แทนที่จะ copy โค้ดเส้นคั่นซ้ำ ๆ</p></div></div></article>
-<div class="note-box"><span class="box-title">void ไม่ได้แปลว่าไม่มี output</span><p>เมธอด void พิมพ์ข้อความได้ตามปกติ “void” หมายถึงไม่<strong>ส่งค่ากลับ</strong>ไปให้ผู้เรียกนำไปใช้ต่อ การแสดงผล (print) กับการคืนค่า (return) เป็นคนละเรื่อง — จะเห็นชัดในหัวข้อ 7.3</p></div>
+<div class="callout warn"><span class="box-title">void ไม่ได้แปลว่าไม่มี output</span><p>เมธอด void พิมพ์ข้อความได้ตามปกติ “void” หมายถึงไม่<strong>ส่งค่ากลับ</strong>ให้ผู้เรียกนำไปใช้ต่อ การแสดงผล (print) กับการคืนค่า (return) เป็นคนละเรื่อง จะเห็นชัดในหัวข้อ 7.3</p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · ลำดับการเรียก</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">a</span>() { <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"A"</span>); <span class="tok-fn">b</span>(); <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"a"</span>); }
 <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">b</span>() { <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(<span class="tok-str">"B"</span>); }
 <span class="tok-com">// ใน main:</span>
@@ -172,35 +173,34 @@ Thank you!
 </article>
 <article class="subtopic" id="topic-7-2">
 <h3>7.2 พารามิเตอร์และ argument</h3>
-<p><strong>parameter</strong> คือตัวแปรที่ประกาศในวงเล็บของเมธอดเพื่อรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก เมื่อเรียก Java จะคัดลอกค่า argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em></p>
-<div class="concept-box"><span class="box-title">parameter vs argument</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">greet</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> times) { ... }   <span class="tok-com">// name, times = parameter</span>
+<p><strong>parameter</strong> คือตัวแปรในวงเล็บของเมธอดที่รอรับค่า ส่วน <strong>argument</strong> คือค่าจริงที่ส่งเข้าไปตอนเรียก Java คัดลอก argument ไปใส่ parameter <em>ตามลำดับตำแหน่ง</em></p>
+<div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">greet</span>(<span class="tok-type">String</span> name, <span class="tok-kw">int</span> times) { ... }   <span class="tok-com">// name, times = parameter</span>
 <span class="tok-fn">greet</span>(<span class="tok-str">"JHope"</span>, <span class="tok-num">3</span>);                                  <span class="tok-com">// "JHope", 3   = argument</span>
         │      └──→ times = <span class="tok-num">3</span>
-        └──────────→ name  = <span class="tok-str">"JHope"</span></code></pre></div><ul><li>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter</li><li>argument เป็นตัวแปร ค่าคงที่ หรือนิพจน์ก็ได้ เช่น <code>greet(user, n + 1)</code></li></ul></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.2.1</span>parameter หนึ่งตัว</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดเดียวทำงานกับข้อมูลต่างกันได้ ขึ้นอยู่กับ argument ที่ส่งมา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GreetParam.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GreetParam</span> {
+        └──────────→ name  = <span class="tok-str">"JHope"</span></code></pre></div>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.2.1</span>เมธอดเดียว ใช้กับข้อมูลต่างกัน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GreetParam.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GreetParam</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ส่ง argument "JHope" เข้า parameter name</span>
-        <span class="tok-fn">greet</span>(<span class="tok-str">"JHope"</span>);
-        <span class="tok-fn">greet</span>(<span class="tok-str">"Suga"</span>);
+        <span class="tok-fn">greet</span>(<span class="tok-str">"JHope"</span>);                  <span class="tok-com">// Hello, JHope!</span>
+        <span class="tok-fn">greet</span>(<span class="tok-str">"Suga"</span>);                   <span class="tok-com">// Hello, Suga!</span>
         <span class="tok-type">String</span> friend = <span class="tok-str">"RM"</span>;
-        <span class="tok-fn">greet</span>(friend);  <span class="tok-com">// ส่งค่าในตัวแปรก็ได้</span>
+        <span class="tok-fn">greet</span>(friend);                   <span class="tok-com">// ส่งค่าในตัวแปรก็ได้</span>
     }
 
-    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">greet</span>(<span class="tok-type">String</span> name) {  <span class="tok-com">// parameter รับค่าที่ส่งมา</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">greet</span>(<span class="tok-type">String</span> name) {     <span class="tok-com">// name รับค่าที่ส่งมา</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Hello, "</span> + name + <span class="tok-str">"!"</span>);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Hello, JHope!
 Hello, Suga!
-Hello, RM!</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ครั้งแรก name = "JHope"</li><li>ครั้งที่สอง name = "Suga"</li><li>ครั้งที่สามส่งตัวแปร friend → name ได้ค่า "RM"</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.2.2</span>หลาย parameter และลูปในเมธอด</h4><p class="concept-line"><strong>แนวคิด:</strong> parameter ใช้ได้เหมือนตัวแปรปกติภายในเมธอด รวมถึงเป็นขอบเขตของลูป</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DrawLine.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DrawLine</span> {
+Hello, RM!</pre></div></div></div>
+<h4 class="sub">หลาย parameter</h4>
+<p>จำนวน ชนิด และลำดับของ argument ต้องตรงกับ parameter และ argument เป็นนิพจน์ได้ ซึ่งจะคำนวณก่อนส่ง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.2.2</span>วาดเส้นด้วยอักขระและความยาวที่กำหนด</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">DrawLine.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">DrawLine</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ลำดับ argument ต้องตรงกับ parameter</span>
-        <span class="tok-fn">drawLine</span>(<span class="tok-str">'*'</span>, <span class="tok-num">10</span>);
-        <span class="tok-fn">drawLine</span>(<span class="tok-str">'-'</span>, <span class="tok-num">4</span>);
-        <span class="tok-fn">drawLine</span>(<span class="tok-str">'='</span>, <span class="tok-num">2</span> * <span class="tok-num">6</span>);  <span class="tok-com">// ส่งนิพจน์ได้ คำนวณก่อนส่ง</span>
+        <span class="tok-fn">drawLine</span>(<span class="tok-str">'*'</span>, <span class="tok-num">10</span>);               <span class="tok-com">// **********</span>
+        <span class="tok-fn">drawLine</span>(<span class="tok-str">'-'</span>, <span class="tok-num">4</span>);                <span class="tok-com">// ----</span>
+        <span class="tok-fn">drawLine</span>(<span class="tok-str">'='</span>, <span class="tok-num">2</span> * <span class="tok-num">6</span>);            <span class="tok-com">// 12 ตัว  (คำนวณ 2 * 6 ก่อนส่ง)</span>
     }
 
-    <span class="tok-com">// parameter 2 ตัว: char กับ int</span>
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">drawLine</span>(<span class="tok-kw">char</span> symbol, <span class="tok-kw">int</span> length) {
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; length; i++) {
             <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(symbol);
@@ -209,7 +209,7 @@ Hello, RM!</pre></div></div><div class="walkthrough"><strong>อธิบาย�
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>**********
 ----
-============</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>symbol = '*', length = 10 → ดาว 10 ตัว</li><li>argument ที่สามเป็นนิพจน์ 2 * 6 คำนวณได้ 12 ก่อนส่ง</li><li>ลำดับสำคัญ: <code>drawLine(10, '*')</code> จะคอมไพล์ไม่ผ่าน</li></ol></div></div>
+============</pre></div></div></div>
 <article class="end-exercise inline-exercise" data-level="1"><h3><span class="exercise-id">โจทย์ฝึก 7.2-P1</span>printRepeat(String text, int times)<span class="level level-1">★ ง่าย</span></h3><div class="ex-body"><p>เขียนเมธอด <code>printRepeat(String text, int times)</code> ที่พิมพ์ <code>text</code> ซ้ำกัน <code>times</code> ครั้งติดกันบนบรรทัดเดียว (ไม่มีช่องว่างคั่น) แล้วขึ้นบรรทัดใหม่ เหมือนตัวอย่าง 7.2.2 แต่เปลี่ยนจาก <code>char</code> เป็น <code>String</code></p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>parameter <code>text</code> (String) คือข้อความที่จะพิมพ์ซ้ำ, <code>times</code> (int) คือจำนวนครั้ง</li><li>ต้องใช้ for loop พิมพ์ทีละครั้ง <strong>ห้ามใช้ <code>text.repeat(times)</code></strong> เพื่อฝึกเขียนลูปในเมธอดเอง</li><li>main เรียก printRepeat("Hi", 3), printRepeat("ab", 5), printRepeat("=", 10)</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>HiHiHi
 ababababab
 ==========</pre></div><div class="answer-gate" data-answer-id="7.2-P1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.2-P1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">RepeatText.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">RepeatText</span> {
@@ -280,22 +280,22 @@ drawTriangle(2, 4):
         }
     }
 }</code></pre></div><p>เพราะ <code>length - i</code> ลดลงทีละ 1 ขณะที่จำนวนหลักเพิ่มขึ้นทีละ 1 พอดี ขอบขวาของทุกแถวจึงตรงกันเสมอ (ช่องว่าง + ตัวเลข = length ทุกแถว)</p></div></div></article>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.2.3</span>pass-by-value: เมธอดแก้ค่าตัวแปรของผู้เรียกไม่ได้</h4><p class="concept-line"><strong>แนวคิด:</strong> Java ส่ง<strong>สำเนาของค่า</strong> การเปลี่ยน parameter ภายในเมธอดไม่กระทบตัวแปรใน main</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PassByValue.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PassByValue</span> {
+<h4 class="sub">pass-by-value: ส่งสำเนาของค่า</h4>
+<p>Java ส่ง<strong>สำเนาของค่า</strong>ให้ parameter การแก้ parameter ในเมธอดจึงไม่กระทบตัวแปรของผู้เรียก แม้ชื่อเหมือนกัน ถ้าต้องการผลลัพธ์กลับมาต้องใช้ return (หัวข้อถัดไป)</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.2.3</span>เมธอดแก้ค่าตัวแปรของ main ไม่ได้</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PassByValue.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PassByValue</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">int</span> score = <span class="tok-num">50</span>;
-        <span class="tok-com">// ส่งสำเนาของค่า 50 ไป</span>
-        <span class="tok-fn">addBonus</span>(score);
-        <span class="tok-com">// ค่าใน main ไม่เปลี่ยน</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main: score = "</span> + score);
+        <span class="tok-fn">addBonus</span>(score);                                   <span class="tok-com">// ส่งสำเนาของ 50</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main: score = "</span> + score);      <span class="tok-com">// ยังเป็น 50</span>
     }
 
-    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">addBonus</span>(<span class="tok-kw">int</span> score) {
-        score = score + <span class="tok-num">10</span>;  <span class="tok-com">// แก้ได้แค่สำเนาในเมธอดนี้</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"addBonus: score = "</span> + score);
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">addBonus</span>(<span class="tok-kw">int</span> score) {                      <span class="tok-com">// คนละตัวกับ score ใน main</span>
+        score = score + <span class="tok-num">10</span>;
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"addBonus: score = "</span> + score);  <span class="tok-com">// 60</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>addBonus: score = 60
-main: score = 50</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main ส่งค่า 50 ไป</li><li>parameter score ในเมธอดเป็นตัวแปร<em>คนละตัว</em>แม้ชื่อเหมือนกัน</li><li>เปลี่ยนเป็น 60 เฉพาะในเมธอด</li><li>main ยังเป็น 50 — ถ้าต้องการผลลัพธ์ต้องใช้ return (หัวข้อถัดไป)</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 7.2.4</span>argument ไม่ตรงกับ parameter</h4><p class="concept-line"><strong>แนวคิด:</strong> compiler ตรวจจำนวนและชนิดของ argument ทุกครั้งที่เรียก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongArguments.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongArguments</span> {
+main: score = 50</pre></div></div></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: error เมื่อ argument ไม่ตรงกับ parameter</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 7.2.4</span>argument ไม่ตรงกับ parameter</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WrongArguments.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WrongArguments</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-fn">drawLine</span>(<span class="tok-num">5</span>, <span class="tok-str">'*'</span>);
         <span class="tok-fn">drawLine</span>(<span class="tok-str">'*'</span>);
@@ -312,7 +312,7 @@ WrongArguments.java:4: error: method drawLine in class WrongArguments cannot be 
         ^
   required: char,int
   found:    char
-  reason: actual and formal argument lists differ in length</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>บรรทัด 3 สลับลำดับ: ส่ง 5 (int) ไปที่ parameter แรกซึ่งเป็น char → <code>possible lossy conversion from int to char</code></li><li>บรรทัด 4 ขาด argument → <code>cannot be applied to given types</code></li><li><code>required: char,int</code> / <code>found: char</code> บอกว่าคาดหวังอะไรและได้อะไร</li><li>แก้: <code>drawLine('*', 5);</code></li></ol></div></div>
+  reason: actual and formal argument lists differ in length</pre></div></div><p>บรรทัด 3 สลับลำดับ ส่ง int ไปที่ parameter char และบรรทัด 4 ขาด argument ไปหนึ่งตัว ข้อความ <code>required: char,int</code> / <code>found: char</code> บอกว่าคาดหวังอะไรและได้อะไร แก้เป็น <code>drawLine('*', 5);</code></p></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · ส่งค่า</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">show</span>(<span class="tok-kw">int</span> a, <span class="tok-kw">int</span> b) { <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(a + <span class="tok-str">"-"</span> + b); }
 <span class="tok-com">// main</span>
 <span class="tok-kw">int</span> x = <span class="tok-num">3</span>, y = <span class="tok-num">8</span>;
@@ -321,37 +321,28 @@ WrongArguments.java:4: error: method drawLine in class WrongArguments cannot be 
 </article>
 <article class="subtopic" id="topic-7-3">
 <h3>7.3 return value: เมธอดที่คืนผลลัพธ์</h3>
-<p>เมื่อเมธอดคำนวณค่าที่ผู้เรียกต้องนำไปใช้ต่อ ให้ระบุ<strong>ชนิดผลลัพธ์</strong>แทน void แล้วใช้ <code>return ค่า;</code> ส่งค่ากลับ เมื่อเจอ return เมธอดจะจบทันที</p>
-<div class="concept-box"><span class="box-title">โครงสร้างเมธอดที่คืนค่า</span><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">calculateArea</span>(<span class="tok-kw">double</span> width, <span class="tok-kw">double</span> height) {
-    <span class="tok-kw">double</span> area = width * height;
-    <span class="tok-kw">return</span> area;                    <span class="tok-com">// ส่งค่า area กลับไปยังจุดที่เรียก</span>
-}
-
-<span class="tok-kw">double</span> a = <span class="tok-fn">calculateArea</span>(<span class="tok-num">4</span>, <span class="tok-num">2.5</span>);   <span class="tok-com">// นำค่าที่คืนมาเก็บในตัวแปร</span>
-<span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">calculateArea</span>(<span class="tok-num">3</span>, <span class="tok-num">3</span>) * <span class="tok-num">2</span>);  <span class="tok-com">// หรือใช้ในนิพจน์โดยตรง</span></code></pre></div><p>คิดว่าการเรียกเมธอดที่คืนค่าคือ “นิพจน์” ที่ถูกแทนด้วยค่าที่ return ออกมา</p></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.3.1</span>คืนค่าแล้วนำไปใช้ต่อ</h4><p class="concept-line"><strong>แนวคิด:</strong> ค่าที่คืนกลับมาเก็บในตัวแปร พิมพ์ หรือใช้คำนวณต่อได้</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SquareReturn.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SquareReturn</span> {
+<p>ถ้าเมธอดคำนวณค่าที่ผู้เรียกต้องใช้ต่อ ให้ระบุ<strong>ชนิดผลลัพธ์</strong>แทน void แล้วใช้ <code>return ค่า;</code> ส่งค่ากลับ เมื่อเจอ return เมธอดจบทันที การเรียกเมธอดจึงเหมือน “นิพจน์” ที่ถูกแทนด้วยค่าที่คืนมา</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.3.1</span>คืนค่าแล้วนำไปใช้ต่อ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">SquareReturn.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">SquareReturn</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-kw">int</span> a = <span class="tok-fn">square</span>(<span class="tok-num">4</span>);  <span class="tok-com">// นำค่าที่คืนมาเก็บในตัวแปร</span>
+        <span class="tok-kw">int</span> a = <span class="tok-fn">square</span>(<span class="tok-num">4</span>);                                       <span class="tok-com">// 16</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"square(4) = "</span> + a);
-        <span class="tok-com">// ใช้ผลลัพธ์ในนิพจน์ได้ทันที</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"square(3) + square(4) = "</span> + (<span class="tok-fn">square</span>(<span class="tok-num">3</span>) + <span class="tok-fn">square</span>(<span class="tok-num">4</span>)));
-        <span class="tok-com">// ส่งผลลัพธ์เป็น argument ต่อได้</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"square(square(2)) = "</span> + <span class="tok-fn">square</span>(<span class="tok-fn">square</span>(<span class="tok-num">2</span>)));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"square(3) + square(4) = "</span> + (<span class="tok-fn">square</span>(<span class="tok-num">3</span>) + <span class="tok-fn">square</span>(<span class="tok-num">4</span>)));   <span class="tok-com">// 9 + 16 = 25</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"square(square(2)) = "</span> + <span class="tok-fn">square</span>(<span class="tok-fn">square</span>(<span class="tok-num">2</span>)));            <span class="tok-com">// square(4) = 16</span>
     }
 
-    <span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">square</span>(<span class="tok-kw">int</span> n) {  <span class="tok-com">// int หน้าชื่อ = ชนิดของค่าที่คืน</span>
-        <span class="tok-kw">return</span> n * n;           <span class="tok-com">// return ส่งค่ากลับไปยังจุดที่เรียก</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">square</span>(<span class="tok-kw">int</span> n) {        <span class="tok-com">// int = ชนิดของค่าที่คืน</span>
+        <span class="tok-kw">return</span> n * n;
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>square(4) = 16
 square(3) + square(4) = 25
-square(square(2)) = 16</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>square(4) คืน 16 เก็บใน a</li><li>square(3) + square(4) = 9 + 16 = 25</li><li>square(square(2)): ในสุดได้ 4 → square(4) = 16</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.3.2</span>print กับ return ต่างกันอย่างไร</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดที่<em>พิมพ์</em>ผลลัพธ์ให้คนเห็น แต่โปรแกรมนำค่าไปใช้ต่อไม่ได้ เมธอดที่ <em>return</em> ให้ค่ากับโปรแกรม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintVsReturn.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintVsReturn</span> {
+square(square(2)) = 16</pre></div></div></div>
+<h4 class="sub">print กับ return ต่างกันอย่างไร</h4>
+<table class="comparison-table"><thead><tr><th></th><th>เมธอดที่ print</th><th>เมธอดที่ return</th></tr></thead><tbody><tr><td>ใครได้ผลลัพธ์</td><td>คนที่ดูหน้าจอ</td><td>โปรแกรม (ผู้เรียก)</td></tr><tr><td>นำไปคำนวณต่อได้ไหม</td><td>ไม่ได้</td><td>ได้</td></tr><tr><td>ชนิดผลลัพธ์</td><td><code>void</code></td><td><code>int</code>, <code>double</code>, ...</td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.3.2</span>ยอดรวมแล้วคิด VAT ต่อ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PrintVsReturn.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PrintVsReturn</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// แสดงผลเอง นำค่าไปใช้ต่อไม่ได้</span>
-        <span class="tok-fn">printTotal</span>(<span class="tok-num">100</span>, <span class="tok-num">3</span>);
-        <span class="tok-com">// คืนค่า จึงนำไปคำนวณต่อได้</span>
-        <span class="tok-kw">double</span> total = <span class="tok-fn">getTotal</span>(<span class="tok-num">100</span>, <span class="tok-num">3</span>);
-        <span class="tok-kw">double</span> withVat = total * <span class="tok-num">1.07</span>;
+        <span class="tok-fn">printTotal</span>(<span class="tok-num">100</span>, <span class="tok-num">3</span>);                       <span class="tok-com">// แสดง Total: 300.0 แต่ main ไม่ได้ค่า</span>
+        <span class="tok-kw">double</span> total = <span class="tok-fn">getTotal</span>(<span class="tok-num">100</span>, <span class="tok-num">3</span>);          <span class="tok-com">// ได้ 300.0 กลับมา</span>
+        <span class="tok-kw">double</span> withVat = total * <span class="tok-num">1.07</span>;            <span class="tok-com">// นำไปคำนวณต่อได้</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"With VAT: "</span> + withVat);
     }
 
@@ -363,10 +354,13 @@ square(square(2)) = 16</pre></div></div><div class="walkthrough"><strong>อธ�
         <span class="tok-kw">return</span> price * qty;
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Total: 300.0
-With VAT: 321.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>printTotal แสดง 300.0 แต่ main ไม่ได้ค่ากลับมา</li><li>getTotal คืน 300.0 → main นำไปคูณ VAT ต่อได้</li><li>แนวทาง: เมธอดคำนวณควร return ให้ main เป็นผู้ตัดสินใจว่าจะแสดงผลอย่างไร</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.3.3</span>return หลายจุด และคืน boolean</h4><p class="concept-line"><strong>แนวคิด:</strong> เมธอดอาจมี return หลายจุดตามเงื่อนไข แต่<strong>ทุกเส้นทาง</strong>ต้องคืนค่าเสมอ เมธอดที่คืน boolean นิยมตั้งชื่อขึ้นต้นด้วย is/has/can</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReturnPaths.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReturnPaths</span> {
+With VAT: 321.0</pre></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>เมธอดที่คำนวณควร return ค่า แล้วให้ main เป็นผู้ตัดสินใจว่าจะแสดงผลอย่างไร เมธอดแบบนี้นำไปใช้ซ้ำและทดสอบได้ง่ายกว่า</p></div>
+<h4 class="sub">return หลายจุด</h4>
+<p>เมธอดมี return ได้หลายจุดตามเงื่อนไข แต่<strong>ทุกเส้นทาง</strong>ต้องคืนค่า เมธอดที่คืน boolean นิยมตั้งชื่อขึ้นต้นด้วย is / has / can</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.3.3</span>ตัดเกรด และตรวจจำนวนเฉพาะ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ReturnPaths.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ReturnPaths</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">gradeOf</span>(<span class="tok-num">85</span>) + <span class="tok-str">" "</span> + <span class="tok-fn">gradeOf</span>(<span class="tok-num">72</span>) + <span class="tok-str">" "</span> + <span class="tok-fn">gradeOf</span>(<span class="tok-num">40</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">gradeOf</span>(<span class="tok-num">85</span>) + <span class="tok-str">" "</span> + <span class="tok-fn">gradeOf</span>(<span class="tok-num">72</span>) + <span class="tok-str">" "</span> + <span class="tok-fn">gradeOf</span>(<span class="tok-num">40</span>));   <span class="tok-com">// A B F</span>
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> n = <span class="tok-num">1</span>; n &lt;= <span class="tok-num">20</span>; n++) {
             <span class="tok-kw">if</span> (<span class="tok-fn">isPrime</span>(n)) {
                 <span class="tok-type">System</span>.out.<span class="tok-fn">print</span>(n + <span class="tok-str">" "</span>);
@@ -376,23 +370,21 @@ With VAT: 321.0</pre></div></div><div class="walkthrough"><strong>อธิบ�
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">char</span> <span class="tok-fn">gradeOf</span>(<span class="tok-kw">int</span> score) {
-        <span class="tok-com">// return แล้วจบเมธอดทันที</span>
-        <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">80</span>) <span class="tok-kw">return</span> <span class="tok-str">'A'</span>;
+        <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">80</span>) <span class="tok-kw">return</span> <span class="tok-str">'A'</span>;          <span class="tok-com">// return แล้วจบเมธอดทันที ไม่ต้องมี else</span>
         <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">70</span>) <span class="tok-kw">return</span> <span class="tok-str">'B'</span>;
         <span class="tok-kw">if</span> (score &gt;= <span class="tok-num">60</span>) <span class="tok-kw">return</span> <span class="tok-str">'C'</span>;
-        <span class="tok-kw">return</span> <span class="tok-str">'F'</span>;  <span class="tok-com">// ไม่ตรงเงื่อนไขใดเลย</span>
+        <span class="tok-kw">return</span> <span class="tok-str">'F'</span>;
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">boolean</span> <span class="tok-fn">isPrime</span>(<span class="tok-kw">int</span> n) {
-        <span class="tok-kw">if</span> (n &lt; <span class="tok-num">2</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;  <span class="tok-com">// ออกก่อนได้เมื่อรู้คำตอบ</span>
+        <span class="tok-kw">if</span> (n &lt; <span class="tok-num">2</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> d = <span class="tok-num">2</span>; d * d &lt;= n; d++) {
-            <span class="tok-com">// เจอตัวหาร → ไม่ใช่จำนวนเฉพาะ</span>
-            <span class="tok-kw">if</span> (n % d == <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;
+            <span class="tok-kw">if</span> (n % d == <span class="tok-num">0</span>) <span class="tok-kw">return</span> <span class="tok-num">false</span>;     <span class="tok-com">// เจอตัวหาร → ตอบได้ทันที</span>
         }
-        <span class="tok-kw">return</span> <span class="tok-num">true</span>;  <span class="tok-com">// ไม่เจอตัวหารเลย</span>
+        <span class="tok-kw">return</span> <span class="tok-num">true</span>;                          <span class="tok-com">// วนครบไม่เจอตัวหาร</span>
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>A B F
-2 3 5 7 11 13 17 19</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>gradeOf(85): เจอ return 'A' แล้วจบเมธอดทันที ไม่ตรวจบรรทัดล่าง</li><li>ไม่ต้องใช้ else เพราะ return ออกไปแล้ว</li><li>isPrime เจอตัวหารก็ return false ทันที (ไม่ต้องใช้ break หรือ flag)</li><li>ถ้าวนครบโดยไม่เจอตัวหาร จึง return true</li></ol></div></div>
+2 3 5 7 11 13 17 19</pre></div></div></div>
 <article class="end-exercise inline-exercise" data-level="2"><h3><span class="exercise-id">โจทย์ฝึก 7.3-P1</span>isLeapYear(int year) และนับปีอธิกสุรทิน<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอด <code>boolean isLeapYear(int year)</code> ตรวจว่าปี ค.ศ. ที่รับมาเป็นปีอธิกสุรทินหรือไม่ (หารด้วย 4 ลงตัว <strong>และ</strong> ถ้าหารด้วย 100 ลงตัวต้องหารด้วย 400 ลงตัวด้วย) แล้วใน main ใช้เมธอดนี้ในลูปเพื่อแสดงรายการปีอธิกสุรทินช่วง 2000–2026 พร้อมนับจำนวน เหมือนวิธีที่ตัวอย่าง 7.3.3 ใช้ <code>isPrime</code> ในลูป</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>parameter เดียว: <code>year</code> (int) คือปี ค.ศ. ที่ต้องตรวจ</li><li>isLeapYear ต้องมี return มากกว่า 1 จุดเหมือนตัวอย่าง (ไม่ใช้ else)</li><li>main ห้ามเขียนเงื่อนไขปีอธิกสุรทินเอง ต้องเรียก isLeapYear เท่านั้น</li><li>แสดงปีที่เป็นอธิกสุรทินทั้งหมดในบรรทัดเดียว คั่นด้วยช่องว่าง แล้วแสดงจำนวนรวม</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Leap years: 2000 2004 2008 2012 2016 2020 2024 
 Count: 7</pre></div><div class="answer-gate" data-answer-id="7.3-P1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.3-P1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">LeapYearCheck.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LeapYearCheck</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -418,7 +410,8 @@ Count: 7</pre></div><div class="answer-gate" data-answer-id="7.3-P1"><button cla
         <span class="tok-kw">return</span> <span class="tok-num">true</span>;
     }
 }</code></pre></div><p>จุดที่ยากกว่าตัวอย่าง: isPrime มีเงื่อนไขเดียวในลูป แต่ isLeapYear ต้องรวมสองเงื่อนไข (หาร 4 และข้อยกเว้นของหาร 100/400) ให้ครบในลำดับที่ return ค่าถูกทุกกรณี</p></div></div></article>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 7.3.4</span>บางเส้นทางไม่มี return</h4><p class="concept-line"><strong>แนวคิด:</strong> ถ้ามีกรณีที่เมธอดจบโดยไม่ return ค่า compiler จะไม่ยอม</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingReturn.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingReturn</span> {
+<div class="callout warn"><span class="box-title">ทุกเส้นทางต้อง return</span><p>ถ้ามีกรณีที่เมธอดจบโดยไม่ return ค่า เช่น if-else if ที่ไม่ครอบคลุม n == 0 compiler จะแจ้ง <code>missing return statement</code> แก้โดยเพิ่ม return ท้ายเมธอด</p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: error เมื่อบางเส้นทางไม่มี return</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 7.3.4</span>บางเส้นทางไม่มี return</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">MissingReturn.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">MissingReturn</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">sign</span>(<span class="tok-num">5</span>));
     }
@@ -432,7 +425,7 @@ Count: 7</pre></div><div class="answer-gate" data-answer-id="7.3-P1"><button cla
     }
 }</code></pre></div></div><div class="source-output is-error"><span>ข้อความ error จาก javac</span><pre>MissingReturn.java:12: error: missing return statement
     }
-    ^</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>กรณี n == 0 หลุดออกจาก if ทั้งหมดโดยไม่มี return</li><li>javac แจ้ง <code>missing return statement</code></li><li>แก้: เพิ่ม <code>return "zero";</code> ท้ายเมธอด</li></ol></div></div>
+    ^</pre></div></div></div></div></details>
 <div class="quick-check"><strong>ลองคิดก่อน · ค่าที่คืน</strong><div><div class="code-block"><div class="code-head"><span class="code-file">Java</span></div><pre class="copyable"><code><span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">f</span>(<span class="tok-kw">int</span> x) {
     <span class="tok-kw">if</span> (x % <span class="tok-num">2</span> == <span class="tok-num">0</span>) <span class="tok-kw">return</span> x / <span class="tok-num">2</span>;
     <span class="tok-kw">return</span> <span class="tok-num">3</span> * x + <span class="tok-num">1</span>;
@@ -441,21 +434,22 @@ Count: 7</pre></div><div class="answer-gate" data-answer-id="7.3-P1"><button cla
 </article>
 <article class="subtopic" id="topic-7-4">
 <h3>7.4 scope ของตัวแปร และ method overloading</h3>
-<p><strong>scope</strong> คือบริเวณที่ตัวแปรถูกมองเห็นและใช้งานได้ ตัวแปรที่ประกาศในบล็อก <code>{ }</code> ใดใช้ได้เฉพาะในบล็อกนั้น (local variable) parameter ก็เป็น local ของเมธอดนั้น ส่วน <strong>overloading</strong> คือการมีหลายเมธอดชื่อเดียวกันแต่ parameter ต่างกัน</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.4.1</span>ตัวแปรชื่อเดียวกันในคนละเมธอด</h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรในแต่ละเมธอดแยกกันโดยสิ้นเชิง แม้ชื่อเหมือนกัน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ScopeDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ScopeDemo</span> {
+<p><strong>scope</strong> คือบริเวณที่ตัวแปรใช้งานได้ ตัวแปรที่ประกาศในบล็อก <code>{ }</code> ใดใช้ได้เฉพาะในบล็อกนั้น (local variable) parameter ก็เป็น local ของเมธอดนั้น</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.4.1</span>ตัวแปรชื่อเดียวกันในคนละเมธอด</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ScopeDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ScopeDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-kw">int</span> count = <span class="tok-num">1</span>;  <span class="tok-com">// count ของ main</span>
+        <span class="tok-kw">int</span> count = <span class="tok-num">1</span>;                                  <span class="tok-com">// count ของ main</span>
         <span class="tok-fn">helper</span>();
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main count = "</span> + count);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"main count = "</span> + count);    <span class="tok-com">// 1   helper แตะไม่ได้</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">helper</span>() {
-        <span class="tok-kw">int</span> count = <span class="tok-num">99</span>;  <span class="tok-com">// ตัวแปรคนละตัวกับ count ใน main</span>
+        <span class="tok-kw">int</span> count = <span class="tok-num">99</span>;                                 <span class="tok-com">// คนละตัวกับของ main</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"helper count = "</span> + count);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>helper count = 99
-main count = 1</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>count ใน main และใน helper เป็นคนละตัว</li><li>helper ไม่เห็น count ของ main และแก้ไขไม่ได้</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ทดลอง error 7.4.2</span>ใช้ตัวแปรนอก scope</h4><p class="concept-line"><strong>แนวคิด:</strong> ตัวแปรที่ประกาศใน for หรือใน if หายไปเมื่อออกจากบล็อก</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OutOfScope.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OutOfScope</span> {
+main count = 1</pre></div></div></div>
+<div class="callout warn"><span class="box-title">ตัวแปรหายเมื่อออกจากบล็อก</span><p>ตัวแปรที่ประกาศใน for (รวมถึง <code>int i</code> ใน header) หรือใน if ใช้หลังบล็อกไม่ได้ จะได้ <code>cannot find symbol</code> ถ้าต้องใช้หลังลูปให้ประกาศไว้ก่อนลูป</p></div>
+<details class="more-examples"><summary>ดูตัวอย่าง: error เมื่อใช้ตัวแปรนอก scope</summary><div class="more-body"><div class="source-example"><h4><span class="ex-num">ทดลอง error 7.4.2</span>ใช้ตัวแปรนอก scope</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OutOfScope.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OutOfScope</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-kw">for</span> (<span class="tok-kw">int</span> i = <span class="tok-num">0</span>; i &lt; <span class="tok-num">3</span>; i++) {
             <span class="tok-kw">int</span> doubled = i * <span class="tok-num">2</span>;
@@ -472,20 +466,18 @@ OutOfScope.java:7: error: cannot find symbol
         System.out.println(doubled);
                            ^
   symbol:   variable doubled
-  location: class OutOfScope</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>i</code> ประกาศใน header ของ for ใช้ได้เฉพาะในลูป</li><li><code>doubled</code> ประกาศใน body ใช้ได้เฉพาะในรอบนั้น</li><li>javac แจ้ง <code>cannot find symbol</code> ทั้งสองจุด</li><li>แก้: ประกาศตัวแปรไว้ก่อนลูปถ้าต้องใช้หลังลูป</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.4.3</span>overloading: ชื่อเดียว หลายรูปแบบ</h4><p class="concept-line"><strong>แนวคิด:</strong> compiler เลือกเมธอดจาก<strong>จำนวนและชนิด</strong>ของ argument (เรียกว่า signature) — แบบเดียวกับ <code>println</code> ที่รับได้ทั้ง int, double, String</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OverloadDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OverloadDemo</span> {
+  location: class OutOfScope</pre></div></div></div></div></details>
+<h4 class="sub">overloading: ชื่อเดียว หลายรูปแบบ</h4>
+<p>หลายเมธอดชื่อเดียวกันได้ถ้า parameter ต่างกัน compiler เลือกตัวที่<strong>จำนวนและชนิด</strong>ของ argument ตรงกัน แบบเดียวกับ <code>println</code> ที่รับได้ทั้ง int, double และ String (ชนิดผลลัพธ์ต่างกันอย่างเดียวไม่นับ)</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.4.3</span>max และ area หลายแบบ</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">OverloadDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">OverloadDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// เรียก max(int, int)</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">max</span>(<span class="tok-num">3</span>, <span class="tok-num">9</span>));
-        <span class="tok-com">// เรียก max(double, double)</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">max</span>(<span class="tok-num">2.5</span>, <span class="tok-num">1.75</span>));
-        <span class="tok-com">// เรียก max แบบ 3 ตัว</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">max</span>(<span class="tok-num">4</span>, <span class="tok-num">11</span>, <span class="tok-num">7</span>));
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">area</span>(<span class="tok-num">5</span>));
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">area</span>(<span class="tok-num">4</span>, <span class="tok-num">6</span>));
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">max</span>(<span class="tok-num">3</span>, <span class="tok-num">9</span>));          <span class="tok-com">// 9      max(int, int)</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">max</span>(<span class="tok-num">2.5</span>, <span class="tok-num">1.75</span>));     <span class="tok-com">// 2.5    max(double, double)</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">max</span>(<span class="tok-num">4</span>, <span class="tok-num">11</span>, <span class="tok-num">7</span>));      <span class="tok-com">// 11     max(int, int, int)</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">area</span>(<span class="tok-num">5</span>));            <span class="tok-com">// 25.0   สี่เหลี่ยมจัตุรัส</span>
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-fn">area</span>(<span class="tok-num">4</span>, <span class="tok-num">6</span>));         <span class="tok-com">// 24.0   สี่เหลี่ยมผืนผ้า</span>
     }
 
-    <span class="tok-com">// ชื่อเดียวกัน ต่างกันที่ parameter (overloading)</span>
     <span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">max</span>(<span class="tok-kw">int</span> a, <span class="tok-kw">int</span> b) {
         <span class="tok-kw">return</span> a &gt; b ? a : b;
     }
@@ -495,7 +487,7 @@ OutOfScope.java:7: error: cannot find symbol
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">int</span> <span class="tok-fn">max</span>(<span class="tok-kw">int</span> a, <span class="tok-kw">int</span> b, <span class="tok-kw">int</span> c) {
-        <span class="tok-kw">return</span> <span class="tok-fn">max</span>(<span class="tok-fn">max</span>(a, b), c);  <span class="tok-com">// เรียกเวอร์ชัน 2 ตัวซ้อนกัน</span>
+        <span class="tok-kw">return</span> <span class="tok-fn">max</span>(<span class="tok-fn">max</span>(a, b), c);               <span class="tok-com">// ใช้เวอร์ชัน 2 ตัวซ้อนกัน</span>
     }
 
     <span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">area</span>(<span class="tok-kw">double</span> side) {
@@ -509,7 +501,7 @@ OutOfScope.java:7: error: cannot find symbol
 2.5
 11
 25.0
-24.0</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>max(3, 9) → เวอร์ชัน int, int</li><li>max(2.5, 1.75) → เวอร์ชัน double, double</li><li>max(4, 11, 7) → เวอร์ชัน 3 parameter ซึ่งเรียกเวอร์ชัน 2 parameter ซ้ำ</li><li>area(5) → สี่เหลี่ยมจัตุรัส, area(4, 6) → สี่เหลี่ยมผืนผ้า</li><li>หมายเหตุ: ชนิดผลลัพธ์อย่างเดียวต่างกันไม่ถือเป็น overload</li></ol></div></div>
+24.0</pre></div></div></div>
 <article class="end-exercise inline-exercise" data-level="2"><h3><span class="exercise-id">โจทย์ฝึก 7.4-P1</span>overload เมธอด volumeOf<span class="level level-2">★★ ปานกลาง</span></h3><div class="ex-body"><p>เขียนเมธอดชื่อ <code>volumeOf</code> สามแบบ (overload) เหมือนแนวคิดในตัวอย่าง 7.4.3 แต่คำนวณปริมาตรแทนพื้นที่: <code>volumeOf(double side)</code> ปริมาตรลูกบาศก์, <code>volumeOf(double radius, double height)</code> ปริมาตรทรงกระบอก และ <code>volumeOf(double length, double width, double height)</code> ปริมาตรกล่องสี่เหลี่ยม</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>ทุกเวอร์ชัน return double</li><li>ทรงกระบอกใช้ <code>Math.PI * radius * radius * height</code></li><li>เรียกทั้งสามแบบจาก main ด้วย volumeOf(3), volumeOf(2, 5), volumeOf(2, 3, 4) แสดงผลทศนิยม 2 ตำแหน่ง</li><li>อธิบายในคำตอบว่า compiler แยกแต่ละเวอร์ชันได้อย่างไรทั้งที่ชื่อเดียวกัน</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>Cube side=3       : 27.00
 Cylinder r=2,h=5  : 62.83
 Box 2x3x4         : 24.00</pre></div><div class="answer-gate" data-answer-id="7.4-P1"><button class="answer-open" type="button">ใส่รหัสเพื่อดูเฉลย</button><form class="password-form" hidden><label>รหัสผ่านของข้อ 7.4-P1<input type="password" autocomplete="off" required></label><button class="password-submit" type="submit">เปิดเฉลย</button><p class="password-message" aria-live="polite"></p></form><div class="answer-content" hidden><h4 tabindex="-1">ตัวอย่างคำตอบ</h4><div class="code-block"><div class="code-head"><span class="code-file">VolumeOverload.java</span></div><pre class="answer-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">VolumeOverload</span> {
@@ -545,8 +537,8 @@ Box 2x3x4         : 24.00</pre></div><div class="answer-gate" data-answer-id="7.
 </article>
 <article class="subtopic" id="topic-7-5">
 <h3>7.5 ประกอบโปรแกรมจากเมธอด</h3>
-<div class="concept-box"><span class="box-title">ขั้นตอนออกแบบโปรแกรมด้วยเมธอด (top-down)</span><ol class="step-list"><li>เขียนสิ่งที่โปรแกรมต้องทำเป็นข้อ ๆ ภาษาคน เช่น รับข้อมูล → คำนวณ → ตัดสิน → แสดงผล</li><li>แต่ละข้อที่ทำงานชัดเจนหนึ่งอย่าง → ตั้งเป็นเมธอดหนึ่งตัว ตั้งชื่อด้วยคำกริยา</li><li>กำหนดว่าแต่ละเมธอด <em>ต้องรู้อะไร</em> (parameter) และ <em>ให้อะไรกลับ</em> (return type)</li><li>เขียน main ให้เรียกเมธอดตามลำดับเหมือนสารบัญ</li><li>เขียนและทดสอบเมธอดทีละตัว โดยเรียกจาก main ด้วยค่าที่รู้คำตอบ</li></ol></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.5.1</span>เครื่องคำนวณเกรดจากเมธอดหลายตัว</h4><p class="concept-line"><strong>แนวคิด:</strong> main ประสานงาน ส่วนเมธอดแต่ละตัวทำหน้าที่เดียว: รวมคะแนน ตัดเกรด และพิมพ์รายงาน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GradeReport.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
+<p>ออกแบบจากบนลงล่าง (top-down): เขียนงานเป็นข้อ ๆ ภาษาคน แต่ละข้อที่ทำงานเดียวกลายเป็นเมธอดหนึ่งตัว แล้วกำหนดว่าเมธอดต้องรู้อะไร (parameter) และให้อะไรกลับ (return type) สุดท้าย main เรียกตามลำดับเหมือนสารบัญ</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.5.1</span>รายงานเกรดจากเมธอดหลายตัว</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GradeReport.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> java.util.<span class="tok-type">Scanner</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GradeReport</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -558,18 +550,16 @@ Box 2x3x4         : 24.00</pre></div><div class="answer-gate" data-answer-id="7.
         <span class="tok-kw">double</span> mid = input.<span class="tok-fn">nextDouble</span>();
         <span class="tok-kw">double</span> fin = input.<span class="tok-fn">nextDouble</span>();
 
-        <span class="tok-com">// แต่ละขั้นเรียกเมธอดที่ทำงานเดียว</span>
-        <span class="tok-kw">double</span> total = <span class="tok-fn">totalScore</span>(work, mid, fin);
-        <span class="tok-kw">char</span> grade = <span class="tok-fn">gradeOf</span>(total);
-        <span class="tok-fn">printReport</span>(name, total, grade);
+        <span class="tok-kw">double</span> total = <span class="tok-fn">totalScore</span>(work, mid, fin);   <span class="tok-com">// รวม → 83.0</span>
+        <span class="tok-kw">char</span> grade = <span class="tok-fn">gradeOf</span>(total);                 <span class="tok-com">// ตัดเกรด → A</span>
+        <span class="tok-fn">printReport</span>(name, total, grade);             <span class="tok-com">// แสดงผล</span>
     }
 
-    <span class="tok-com">// รวมคะแนน</span>
     <span class="tok-kw">static</span> <span class="tok-kw">double</span> <span class="tok-fn">totalScore</span>(<span class="tok-kw">double</span> work, <span class="tok-kw">double</span> mid, <span class="tok-kw">double</span> fin) {
         <span class="tok-kw">return</span> work + mid + fin;
     }
 
-    <span class="tok-kw">static</span> <span class="tok-kw">char</span> <span class="tok-fn">gradeOf</span>(<span class="tok-kw">double</span> total) {  <span class="tok-com">// ตัดเกรด</span>
+    <span class="tok-kw">static</span> <span class="tok-kw">char</span> <span class="tok-fn">gradeOf</span>(<span class="tok-kw">double</span> total) {
         <span class="tok-kw">if</span> (total &gt;= <span class="tok-num">80</span>) <span class="tok-kw">return</span> <span class="tok-str">'A'</span>;
         <span class="tok-kw">if</span> (total &gt;= <span class="tok-num">70</span>) <span class="tok-kw">return</span> <span class="tok-str">'B'</span>;
         <span class="tok-kw">if</span> (total &gt;= <span class="tok-num">60</span>) <span class="tok-kw">return</span> <span class="tok-str">'C'</span>;
@@ -577,13 +567,11 @@ Box 2x3x4         : 24.00</pre></div><div class="answer-gate" data-answer-id="7.
         <span class="tok-kw">return</span> <span class="tok-str">'F'</span>;
     }
 
-    <span class="tok-com">// แสดงรายงาน</span>
-    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printReport</span>(<span class="tok-type">String</span> name, <span class="tok-kw">double</span> total, <span class="tok-kw">char</span> grade) {
+    <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">printReport</span>(<span class="tok-type">String</span> name, <span class="tok-kw">double</span> total, <span class="tok-kw">char</span> grade) {   <span class="tok-com">// void: หน้าที่คือแสดงผล</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"-"</span>.<span class="tok-fn">repeat</span>(<span class="tok-num">24</span>));
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-8s %s%n"</span>, <span class="tok-str">"Name"</span>, name);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-8s %.1f%n"</span>, <span class="tok-str">"Total"</span>, total);
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-8s %c%n"</span>, <span class="tok-str">"Grade"</span>, grade);
-        <span class="tok-com">// ?: เลือกคำว่า Pass หรือ Fail</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-8s %s%n"</span>, <span class="tok-str">"Result"</span>, grade == <span class="tok-str">'F'</span> ? <span class="tok-str">"Fail"</span> : <span class="tok-str">"Pass"</span>);
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"-"</span>.<span class="tok-fn">repeat</span>(<span class="tok-num">24</span>));
     }
@@ -594,20 +582,20 @@ Name     JHope
 Total    83.0
 Grade    A
 Result   Pass
-------------------------</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main อ่านแล้วเข้าใจทันที: รับข้อมูล → รวม → ตัดเกรด → รายงาน</li><li>totalScore และ gradeOf คืนค่า → ทดสอบแยกได้ง่าย</li><li>printReport เป็น void เพราะหน้าที่คือแสดงผล</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.5.2</span>ทดสอบเมธอดด้วยตารางค่าที่รู้คำตอบ</h4><p class="concept-line"><strong>แนวคิด:</strong> เมื่อเมธอด return ค่า เราเขียนโค้ดทดสอบอัตโนมัติได้: เรียกด้วย input ที่รู้คำตอบแล้วเทียบผล</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TestGradeOf.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TestGradeOf</span> {
+------------------------</pre></div></div></div>
+<h4 class="sub">ทดสอบเมธอดด้วยค่าที่รู้คำตอบ</h4>
+<p>เมื่อเมธอด return ค่า เราเขียนโค้ดทดสอบได้: เรียกด้วย input ที่รู้คำตอบแล้วเทียบผล ควรทดสอบค่าขอบ เช่น 80 และ 79.9 ด้วย</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 7.5.2</span>ชุดทดสอบ gradeOf</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">TestGradeOf.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">TestGradeOf</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-fn">check</span>(<span class="tok-num">95</span>, <span class="tok-str">'A'</span>);  <span class="tok-com">// ทดสอบหลายค่า รวมค่าขอบ 80 และ 79.9</span>
-        <span class="tok-fn">check</span>(<span class="tok-num">80</span>, <span class="tok-str">'A'</span>);
-        <span class="tok-fn">check</span>(<span class="tok-num">79.9</span>, <span class="tok-str">'B'</span>);
+        <span class="tok-fn">check</span>(<span class="tok-num">95</span>, <span class="tok-str">'A'</span>);
+        <span class="tok-fn">check</span>(<span class="tok-num">80</span>, <span class="tok-str">'A'</span>);                       <span class="tok-com">// ค่าขอบ</span>
+        <span class="tok-fn">check</span>(<span class="tok-num">79.9</span>, <span class="tok-str">'B'</span>);                     <span class="tok-com">// ค่าขอบ</span>
         <span class="tok-fn">check</span>(<span class="tok-num">60</span>, <span class="tok-str">'C'</span>);
         <span class="tok-fn">check</span>(<span class="tok-num">49</span>, <span class="tok-str">'F'</span>);
     }
 
-    <span class="tok-com">// ตัวช่วยทดสอบ: เทียบผลจริงกับที่คาด</span>
     <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">check</span>(<span class="tok-kw">double</span> score, <span class="tok-kw">char</span> expected) {
         <span class="tok-kw">char</span> actual = <span class="tok-fn">gradeOf</span>(score);
-        <span class="tok-com">// ตรงกัน → PASS</span>
         <span class="tok-type">String</span> status = actual == expected ? <span class="tok-str">"PASS"</span> : <span class="tok-str">"FAIL"</span>;
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-4s gradeOf(%.1f) = %c (expected %c)%n"</span>, status, score, actual, expected);
     }
@@ -623,7 +611,7 @@ Result   Pass
 PASS gradeOf(80.0) = A (expected A)
 PASS gradeOf(79.9) = B (expected B)
 PASS gradeOf(60.0) = C (expected C)
-PASS gradeOf(49.0) = F (expected F)</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>check เรียก gradeOf แล้วเปรียบเทียบกับคำตอบที่คาด</li><li>ทดสอบค่าขอบ 80 และ 79.9 ด้วย — จุดที่มักผิด</li><li>บทที่ 10 จะขยายแนวคิดนี้เป็นการออกแบบ test case</li></ol></div></div>
+PASS gradeOf(49.0) = F (expected F)</pre></div></div></div>
 <article class="end-exercise inline-exercise" data-level="3"><h3><span class="exercise-id">โจทย์ฝึก 7.5-P1</span>เครื่องคำนวณ BMI พร้อมชุดทดสอบ<span class="level level-3">★★★ ท้าทาย</span></h3><div class="ex-body"><p>รวมทุกแนวคิดของบทนี้: เขียนเมธอด <code>bmiOf(double weightKg, double heightM)</code> คืนค่าดัชนีมวลกาย (BMI = น้ำหนัก ÷ ส่วนสูง²) และ <code>categoryOf(double bmi)</code> คืนประเภทเป็น String (<code>"Underweight"</code> ถ้า BMI &lt; 18.5, <code>"Normal"</code> ถ้า &lt; 25, <code>"Overweight"</code> ถ้า &lt; 30, มิฉะนั้น <code>"Obese"</code>) จากนั้นเขียนเมธอด <code>check(double weight, double height, String expected)</code> ที่เรียกทั้งสองเมธอดต่อกันแล้วเทียบผลกับคำตอบที่คาด แบบเดียวกับตัวอย่าง 7.5.2 (เกณฑ์ตามมาตรฐาน WHO ใช้เพื่อฝึกเขียนโปรแกรมเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์)</p></div><div class="ex-spec"><strong>สิ่งที่ต้องทำ</strong><ol><li>bmiOf และ categoryOf ต้อง return ค่า ห้ามพิมพ์เอง</li><li>check() เป็น void เรียก bmiOf แล้วส่งผลต่อให้ categoryOf (เมธอดเรียกเมธอด ต่อด้วยอีกเมธอด)</li><li>main เรียก check 4 ครั้งด้วยส่วนสูงคงที่ 1.70 แล้วไล่น้ำหนักให้ครอบคลุมทั้ง 4 ประเภท เพื่อทดสอบค่าขอบเขตเหมือนตัวอย่าง 7.5.2</li></ol></div><div class="ex-sample"><strong>ตัวอย่างผลลัพธ์</strong><pre>PASS weight=50.0 height=1.70 -&gt; BMI=17.3 (Underweight, expected Underweight)
 PASS weight=65.0 height=1.70 -&gt; BMI=22.5 (Normal, expected Normal)
 PASS weight=85.0 height=1.70 -&gt; BMI=29.4 (Overweight, expected Overweight)
@@ -658,7 +646,7 @@ PASS weight=100.0 height=1.70 -&gt; BMI=34.6 (Obese, expected Obese)</pre></div>
         <span class="tok-type">System</span>.out.<span class="tok-fn">printf</span>(<span class="tok-str">"%-4s weight=%.1f height=%.2f -&gt; BMI=%.1f (%s, expected %s)%n"</span>, status, weight, height, bmi, actual, expected);
     }
 }</code></pre></div><p>ยากกว่า TestGradeOf เพราะ check() ต้องประสานสองเมธอดที่ return คนละชนิด (double แล้วต่อด้วย String) ก่อนจะเทียบผล — ถ้า bmiOf ผิดแม้เพียงเล็กน้อย categoryOf อาจจัดประเภทผิดไปทั้งหมด</p></div></div></article>
-<div class="note-box"><span class="box-title">สัญญาณว่าควรแยกเมธอด</span><ul><li>มีโค้ดชุดเดิมซ้ำตั้งแต่ 2 ที่ขึ้นไป</li><li>main ยาวเกินหนึ่งหน้าจอ</li><li>ต้องเขียน comment อธิบายว่า “ส่วนนี้ทำ …” — ชื่อเมธอดทำหน้าที่แทน comment ได้</li><li>อยากทดสอบการคำนวณส่วนหนึ่งแยกจากส่วนรับข้อมูล</li></ul></div>
+<div class="callout tip"><span class="box-title">สัญญาณว่าควรแยกเมธอด</span><p>มีโค้ดชุดเดิมซ้ำตั้งแต่ 2 ที่ขึ้นไป, main ยาวเกินหนึ่งหน้าจอ, ต้องเขียน comment อธิบายว่า “ส่วนนี้ทำ …” (ชื่อเมธอดทำหน้าที่แทนได้) หรืออยากทดสอบการคำนวณแยกจากการรับข้อมูล</p></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
