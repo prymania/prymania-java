@@ -17,95 +17,95 @@ export default {
     {
       num: "14.1", toc: "Console กับ GUI", title: "หน้าต่าง, container และ component",
       blocks: [
-        { type: "p", html: `<strong>JFrame</strong> เป็นหน้าต่างหลัก; <strong>container</strong> (เช่น JPanel) ใช้บรรจุและจัดกลุ่ม component; <strong>component</strong> คือสิ่งที่มองเห็นหรือโต้ตอบได้ เช่น label, button และ text field` },
+        { type: "p", html: `หน้าจอ GUI ประกอบจากชิ้นส่วนสามระดับ ซ้อนกันเป็นชั้น ๆ` },
+        { type: "table", head: ["ระดับ", "คลาส", "หน้าที่"], rows: [
+          ["หน้าต่าง", "<code>JFrame</code>", "กรอบนอกสุด มีแถบชื่อและปุ่มปิด"],
+          ["container", "<code>JPanel</code>", "พื้นที่บรรจุและจัดกลุ่ม component"],
+          ["component", "<code>JLabel</code>, <code>JTextField</code>, <code>JButton</code> …", "สิ่งที่มองเห็นหรือโต้ตอบได้"],
+        ] },
         { type: "example", title: "แผนผังส่วนประกอบ (component tree)", html: fpre(`
           JFrame (หน้าต่าง)
           └── content pane / JPanel (พื้นที่จัดกลุ่ม)
               ├── JLabel     (ข้อความ)
               ├── JTextField (ช่องกรอก)
-              └── JButton    (ปุ่มกด)`) + `<p>หน้าต่างทำหน้าที่เป็น root container; เรามักเพิ่ม JPanel ก่อน แล้วใส่ component ลงใน panel เพื่อจัด layout</p>` },
-        { type: "table", title: "Console กับ GUI ต่างกันอย่างไร", head: ["", "Console", "GUI"], rows: [
+              └── JButton    (ปุ่มกด)`) },
+
+        { type: "h", text: "Console กับ GUI ต่างกันอย่างไร" },
+        { type: "table", head: ["", "Console", "GUI"], rows: [
           ["ลำดับการทำงาน", "โปรแกรมกำหนด: ถาม → รอ → ถามต่อ", "ผู้ใช้กำหนด: คลิก/พิมพ์อะไรก่อนก็ได้"],
           ["รับข้อมูล", "Scanner อ่านทีละบรรทัด", "อ่านจาก component เมื่อเกิดเหตุการณ์"],
           ["แสดงผล", "println ต่อท้ายไปเรื่อย ๆ", "เปลี่ยนข้อความใน label/area ที่มีอยู่"],
           ["โครงสร้างโค้ด", "main ทำงานจากบนลงล่างจนจบ", "main สร้างหน้าต่างแล้วจบ ที่เหลือขับเคลื่อนด้วย event"],
         ] },
-        { type: "run", title: "เทียบโปรแกรมเดียวกัน: เวอร์ชัน console", level: "พื้นฐาน",
-          concept: "โปรแกรม console ทำงานตามลำดับที่เขียน ผลลัพธ์ต่อท้ายใน console",
+        { type: "p", html: `เทียบโปรแกรมเดียวกันสองแบบ แบบแรกพิมพ์ข้อความลง console` },
+        { type: "run", title: "เวอร์ชัน console",
           code: j`
             public class ConsoleGreeting {
                 public static void main(String[] args) {
                     String name = "JHope";
-                    // โปรแกรม console: แสดงผลเป็นข้อความ
-                    System.out.println("Welcome to Java GUI course");
+                    System.out.println("Welcome to Java GUI course");     // ต่อท้ายใน console
                     System.out.println("Student: " + name);
                 }
             }`,
-          steps: ["ทำบรรทัดแรก แล้วบรรทัดถัดไป จนจบ main", "ไม่มีหน้าต่าง ผลลัพธ์อยู่ใน console"] },
-        { type: "run", title: "เวอร์ชัน GUI: ข้อความเดียวกันในหน้าต่าง", level: "พื้นฐาน", gui: true,
-          concept: "สร้าง JFrame ใส่ JLabel สองตัวลงใน JPanel แล้วแสดงหน้าต่าง — ข้อความอยู่ในหน้าต่างแทน console",
+          },
+        { type: "p", html: `แบบที่สองแสดงข้อความเดียวกันในหน้าต่าง: สร้าง JFrame → สร้าง JPanel → ใส่ JLabel ลง panel → ใส่ panel ลงหน้าต่าง → แสดง` },
+        { type: "run", title: "เวอร์ชัน GUI", gui: true,
           code: j`
-            import javax.swing.*;  // * = import ทุกคลาสในแพ็กเกจ swing
+            import javax.swing.*;                                     // * = ทุกคลาสในแพ็กเกจ swing
 
             public class GuiGreeting {
                 public static void main(String[] args) {
-                    // สร้าง GUI บน Event Dispatch Thread
-                    SwingUtilities.invokeLater(() -> {
-                        // หน้าต่างพร้อมชื่อบนแถบหัว
-                        JFrame frame = new JFrame("Greeting");
-                        // ปิดหน้าต่างแล้วจบโปรแกรม
-                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // แผงสำหรับวาง component
+                    SwingUtilities.invokeLater(() -> {                // สร้าง GUI บน EDT (หัวข้อ 14.4)
+                        JFrame frame = new JFrame("Greeting");        // ชื่อบนแถบหัว
+                        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   // ปิดหน้าต่าง = จบโปรแกรม
                         JPanel panel = new JPanel();
-                        // ป้ายข้อความ
                         panel.add(new JLabel("Welcome to Java GUI course"));
                         panel.add(new JLabel("Student: JHope"));
-                        frame.add(panel);  // วางแผงลงในหน้าต่าง
-                        // ปรับขนาดหน้าต่างให้พอดีเนื้อหา
-                        frame.pack();
-                        // แสดงหน้าต่าง (ต้องเรียกท้ายสุด)
-                        frame.setVisible(true);
+                        frame.add(panel);                             // วาง panel ลงหน้าต่าง
+                        frame.pack();                                 // ขนาดพอดีเนื้อหา
+                        frame.setVisible(true);                       // แสดง (เรียกท้ายสุด)
                     });
                 }
             }`,
-          steps: ["<code>import javax.swing.*;</code> นำเข้าคลาส Swing ทั้งหมด", "สร้างหน้าต่าง → สร้าง panel → ใส่ label → ใส่ panel ลงหน้าต่าง", "<code>pack()</code> ปรับขนาดพอดีเนื้อหา แล้ว <code>setVisible(true)</code> แสดง", "main จบทันที แต่หน้าต่างยังอยู่จนกว่าผู้ใช้จะปิด"] },
+          },
+        { type: "tip", html: `main จบทันทีหลังสร้างหน้าต่าง แต่หน้าต่างยังเปิดอยู่จนกว่าผู้ใช้จะปิด` },
         { type: "check", title: "บทบาท", html: `<p>ในหน้าจอ login: กรอบหน้าต่าง, พื้นที่จัดกลุ่ม, คำว่า “Username”, ช่องพิมพ์ชื่อ, ปุ่ม Login ตรงกับคลาสใดของ Swing</p>`, answer: `<p>JFrame, JPanel, JLabel, JTextField, JButton ตามลำดับ</p>` },
       ],
     },
     {
       num: "14.2", toc: "สร้าง JFrame", title: "สร้าง JFrame และกำหนดวงจรชีวิต",
       blocks: [
+        { type: "p", html: `ทุกโปรแกรม GUI เปิดหน้าต่างด้วยขั้นตอนเดียวกัน` },
         { type: "steps", title: "ลำดับการเปิดหน้าต่าง", items: [
           "สร้าง <code>new JFrame(\"ชื่อหน้าต่าง\")</code>",
-          "กำหนดการปิด <code>setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)</code> — ไม่เช่นนั้นปิดหน้าต่างแล้วโปรแกรมยังทำงานค้าง",
+          "กำหนดการปิด <code>setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)</code>",
           "เพิ่ม content และ component",
           "กำหนดขนาด: <code>setSize(w, h)</code> หรือ <code>pack()</code>",
           "วางตำแหน่ง <code>setLocationRelativeTo(null)</code> (กลางจอ)",
           "เรียก <code>setVisible(true)</code> <strong>เป็นขั้นสุดท้าย</strong>",
         ] },
-        { type: "run", title: "หน้าต่างขั้นต่ำด้วย setSize", level: "พื้นฐาน", gui: true,
-          concept: "หน้าต่างว่างที่มีขนาดตามที่กำหนด — เป็นโครงเริ่มต้นของทุกโปรแกรม GUI",
+        { type: "run", title: "หน้าต่างว่างด้วย setSize", gui: true,
           code: j`
-            import javax.swing.JFrame;  // import ทีละคลาส
+            import javax.swing.JFrame;                                // import ทีละคลาสก็ได้
             import javax.swing.SwingUtilities;
 
             public class FirstWindow {
                 public static void main(String[] args) {
-                    // ส่งงานสร้าง GUI ให้ EDT
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("My First GUI");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // กว้าง 360 สูง 160 พิกเซล
-                        frame.setSize(360, 160);
-                        // null = กึ่งกลางจอ
-                        frame.setLocationRelativeTo(null);
+                        frame.setSize(360, 160);                      // กว้าง 360 สูง 160 พิกเซล (รวมขอบ)
+                        frame.setLocationRelativeTo(null);            // null = กึ่งกลางจอ
                         frame.setVisible(true);
                     });
                 }
             }`,
-          steps: ["ชื่อหน้าต่างปรากฏในแถบด้านบน", "ขนาด 360 × 160 พิกเซลรวมขอบหน้าต่าง", "EXIT_ON_CLOSE จบโปรแกรมเมื่อกดปิด"] },
-        { type: "run", title: "setSize กับ pack()", level: "ต่อยอด", gui: true,
-          concept: "<code>pack()</code> คำนวณขนาดจาก preferred size ของ component ข้างใน — ได้หน้าต่างที่พอดีเนื้อหาไม่ว่าฟอนต์ของเครื่องจะเป็นแบบไหน",
+          },
+        { type: "warn", title: "ลืม EXIT_ON_CLOSE", html: `ค่าเริ่มต้นคือ <code>HIDE_ON_CLOSE</code> กดปิดแล้วหน้าต่างแค่ถูกซ่อน โปรแกรมยังทำงานค้างอยู่เบื้องหลัง` },
+
+        { type: "h", text: "setSize หรือ pack()" },
+        { type: "p", html: `<code>setSize</code> กำหนดขนาดตายตัว ส่วน <code>pack()</code> ถามขนาดที่ component ข้างในต้องการ แล้วปรับหน้าต่างให้พอดี จึงไม่ตัดข้อความแม้ฟอนต์ของแต่ละเครื่องต่างกัน` },
+        { type: "run", title: "หน้าต่างที่พอดีเนื้อหา", gui: true,
           code: j`
             import javax.swing.*;
 
@@ -117,48 +117,50 @@ export default {
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("This window is exactly as big as its content."));
                         frame.add(panel);
-                        frame.pack();  // ขนาดพอดีกับ label
+                        frame.pack();                                 // เรียกหลัง add ครบทุกตัว
                         frame.setLocationRelativeTo(null);
                         frame.setVisible(true);
                     });
                 }
             }`,
-          steps: ["ไม่ได้กำหนดขนาดเอง", "pack() ถามขนาดที่ต้องการของ panel และ label แล้วปรับหน้าต่างให้พอดี", "ถ้าเพิ่ม component ต้องเรียก pack() <em>หลัง</em> add ทั้งหมด"] },
-        { type: "run", title: "คลาสที่สืบทอด JFrame", level: "ประยุกต์", gui: true,
-          concept: "โปรแกรม GUI ขนาดใหญ่นิยมสร้างคลาสของหน้าต่างเองด้วย <code>extends JFrame</code> แล้วจัดหน้าจอใน constructor (ใช้ inheritance จากบทที่ 12)",
+          },
+
+        { type: "h", text: "คลาสที่สืบทอด JFrame" },
+        { type: "p", html: `โปรแกรมที่ใหญ่ขึ้นนิยมสร้างคลาสหน้าต่างเองด้วย <code>extends JFrame</code> (inheritance จากบทที่ 12) แล้วจัดหน้าจอใน constructor เรียก <code>setSize</code>, <code>add</code> ได้ตรง ๆ เพราะเป็นเมธอดที่สืบทอดมา` },
+        { type: "run", title: "ProfileWindow", gui: true,
           code: j`
             import javax.swing.*;
 
-            // extends JFrame: คลาสนี้คือหน้าต่าง
-            public class ProfileWindow extends JFrame {
+            public class ProfileWindow extends JFrame {               // คลาสนี้คือหน้าต่าง
                 public ProfileWindow(String student) {
-                    // ชื่อหน้าต่าง ส่งให้ constructor ของ JFrame
-                    super("Student Profile");
+                    super("Student Profile");                         // ส่งชื่อหน้าต่างให้ JFrame
                     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     JPanel panel = new JPanel();
-                    panel.add(new JLabel("Name: " + student));
+                    panel.add(new JLabel("Name: " + student));        // รับข้อมูลผ่าน constructor
                     panel.add(new JLabel("Faculty: Science"));
-                    add(panel);  // เรียก add ของตัวเองได้ตรง ๆ
+                    add(panel);                                       // add ของตัวเอง
                     setSize(320, 100);
                     setLocationRelativeTo(null);
                 }
 
                 public static void main(String[] args) {
-                    // สร้างและแสดงบน EDT
                     SwingUtilities.invokeLater(() -> new ProfileWindow("JHope").setVisible(true));
                 }
             }`,
-          steps: ["<code>super(\"Student Profile\")</code> ส่งชื่อหน้าต่างให้ constructor ของ JFrame", "เรียก setSize, add ได้ตรง ๆ เพราะเป็นเมธอดที่สืบทอดมา", "constructor รับ parameter ได้ ทำให้สร้างหน้าต่างหลายแบบจากคลาสเดียว", "main เหลือบรรทัดเดียว"] },
-        { type: "note", title: "ค่าที่ใช้กับ setDefaultCloseOperation", html: `<ul><li><code>EXIT_ON_CLOSE</code> — ปิดหน้าต่างแล้วจบโปรแกรม (ใช้กับหน้าต่างหลัก)</li><li><code>DISPOSE_ON_CLOSE</code> — ปิดเฉพาะหน้าต่างนี้ (ใช้กับหน้าต่างรอง บทที่ 18)</li><li><code>HIDE_ON_CLOSE</code> — ค่าเริ่มต้น ซ่อนหน้าต่างแต่โปรแกรมยังทำงาน (มักเป็นบั๊กสำหรับผู้เริ่มต้น)</li></ul>` },
+          },
+        { type: "table", title: "ค่าที่ใช้กับ setDefaultCloseOperation", head: ["ค่า", "ผลเมื่อกดปิด", "ใช้กับ"], rows: [
+          ["<code>EXIT_ON_CLOSE</code>", "ปิดหน้าต่างและจบโปรแกรม", "หน้าต่างหลัก"],
+          ["<code>DISPOSE_ON_CLOSE</code>", "ปิดเฉพาะหน้าต่างนี้", "หน้าต่างรอง (บทที่ 18)"],
+          ["<code>HIDE_ON_CLOSE</code>", "ซ่อน แต่โปรแกรมยังทำงาน (ค่าเริ่มต้น)", "มักเป็นบั๊กของผู้เริ่มต้น"],
+        ] },
         { type: "check", title: "ลำดับ", html: `<p>ถ้าเรียก <code>setVisible(true)</code> ก่อน <code>add(panel)</code> และไม่เรียก pack() อาจเกิดอะไรขึ้น</p>`, answer: `<p>หน้าต่างอาจแสดงว่างหรือขนาดผิด เพราะ component ถูกเพิ่มหลังจากหน้าต่างคำนวณ layout ไปแล้ว — จึงควรตั้งค่าทุกอย่างก่อน setVisible(true) (ถ้าจำเป็นต้องเพิ่มทีหลังให้เรียก revalidate() และ repaint())</p>` },
       ],
     },
     {
       num: "14.3", toc: "Container และ JPanel", title: "JPanel เป็น container สำหรับ component",
       blocks: [
-        { type: "p", html: `เพิ่ม component ลง panel แล้วเพิ่ม panel ไปใน frame ทำให้เปลี่ยน layout หรือสลับเนื้อหาได้ง่าย แต่ละ container มี <strong>layout manager</strong> คอยจัดตำแหน่ง JPanel ใช้ <code>FlowLayout</code> เป็นค่าเริ่มต้น (เรียงซ้ายไปขวา ขึ้นบรรทัดใหม่เมื่อเต็ม) บทที่ 15 จะเรียน layout อื่น ๆ` },
-        { type: "run", title: "หลาย component ใน panel เดียว", level: "พื้นฐาน", gui: true,
-          concept: "FlowLayout วาง component ตามลำดับที่ add จากซ้ายไปขวา",
+        { type: "p", html: `ใส่ component ลง panel แล้วใส่ panel ลงหน้าต่าง แต่ละ container มี <strong>layout manager</strong> คอยจัดตำแหน่งให้ JPanel ใช้ <code>FlowLayout</code> เป็นค่าเริ่มต้น: เรียงซ้ายไปขวาตามลำดับที่ add และขึ้นบรรทัดใหม่เมื่อเต็ม (layout อื่นอยู่ในบทที่ 15)` },
+        { type: "run", title: "หลาย component ใน panel เดียว", gui: true,
           code: j`
             import javax.swing.*;
 
@@ -167,24 +169,30 @@ export default {
                     SwingUtilities.invokeLater(() -> {
                         JFrame frame = new JFrame("Login");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                        // JPanel เรียง component ซ้ายไปขวา
-                        JPanel panel = new JPanel();
-                        panel.add(new JLabel("Username:"));
-                        // ช่องกรอกกว้างประมาณ 10 ตัวอักษร
-                        panel.add(new JTextField(10));
-                        panel.add(new JButton("Login"));  // ปุ่ม
+                        JPanel panel = new JPanel();                  // FlowLayout: ซ้าย → ขวา
+                        panel.add(new JLabel("Username:"));           // ลำดับ add = ลำดับบนจอ
+                        panel.add(new JTextField(10));                // กว้างประมาณ 10 ตัวอักษร
+                        panel.add(new JButton("Login"));
                         frame.add(panel);
                         frame.pack();
                         frame.setVisible(true);
                     });
                 }
             }`,
-          steps: ["JTextField(10) กำหนดความกว้างประมาณ 10 ตัวอักษร", "ลำดับ add = ลำดับบนหน้าจอ", "ยังกดปุ่มแล้วไม่มีอะไรเกิดขึ้น — บทที่ 16 จะเพิ่ม event"] },
-        { type: "run", title: "ตกแต่ง panel: สีพื้นหลัง ขอบ และฟอนต์", level: "ต่อยอด", gui: true,
-          concept: "component มีเมธอดปรับหน้าตา เช่น <code>setBackground</code>, <code>setForeground</code>, <code>setFont</code> และ <code>setBorder</code>",
+          },
+        { type: "tip", html: `ตอนนี้กดปุ่มแล้วยังไม่มีอะไรเกิดขึ้น บทที่ 16 จะเพิ่มการตอบสนองต่อ event` },
+
+        { type: "h", text: "ตกแต่ง: สี ขอบ และฟอนต์" },
+        { type: "table", head: ["เมธอด", "ตัวอย่าง"], rows: [
+          ["<code>setBackground(color)</code>", "<code>new Color(229, 244, 207)</code> ค่า R, G, B 0–255"],
+          ["<code>setForeground(color)</code>", "สีตัวอักษร เช่น <code>Color.WHITE</code>"],
+          ["<code>setFont(font)</code>", "<code>new Font(\"SansSerif\", Font.BOLD, 22)</code> (PLAIN, BOLD, ITALIC)"],
+          ["<code>setBorder(border)</code>", "<code>BorderFactory.createEmptyBorder(บน, ซ้าย, ล่าง, ขวา)</code>"],
+        ] },
+        { type: "run", title: "panel สีเขียวอ่อนกับหัวข้อตัวหนา", gui: true,
           code: j`
             import javax.swing.*;
-            import java.awt.*;
+            import java.awt.*;                                        // Color, Font อยู่ใน java.awt
 
             public class StyledPanel {
                 public static void main(String[] args) {
@@ -192,14 +200,10 @@ export default {
                         JFrame frame = new JFrame("Styled");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JPanel panel = new JPanel();
-                        // สีพื้นหลัง (R, G, B)
                         panel.setBackground(new Color(229, 244, 207));
-                        // ระยะขอบ บน ซ้าย ล่าง ขวา
-                        panel.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));
+                        panel.setBorder(BorderFactory.createEmptyBorder(16, 24, 16, 24));   // ระยะขอบด้านใน
                         JLabel title = new JLabel("Java Cafe");
-                        // ฟอนต์ ตัวหนา ขนาด 22
                         title.setFont(new Font("SansSerif", Font.BOLD, 22));
-                        // สีตัวอักษร
                         title.setForeground(new Color(8, 125, 134));
                         panel.add(title);
                         frame.add(panel);
@@ -208,9 +212,11 @@ export default {
                     });
                 }
             }`,
-          steps: ["<code>new Color(r, g, b)</code> กำหนดสีด้วยค่า 0–255 (ต้อง import java.awt.*)", "EmptyBorder เว้นระยะขอบ บน-ซ้าย-ล่าง-ขวา", "Font(ชื่อ, รูปแบบ, ขนาด) — BOLD, ITALIC, PLAIN"] },
-        { type: "run", title: "panel ซ้อน panel: แยกส่วนหัวกับส่วนเนื้อหา", level: "ประยุกต์", gui: true,
-          concept: "panel ใส่ใน panel ได้ ทำให้แบ่งหน้าจอเป็นส่วน ๆ แต่ละส่วนตกแต่งแยกกันได้ ในตัวอย่างใช้ BorderLayout ของ frame วางส่วนหัวด้านบนและเนื้อหาตรงกลาง",
+          },
+
+        { type: "h", text: "panel ซ้อน panel" },
+        { type: "p", html: `แบ่งหน้าจอเป็นส่วน ๆ ด้วย panel หลายตัว แต่ละส่วนตกแต่งแยกกันได้ ตัวอย่างนี้วาง panel หัวไว้ด้านบน (<code>BorderLayout.NORTH</code>) และ panel เนื้อหาไว้ตรงกลาง (<code>CENTER</code>) ของหน้าต่าง` },
+        { type: "run", title: "ส่วนหัวกับส่วนเนื้อหา", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
@@ -221,104 +227,95 @@ export default {
                         JFrame frame = new JFrame("Course Card");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                        JPanel header = new JPanel();  // แผงส่วนหัว
+                        JPanel header = new JPanel();                 // ส่วนหัว: พื้นเข้ม ตัวอักษรขาว
                         header.setBackground(new Color(32, 44, 40));
                         JLabel title = new JLabel("CS101 Programming");
                         title.setForeground(Color.WHITE);
                         header.add(title);
 
-                        JPanel body = new JPanel();  // แผงเนื้อหา
+                        JPanel body = new JPanel();                   // ส่วนเนื้อหา
                         body.add(new JLabel("Credits: 3"));
                         body.add(new JLabel("Seats: 40"));
                         body.add(new JButton("Enroll"));
 
-                        // วางแผงหัวไว้ด้านบนของหน้าต่าง
-                        frame.add(header, BorderLayout.NORTH);
-                        // แผงเนื้อหาอยู่ตรงกลาง
-                        frame.add(body, BorderLayout.CENTER);
+                        frame.add(header, BorderLayout.NORTH);        // แถบบน
+                        frame.add(body, BorderLayout.CENTER);         // พื้นที่หลัก
                         frame.pack();
                         frame.setVisible(true);
                     });
                 }
             }`,
-          steps: ["header และ body เป็น panel แยกกัน", "content pane ของ JFrame ใช้ BorderLayout: NORTH คือแถบบน, CENTER คือพื้นที่หลัก", "เปลี่ยนสีหัวได้โดยไม่กระทบเนื้อหา"] },
+          },
         { type: "check", title: "FlowLayout", html: `<p>ถ้าหน้าต่าง FlowLayout แคบเกินไปสำหรับ component ทั้งหมดในแถวเดียว จะเกิดอะไรขึ้น</p>`, answer: `<p>component ที่ไม่พอจะถูกย้ายไปบรรทัดถัดไป (wrap) — ถ้าหน้าต่างสูงไม่พอก็จะมองไม่เห็นบางส่วน จึงควรใช้ pack() หรือ layout ที่เหมาะสม</p>` },
       ],
     },
     {
       num: "14.4", toc: "Event Dispatch Thread", title: "Event Dispatch Thread (EDT)",
       blocks: [
-        { type: "p", html: `Swing ไม่ปลอดภัยต่อการใช้งานจากหลาย thread พร้อมกัน ทุกการสร้างและแก้ไข component ต้องทำบน <strong>Event Dispatch Thread (EDT)</strong> ซึ่งเป็น thread เดียวที่วาดหน้าจอและประมวลผลเหตุการณ์ วิธีมาตรฐานคือห่อโค้ดสร้าง GUI ด้วย <code>SwingUtilities.invokeLater(() -&gt; { ... });</code>` },
+        { type: "p", html: `Swing มี thread พิเศษชื่อ <strong>Event Dispatch Thread (EDT)</strong> ทำหน้าที่วาดหน้าจอและรับเหตุการณ์ทั้งหมด ทุกการสร้างและแก้ไข component ต้องทำบน EDT เพราะ Swing ไม่ปลอดภัยเมื่อถูกใช้จากหลาย thread พร้อมกัน` },
+        { type: "p", html: `วิธีมาตรฐานคือห่อโค้ดสร้าง GUI ด้วย <code>SwingUtilities.invokeLater(() -&gt; { ... });</code> ซึ่งส่ง “งาน” ไปเข้าคิวของ EDT` },
         { type: "concept", title: "invokeLater ทำอะไร", html: fpre(`
           main thread                      Event Dispatch Thread
           ───────────                      ─────────────────────
           main() เริ่ม
           invokeLater(งานสร้าง GUI) ──────▶ คิวงาน: [สร้าง GUI]
           main() จบ                        ทำ "สร้าง GUI" → แสดงหน้าต่าง
-                                           รอ event: คลิก, พิมพ์, วาดใหม่ ...`) + `<p><code>() -&gt; { ... }</code> คือ lambda — “งานชิ้นหนึ่ง” ที่ส่งให้ EDT ทำภายหลัง จะเรียนละเอียดในบทที่ 16</p>` },
-        { type: "run", title: "ดูชื่อ thread ที่ทำงาน", level: "ต่อยอด", gui: true,
-          concept: "แสดงว่าโค้ดใน invokeLater ทำงานบน thread ชื่อ AWT-EventQueue-0 ไม่ใช่ main",
+                                           รอ event: คลิก, พิมพ์, วาดใหม่ ...`) + `<p><code>() -&gt; { ... }</code> คือ lambda หรือ “งานชิ้นหนึ่ง” ที่ส่งให้ EDT ทำภายหลัง (บทที่ 16)</p>` },
+        { type: "run", title: "ดูชื่อ thread ที่ทำงาน", gui: true,
           code: j`
             import javax.swing.*;
 
             public class WhichThread {
                 public static void main(String[] args) {
-                    // ชื่อ thread ที่รัน main
-                    String mainThread = Thread.currentThread().getName();
+                    String mainThread = Thread.currentThread().getName();     // "main"
                     SwingUtilities.invokeLater(() -> {
-                        // ชื่อ thread ภายใน invokeLater
-                        String edt = Thread.currentThread().getName();
+                        String edt = Thread.currentThread().getName();        // "AWT-EventQueue-0" = EDT
                         JFrame frame = new JFrame("Threads");
                         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                         JPanel panel = new JPanel();
                         panel.add(new JLabel("main ran on: " + mainThread));
                         panel.add(new JLabel("GUI built on: " + edt));
-                        // true = ทำงานบน EDT
-                        panel.add(new JLabel("isEDT = " + SwingUtilities.isEventDispatchThread()));
+                        panel.add(new JLabel("isEDT = " + SwingUtilities.isEventDispatchThread()));   // true
                         frame.add(panel);
-                        frame.setSize(260, 110);
+                        frame.setSize(260, 110);                              // แคบ → FlowLayout ตัดบรรทัด
                         frame.setVisible(true);
                     });
                 }
             }`,
-          steps: ["main ทำงานบน thread ชื่อ main", "โค้ดใน lambda ทำงานบน AWT-EventQueue-0 (EDT)", "<code>SwingUtilities.isEventDispatchThread()</code> ใช้ตรวจได้ว่าอยู่บน EDT หรือไม่", "สังเกต: setSize(260, …) แคบ FlowLayout จึงตัดขึ้นบรรทัดใหม่"] },
-        { type: "run", title: "โครงโปรแกรม GUI มาตรฐานที่จะใช้ทั้งหน่วย", level: "ประยุกต์", gui: true,
-          concept: "แยกเมธอด <code>createAndShowGui()</code> แล้วให้ main เรียกผ่าน invokeLater — โครงนี้ใช้ได้กับทุกบทถัดไป",
+          },
+
+        { type: "h", text: "โครงโปรแกรม GUI มาตรฐาน" },
+        { type: "p", html: `แยกการสร้างหน้าต่างไว้ในเมธอด <code>createAndShowGui()</code> และแยกการจัดเนื้อหาไว้ใน <code>buildContent()</code> แล้วให้ main เรียกผ่าน invokeLater โครงนี้ใช้ได้กับทุกบทถัดไป` },
+        { type: "run", title: "GuiTemplate", gui: true,
           code: j`
             import javax.swing.*;
             import java.awt.*;
 
             public class GuiTemplate {
                 public static void main(String[] args) {
-                    // ส่งชื่อเมธอดให้ EDT เรียก
-                    SwingUtilities.invokeLater(GuiTemplate::createAndShowGui);
+                    SwingUtilities.invokeLater(GuiTemplate::createAndShowGui);   // method reference: สั้นกว่า lambda
                 }
 
-                // เมธอดสร้างหน้าต่าง
-                private static void createAndShowGui() {
+                private static void createAndShowGui() {                     // ตั้งค่าหน้าต่าง
                     JFrame frame = new JFrame("App Template");
                     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    // ใช้แผงที่สร้างจากอีกเมธอดเป็นเนื้อหา
-                    frame.setContentPane(buildContent());
+                    frame.setContentPane(buildContent());                    // ใช้ panel ของเราเป็นเนื้อหา
                     frame.pack();
                     frame.setLocationRelativeTo(null);
                     frame.setVisible(true);
                 }
 
-                // เมธอดสร้างเนื้อหา แยกจากการสร้างหน้าต่าง
-                private static JPanel buildContent() {
-                    // BorderLayout เว้นระยะ 8 พิกเซล
-                    JPanel panel = new JPanel(new BorderLayout(8, 8));
+                private static JPanel buildContent() {                       // จัดหน้าตา
+                    JPanel panel = new JPanel(new BorderLayout(8, 8));       // เว้นระยะ 8 พิกเซล
                     panel.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
                     panel.add(new JLabel("Header goes here"), BorderLayout.NORTH);
-                    // กล่องข้อความ 4 แถว 24 คอลัมน์
-                    panel.add(new JTextArea("Main content area", 4, 24), BorderLayout.CENTER);
+                    panel.add(new JTextArea("Main content area", 4, 24), BorderLayout.CENTER);   // 4 แถว 24 คอลัมน์
                     panel.add(new JButton("Action"), BorderLayout.SOUTH);
                     return panel;
                 }
             }`,
-          steps: ["<code>GuiTemplate::createAndShowGui</code> คือ method reference — สั้นกว่าเขียน lambda", "buildContent() คืน JPanel ที่จัดเสร็จแล้ว แยกส่วนสร้างหน้าตาออกจากส่วนตั้งค่าหน้าต่าง", "setContentPane แทนที่ content pane ด้วย panel ของเรา"] },
-        { type: "note", title: "งานหนักห้ามทำบน EDT", html: `<p>ถ้าโค้ดบน EDT ทำงานนาน (เช่น ลูปคำนวณหลายวินาที หรือ Thread.sleep) หน้าต่างจะค้าง กดอะไรไม่ได้ เพราะ EDT ไม่ว่างวาดหน้าจอ บทเสริม “Timer, Thread และ Swing” อธิบายวิธีแก้ด้วย Swing Timer และ SwingWorker</p>` },
+          },
+        { type: "warn", title: "งานหนักห้ามทำบน EDT", html: `ถ้าโค้ดบน EDT ทำงานนาน เช่น ลูปคำนวณหลายวินาที หรือ Thread.sleep หน้าต่างจะค้าง กดอะไรไม่ได้ เพราะ EDT ไม่ว่างวาดหน้าจอ บทเสริม “Timer, Thread และ Swing” อธิบายวิธีแก้ด้วย Swing Timer และ SwingWorker` },
       ],
     },
   ],

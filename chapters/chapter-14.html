@@ -59,68 +59,66 @@
 <div class="note-box"><span class="box-title">เกี่ยวกับภาพผลลัพธ์ในบท GUI</span><p>ภาพหน้าต่างทางขวาของทุกตัวอย่าง<strong>ถ่ายจากการรันโค้ดนั้นจริง</strong> (ใช้ look and feel มาตรฐานของ Swing ชื่อ Metal) แถบชื่อหน้าต่างวาดเพิ่มให้ดู ถ้ารันบนเครื่องของนิสิต กรอบหน้าต่างจะเป็นแบบของระบบปฏิบัติการ แต่เนื้อหาภายในเหมือนกัน บางตัวอย่างมีภาพ “หลังผู้ใช้กระทำ” ซึ่งได้จากการจำลองพิมพ์/คลิกด้วยโปรแกรม</p></div>
 <article class="subtopic" id="topic-14-1">
 <h3>14.1 หน้าต่าง, container และ component</h3>
-<p><strong>JFrame</strong> เป็นหน้าต่างหลัก; <strong>container</strong> (เช่น JPanel) ใช้บรรจุและจัดกลุ่ม component; <strong>component</strong> คือสิ่งที่มองเห็นหรือโต้ตอบได้ เช่น label, button และ text field</p>
+<p>หน้าจอ GUI ประกอบจากชิ้นส่วนสามระดับ ซ้อนกันเป็นชั้น ๆ</p>
+<table class="comparison-table"><thead><tr><th>ระดับ</th><th>คลาส</th><th>หน้าที่</th></tr></thead><tbody><tr><td>หน้าต่าง</td><td><code>JFrame</code></td><td>กรอบนอกสุด มีแถบชื่อและปุ่มปิด</td></tr><tr><td>container</td><td><code>JPanel</code></td><td>พื้นที่บรรจุและจัดกลุ่ม component</td></tr><tr><td>component</td><td><code>JLabel</code>, <code>JTextField</code>, <code>JButton</code> …</td><td>สิ่งที่มองเห็นหรือโต้ตอบได้</td></tr></tbody></table>
 <div class="example-box"><span class="box-title">แผนผังส่วนประกอบ (component tree)</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code><span class="tok-type">JFrame</span> (หน้าต่าง)
 <span class="tok-arrow">└──</span> content pane / <span class="tok-type">JPanel</span> (พื้นที่จัดกลุ่ม)
     <span class="tok-arrow">├──</span> <span class="tok-type">JLabel</span>     (ข้อความ)
     <span class="tok-arrow">├──</span> <span class="tok-type">JTextField</span> (ช่องกรอก)
-    <span class="tok-arrow">└──</span> <span class="tok-type">JButton</span>    (ปุ่มกด)</code></pre></div><p>หน้าต่างทำหน้าที่เป็น root container; เรามักเพิ่ม JPanel ก่อน แล้วใส่ component ลงใน panel เพื่อจัด layout</p></div>
-<h4>Console กับ GUI ต่างกันอย่างไร</h4><table class="comparison-table"><thead><tr><th></th><th>Console</th><th>GUI</th></tr></thead><tbody><tr><td>ลำดับการทำงาน</td><td>โปรแกรมกำหนด: ถาม → รอ → ถามต่อ</td><td>ผู้ใช้กำหนด: คลิก/พิมพ์อะไรก่อนก็ได้</td></tr><tr><td>รับข้อมูล</td><td>Scanner อ่านทีละบรรทัด</td><td>อ่านจาก component เมื่อเกิดเหตุการณ์</td></tr><tr><td>แสดงผล</td><td>println ต่อท้ายไปเรื่อย ๆ</td><td>เปลี่ยนข้อความใน label/area ที่มีอยู่</td></tr><tr><td>โครงสร้างโค้ด</td><td>main ทำงานจากบนลงล่างจนจบ</td><td>main สร้างหน้าต่างแล้วจบ ที่เหลือขับเคลื่อนด้วย event</td></tr></tbody></table>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.1.1</span>เทียบโปรแกรมเดียวกัน: เวอร์ชัน console</h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรม console ทำงานตามลำดับที่เขียน ผลลัพธ์ต่อท้ายใน console</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConsoleGreeting.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConsoleGreeting</span> {
+    <span class="tok-arrow">└──</span> <span class="tok-type">JButton</span>    (ปุ่มกด)</code></pre></div></div>
+<h4 class="sub">Console กับ GUI ต่างกันอย่างไร</h4>
+<table class="comparison-table"><thead><tr><th></th><th>Console</th><th>GUI</th></tr></thead><tbody><tr><td>ลำดับการทำงาน</td><td>โปรแกรมกำหนด: ถาม → รอ → ถามต่อ</td><td>ผู้ใช้กำหนด: คลิก/พิมพ์อะไรก่อนก็ได้</td></tr><tr><td>รับข้อมูล</td><td>Scanner อ่านทีละบรรทัด</td><td>อ่านจาก component เมื่อเกิดเหตุการณ์</td></tr><tr><td>แสดงผล</td><td>println ต่อท้ายไปเรื่อย ๆ</td><td>เปลี่ยนข้อความใน label/area ที่มีอยู่</td></tr><tr><td>โครงสร้างโค้ด</td><td>main ทำงานจากบนลงล่างจนจบ</td><td>main สร้างหน้าต่างแล้วจบ ที่เหลือขับเคลื่อนด้วย event</td></tr></tbody></table>
+<p>เทียบโปรแกรมเดียวกันสองแบบ แบบแรกพิมพ์ข้อความลง console</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.1.1</span>เวอร์ชัน console</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ConsoleGreeting.java</span></div><pre class="source-code"><code><span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ConsoleGreeting</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">String</span> name = <span class="tok-str">"JHope"</span>;
-        <span class="tok-com">// โปรแกรม console: แสดงผลเป็นข้อความ</span>
-        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Welcome to Java GUI course"</span>);
+        <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Welcome to Java GUI course"</span>);     <span class="tok-com">// ต่อท้ายใน console</span>
         <span class="tok-type">System</span>.out.<span class="tok-fn">println</span>(<span class="tok-str">"Student: "</span> + name);
     }
 }</code></pre></div></div><div class="source-output"><span>ผลลัพธ์</span><pre>Welcome to Java GUI course
-Student: JHope</pre></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ทำบรรทัดแรก แล้วบรรทัดถัดไป จนจบ main</li><li>ไม่มีหน้าต่าง ผลลัพธ์อยู่ใน console</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.1.2</span>เวอร์ชัน GUI: ข้อความเดียวกันในหน้าต่าง</h4><p class="concept-line"><strong>แนวคิด:</strong> สร้าง JFrame ใส่ JLabel สองตัวลงใน JPanel แล้วแสดงหน้าต่าง — ข้อความอยู่ในหน้าต่างแทน console</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GuiGreeting.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;  <span class="tok-com">// * = import ทุกคลาสในแพ็กเกจ swing</span>
+Student: JHope</pre></div></div></div>
+<p>แบบที่สองแสดงข้อความเดียวกันในหน้าต่าง: สร้าง JFrame → สร้าง JPanel → ใส่ JLabel ลง panel → ใส่ panel ลงหน้าต่าง → แสดง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.1.2</span>เวอร์ชัน GUI</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GuiGreeting.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;                                     <span class="tok-com">// * = ทุกคลาสในแพ็กเกจ swing</span>
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GuiGreeting</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// สร้าง GUI บน Event Dispatch Thread</span>
-        <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
-            <span class="tok-com">// หน้าต่างพร้อมชื่อบนแถบหัว</span>
-            <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Greeting"</span>);
-            <span class="tok-com">// ปิดหน้าต่างแล้วจบโปรแกรม</span>
-            frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// แผงสำหรับวาง component</span>
+        <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {                <span class="tok-com">// สร้าง GUI บน EDT (หัวข้อ 14.4)</span>
+            <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Greeting"</span>);        <span class="tok-com">// ชื่อบนแถบหัว</span>
+            frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);   <span class="tok-com">// ปิดหน้าต่าง = จบโปรแกรม</span>
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
-            <span class="tok-com">// ป้ายข้อความ</span>
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Welcome to Java GUI course"</span>));
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Student: JHope"</span>));
-            frame.<span class="tok-fn">add</span>(panel);  <span class="tok-com">// วางแผงลงในหน้าต่าง</span>
-            <span class="tok-com">// ปรับขนาดหน้าต่างให้พอดีเนื้อหา</span>
-            frame.<span class="tok-fn">pack</span>();
-            <span class="tok-com">// แสดงหน้าต่าง (ต้องเรียกท้ายสุด)</span>
-            frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
+            frame.<span class="tok-fn">add</span>(panel);                             <span class="tok-com">// วาง panel ลงหน้าต่าง</span>
+            frame.<span class="tok-fn">pack</span>();                                 <span class="tok-com">// ขนาดพอดีเนื้อหา</span>
+            frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);                       <span class="tok-com">// แสดง (เรียกท้ายสุด)</span>
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Greeting</div><img src="../assets/gui/g90249cf2f1-0.png" width="264" height="26" alt="ภาพหน้าต่าง Greeting" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>import javax.swing.*;</code> นำเข้าคลาส Swing ทั้งหมด</li><li>สร้างหน้าต่าง → สร้าง panel → ใส่ label → ใส่ panel ลงหน้าต่าง</li><li><code>pack()</code> ปรับขนาดพอดีเนื้อหา แล้ว <code>setVisible(true)</code> แสดง</li><li>main จบทันที แต่หน้าต่างยังอยู่จนกว่าผู้ใช้จะปิด</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Greeting</div><img src="../assets/gui/g8565b1954b-0.png" width="264" height="26" alt="ภาพหน้าต่าง Greeting" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>main จบทันทีหลังสร้างหน้าต่าง แต่หน้าต่างยังเปิดอยู่จนกว่าผู้ใช้จะปิด</p></div>
 <div class="quick-check"><strong>ลองคิดก่อน · บทบาท</strong><div><p>ในหน้าจอ login: กรอบหน้าต่าง, พื้นที่จัดกลุ่ม, คำว่า “Username”, ช่องพิมพ์ชื่อ, ปุ่ม Login ตรงกับคลาสใดของ Swing</p></div><details><summary>ดูคำตอบ</summary><div><p>JFrame, JPanel, JLabel, JTextField, JButton ตามลำดับ</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-14-2">
 <h3>14.2 สร้าง JFrame และกำหนดวงจรชีวิต</h3>
-<div class="concept-box"><span class="box-title">ลำดับการเปิดหน้าต่าง</span><ol class="step-list"><li>สร้าง <code>new JFrame("ชื่อหน้าต่าง")</code></li><li>กำหนดการปิด <code>setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)</code> — ไม่เช่นนั้นปิดหน้าต่างแล้วโปรแกรมยังทำงานค้าง</li><li>เพิ่ม content และ component</li><li>กำหนดขนาด: <code>setSize(w, h)</code> หรือ <code>pack()</code></li><li>วางตำแหน่ง <code>setLocationRelativeTo(null)</code> (กลางจอ)</li><li>เรียก <code>setVisible(true)</code> <strong>เป็นขั้นสุดท้าย</strong></li></ol></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.2.1</span>หน้าต่างขั้นต่ำด้วย setSize</h4><p class="concept-line"><strong>แนวคิด:</strong> หน้าต่างว่างที่มีขนาดตามที่กำหนด — เป็นโครงเริ่มต้นของทุกโปรแกรม GUI</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FirstWindow.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.<span class="tok-type">JFrame</span>;  <span class="tok-com">// import ทีละคลาส</span>
+<p>ทุกโปรแกรม GUI เปิดหน้าต่างด้วยขั้นตอนเดียวกัน</p>
+<div class="concept-box"><span class="box-title">ลำดับการเปิดหน้าต่าง</span><ol class="step-list"><li>สร้าง <code>new JFrame("ชื่อหน้าต่าง")</code></li><li>กำหนดการปิด <code>setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE)</code></li><li>เพิ่ม content และ component</li><li>กำหนดขนาด: <code>setSize(w, h)</code> หรือ <code>pack()</code></li><li>วางตำแหน่ง <code>setLocationRelativeTo(null)</code> (กลางจอ)</li><li>เรียก <code>setVisible(true)</code> <strong>เป็นขั้นสุดท้าย</strong></li></ol></div>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.2.1</span>หน้าต่างว่างด้วย setSize</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">FirstWindow.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.<span class="tok-type">JFrame</span>;                                <span class="tok-com">// import ทีละคลาสก็ได้</span>
 <span class="tok-kw">import</span> javax.swing.<span class="tok-type">SwingUtilities</span>;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">FirstWindow</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ส่งงานสร้าง GUI ให้ EDT</span>
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"My First GUI"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// กว้าง 360 สูง 160 พิกเซล</span>
-            frame.<span class="tok-fn">setSize</span>(<span class="tok-num">360</span>, <span class="tok-num">160</span>);
-            <span class="tok-com">// null = กึ่งกลางจอ</span>
-            frame.<span class="tok-fn">setLocationRelativeTo</span>(<span class="tok-num">null</span>);
+            frame.<span class="tok-fn">setSize</span>(<span class="tok-num">360</span>, <span class="tok-num">160</span>);                      <span class="tok-com">// กว้าง 360 สูง 160 พิกเซล (รวมขอบ)</span>
+            frame.<span class="tok-fn">setLocationRelativeTo</span>(<span class="tok-num">null</span>);            <span class="tok-com">// null = กึ่งกลางจอ</span>
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">My First GUI</div><img src="../assets/gui/gaf6edb4ab6-0.png" width="344" height="121" alt="ภาพหน้าต่าง My First GUI" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ชื่อหน้าต่างปรากฏในแถบด้านบน</li><li>ขนาด 360 × 160 พิกเซลรวมขอบหน้าต่าง</li><li>EXIT_ON_CLOSE จบโปรแกรมเมื่อกดปิด</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.2.2</span>setSize กับ pack()</h4><p class="concept-line"><strong>แนวคิด:</strong> <code>pack()</code> คำนวณขนาดจาก preferred size ของ component ข้างใน — ได้หน้าต่างที่พอดีเนื้อหาไม่ว่าฟอนต์ของเครื่องจะเป็นแบบไหน</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PackDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">My First GUI</div><img src="../assets/gui/g3fcf51e1de-0.png" width="344" height="121" alt="ภาพหน้าต่าง My First GUI" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout warn"><span class="box-title">ลืม EXIT_ON_CLOSE</span><p>ค่าเริ่มต้นคือ <code>HIDE_ON_CLOSE</code> กดปิดแล้วหน้าต่างแค่ถูกซ่อน โปรแกรมยังทำงานค้างอยู่เบื้องหลัง</p></div>
+<h4 class="sub">setSize หรือ pack()</h4>
+<p><code>setSize</code> กำหนดขนาดตายตัว ส่วน <code>pack()</code> ถามขนาดที่ component ข้างในต้องการ แล้วปรับหน้าต่างให้พอดี จึงไม่ตัดข้อความแม้ฟอนต์ของแต่ละเครื่องต่างกัน</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.2.2</span>หน้าต่างที่พอดีเนื้อหา</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">PackDemo.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">PackDemo</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -130,60 +128,60 @@ Student: JHope</pre></div></div><div class="walkthrough"><strong>อธิบา
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"This window is exactly as big as its content."</span>));
             frame.<span class="tok-fn">add</span>(panel);
-            frame.<span class="tok-fn">pack</span>();  <span class="tok-com">// ขนาดพอดีกับ label</span>
+            frame.<span class="tok-fn">pack</span>();                                 <span class="tok-com">// เรียกหลัง add ครบทุกตัว</span>
             frame.<span class="tok-fn">setLocationRelativeTo</span>(<span class="tok-num">null</span>);
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Packed</div><img src="../assets/gui/g5cffb2f838-0.png" width="258" height="26" alt="ภาพหน้าต่าง Packed" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>ไม่ได้กำหนดขนาดเอง</li><li>pack() ถามขนาดที่ต้องการของ panel และ label แล้วปรับหน้าต่างให้พอดี</li><li>ถ้าเพิ่ม component ต้องเรียก pack() <em>หลัง</em> add ทั้งหมด</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.2.3</span>คลาสที่สืบทอด JFrame</h4><p class="concept-line"><strong>แนวคิด:</strong> โปรแกรม GUI ขนาดใหญ่นิยมสร้างคลาสของหน้าต่างเองด้วย <code>extends JFrame</code> แล้วจัดหน้าจอใน constructor (ใช้ inheritance จากบทที่ 12)</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ProfileWindow.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Packed</div><img src="../assets/gui/g8659dd073b-0.png" width="258" height="26" alt="ภาพหน้าต่าง Packed" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">คลาสที่สืบทอด JFrame</h4>
+<p>โปรแกรมที่ใหญ่ขึ้นนิยมสร้างคลาสหน้าต่างเองด้วย <code>extends JFrame</code> (inheritance จากบทที่ 12) แล้วจัดหน้าจอใน constructor เรียก <code>setSize</code>, <code>add</code> ได้ตรง ๆ เพราะเป็นเมธอดที่สืบทอดมา</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.2.3</span>ProfileWindow</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">ProfileWindow.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
-<span class="tok-com">// extends JFrame: คลาสนี้คือหน้าต่าง</span>
-<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ProfileWindow</span> <span class="tok-kw">extends</span> <span class="tok-type">JFrame</span> {
+<span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">ProfileWindow</span> <span class="tok-kw">extends</span> <span class="tok-type">JFrame</span> {               <span class="tok-com">// คลาสนี้คือหน้าต่าง</span>
     <span class="tok-kw">public</span> <span class="tok-type">ProfileWindow</span>(<span class="tok-type">String</span> student) {
-        <span class="tok-com">// ชื่อหน้าต่าง ส่งให้ constructor ของ JFrame</span>
-        <span class="tok-kw">super</span>(<span class="tok-str">"Student Profile"</span>);
+        <span class="tok-kw">super</span>(<span class="tok-str">"Student Profile"</span>);                         <span class="tok-com">// ส่งชื่อหน้าต่างให้ JFrame</span>
         <span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
         <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
-        panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Name: "</span> + student));
+        panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Name: "</span> + student));        <span class="tok-com">// รับข้อมูลผ่าน constructor</span>
         panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Faculty: Science"</span>));
-        <span class="tok-fn">add</span>(panel);  <span class="tok-com">// เรียก add ของตัวเองได้ตรง ๆ</span>
+        <span class="tok-fn">add</span>(panel);                                       <span class="tok-com">// add ของตัวเอง</span>
         <span class="tok-fn">setSize</span>(<span class="tok-num">320</span>, <span class="tok-num">100</span>);
         <span class="tok-fn">setLocationRelativeTo</span>(<span class="tok-num">null</span>);
     }
 
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// สร้างและแสดงบน EDT</span>
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; <span class="tok-kw">new</span> <span class="tok-type">ProfileWindow</span>(<span class="tok-str">"JHope"</span>).<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>));
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Student Profile</div><img src="../assets/gui/gf0901caaf9-0.png" width="304" height="61" alt="ภาพหน้าต่าง Student Profile" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>super("Student Profile")</code> ส่งชื่อหน้าต่างให้ constructor ของ JFrame</li><li>เรียก setSize, add ได้ตรง ๆ เพราะเป็นเมธอดที่สืบทอดมา</li><li>constructor รับ parameter ได้ ทำให้สร้างหน้าต่างหลายแบบจากคลาสเดียว</li><li>main เหลือบรรทัดเดียว</li></ol></div></div>
-<div class="note-box"><span class="box-title">ค่าที่ใช้กับ setDefaultCloseOperation</span><ul><li><code>EXIT_ON_CLOSE</code> — ปิดหน้าต่างแล้วจบโปรแกรม (ใช้กับหน้าต่างหลัก)</li><li><code>DISPOSE_ON_CLOSE</code> — ปิดเฉพาะหน้าต่างนี้ (ใช้กับหน้าต่างรอง บทที่ 18)</li><li><code>HIDE_ON_CLOSE</code> — ค่าเริ่มต้น ซ่อนหน้าต่างแต่โปรแกรมยังทำงาน (มักเป็นบั๊กสำหรับผู้เริ่มต้น)</li></ul></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Student Profile</div><img src="../assets/gui/gab8de8ffa1-0.png" width="304" height="61" alt="ภาพหน้าต่าง Student Profile" loading="lazy"></figure></div></div></div></div></div>
+<h4>ค่าที่ใช้กับ setDefaultCloseOperation</h4><table class="comparison-table"><thead><tr><th>ค่า</th><th>ผลเมื่อกดปิด</th><th>ใช้กับ</th></tr></thead><tbody><tr><td><code>EXIT_ON_CLOSE</code></td><td>ปิดหน้าต่างและจบโปรแกรม</td><td>หน้าต่างหลัก</td></tr><tr><td><code>DISPOSE_ON_CLOSE</code></td><td>ปิดเฉพาะหน้าต่างนี้</td><td>หน้าต่างรอง (บทที่ 18)</td></tr><tr><td><code>HIDE_ON_CLOSE</code></td><td>ซ่อน แต่โปรแกรมยังทำงาน (ค่าเริ่มต้น)</td><td>มักเป็นบั๊กของผู้เริ่มต้น</td></tr></tbody></table>
 <div class="quick-check"><strong>ลองคิดก่อน · ลำดับ</strong><div><p>ถ้าเรียก <code>setVisible(true)</code> ก่อน <code>add(panel)</code> และไม่เรียก pack() อาจเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>หน้าต่างอาจแสดงว่างหรือขนาดผิด เพราะ component ถูกเพิ่มหลังจากหน้าต่างคำนวณ layout ไปแล้ว — จึงควรตั้งค่าทุกอย่างก่อน setVisible(true) (ถ้าจำเป็นต้องเพิ่มทีหลังให้เรียก revalidate() และ repaint())</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-14-3">
 <h3>14.3 JPanel เป็น container สำหรับ component</h3>
-<p>เพิ่ม component ลง panel แล้วเพิ่ม panel ไปใน frame ทำให้เปลี่ยน layout หรือสลับเนื้อหาได้ง่าย แต่ละ container มี <strong>layout manager</strong> คอยจัดตำแหน่ง JPanel ใช้ <code>FlowLayout</code> เป็นค่าเริ่มต้น (เรียงซ้ายไปขวา ขึ้นบรรทัดใหม่เมื่อเต็ม) บทที่ 15 จะเรียน layout อื่น ๆ</p>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.3.1</span>หลาย component ใน panel เดียว</h4><p class="concept-line"><strong>แนวคิด:</strong> FlowLayout วาง component ตามลำดับที่ add จากซ้ายไปขวา</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LoginPanel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<p>ใส่ component ลง panel แล้วใส่ panel ลงหน้าต่าง แต่ละ container มี <strong>layout manager</strong> คอยจัดตำแหน่งให้ JPanel ใช้ <code>FlowLayout</code> เป็นค่าเริ่มต้น: เรียงซ้ายไปขวาตามลำดับที่ add และขึ้นบรรทัดใหม่เมื่อเต็ม (layout อื่นอยู่ในบทที่ 15)</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.3.1</span>หลาย component ใน panel เดียว</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">LoginPanel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">LoginPanel</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Login"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-            <span class="tok-com">// JPanel เรียง component ซ้ายไปขวา</span>
-            <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
-            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Username:"</span>));
-            <span class="tok-com">// ช่องกรอกกว้างประมาณ 10 ตัวอักษร</span>
-            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">10</span>));
-            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Login"</span>));  <span class="tok-com">// ปุ่ม</span>
+            <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();                  <span class="tok-com">// FlowLayout: ซ้าย → ขวา</span>
+            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Username:"</span>));           <span class="tok-com">// ลำดับ add = ลำดับบนจอ</span>
+            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextField</span>(<span class="tok-num">10</span>));                <span class="tok-com">// กว้างประมาณ 10 ตัวอักษร</span>
+            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Login"</span>));
             frame.<span class="tok-fn">add</span>(panel);
             frame.<span class="tok-fn">pack</span>();
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Login</div><img src="../assets/gui/gedd961bf97-0.png" width="261" height="36" alt="ภาพหน้าต่าง Login" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>JTextField(10) กำหนดความกว้างประมาณ 10 ตัวอักษร</li><li>ลำดับ add = ลำดับบนหน้าจอ</li><li>ยังกดปุ่มแล้วไม่มีอะไรเกิดขึ้น — บทที่ 16 จะเพิ่ม event</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.3.2</span>ตกแต่ง panel: สีพื้นหลัง ขอบ และฟอนต์</h4><p class="concept-line"><strong>แนวคิด:</strong> component มีเมธอดปรับหน้าตา เช่น <code>setBackground</code>, <code>setForeground</code>, <code>setFont</code> และ <code>setBorder</code></p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StyledPanel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
-<span class="tok-kw">import</span> java.awt.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Login</div><img src="../assets/gui/g0cb5439f1d-0.png" width="261" height="36" alt="ภาพหน้าต่าง Login" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout tip"><span class="box-title">คำแนะนำ</span><p>ตอนนี้กดปุ่มแล้วยังไม่มีอะไรเกิดขึ้น บทที่ 16 จะเพิ่มการตอบสนองต่อ event</p></div>
+<h4 class="sub">ตกแต่ง: สี ขอบ และฟอนต์</h4>
+<table class="comparison-table"><thead><tr><th>เมธอด</th><th>ตัวอย่าง</th></tr></thead><tbody><tr><td><code>setBackground(color)</code></td><td><code>new Color(229, 244, 207)</code> ค่า R, G, B 0–255</td></tr><tr><td><code>setForeground(color)</code></td><td>สีตัวอักษร เช่น <code>Color.WHITE</code></td></tr><tr><td><code>setFont(font)</code></td><td><code>new Font("SansSerif", Font.BOLD, 22)</code> (PLAIN, BOLD, ITALIC)</td></tr><tr><td><code>setBorder(border)</code></td><td><code>BorderFactory.createEmptyBorder(บน, ซ้าย, ล่าง, ขวา)</code></td></tr></tbody></table>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.3.2</span>panel สีเขียวอ่อนกับหัวข้อตัวหนา</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">StyledPanel.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+<span class="tok-kw">import</span> java.awt.*;                                        <span class="tok-com">// Color, Font อยู่ใน java.awt</span>
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">StyledPanel</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
@@ -191,14 +189,10 @@ Student: JHope</pre></div></div><div class="walkthrough"><strong>อธิบา
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Styled"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
-            <span class="tok-com">// สีพื้นหลัง (R, G, B)</span>
             panel.<span class="tok-fn">setBackground</span>(<span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">229</span>, <span class="tok-num">244</span>, <span class="tok-num">207</span>));
-            <span class="tok-com">// ระยะขอบ บน ซ้าย ล่าง ขวา</span>
-            panel.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">16</span>, <span class="tok-num">24</span>, <span class="tok-num">16</span>, <span class="tok-num">24</span>));
+            panel.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">16</span>, <span class="tok-num">24</span>, <span class="tok-num">16</span>, <span class="tok-num">24</span>));   <span class="tok-com">// ระยะขอบด้านใน</span>
             <span class="tok-type">JLabel</span> title = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Java Cafe"</span>);
-            <span class="tok-com">// ฟอนต์ ตัวหนา ขนาด 22</span>
             title.<span class="tok-fn">setFont</span>(<span class="tok-kw">new</span> <span class="tok-type">Font</span>(<span class="tok-str">"SansSerif"</span>, <span class="tok-type">Font</span>.<span class="tok-const">BOLD</span>, <span class="tok-num">22</span>));
-            <span class="tok-com">// สีตัวอักษร</span>
             title.<span class="tok-fn">setForeground</span>(<span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">8</span>, <span class="tok-num">125</span>, <span class="tok-num">134</span>));
             panel.<span class="tok-fn">add</span>(title);
             frame.<span class="tok-fn">add</span>(panel);
@@ -206,8 +200,10 @@ Student: JHope</pre></div></div><div class="walkthrough"><strong>อธิบา
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Styled</div><img src="../assets/gui/g1d0b9a35cd-0.png" width="160" height="71" alt="ภาพหน้าต่าง Styled" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>new Color(r, g, b)</code> กำหนดสีด้วยค่า 0–255 (ต้อง import java.awt.*)</li><li>EmptyBorder เว้นระยะขอบ บน-ซ้าย-ล่าง-ขวา</li><li>Font(ชื่อ, รูปแบบ, ขนาด) — BOLD, ITALIC, PLAIN</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.3.3</span>panel ซ้อน panel: แยกส่วนหัวกับส่วนเนื้อหา</h4><p class="concept-line"><strong>แนวคิด:</strong> panel ใส่ใน panel ได้ ทำให้แบ่งหน้าจอเป็นส่วน ๆ แต่ละส่วนตกแต่งแยกกันได้ ในตัวอย่างใช้ BorderLayout ของ frame วางส่วนหัวด้านบนและเนื้อหาตรงกลาง</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NestedPanels.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Styled</div><img src="../assets/gui/gec98772266-0.png" width="160" height="71" alt="ภาพหน้าต่าง Styled" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">panel ซ้อน panel</h4>
+<p>แบ่งหน้าจอเป็นส่วน ๆ ด้วย panel หลายตัว แต่ละส่วนตกแต่งแยกกันได้ ตัวอย่างนี้วาง panel หัวไว้ด้านบน (<code>BorderLayout.NORTH</code>) และ panel เนื้อหาไว้ตรงกลาง (<code>CENTER</code>) ของหน้าต่าง</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.3.3</span>ส่วนหัวกับส่วนเนื้อหา</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">NestedPanels.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">NestedPanels</span> {
@@ -216,92 +212,84 @@ Student: JHope</pre></div></div><div class="walkthrough"><strong>อธิบา
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Course Card"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
 
-            <span class="tok-type">JPanel</span> header = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();  <span class="tok-com">// แผงส่วนหัว</span>
+            <span class="tok-type">JPanel</span> header = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();                 <span class="tok-com">// ส่วนหัว: พื้นเข้ม ตัวอักษรขาว</span>
             header.<span class="tok-fn">setBackground</span>(<span class="tok-kw">new</span> <span class="tok-type">Color</span>(<span class="tok-num">32</span>, <span class="tok-num">44</span>, <span class="tok-num">40</span>));
             <span class="tok-type">JLabel</span> title = <span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"CS101 Programming"</span>);
             title.<span class="tok-fn">setForeground</span>(<span class="tok-type">Color</span>.<span class="tok-const">WHITE</span>);
             header.<span class="tok-fn">add</span>(title);
 
-            <span class="tok-type">JPanel</span> body = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();  <span class="tok-com">// แผงเนื้อหา</span>
+            <span class="tok-type">JPanel</span> body = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();                   <span class="tok-com">// ส่วนเนื้อหา</span>
             body.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Credits: 3"</span>));
             body.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Seats: 40"</span>));
             body.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Enroll"</span>));
 
-            <span class="tok-com">// วางแผงหัวไว้ด้านบนของหน้าต่าง</span>
-            frame.<span class="tok-fn">add</span>(header, <span class="tok-type">BorderLayout</span>.<span class="tok-const">NORTH</span>);
-            <span class="tok-com">// แผงเนื้อหาอยู่ตรงกลาง</span>
-            frame.<span class="tok-fn">add</span>(body, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
+            frame.<span class="tok-fn">add</span>(header, <span class="tok-type">BorderLayout</span>.<span class="tok-const">NORTH</span>);        <span class="tok-com">// แถบบน</span>
+            frame.<span class="tok-fn">add</span>(body, <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);         <span class="tok-com">// พื้นที่หลัก</span>
             frame.<span class="tok-fn">pack</span>();
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Course Card</div><img src="../assets/gui/g677c0b390f-0.png" width="193" height="62" alt="ภาพหน้าต่าง Course Card" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>header และ body เป็น panel แยกกัน</li><li>content pane ของ JFrame ใช้ BorderLayout: NORTH คือแถบบน, CENTER คือพื้นที่หลัก</li><li>เปลี่ยนสีหัวได้โดยไม่กระทบเนื้อหา</li></ol></div></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Course Card</div><img src="../assets/gui/gd59d9af102-0.png" width="193" height="62" alt="ภาพหน้าต่าง Course Card" loading="lazy"></figure></div></div></div></div></div>
 <div class="quick-check"><strong>ลองคิดก่อน · FlowLayout</strong><div><p>ถ้าหน้าต่าง FlowLayout แคบเกินไปสำหรับ component ทั้งหมดในแถวเดียว จะเกิดอะไรขึ้น</p></div><details><summary>ดูคำตอบ</summary><div><p>component ที่ไม่พอจะถูกย้ายไปบรรทัดถัดไป (wrap) — ถ้าหน้าต่างสูงไม่พอก็จะมองไม่เห็นบางส่วน จึงควรใช้ pack() หรือ layout ที่เหมาะสม</p></div></details></div>
 </article>
 <article class="subtopic" id="topic-14-4">
 <h3>14.4 Event Dispatch Thread (EDT)</h3>
-<p>Swing ไม่ปลอดภัยต่อการใช้งานจากหลาย thread พร้อมกัน ทุกการสร้างและแก้ไข component ต้องทำบน <strong>Event Dispatch Thread (EDT)</strong> ซึ่งเป็น thread เดียวที่วาดหน้าจอและประมวลผลเหตุการณ์ วิธีมาตรฐานคือห่อโค้ดสร้าง GUI ด้วย <code>SwingUtilities.invokeLater(() -&gt; { ... });</code></p>
+<p>Swing มี thread พิเศษชื่อ <strong>Event Dispatch Thread (EDT)</strong> ทำหน้าที่วาดหน้าจอและรับเหตุการณ์ทั้งหมด ทุกการสร้างและแก้ไข component ต้องทำบน EDT เพราะ Swing ไม่ปลอดภัยเมื่อถูกใช้จากหลาย thread พร้อมกัน</p>
+<p>วิธีมาตรฐานคือห่อโค้ดสร้าง GUI ด้วย <code>SwingUtilities.invokeLater(() -&gt; { ... });</code> ซึ่งส่ง “งาน” ไปเข้าคิวของ EDT</p>
 <div class="concept-box"><span class="box-title">invokeLater ทำอะไร</span><div class="code-block is-flow"><div class="code-head"><span class="code-file">แผนภาพ</span></div><pre><code>main thread                      <span class="tok-type">Event</span> <span class="tok-type">Dispatch</span> <span class="tok-type">Thread</span>
 <span class="tok-arrow">───────────</span>                      <span class="tok-arrow">─────────────────────</span>
 <span class="tok-fn">main</span>() เริ่ม
 <span class="tok-fn">invokeLater</span>(งานสร้าง <span class="tok-const">GUI</span>) <span class="tok-arrow">──────▶</span> คิวงาน: [สร้าง <span class="tok-const">GUI</span>]
 <span class="tok-fn">main</span>() จบ                        ทำ <span class="tok-str">"สร้าง GUI"</span> <span class="tok-arrow">→</span> แสดงหน้าต่าง
-                                 รอ event: คลิก, พิมพ์, วาดใหม่ ...</code></pre></div><p><code>() -&gt; { ... }</code> คือ lambda — “งานชิ้นหนึ่ง” ที่ส่งให้ EDT ทำภายหลัง จะเรียนละเอียดในบทที่ 16</p></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.4.1</span>ดูชื่อ thread ที่ทำงาน</h4><p class="concept-line"><strong>แนวคิด:</strong> แสดงว่าโค้ดใน invokeLater ทำงานบน thread ชื่อ AWT-EventQueue-0 ไม่ใช่ main</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhichThread.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+                                 รอ event: คลิก, พิมพ์, วาดใหม่ ...</code></pre></div><p><code>() -&gt; { ... }</code> คือ lambda หรือ “งานชิ้นหนึ่ง” ที่ส่งให้ EDT ทำภายหลัง (บทที่ 16)</p></div>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.4.1</span>ดูชื่อ thread ที่ทำงาน</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">WhichThread.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">WhichThread</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ชื่อ thread ที่รัน main</span>
-        <span class="tok-type">String</span> mainThread = <span class="tok-type">Thread</span>.<span class="tok-fn">currentThread</span>().<span class="tok-fn">getName</span>();
+        <span class="tok-type">String</span> mainThread = <span class="tok-type">Thread</span>.<span class="tok-fn">currentThread</span>().<span class="tok-fn">getName</span>();     <span class="tok-com">// "main"</span>
         <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(() -&gt; {
-            <span class="tok-com">// ชื่อ thread ภายใน invokeLater</span>
-            <span class="tok-type">String</span> edt = <span class="tok-type">Thread</span>.<span class="tok-fn">currentThread</span>().<span class="tok-fn">getName</span>();
+            <span class="tok-type">String</span> edt = <span class="tok-type">Thread</span>.<span class="tok-fn">currentThread</span>().<span class="tok-fn">getName</span>();        <span class="tok-com">// "AWT-EventQueue-0" = EDT</span>
             <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"Threads"</span>);
             frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
             <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>();
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"main ran on: "</span> + mainThread));
             panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"GUI built on: "</span> + edt));
-            <span class="tok-com">// true = ทำงานบน EDT</span>
-            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"isEDT = "</span> + <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">isEventDispatchThread</span>()));
+            panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"isEDT = "</span> + <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">isEventDispatchThread</span>()));   <span class="tok-com">// true</span>
             frame.<span class="tok-fn">add</span>(panel);
-            frame.<span class="tok-fn">setSize</span>(<span class="tok-num">260</span>, <span class="tok-num">110</span>);
+            frame.<span class="tok-fn">setSize</span>(<span class="tok-num">260</span>, <span class="tok-num">110</span>);                              <span class="tok-com">// แคบ → FlowLayout ตัดบรรทัด</span>
             frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
         });
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Threads</div><img src="../assets/gui/g2c38f716a0-0.png" width="244" height="71" alt="ภาพหน้าต่าง Threads" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li>main ทำงานบน thread ชื่อ main</li><li>โค้ดใน lambda ทำงานบน AWT-EventQueue-0 (EDT)</li><li><code>SwingUtilities.isEventDispatchThread()</code> ใช้ตรวจได้ว่าอยู่บน EDT หรือไม่</li><li>สังเกต: setSize(260, …) แคบ FlowLayout จึงตัดขึ้นบรรทัดใหม่</li></ol></div></div>
-<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.4.2</span>โครงโปรแกรม GUI มาตรฐานที่จะใช้ทั้งหน่วย</h4><p class="concept-line"><strong>แนวคิด:</strong> แยกเมธอด <code>createAndShowGui()</code> แล้วให้ main เรียกผ่าน invokeLater — โครงนี้ใช้ได้กับทุกบทถัดไป</p><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GuiTemplate.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">Threads</div><img src="../assets/gui/g6f2f9ac770-0.png" width="244" height="71" alt="ภาพหน้าต่าง Threads" loading="lazy"></figure></div></div></div></div></div>
+<h4 class="sub">โครงโปรแกรม GUI มาตรฐาน</h4>
+<p>แยกการสร้างหน้าต่างไว้ในเมธอด <code>createAndShowGui()</code> และแยกการจัดเนื้อหาไว้ใน <code>buildContent()</code> แล้วให้ main เรียกผ่าน invokeLater โครงนี้ใช้ได้กับทุกบทถัดไป</p>
+<div class="source-example"><h4><span class="ex-num">ตัวอย่าง 14.4.2</span>GuiTemplate</h4><div class="source-example-grid"><div class="source-field"><div class="code-block"><div class="code-head"><span class="code-file">GuiTemplate.java</span></div><pre class="source-code"><code><span class="tok-kw">import</span> javax.swing.*;
 <span class="tok-kw">import</span> java.awt.*;
 
 <span class="tok-kw">public</span> <span class="tok-kw">class</span> <span class="tok-type">GuiTemplate</span> {
     <span class="tok-kw">public</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">main</span>(<span class="tok-type">String</span>[] args) {
-        <span class="tok-com">// ส่งชื่อเมธอดให้ EDT เรียก</span>
-        <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(<span class="tok-type">GuiTemplate</span>::createAndShowGui);
+        <span class="tok-type">SwingUtilities</span>.<span class="tok-fn">invokeLater</span>(<span class="tok-type">GuiTemplate</span>::createAndShowGui);   <span class="tok-com">// method reference: สั้นกว่า lambda</span>
     }
 
-    <span class="tok-com">// เมธอดสร้างหน้าต่าง</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">createAndShowGui</span>() {
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-kw">void</span> <span class="tok-fn">createAndShowGui</span>() {                     <span class="tok-com">// ตั้งค่าหน้าต่าง</span>
         <span class="tok-type">JFrame</span> frame = <span class="tok-kw">new</span> <span class="tok-type">JFrame</span>(<span class="tok-str">"App Template"</span>);
         frame.<span class="tok-fn">setDefaultCloseOperation</span>(<span class="tok-type">JFrame</span>.<span class="tok-const">EXIT_ON_CLOSE</span>);
-        <span class="tok-com">// ใช้แผงที่สร้างจากอีกเมธอดเป็นเนื้อหา</span>
-        frame.<span class="tok-fn">setContentPane</span>(<span class="tok-fn">buildContent</span>());
+        frame.<span class="tok-fn">setContentPane</span>(<span class="tok-fn">buildContent</span>());                    <span class="tok-com">// ใช้ panel ของเราเป็นเนื้อหา</span>
         frame.<span class="tok-fn">pack</span>();
         frame.<span class="tok-fn">setLocationRelativeTo</span>(<span class="tok-num">null</span>);
         frame.<span class="tok-fn">setVisible</span>(<span class="tok-num">true</span>);
     }
 
-    <span class="tok-com">// เมธอดสร้างเนื้อหา แยกจากการสร้างหน้าต่าง</span>
-    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-type">JPanel</span> <span class="tok-fn">buildContent</span>() {
-        <span class="tok-com">// BorderLayout เว้นระยะ 8 พิกเซล</span>
-        <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">8</span>, <span class="tok-num">8</span>));
+    <span class="tok-kw">private</span> <span class="tok-kw">static</span> <span class="tok-type">JPanel</span> <span class="tok-fn">buildContent</span>() {                       <span class="tok-com">// จัดหน้าตา</span>
+        <span class="tok-type">JPanel</span> panel = <span class="tok-kw">new</span> <span class="tok-type">JPanel</span>(<span class="tok-kw">new</span> <span class="tok-type">BorderLayout</span>(<span class="tok-num">8</span>, <span class="tok-num">8</span>));       <span class="tok-com">// เว้นระยะ 8 พิกเซล</span>
         panel.<span class="tok-fn">setBorder</span>(<span class="tok-type">BorderFactory</span>.<span class="tok-fn">createEmptyBorder</span>(<span class="tok-num">12</span>, <span class="tok-num">12</span>, <span class="tok-num">12</span>, <span class="tok-num">12</span>));
         panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JLabel</span>(<span class="tok-str">"Header goes here"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">NORTH</span>);
-        <span class="tok-com">// กล่องข้อความ 4 แถว 24 คอลัมน์</span>
-        panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextArea</span>(<span class="tok-str">"Main content area"</span>, <span class="tok-num">4</span>, <span class="tok-num">24</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);
+        panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JTextArea</span>(<span class="tok-str">"Main content area"</span>, <span class="tok-num">4</span>, <span class="tok-num">24</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">CENTER</span>);   <span class="tok-com">// 4 แถว 24 คอลัมน์</span>
         panel.<span class="tok-fn">add</span>(<span class="tok-kw">new</span> <span class="tok-type">JButton</span>(<span class="tok-str">"Action"</span>), <span class="tok-type">BorderLayout</span>.<span class="tok-const">SOUTH</span>);
         <span class="tok-kw">return</span> panel;
     }
-}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">App Template</div><img src="../assets/gui/gf2980a1882-0.png" width="288" height="146" alt="ภาพหน้าต่าง App Template" loading="lazy"></figure></div></div></div></div><div class="walkthrough"><strong>อธิบายทีละขั้น</strong><ol><li><code>GuiTemplate::createAndShowGui</code> คือ method reference — สั้นกว่าเขียน lambda</li><li>buildContent() คืน JPanel ที่จัดเสร็จแล้ว แยกส่วนสร้างหน้าตาออกจากส่วนตั้งค่าหน้าต่าง</li><li>setContentPane แทนที่ content pane ด้วย panel ของเรา</li></ol></div></div>
-<div class="note-box"><span class="box-title">งานหนักห้ามทำบน EDT</span><p>ถ้าโค้ดบน EDT ทำงานนาน (เช่น ลูปคำนวณหลายวินาที หรือ Thread.sleep) หน้าต่างจะค้าง กดอะไรไม่ได้ เพราะ EDT ไม่ว่างวาดหน้าจอ บทเสริม “Timer, Thread และ Swing” อธิบายวิธีแก้ด้วย Swing Timer และ SwingWorker</p></div>
+}</code></pre></div></div><div class="source-output is-gui"><span>หน้าต่างที่ได้ (ภาพจากโปรแกรมจริง)</span><div class="gui-stage"><div class="gui-group"><figure class="gui-shot"><div class="gui-titlebar">App Template</div><img src="../assets/gui/gf1fa2c44ae-0.png" width="288" height="146" alt="ภาพหน้าต่าง App Template" loading="lazy"></figure></div></div></div></div></div>
+<div class="callout warn"><span class="box-title">งานหนักห้ามทำบน EDT</span><p>ถ้าโค้ดบน EDT ทำงานนาน เช่น ลูปคำนวณหลายวินาที หรือ Thread.sleep หน้าต่างจะค้าง กดอะไรไม่ได้ เพราะ EDT ไม่ว่างวาดหน้าจอ บทเสริม “Timer, Thread และ Swing” อธิบายวิธีแก้ด้วย Swing Timer และ SwingWorker</p></div>
 </article>
       </section>
       <section class="chapter-end" id="chapter-exercises" aria-labelledby="end-heading">
