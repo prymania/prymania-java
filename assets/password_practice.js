@@ -5,5 +5,7 @@ window.PRACTICE_EXERCISE_PASSWORDS = {
   "7.2-P3": "prac723",
   "7.3-P1": "prac731",
   "7.4-P1": "prac741",
-  "7.5-P1": "prac751"
+  "7.5-P1": "prac751",
+  "7.6-P1": "prac761",
+  "7.7-P1": "prac771"
 };

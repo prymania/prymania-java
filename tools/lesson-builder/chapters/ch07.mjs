@@ -822,8 +822,355 @@ export default {
             }`,
           },
         { type: "p", html: `สังเกตว่า main อ่านแล้วเข้าใจทั้งเกมได้ในสามบรรทัด: สุ่มเลขลับ → เล่น → สรุป รายละเอียดแต่ละเรื่องอยู่ในเมธอดที่ชื่อบอกหน้าที่` },
+        { type: "practice", level: 2, title: "เล่นหลายเกม: askPlayAgain และสถิติที่ดีที่สุด",
+          html: `<p>ต่อยอดจากเกมฉบับสมบูรณ์: เมื่อจบหนึ่งเกมให้ถามว่า <code>Play again? (y/n):</code> ถ้าตอบ <code>y</code> ให้สุ่มเลขลับใหม่แล้วเล่นอีกเกม ถ้าตอบ <code>n</code> ให้สรุปว่าเล่นไปกี่เกม และเกมที่ดีที่สุดใช้น้อยที่สุดกี่ครั้ง ถ้าพิมพ์อย่างอื่นให้ถามใหม่ (ใช้ <code>new Random(7)</code> เพื่อให้ผลตรงกับตัวอย่าง: เกมแรกเลขลับคือ 17 เกมที่สองคือ 5)</p>`,
+          spec: ["เขียนเมธอด <code>boolean askPlayAgain(Scanner input)</code> อ่านคำตอบด้วย <code>input.next()</code> ถามซ้ำจนได้ <code>y</code> หรือ <code>n</code> แล้วคืน true เมื่อเป็น y", "ใช้ <code>randomSecret</code>, <code>playGame</code>, <code>askGuess</code> และ <code>hint</code> จากตัวอย่างฉบับสมบูรณ์โดยไม่แก้", "main วนเล่นด้วย while ตามค่าที่ askPlayAgain คืน นับจำนวนเกม และเก็บจำนวนครั้งที่น้อยที่สุด"],
+          stdin: "10\n15\n18\n17\nmaybe\ny\n10\n5\nn",
+          hint: "คำใบ้: ตั้ง best = Integer.MAX_VALUE ก่อนลูป แล้วหลังจบแต่ละเกมถ้า tries &lt; best ให้ best = tries",
+          solution: j`
+            import java.util.Random;
+            import java.util.Scanner;
+
+            public class GuessManyGames {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    Random rng = new Random(7);                       // ทดสอบ: เลขลับ 17 แล้ว 5
+                    int games = 0;
+                    int best = Integer.MAX_VALUE;                     // ค่ามากสุด เกมแรกจึงน้อยกว่าแน่นอน
+                    boolean again = true;
+                    while (again) {
+                        games++;
+                        System.out.println("--- Game " + games + " ---");
+                        int tries = playGame(input, randomSecret(rng, 1, 20), 1, 20);
+                        System.out.println("You got it in " + tries + " tries");
+                        if (tries < best) best = tries;
+                        again = askPlayAgain(input);                  // ตัดสินว่าจะวนต่อไหม
+                    }
+                    System.out.println("Games played: " + games + ", best: " + best + " tries");
+                }
+
+                static boolean askPlayAgain(Scanner input) {
+                    System.out.print("Play again? (y/n): ");
+                    String answer = input.next();
+                    while (!answer.equals("y") && !answer.equals("n")) {   // ไม่ใช่ทั้ง y และ n → ถามใหม่
+                        System.out.print("Please type y or n: ");
+                        answer = input.next();
+                    }
+                    return answer.equals("y");
+                }
+
+                static int randomSecret(Random rng, int min, int max) {
+                    return min + rng.nextInt(max - min + 1);
+                }
+
+                static int playGame(Scanner input, int secret, int min, int max) {
+                    int tries = 0;
+                    int guess = 0;
+                    while (guess != secret) {
+                        guess = askGuess(input, min, max);
+                        tries++;
+                        System.out.println("  " + hint(guess, secret));
+                        if (guess < secret) min = guess + 1;
+                        else if (guess > secret) max = guess - 1;
+                    }
+                    return tries;
+                }
+
+                static int askGuess(Scanner input, int min, int max) {
+                    System.out.print("Guess a number from " + min + " to " + max + ": ");
+                    int guess = input.nextInt();
+                    while (guess < min || guess > max) {
+                        System.out.print("  Out of range. Enter " + min + "-" + max + ": ");
+                        guess = input.nextInt();
+                    }
+                    return guess;
+                }
+
+                static String hint(int guess, int secret) {
+                    if (guess < secret) return "Too low";
+                    if (guess > secret) return "Too high";
+                    return "Correct!";
+                }
+            }`,
+          explain: "เพิ่มความสามารถได้โดยเขียนเมธอดใหม่ตัวเดียวและแก้แค่ main เมธอดเดิมทั้งสี่ไม่ต้องแตะเลย เพราะแต่ละตัวทำงานเดียวและรับข้อมูลที่ต้องใช้ผ่าน parameter ส่วน min และ max เริ่มที่ 1 และ 20 ใหม่ทุกเกม เพราะส่งค่าเริ่มต้นเข้า playGame ทุกครั้ง" },
         { type: "check", title: "ทายกี่ครั้งพอ", html: `<p>ถ้าผู้เล่นทายตรงกลางช่วงเสมอ (ช่วง 1–20 ทาย 10 ก่อน) ต้องทายอย่างมากกี่ครั้งจึงรับประกันว่าถูก</p>`, answer: `<p><strong>5 ครั้ง</strong> — แต่ละครั้งตัดช่วงเหลือประมาณครึ่ง: 20 → 10 → 5 → 2 → 1 ตัวเลือก วิธีนี้เรียกว่า binary search</p>` },
         { type: "try", html: `เปลี่ยน <code>MAX</code> เป็น 100 โดยไม่แก้เมธอดอื่นเลย แล้วลองเพิ่มเมธอด <code>boolean askPlayAgain(Scanner input)</code> ให้ main วนเล่นใหม่ได้หลายรอบ` },
+      ],
+    },
+    {
+      num: "7.7", toc: "เกมเป่ายิ้งฉุบ", title: "ลงมือเขียน: เกมเป่ายิ้งฉุบกับคอมพิวเตอร์",
+      blocks: [
+        { type: "p", html: `ฝึกกระบวนการเดียวกับหัวข้อ 7.6 อีกครั้งกับเกมใหม่: อ่านโจทย์ → เขียนรหัสเทียม → เลือกเมธอด → เขียนและทดสอบทีละขั้น` },
+        { type: "h", text: "โจทย์" },
+        { type: "concept", title: "เป่ายิ้งฉุบ แข่งจนถึง 3 แต้ม", html: `<ul><li>ผู้เล่นเลือก <strong>1 = ค้อน (Rock), 2 = กระดาษ (Paper), 3 = กรรไกร (Scissors)</strong> ถ้าพิมพ์เลขอื่นให้ถามใหม่</li><li>คอมพิวเตอร์<strong>สุ่ม</strong>เลือกหนึ่งในสามอย่าง</li><li>ค้อนชนะกรรไกร, กรรไกรชนะกระดาษ, กระดาษชนะค้อน ถ้าเลือกเหมือนกันคือเสมอ</li><li>ผู้ชนะในแต่ละรอบได้ 1 แต้ม เสมอไม่มีใครได้ ใครถึง <strong>3 แต้ม</strong>ก่อนชนะทั้งแมตช์</li><li>ทุกรอบแสดงสิ่งที่ทั้งสองฝ่ายเลือก ผลของรอบ และคะแนน</li></ul>` },
+        { type: "table", title: "กติกา: ผลจากมุมของผู้เล่น", head: ["ผู้เล่น \\ คอม", "Rock (1)", "Paper (2)", "Scissors (3)"], rows: [
+          ["<strong>Rock (1)</strong>", "เสมอ", "แพ้", "ชนะ"],
+          ["<strong>Paper (2)</strong>", "ชนะ", "เสมอ", "แพ้"],
+          ["<strong>Scissors (3)</strong>", "แพ้", "ชนะ", "เสมอ"],
+        ] },
+        { type: "tip", html: `ใช้ตัวเลขแทนสิ่งที่เลือกจะสุ่มและเปรียบเทียบง่าย แล้วค่อยแปลงเป็นชื่อตอนแสดงผล` },
+
+        { type: "h", text: "แนวคิดในการเขียนโปรแกรม" },
+        { type: "example", title: "ขั้นตอนของเกม", html: fpre(`
+          เริ่มต้น
+          ตั้ง แต้มผู้เล่น = 0, แต้มคอม = 0, รอบ = 0
+          ขณะที่ ยังไม่มีใครถึง 3 แต้ม
+              รอบ = รอบ + 1
+              ถามผู้เล่นจนได้ 1, 2 หรือ 3              ← งาน: ถามจนได้ค่าที่ใช้ได้
+              สุ่มสิ่งที่คอมเลือก                      ← งาน: สุ่ม
+              แสดง ชื่อสิ่งที่ทั้งสองฝ่ายเลือก          ← งาน: แปลงเลขเป็นชื่อ
+              ตัดสินผลรอบ                             ← งาน: ใครชนะ
+              ถ้า ผู้เล่นชนะ  ให้ แต้มผู้เล่น + 1
+              ถ้า คอมชนะ     ให้ แต้มคอม + 1
+              แสดง คะแนน
+          แสดง ผู้ชนะแมตช์
+          จบ`, "รหัสเทียม") },
+        { type: "p", html: `ลูปทั้งก้อนคือ “เล่นหนึ่งแมตช์” และแต่ละลูกศรคืองานที่แยกเป็นเมธอดได้ สังเกตว่าโครงเหมือนเกมทายตัวเลขมาก: ลูปจนจบเกม ข้างในมีถาม → ตัดสิน → อัปเดตตัวแปร` },
+
+        { type: "h", text: "ควรมีเมธอดอะไรบ้าง" },
+        { type: "table", head: ["เมธอด", "หน้าที่ (ประโยคเดียว)", "รับอะไร (parameter)", "คืนอะไร (return)"], rows: [
+          ["<code>nameOf</code>", "แปลงเลข 1–3 เป็นชื่อ", "<code>int choice</code>", "<code>String</code>"],
+          ["<code>judge</code>", "ตัดสินผลหนึ่งรอบ", "<code>int player, int computer</code>", "<code>int</code>: 1 ผู้เล่นชนะ, −1 คอมชนะ, 0 เสมอ"],
+          ["<code>askChoice</code>", "ถามจนได้ 1–3", "<code>Scanner input</code>", "<code>int</code>"],
+          ["<code>computerChoice</code>", "สุ่มสิ่งที่คอมเลือก", "<code>Random rng</code>", "<code>int</code> 1–3"],
+          ["<code>playMatch</code>", "เล่นจนมีคนถึงแต้มเป้าหมาย", "<code>Scanner input, Random rng, int target</code>", "<code>String</code> ชื่อผู้ชนะ"],
+        ] },
+        { type: "tip", title: "ทำไม judge คืน int", html: `ผลของรอบมี 3 แบบ boolean เก็บได้แค่ 2 แบบ จึงใช้ 1, −1, 0 แทน คนเรียกเอาไปเลือกว่าจะเพิ่มแต้มใครได้ทันที และ judge ไม่ต้องรู้เรื่องแต้มเลย` },
+
+        { type: "h", text: "ขั้นที่ 1: nameOf และ judge" },
+        { type: "p", html: `สองเมธอดนี้ไม่รับข้อมูลจากผู้ใช้และไม่สุ่ม จึงทดสอบด้วยค่าที่รู้คำตอบได้ทันที ทดสอบให้ครบ ชนะ แพ้ และเสมอ เทียบกับตารางกติกา` },
+        { type: "run", title: "เขียนและทดสอบ nameOf กับ judge",
+          code: j`
+            public class RpsStep1 {
+                public static void main(String[] args) {
+                    System.out.println(nameOf(1) + " " + nameOf(2) + " " + nameOf(3));   // Rock Paper Scissors
+                    System.out.println(judge(1, 3));          // 1   ค้อนชนะกรรไกร
+                    System.out.println(judge(2, 3));          // -1  กระดาษแพ้กรรไกร
+                    System.out.println(judge(3, 3));          // 0   เสมอ
+                }
+
+                static String nameOf(int choice) {
+                    if (choice == 1) return "Rock";
+                    if (choice == 2) return "Paper";
+                    return "Scissors";
+                }
+
+                static int judge(int player, int computer) {
+                    if (player == computer) return 0;                         // เลือกเหมือนกัน
+                    if ((player == 1 && computer == 3)                        // ค้อน ชนะ กรรไกร
+                            || (player == 2 && computer == 1)                 // กระดาษ ชนะ ค้อน
+                            || (player == 3 && computer == 2)) return 1;      // กรรไกร ชนะ กระดาษ
+                    return -1;                                                // ที่เหลือคือแพ้
+                }
+            }`,
+          },
+
+        { type: "h", text: "ขั้นที่ 2: askChoice ถามจนได้ 1–3" },
+        { type: "p", html: `รูปแบบเดียวกับ askGuess ในหัวข้อ 7.6: อ่านค่า ถ้าใช้ไม่ได้ให้ถามใหม่ด้วย while แล้ว return ค่าที่ใช้ได้` },
+        { type: "run", title: "ทดสอบ askChoice ด้วยค่าที่ใช้ไม่ได้", stdin: "0\n5\n2",
+          code: j`
+            import java.util.Scanner;
+
+            public class RpsStep2 {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    int c = askChoice(input);
+                    System.out.println("You chose " + c);             // 2
+                }
+
+                static int askChoice(Scanner input) {
+                    System.out.print("  1=Rock 2=Paper 3=Scissors: ");
+                    int choice = input.nextInt();
+                    while (choice < 1 || choice > 3) {                // 0 และ 5 ใช้ไม่ได้
+                        System.out.print("  Please enter 1-3: ");
+                        choice = input.nextInt();
+                    }
+                    return choice;
+                }
+            }`,
+          },
+
+        { type: "h", text: "ขั้นที่ 3: computerChoice สุ่มด้วย seed" },
+        { type: "p", html: `<code>1 + rng.nextInt(3)</code> ได้ 1, 2 หรือ 3 ทดสอบด้วย <code>new Random(7)</code> ลำดับที่ได้จึงเหมือนเดิมทุกครั้ง และนำ nameOf จากขั้นที่ 1 มาใช้แสดงผล` },
+        { type: "run", title: "ดูสิ่งที่คอมสุ่มได้ 5 ครั้ง",
+          code: j`
+            import java.util.Random;
+
+            public class RpsStep3 {
+                public static void main(String[] args) {
+                    Random rng = new Random(7);                       // seed เดิม → ลำดับเดิมทุกครั้ง
+                    for (int i = 1; i <= 5; i++) {
+                        System.out.print(nameOf(computerChoice(rng)) + " ");   // ผลของเมธอดหนึ่งส่งต่อให้อีกเมธอด
+                    }
+                    System.out.println();
+                }
+
+                static int computerChoice(Random rng) {
+                    return 1 + rng.nextInt(3);                        // nextInt(3) ได้ 0-2 → +1 ได้ 1-3
+                }
+
+                static String nameOf(int choice) {
+                    if (choice == 1) return "Rock";
+                    if (choice == 2) return "Paper";
+                    return "Scissors";
+                }
+            }`,
+          },
+        { type: "p", html: `ตอนนี้รู้แล้วว่าด้วย seed 7 คอมจะเลือก Paper, Scissors, Rock, Paper, Paper ตามลำดับ จึงวางแผน input ทดสอบขั้นสุดท้ายให้ครบทั้งชนะ แพ้ และเสมอได้` },
+
+        { type: "h", text: "ขั้นที่ 4: playMatch ประกอบเป็นเกม" },
+        { type: "p", html: `playMatch ถือแต้มของทั้งสองฝ่าย วนจนมีคนถึง target แล้ว return ชื่อผู้ชนะ main เหลือแค่เตรียม Scanner, Random และเป้าหมาย แล้วเรียก playMatch` },
+        { type: "run", title: "เกมเป่ายิ้งฉุบฉบับสมบูรณ์", stdin: "3\n3\n2\n1\n4\n3",
+          code: j`
+            import java.util.Random;
+            import java.util.Scanner;
+
+            public class RockPaperScissors {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    Random rng = new Random(7);                       // ทดสอบ (เล่นจริงใช้ new Random())
+                    final int TARGET = 3;
+                    System.out.println("=== Rock Paper Scissors: first to " + TARGET + " wins ===");
+                    String winner = playMatch(input, rng, TARGET);
+                    System.out.println(winner + " won the match!");
+                }
+
+                static String playMatch(Scanner input, Random rng, int target) {
+                    int you = 0, com = 0, round = 0;
+                    while (you < target && com < target) {            // ยังไม่มีใครถึงเป้า
+                        round++;
+                        System.out.println("Round " + round);
+                        int p = askChoice(input);
+                        int c = computerChoice(rng);
+                        System.out.println("  You: " + nameOf(p) + "  Computer: " + nameOf(c));
+                        int result = judge(p, c);
+                        if (result == 1) {
+                            you++;
+                            System.out.println("  You win this round");
+                        } else if (result == -1) {
+                            com++;
+                            System.out.println("  Computer wins this round");
+                        } else {
+                            System.out.println("  Draw");                 // ไม่มีใครได้แต้ม
+                        }
+                        System.out.println("  Score " + you + " : " + com);
+                    }
+                    return you == target ? "You" : "Computer";
+                }
+
+                static int askChoice(Scanner input) {
+                    System.out.print("  1=Rock 2=Paper 3=Scissors: ");
+                    int choice = input.nextInt();
+                    while (choice < 1 || choice > 3) {
+                        System.out.print("  Please enter 1-3: ");
+                        choice = input.nextInt();
+                    }
+                    return choice;
+                }
+
+                static int computerChoice(Random rng) {
+                    return 1 + rng.nextInt(3);
+                }
+
+                static String nameOf(int choice) {
+                    if (choice == 1) return "Rock";
+                    if (choice == 2) return "Paper";
+                    return "Scissors";
+                }
+
+                static int judge(int player, int computer) {
+                    if (player == computer) return 0;
+                    if ((player == 1 && computer == 3)
+                            || (player == 2 && computer == 1)
+                            || (player == 3 && computer == 2)) return 1;
+                    return -1;
+                }
+            }`,
+          },
+        { type: "table", cls: "trace-table", title: "ไล่ผลแต่ละรอบ", head: ["รอบ", "ผู้เล่น", "คอม", "judge", "คะแนน"], rows: [
+          ["1", "Scissors", "Paper", "1", "1 : 0"],
+          ["2", "Scissors", "Scissors", "0", "1 : 0"],
+          ["3", "Paper", "Rock", "1", "2 : 0"],
+          ["4", "Rock", "Paper", "−1", "2 : 1"],
+          ["5", "(4 ใช้ไม่ได้) Scissors", "Paper", "1", "3 : 1 จบแมตช์"],
+        ] },
+        { type: "check", title: "เงื่อนไขของลูป", html: `<p>ถ้าเขียนเงื่อนไขลูปเป็น <code>while (you &lt; target || com &lt; target)</code> จะเกิดอะไรขึ้น</p>`, answer: `<p>ลูปจะวนต่อจนกว่า<strong>ทั้งสองฝ่าย</strong>ถึง 3 แต้ม ผู้เล่นได้ 3 แต้มแล้วเกมก็ยังไม่จบ เงื่อนไขที่ถูกคือ “ทั้งคู่ยังไม่ถึง” จึงต้องใช้ <code>&amp;&amp;</code></p>` },
+        { type: "practice", level: 2, title: "เลือกแต้มเป้าหมายและนับรอบเสมอ",
+          html: `<p>แก้เกมให้ถามก่อนเริ่มว่าจะแข่งกี่แต้ม <code>Points to win (1-5):</code> ถ้านอกช่วงให้ถามใหม่ และเมื่อจบแมตช์ให้สรุปจำนวนรอบทั้งหมดและจำนวนรอบที่เสมอ ใช้ <code>new Random(7)</code> เหมือนตัวอย่าง (คอมจะเลือก Paper, Scissors, Rock, … ตามลำดับ)</p>`,
+          spec: ["เขียนเมธอด <code>int askTarget(Scanner input)</code> ถามซ้ำจนได้ 1–5", "playMatch นับรอบเสมอ (draws) และพิมพ์ <code>Rounds: r, Draws: d</code> ก่อน return ผู้ชนะ", "nameOf, judge, askChoice และ computerChoice ใช้ของเดิมโดยไม่แก้"],
+          stdin: "9\n2\n3\n3\n2",
+          hint: "คำใบ้: askTarget มีโครงเหมือน askChoice ทุกอย่าง เปลี่ยนแค่ข้อความและช่วงตัวเลข",
+          solution: j`
+            import java.util.Random;
+            import java.util.Scanner;
+
+            public class RpsCustomTarget {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    Random rng = new Random(7);
+                    int target = askTarget(input);                    // เป้าหมายมาจากผู้ใช้แทนค่าคงที่
+                    String winner = playMatch(input, rng, target);
+                    System.out.println(winner + " won the match!");
+                }
+
+                static int askTarget(Scanner input) {
+                    System.out.print("Points to win (1-5): ");
+                    int target = input.nextInt();
+                    while (target < 1 || target > 5) {
+                        System.out.print("Please enter 1-5: ");
+                        target = input.nextInt();
+                    }
+                    return target;
+                }
+
+                static String playMatch(Scanner input, Random rng, int target) {
+                    int you = 0, com = 0, round = 0, draws = 0;
+                    while (you < target && com < target) {
+                        round++;
+                        System.out.println("Round " + round);
+                        int p = askChoice(input);
+                        int c = computerChoice(rng);
+                        System.out.println("  You: " + nameOf(p) + "  Computer: " + nameOf(c));
+                        int result = judge(p, c);
+                        if (result == 1) you++;
+                        else if (result == -1) com++;
+                        else draws++;                                 // นับรอบเสมอ
+                        System.out.println("  Score " + you + " : " + com);
+                    }
+                    System.out.println("Rounds: " + round + ", Draws: " + draws);
+                    return you == target ? "You" : "Computer";
+                }
+
+                static int askChoice(Scanner input) {
+                    System.out.print("  1=Rock 2=Paper 3=Scissors: ");
+                    int choice = input.nextInt();
+                    while (choice < 1 || choice > 3) {
+                        System.out.print("  Please enter 1-3: ");
+                        choice = input.nextInt();
+                    }
+                    return choice;
+                }
+
+                static int computerChoice(Random rng) {
+                    return 1 + rng.nextInt(3);
+                }
+
+                static String nameOf(int choice) {
+                    if (choice == 1) return "Rock";
+                    if (choice == 2) return "Paper";
+                    return "Scissors";
+                }
+
+                static int judge(int player, int computer) {
+                    if (player == computer) return 0;
+                    if ((player == 1 && computer == 3)
+                            || (player == 2 && computer == 1)
+                            || (player == 3 && computer == 2)) return 1;
+                    return -1;
+                }
+            }`,
+          explain: "playMatch รับ target เป็น parameter มาตั้งแต่ต้น การเปลี่ยนจากค่าคงที่ 3 เป็นค่าที่ผู้ใช้เลือกจึงแก้แค่ main และเพิ่ม askTarget ส่วนการนับเสมอเพิ่มตัวแปรเดียวใน playMatch เมธอดอื่นไม่ต้องรู้เรื่องนี้เลย" },
+        { type: "try", html: `เพิ่มตัวเลือกที่ 4 และ 5 เป็นเกม Rock Paper Scissors Lizard Spock ต้องแก้เมธอดใดบ้าง และเมธอดใดไม่ต้องแก้เลย` },
       ],
     },
   ],
