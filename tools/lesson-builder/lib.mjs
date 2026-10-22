@@ -298,7 +298,7 @@ ${ch.exercises.map((e) => renderExercise(e, ch.num)).join("\n")}
       <footer class="lesson-footer">Java programming by Prymania · ${ch.footer}</footer>
     </main>
   </div>
-  <script src="../password.js"></script><script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
+  <script src="../assets/password.js"></script><script src="../assets/lesson.js"></script><script src="../assets/course-nav.js"></script>
 </body>
 </html>
 `;

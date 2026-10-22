@@ -28,7 +28,7 @@ for (const f of files) {
 syncCourseNav(ROOT, Object.values(chapters));
 
 // merge passwords: keep existing entries, add/overwrite built ones (same pattern as before)
-const pwFile = path.join(ROOT, "password.js");
+const pwFile = path.join(ROOT, "assets", "password.js");
 const src = fs.readFileSync(pwFile, "utf8");
 const pw = only.length ? JSON.parse(src.slice(src.indexOf("{"), src.lastIndexOf("}") + 1)) : {};
 for (const [id, prefix] of allExerciseIds) pw[id] = prefix + id.replace(/[^0-9]/g, "");
