@@ -1,4 +1,4 @@
-import { j, c, pre, jpre } from "../lib.mjs";
+import { j, c, pre, jpre, fpre } from "../lib.mjs";
 
 export default {
   num: 7, file: "chapter-07.html",
@@ -634,6 +634,196 @@ export default {
             }`,
           explain: "ยากกว่า TestGradeOf เพราะ check() ต้องประสานสองเมธอดที่ return คนละชนิด (double แล้วต่อด้วย String) ก่อนจะเทียบผล — ถ้า bmiOf ผิดแม้เพียงเล็กน้อย categoryOf อาจจัดประเภทผิดไปทั้งหมด" },
         { type: "tip", title: "สัญญาณว่าควรแยกเมธอด", html: `มีโค้ดชุดเดิมซ้ำตั้งแต่ 2 ที่ขึ้นไป, main ยาวเกินหนึ่งหน้าจอ, ต้องเขียน comment อธิบายว่า “ส่วนนี้ทำ …” (ชื่อเมธอดทำหน้าที่แทนได้) หรืออยากทดสอบการคำนวณแยกจากการรับข้อมูล` },
+      ],
+    },
+    {
+      num: "7.6", toc: "เกมทายตัวเลข", title: "ลงมือเขียน: เกมทายตัวเลขด้วยเมธอด",
+      blocks: [
+        { type: "p", html: `หัวข้อนี้นำทุกอย่างในบทมาสร้างโปรแกรมเดียว ตั้งแต่อ่านโจทย์ แบ่งงานเป็นเมธอด แล้วเขียนและทดสอบทีละขั้น` },
+        { type: "h", text: "โจทย์" },
+        { type: "concept", title: "เกมกล่องลับ", html: `<ul><li>กล่องลับเก็บ<strong>เลขสุ่ม 1–20</strong> ผู้เล่นต้องทายว่าในกล่องคือเลขอะไร</li><li>ทุกครั้งเกมบอกช่วงที่ต้องทาย เช่น <code>Guess a number from 1 to 20:</code></li><li>ทายผิด เกมบอกว่า<strong>น้อยไป</strong> (Too low) หรือ<strong>มากไป</strong> (Too high) แล้ว<strong>ปรับช่วง min–max</strong> ให้แคบลง</li><li>ทายถูก เกมจบ และบอกว่าเล่นไปทั้งหมด<strong>กี่ครั้ง</strong></li></ul>` },
+        { type: "p", html: `ตัวอย่างการเล่น เมื่อเลขในกล่องคือ 13:` },
+        { type: "table", cls: "trace-table", head: ["ครั้งที่", "ช่วงที่บอก", "ทาย", "เกมตอบ", "ช่วงใหม่"], rows: [
+          ["1", "1 – 20", "10", "Too low", "11 – 20"],
+          ["2", "11 – 20", "15", "Too high", "11 – 14"],
+          ["3", "11 – 14", "12", "Too low", "13 – 14"],
+          ["4", "13 – 14", "13", "Correct!", "จบเกม: 4 ครั้ง"],
+        ] },
+        { type: "tip", title: "ปรับช่วงอย่างไร", html: `ทาย 10 แล้วน้อยไป แปลว่าคำตอบมากกว่า 10 ช่วงใหม่จึงเริ่มที่ <code>min = guess + 1</code> ถ้ามากไป ช่วงใหม่จบที่ <code>max = guess - 1</code>` },
+
+        { type: "h", text: "แนวคิดในการเขียนโปรแกรม" },
+        { type: "p", html: `เขียนขั้นตอนเป็นภาษาคนก่อน (รหัสเทียม) แล้วดูว่าส่วนไหนเป็น “งานหนึ่งอย่าง” ที่ตั้งชื่อได้` },
+        { type: "example", title: "ขั้นตอนของเกม", html: fpre(`
+          เริ่มต้น
+          สุ่มเลขลับ 1 ถึง 20                         ← งาน: สุ่ม
+          ตั้ง min = 1, max = 20, จำนวนครั้ง = 0
+          ขณะที่ ยังทายไม่ถูก
+              ถามคำทายในช่วง min ถึง max              ← งาน: ถามจนได้ค่าในช่วง
+              จำนวนครั้ง = จำนวนครั้ง + 1
+              บอกผล Too low / Too high / Correct      ← งาน: ตัดสินคำทาย
+              ถ้า น้อยไป  ให้ min = คำทาย + 1
+              ถ้า มากไป  ให้ max = คำทาย − 1
+          แสดง จำนวนครั้ง
+          จบ`, "รหัสเทียม") },
+        { type: "p", html: `ลูกศรแต่ละอันคืองานที่แยกเป็นเมธอดได้ และลูปทั้งก้อนคือ “เล่นหนึ่งเกม” ซึ่งเป็นเมธอดได้อีกตัว main จึงเหลือแค่สั่งเรียงลำดับ` },
+
+        { type: "h", text: "ควรมีเมธอดอะไรบ้าง" },
+        { type: "table", head: ["เมธอด", "หน้าที่ (ประโยคเดียว)", "รับอะไร (parameter)", "คืนอะไร (return)"], rows: [
+          ["<code>hint</code>", "ตัดสินว่าคำทายน้อยไป มากไป หรือถูก", "<code>int guess, int secret</code>", "<code>String</code>"],
+          ["<code>askGuess</code>", "ถามซ้ำจนได้ตัวเลขในช่วง min–max", "<code>Scanner input, int min, int max</code>", "<code>int</code> คำทายที่ใช้ได้"],
+          ["<code>randomSecret</code>", "สุ่มเลขลับในช่วง", "<code>Random rng, int min, int max</code>", "<code>int</code>"],
+          ["<code>playGame</code>", "เล่นหนึ่งเกมจนทายถูก", "<code>Scanner input, int secret, int min, int max</code>", "<code>int</code> จำนวนครั้ง"],
+          ["<code>main</code>", "เตรียมของ แล้วเรียกเมธอดตามลำดับ", "–", "–"],
+        ] },
+        { type: "tip", title: "ทำไมแบ่งแบบนี้", html: `<code>hint</code> ไม่รับข้อมูลจากผู้ใช้และไม่พิมพ์เอง จึงทดสอบได้ทันที ส่วน <code>playGame</code> รับเลขลับเป็น parameter แทนการสุ่มเอง ระหว่างพัฒนาจึงส่งเลขที่รู้คำตอบเข้าไปทดสอบได้ เขียนจากเมธอดเล็กที่สุดขึ้นไปหาใหญ่ และทดสอบทุกขั้นก่อนไปขั้นถัดไป` },
+
+        { type: "h", text: "ขั้นที่ 1: hint ตัดสินคำทาย" },
+        { type: "p", html: `เริ่มจากเมธอดที่ง่ายที่สุด รับคำทายกับเลขลับ แล้ว return ข้อความ ทดสอบใน main ด้วยค่าที่รู้คำตอบครบทั้ง 3 กรณี ยังไม่ต้องมี Scanner` },
+        { type: "run", title: "เขียนและทดสอบ hint",
+          code: j`
+            public class GuessStep1 {
+                public static void main(String[] args) {
+                    System.out.println(hint(5, 13));      // Too low
+                    System.out.println(hint(18, 13));     // Too high
+                    System.out.println(hint(13, 13));     // Correct!
+                }
+
+                static String hint(int guess, int secret) {
+                    if (guess < secret) return "Too low";
+                    if (guess > secret) return "Too high";
+                    return "Correct!";                    // ไม่น้อย ไม่มาก = เท่ากัน
+                }
+            }`,
+          },
+
+        { type: "h", text: "ขั้นที่ 2: askGuess ถามจนได้ค่าในช่วง" },
+        { type: "p", html: `เมธอดนี้บอกช่วงให้ผู้เล่นเห็น อ่านคำทาย ถ้าอยู่นอกช่วงให้ถามใหม่ (while) จนได้ค่าที่ใช้ได้แล้วจึง return ส่ง Scanner ตัวเดียวจาก main เข้ามาเป็น parameter` },
+        { type: "run", title: "ทดสอบ askGuess ด้วยค่านอกช่วง", stdin: "25\n0\n7",
+          code: j`
+            import java.util.Scanner;
+
+            public class GuessStep2 {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    int g = askGuess(input, 1, 20);
+                    System.out.println("You guessed " + g);           // 7
+                }
+
+                static int askGuess(Scanner input, int min, int max) {
+                    System.out.print("Guess a number from " + min + " to " + max + ": ");
+                    int guess = input.nextInt();
+                    while (guess < min || guess > max) {              // 25 และ 0 นอกช่วง → ถามใหม่
+                        System.out.print("  Out of range. Enter " + min + "-" + max + ": ");
+                        guess = input.nextInt();
+                    }
+                    return guess;                                     // ถึงตรงนี้ได้ = อยู่ในช่วงแน่นอน
+                }
+            }`,
+          },
+        { type: "warn", title: "อย่าสร้าง Scanner ในเมธอด", html: `ถ้า askGuess สร้าง <code>new Scanner(System.in)</code> ทุกครั้งที่ถูกเรียก จะมี Scanner หลายตัวแย่งอ่าน input เดียวกัน ข้อมูลอาจหาย ให้สร้างครั้งเดียวใน main แล้วส่งต่อ` },
+
+        { type: "h", text: "ขั้นที่ 3: playGame วนจนทายถูก" },
+        { type: "p", html: `ประกอบสองเมธอดแรกเข้าในลูป นับครั้ง และปรับ min/max หลังทายผิด ขั้นนี้ยัง<strong>ไม่สุ่ม</strong> ส่งเลขลับ 13 เข้าไปตรง ๆ ผลจึงต้องตรงกับตารางการเล่นด้านบนทุกบรรทัด` },
+        { type: "run", title: "เล่นด้วยเลขลับที่รู้คำตอบ", stdin: "10\n15\n12\n13",
+          code: j`
+            import java.util.Scanner;
+
+            public class GuessStep3 {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    int tries = playGame(input, 13, 1, 20);           // เลขลับคงที่ ไว้ทดสอบ
+                    System.out.println("Tries: " + tries);            // 4
+                }
+
+                static int playGame(Scanner input, int secret, int min, int max) {
+                    int tries = 0;
+                    int guess = 0;                                    // 0 ไม่ใช่คำตอบ → เข้าลูปแน่นอน
+                    while (guess != secret) {
+                        guess = askGuess(input, min, max);            // เรียกเมธอดจากขั้นที่ 2
+                        tries++;
+                        System.out.println("  " + hint(guess, secret));   // เรียกเมธอดจากขั้นที่ 1
+                        if (guess < secret) min = guess + 1;          // น้อยไป → ขยับขอบล่าง
+                        else if (guess > secret) max = guess - 1;     // มากไป → ขยับขอบบน
+                    }
+                    return tries;
+                }
+
+                static int askGuess(Scanner input, int min, int max) {
+                    System.out.print("Guess a number from " + min + " to " + max + ": ");
+                    int guess = input.nextInt();
+                    while (guess < min || guess > max) {
+                        System.out.print("  Out of range. Enter " + min + "-" + max + ": ");
+                        guess = input.nextInt();
+                    }
+                    return guess;
+                }
+
+                static String hint(int guess, int secret) {
+                    if (guess < secret) return "Too low";
+                    if (guess > secret) return "Too high";
+                    return "Correct!";
+                }
+            }`,
+          },
+        { type: "tip", title: "min และ max เป็นของ playGame", html: `min กับ max เป็น parameter จึงเป็นตัวแปร local ของ playGame (หัวข้อ 7.4) แก้ค่าในเมธอดได้โดยไม่กระทบตัวแปรใน main และทุกครั้งที่เรียก playGame จะได้ช่วงเริ่มต้นใหม่` },
+
+        { type: "h", text: "ขั้นที่ 4: สุ่มเลขลับ แล้วประกอบเป็นเกมจริง" },
+        { type: "p", html: `ใช้คลาส <code>Random</code> (<code>import java.util.Random;</code>) สุ่มจำนวนเต็ม: <code>rng.nextInt(n)</code> คืน 0 ถึง n − 1 ดังนั้นช่วง min–max เขียนเป็น <code>min + rng.nextInt(max - min + 1)</code> (รายละเอียดอยู่ใน<a href="side-quest-random.html">บทเสริม Random</a>)` },
+        { type: "p", html: `ระหว่างทดสอบใส่ <strong>seed</strong> เช่น <code>new Random(7)</code> จะได้เลขลับเดิมทุกครั้งที่รัน (seed 7 ได้ 17) เมื่อเล่นจริงให้ลบ seed ออกเป็น <code>new Random()</code>` },
+        { type: "run", title: "เกมทายตัวเลขฉบับสมบูรณ์", stdin: "10\n15\n5\n18\n16\n17",
+          code: j`
+            import java.util.Random;
+            import java.util.Scanner;
+
+            public class GuessNumberGame {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    Random rng = new Random(7);                       // ทดสอบ: seed 7 → 17 ทุกครั้ง (เล่นจริงใช้ new Random())
+                    final int MIN = 1, MAX = 20;
+
+                    System.out.println("=== Mystery Box: guess the number ===");
+                    int secret = randomSecret(rng, MIN, MAX);
+                    int tries = playGame(input, secret, MIN, MAX);
+                    System.out.println("The secret number was " + secret + ". You played " + tries + " times.");
+                }
+
+                static int randomSecret(Random rng, int min, int max) {
+                    return min + rng.nextInt(max - min + 1);          // nextInt(20) ได้ 0-19 → +1 ได้ 1-20
+                }
+
+                static int playGame(Scanner input, int secret, int min, int max) {
+                    int tries = 0;
+                    int guess = 0;
+                    while (guess != secret) {
+                        guess = askGuess(input, min, max);
+                        tries++;                                      // ค่านอกช่วงไม่ถูกนับ เพราะ askGuess ไม่คืนค่านั้น
+                        System.out.println("  " + hint(guess, secret));
+                        if (guess < secret) min = guess + 1;
+                        else if (guess > secret) max = guess - 1;
+                    }
+                    return tries;
+                }
+
+                static int askGuess(Scanner input, int min, int max) {
+                    System.out.print("Guess a number from " + min + " to " + max + ": ");
+                    int guess = input.nextInt();
+                    while (guess < min || guess > max) {
+                        System.out.print("  Out of range. Enter " + min + "-" + max + ": ");
+                        guess = input.nextInt();
+                    }
+                    return guess;
+                }
+
+                static String hint(int guess, int secret) {
+                    if (guess < secret) return "Too low";
+                    if (guess > secret) return "Too high";
+                    return "Correct!";
+                }
+            }`,
+          },
+        { type: "p", html: `สังเกตว่า main อ่านแล้วเข้าใจทั้งเกมได้ในสามบรรทัด: สุ่มเลขลับ → เล่น → สรุป รายละเอียดแต่ละเรื่องอยู่ในเมธอดที่ชื่อบอกหน้าที่` },
+        { type: "check", title: "ทายกี่ครั้งพอ", html: `<p>ถ้าผู้เล่นทายตรงกลางช่วงเสมอ (ช่วง 1–20 ทาย 10 ก่อน) ต้องทายอย่างมากกี่ครั้งจึงรับประกันว่าถูก</p>`, answer: `<p><strong>5 ครั้ง</strong> — แต่ละครั้งตัดช่วงเหลือประมาณครึ่ง: 20 → 10 → 5 → 2 → 1 ตัวเลือก วิธีนี้เรียกว่า binary search</p>` },
+        { type: "try", html: `เปลี่ยน <code>MAX</code> เป็น 100 โดยไม่แก้เมธอดอื่นเลย แล้วลองเพิ่มเมธอด <code>boolean askPlayAgain(Scanner input)</code> ให้ main วนเล่นใหม่ได้หลายรอบ` },
       ],
     },
   ],
