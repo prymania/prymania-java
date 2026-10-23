@@ -1,4 +1,4 @@
-import { j, c, pre, jpre } from "../lib.mjs";
+import { j, c, pre, jpre, flowchart } from "../lib.mjs";
 
 export default {
   num: 5, file: "chapter-05.html",
@@ -202,6 +202,19 @@ export default {
           ["<code>if (...) { } else { }</code>", "มีสองทาง ทำทางใดทางหนึ่งเสมอ"],
           ["<code>if (...) { } else if (...) { } else { }</code>", "หลายทาง ตรวจจากบนลงล่าง ทำเฉพาะทางแรกที่จริง"],
         ] },
+        { type: "html", html: flowchart({ caption: "if อย่างเดียว: ทาง “ไม่ใช่” ข้ามไปเลย ไม่มีคำสั่งของตัวเอง", nodes: {
+          start: ["terminal", "เริ่มต้น", 1, 0],
+          input: ["io", "รับ temp", 1, 1],
+          check: ["decision", "temp ≥ 37.5 ?", 1, 2],
+          warn: ["io", "แสดง Warning: fever!", 2, 3, 196],
+          rec: ["io", "แสดง Recorded temp", 1, 4, 196],
+          end: ["terminal", "จบ", 1, 5],
+        }, edges: [
+          ["start", "input"], ["input", "check"],
+          ["check", "warn", { out: "right", label: "ใช่" }],
+          ["check", "rec", { label: "ไม่ใช่" }],
+          ["warn", "rec", { in: "right" }], ["rec", "end"],
+        ] }) },
         { type: "run", title: "if อย่างเดียว: แจ้งเตือนเมื่อมีไข้", stdin: "38.2",
           code: j`
             import java.util.Scanner;
@@ -218,6 +231,19 @@ export default {
                 }
             }`,
           },
+        { type: "html", html: flowchart({ caption: "if-else: มีคำสั่งทั้งสองทาง และทำทางใดทางหนึ่งเสมอ", nodes: {
+          start: ["terminal", "เริ่มต้น", 1, 0],
+          input: ["io", "รับ n", 1, 1],
+          check: ["decision", "n % 2 == 0 ?", 1, 2],
+          even: ["io", "แสดง n is even", 0, 3],
+          odd: ["io", "แสดง n is odd", 2, 3],
+          end: ["terminal", "จบ", 1, 4],
+        }, edges: [
+          ["start", "input"], ["input", "check"],
+          ["check", "even", { out: "left", label: "ใช่" }],
+          ["check", "odd", { out: "right", label: "ไม่ใช่" }],
+          ["even", "end"], ["odd", "end"],
+        ] }) },
         { type: "run", title: "if-else: คู่หรือคี่", stdin: "17",
           code: j`
             import java.util.Scanner;

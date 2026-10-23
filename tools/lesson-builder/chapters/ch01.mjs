@@ -1,4 +1,4 @@
-import { j, c, pre, fpre } from "../lib.mjs";
+import { j, c, pre, fpre, flowchart, shapeIcon } from "../lib.mjs";
 
 export default {
   num: 1, file: "chapter-01.html",
@@ -144,24 +144,21 @@ export default {
       blocks: [
         { type: "p", html: `Flowchart (ผังงาน) คือแผนภาพลำดับการทำงาน รูปทรงบอกหน้าที่ของแต่ละขั้น และลูกศรบอกทิศทาง เหมาะกับการมองภาพรวม โดยเฉพาะเมื่อมีทางแยกหรือการวนซ้ำ` },
         { type: "table", head: ["สัญลักษณ์", "หน้าที่", "ตัวอย่าง", "ใน Java"], rows: [
-          ["วงรี", "เริ่มต้น / สิ้นสุด", "เริ่มต้น, จบ", "<code>main</code> เริ่ม / จบ"],
-          ["สี่เหลี่ยมด้านขนาน", "รับข้อมูล / แสดงผล", "รับความกว้าง, แสดงพื้นที่", "<code>Scanner</code>, <code>println</code>"],
-          ["สี่เหลี่ยมผืนผ้า", "คำนวณ / กำหนดค่า", "พื้นที่ = กว้าง × ยาว", "<code>area = w * h;</code>"],
-          ["ข้าวหลามตัด", "ตรวจเงื่อนไข ใช่ / ไม่ใช่", "คะแนน ≥ 50 ?", "<code>if</code>, <code>while</code>"],
-          ["ลูกศร", "ทิศทางการทำงาน", "บนลงล่าง", "ลำดับคำสั่ง"],
+          [shapeIcon("terminal") + "วงรี", "เริ่มต้น / สิ้นสุด", "เริ่มต้น, จบ", "<code>main</code> เริ่ม / จบ"],
+          [shapeIcon("io") + "สี่เหลี่ยมด้านขนาน", "รับข้อมูล / แสดงผล", "รับความกว้าง, แสดงพื้นที่", "<code>Scanner</code>, <code>println</code>"],
+          [shapeIcon("process") + "สี่เหลี่ยมผืนผ้า", "คำนวณ / กำหนดค่า", "พื้นที่ = กว้าง × ยาว", "<code>area = w * h;</code>"],
+          [shapeIcon("decision") + "ข้าวหลามตัด", "ตรวจเงื่อนไข ใช่ / ไม่ใช่", "คะแนน ≥ 50 ?", "<code>if</code>, <code>while</code>"],
+          [shapeIcon("arrow") + "ลูกศร", "ทิศทางการทำงาน", "บนลงล่าง", "ลำดับคำสั่ง"],
         ] },
         { type: "h", text: "จาก Flowchart สู่โค้ด" },
         { type: "p", html: `อ่านโค้ดจากบนลงล่างเหมือนเดินตามลูกศร รูปแต่ละรูปตรงกับคำสั่งหนึ่งกลุ่ม` },
-        { type: "html", html: fpre(`
-          (วงรี) เริ่มต้น
-              ↓
-          (ด้านขนาน) รับ width, height
-              ↓
-          (สี่เหลี่ยม) area = width × height
-              ↓
-          (ด้านขนาน) แสดง area
-              ↓
-          (วงรี) จบ`, "Flowchart") },
+        { type: "html", html: flowchart({ caption: "พื้นที่สี่เหลี่ยมผืนผ้า: ลำดับ 5 ขั้นจากบนลงล่าง", nodes: {
+          start: ["terminal", "เริ่มต้น", 0, 0],
+          input: ["io", "รับ width, height", 0, 1],
+          calc: ["process", "area = width × height", 0, 2, 196],
+          show: ["io", "แสดง area", 0, 3],
+          end: ["terminal", "จบ", 0, 4],
+        }, edges: [["start", "input"], ["input", "calc"], ["calc", "show"], ["show", "end"]] }) },
         { type: "run", title: "พื้นที่สี่เหลี่ยมผืนผ้า", stdin: "4.5\n2",
           code: j`
             import java.util.Scanner;
@@ -207,12 +204,20 @@ export default {
       blocks: [
         { type: "p", html: `โปรแกรมเกือบทุกโปรแกรมประกอบจาก 3 โครงสร้าง: <strong>ลำดับ</strong> (ทำทีละขั้น), <strong>ทางเลือก</strong> (แยกทางตามเงื่อนไข) และ <strong>การทำซ้ำ</strong> (วนกลับไปทำใหม่)` },
         { type: "h", text: "ทางเลือก: ข้าวหลามตัดกลายเป็น if ... else" },
-        { type: "html", html: fpre(`
-          (เริ่มต้น) → / รับ score / → ◇ score ≥ 50 ?
-                                            ↙ ใช่       ไม่ใช่ ↘
-                                / แสดง "ผ่าน" /   / แสดง "ไม่ผ่าน" /
-                                            ↘             ↙
-                                                 (จบ)`, "Flowchart") },
+        { type: "html", html: flowchart({ caption: "ข้าวหลามตัดแยกเป็น 2 ทาง แล้วมาบรรจบกันก่อนทำขั้นถัดไป", nodes: {
+          start: ["terminal", "เริ่มต้น", 1, 0],
+          input: ["io", "รับ score", 1, 1],
+          check: ["decision", "score ≥ 50 ?", 1, 2],
+          pass: ["io", "แสดง \"ผ่าน\"", 0, 3],
+          fail: ["io", "แสดง \"ไม่ผ่าน\"", 2, 3],
+          done: ["io", "แสดง \"จบการตรวจ\"", 1, 4],
+          end: ["terminal", "จบ", 1, 5],
+        }, edges: [
+          ["start", "input"], ["input", "check"],
+          ["check", "pass", { out: "left", label: "ใช่" }],
+          ["check", "fail", { out: "right", label: "ไม่ใช่" }],
+          ["pass", "done"], ["fail", "done"], ["done", "end"],
+        ] }) },
         { type: "run", title: "ตรวจสอบการสอบผ่าน", stdin: "42",
           code: j`
             import java.util.Scanner;
@@ -235,14 +240,27 @@ export default {
         { type: "try", html: `ทดสอบค่าขอบ 49, 50 และ 51 ค่า 50 ต้องได้ “ผ่าน” เพราะเงื่อนไขใช้ ≥` },
         { type: "more", title: "ตัวอย่างเพิ่มเติม: ทางเลือกหลายชั้น (ตัดเกรด)", blocks: [
           { type: "p", html: `เมื่อมีมากกว่า 2 ผลลัพธ์ ให้ต่อข้าวหลามตัดเป็นทอด ๆ ตรวจจากช่วงสูงลงต่ำ ทางแรกที่ตอบ “ใช่” ได้ผลนั้นและไม่ตรวจต่อ` },
-          { type: "html", html: fpre(`
-            ◇ ≥80? ─ใช่→ / A /
-              │ไม่ใช่
-            ◇ ≥70? ─ใช่→ / B /
-              │ไม่ใช่
-            ◇ ≥60? ─ใช่→ / C /
-              │ไม่ใช่
-            / F /            (ทุกทางไปที่ จบ)`, "Flowchart") },
+          { type: "html", html: flowchart({ rowH: 96, caption: "ตรวจจากช่วงสูงลงต่ำ ทางแรกที่ตอบ “ใช่” ได้เกรดนั้นแล้วไปที่จบทันที", nodes: {
+            start: ["terminal", "เริ่มต้น", 0, 0],
+            input: ["io", "รับ score", 0, 1],
+            a: ["decision", "score ≥ 80 ?", 0, 2],
+            b: ["decision", "score ≥ 70 ?", 0, 3],
+            c: ["decision", "score ≥ 60 ?", 0, 4],
+            ga: ["io", "แสดง Grade A", 1.25, 2],
+            gb: ["io", "แสดง Grade B", 1.25, 3],
+            gc: ["io", "แสดง Grade C", 1.25, 4],
+            gf: ["io", "แสดง Grade F", 0, 5],
+            end: ["terminal", "จบ", 0, 6],
+          }, edges: [
+            ["start", "input"], ["input", "a"],
+            ["a", "ga", { out: "right", in: "left", label: "ใช่" }], ["a", "b", { label: "ไม่ใช่" }],
+            ["b", "gb", { out: "right", in: "left", label: "ใช่" }], ["b", "c", { label: "ไม่ใช่" }],
+            ["c", "gc", { out: "right", in: "left", label: "ใช่" }], ["c", "gf", { label: "ไม่ใช่" }],
+            ["ga", "end", { out: "right", in: "right", via: [[1.87, 2], [1.87, 6]] }],
+            ["gb", "end", { out: "right", in: "right", via: [[1.87, 3], [1.87, 6]] }],
+            ["gc", "end", { out: "right", in: "right", via: [[1.87, 4], [1.87, 6]] }],
+            ["gf", "end"],
+          ] }) },
           { type: "run", title: "ตัดเกรด", stdin: "73",
             code: j`
               import java.util.Scanner;
@@ -268,13 +286,22 @@ export default {
         ] },
         { type: "h", text: "การทำซ้ำ: ลูกศรวนกลับกลายเป็น while" },
         { type: "p", html: `รวมตัวเลขที่ผู้ใช้ป้อนไปเรื่อย ๆ จนกว่าจะป้อน 0 ค่า 0 นี้เรียกว่า <strong>ค่าหยุด (sentinel)</strong>` },
-        { type: "html", html: fpre(`
-          [กำหนด total = 0] → / รับ number / → ◇ number ≠ 0 ?
-                                                ↙ ใช่          ไม่ใช่ ↘
-                                   [total = total + number]   / แสดง total /
-                                                ↓                 ↓
-                                          / รับ number /        (จบ)
-                                                ↖ กลับไปตรวจเงื่อนไข`, "Flowchart") },
+        { type: "html", html: flowchart({ rowH: 96, caption: "ลูกศรจากล่างวนกลับขึ้นไปที่ข้าวหลามตัด คือการทำซ้ำ (while)", nodes: {
+          start: ["terminal", "เริ่มต้น", 1, 0],
+          init: ["process", "total = 0", 1, 1],
+          first: ["io", "รับ number", 1, 2],
+          check: ["decision", "number ≠ 0 ?", 1, 3],
+          add: ["process", "total = total + number", 1, 4, 200],
+          next: ["io", "รับ number", 1, 5],
+          show: ["io", "แสดง total", 2.25, 3],
+          end: ["terminal", "จบ", 2.25, 4],
+        }, edges: [
+          ["start", "init"], ["init", "first"], ["first", "check"],
+          ["check", "add", { label: "ใช่" }], ["add", "next"],
+          ["next", "check", { out: "left", in: "left", via: [[0.35, 5], [0.35, 3]] }],
+          ["check", "show", { out: "right", in: "left", label: "ไม่ใช่" }],
+          ["show", "end"],
+        ] }) },
         { type: "run", title: "รวมตัวเลขจนกว่าจะป้อน 0", stdin: "5\n12\n8\n0",
           code: j`
             import java.util.Scanner;
@@ -385,16 +412,13 @@ export default {
                 System.out.println("F = " + f);  // (ด้านขนาน) แสดง
             }
         }`,
-      answerHtml: fpre(`
-        (วงรี) เริ่มต้น
-          ↓
-        (ด้านขนาน) รับ C
-          ↓
-        (สี่เหลี่ยมผืนผ้า) F = C × 9 / 5 + 32
-          ↓
-        (ด้านขนาน) แสดง F
-          ↓
-        (วงรี) จบ`, "Flowchart") },
+      answerHtml: flowchart({ nodes: {
+        start: ["terminal", "เริ่มต้น", 0, 0],
+        input: ["io", "รับ C", 0, 1],
+        calc: ["process", "F = C × 9 / 5 + 32", 0, 2, 196],
+        show: ["io", "แสดง F", 0, 3],
+        end: ["terminal", "จบ", 0, 4],
+      }, edges: [["start", "input"], ["input", "calc"], ["calc", "show"], ["show", "end"]] }) },
     { level: 2, title: "รั้วสวนผัก", html: `<p>สวนผักเป็นรูปสี่เหลี่ยมผืนผ้า ต้องการล้อมรั้วรอบสวน รับความกว้างและความยาว (เมตร) และ<strong>ราคารั้วต่อเมตร</strong> แล้วหาความยาวรั้วทั้งหมดและค่ารั้วรวม (ไม่คิดประตู)</p>`,
       spec: ["เขียน IPO ให้ครบ (Input มี 3 ค่า, Output มี 2 ค่า)", "เขียนรหัสเทียม โดยคำนวณความยาวรั้วก่อน แล้วนำไปใช้คำนวณราคา", "บอกว่าทำไมต้องคำนวณตามลำดับนี้"],
       stdin: "12\n8\n150", answerFirst: true,

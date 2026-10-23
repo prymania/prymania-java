@@ -254,3 +254,21 @@ code:not(pre code) { border-radius: 5px; background: #eef2f7; padding: 1px 6px; 
 .cells.is-2d .cell { min-height: 40px; }
 .cells-row.is-head .cell { border: 0; background: transparent; padding-bottom: 0; }
 .row-label { display: grid; width: 34px; place-items: center; color: var(--muted); font: 500 12px var(--f-mono); }
+
+/* flowcharts drawn as real shapes (lib.mjs: flowchart, shapeIcon) */
+.flow-figure { margin: 16px 0; overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); padding: 10px 14px 14px; }
+.flow-figure figcaption { margin-bottom: 6px; color: var(--muted); font: 600 13px var(--f-display); }
+.flow-figure figcaption small { font-weight: 400; }
+.flow-figure svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.fc-terminal, .fc-io, .fc-process, .fc-decision { stroke-width: 1.6; }
+.fc-terminal { fill: #e5f4eb; stroke: #1e7a4c; }
+.fc-io { fill: #e8effb; stroke: #1d5bb8; }
+.fc-process { fill: #fdf0e3; stroke: #d9731a; }
+.fc-decision { fill: #f3ebfa; stroke: #7b45b3; }
+.fc-text { fill: var(--fg); font: 14px var(--f-body); }
+.fc-edge { fill: none; stroke: #6b7789; stroke-width: 1.6; }
+.fc-arrowhead { fill: #6b7789; }
+.fc-label { fill: var(--muted); font: 600 12.5px var(--f-body); }
+.fc-yes { fill: var(--ok); }
+.fc-no { fill: var(--warn); }
+.shape-icon { display: inline-block; margin-right: 8px; vertical-align: middle; }

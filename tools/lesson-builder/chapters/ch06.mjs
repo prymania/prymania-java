@@ -1,4 +1,4 @@
-import { j, c, pre, jpre } from "../lib.mjs";
+import { j, c, pre, jpre, flowchart } from "../lib.mjs";
 
 export default {
   num: 6, file: "chapter-06.html",
@@ -23,6 +23,20 @@ export default {
               // คำสั่งที่ทำซ้ำ
               // เปลี่ยนค่าที่มีผลต่อ condition
           }`) },
+        { type: "html", html: flowchart({ rowH: 90, caption: "while ตรวจเงื่อนไขก่อน ทำ body แล้ววนกลับไปตรวจใหม่", nodes: {
+          start: ["terminal", "เริ่มต้น", 1, 0],
+          init: ["process", "number = 1", 1, 1],
+          check: ["decision", "number ≤ 5 ?", 1, 2],
+          show: ["io", "แสดง number", 1, 3],
+          update: ["process", "number++", 1, 4],
+          after: ["io", "แสดง After loop", 2.25, 2],
+          end: ["terminal", "จบ", 2.25, 3],
+        }, edges: [
+          ["start", "init"], ["init", "check"],
+          ["check", "show", { label: "ใช่" }], ["show", "update"],
+          ["update", "check", { out: "left", in: "left", via: [[0.35, 4], [0.35, 2]] }],
+          ["check", "after", { out: "right", in: "left", label: "ไม่ใช่" }], ["after", "end"],
+        ] }) },
         { type: "run", title: "นับ 1 ถึง 5",
           code: j`
             public class CountUp {
@@ -164,6 +178,21 @@ export default {
           for (int i = 1; i <= 3; i++) {    // ค่าเริ่ม ; เงื่อนไข ; อัปเดต
               // loop body
           }`) },
+        { type: "html", html: flowchart({ rowH: 90, caption: "for รวม 4 ส่วนนี้ไว้ในบรรทัดเดียว: ค่าเริ่มทำครั้งเดียว ส่วนอัปเดตทำท้ายทุกรอบ", nodes: {
+          start: ["terminal", "เริ่มต้น", 1, 0],
+          sum: ["process", "sum = 0", 1, 1],
+          init: ["process", "ค่าเริ่ม: int i = 1", 1, 2],
+          check: ["decision", "เงื่อนไข: i <= 3 ?", 1, 3, 190],
+          body: ["process", "body: sum += i, แสดง", 1, 4, 196],
+          update: ["process", "อัปเดต: i++", 1, 5],
+          after: ["io", "แสดง sum", 2.25, 3],
+          end: ["terminal", "จบ", 2.25, 4],
+        }, edges: [
+          ["start", "sum"], ["sum", "init"], ["init", "check"],
+          ["check", "body", { label: "ใช่" }], ["body", "update"],
+          ["update", "check", { out: "left", in: "left", via: [[0.33, 5], [0.33, 3]] }],
+          ["check", "after", { out: "right", in: "left", label: "ไม่ใช่" }], ["after", "end"],
+        ] }) },
         { type: "run", title: "ทำนายรอบก่อนรัน",
           code: j`
             public class ForFlow {
@@ -261,6 +290,18 @@ export default {
       num: "6.3", toc: "do-while และ sentinel", title: "do-while และการทำซ้ำด้วย sentinel",
       blocks: [
         { type: "p", html: `<code>do-while</code> ทำ body ก่อนแล้ว<strong>ตรวจเงื่อนไขทีหลัง</strong> จึงทำอย่างน้อยหนึ่งครั้งเสมอ (อย่าลืม <code>;</code> หลัง <code>while (...)</code>)` },
+        { type: "html", html: flowchart({ rowH: 90, caption: "do-while: body อยู่ก่อนข้าวหลามตัด จึงทำอย่างน้อย 1 ครั้งเสมอ", nodes: {
+          start: ["terminal", "เริ่มต้น", 1, 0],
+          init: ["process", "count = 10", 1, 1],
+          show: ["io", "แสดง count", 1, 2],
+          update: ["process", "count++", 1, 3],
+          check: ["decision", "count <= 3 ?", 1, 4],
+          end: ["terminal", "จบ", 1, 5],
+        }, edges: [
+          ["start", "init"], ["init", "show"], ["show", "update"], ["update", "check"],
+          ["check", "show", { out: "left", in: "left", label: "ใช่", via: [[0.35, 4], [0.35, 2]] }],
+          ["check", "end", { label: "ไม่ใช่" }],
+        ] }) },
         { type: "run", title: "do-while กับ while เมื่อเงื่อนไขเป็นเท็จตั้งแต่แรก",
           code: j`
             public class DoWhileOnce {

@@ -130,8 +130,91 @@ function highlightFlow(code, thaiKeywords) {
 export const fpre = (src, label = "แผนภาพ") =>
   `<div class="code-block is-flow"><div class="code-head"><span class="code-file">${esc(label)}</span></div><pre><code>${highlightFlow(dedent(src), label === "รหัสเทียม" || label === "Flowchart")}</code></pre></div>`;
 
+// ---- Flowcharts drawn as real shapes (inline SVG) ----
+// nodes: { id: [shape, text, col, row, width?] }  shape = terminal | io | process | decision
+// edges: [from, to, { out, in, label, via }]  out/in = top | bottom | left | right (default bottom → top)
+//        via = extra corner points in grid units [[col, row], ...] for loop-backs and side lanes
+const FC = { colW: 200, rowH: 80, pad: 14, h: { terminal: 40, io: 44, process: 44, decision: 66 }, w: { terminal: 120, io: 176, process: 176, decision: 170 }, skew: 14 };
+function fcShape(shape, cx, cy, w, h) {
+  const x = cx - w / 2, y = cy - h / 2, s = FC.skew;
+  if (shape === "terminal") return `<rect class="fc-terminal" x="${x}" y="${y}" width="${w}" height="${h}" rx="${h / 2}"/>`;
+  if (shape === "io") return `<polygon class="fc-io" points="${x + s},${y} ${x + w},${y} ${x + w - s},${y + h} ${x},${y + h}"/>`;
+  if (shape === "decision") return `<polygon class="fc-decision" points="${cx},${y} ${x + w},${cy} ${cx},${y + h} ${x},${cy}"/>`;
+  return `<rect class="fc-process" x="${x}" y="${y}" width="${w}" height="${h}" rx="3"/>`;
+}
+function fcText(text, cx, cy, cls = "fc-text") {
+  const lines = String(text).split("\n");
+  const top = cy - (lines.length - 1) * 8.5;
+  return `<text class="${cls}" x="${cx}" y="${top}" text-anchor="middle" dominant-baseline="central">`
+    + lines.map((l, i) => `<tspan x="${cx}" dy="${i ? 17 : 0}">${esc(l)}</tspan>`).join("") + `</text>`;
+}
+export function flowchart({ nodes, edges = [], caption = "", label = "Flowchart", rowH = FC.rowH }) {
+  const box = {};
+  let maxX = 0, maxY = 0;
+  for (const [id, [shape, text, col, row, wOverride]] of Object.entries(nodes)) {
+    const w = wOverride || FC.w[shape], h = FC.h[shape];
+    const cx = FC.pad + col * FC.colW + FC.colW / 2, cy = FC.pad + row * rowH + rowH / 2;
+    box[id] = { shape, text, cx, cy, w, h };
+    maxX = Math.max(maxX, cx + w / 2); maxY = Math.max(maxY, cy + h / 2);
+  }
+  const grid = ([col, row]) => ({ x: FC.pad + col * FC.colW + FC.colW / 2, y: FC.pad + row * rowH + rowH / 2 });
+  const anchor = (b, side) => {
+    const inset = b.shape === "io" ? FC.skew / 2 : 0;
+    if (side === "top") return { x: b.cx, y: b.cy - b.h / 2 };
+    if (side === "left") return { x: b.cx - b.w / 2 + inset, y: b.cy };
+    if (side === "right") return { x: b.cx + b.w / 2 - inset, y: b.cy };
+    return { x: b.cx, y: b.cy + b.h / 2 };
+  };
+  const vertical = (side) => side === "top" || side === "bottom";
+  let paths = "", labels = "";
+  for (const [from, to, opt = {}] of edges) {
+    const outSide = opt.out || "bottom", inSide = opt.in || "top";
+    const a = anchor(box[from], outSide), b = anchor(box[to], inSide);
+    const via = (opt.via || []).map(grid);
+    const targets = [...via, b];
+    const pts = [a];
+    targets.forEach((q, i) => {
+      const p = pts[pts.length - 1];
+      if (p.x !== q.x && p.y !== q.y) {
+        const first = i === 0, last = i === targets.length - 1;
+        if (first && last && vertical(outSide) === vertical(inSide)) {   // S-shaped: two corners
+          if (vertical(outSide)) { const m = (p.y + q.y) / 2; pts.push({ x: p.x, y: m }, { x: q.x, y: m }); }
+          else { const m = (p.x + q.x) / 2; pts.push({ x: m, y: p.y }, { x: m, y: q.y }); }
+        } else {
+          const horizontalFirst = first ? !vertical(outSide) : last ? vertical(inSide) : true;
+          pts.push(horizontalFirst ? { x: q.x, y: p.y } : { x: p.x, y: q.y });
+        }
+      }
+      pts.push(q);
+    });
+    paths += `<path class="fc-edge" d="M${pts.map((p) => `${p.x},${p.y}`).join(" L")}" marker-end="url(#fc-arrow)"/>`;
+    if (opt.label) {
+      const dx = outSide === "left" ? -8 : 8, dy = vertical(outSide) ? 15 : -7;
+      const cls = /^(ใช่|yes|true)/i.test(opt.label) ? "fc-label fc-yes" : /^(ไม่|no|false)/i.test(opt.label) ? "fc-label fc-no" : "fc-label";
+      labels += `<text class="${cls}" x="${a.x + dx}" y="${a.y + dy}" text-anchor="${outSide === "left" ? "end" : "start"}">${esc(opt.label)}</text>`;
+    }
+    for (const p of pts) { maxX = Math.max(maxX, p.x); maxY = Math.max(maxY, p.y); }
+  }
+  const shapes = Object.values(box).map((b) => fcShape(b.shape, b.cx, b.cy, b.w, b.h) + fcText(b.text, b.cx, b.cy)).join("");
+  const W = Math.ceil(maxX + FC.pad), H = Math.ceil(maxY + FC.pad);
+  const title = Object.values(box).map((b) => b.text.replace(/\n/g, " ")).join(" → ");
+  return `<figure class="flow-figure"><figcaption>${esc(label)}${caption ? ` <small>${caption}</small>` : ""}</figcaption>`
+    + `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(title)}">`
+    + `<defs><marker id="fc-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="fc-arrowhead"/></marker></defs>`
+    + paths + shapes + labels + `</svg></figure>`;
+}
+
+// small shape for tables (e.g. the symbol list in chapter 1)
+export function shapeIcon(shape) {
+  const w = 58, h = 30;
+  const body = shape === "arrow"
+    ? `<path class="fc-edge" d="M6,15 L50,15" marker-end="url(#fc-arrow-i)"/>`
+    : fcShape(shape, w / 2, h / 2, shape === "terminal" ? 50 : shape === "decision" ? 54 : 52, shape === "decision" ? 28 : 24);
+  return `<svg class="shape-icon" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true"><defs><marker id="fc-arrow-i" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="fc-arrowhead"/></marker></defs>${body}</svg>`;
+}
+
 // block-level HTML (a panel, list, table) must not be wrapped in <p>
-const para = (h) => (/^\s*<(div|pre|ul|ol|table)\b/.test(h) ? h : `<p>${h}</p>`);
+const para = (h) => (/^\s*<(div|pre|ul|ol|table|figure)\b/.test(h) ? h : `<p>${h}</p>`);
 
 function className(code) {
   const m = code.match(/public\s+(?:final\s+)?class\s+(\w+)/) || code.match(/class\s+(\w+)/);
