@@ -1,4 +1,4 @@
-import { j, c, pre, jpre } from "../lib.mjs";
+import { j, c, pre, jpre, fpre } from "../lib.mjs";
 
 export default {
   num: 13, file: "chapter-13.html",
@@ -701,6 +701,353 @@ export default {
                 }
             }`,
           explain: "มูลค่าเริ่มต้นคือ 12 × 40 + 8 × 25 = 680 เติม Ruler 10 อันเพิ่ม 150 เป็น 830 สังเกตว่า findByName คืนการอ้างอิงไปยังออบเจ็กต์ในรายการ การเรียก addStock จึงเปลี่ยนข้อมูลในรายการจริงโดยไม่ต้อง set กลับ" },
+      ],
+    },
+    {
+      num: "13.7", toc: "บันทึกรายจ่าย", title: "ลงมือเขียน: โปรแกรมบันทึกรายจ่าย",
+      blocks: [
+        { type: "p", html: `หัวข้อนี้รวม ArrayList ของออบเจ็กต์ การค้นหา การลบ และการสรุปผลเป็นโปรแกรมเดียว ขั้นตอนเหมือนหัวข้อ 7.6: อ่านโจทย์ → แนวคิด → เลือกเมธอด → เขียนและทดสอบทีละขั้น` },
+        { type: "h", text: "โจทย์" },
+        { type: "concept", title: "สมุดบันทึกรายจ่ายประจำวัน", html: `<ul><li>รายจ่ายแต่ละรายการมี <strong>ชื่อ</strong> (เช่น Lunch), <strong>หมวด</strong> (เช่น Food) และ<strong>จำนวนเงิน</strong></li><li>เมนู: <code>1) Add</code> เพิ่มรายการ, <code>2) List</code> แสดงรายการพร้อมลำดับ, <code>3) Summary</code> สรุปยอดรวมแยกตามหมวดพร้อมเปอร์เซ็นต์, <code>4) Remove</code> ลบตามลำดับที่เห็นในรายการ, <code>0) Exit</code></li><li>จำนวนเงินต้องมากกว่า 0 และลำดับที่ลบต้องมีอยู่จริง</li><li>ไม่รู้ล่วงหน้าว่าจะมีกี่รายการหรือมีหมวดอะไรบ้าง</li></ul>` },
+        { type: "p", html: `ตัวอย่างหน้าสรุปเมื่อมี Lunch 65, Bus 15, Coffee 45 และ Notebook 35:` },
+        { type: "example", title: "Summary", html: pre(`Food         110.00   68.8%
+Travel        15.00    9.4%
+Study         35.00   21.9%
+Total        160.00`) },
+
+        { type: "h", text: "แนวคิดในการเขียนโปรแกรม" },
+        { type: "p", html: `รายจ่ายหนึ่งรายการมีข้อมูล 3 อย่างที่ไปด้วยกันเสมอ จึงสร้างคลาส <code>Expense</code> (บทที่ 11–12) และเก็บทั้งหมดใน <code>ArrayList&lt;Expense&gt;</code> เพราะจำนวนรายการเพิ่ม-ลดได้ตลอด` },
+        { type: "p", html: `ส่วนที่ยากคือสรุปตามหมวด เพราะไม่รู้ล่วงหน้าว่ามีหมวดอะไร แยกเป็นสองขั้น: (1) สร้างรายการชื่อหมวดที่ไม่ซ้ำด้วย <code>contains</code> (2) วนทีละหมวด รวมยอดเฉพาะรายการของหมวดนั้น` },
+        { type: "example", title: "ขั้นตอนของโปรแกรม", html: fpre(`
+          เริ่มต้น
+          สร้าง list ว่าง
+          ทำ
+              แสดงเมนู แล้วรับ choice
+              ถ้า choice = 1   รับชื่อ หมวด จำนวนเงิน แล้วเพิ่ม     ← งาน: อ่านรายการใหม่
+              ถ้า choice = 2   แสดงทุกรายการพร้อมลำดับ            ← งาน: แสดงรายการ
+              ถ้า choice = 3   หาหมวดที่ไม่ซ้ำ                     ← งาน: หาหมวด
+                               วนแต่ละหมวด: รวมยอดของหมวดนั้น     ← งาน: รวมยอดหมวด
+                               แสดงยอด เปอร์เซ็นต์ และยอดรวม      ← งาน: ยอดรวม, แสดงสรุป
+              ถ้า choice = 4   รับลำดับ แล้วลบ                     ← งาน: ลบตามลำดับ
+          ขณะที่ choice ไม่ใช่ 0
+          จบ`, "รหัสเทียม") },
+
+        { type: "h", text: "ควรมีคลาสและเมธอดอะไรบ้าง" },
+        { type: "table", head: ["คลาส / เมธอด", "หน้าที่", "รับอะไร", "คืนอะไร"], rows: [
+          ["คลาส <code>Expense</code>", "ข้อมูลหนึ่งรายการ (ชื่อ หมวด จำนวนเงิน) พร้อม getter และ toString", "–", "–"],
+          ["<code>printList</code>", "แสดงทุกรายการพร้อมลำดับที่ (เริ่มที่ 1)", "<code>ArrayList&lt;Expense&gt; list</code>", "<code>void</code>"],
+          ["<code>total</code>", "ยอดรวมทุกรายการ", "<code>list</code>", "<code>double</code>"],
+          ["<code>categories</code>", "ชื่อหมวดที่ไม่ซ้ำ ตามลำดับที่พบ", "<code>list</code>", "<code>ArrayList&lt;String&gt;</code>"],
+          ["<code>totalOf</code>", "ยอดรวมของหมวดเดียว", "<code>list, String category</code>", "<code>double</code>"],
+          ["<code>printSummary</code>", "แสดงยอดแต่ละหมวด เปอร์เซ็นต์ และยอดรวม", "<code>list</code>", "<code>void</code>"],
+          ["<code>readExpense</code>", "ถามจนได้จำนวนเงินมากกว่า 0 แล้วสร้าง Expense", "<code>Scanner input</code>", "<code>Expense</code>"],
+          ["<code>removeAt</code>", "ลบตามลำดับที่ผู้ใช้เห็น", "<code>list, int number</code>", "<code>Expense</code> ที่ถูกลบ หรือ null"],
+        ] },
+        { type: "tip", title: "เมธอดเรียกเมธอด", html: `printSummary ไม่ต้องคำนวณเอง แค่เรียก categories, totalOf และ total แต่ละเมธอดสั้นและทดสอบแยกได้` },
+
+        { type: "h", text: "ขั้นที่ 1: คลาส Expense และ printList" },
+        { type: "p", html: `สร้างคลาสข้อมูลก่อน แล้วทดสอบด้วยรายการที่เพิ่มในโค้ด ยังไม่ต้องรับข้อมูลจากผู้ใช้ toString จัดคอลัมน์ให้ตรงกันด้วย <code>String.format</code>` },
+        { type: "run", title: "สร้างรายการและแสดงผล",
+          code: j`
+            import java.util.ArrayList;
+
+            public class ExpenseStep1 {
+                public static void main(String[] args) {
+                    ArrayList<Expense> list = new ArrayList<>();
+                    printList(list);                                  // กรณีว่าง
+                    list.add(new Expense("Lunch", "Food", 65));
+                    list.add(new Expense("Bus", "Travel", 15));
+                    list.add(new Expense("Coffee", "Food", 45));
+                    list.add(new Expense("Notebook", "Study", 35));
+                    printList(list);
+                }
+
+                static void printList(ArrayList<Expense> list) {
+                    if (list.isEmpty()) {
+                        System.out.println("  (no expenses)");
+                        return;
+                    }
+                    for (int i = 0; i < list.size(); i++) {
+                        System.out.println("  " + (i + 1) + ". " + list.get(i));   // ลำดับที่ = index + 1
+                    }
+                }
+            }
+
+            class Expense {
+                private final String title;
+                private final String category;
+                private final double amount;
+
+                Expense(String title, String category, double amount) {
+                    this.title = title;
+                    this.category = category;
+                    this.amount = amount;
+                }
+
+                String getCategory() { return category; }
+                double getAmount() { return amount; }
+
+                @Override
+                public String toString() {
+                    return String.format("%-10s %-8s %8.2f", title, category, amount);
+                }
+            }`,
+          },
+
+        { type: "h", text: "ขั้นที่ 2: total, categories และ totalOf" },
+        { type: "p", html: `สามเมธอดที่คำนวณอย่างเดียว ไม่พิมพ์ ทดสอบด้วยข้อมูลชุดเดิมแล้วเทียบกับที่คิดด้วยมือ: รวม 160, หมวด Food, Travel, Study และ Food รวม 65 + 45 = 110` },
+        { type: "run", title: "ทดสอบเมธอดคำนวณ",
+          code: j`
+            import java.util.ArrayList;
+
+            public class ExpenseStep2 {
+                public static void main(String[] args) {
+                    ArrayList<Expense> list = new ArrayList<>();
+                    list.add(new Expense("Lunch", "Food", 65));
+                    list.add(new Expense("Bus", "Travel", 15));
+                    list.add(new Expense("Coffee", "Food", 45));
+                    list.add(new Expense("Notebook", "Study", 35));
+
+                    System.out.println("Total: " + total(list));                  // 160.0
+                    System.out.println("Categories: " + categories(list));        // [Food, Travel, Study]
+                    System.out.println("Food: " + totalOf(list, "Food"));         // 110.0
+                    System.out.println("Gift: " + totalOf(list, "Gift"));         // 0.0  ไม่มีหมวดนี้
+                }
+
+                static double total(ArrayList<Expense> list) {
+                    double sum = 0;
+                    for (Expense e : list) sum += e.getAmount();
+                    return sum;
+                }
+
+                static ArrayList<String> categories(ArrayList<Expense> list) {
+                    ArrayList<String> result = new ArrayList<>();
+                    for (Expense e : list) {
+                        if (!result.contains(e.getCategory())) {          // ยังไม่มี → เพิ่ม
+                            result.add(e.getCategory());
+                        }
+                    }
+                    return result;
+                }
+
+                static double totalOf(ArrayList<Expense> list, String category) {
+                    double sum = 0;
+                    for (Expense e : list) {
+                        if (e.getCategory().equals(category)) sum += e.getAmount();
+                    }
+                    return sum;
+                }
+            }
+
+            class Expense {
+                private final String title;
+                private final String category;
+                private final double amount;
+
+                Expense(String title, String category, double amount) {
+                    this.title = title;
+                    this.category = category;
+                    this.amount = amount;
+                }
+
+                String getCategory() { return category; }
+                double getAmount() { return amount; }
+
+                @Override
+                public String toString() {
+                    return String.format("%-10s %-8s %8.2f", title, category, amount);
+                }
+            }`,
+          },
+
+        { type: "h", text: "ขั้นที่ 3: ประกอบเป็นโปรแกรมเมนู" },
+        { type: "p", html: `เพิ่ม printSummary, readExpense และ removeAt แล้วให้ main วนเมนู ทดสอบครบ: เพิ่ม 5 รายการ (มีจำนวนเงินผิดหนึ่งครั้ง) ดูรายการ ลบลำดับที่ 5 ลองลบลำดับที่ไม่มี แล้วดูสรุป ซึ่งต้องตรงกับตัวอย่างในโจทย์` },
+        { type: "run", title: "โปรแกรมบันทึกรายจ่ายฉบับสมบูรณ์", stdin: "1\nLunch Food 65\n1\nBus Travel -15\n15\n1\nCoffee Food 45\n1\nNotebook Study 35\n1\nSnack Food 20\n2\n4\n5\n4\n9\n3\n0",
+          code: j`
+            import java.util.ArrayList;
+            import java.util.Scanner;
+
+            public class ExpenseTracker {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    ArrayList<Expense> list = new ArrayList<>();
+                    int choice;
+                    do {
+                        System.out.print("\n1) Add  2) List  3) Summary  4) Remove  0) Exit : ");
+                        choice = input.nextInt();
+                        switch (choice) {
+                            case 1 -> list.add(readExpense(input));
+                            case 2 -> printList(list);
+                            case 3 -> printSummary(list);
+                            case 4 -> {
+                                System.out.print("Number to remove: ");
+                                Expense removed = removeAt(list, input.nextInt());
+                                if (removed == null) {
+                                    System.out.println("No such number");
+                                } else {
+                                    System.out.println("Removed: " + removed);
+                                }
+                            }
+                            case 0 -> System.out.println("Bye");
+                            default -> System.out.println("Invalid menu");
+                        }
+                    } while (choice != 0);
+                }
+
+                static Expense readExpense(Scanner input) {
+                    System.out.print("Title Category Amount: ");
+                    String title = input.next();
+                    String category = input.next();
+                    double amount = input.nextDouble();
+                    while (amount <= 0) {                             // จำนวนเงินต้องมากกว่า 0
+                        System.out.print("Amount must be more than 0: ");
+                        amount = input.nextDouble();
+                    }
+                    return new Expense(title, category, amount);
+                }
+
+                static Expense removeAt(ArrayList<Expense> list, int number) {
+                    if (number < 1 || number > list.size()) return null;  // ไม่มีลำดับนี้
+                    return list.remove(number - 1);                       // remove คืนตัวที่ถูกลบ
+                }
+
+                static void printSummary(ArrayList<Expense> list) {
+                    double all = total(list);
+                    if (all == 0) {
+                        System.out.println("  (no expenses)");
+                        return;
+                    }
+                    for (String cat : categories(list)) {
+                        double sum = totalOf(list, cat);
+                        System.out.printf("%-10s %8.2f %6.1f%%%n", cat, sum, sum * 100 / all);
+                    }
+                    System.out.printf("%-10s %8.2f%n", "Total", all);
+                }
+
+                static void printList(ArrayList<Expense> list) {
+                    if (list.isEmpty()) {
+                        System.out.println("  (no expenses)");
+                        return;
+                    }
+                    for (int i = 0; i < list.size(); i++) {
+                        System.out.println("  " + (i + 1) + ". " + list.get(i));
+                    }
+                }
+
+                static double total(ArrayList<Expense> list) {
+                    double sum = 0;
+                    for (Expense e : list) sum += e.getAmount();
+                    return sum;
+                }
+
+                static ArrayList<String> categories(ArrayList<Expense> list) {
+                    ArrayList<String> result = new ArrayList<>();
+                    for (Expense e : list) {
+                        if (!result.contains(e.getCategory())) {
+                            result.add(e.getCategory());
+                        }
+                    }
+                    return result;
+                }
+
+                static double totalOf(ArrayList<Expense> list, String category) {
+                    double sum = 0;
+                    for (Expense e : list) {
+                        if (e.getCategory().equals(category)) sum += e.getAmount();
+                    }
+                    return sum;
+                }
+            }
+
+            class Expense {
+                private final String title;
+                private final String category;
+                private final double amount;
+
+                Expense(String title, String category, double amount) {
+                    this.title = title;
+                    this.category = category;
+                    this.amount = amount;
+                }
+
+                String getTitle() { return title; }
+                String getCategory() { return category; }
+                double getAmount() { return amount; }
+
+                @Override
+                public String toString() {
+                    return String.format("%-10s %-8s %8.2f", title, category, amount);
+                }
+            }`,
+          },
+        { type: "tip", html: `ในรูปแบบของ printf ต้องเขียน <code>%%</code> เพื่อพิมพ์เครื่องหมาย % หนึ่งตัว` },
+        { type: "check", title: "ทำไมต้อง number − 1", html: `<p>removeAt ลบด้วย <code>list.remove(number - 1)</code> ถ้าลืม −1 แล้วผู้ใช้ลบลำดับที่ 2 จะเกิดอะไรขึ้น และถ้าลบลำดับสุดท้ายล่ะ</p>`, answer: `<p>ลำดับที่ 2 จะลบรายการที่ 3 แทน (ผิดตัว) และถ้าลบลำดับสุดท้าย index จะเท่ากับ size() ทำให้เกิด IndexOutOfBoundsException ผู้ใช้นับจาก 1 แต่ index เริ่มที่ 0 จึงต้องแปลงในที่เดียว</p>` },
+        { type: "practice", level: 2, title: "รายการที่แพงที่สุด และกรองตามหมวด",
+          html: `<p>เขียนเมธอดเพิ่มสองตัวสำหรับโปรแกรมบันทึกรายจ่าย: <code>static Expense mostExpensive(ArrayList&lt;Expense&gt; list)</code> คืนรายการที่จำนวนเงินมากที่สุด (คืน null ถ้ารายการว่าง) และ <code>static ArrayList&lt;Expense&gt; filterByCategory(ArrayList&lt;Expense&gt; list, String category)</code> คืน<strong>รายการใหม่</strong>ที่มีเฉพาะหมวดนั้น ทดสอบใน main ด้วยข้อมูลที่กำหนด และทดสอบกรณีรายการว่าง</p>`,
+          spec: ["ข้อมูลทดสอบ: Lunch Food 65, Bus Travel 15, Coffee Food 45, Notebook Study 35, Dinner Food 120", "filterByCategory ห้ามแก้รายการเดิม", "แสดงผลด้วย toString ของ Expense จากตัวอย่าง (เพิ่ม getter ที่ต้องใช้ได้)"],
+          hint: "คำใบ้: mostExpensive เก็บตัวที่มากที่สุดไว้ในตัวแปร เริ่มจาก list.get(0) แล้ววนเทียบ getAmount() ส่วน filterByCategory สร้าง ArrayList ใหม่แล้ว add เฉพาะตัวที่หมวดตรงกัน",
+          solution: j`
+            import java.util.ArrayList;
+
+            public class ExpenseQueries {
+                public static void main(String[] args) {
+                    ArrayList<Expense> list = new ArrayList<>();
+                    list.add(new Expense("Lunch", "Food", 65));
+                    list.add(new Expense("Bus", "Travel", 15));
+                    list.add(new Expense("Coffee", "Food", 45));
+                    list.add(new Expense("Notebook", "Study", 35));
+                    list.add(new Expense("Dinner", "Food", 120));
+
+                    System.out.println("Most expensive: " + mostExpensive(list));
+                    System.out.println("Food only:");
+                    for (Expense e : filterByCategory(list, "Food")) {
+                        System.out.println("  " + e);
+                    }
+                    System.out.println("Original size: " + list.size());          // ยังเป็น 5
+
+                    ArrayList<Expense> empty = new ArrayList<>();
+                    System.out.println("Most expensive (empty): " + mostExpensive(empty));
+                }
+
+                static Expense mostExpensive(ArrayList<Expense> list) {
+                    if (list.isEmpty()) return null;
+                    Expense best = list.get(0);
+                    for (Expense e : list) {
+                        if (e.getAmount() > best.getAmount()) best = e;
+                    }
+                    return best;
+                }
+
+                static ArrayList<Expense> filterByCategory(ArrayList<Expense> list, String category) {
+                    ArrayList<Expense> result = new ArrayList<>();       // รายการใหม่ ไม่แตะของเดิม
+                    for (Expense e : list) {
+                        if (e.getCategory().equals(category)) result.add(e);
+                    }
+                    return result;
+                }
+            }
+
+            class Expense {
+                private final String title;
+                private final String category;
+                private final double amount;
+
+                Expense(String title, String category, double amount) {
+                    this.title = title;
+                    this.category = category;
+                    this.amount = amount;
+                }
+
+                String getCategory() { return category; }
+                double getAmount() { return amount; }
+
+                @Override
+                public String toString() {
+                    return String.format("%-10s %-8s %8.2f", title, category, amount);
+                }
+            }`,
+          explain: "mostExpensive ต้องตรวจรายการว่างก่อน เพราะ list.get(0) ของรายการว่างจะเกิด IndexOutOfBoundsException การคืน null ให้ผู้เรียกตัดสินใจเอง และเมื่อต่อ null กับ String จะพิมพ์คำว่า null ส่วน filterByCategory ใส่ออบเจ็กต์ตัวเดิมลงรายการใหม่ จึงไม่สร้าง Expense ซ้ำ และรายการเดิมยังมี 5 ตัว" },
+        { type: "try", html: `เปลี่ยน printSummary ให้แสดงหมวดเรียงจากยอดมากไปน้อย (ใบ้: สร้างรายการหมวดก่อน แล้วเรียงด้วย <code>sort</code> และ <code>Comparator</code>)` },
       ],
     },
   ],

@@ -550,6 +550,478 @@ export default {
           });`) + `<p>EDT ถูกบล็อกจึงไม่มีโอกาสวาดข้อความ “Working...” ให้เห็น งานที่ต้องรอหรือทำซ้ำตามเวลาให้ใช้ <code>javax.swing.Timer</code> หรือ <code>SwingWorker</code> (บทเสริม Timer และ Thread)</p>` },
       ],
     },
+    {
+      num: "16.5", toc: "เครื่องคำนวณ GPA", title: "ลงมือเขียน: เครื่องคำนวณเกรดเฉลี่ย (GPA) แบบ GUI",
+      blocks: [
+        { type: "p", html: `หัวข้อนี้สร้างโปรแกรม GUI ตั้งแต่ต้นจนจบด้วยขั้นตอนเดียวกับหัวข้อ 7.6 จุดสำคัญคือ<strong>เขียนและทดสอบส่วนคำนวณใน console ให้ถูกก่อน</strong> แล้วค่อยต่อหน้าจอ ตามหลัก “แยก model ออกจาก UI” ในหัวข้อ 16.4` },
+        { type: "h", text: "โจทย์" },
+        { type: "concept", title: "เครื่องคำนวณ GPA", html: `<ul><li>ผู้ใช้กรอก<strong>รหัสวิชา</strong> เลือก<strong>เกรด</strong> (A, B+, B, C+, C, D+, D, F) และ<strong>หน่วยกิต</strong> (1–4) แล้วกด Add (หรือกด Enter ในช่องรหัสวิชา)</li><li>รายวิชาทั้งหมดแสดงในรายการ เลือกรายการแล้วกด Remove เพื่อลบได้</li><li>ด้านล่างแสดงหน่วยกิตรวมและ GPA ทศนิยม 2 ตำแหน่ง อัปเดตทันทีทุกครั้งที่เพิ่มหรือลบ</li><li>ไม่กรอกรหัสวิชา หรือกด Remove โดยไม่ได้เลือก ให้แสดงข้อความเตือนสีแดง</li></ul>` },
+        { type: "table", title: "ค่าคะแนนของเกรด", head: ["เกรด", "A", "B+", "B", "C+", "C", "D+", "D", "F"], rows: [["คะแนน", "4.0", "3.5", "3.0", "2.5", "2.0", "1.5", "1.0", "0.0"]] },
+        { type: "p", html: `GPA = ผลรวมของ (คะแนนเกรด × หน่วยกิต) ÷ หน่วยกิตรวม เช่น CS101 A 3 หน่วยกิต, MA102 B+ 4 หน่วยกิต, EN103 C 2 หน่วยกิต:` },
+        { type: "table", cls: "trace-table", head: ["วิชา", "เกรด", "หน่วยกิต", "คะแนน × หน่วยกิต"], rows: [
+          ["CS101", "A (4.0)", "3", "12.0"], ["MA102", "B+ (3.5)", "4", "14.0"], ["EN103", "C (2.0)", "2", "4.0"], ["<strong>รวม</strong>", "", "<strong>9</strong>", "<strong>30.0</strong> → GPA = 30 ÷ 9 = <strong>3.33</strong>"],
+        ] },
+
+        { type: "h", text: "แนวคิดในการเขียนโปรแกรม" },
+        { type: "p", html: `โปรแกรมแบ่งเป็นสองส่วนที่ไม่ปนกัน` },
+        { type: "table", head: ["ส่วน", "ทำอะไร", "รู้จัก Swing ไหม"], rows: [
+          ["model: <code>GpaBook</code> และ <code>CourseGrade</code>", "เก็บรายวิชา คิดหน่วยกิตรวมและ GPA", "ไม่รู้ ทดสอบใน console ได้"],
+          ["UI: <code>GpaCalculator</code>", "สร้างหน้าจอ รับ event อ่านค่าจาก component แล้วสั่ง model", "รู้"],
+        ] },
+        { type: "example", title: "เมื่อผู้ใช้กด Add", html: fpre(`
+          ผู้ใช้กด Add (หรือ Enter)
+          อ่านรหัสวิชา เกรด หน่วยกิต จาก component
+          ถ้า รหัสว่าง → แสดงคำเตือนสีแดง แล้วหยุด
+          สั่ง model เพิ่มรายวิชา                       ← model: add
+          ล้างช่องรหัสวิชา
+          วาดหน้าจอใหม่จาก model                         ← UI: refresh
+              ล้างรายการ แล้วเติมทุกวิชาจาก model
+              แสดง หน่วยกิตรวม และ GPA                  ← model: totalCredits, gpa`, "รหัสเทียม") },
+
+        { type: "h", text: "ควรมีคลาสและเมธอดอะไรบ้าง" },
+        { type: "table", head: ["คลาส / เมธอด", "หน้าที่", "คืนอะไร"], rows: [
+          ["<code>CourseGrade</code>", "ข้อมูลหนึ่งวิชา (รหัส เกรด หน่วยกิต) + <code>points()</code> คะแนนของเกรด", "–"],
+          ["<code>GpaBook.add(code, grade, credits)</code>", "เพิ่มวิชา", "<code>void</code>"],
+          ["<code>GpaBook.remove(index)</code>", "ลบวิชาตามตำแหน่ง", "<code>void</code>"],
+          ["<code>GpaBook.totalCredits()</code>", "หน่วยกิตรวม", "<code>int</code>"],
+          ["<code>GpaBook.gpa()</code>", "เกรดเฉลี่ย (0 ถ้ายังไม่มีวิชา)", "<code>double</code>"],
+          ["<code>GpaCalculator.addCourse()</code>", "listener ของปุ่ม Add", "<code>void</code>"],
+          ["<code>GpaCalculator.removeSelected()</code>", "listener ของปุ่ม Remove", "<code>void</code>"],
+          ["<code>GpaCalculator.refresh()</code>", "วาดรายการและ GPA จาก model (จุดเดียวที่อัปเดตหน้าจอ)", "<code>void</code>"],
+        ] },
+
+        { type: "h", text: "ขั้นที่ 1: แปลงเกรดเป็นคะแนน" },
+        { type: "p", html: `เริ่มจากส่วนเล็กที่สุดใน console ใช้ switch แบบลูกศรที่คืนค่า (หัวข้อ 5.4) ทดสอบเกรดทุกตัว` },
+        { type: "run", title: "ทดสอบ pointsOf ทุกเกรด",
+          code: j`
+            public class GpaStep1 {
+                public static void main(String[] args) {
+                    String[] grades = {"A", "B+", "B", "C+", "C", "D+", "D", "F"};
+                    for (String g : grades) {
+                        System.out.print(g + "=" + pointsOf(g) + "  ");
+                    }
+                    System.out.println();
+                }
+
+                static double pointsOf(String grade) {
+                    return switch (grade) {
+                        case "A" -> 4.0;
+                        case "B+" -> 3.5;
+                        case "B" -> 3.0;
+                        case "C+" -> 2.5;
+                        case "C" -> 2.0;
+                        case "D+" -> 1.5;
+                        case "D" -> 1.0;
+                        default -> 0.0;                               // F
+                    };
+                }
+            }`,
+          },
+
+        { type: "h", text: "ขั้นที่ 2: model คิด GPA ใน console" },
+        { type: "p", html: `สร้าง GpaBook ที่มี <code>ArrayList&lt;CourseGrade&gt;</code> (composition, บทที่ 12) แล้วทดสอบกับตัวอย่างในโจทย์ ผลต้องได้ 9 หน่วยกิต GPA 3.33 และหลังลบ EN103 ต้องได้ 26 ÷ 7 = 3.71` },
+        { type: "run", title: "ทดสอบ GpaBook โดยไม่มีหน้าจอ",
+          code: j`
+            import java.util.ArrayList;
+
+            public class GpaStep2 {
+                public static void main(String[] args) {
+                    GpaBook book = new GpaBook();
+                    System.out.printf("empty: GPA %.2f%n", book.gpa());          // 0.00 ไม่หารด้วย 0
+                    book.add("CS101", "A", 3);
+                    book.add("MA102", "B+", 4);
+                    book.add("EN103", "C", 2);
+                    for (CourseGrade c : book.getCourses()) System.out.println(c);
+                    System.out.printf("credits %d, GPA %.2f%n", book.totalCredits(), book.gpa());   // 9, 3.33
+                    book.remove(2);                                               // ลบ EN103
+                    System.out.printf("credits %d, GPA %.2f%n", book.totalCredits(), book.gpa());   // 7, 3.71
+                }
+            }
+
+            class CourseGrade {
+                private final String code;
+                private final String grade;
+                private final int credits;
+
+                CourseGrade(String code, String grade, int credits) {
+                    this.code = code;
+                    this.grade = grade;
+                    this.credits = credits;
+                }
+
+                int getCredits() { return credits; }
+
+                double points() {
+                    return switch (grade) {
+                        case "A" -> 4.0;
+                        case "B+" -> 3.5;
+                        case "B" -> 3.0;
+                        case "C+" -> 2.5;
+                        case "C" -> 2.0;
+                        case "D+" -> 1.5;
+                        case "D" -> 1.0;
+                        default -> 0.0;
+                    };
+                }
+
+                @Override
+                public String toString() {
+                    return String.format("%-8s %-3s %d cr", code, grade, credits);
+                }
+            }
+
+            class GpaBook {
+                private final ArrayList<CourseGrade> courses = new ArrayList<>();
+
+                void add(String code, String grade, int credits) { courses.add(new CourseGrade(code, grade, credits)); }
+                void remove(int index) { courses.remove(index); }
+                ArrayList<CourseGrade> getCourses() { return courses; }
+
+                int totalCredits() {
+                    int sum = 0;
+                    for (CourseGrade c : courses) sum += c.getCredits();
+                    return sum;
+                }
+
+                double gpa() {
+                    int credits = totalCredits();
+                    if (credits == 0) return 0.0;                                 // ยังไม่มีวิชา
+                    double sum = 0;
+                    for (CourseGrade c : courses) sum += c.points() * c.getCredits();
+                    return sum / credits;
+                }
+            }`,
+          },
+        { type: "tip", html: `ถ้า GPA ผิด ปัญหาอยู่ใน model แน่นอน เพราะยังไม่มีหน้าจอเลย การแยกทดสอบแบบนี้ทำให้หาบั๊กง่ายกว่าตอนรวมกับ GUI มาก` },
+
+        { type: "h", text: "ขั้นที่ 3: ต่อหน้าจอและ event" },
+        { type: "p", html: `UI เป็นออบเจ็กต์ที่มี component เป็น field (เหมือน PiggyBankApp ในหัวข้อ 16.4) listener ทุกตัวสั้น: อ่านค่า → สั่ง model → <code>refresh()</code> ส่วน model ใช้คลาสเดิมจากขั้นที่ 2 โดยไม่แก้เลย ภาพจำลองการเพิ่ม 3 วิชาตามตัวอย่างในโจทย์ แล้วเลือก EN103 และกด Remove` },
+        { type: "run", title: "เครื่องคำนวณ GPA ฉบับสมบูรณ์", gui: true,
+          actions: "type field:0 CS101\nselect combo:0 0\nselect combo:1 2\nclick Add\ntype field:0 MA102\nselect combo:0 1\nselect combo:1 3\nclick Add\ntype field:0 EN103\nselect combo:0 4\nselect combo:1 1\nclick Add\nshot\nselect list:0 2\nclick Remove\nshot",
+          captions: ["เพิ่ม CS101 A 3, MA102 B+ 4, EN103 C 2", "เลือก EN103 แล้วคลิก Remove"],
+          code: j`
+            import javax.swing.*;
+            import java.awt.*;
+            import java.util.ArrayList;
+
+            public class GpaCalculator {
+                static final String[] GRADES = {"A", "B+", "B", "C+", "C", "D+", "D", "F"};
+                private final GpaBook book = new GpaBook();                       // model
+                private final JTextField codeField = new JTextField(7);
+                private final JComboBox<String> gradeBox = new JComboBox<>(GRADES);
+                private final JComboBox<Integer> creditBox = new JComboBox<>(new Integer[]{1, 2, 3, 4});
+                private final DefaultListModel<String> listModel = new DefaultListModel<>();
+                private final JList<String> courseList = new JList<>(listModel);
+                private final JLabel gpaLabel = new JLabel();
+                private final JLabel message = new JLabel(" ");
+
+                public static void main(String[] args) {
+                    SwingUtilities.invokeLater(() -> new GpaCalculator().show());
+                }
+
+                private void show() {
+                    JFrame frame = new JFrame("GPA Calculator");
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JButton add = new JButton("Add");
+                    JButton remove = new JButton("Remove");
+                    add.addActionListener(e -> addCourse());
+                    codeField.addActionListener(e -> addCourse());                 // Enter = Add
+                    remove.addActionListener(e -> removeSelected());
+
+                    JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    top.add(new JLabel("Course:"));
+                    top.add(codeField);
+                    top.add(gradeBox);
+                    top.add(creditBox);
+                    top.add(new JLabel("cr"));
+                    top.add(add);
+
+                    courseList.setFont(new Font("Monospaced", Font.PLAIN, 13));   // คอลัมน์ตรงกัน
+                    gpaLabel.setFont(gpaLabel.getFont().deriveFont(Font.BOLD, 14f));
+                    message.setForeground(Color.RED);
+                    JPanel bottom = new JPanel(new BorderLayout(6, 4));
+                    bottom.add(gpaLabel, BorderLayout.CENTER);
+                    bottom.add(remove, BorderLayout.EAST);
+                    bottom.add(message, BorderLayout.SOUTH);
+
+                    JPanel root = new JPanel(new BorderLayout(6, 6));
+                    root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                    root.add(top, BorderLayout.NORTH);
+                    root.add(new JScrollPane(courseList), BorderLayout.CENTER);
+                    root.add(bottom, BorderLayout.SOUTH);
+                    frame.setContentPane(root);
+                    refresh();
+                    frame.setSize(420, 300);
+                    frame.setVisible(true);
+                }
+
+                private void addCourse() {
+                    String code = codeField.getText().trim();
+                    if (code.isEmpty()) {
+                        message.setText("Please enter a course code");
+                        return;                                                   // ไม่แตะ model
+                    }
+                    book.add(code.toUpperCase(), (String) gradeBox.getSelectedItem(), (Integer) creditBox.getSelectedItem());
+                    codeField.setText("");
+                    codeField.requestFocusInWindow();
+                    refresh();
+                }
+
+                private void removeSelected() {
+                    int i = courseList.getSelectedIndex();                       // -1 = ไม่ได้เลือก
+                    if (i < 0) {
+                        message.setText("Select a course to remove");
+                        return;
+                    }
+                    book.remove(i);                                               // ลำดับใน JList = ลำดับใน model
+                    refresh();
+                }
+
+                private void refresh() {                                          // วาดใหม่จาก model ทั้งหมด
+                    listModel.clear();
+                    for (CourseGrade c : book.getCourses()) listModel.addElement(c.toString());
+                    gpaLabel.setText(String.format("Credits: %d    GPA: %.2f", book.totalCredits(), book.gpa()));
+                    message.setText(" ");
+                }
+            }
+
+            class CourseGrade {
+                private final String code;
+                private final String grade;
+                private final int credits;
+
+                CourseGrade(String code, String grade, int credits) {
+                    this.code = code;
+                    this.grade = grade;
+                    this.credits = credits;
+                }
+
+                int getCredits() { return credits; }
+
+                double points() {
+                    return switch (grade) {
+                        case "A" -> 4.0;
+                        case "B+" -> 3.5;
+                        case "B" -> 3.0;
+                        case "C+" -> 2.5;
+                        case "C" -> 2.0;
+                        case "D+" -> 1.5;
+                        case "D" -> 1.0;
+                        default -> 0.0;
+                    };
+                }
+
+                @Override
+                public String toString() {
+                    return String.format("%-8s %-3s %d cr", code, grade, credits);
+                }
+            }
+
+            class GpaBook {
+                private final ArrayList<CourseGrade> courses = new ArrayList<>();
+
+                void add(String code, String grade, int credits) { courses.add(new CourseGrade(code, grade, credits)); }
+                void remove(int index) { courses.remove(index); }
+                ArrayList<CourseGrade> getCourses() { return courses; }
+
+                int totalCredits() {
+                    int sum = 0;
+                    for (CourseGrade c : courses) sum += c.getCredits();
+                    return sum;
+                }
+
+                double gpa() {
+                    int credits = totalCredits();
+                    if (credits == 0) return 0.0;
+                    double sum = 0;
+                    for (CourseGrade c : courses) sum += c.points() * c.getCredits();
+                    return sum / credits;
+                }
+            }`,
+          },
+        { type: "check", title: "ทำไมใช้ index เดียวกันได้", html: `<p>removeSelected ส่ง index ที่เลือกใน JList ไปลบใน model ตรง ๆ ทำไมถึงลบถูกวิชา</p>`, answer: `<p>เพราะ refresh() สร้างรายการใน JList ใหม่ทั้งหมดจาก model ตามลำดับเดียวกันทุกครั้ง ตำแหน่งที่ i ในหน้าจอจึงตรงกับตำแหน่งที่ i ใน model เสมอ ถ้าแก้ JList เองโดยไม่ผ่าน refresh ลำดับอาจไม่ตรงกัน</p>` },
+        { type: "practice", level: 2, title: "ห้ามวิชาซ้ำ และแสดงเกียรตินิยม",
+          html: `<p>ต่อยอดเครื่องคำนวณ GPA: (1) ถ้าเพิ่มรหัสวิชาที่มีอยู่แล้ว ให้แสดง <code>CS101 is already in the list</code> และไม่เพิ่ม (2) ใต้ GPA แสดงระดับเกียรตินิยมเมื่อหน่วยกิตรวมอย่างน้อย 6: GPA ≥ 3.60 <code>First-class honors</code>, GPA ≥ 3.25 <code>Second-class honors</code> นอกนั้นไม่แสดง (ภาพตัวอย่างจำลองการเพิ่ม CS101 A 3, MA102 B+ 4 แล้วเพิ่ม cs101 ซ้ำ)</p>`,
+          spec: ["เพิ่มเมธอด <code>boolean contains(String code)</code> ใน GpaBook และให้ <code>add</code> คืน <code>boolean</code> (false เมื่อซ้ำ)", "เพิ่มเมธอด <code>static String honorOf(double gpa, int credits)</code> ใน GpaCalculator คืนข้อความหรือสตริงว่าง ห้ามแตะ component", "refresh() เป็นจุดเดียวที่แสดงข้อความเกียรตินิยม", "เทียบรหัสวิชาแบบไม่สนตัวพิมพ์ (โค้ดเดิมแปลงเป็นตัวพิมพ์ใหญ่ก่อนเพิ่มอยู่แล้ว)"],
+          gui: true,
+          actions: "type field:0 CS101\nselect combo:0 0\nselect combo:1 2\nclick Add\ntype field:0 MA102\nselect combo:0 1\nselect combo:1 3\nclick Add\ntype field:0 cs101\nclick Add\nshot",
+          captions: ["เพิ่ม CS101 และ MA102 แล้วลองเพิ่ม cs101 ซ้ำ"],
+          hint: "คำใบ้: ใน addCourse ให้เรียก book.add แล้วตรวจค่าที่คืน ถ้า false ให้ตั้งข้อความเตือนแล้ว return ก่อน refresh (เพราะ refresh ล้างข้อความเตือน)",
+          solution: j`
+            import javax.swing.*;
+            import java.awt.*;
+            import java.util.ArrayList;
+
+            public class GpaHonors {
+                static final String[] GRADES = {"A", "B+", "B", "C+", "C", "D+", "D", "F"};
+                private final GpaBook book = new GpaBook();
+                private final JTextField codeField = new JTextField(7);
+                private final JComboBox<String> gradeBox = new JComboBox<>(GRADES);
+                private final JComboBox<Integer> creditBox = new JComboBox<>(new Integer[]{1, 2, 3, 4});
+                private final DefaultListModel<String> listModel = new DefaultListModel<>();
+                private final JList<String> courseList = new JList<>(listModel);
+                private final JLabel gpaLabel = new JLabel();
+                private final JLabel honorLabel = new JLabel(" ");
+                private final JLabel message = new JLabel(" ");
+
+                public static void main(String[] args) {
+                    SwingUtilities.invokeLater(() -> new GpaHonors().show());
+                }
+
+                private void show() {
+                    JFrame frame = new JFrame("GPA Calculator");
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    JButton add = new JButton("Add");
+                    JButton remove = new JButton("Remove");
+                    add.addActionListener(e -> addCourse());
+                    codeField.addActionListener(e -> addCourse());
+                    remove.addActionListener(e -> removeSelected());
+
+                    JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    top.add(new JLabel("Course:"));
+                    top.add(codeField);
+                    top.add(gradeBox);
+                    top.add(creditBox);
+                    top.add(new JLabel("cr"));
+                    top.add(add);
+
+                    courseList.setFont(new Font("Monospaced", Font.PLAIN, 13));
+                    gpaLabel.setFont(gpaLabel.getFont().deriveFont(Font.BOLD, 14f));
+                    honorLabel.setForeground(new Color(0, 110, 0));
+                    message.setForeground(Color.RED);
+                    JPanel info = new JPanel(new GridLayout(3, 1));
+                    info.add(gpaLabel);
+                    info.add(honorLabel);
+                    info.add(message);
+                    JPanel bottom = new JPanel(new BorderLayout(6, 4));
+                    bottom.add(info, BorderLayout.CENTER);
+                    JPanel removeBox = new JPanel();                              // ปุ่มคงขนาดปกติ ไม่ยืดตามความสูง
+                    removeBox.add(remove);
+                    bottom.add(removeBox, BorderLayout.EAST);
+
+                    JPanel root = new JPanel(new BorderLayout(6, 6));
+                    root.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+                    root.add(top, BorderLayout.NORTH);
+                    root.add(new JScrollPane(courseList), BorderLayout.CENTER);
+                    root.add(bottom, BorderLayout.SOUTH);
+                    frame.setContentPane(root);
+                    refresh();
+                    frame.setSize(420, 320);
+                    frame.setVisible(true);
+                }
+
+                private void addCourse() {
+                    String code = codeField.getText().trim().toUpperCase();
+                    if (code.isEmpty()) {
+                        message.setText("Please enter a course code");
+                        return;
+                    }
+                    boolean added = book.add(code, (String) gradeBox.getSelectedItem(), (Integer) creditBox.getSelectedItem());
+                    if (!added) {
+                        message.setText(code + " is already in the list");
+                        return;                                                   // ไม่ refresh จึงไม่ลบข้อความเตือน
+                    }
+                    codeField.setText("");
+                    refresh();
+                }
+
+                private void removeSelected() {
+                    int i = courseList.getSelectedIndex();
+                    if (i < 0) {
+                        message.setText("Select a course to remove");
+                        return;
+                    }
+                    book.remove(i);
+                    refresh();
+                }
+
+                static String honorOf(double gpa, int credits) {
+                    if (credits < 6) return "";
+                    if (gpa >= 3.60) return "First-class honors";
+                    if (gpa >= 3.25) return "Second-class honors";
+                    return "";
+                }
+
+                private void refresh() {
+                    listModel.clear();
+                    for (CourseGrade c : book.getCourses()) listModel.addElement(c.toString());
+                    gpaLabel.setText(String.format("Credits: %d    GPA: %.2f", book.totalCredits(), book.gpa()));
+                    String honor = honorOf(book.gpa(), book.totalCredits());
+                    honorLabel.setText(honor.isEmpty() ? " " : honor);           // " " กันไม่ให้แถวยุบ
+                    message.setText(" ");
+                }
+            }
+
+            class CourseGrade {
+                private final String code;
+                private final String grade;
+                private final int credits;
+
+                CourseGrade(String code, String grade, int credits) {
+                    this.code = code;
+                    this.grade = grade;
+                    this.credits = credits;
+                }
+
+                String getCode() { return code; }
+                int getCredits() { return credits; }
+
+                double points() {
+                    return switch (grade) {
+                        case "A" -> 4.0;
+                        case "B+" -> 3.5;
+                        case "B" -> 3.0;
+                        case "C+" -> 2.5;
+                        case "C" -> 2.0;
+                        case "D+" -> 1.5;
+                        case "D" -> 1.0;
+                        default -> 0.0;
+                    };
+                }
+
+                @Override
+                public String toString() {
+                    return String.format("%-8s %-3s %d cr", code, grade, credits);
+                }
+            }
+
+            class GpaBook {
+                private final ArrayList<CourseGrade> courses = new ArrayList<>();
+
+                boolean contains(String code) {
+                    for (CourseGrade c : courses) {
+                        if (c.getCode().equalsIgnoreCase(code)) return true;
+                    }
+                    return false;
+                }
+
+                boolean add(String code, String grade, int credits) {
+                    if (contains(code)) return false;                             // กฎ “ห้ามซ้ำ” อยู่ใน model
+                    courses.add(new CourseGrade(code, grade, credits));
+                    return true;
+                }
+
+                void remove(int index) { courses.remove(index); }
+                ArrayList<CourseGrade> getCourses() { return courses; }
+
+                int totalCredits() {
+                    int sum = 0;
+                    for (CourseGrade c : courses) sum += c.getCredits();
+                    return sum;
+                }
+
+                double gpa() {
+                    int credits = totalCredits();
+                    if (credits == 0) return 0.0;
+                    double sum = 0;
+                    for (CourseGrade c : courses) sum += c.points() * c.getCredits();
+                    return sum / credits;
+                }
+            }`,
+          explain: "กฎห้ามวิชาซ้ำอยู่ใน model (GpaBook.add) ไม่ใช่ใน listener ถ้าวันหนึ่งมีวิธีเพิ่มวิชาทางอื่น กฎก็ยังทำงาน honorOf เป็น static ที่รับตัวเลขอย่างเดียว จึงทดสอบได้โดยไม่ต้องเปิดหน้าจอ CS101 A 3 + MA102 B+ 4 ได้ GPA 26 ÷ 7 = 3.71 จึงเป็น First-class honors" },
+        { type: "try", html: `เพิ่มปุ่ม <code>Clear all</code> ที่ถามยืนยันด้วย showConfirmDialog (บทที่ 17) ก่อนล้างทุกวิชา ต้องเพิ่มเมธอดใดใน GpaBook บ้าง` },
+      ],
+    },
   ],
   exercisesIntro: "ทุกข้อเป็นโปรแกรม GUI ที่ตอบสนองต่อผู้ใช้ ภาพตัวอย่างได้จากการรันเฉลยแล้วจำลองการกระทำตามคำบรรยายใต้ภาพ ให้ทดลองกดปุ่มด้วยลำดับเดียวกันแล้วเทียบผล",
   exercises: [

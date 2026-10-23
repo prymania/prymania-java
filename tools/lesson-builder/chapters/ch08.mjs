@@ -1,4 +1,4 @@
-import { j, c, pre, jpre } from "../lib.mjs";
+import { j, c, pre, jpre, fpre } from "../lib.mjs";
 
 export default {
   num: 8, file: "chapter-08.html",
@@ -516,6 +516,255 @@ export default {
               }`,
             after: "หลังรอบแรก 9 ไปอยู่ท้ายสุดแล้ว รอบถัดไปจึงเทียบน้อยลงรอบละ 1 คู่ (<code>- pass</code>)" },
         ] },
+      ],
+    },
+    {
+      num: "8.5", toc: "ระบบจองที่นั่งรถตู้", title: "ลงมือเขียน: ระบบจองที่นั่งรถตู้",
+      blocks: [
+        { type: "p", html: `หัวข้อนี้รวมอาเรย์กับเมธอดเป็นโปรแกรมเดียว ด้วยขั้นตอนเดียวกับหัวข้อ 7.6: อ่านโจทย์ → เขียนรหัสเทียม → เลือกเมธอด → เขียนและทดสอบทีละขั้น` },
+        { type: "h", text: "โจทย์" },
+        { type: "concept", title: "รถตู้ 10 ที่นั่ง", html: `<ul><li>ที่นั่งมีหมายเลข <strong>1 ถึง 10</strong> เริ่มต้นว่างทุกที่</li><li>เมนู: <code>1) Show</code> แสดงผังที่นั่งและจำนวนที่ว่าง, <code>2) Book</code> จองที่นั่ง, <code>3) Cancel</code> ยกเลิก, <code>0) Exit</code> ออก</li><li>จองที่นั่งที่มีคนจองแล้วไม่ได้ ยกเลิกที่นั่งที่ยังไม่ได้จองก็ไม่ได้</li><li>หมายเลขที่นั่งนอก 1–10 ให้แจ้งว่าไม่มีที่นั่งนั้น</li></ul>` },
+        { type: "p", html: `ผังที่นั่งแสดงหมายเลขที่ว่าง และ <code>XX</code> แทนที่นั่งที่จองแล้ว เช่น เมื่อจองที่ 2 และ 5:` },
+        { type: "example", title: "ผังที่นั่ง", html: pre(`[ 1][XX][ 3][ 4][XX][ 6][ 7][ 8][ 9][10]
+Free seats: 8`) },
+
+        { type: "h", text: "แนวคิดในการเขียนโปรแกรม" },
+        { type: "p", html: `ข้อมูลหลักคือ “ที่นั่งไหนจองแล้วบ้าง” ซึ่งเป็นคำตอบใช่/ไม่ใช่ 10 ค่า จึงเก็บใน <code>boolean[] booked = new boolean[10]</code> ทุกช่องเริ่มเป็น <code>false</code> (ว่าง) ตามค่าเริ่มต้นของอาเรย์` },
+        { type: "warn", title: "หมายเลขที่นั่ง ≠ index", html: `ผู้ใช้นับที่นั่งจาก 1 แต่อาเรย์เริ่มที่ index 0 ที่นั่งหมายเลข <code>seat</code> จึงอยู่ที่ <code>booked[seat - 1]</code> ให้แปลงในเมธอดที่เดียว ส่วนอื่นของโปรแกรมใช้หมายเลขที่นั่งตามที่ผู้ใช้เห็น` },
+        { type: "example", title: "ขั้นตอนของโปรแกรม", html: fpre(`
+          เริ่มต้น
+          สร้าง booked 10 ช่อง (ว่างทั้งหมด)
+          ทำ
+              แสดงเมนู แล้วรับ choice
+              ถ้า choice = 1   แสดงผังและจำนวนที่ว่าง        ← งาน: แสดงผัง, นับที่ว่าง
+              ถ้า choice = 2   ถามหมายเลขที่นั่ง              ← งาน: ถามหมายเลข
+                               ตรวจว่ามีที่นั่งนี้ไหม           ← งาน: ตรวจหมายเลข
+                               จอง แล้วแจ้งผล                   ← งาน: จอง (สำเร็จ/ไม่สำเร็จ)
+              ถ้า choice = 3   ถาม ตรวจ แล้วยกเลิก              ← งาน: ยกเลิก
+          ขณะที่ choice ไม่ใช่ 0
+          จบ`, "รหัสเทียม") },
+
+        { type: "h", text: "ควรมีเมธอดอะไรบ้าง" },
+        { type: "table", head: ["เมธอด", "หน้าที่", "รับอะไร", "คืนอะไร"], rows: [
+          ["<code>printSeats</code>", "แสดงผังที่นั่ง", "<code>boolean[] booked</code>", "<code>void</code>"],
+          ["<code>countFree</code>", "นับที่นั่งว่าง", "<code>boolean[] booked</code>", "<code>int</code>"],
+          ["<code>isValidSeat</code>", "หมายเลขอยู่ใน 1 ถึงจำนวนที่นั่งไหม", "<code>int seat, int total</code>", "<code>boolean</code>"],
+          ["<code>book</code>", "จองที่นั่ง ถ้าว่างอยู่", "<code>boolean[] booked, int seat</code>", "<code>boolean</code> จองสำเร็จไหม"],
+          ["<code>cancel</code>", "ยกเลิก ถ้าจองไว้", "<code>boolean[] booked, int seat</code>", "<code>boolean</code> ยกเลิกสำเร็จไหม"],
+          ["<code>askSeat</code>", "ถามหมายเลขที่นั่ง", "<code>Scanner input</code>", "<code>int</code>"],
+        ] },
+        { type: "tip", title: "ทำไม book คืน boolean", html: `book ไม่พิมพ์ข้อความเอง แค่บอกว่าสำเร็จหรือไม่ main เป็นคนเลือกข้อความ เมธอดจึงทดสอบง่ายและนำไปใช้กับหน้าจอแบบอื่น (เช่น GUI) ได้โดยไม่ต้องแก้` },
+
+        { type: "h", text: "ขั้นที่ 1: printSeats และ countFree" },
+        { type: "p", html: `เริ่มจากเมธอดที่แค่อ่านอาเรย์ ทดสอบด้วยอาเรย์ที่ตั้งค่าเองให้ที่นั่ง 2 และ 5 ถูกจอง ผลต้องตรงกับผังในโจทย์` },
+        { type: "run", title: "แสดงผังและนับที่ว่าง",
+          code: j`
+            public class SeatStep1 {
+                public static void main(String[] args) {
+                    boolean[] booked = new boolean[10];           // false ทุกช่อง = ว่าง
+                    booked[1] = true;                             // ที่นั่ง 2
+                    booked[4] = true;                             // ที่นั่ง 5
+                    printSeats(booked);
+                    System.out.println("Free seats: " + countFree(booked));   // 8
+                }
+
+                static void printSeats(boolean[] booked) {
+                    for (int i = 0; i < booked.length; i++) {
+                        if (booked[i]) {
+                            System.out.print("[XX]");
+                        } else {
+                            System.out.printf("[%2d]", i + 1);    // แสดงหมายเลขที่นั่ง = index + 1
+                        }
+                    }
+                    System.out.println();
+                }
+
+                static int countFree(boolean[] booked) {
+                    int count = 0;
+                    for (boolean b : booked) {
+                        if (!b) count++;                          // false = ว่าง
+                    }
+                    return count;
+                }
+            }`,
+          },
+
+        { type: "h", text: "ขั้นที่ 2: isValidSeat, book และ cancel" },
+        { type: "p", html: `เมธอดที่<strong>แก้</strong>อาเรย์ได้ เพราะ parameter ชี้อาเรย์ชุดเดียวกับใน main (หัวข้อ 8.4) ทดสอบทั้งกรณีสำเร็จและไม่สำเร็จ แล้วดูว่าอาเรย์ใน main เปลี่ยนจริง` },
+        { type: "run", title: "ทดสอบจอง จองซ้ำ ยกเลิก และหมายเลขผิด",
+          code: j`
+            public class SeatStep2 {
+                public static void main(String[] args) {
+                    boolean[] booked = new boolean[10];
+                    System.out.println(book(booked, 3));                  // true
+                    System.out.println("booked[2] = " + booked[2]);       // true  อาเรย์ใน main เปลี่ยนแล้ว
+                    System.out.println(book(booked, 3));                  // false จองซ้ำ
+                    System.out.println(cancel(booked, 3));                // true
+                    System.out.println(cancel(booked, 3));                // false ไม่ได้จองไว้
+                    System.out.println(isValidSeat(10, booked.length));   // true
+                    System.out.println(isValidSeat(11, booked.length));   // false
+                }
+
+                static boolean isValidSeat(int seat, int total) {
+                    return seat >= 1 && seat <= total;
+                }
+
+                static boolean book(boolean[] booked, int seat) {
+                    if (booked[seat - 1]) return false;                   // มีคนจองแล้ว
+                    booked[seat - 1] = true;                              // หมายเลข → index
+                    return true;
+                }
+
+                static boolean cancel(boolean[] booked, int seat) {
+                    if (!booked[seat - 1]) return false;                  // ยังไม่ได้จอง
+                    booked[seat - 1] = false;
+                    return true;
+                }
+            }`,
+          },
+        { type: "warn", html: `book และ cancel เชื่อว่าหมายเลขถูกต้องแล้ว ต้องเรียก isValidSeat ก่อนเสมอ ถ้าส่ง 11 เข้า book ตรง ๆ จะเกิด <code>ArrayIndexOutOfBoundsException</code>` },
+
+        { type: "h", text: "ขั้นที่ 3: ประกอบเป็นโปรแกรมเมนู" },
+        { type: "p", html: `main วนเมนูด้วย do-while แล้วเรียกเมธอดตาม choice ทดสอบครบทุกกรณี: จองสำเร็จ จองซ้ำ หมายเลขผิด ยกเลิกที่ไม่ได้จอง` },
+        { type: "run", title: "ระบบจองที่นั่งฉบับสมบูรณ์", stdin: "2\n3\n2\n3\n2\n15\n3\n5\n2\n10\n1\n0",
+          code: j`
+            import java.util.Scanner;
+
+            public class VanBooking {
+                public static void main(String[] args) {
+                    Scanner input = new Scanner(System.in);
+                    boolean[] booked = new boolean[10];
+                    int choice;
+                    do {
+                        System.out.print("\n1) Show  2) Book  3) Cancel  0) Exit : ");
+                        choice = input.nextInt();
+                        switch (choice) {
+                            case 1 -> {
+                                printSeats(booked);
+                                System.out.println("Free seats: " + countFree(booked));
+                            }
+                            case 2 -> {
+                                int seat = askSeat(input);
+                                if (!isValidSeat(seat, booked.length)) {
+                                    System.out.println("No seat " + seat);
+                                } else if (book(booked, seat)) {
+                                    System.out.println("Booked seat " + seat);
+                                } else {
+                                    System.out.println("Seat " + seat + " is already taken");
+                                }
+                            }
+                            case 3 -> {
+                                int seat = askSeat(input);
+                                if (!isValidSeat(seat, booked.length)) {
+                                    System.out.println("No seat " + seat);
+                                } else if (cancel(booked, seat)) {
+                                    System.out.println("Cancelled seat " + seat);
+                                } else {
+                                    System.out.println("Seat " + seat + " was not booked");
+                                }
+                            }
+                            case 0 -> System.out.println("Bye");
+                            default -> System.out.println("Invalid menu");
+                        }
+                    } while (choice != 0);
+                }
+
+                static int askSeat(Scanner input) {
+                    System.out.print("Seat number (1-10): ");
+                    return input.nextInt();
+                }
+
+                static void printSeats(boolean[] booked) {
+                    for (int i = 0; i < booked.length; i++) {
+                        if (booked[i]) {
+                            System.out.print("[XX]");
+                        } else {
+                            System.out.printf("[%2d]", i + 1);
+                        }
+                    }
+                    System.out.println();
+                }
+
+                static int countFree(boolean[] booked) {
+                    int count = 0;
+                    for (boolean b : booked) {
+                        if (!b) count++;
+                    }
+                    return count;
+                }
+
+                static boolean isValidSeat(int seat, int total) {
+                    return seat >= 1 && seat <= total;
+                }
+
+                static boolean book(boolean[] booked, int seat) {
+                    if (booked[seat - 1]) return false;
+                    booked[seat - 1] = true;
+                    return true;
+                }
+
+                static boolean cancel(boolean[] booked, int seat) {
+                    if (!booked[seat - 1]) return false;
+                    booked[seat - 1] = false;
+                    return true;
+                }
+            }`,
+          },
+        { type: "p", html: `สังเกตว่า main ไม่มีโค้ดแปลงหมายเลขเป็น index หรือวนลูปอาเรย์เลย ทุกอย่างเกี่ยวกับอาเรย์อยู่ในเมธอด ถ้าวันหนึ่งรถมี 12 ที่นั่ง แก้แค่ <code>new boolean[12]</code> ส่วนอื่นใช้ <code>booked.length</code> อยู่แล้ว` },
+        { type: "check", title: "ประกาศอาเรย์ที่ไหน", html: `<p>ถ้าย้าย <code>boolean[] booked = new boolean[10];</code> เข้าไปไว้ใน do-while จะเกิดอะไรขึ้น</p>`, answer: `<p>ทุกรอบเมนูจะได้อาเรย์ใหม่ที่ว่างทั้งหมด การจองในรอบก่อนหายไป เลือก Show จะเห็นที่นั่งว่างทุกที่เสมอ ข้อมูลที่ต้องจำข้ามรอบต้องประกาศไว้นอกลูป</p>` },
+        { type: "practice", level: 2, title: "หาที่นั่งว่างติดกัน 2 ที่",
+          html: `<p>ครอบครัวมา 2 คนต้องการนั่งติดกัน เขียนเมธอด <code>static int findPair(boolean[] booked)</code> คืน<strong>หมายเลขที่นั่งตัวแรก</strong>ของคู่ที่นั่งว่างติดกันคู่แรกที่พบ (เช่น ว่างทั้งที่ 6 และ 7 → คืน 6) ถ้าไม่มีให้คืน −1 แล้วทดสอบใน main ด้วยผังที่กำหนด: จองคู่ที่พบ แล้วหาคู่ถัดไปซ้ำจนไม่มี</p>`,
+          spec: ["ตั้งผังเริ่มต้นให้ที่นั่ง 2, 4, 5 และ 8 ถูกจองแล้ว", "findPair ห้ามแก้อาเรย์ ทำหน้าที่ค้นหาอย่างเดียว", "main วนลูป: เรียก findPair ถ้าได้ค่าไม่ใช่ −1 ให้จองทั้งสองที่ด้วย book แล้วแสดงผัง ถ้าได้ −1 ให้แสดง <code>No 2 seats together</code> แล้วจบ", "ใช้ printSeats และ book จากตัวอย่างโดยไม่แก้"],
+          hint: "คำใบ้: วน i ตั้งแต่ 0 ถึง booked.length - 2 (เพราะต้องดู i + 1 ด้วย) ถ้า !booked[i] && !booked[i + 1] ให้คืน i + 1",
+          solution: j`
+            public class FindPair {
+                public static void main(String[] args) {
+                    boolean[] booked = new boolean[10];
+                    booked[1] = true;                                 // ที่นั่ง 2
+                    booked[3] = true;                                 // ที่นั่ง 4
+                    booked[4] = true;                                 // ที่นั่ง 5
+                    booked[7] = true;                                 // ที่นั่ง 8
+                    printSeats(booked);
+
+                    int seat = findPair(booked);
+                    while (seat != -1) {
+                        book(booked, seat);
+                        book(booked, seat + 1);
+                        System.out.println("Booked seats " + seat + " and " + (seat + 1));
+                        printSeats(booked);
+                        seat = findPair(booked);
+                    }
+                    System.out.println("No 2 seats together");
+                }
+
+                static int findPair(boolean[] booked) {
+                    for (int i = 0; i < booked.length - 1; i++) {   // ไม่เกิน length - 2 เพราะดู i + 1
+                        if (!booked[i] && !booked[i + 1]) {
+                            return i + 1;                             // index → หมายเลขที่นั่ง
+                        }
+                    }
+                    return -1;
+                }
+
+                static void printSeats(boolean[] booked) {
+                    for (int i = 0; i < booked.length; i++) {
+                        if (booked[i]) {
+                            System.out.print("[XX]");
+                        } else {
+                            System.out.printf("[%2d]", i + 1);
+                        }
+                    }
+                    System.out.println();
+                }
+
+                static boolean book(boolean[] booked, int seat) {
+                    if (booked[seat - 1]) return false;
+                    booked[seat - 1] = true;
+                    return true;
+                }
+            }`,
+          explain: "เงื่อนไขลูป i < booked.length - 1 กันไม่ให้ booked[i + 1] เกินขอบอาเรย์ในรอบสุดท้าย ผังเริ่มต้นมีคู่ว่าง 6–7 และ 9–10 ส่วนที่นั่ง 1 และ 3 ว่างแต่ไม่มีเพื่อนข้าง ๆ จึงหาคู่ไม่ได้" },
+        { type: "try", html: `เพิ่มเมนู <code>4) Book 2 together</code> ในโปรแกรมฉบับสมบูรณ์ โดยใช้ findPair จากโจทย์ฝึก` },
       ],
     },
   ],
